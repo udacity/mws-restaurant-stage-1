@@ -2,57 +2,25 @@
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
 
-## Project Delivery
+## Project Overview: Stage 1
 
-Restaurant reviews application with a focus on mobile rendering with accessibility. The application must include a local node server and client app to support authentication, restaurant names, a photograph, address and operating hours for each restaurant along with reviews, including the name of the reviewer, date of review, 5-star rating system, and comments. The application must include an application header, a menu providing multiple ways to filter the restaurants. When viewing a specific restaurant, current reviews must be displayed along with a form for the user to submit their own review.
+For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.
 
-_*Development will focus on local engineering sandbox. Files, resources, and server side services will run on the users local machine._
+### Specification
 
-## Architecture
-Web client
--  100% javascript (ES6)
-- HTML5/CSS
-- [Ajax](https://blog.garstasio.com/you-dont-need-jquery/ajax/)
+You have been provided the code for a restaurant reviews website. The code has a lot of issues. It’s barely usable on a desktop browser, much less a mobile device. It also doesn’t include any standard accessibility features, and it doesn’t work offline at all. Your job is to update the code to resolve these issues while still maintaining the included functionality. 
 
-Local server
-- Node.js
--- Hapi.js
--- Passport.js
--- SQlite
+### What do I do from here?
 
-## Contributors
+1. In this folder, start up a simple HTTP server to serve up the site files on your local computer. Python has some simple tools to do this, and you don't even need to know Python. For most people, it's already installed on your computer. 
 
-- [Brandy Lee Camacho - Technical Project Manager](mailto:brandy.camacho@udacity.com)
-- [David Harris - Web Services Lead](mailto:david.harris@udacity.com)
-- [Omar Albeik - Frontend engineer](mailto:omaralbeik@gmail.com)
+In a terminal check the version of Python you have: `python -V`. If you have Python 2.x, spin up the server with `python -m SimpleHTTPServer 8000` (or some other port, if port 8000 is already in use.) For Python 3.x, you can use `python3 -m http.server 8000`. If you don't have Python installed, navigate to Python's [website](https://www.python.org/) to download and install the software.
+
+2. With your server running, visit the site: `http://localhost:8000`, and look around for a bit to see what the current experience looks like.
+3. Explore the provided code, and make start making a plan to implement the required features in three areas: responsive design, accessibility and offline use.
+4. Write code to implement the updates to get this site on its way to being a mobile-ready website.
 
 
-## Getting Started
 
-TBD: These instructions will get you a copy of the project up and running on your
-local machine for development.
-
-### Prerequisites
-
-TBD: What things you need to install the software and how to install them,
-including pointers how to get any required credentials.
-
-```bash
-# (Give examples)
-```
-(End with step to validate that the project is up and running locally)
-
-```bash
-# (Validate)
-```
-### Installing
-```bash
-# (Give examples) npm install
-```
-## Found an Issue?
-
-If you find a bug in the source code or a mistake in the documentation, you can help us by
-submitting an issue to our [GitHub Repository](https://github.com/udacity-blitz/mobile-web-specialist/issues). Even better you can submit a Pull Request
-with a fix :)
 
 
