@@ -1,0 +1,33 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "description": "RESTAURANT REVIEWS",
+  "main": "docs/index.html",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^4.18.1",
+    "eslint-plugin-compat": "^2.2.0",
+    "eslint-plugin-html": "^4.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuXDAmore/mws-restaurant-stage-1.git"
+  },
+  "keywords": [
+    "google",
+    "udacity",
+    "nanodegree"
+  ],
+  "author": "Luca Iaconelli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuXDAmore/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://luxdamore.github.io/mws-restaurant-stage-1/"
+}
