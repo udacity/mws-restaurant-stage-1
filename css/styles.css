@@ -132,10 +132,13 @@ nav h1 a {
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
   background-color: #f3f3f3;
-  list-style: outside none none;
+  
   margin: 0;
-  padding: 30px 15px 60px;
+  /*padding: 30px 15px 60px;*/
   text-align: center;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 
@@ -143,11 +146,17 @@ nav h1 a {
   background-color: #fff;
   border: 2px solid #ccc;
   font-family: Arial,sans-serif;
-  margin: 15px;
+  /*margin: 15px;*/
+  padding: 0 2% 25px;
+  width: 90%;
+  margin-top:5%;
+  margin-left: 3%;
+  /*
+   
   min-height: 380px;
-  padding: 0 30px 25px;
+  */
   text-align: left;
-  width: 270px;
+  float: none;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -278,4 +287,43 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+
+
+
+
+@media (min-width: 768px) {
+  .restaurant-item{
+    width: 45%;
+    margin-top: 1%;
+    margin-left: 1.25%;
+    padding: 0 1.25% 20px;
+    float: left;
+  }
+
+}
+
+
+@media (min-width: 992px) {
+  .restaurant-item{
+    width: 30%;
+    margin-top: 1%;
+    margin-left: 1%;
+    padding: 0 0.8% 20px;
+    float: left;
+  }
+
+}
+
+
+@media (min-width: 1200px) {
+  .restaurant-item{
+    width: 20%;
+    margin-top: 1%;
+    margin-left: 1.25%;
+    padding: 0 1.25% 20px;
+    float: left;
+  }
+
 }
