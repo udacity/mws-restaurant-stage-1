@@ -104,10 +104,14 @@ nav h1 a {
   background-color: #ccc;
 }
 /* ====================== Restaurant Filtering ====================== */
-.filter-options {
-  width: 100%;
-  min-height: 50px;
+.filter-options-section{
   background-color: #007dbb;
+  overflow: hidden;
+}
+.filter-options {
+  width: 220px;
+  min-height: 50px;
+  margin: 0 auto;
   align-items: center;
 }
 .filter-options h2 {
@@ -115,7 +119,7 @@ nav h1 a {
   font-size: 1rem;
   font-weight: normal;
   line-height: 1;
-  margin: 0 20px;
+  margin-top: 10px;
 }
 .filter-options select {
   background-color: white;
@@ -299,6 +303,9 @@ nav h1 a {
     margin-left: 1.25%;
     padding: 0 1.25% 20px;
     float: left;
+  }
+  .filter-options {
+    width: 480px;
   }
 
 }
