@@ -134,7 +134,7 @@ nav h1 a {
   background-color: #f3f3f3;
   
   margin: 0;
-  /*padding: 30px 15px 60px;*/
+  padding-bottom:2.5%;
   text-align: center;
   width: 100%;
   position: relative;
@@ -163,8 +163,7 @@ nav h1 a {
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
-  min-width: 100%;
+   min-width: 100%;
 }
 
 
@@ -321,7 +320,7 @@ nav h1 a {
   .restaurant-item{
     width: 20%;
     margin-top: 1%;
-    margin-left: 1.25%;
+    margin-left: 1.75%;
     padding: 0 1.25% 20px;
     float: left;
   }
