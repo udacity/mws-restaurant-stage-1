@@ -41,7 +41,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 #footer {
   background-color: #444;
-  color: #aaa;
+  color: #b1b1b1;
   font-size: 8pt;
   letter-spacing: 1px;
   padding: 25px;
@@ -106,8 +106,8 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  height: 50px;
-  background-color: #3397DB;
+  min-height: 50px;
+  background-color: #007dbb;
   align-items: center;
 }
 .filter-options h2 {
@@ -170,7 +170,7 @@ nav h1 a {
 
 
 .restaurant-item h1 {
-  color: #f18200;
+  color: #b56000;
   font-family: Arial,sans-serif;
   font-size: 14pt;
   font-weight: 200;
@@ -184,7 +184,7 @@ nav h1 a {
   font-size: 11pt;
 }
 .restaurant-item a {
-  background-color: orange;
+  background-color: #a56900 ;
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
