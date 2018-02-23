@@ -8,7 +8,7 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
+    const port = 8887 // Change this to your server port
 
     switch (document.location.hostname)
 	  {
@@ -17,7 +17,7 @@ class DBHelper {
         return `http://localhost/2018/udacity/mws-restaurant-stage-1/data/restaurants.json`; 
         break;
       default :  
-        return `http://localhost:${port}/data/restaurants.json`;
+        return `http://127.0.0.1:${port}/data/restaurants.json`;
   	}
 
 
