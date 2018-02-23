@@ -38,6 +38,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
+  overflow: hidden;
 }
 #footer {
   background-color: #444;
@@ -71,7 +72,8 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
+
+    width: 100%;
 }
 
 /* Display list items side by side */
@@ -209,11 +211,11 @@ nav h1 a {
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 87%;
-  position: fixed;
-  right: 0;
-  top: 80px;
-  width: 50%;
+  height: 250px;
+  position: relative;
+  margin-top:140px;
+  
+  width: 100%;
 }
 .inside #map {
   background-color: #ccc;
@@ -221,9 +223,8 @@ nav h1 a {
   width: 100%;
 }
 .inside #footer {
-  bottom: 0;
-  position: absolute;
-  width: 50%;
+ 
+  width: 100%;
 }
 #restaurant-name {
   color: #f18200;
@@ -236,7 +237,7 @@ nav h1 a {
   line-height: 1.1;
 }
 #restaurant-img {
-	width: 90%;
+	width: 100%;
 }
 #restaurant-address {
   font-size: 12pt;
@@ -252,17 +253,21 @@ nav h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+	width: 100%;
 }
 #restaurant-container, #reviews-container {
+ 
+  
+  width: 90%;
+  margin: 0 auto;
+}
+#restaurant-container-wrapper,#reviews-container-wrapper{
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
-  width: 50%;
+  padding-top: 0px;
+  width: 100%;
 }
-#reviews-container {
-  padding: 30px 40px 80px;
-}
+
 #reviews-container h2 {
   color: #f58500;
   font-size: 24pt;
@@ -279,11 +284,11 @@ nav h1 a {
     border: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
-  margin: 0 0 30px;
+  margin-bottom:20px;
   overflow: hidden;
   padding: 0 20px 20px;
   position: relative;
-  width: 85%;
+  width: 95%;
 }
 #reviews-list li p {
   margin: 0 0 10px;
@@ -319,6 +324,35 @@ nav h1 a {
     padding: 0 0.8% 20px;
     float: left;
   }
+  
+  #restaurant-container-wrapper{
+   
+    padding-top: 140px;
+    width: 50%;
+  }
+  #reviews-container-wrapper{
+   
+    width: 50%;
+  }
+  #breadcrumb {
+   
+    width: calc(50% - 80px);
+  }
+  .inside #footer {
+   
+    width: calc(50% - 50px);
+  }
+  .inside #map-container {
+    height: calc(100% - 80px);
+    margin-top:0px;
+    position: fixed;
+    right: 0;
+    top: 80px;
+    width: 50%;
+  }
+
+  
+
 
 }
 
