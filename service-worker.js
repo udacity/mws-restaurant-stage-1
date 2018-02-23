@@ -34,7 +34,9 @@ The service worker file. Here we will intercept network requests and pull data f
         if (requestUrl.origin === location.origin) {
 
 
-          
+          /*
+          The restaurant details url is dynamic
+          */
            if (event.request.url.includes('restaurant.html?id=')) {
               event.respondWith(serveDynamicUrl(event.request));
               return;
@@ -57,6 +59,9 @@ The service worker file. Here we will intercept network requests and pull data f
     function serveDynamicUrl(request) {
       let storageUrl = request.url;
 
+       /*
+          We remove the ?id=... part so as to not recache restaurant.html every time a restaurant is called with a different id
+          */
       let strippedurl=storageUrl.split('?')[0];
     
       return caches.open(staticCacheName).then(function (cache) {
