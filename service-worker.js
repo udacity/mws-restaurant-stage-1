@@ -11,7 +11,7 @@ The service worker file. Here we will intercept network requests and pull data f
    
     self.addEventListener('install', function (event) {
             event.waitUntil(caches.open(staticCacheName).then(function (cache) {
-               return cache.addAll(['/','js/dbhelper.js','js/main.js','js/restaurant_info.js','css/styles.css','data/restaurants.json']);
+               return cache.addAll(['/','index.html','restaurant.html','js/dbhelper.js','js/main.js','js/restaurant_info.js','css/styles.css','data/restaurants.json']);
                //return cache.addAll(['js/dbhelper.js','js/main.js','js/restaurant_info.js','css/styles.css','data/restaurants.json']);
             }));
     });
@@ -30,16 +30,17 @@ The service worker file. Here we will intercept network requests and pull data f
     self.addEventListener('fetch', function(event) {
         //console.log(event.request.url);
         var requestUrl = new URL(event.request.url);
-        //console.log(requestUrl.pathname);
+        console.log('geo|| '+event.request.url);
         if (requestUrl.origin === location.origin) {
 
 
-
-            if (requestUrl.pathname === '/') {
-                
-              event.respondWith(caches.match('/'));
+          
+           if (event.request.url.includes('restaurant.html?id=')) {
+              event.respondWith(serveDynamicUrl(event.request));
               return;
             }
+
+
             if (requestUrl.pathname.startsWith('/img/')) {
               event.respondWith(serveImage(event.request));
               return;
@@ -53,6 +54,22 @@ The service worker file. Here we will intercept network requests and pull data f
           }));
     });
 
+    function serveDynamicUrl(request) {
+      let storageUrl = request.url;
+
+      let strippedurl=storageUrl.split('?')[0];
+    
+      return caches.open(staticCacheName).then(function (cache) {
+        return cache.match(strippedurl).then(function (response) {
+          if (response) return response;
+    
+          return fetch(request).then(function (networkResponse) {
+            cache.put(storageUrl, networkResponse.clone());
+            return networkResponse;
+          });
+        });
+      });
+    }
 
 
 
