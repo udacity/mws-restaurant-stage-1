@@ -139,7 +139,7 @@ nav h1 a {
 /* ====================== Map ====================== */
 
 #map {
-  min-height: 500px;
+  min-height: 50vw;
   width: 100%;
   max-width: 100%;
   background-color: #ccc;
@@ -235,13 +235,13 @@ nav h1 a {
 }
 
 .inside #map-container {
-  background: blue none repeat scroll 0 0;
+  background: none none repeat scroll 0 0;
   width: 100%;
 }
 
 .inside #map {
   background-color: #ccc;
-  min-height: 500px;
+  min-height: 50vw;
   width: 100%;
 }
 
@@ -250,11 +250,10 @@ nav h1 a {
 
 #restaurant-name {
   color: #f18200;
-  font: 200 20pt Arial,sans-serif;
+  font: 200 20pt/1.1 Arial,sans-serif;
   letter-spacing: 0;
   margin: 15px 0 30px;
   text-transform: uppercase;
-  line-height: 1.1;
 }
 
 /* #restaurant-img {
@@ -279,7 +278,7 @@ nav h1 a {
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
+  padding: 40px;
 }
 
 #reviews-container {
@@ -316,4 +315,31 @@ nav h1 a {
 
 #restaurant-hours td {
   color: #666;
+}
+
+@media screen and (min-width: 769px) {
+  /* #map-container,
+  .inside #map-container {
+    width: 50%;
+    margin: auto;
+    border: 1px solid #000;
+  }
+
+  #restaurants-list li {
+    width: 50%;
+  }
+
+  #restaurant-container, #reviews-container {
+    width: 50%;
+    margin: auto;
+  } */
+
+  main {
+    padding: 0 25%;
+  }
+
+  #map,
+  .inside #map {
+    min-height: 30vw;
+  }
 }
