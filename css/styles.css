@@ -1,6 +1,10 @@
 @charset "utf-8";
 /* CSS Document */
-
+:focus{
+  -webkit-box-shadow: 0px 0px 48px -5px rgba(240,133,51,1);
+-moz-box-shadow: 0px 0px 48px -5px rgba(240,133,51,1);
+box-shadow: 0px 0px 48px -5px rgba(240,133,51,1);
+}
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
@@ -10,7 +14,8 @@ body,td,th,p{
 body {
 	background-color: #fdfdfd;
 	margin: 0;
-	position:relative;
+  position:relative;
+  
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
@@ -164,7 +169,7 @@ nav h1 a {
   text-align: left;
   float: none;
 }
-#restaurants-list .restaurant-img {
+.restaurant-img {
   background-color: #ccc;
   display: block;
   margin: 0;
@@ -237,7 +242,7 @@ nav h1 a {
   line-height: 1.1;
 }
 #restaurant-img {
-	width: 100%;
+  
 }
 #restaurant-address {
   font-size: 12pt;
@@ -259,7 +264,7 @@ nav h1 a {
  
   
   width: 90%;
-  margin: 0 auto;
+  margin-left: 5%;
 }
 #restaurant-container-wrapper,#reviews-container-wrapper{
   border-bottom: 1px solid #d9d9d9;
@@ -286,9 +291,9 @@ nav h1 a {
   list-style-type: none;
   margin-bottom:20px;
   overflow: hidden;
-  padding: 0 20px 20px;
+  padding:20px;
   position: relative;
-  width: 95%;
+  width: calc(100% - 40px);
 }
 #reviews-list li p {
   margin: 0 0 10px;
@@ -349,6 +354,7 @@ nav h1 a {
     right: 0;
     top: 80px;
     width: 50%;
+    border-left:1px solid #d9d9d9;;
   }
 
   
