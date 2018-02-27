@@ -89,7 +89,7 @@ window.initMap = () => {
 updateRestaurants = () => {
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
-
+  cSelect.selecte
   const cIndex = cSelect.selectedIndex;
   const nIndex = nSelect.selectedIndex;
 
@@ -102,6 +102,7 @@ updateRestaurants = () => {
     } else {
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
+      document.getElementById('filtered-results').innerHTML=`<p>${restaurants.length} Results</p>`;
     }
   })
 }

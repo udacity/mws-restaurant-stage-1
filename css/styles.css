@@ -112,6 +112,11 @@ nav h1 a {
   background-color: #ccc;
 }
 /* ====================== Restaurant Filtering ====================== */
+#filtered-results{
+  position: absolute;
+  top:0px;
+  left:-999999px;
+}
 .filter-options-section{
   background-color: #007dbb;
   overflow: hidden;
