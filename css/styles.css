@@ -158,15 +158,11 @@ nav h1 a {
   background-color: #fff;
   border: 2px solid #ccc;
   font-family: Arial,sans-serif;
-  /*margin: 15px;*/
   padding: 0 2% 25px;
   width: 90%;
   margin-top:5%;
   margin-left: 3%;
-  /*
-   
   min-height: 380px;
-  */
   text-align: left;
   float: none;
 }
