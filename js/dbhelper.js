@@ -147,7 +147,7 @@ class DBHelper {
   }
 
   /**
-   * Restaurant image URL.
+   * Restaurant image utils.
    */
   static imageUrlForRestaurant(restaurant) {
     const jpgIndex = restaurant.photograph.indexOf('.jpg');
@@ -163,6 +163,10 @@ class DBHelper {
 
   static imageSizes() {
     return `(min-width: 769px) 50%, 100%`;
+  }
+
+  static imageAltForRestaurant(restaurant) {
+    return restaurant.name;
   }
 
   /**
