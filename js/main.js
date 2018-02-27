@@ -16,7 +16,7 @@ var markers = [];
       })
       .catch((e) => {
         console.error('Error registering the service worker', e);
-      })
+      });
   }
 })()
 

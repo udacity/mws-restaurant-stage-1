@@ -1,5 +1,6 @@
-const cacheName = 'mws-restaurant-stage-1-cache-v4';
+const cacheName = 'mws-restaurant-stage-1-cache-v5';
 const filesToChache = [
+  '/',
   'data/restaurants.json',
   'img/1_large.jpg',
   'img/1_medium.jpg',
@@ -46,17 +47,12 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
+  return event.respondWith(
     caches.open(cacheName)
       .then((cache) => {
         return cache.match(event.request) 
           .then((response) => {
-            if (response) return response;
-            return fetch(event.request)
-              .then((networkResponse) => {
-                cache.put(event.request, networkResponse.clone());
-                return networkResponse;
-              });
+            return (response) || fetch(event.request);
           })
           .catch(e => console.error('Error in fetch handler: ', e));
       })
