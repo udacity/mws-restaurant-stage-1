@@ -1,0 +1,24 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "0.0.1",
+  "description": "---\r #### _Three Stage Course Material Project - Restaurant Reviews_",
+  "scripts": {
+    "gulp:images": "gulp images"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fidele137/mws-restaurant-stage-1.git"
+  },
+  "author": "Fidèle Palouki",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fidele137/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/fidele137/mws-restaurant-stage-1#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-responsive": "^2.9.0"
+  }
+}
