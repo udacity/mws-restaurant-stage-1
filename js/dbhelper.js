@@ -150,7 +150,19 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    const jpgIndex = restaurant.photograph.indexOf('.jpg');
+    const imgName = restaurant.photograph.substring(0, jpgIndex);
+    return (`/img/${imgName}_small.jpg`);
+  }
+
+  static imageSrcsetUrlsForRestaurant(restaurant) {
+    const jpgIndex = restaurant.photograph.indexOf('.jpg');
+    const imgName = restaurant.photograph.substring(0, jpgIndex);
+    return (`/img/${imgName}_small.jpg 400w, /img/${imgName}_medium.jpg 600w, /img/${imgName}_large.jpg 800w`);
+  }
+
+  static imageSizes() {
+    return (`(min-width: 769px) 50%, 100%`);
   }
 
   /**
