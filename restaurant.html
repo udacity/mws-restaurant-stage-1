@@ -15,12 +15,12 @@
   <!-- Beginning header -->
   <header>
     <!-- Beginning nav -->
-    <nav>
+    <nav tabindex="-1">
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
     <!-- Beginning breadcrumb -->
     <ul id="breadcrumb" >
-      <li><a href="/">Home</a></li>
+      <li><a href="/" aria-label="Return to Home">Home</a></li>
     </ul>
     <!-- End breadcrumb -->
     <!-- End nav -->
@@ -29,14 +29,11 @@
 
   <!-- Beginning main -->
   <main id="maincontent">
-    <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map" role="application"></div>
-    </section>
+   
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container-wrapper">
-      <div  id="restaurant-container" tabindex="0">
+      <div  id="restaurant-container" >
       <h1 id="restaurant-name" tabindex="0"></h1>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
@@ -52,12 +49,16 @@
     </div>
     </section>
     <!-- End reviews -->
+     <!-- Beginning map -->
+     <section id="map-container" >
+      <div id="map" role="application" aria-label="Google Maps"></div>
+    </section>
   </main>
   <!-- End main -->
 
   <!-- Beginning footer -->
   <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    Copyright (c) 2017 <a href="/" tabindex="0"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
   <!-- End footer -->
   <script>

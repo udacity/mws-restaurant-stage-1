@@ -18,11 +18,11 @@
 
   <main id="maincontent">
     <section id="map-container">
-      <div id="map" role="application"></div>
+      <div id="map" role="application" aria-label="Google Maps"></div>
     </section>
     <section class="filter-options-section">
       <div class="filter-options">
-        <h2 align="center">Filter Results</h2>
+        <h2 align="center" tabindex="0">Filter Results</h2>
         <select id="neighborhoods-select" name="neighborhoods" aria-label="Select Neighborhood" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>

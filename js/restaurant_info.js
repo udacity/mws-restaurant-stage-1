@@ -16,6 +16,7 @@ window.initMap = () => {
       });
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      
     }
   });
 }
@@ -51,7 +52,8 @@ fetchRestaurantFromURL = (callback) => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
-
+  name.setAttribute('aria-label',`${restaurant.name}, ${restaurant.cuisine_type} cuisine`)
+  
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
   image.alt=restaurant.name+` ${restaurant.cuisine_type} Restaurant`;
@@ -73,6 +75,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   }
   // fill reviews
   fillReviewsHTML();
+  
 }
 
 /**
@@ -124,6 +127,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     aa++;
   });
   container.appendChild(ul);
+  
 }
 
 /**
@@ -134,7 +138,7 @@ createReviewHTML = (review,aa) => {
   li.setAttribute('tabindex',0);
   li.setAttribute('aria-label', `Review ${aa}`);
   const name = document.createElement('p');
-  name.setAttribute('aria-label',`username ${review.name}`);
+  name.setAttribute('aria-label',`reviewer name ${review.name}`);
   name.innerHTML = review.name;
   name.setAttribute('tabindex',0);
   li.appendChild(name);
@@ -146,7 +150,7 @@ createReviewHTML = (review,aa) => {
   li.appendChild(date);
 
   const rating = document.createElement('p');
-  rating.setAttribute('aria-label',`rating ${review.rating}`);
+  rating.setAttribute('aria-label',`review rating ${review.rating}`);
   rating.innerHTML = `Rating: ${review.rating}`;
   rating.setAttribute('tabindex',0);
   li.appendChild(rating);
