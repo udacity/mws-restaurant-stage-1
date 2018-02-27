@@ -24,7 +24,7 @@ class DBHelper {
         const restaurants = json.restaurants;
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
+        const error = `Request failed. Returned status of ${xhr.status}`;
         callback(error, null);
       }
     };
@@ -143,7 +143,7 @@ class DBHelper {
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {
-    return (`./restaurant.html?id=${restaurant.id}`);
+    return `./restaurant.html?id=${restaurant.id}`;
   }
 
   /**
@@ -152,17 +152,17 @@ class DBHelper {
   static imageUrlForRestaurant(restaurant) {
     const jpgIndex = restaurant.photograph.indexOf('.jpg');
     const imgName = restaurant.photograph.substring(0, jpgIndex);
-    return (`/img/${imgName}_small.jpg`);
+    return `/img/${imgName}_small.jpg`;
   }
 
   static imageSrcsetUrlsForRestaurant(restaurant) {
     const jpgIndex = restaurant.photograph.indexOf('.jpg');
     const imgName = restaurant.photograph.substring(0, jpgIndex);
-    return (`/img/${imgName}_small.jpg 400w, /img/${imgName}_medium.jpg 600w, /img/${imgName}_large.jpg 800w`);
+    return `/img/${imgName}_small.jpg 400w, /img/${imgName}_medium.jpg 600w, /img/${imgName}_large.jpg 800w`;
   }
 
   static imageSizes() {
-    return (`(min-width: 769px) 50%, 100%`);
+    return `(min-width: 769px) 50%, 100%`;
   }
 
   /**
