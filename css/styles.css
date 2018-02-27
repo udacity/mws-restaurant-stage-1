@@ -1,11 +1,16 @@
 @charset "utf-8";
 /* CSS Document */
 
+*{
+  padding:0px;
+  margin:0px;
+}
+
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
+	font-size: 16pt;
 	color: #333;
-	line-height: 1.5;
+  line-height: 1.2em;
 }
 body {
 	background-color: #fdfdfd;
@@ -37,16 +42,21 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 #maincontent {
   background-color: #f3f3f3;
-  min-height: 100%;
+  position: relative;
 }
 #footer {
   background-color: #444;
+  padding: 25px 0px;
+  width: 100%;
+}
+
+#footer p {
   color: #aaa;
   font-size: 8pt;
   letter-spacing: 1px;
-  padding: 25px;
   text-align: center;
   text-transform: uppercase;
+  line-height: 25px;
 }
 /* ====================== Navigation ====================== */
 nav {
@@ -64,6 +74,7 @@ nav h1 a {
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
+  line-height: 80px;
 }
 #breadcrumb {
     padding: 10px 40px 16px;
@@ -97,6 +108,14 @@ nav h1 a {
     color: #01447e;
     text-decoration: underline;
 }
+
+@media screen and (max-width: 550px) {
+  #breadcrumb {
+    width: 100%;
+    display: block;
+    position: absolute;
+  }
+}
 /* ====================== Map ====================== */
 #map {
   height: 400px;
@@ -106,7 +125,6 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  height: 50px;
   background-color: #3397DB;
   align-items: center;
 }
@@ -115,7 +133,8 @@ nav h1 a {
   font-size: 1rem;
   font-weight: normal;
   line-height: 1;
-  margin: 0 20px;
+  margin: 5px 20px;
+  display: inline;
 }
 .filter-options select {
   background-color: white;
@@ -124,7 +143,7 @@ nav h1 a {
   font-size: 11pt;
   height: 35px;
   letter-spacing: 0;
-  margin: 10px;
+  margin: 5px;
   padding: 0 10px;
   width: 200px;
 }
@@ -136,6 +155,7 @@ nav h1 a {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
+  overflow: hidden;
 }
 #restaurants-list li {
   background-color: #fff;
@@ -146,6 +166,7 @@ nav h1 a {
   padding: 0 30px 25px;
   text-align: left;
   width: 270px;
+  float: left;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -205,7 +226,7 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: 49%;
 }
 #restaurant-name {
   color: #f18200;
@@ -241,6 +262,7 @@ nav h1 a {
   border-top: 1px solid #fff;
   padding: 140px 40px 30px;
   width: 50%;
+  position: relative;
 }
 #reviews-container {
   padding: 30px 40px 80px;
@@ -265,7 +287,7 @@ nav h1 a {
   overflow: hidden;
   padding: 0 20px 20px;
   position: relative;
-  width: 85%;
+  width: 80%;
 }
 #reviews-list li p {
   margin: 0 0 10px;
