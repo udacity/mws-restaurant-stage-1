@@ -1,0 +1,91 @@
+{
+	"name": "mws-restaurant-stage-1",
+	"version": "1.0.0",
+	"description": "RESTAURANT REVIEWS",
+	"main": "./docs/index.html",
+	"scripts": {
+		"test": "test",
+		"clean": "cross-env NODE_ENV=development gulp clean:all",
+		"serve": "cross-env NODE_ENV=development gulp serve",
+		"dev": "cross-env NODE_ENV=development gulp serve",
+		"start": "cross-env NODE_ENV=development gulp serve",
+		"build:development": "cross-env NODE_ENV=development gulp build:development",
+		"build:testing": "cross-env NODE_ENV=testing gulp build:testing",
+		"build:staging": "cross-env NODE_ENV=staging gulp build:staging",
+		"build:production": "cross-env NODE_ENV=production gulp build:production",
+		"build": "cross-env NODE_ENV=production gulp build --silent",
+		"build:github:pages": "cross-env NODE_ENV=production gulp github:pages --silent"
+	},
+	"directories": {
+		"doc": "docs"
+	},
+	"keywords": [
+		"google",
+		"udacity",
+		"nanodegree"
+	],
+	"author": "Luca Iaconelli <lucabelli9@gmail.com> (https://github.com/luxdamore)",
+	"license": "ISC",
+	"private": true,
+	"homepage": "https://luxdamore.github.com/mws-restaurant-stage-1/",
+	"bugs": {
+		"url": "https://github.com/LuXDAmore/mws-restaurant-stage-1/issues"
+	},
+	"devDependencies": {
+		"babel-eslint": "^7.2.3",
+		"babel-plugin-istanbul": "^4.1.5",
+		"babel-preset-env": "^1.6.1",
+		"babel-preset-stage-2": "^6.24.1",
+		"bower": "^1.8.2",
+		"browser-sync": "^2.18.13",
+		"browserslist": "^2.10.0",
+		"cross-env": "^5.1.1",
+		"eslint": "^3.19.0",
+		"eslint-config-angular": "^0.5.0",
+		"eslint-config-prettier": "^2.9.0",
+		"eslint-plugin-angular": "^2.2.1",
+		"eslint-plugin-compat": "^1.0.4",
+		"eslint-plugin-prettier": "^2.3.1",
+		"gulp": "^3.9.1",
+		"gulp-autoprefixer": "^4.0.0",
+		"gulp-babel": "^6.1.2",
+		"gulp-clean": "^0.3.2",
+		"gulp-clean-css": "^3.9.0",
+		"gulp-concat": "^2.6.1",
+		"gulp-cssnano": "^2.1.2",
+		"gulp-environments": "^0.1.2",
+		"gulp-eslint": "^3.0.1",
+		"gulp-filter": "^5.0.1",
+		"gulp-htmlhint": "^0.3.1",
+		"gulp-htmlmin": "^3.0.0",
+		"gulp-if": "^2.0.2",
+		"gulp-inject": "^4.3.0",
+		"gulp-inject-string": "^1.1.0",
+		"gulp-main-bower-files": "^1.6.2",
+		"gulp-rev": "^7.1.2",
+		"gulp-sass": "^3.1.0",
+		"gulp-sequence": "^0.4.6",
+		"gulp-sourcemaps": "^2.5.1",
+		"gulp-stylelint": "^3.9.0",
+		"gulp-uglify": "^2.1.2",
+		"gulp-util": "^3.0.8",
+		"prettier": "^1.9.2",
+		"stylelint-no-unsupported-browser-features": "^1.0.1"
+	},
+	"dependencies": {
+		"include-media": "^1.4.9"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://LuXDAmore@bitbucket.org/studiomado/pvp_gestionale.git"
+	},
+	"engines": {
+		"node": ">= 4.0.0",
+		"npm": ">= 3.0.0"
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not ie <= 11"
+	]
+}

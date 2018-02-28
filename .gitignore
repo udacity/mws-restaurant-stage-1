@@ -1,0 +1,28 @@
+# App
+dist
+
+# Temp
+.tmp
+.sass-cache
+.gitattributes
+
+# Logs
+logs
+*.log
+debug.log*
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Dependency directories
+node_modules
+bower_components
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history

@@ -1,0 +1,10 @@
+{
+	"short_name": "Restaurant",
+	"name": "RESTAURANT REVIEWS",
+	"icons": [],
+	"start_url": "/",
+	"display": "fullscreen",
+	"orientation": "portrait",
+	"background_color": "#3397DB",
+	"theme_color": "#3397DB"
+}
