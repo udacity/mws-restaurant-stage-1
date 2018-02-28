@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="it">
+	<head>
+
+		<link rel="canonical" href="/" />
+		<base href="/" />
+
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, minimal-ui" />
+		<link rel="manifest" href="/manifest.json" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<!-- WebApp Capable -->
+		<!-- Chrome for Android -->
+		<meta name="mobile-web-app-capable" content="yes" />
+		<!-- Win8 -->
+		<meta http-equiv="cleartype" content="on" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<!-- iOS -->
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="apple-touch-fullscreen" content="yes" />
+		<!-- Icons -->
+		<meta name="msapplication-TileImage" content="assets/images/icons/ms-icon-144x144.png" />
+		<link rel="apple-touch-icon" sizes="57x57" href="assets/images/icons/apple-icon-57x57.png" />
+		<link rel="apple-touch-icon" sizes="60x60" href="assets/images/icons/apple-icon-60x60.png" />
+		<link rel="apple-touch-icon" sizes="72x72" href="assets/images/icons/apple-icon-72x72.png" />
+		<link rel="apple-touch-icon" sizes="76x76" href="assets/images/icons/apple-icon-76x76.png" />
+		<link rel="apple-touch-icon" sizes="114x114" href="assets/images/icons/apple-icon-114x114.png" />
+		<link rel="apple-touch-icon" sizes="120x120" href="assets/images/icons/apple-icon-120x120.png" />
+		<link rel="apple-touch-icon" sizes="144x144" href="assets/images/icons/apple-icon-144x144.png" />
+		<link rel="apple-touch-icon" sizes="152x152" href="assets/images/icons/apple-icon-152x152.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-icon-180x180.png" />
+		<link rel="icon" type="image/png" sizes="192x192"  href="assets/images/icons/android-icon-192x192.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="96x96" href="assets/images/icons/favicon-96x96.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png" />
+
+		<!-- App -->
+		<title>RESTAURANT REVIEWS</title>
+		<meta name="description" content="RESTAURANT REVIEWS" />
+		<!-- WebApp Capable -->
+		<meta name="application-name" content="RESTAURANT REVIEWS" />
+		<meta name="msapplication-tooltip" content="RESTAURANT REVIEWS" />
+		<meta name="apple-mobile-web-app-title" content="RESTAURANT REVIEWS" />
+		<meta name="theme-color" content="#3397DB" />
+		<meta name="msapplication-TileColor" content="#3397DB" />
+		<meta name="msapplication-navbutton-color" content="#3397DB" />
+		<!-- Fine App -->
+
+		<link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+		<link rel="stylesheet" src="//cdn.jsdelivr.net/npm/modern-normalize@0.4.0/modern-normalize.min.css" />
+
+		<!-- inject:css --><!-- endinject -->
+
+	</head>
+	<body>
+
+		<!-- Beginning header -->
+		<header>
+				<!-- Beginning nav -->
+				<nav>
+				<h1><a href="/">Restaurant Reviews</a></h1>
+				</nav>
+				<!-- Beginning breadcrumb -->
+				<ul id="breadcrumb" >
+				<li><a href="/">Home</a></li>
+				</ul>
+				<!-- End breadcrumb -->
+				<!-- End nav -->
+			</header>
+			<!-- End header -->
+
+			<!-- Beginning main -->
+			<main id="maincontent">
+				<!-- Beginning map -->
+				<section id="map-container">
+				<div id="map"></div>
+				</section>
+				<!-- End map -->
+				<!-- Beginning restaurant -->
+				<section id="restaurant-container">
+				<h1 id="restaurant-name"></h1>
+				<img id="restaurant-img">
+				<p id="restaurant-cuisine"></p>
+				<p id="restaurant-address"></p>
+				<table id="restaurant-hours"></table>
+				</section>
+				<!-- end restaurant -->
+				<!-- Beginning reviews -->
+				<section id="reviews-container">
+				<ul id="reviews-list"></ul>
+				</section>
+				<!-- End reviews -->
+			</main>
+			<!-- End main -->
+
+			<!-- Beginning footer -->
+			<footer id="footer">
+				Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+			</footer>
+			<!-- End footer -->
+
+		<!-- inject:js --><!-- endinject -->
+
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBG8LXp4osGIgtI1SxUafmy6fPsgMq414c&libraries=places&callback=initMapRestaurantInfo"></script>
+
+	</body>
+</html>

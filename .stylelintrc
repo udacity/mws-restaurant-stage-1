@@ -1,0 +1,24 @@
+{
+	"plugins": [
+		"stylelint-no-unsupported-browser-features"
+	],
+	"rules": {
+		"plugin/no-unsupported-browser-features":  [
+			true,
+			{
+				"severity": "warning",
+				"ignore": [
+					"will-change",
+					"font-unicode-range",
+					"transforms3d",
+					"viewport-units",
+					"css-appearance",
+					"css-filters",
+					"css3-cursors",
+					"outline",
+					"flexbox"
+				]
+			}
+		],
+	}
+}

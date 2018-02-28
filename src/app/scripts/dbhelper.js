@@ -9,7 +9,7 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 8000 // Change this to your server port
-    return `https://luxdamore.github.io/mws-restaurant-stage-1/data/restaurants.json`;
+    return `/data/restaurants.json`;
   }
 
   /**
@@ -143,14 +143,14 @@ class DBHelper {
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {
-    return (`/mws-restaurant-stage-1/restaurant.html?id=${restaurant.id}`);
+    return (`/restaurant.html?id=${restaurant.id}`);
   }
 
   /**
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/mws-restaurant-stage-1/img/${restaurant.photograph}`);
+    return (`/assets/images/${restaurant.photograph}`);
   }
 
   /**

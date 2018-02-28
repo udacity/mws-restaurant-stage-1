@@ -1,3 +1,2 @@
-build/*.js
-dist/*.js
-config/*.js
+src/app/scripts/app.environment.js
+dist/app/templates.js
