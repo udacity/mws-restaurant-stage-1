@@ -10,9 +10,9 @@
 </head>
 
 <body>
-  <header>
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+  <header tabindex="-1">
+    <nav tabindex="-1">
+      <h1><a href="/" tabindex="0">Restaurant Reviews</a></h1>
     </nav>
   </header>
 
@@ -20,8 +20,8 @@
     <section id="map-container">
       <div id="map" role="application" aria-label="Google Maps"></div>
     </section>
-    <section class="filter-options-section">
-      <div class="filter-options">
+    <section class="filter-options-section" tabindex="-1">
+      <div class="filter-options" tabindex="-1">
         <h2 align="center" tabindex="0">Filter Results</h2>
         <select id="neighborhoods-select" name="neighborhoods" aria-label="Filter by Neighborhood" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
@@ -29,8 +29,7 @@
         <select id="cuisines-select" name="cuisines" aria-label="Filter by Cuisine" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
-        <div aria-live="polite" id="filtered-results">
-        </div>
+        <div aria-live="polite" id="filtered-results"></div>
       </div>
     </section>
   <section>

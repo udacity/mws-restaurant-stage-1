@@ -102,6 +102,9 @@ updateRestaurants = () => {
     } else {
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
+      /*
+      div id=filtered-results has aria-live=polite, to announce the number of filtered results
+      */
       document.getElementById('filtered-results').innerHTML=`<p>${restaurants.length} Results</p>`;
     }
   })

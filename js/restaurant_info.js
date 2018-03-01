@@ -9,18 +9,25 @@ window.initMap = () => {
     if (error) { // Got an error!
       console.error(error);
     } else {
+     
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: restaurant.latlng,
         scrollwheel: false
       });
+      google.maps.event.addListenerOnce(self.map, 'tilesloaded', MapReady);
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
       
     }
   });
 }
-
+function MapReady(){
+  /*
+  When map is loaded, focus on the restaurant name element for screen reader
+  */
+  document.getElementById('restaurant-name').focus();
+}
 /**
  * Get current restaurant from page URL.
  */
