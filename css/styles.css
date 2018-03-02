@@ -260,9 +260,9 @@ nav h1 a {
 }
 #restaurant-container, #reviews-container {
   width: 90%;
-  max-width: 800px;
   margin: 0 auto;
 }
+
 #restaurant-container-wrapper,#reviews-container-wrapper{
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
@@ -351,15 +351,10 @@ nav h1 a {
     float: left;
   }
 
-  #restaurant-container-wrapper{
-
-
+  #restaurant-container-wrapper,#reviews-container-wrapper{
     width: 50%;
   }
-  #reviews-container-wrapper{
-
-    width: 50%;
-  }
+  
   #breadcrumb {
 
     width: calc(50% - 80px);
@@ -383,14 +378,12 @@ nav h1 a {
 
 }
 
-
-@media (min-width: 1200px) {
-  .restaurant-item{
-    width: 20%;
-    margin-top: 1%;
-    margin-left: 1.75%;
-    padding: 0 1.25% 20px;
-    float: left;
+@media (min-width: 2000px) {
+  .inside #map-container {
+    width:calc(100% - 1000px);
+  }
+  #restaurant-container-wrapper,#reviews-container-wrapper{
+    width: 1000px;
   }
 
 }
