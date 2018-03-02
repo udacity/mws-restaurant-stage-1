@@ -9,7 +9,7 @@ window.initMap = () => {
     if (error) { // Got an error!
       console.error(error);
     } else {
-     
+
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: restaurant.latlng,
@@ -18,7 +18,7 @@ window.initMap = () => {
       google.maps.event.addListenerOnce(self.map, 'tilesloaded', MapReady);
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-      
+
     }
   });
 }
@@ -60,18 +60,18 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
   name.setAttribute('aria-label',`${restaurant.name}, ${restaurant.cuisine_type} cuisine`)
-  
+
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
   image.alt=restaurant.name+` ${restaurant.cuisine_type} Restaurant`;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  
+
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
   address.setAttribute('aria-label',`address ${restaurant.address}`);
 
-  
+
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -82,7 +82,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   }
   // fill reviews
   fillReviewsHTML();
-  
+
 }
 
 /**
@@ -134,7 +134,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     aa++;
   });
   container.appendChild(ul);
-  
+
 }
 
 /**

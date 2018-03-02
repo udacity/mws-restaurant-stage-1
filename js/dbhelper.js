@@ -12,11 +12,11 @@ class DBHelper {
 
     switch (document.location.hostname)
 	  {
-		
+
 			case 'localhost' :
-        return `http://localhost/2018/udacity/mws-restaurant-stage-1/data/restaurants.json`; 
+        return `http://localhost/2018/udacity/mws-restaurant-stage-1/data/restaurants.json`;
         break;
-      default :  
+      default :
         return `http://127.0.0.1:${port}/data/restaurants.json`;
   	}
 
@@ -164,13 +164,13 @@ class DBHelper {
     switch (document.location.hostname)
 	  {
 			case 'localhost' :
-        return (`img/${restaurant.photograph}`); 
+        return (`img/${restaurant.photograph}`);
         break;
-      default :  
+      default :
         return (`/img/${restaurant.photograph}`);
   	}
 
-   
+
   }
 
   /**

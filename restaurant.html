@@ -29,7 +29,7 @@
 
   <!-- Beginning main -->
   <main id="maincontent">
-   
+
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container-wrapper">
@@ -51,31 +51,27 @@
     <!-- End reviews -->
      <!-- Beginning map -->
      <section id="map-container" >
-      <div id="map" role="application" aria-label="Google Maps"></div>
+      <div id="map" role="application" aria-label="Google Maps" tabindex="0"></div>
     </section>
   </main>
   <!-- End main -->
 
   <!-- Beginning footer -->
   <footer id="footer">
-    Copyright (c) 2017 <a href="/" tabindex="0"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    Copyright (c) 2017 <a href="/" tabindex="0" aria-label="Return to home"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
   <!-- End footer -->
   <script>
     if ('serviceWorker' in navigator) {
        navigator.serviceWorker.register('service-worker.js')
        .then(function(registration) {
-         console.log('Service Worker registration successful with scope: ',
-          registration.scope);
+
        })
-       .catch(function(err) {
-         console.log('Service Worker registration failed: ', err);
+       .catch(function(error) {
+        console.error(error);
        });
      }
      </script>
-
-
-
   <!-- Beginning scripts -->
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
