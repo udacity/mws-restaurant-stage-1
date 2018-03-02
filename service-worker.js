@@ -54,12 +54,12 @@ The service worker file. Here we will intercept network requests and pull data f
     });
 
     function serveDynamicUrl(request) {
-      let storageUrl = request.url;
+      const storageUrl = request.url;
 
        /*
           We remove the ?id=... part so as to not recache restaurant.html every time a restaurant is called with a different id
           */
-      let strippedurl=storageUrl.split('?')[0];
+      const strippedurl=storageUrl.split('?')[0];
 
       return caches.open(staticCacheName).then(function (cache) {
         return cache.match(strippedurl).then(function (response) {
