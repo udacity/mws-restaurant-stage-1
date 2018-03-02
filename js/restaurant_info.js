@@ -144,30 +144,51 @@ createReviewHTML = (review,aa) => {
   const li = document.createElement('li');
   li.setAttribute('tabindex',0);
   li.setAttribute('aria-label', `Review ${aa}`);
-  const name = document.createElement('p');
-  name.setAttribute('aria-label',`reviewer name ${review.name}`);
-  name.innerHTML = review.name;
+  const div = document.createElement('div');
+  div.className='review-inner';
+
+  const name = document.createElement('h3');
+  name.className='review-reviewer';
   name.setAttribute('tabindex',0);
-  li.appendChild(name);
+  name.setAttribute('aria-label',`reviewer name ${review.name} date ${review.date}`);
+  name.innerHTML = review.name;
+
 
   const date = document.createElement('p');
-  date.setAttribute('aria-label',`review date ${review.date}`);
+  date.className='review-date';
   date.innerHTML = review.date;
-  date.setAttribute('tabindex',0);
-  li.appendChild(date);
+
+  const tbl = document.createElement("table");
+  tbl.setAttribute('width','100%');
+  const tblBody = document.createElement("tbody");
+  const row = document.createElement("tr");
+  const cell1 = document.createElement("td");
+  const cell2 = document.createElement("td");
+  cell1.setAttribute('align','left');
+  cell1.appendChild(name);
+  cell2.setAttribute('align','right');
+  cell2.appendChild(date);
+  row.appendChild(cell1);
+  row.appendChild(cell2);
+
+  tblBody.appendChild(row);
+  tbl.appendChild(tblBody);
+  li.appendChild(tbl);
+
 
   const rating = document.createElement('p');
+  rating.className='review-rating';
   rating.setAttribute('aria-label',`review rating ${review.rating}`);
   rating.innerHTML = `Rating: ${review.rating}`;
   rating.setAttribute('tabindex',0);
-  li.appendChild(rating);
+  div.appendChild(rating);
 
   const comments = document.createElement('p');
   comments.setAttribute('aria-label',`review, ${review.comments}`);
   comments.innerHTML = review.comments;
   comments.setAttribute('tabindex',0);
-  li.appendChild(comments);
-
+  div.appendChild(comments);
+li.appendChild(div);
   return li;
 }
 
