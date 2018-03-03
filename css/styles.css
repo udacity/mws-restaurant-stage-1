@@ -101,13 +101,12 @@ nav h1 a {
 }
 
 #breadcrumb {
-    padding: 2% 5%;
+    padding: 10px 0px 10px 20px;
+    margin: 0;
     list-style: none;
     background-color: #eee;
-    margin: 0;
-    width: calc(40% - 80px);
-    min-width: 250px;
-}
+    max-width: 350px;
+  }
 
 /* Display list items side by side */
 #breadcrumb li {
@@ -125,6 +124,7 @@ nav h1 a {
 #breadcrumb li a {
     color: #0275d8;
     text-decoration: none;
+    padding: 16px 3px;
 }
 
 /* Add a color on mouse-over */
