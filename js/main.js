@@ -5,10 +5,19 @@ var map;
 var markers = [];
 
 /**
+ * Fetch neighborhoods and cuisines as soon as the page is loaded.
+ */
+document.addEventListener('DOMContentLoaded', (event) => {
+  fetchNeighborhoods();
+  fetchCuisines();
+  registerServiceWorker();
+});
+
+/**
  * Register ServiceWorker at page load
  */
 
-(registerServiceWorker = () => {
+registerServiceWorker = () => {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/service-worker.js')
       .then((reg) => {
@@ -18,15 +27,7 @@ var markers = [];
         console.error('Error registering the service worker', e);
       });
   }
-})()
-
-/**
- * Fetch neighborhoods and cuisines as soon as the page is loaded.
- */
-document.addEventListener('DOMContentLoaded', (event) => {
-  fetchNeighborhoods();
-  fetchCuisines();
-});
+}
 
 /**
  * Fetch all neighborhoods and set their HTML.
