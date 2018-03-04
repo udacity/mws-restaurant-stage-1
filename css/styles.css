@@ -84,13 +84,18 @@ section {
 
 nav {
   background-color: #252831;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 80px;
-  text-align:center;
+  text-align: center;
   width: 100%;
 }
 
 nav h1 {
-  margin: auto;
+  margin: 0;
 }
 
 nav h1 a {
