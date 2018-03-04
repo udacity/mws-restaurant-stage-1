@@ -184,7 +184,7 @@ nav h1 a {
   border-radius: 50px 10px;
   font-family: Arial,sans-serif;
   margin: 15px;
-  padding: 2% 3%;
+  padding: 10px;
   text-align: left;
   min-width: 200px;
   box-sizing: border-box;
@@ -228,6 +228,11 @@ nav h1 a {
   text-transform: uppercase;
   max-width: 60%;
 }
+
+#restaurants-list li a:hover {
+  background-color: rgb(235, 125, 0);
+}
+
 
 /* ====================== Restaurant Details ====================== */
 .inside header {
@@ -293,16 +298,24 @@ nav h1 a {
   margin:  0;
   text-align: center;
   text-transform: uppercase;
-  width: 100%;
+  width: 100vw;
 }
 
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-#reviews-container h2 {
+#restaurant-name,
+#restaurant-display,
+#restaurant-image {
+  width: 100%;
+}
+
+#reviews-container h3 {
   color: #f58500;
   font-size: 1.5rem;
   font-weight: 300;
@@ -396,4 +409,18 @@ nav h1 a {
   #restaurants-list li {
     width: 28%;
   }
+
+  #restaurant-display,
+  #restaurant-info {
+    width: 50%;
+  }
+
+  #restaurant-cuisine {
+    width: 100%;
+  }
+
+  .review-card {
+    width: 47%;
+  }
+
 }
