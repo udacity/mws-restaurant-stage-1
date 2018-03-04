@@ -88,7 +88,6 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 800px;
 }
 
 nav h1 a {
@@ -387,12 +386,14 @@ nav h1 a {
     	width: 43%;
     }
 
-    body {
-    	max-width: 800px;
-    	margin: 0 auto;
-    }
-
     #neighborhoods-select {
     	margin-left: 15px;
     }
+}
+
+
+@media screen and (min-width: 900px) {
+  #restaurants-list li {
+    width: 28%;
+  }
 }
