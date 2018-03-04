@@ -200,7 +200,7 @@ nav h1 a {
   border-radius: 50px 10px;
 }
 
-#restaurants-list li h1 {
+#restaurants-list li h2 {
   color: #f18200;
   font-family: Arial,sans-serif;
   font-size: 1rem;
