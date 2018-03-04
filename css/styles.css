@@ -147,8 +147,12 @@ nav h1 a {
 .filter-options {
   align-items: center;
   background-color: #3397DB;
-  height: 50px;
+  box-sizing: border-box;
+  height: 56px;
+  padding: 0 8px;
+  position: relative;
   width: 100%;
+  z-index: 4;
 }
 
 .filter-options h2 {
@@ -156,7 +160,8 @@ nav h1 a {
   font-size: 1rem;
   font-weight: normal;
   line-height: 1;
-  margin: 0 20px;
+  padding: 16px 16px 8px 16px;
+  margin: 0;
 }
 
 .filter-options select {
@@ -166,8 +171,8 @@ nav h1 a {
   font-size: 11pt;
   height: 35px;
   letter-spacing: 0;
-  margin: 10px;
-  padding: 0 10px;
+  margin: 0 8px;
+  padding: 0 8px;
   width: 200px;
 }
 
