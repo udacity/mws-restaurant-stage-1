@@ -93,11 +93,10 @@ nav {
 
 nav h1 a {
   color: #fff;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 100;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  padding: 20px;
 }
 
 #breadcrumb {
@@ -327,11 +326,7 @@ nav h1 a {
   list-style-type: none;
   margin: 10px;
   overflow: hidden;
-  padding: 0 20px 20px;
-}
-
-#reviews-list li p {
-  margin: px;
+  padding: 0;
 }
 
 #restaurant-hours {
@@ -341,6 +336,50 @@ nav h1 a {
 
 #restaurant-hours td {
   color: #666;
+}
+
+.review-card {
+  border-radius: 5px;
+}
+
+.review-name,
+.review-date,
+.review-rating,
+.review-comments {
+  margin: 0;
+  padding: 10px 20px;
+}
+
+.review-name {
+  width: 100%;
+  background: #333;
+  color: #fff;
+}
+
+.review-date {
+  color: #555;
+}
+
+.review-rating {
+  color: #fff;
+  background: #f18200;
+  border-radius: 5px;
+  margin: 10px 20px;
+  padding: 5px 10px;
+  max-width: 80px;
+  text-align: center;
+}
+
+@media screen and (min-width: 400px) {
+
+  .review-date {
+    float: right;
+  }
+
+  nav h1 a {
+    font-size: 1rem;
+  }
+
 }
 
 @media screen and (min-width: 600px) {
