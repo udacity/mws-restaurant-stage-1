@@ -160,14 +160,15 @@ class DBHelper {
   /**
    * Restaurant image URL.
    */
-  static imageUrlForRestaurant(restaurant) {
-    switch (document.location.hostname)
+  static imageUrlForRestaurant(restaurant,isthumb=false) {
+    switch (isthumb)
 	  {
-			case 'localhost' :
+			case false :
         return (`img/${restaurant.photograph}`);
         break;
-      default :
-        return (`/img/${restaurant.photograph}`);
+      case true :
+        return (`img/small/${restaurant.photograph}`);
+        break;
   	}
 
 
