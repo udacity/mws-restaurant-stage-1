@@ -200,7 +200,19 @@ nav h1 a {
   letter-spacing: 0;
   margin: 0 8px;
   padding: 0 8px;
-  width: 200px;
+  max-width: 110px;
+}
+
+@media screen and (min-width: 360px) {
+  .filter-options select {
+    max-width: 200px;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .filter-options select {
+    width: 200px;
+  }
 }
 
 /* ====================== Restaurant Listing ====================== */
