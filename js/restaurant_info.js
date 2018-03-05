@@ -111,7 +111,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
-  const title = document.createElement('h2');
+  const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   title.setAttribute('aria-label',`${reviews.length} reviews`);
   title.setAttribute('tabindex',0);
@@ -143,7 +143,7 @@ createReviewHTML = (review,aa) => {
   const div = document.createElement('div');
   div.className='review-inner';
 
-  const name = document.createElement('h3');
+  const name = document.createElement('h4');
   name.className='review-reviewer';
   name.setAttribute('tabindex',0);
   name.setAttribute('aria-label',`reviewer name ${review.name} date ${review.date}`);
