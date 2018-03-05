@@ -5,5 +5,17 @@
     padding-left: 5%;
     padding-right: 5%;
     width: 100%;
+    margin: 0;
+  }
+
+  #restaurants-list .restaurant-img,
+  #restaurants-list li h1,
+  #restaurants-list p,
+  #restaurants-list li a {
+    margin-left: 0;
+  }
+
+  #restaurants-list .restaurant-img {
+    max-width: 100%;
   }
 }
