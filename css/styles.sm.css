@@ -1,11 +1,15 @@
 @media screen and (max-width: 700px) {
   /* ====================== Restaurant Listing ====================== */
+  #restaurants-list {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
 
   #restaurants-list li {
-    padding-left: 5%;
-    padding-right: 5%;
     width: 100%;
-    margin: 0;
+    padding: 0px 20px 0px 20px;
+    margin: 10px 0px 10px 0px;
   }
 
   #restaurants-list .restaurant-img,
@@ -13,6 +17,7 @@
   #restaurants-list p,
   #restaurants-list li a {
     margin-left: 0;
+    margin-right: 0;
   }
 
   #restaurants-list .restaurant-img {
