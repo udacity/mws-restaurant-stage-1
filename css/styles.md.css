@@ -1,0 +1,12 @@
+@media screen and (min-width: 700px) {
+  #restaurants-list {
+    width: calc(100% - 20px);
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  #restaurants-list li {
+    margin: 10px 10px 10px 10px;
+    width: calc(50% - 20px);
+  }
+}
