@@ -8,19 +8,11 @@
 
   #restaurants-list li {
     width: 100%;
-    padding: 0px 20px 0px 20px;
-    margin: 10px 0px 10px 0px;
   }
 
-  #restaurants-list .restaurant-img,
-  #restaurants-list li h1,
   #restaurants-list p,
   #restaurants-list li a {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  #restaurants-list .restaurant-img {
-    max-width: 100%;
+    margin-left: 5%;
+    margin-right: 5%;
   }
 }
