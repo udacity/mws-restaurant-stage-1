@@ -404,6 +404,16 @@ nav h1 a {
   background: rgba(0, 0, 0, 0.14);
 }
 
+#restaurant-details {
+  width: 100%;
+}
+
+#restaurant-details > * {
+  max-width: 832px;
+  margin: auto;
+  display: block;
+}
+
 @media screen and (min-width: 1024px) {
   .inside #map-container {
     background: blue none repeat scroll 0 0;
@@ -422,9 +432,12 @@ nav h1 a {
     margin-top: 137px;
   }
 
+  #restaurant-details {
+    width: 50%;
+  }
+
+  #restaurant-details,
   .inside #footer,
-  #restaurant-container,
-  #reviews-container,
   #breadcrumb { 
     width: 50%;
   }
