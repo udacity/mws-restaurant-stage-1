@@ -8,38 +8,17 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8887 // Change this to your server port
-
-    switch (document.location.hostname)
-	  {
-
-			case 'localhost' :
-        return `http://localhost/2018/udacity/mws-restaurant-stage-1/data/restaurants.json`;
-        break;
-      default :
-        return `http://127.0.0.1:${port}/data/restaurants.json`;
-  	}
-
-
+    const port = 1337 // Change this to your server port
+        return `http://localhost:${port}/restaurants/`;
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+    fetch(DBHelper.DATABASE_URL).then(response => response.json())
+    .then(restaurants => callback(null,restaurants))
+    .catch(e => callback(e,null));
   }
 
   /**
@@ -155,19 +134,24 @@ class DBHelper {
    */
   static urlForRestaurant(restaurant) {
     return (`./restaurant.html?id=${restaurant.id}`);
+
   }
 
   /**
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant,isthumb=false) {
+    let imgname='noimage';//if db has no image info, display default no image
+    if(restaurant.photograph){
+      imgname=restaurant.photograph;
+    }
     switch (isthumb)
 	  {
 			case false :
-        return (`img/${restaurant.photograph}`);
+        return (`img/${imgname}.jpg`);
         break;
       case true :
-        return (`img/small/${restaurant.photograph}`);
+        return (`img/small/${imgname}.jpg`);
         break;
   	}
 
