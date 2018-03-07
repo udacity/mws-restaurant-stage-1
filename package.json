@@ -1,0 +1,22 @@
+{
+  "name": "mws-restaurant-reviews",
+  "version": "1.0.0",
+  "description": "Restaurant reviews app project for Udacity's MWS Nanodegree.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nmarcora/mws-restaurant-stage-1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nmarcora/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/nmarcora/mws-restaurant-stage-1#readme",
+  "dependencies": {
+    "localforage": "^1.6.0"
+  }
+}
