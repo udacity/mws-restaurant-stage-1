@@ -10,7 +10,7 @@
       writable: true,
       value: function append() {
         var argArr = Array.prototype.slice.call(arguments),
-          docFrag = document.createDocumentFragment();
+          docFrag = document.createDocumentFragment(); F
 
         argArr.forEach(function (argItem) {
           var isNode = argItem instanceof Node;
@@ -183,7 +183,7 @@ createRestaurantHTML = (restaurant) => {
 
   li.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
   li.append(name);
 
