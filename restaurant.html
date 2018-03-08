@@ -62,6 +62,12 @@
   </footer>
   <!-- End footer -->
   <script>
+    function initNoMap(){
+      console.log('html no map')
+    }
+
+
+
     if ('serviceWorker' in navigator) {
        navigator.serviceWorker.register('service-worker.js')
        .then(function(registration) {
@@ -80,9 +86,9 @@
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
-  <script type="text/javascript" src="js/restaurant_info.js"></script>
+  <script defer type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEmaR9pjKC612N3uP2SXC31Q0sVs9lmK0&libraries=places&callback=initMap"></script>
+  <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEmaR9pjKC612N3uP2SXC31Q0sVs9lmK0&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
 
 </body>

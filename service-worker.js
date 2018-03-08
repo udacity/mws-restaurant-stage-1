@@ -48,6 +48,8 @@ The service worker file. Here we will intercept network requests and pull data f
 
           }
 
+
+
           event.respondWith(caches.match(event.request).then(function (response) {
             return response || fetch(event.request);
           }));
@@ -89,12 +91,6 @@ The service worker file. Here we will intercept network requests and pull data f
           });
         });
       }
-
-
-
-
-
-
 
 
 

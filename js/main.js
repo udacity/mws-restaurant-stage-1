@@ -10,6 +10,7 @@ var markers = [];
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  updateRestaurants();//moved this here to work offline
 });
 
 /**
@@ -71,6 +72,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
+
   let loc = {
     lat: 40.722216,
     lng: -73.987501
@@ -80,7 +82,7 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
-  updateRestaurants();
+
 }
 
 /**
@@ -89,7 +91,7 @@ window.initMap = () => {
 updateRestaurants = () => {
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
-  cSelect.selecte
+
   const cIndex = cSelect.selectedIndex;
   const nIndex = nSelect.selectedIndex;
 

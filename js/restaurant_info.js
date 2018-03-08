@@ -5,22 +5,15 @@ var map;
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
-      google.maps.event.addListenerOnce(self.map, 'tilesloaded', MapReady);
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-
-    }
+  /**
+ * Changed the code to only load the map without center
+ * because the initMap is not called offline;
+ */
+  self.map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 16,
+    scrollwheel: false
   });
+  google.maps.event.addListenerOnce(self.map, 'tilesloaded', MapReady);
 }
 function MapReady(){
   /*
@@ -28,6 +21,29 @@ function MapReady(){
   */
   document.getElementById('restaurant-name').focus();
 }
+
+/**
+ * if offline initMap does not get called
+ */
+document.addEventListener('DOMContentLoaded', (event) => {
+ /**
+ * because the initMap is not called offline we load the restaurant info on dom loaded
+ * and if the map is loaded we set the center and marker
+ */
+  fetchRestaurantFromURL((error, restaurant) => {
+    if (error) { // Got an error!
+      console.error(error);
+    } else {
+
+      fillBreadcrumb();
+      if(self.map){
+        self.map.setCenter(self.restaurant.latlng);
+      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      }
+    }
+  });
+});
+
 /**
  * Get current restaurant from page URL.
  */
@@ -47,8 +63,9 @@ fetchRestaurantFromURL = (callback) => {
         console.error(error);
         return;
       }
-      fillRestaurantHTML();
       callback(null, restaurant)
+      fillRestaurantHTML();
+
     });
   }
 }
@@ -76,7 +93,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   // fill operating hours
   if (restaurant.operating_hours) {
-    fillRestaurantHoursHTML();
+     fillRestaurantHoursHTML();
   }
   // fill reviews
   fillReviewsHTML();

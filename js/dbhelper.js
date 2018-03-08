@@ -12,29 +12,52 @@ class DBHelper {
     const port = 1337 // Change this to your server port
         return `http://localhost:${port}/restaurants/`;
   }
-
+  static openDB() {
+    return idb.open('adamoDB', 1, upgradeDB => {
+      const rests =upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+    });
+  }
 
   static saveRestaurantsToDB(restaurants) {
+    //save data from db api to indexedDB for offline use
     if (!('indexedDB' in window)) {
       return null;
     }
-    const dbpromise = idb.open('adamoDB', 1, upgradeDB => {
-      const rests =upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
 
-    });
-
-
-    return dbpromise.then(db => {
+    return DBHelper.openDB().then(db => {
       //console.log(db);
       const tx = db.transaction('restaurants', 'readwrite');
       const store = tx.objectStore('restaurants');
       return Promise.all(restaurants.map(restaurant => store.put(restaurant))).then(() => {return restaurants})
       .catch(() => {
         tx.abort();
-        throw Error('Restaurants were not added to the store');
+        throw Error('Restaurants were not added to db');
       });
     });
   }
+
+  static getLocalRestaurantsData(){
+    //get all restaurants from indexedDB when offline
+    if (!('indexedDB' in window)) {
+      return null;
+    }
+    return DBHelper.openDB().then(db => {
+      return db.transaction('restaurants')
+        .objectStore('restaurants').getAll();
+    }).then(restaurants => {return restaurants});
+  }
+
+  static getLocalRestaurantsDataById(id){
+    //get restaurant by id from indexedDB when offline
+    if (!('indexedDB' in window)) {
+      return null;
+    }
+    return DBHelper.openDB().then(db => {
+      return db.transaction('restaurants')
+        .objectStore('restaurants').get(parseInt(id));
+    }).then(restaurant => {return restaurant});
+  }
+
   /**
    * Fetch all restaurants.
    */
@@ -43,7 +66,11 @@ class DBHelper {
    fetch(DBHelper.DATABASE_URL).then(response => response.json())
     .then(restaurants => DBHelper.saveRestaurantsToDB(restaurants))
     .then(restaurants => callback(null,restaurants))
-    .catch(e => callback(e,null));
+    .catch(err => {
+      //no network get them from indexedDB
+      DBHelper.getLocalRestaurantsData().then(restaurants => callback(null,restaurants))
+      }
+    );
 
   }
 
@@ -51,9 +78,14 @@ class DBHelper {
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
-   fetch(`${DBHelper.DATABASE_URL}${id}`).then(response => response.json())
+
+  fetch(`${DBHelper.DATABASE_URL}${id}`).then(response => response.json())
    .then(restaurant => callback(null,restaurant))
-   .catch(e => callback('Restaurant does not exist',null));
+   .catch(err => {
+    //no network get them from indexedDB
+    DBHelper.getLocalRestaurantsDataById(id).then(restaurant => callback(null,restaurant))
+    }
+  );
 
   }
 
@@ -120,6 +152,7 @@ class DBHelper {
 
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
+
       if (error) {
         callback(error, null);
       } else {
@@ -183,6 +216,7 @@ class DBHelper {
    * Map marker for a restaurant.
    */
   static mapMarkerForRestaurant(restaurant, map) {
+
     const marker = new google.maps.Marker({
       position: restaurant.latlng,
       title: restaurant.name,
