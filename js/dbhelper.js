@@ -1,5 +1,6 @@
 /**
  * Common database helper functions.
+ * Implementing IndexedDB Promised library by https://github.com/jakearchibald/idb.git
  */
 class DBHelper {
 
@@ -12,13 +13,38 @@ class DBHelper {
         return `http://localhost:${port}/restaurants/`;
   }
 
+
+  static saveRestaurantsToDB(restaurants) {
+    if (!('indexedDB' in window)) {
+      return null;
+    }
+    const dbpromise = idb.open('adamoDB', 1, upgradeDB => {
+      const rests =upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+
+    });
+
+
+    return dbpromise.then(db => {
+      //console.log(db);
+      const tx = db.transaction('restaurants', 'readwrite');
+      const store = tx.objectStore('restaurants');
+      return Promise.all(restaurants.map(restaurant => store.put(restaurant))).then(() => {return restaurants})
+      .catch(() => {
+        tx.abort();
+        throw Error('Restaurants were not added to the store');
+      });
+    });
+  }
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL).then(response => response.json())
+
+   fetch(DBHelper.DATABASE_URL).then(response => response.json())
+    .then(restaurants => DBHelper.saveRestaurantsToDB(restaurants))
     .then(restaurants => callback(null,restaurants))
     .catch(e => callback(e,null));
+
   }
 
   /**
@@ -35,6 +61,7 @@ class DBHelper {
    * Fetch restaurants by a cuisine type with proper error handling.
    */
   static fetchRestaurantByCuisine(cuisine, callback) {
+
     // Fetch all restaurants  with proper error handling
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
@@ -51,6 +78,7 @@ class DBHelper {
    * Fetch restaurants by a neighborhood with proper error handling.
    */
   static fetchRestaurantByNeighborhood(neighborhood, callback) {
+
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
@@ -67,6 +95,7 @@ class DBHelper {
    * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
    */
   static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
+
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
@@ -88,6 +117,7 @@ class DBHelper {
    * Fetch all neighborhoods with proper error handling.
    */
   static fetchNeighborhoods(callback) {
+
     // Fetch all restaurants
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {

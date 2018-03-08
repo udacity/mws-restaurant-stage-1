@@ -11,7 +11,7 @@ The service worker file. Here we will intercept network requests and pull data f
 
     self.addEventListener('install', function (event) {
             event.waitUntil(caches.open(staticCacheName).then(function (cache) {
-               return cache.addAll(['/','index.html','restaurant.html','js/dbhelper.js','js/main.js','js/restaurant_info.js','css/styles.css','data/restaurants.json']);
+               return cache.addAll(['/','index.html','restaurant.html','js/idb.js','js/dbhelper.js','js/main.js','js/restaurant_info.js','css/styles.css','data/restaurants.json']);
             }));
     });
 
