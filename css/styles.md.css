@@ -1,4 +1,16 @@
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 600px) and (max-width: 1150px) {
+  .filter-options {
+    padding-left: 1%;
+    padding-right: 1%;
+    width: 98%;
+    flex-direction: row;
+  }
+
+  .filter-options select {
+    display: flex;
+    flex-grow: 1;
+  }
+
   #restaurants-list {
     width: calc(100% - 20px);
     padding-left: 10px;
@@ -8,5 +20,18 @@
   #restaurants-list li {
     margin: 10px 10px 10px 10px;
     width: calc(50% - 20px);
+  }
+  #restaurants-list li h1 {
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .filter-options {
+    padding-left: 10px;
+    padding-right: 10px;
+    width: calc(100% - 20px);
+    flex-direction: row;
   }
 }

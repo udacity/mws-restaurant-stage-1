@@ -1,6 +1,4 @@
-@media screen and (min-width: 1100px) {
-  /* ====================== Restaurant Listing ====================== */
-
+@media screen and (min-width: 1051px) {
   #restaurants-list {
     padding-left: 20px;
     padding-right: 20px;
@@ -10,5 +8,20 @@
   #restaurants-list li {
     margin: 18px 18px 18px 18px;
     width: calc(33.33% - 40px);
+  }
+}
+
+@media screen and (min-width: 1101px) {
+  #restaurants-list {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1050px;
+  }
+
+  .filter-options {
+    padding-left: calc((100% - 1079px) /2);
+    padding-right: calc((100% - 1079px) /2);
+    width: 1079px;
+    flex-direction: row;
   }
 }
