@@ -82,6 +82,10 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
+  //Since we moved updateRestaurants from the initMap to document ready, here we doublecheck if the markers were loaded and if not we load them
+  if(markers.length==0){
+    addMarkersToMap();
+    }
 
 }
 
@@ -135,7 +139,10 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
+  //Since we moved updateRestaurants from the initMap to document ready, before we set the markers we check if the map is loaded
+  if(self.map){
   addMarkersToMap();
+  }
 }
 
 /**
