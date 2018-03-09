@@ -196,16 +196,20 @@ class DBHelper {
    */
   static imageUrlForRestaurant(restaurant,isthumb=false) {
     let imgname='noimage';//if db has no image info, display default no image
+    let imgextension='.jpg';//if we detect chrome then we serve .webp
+    if(navigator.userAgent.indexOf('Chrome') > -1){
+      imgextension='.webp';
+    }
     if(restaurant.photograph){
       imgname=restaurant.photograph;
     }
     switch (isthumb)
 	  {
 			case false :
-        return (`img/${imgname}.jpg`);
+        return (`img/${imgname}${imgextension}`);
         break;
       case true :
-        return (`img/small/${imgname}.jpg`);
+        return (`img/small/${imgname}${imgextension}`);
         break;
   	}
 
