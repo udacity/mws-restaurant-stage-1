@@ -181,6 +181,8 @@ createRestaurantHTML = (restaurant) => {
     `(min-width: 480px) 300px,` +
     `(max-width: 479px) 550px`;
 
+  image.alt = `${restaurant.name} thumbnail`;
+
   li.append(image);
 
   const name = document.createElement('h3');

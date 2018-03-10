@@ -70,6 +70,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   image.sizes = '(min-width: 1024px) 50vw, 100vw';
 
+  image.alt = image.alt = `${restaurant.name} banner`;
+
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
 
