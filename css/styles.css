@@ -24,7 +24,7 @@ th,
 p {
   color: #333;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
+  font-size: 1rem;
   line-height: 1.5;
 }
 
@@ -43,7 +43,7 @@ ul,
 li {
   color: #333;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
+  font-size: 1rem;
 }
 
 a {
@@ -94,7 +94,7 @@ section {
 #footer {
   background-color: #333;
   color: #aaa;
-  font-size: 8pt;
+  font-size: .875rem;
   letter-spacing: 1px;
   padding: 25px;
   text-align: center;
@@ -126,7 +126,7 @@ nav h1 {
 
 nav h1 a {
   color: #fff;
-  font-size: 14pt;
+  font-size: 1.4rem;
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
@@ -134,7 +134,7 @@ nav h1 a {
 
 #breadcrumb {
   background-color: #eee;
-  font-size: 17px;
+  font-size: 1rem;
   list-style: none;
   margin: 0;
   padding: 16px;
@@ -277,7 +277,7 @@ nav h1 a {
 #restaurants-list li h3 {
   color: #d1481c;
   font-family: Arial,sans-serif;
-  font-size: 14pt;
+  font-size: 1.125rem;
   font-weight: 200;
   letter-spacing: 0;
   line-height: 1.3;
@@ -286,7 +286,6 @@ nav h1 a {
 }
 
 #restaurants-list p {
-  font-size: 11pt;
   margin: 0 16px;
 }
 
@@ -299,7 +298,6 @@ nav h1 a {
   background-color: #d1481c;
   color: #fff;
   display: inline-block;
-  font-size: 10pt;
   margin: auto 16px 16px 16px;
 }
 
@@ -318,8 +316,7 @@ nav h1 a {
 
 #restaurant-name {
   color: #d1481c;
-  font-family: Arial,sans-serif;
-  font-size: 20pt;
+  font-size: 1.6rem;
   font-weight: 200;
   letter-spacing: 0;
   line-height: 1.1;
@@ -331,7 +328,7 @@ nav h1 a {
 }
 
 #restaurant-address {
-  font-size: 12pt;
+  font-size: 1rem;
   margin: 8px 0px;
 }
 
@@ -343,7 +340,7 @@ nav h1 a {
 #restaurant-cuisine {
   background-color: #333;
   color: #ddd;
-  font-size: 12pt;
+  font-size: 1rem;
   font-weight: 300;
   letter-spacing: 10px;
   padding: 2px 0;
@@ -363,7 +360,7 @@ nav h1 a {
 #restaurant-schedule,
 #reviews-container h2 {
   color: #d1481c;
-  font-size: 24pt;
+  font-size: 1.6rem;
   font-weight: 300;
   letter-spacing: -1px;
   padding-bottom: 1pt;
