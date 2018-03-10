@@ -202,17 +202,10 @@ nav h1 a {
 
 .filter-options select {
   background-color: white;
-  border: 1px solid #fff;
-  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
-              0 1px 10px 0 rgba(0, 0, 0, 0.12),
-              0 2px 4px -1px rgba(0, 0, 0, 0.2);
-  font-family: Arial,sans-serif;
-  font-size: 11pt;
-  height: 35px;
-  letter-spacing: 0;
   margin: 0 8px;
   padding: 0 8px;
   max-width: 110px;
+  text-transform: none;
 }
 
 @media screen and (min-width: 360px) {
@@ -304,15 +297,10 @@ nav h1 a {
 #restaurants-list li a {
   align-self: flex-start;
   background-color: #d1481c;
-  border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
   font-size: 10pt;
   margin: auto 16px 8px 16px;
-  padding: 8px 30px 10px;
-  text-align: center;
-  text-decoration: none;
-  text-transform: uppercase;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -463,4 +451,39 @@ nav h1 a {
   #breadcrumb { 
     width: 50%;
   }
+}
+
+/* ====================== My Classes ====================== */
+
+.button {
+  border: none;
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+              0 3px 1px -2px rgba(0, 0, 0, 0.2),
+              0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  height: 36px;
+  line-height: 36px;
+  margin: 0;
+  min-width: 64px;
+  outline: none;
+  overflow: hidden;
+  padding: 0 16px;
+  text-decoration: none;
+  text-transform: uppercase;  
+  transition: .2s ease;
+}
+
+.button:active {
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+                0 1px 10px 0 rgba(0, 0, 0, 0.12),
+                0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.button:focus:not(:active) {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.18),
+              0 8px 16px rgba(0, 0, 0, 0.36);
 }
