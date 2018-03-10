@@ -1,9 +1,9 @@
 @media screen and (min-width: 600px) and (max-width: 1150px) {
   .filter-options {
+    flex-direction: row;
     padding-left: 1%;
     padding-right: 1%;
     width: 98%;
-    flex-direction: row;
   }
 
   .filter-options select {
@@ -12,9 +12,9 @@
   }
 
   #restaurants-list {
-    width: calc(100% - 20px);
     padding-left: 10px;
     padding-right: 10px;
+    width: calc(100% - 20px);
   }
 
   #restaurants-list li {
@@ -29,10 +29,10 @@
 
 @media screen and (min-width: 600px) {
   .filter-options {
+    flex-direction: row;
     padding-left: 10px;
     padding-right: 10px;
     width: calc(100% - 20px);
-    flex-direction: row;
   }
 
   .inside #maincontent {
@@ -43,13 +43,13 @@
   }
 
   .inside #map-container {
-    width: 40%;
-    order: 2;
-    height: 800px;
-    position: relative;
-    z-index: 0;
-    overflow-y: hidden;
     flex: 1;
+    height: 800px;
+    order: 2;
+    overflow-y: hidden;
+    position: relative;
+    width: 40%;
+    z-index: 0;
   }
 
   .inside #reviews-container {
