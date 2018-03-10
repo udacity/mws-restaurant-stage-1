@@ -2,6 +2,10 @@
 
 /* CSS Document */
 
+[hidden] {
+  display: none;
+}
+
 *,
 *::before,
 *::after {
@@ -339,6 +343,11 @@ nav h1 a {
   margin: 8px 0px;
 }
 
+#restaurant-address em {
+  columns: #444;
+  font-weight: 400;
+}
+
 #restaurant-cuisine {
   background-color: #333;
   color: #ddd;
@@ -359,6 +368,7 @@ nav h1 a {
   width: 100%;
 }
 
+#restaurant-schedule,
 #reviews-container h2 {
   color: #d1481c;
   font-size: 24pt;
@@ -404,8 +414,12 @@ nav h1 a {
   vertical-align: top;
 }
 
-#restaurant-hours tr:nth-child(2n) {
+#restaurant-hours tr:nth-child(even) {
   background: rgba(0, 0, 0, 0.14);
+}
+
+#restaurant-hours thead tr:nth-child(odd) {
+  background: transparent;
 }
 
 #restaurant-details {
