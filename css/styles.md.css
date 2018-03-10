@@ -27,11 +27,69 @@
   }
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 600px) {
   .filter-options {
     padding-left: 10px;
     padding-right: 10px;
     width: calc(100% - 20px);
     flex-direction: row;
+  }
+
+  .inside #maincontent {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 0px;
+  }
+
+  .inside #map-container {
+    width: 40%;
+    order: 2;
+    height: 800px;
+    position: relative;
+    z-index: 0;
+    overflow-y: hidden;
+    flex: 1;
+  }
+
+  .inside #reviews-container {
+    padding-top: 30px;
+    width: 100%;
+    order: 3;
+  }
+
+  .inside #restaurant-container {
+    width: 60%;
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  /* inside restaurant container*/
+  #restaurant-container > #restaurant-name {
+    order: 2;
+  }
+
+  #restaurant-container > #restaurant-img {
+    order: 1;
+  }
+  #restaurant-container > #restaurant-cuisine {
+    order: 3;
+  }
+  #restaurant-container > #restaurant-address {
+    order: 4;
+  }
+
+  #restaurant-container > #restaurant-hours {
+    padding-left: 5%;
+    padding-right: 5%;
+    order: 5;
+  }
+  .inside #restaurant-hours td {
+    color: #666;
+  }
+  .inside #restaurant-hours tr {
+    font-size: 0.7rem;
   }
 }
