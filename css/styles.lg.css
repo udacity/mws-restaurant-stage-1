@@ -1,0 +1,32 @@
+@media screen and (min-width: 1051px) {
+  #restaurants-list {
+    padding-left: 20px;
+    padding-right: 20px;
+    width: calc(100% - 65px);
+  }
+  #reviews-list {
+    display: flex;
+  }
+
+  #restaurants-list li,
+  #reviews-list li {
+    margin: 18px 18px 18px 18px;
+    width: calc(33.33% - 40px);
+  }
+}
+
+@media screen and (min-width: 1101px) {
+  #restaurants-list,
+  .inside #maincontent {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1050px;
+  }
+
+  .filter-options {
+    flex-direction: row;
+    padding-left: calc((100% - 1079px) /2);
+    padding-right: calc((100% - 1079px) /2);
+    width: 1079px;
+  }
+}
