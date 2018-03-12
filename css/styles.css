@@ -103,7 +103,7 @@ section {
 
 /* ====================== Navigation ====================== */
 
-nav {
+.navbar {
   background-color: #252831;
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -115,12 +115,12 @@ nav {
   width: 100%;
 }
 
-nav h1 {
+.navbar h1 {
   padding: 16px;
   margin: 0;
 }
 
-nav h1 a {
+.navbar h1 a {
   color: #fff;
   font-size: 14pt;
   font-weight: 200;
