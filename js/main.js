@@ -3,16 +3,47 @@ let restaurants,
   cuisines;
 var map;
 var markers = [];
+var observer;
+let imgLoaded=[];//array to hold the images that allready loaded
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
+  createObserver();
   fetchNeighborhoods();
   fetchCuisines();
   updateRestaurants();//moved this here to work offline
 });
 
+createObserver= () => {
+//we use an observer to lazy load images and improve performance
+  let options = {
+    root: null,
+    rootMargin: "0px 0px 0px 0px"
+  };
+  self.observer = new IntersectionObserver(handleIntersect, options);
+}
+
+handleIntersect = (entries, observer) => {
+  entries.forEach(function(entry) {
+    if(entry.isIntersecting && !imgLoaded.includes(entry.target.getAttribute('data-id'))){
+      //determine if we should lazy load the image and remove from observer
+     lazy_load(entry.target);
+      self.observer.unobserve(entry.target);
+    }
+  });
+}
+
+lazy_load = (entry) => {
+  let dataID=parseInt(entry.getAttribute('data-id'));
+  imgLoaded.push(dataID);
+  let restaurant = self.restaurants.find(function (obj) { return obj.id === dataID; });
+  let img=document.getElementById(`img-${dataID}`);
+  img.setAttribute('src',DBHelper.imageUrlForRestaurant(restaurant,true));
+  img.style.visibility='visible';
+
+}
 /**
  * Fetch all neighborhoods and set their HTML.
  */
@@ -151,9 +182,12 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const div = document.createElement('div');
   div.className = 'restaurant-item';
+  div.setAttribute('data-id',restaurant.id);
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant,true);
+  image.setAttribute('id',`img-${restaurant.id}`);
+  image.style.visibility='hidden';
+  //image.src = DBHelper.imageUrlForRestaurant(restaurant,true);
   image.alt=restaurant.name+` ${restaurant.cuisine_type} Restaurant`;
   div.append(image);
 
@@ -173,8 +207,8 @@ createRestaurantHTML = (restaurant) => {
   more.innerHTML = 'View Details';
   more.setAttribute('aria-label', `View details about ${restaurant.name} Restaurant`);
   more.href = DBHelper.urlForRestaurant(restaurant);
-  div.append(more)
-
+  div.append(more);
+  self.observer.observe(div);
   return div
 }
 
