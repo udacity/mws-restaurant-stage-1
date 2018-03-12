@@ -83,7 +83,7 @@ window.initMap = () => {
     scrollwheel: false
   });
   //Since we moved updateRestaurants from the initMap to document ready, here we doublecheck if the markers were loaded and if not we load them
-  if(markers.length==0){
+  if(self.restaurants && self.markers.length==0){
     addMarkersToMap();
     }
 
