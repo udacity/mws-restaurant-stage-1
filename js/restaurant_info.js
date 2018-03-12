@@ -1,18 +1,31 @@
 let restaurant;
-var map;
+let map;
+let marker;
 
 /**
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
   /**
- * Changed the code to only load the map without center
+ * Changed the code to only load the map with fixed center
  * because the initMap is not called offline;
  */
+let loc = {
+  lat: 40.722216,
+  lng: -73.987501
+};
   self.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 16,
+    center: loc,
     scrollwheel: false
   });
+  if(self.restaurant){
+    self.map.setCenter(self.restaurant.latlng);
+    if(!self.marker){
+      self.marker=DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+    }
+  }
+
   google.maps.event.addListenerOnce(self.map, 'tilesloaded', MapReady);
 }
 function MapReady(){
@@ -20,6 +33,7 @@ function MapReady(){
   When map is loaded, focus on the restaurant name element for screen reader
   */
   document.getElementById('restaurant-name').focus();
+
 }
 
 /**
@@ -38,7 +52,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       fillBreadcrumb();
       if(self.map){
         self.map.setCenter(self.restaurant.latlng);
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      self.marker=DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
       }
     }
   });
