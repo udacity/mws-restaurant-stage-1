@@ -48,8 +48,8 @@ function copy_images(){
 		.pipe(gulp.dest(paths.images.dest));
 }
 function scripts(){
-	return gulp.src(paths.scripts.src)
-		.pipe(gulp.dest(paths.scripts.dest));
+  return gulp.src(paths.scripts.src)
+  .pipe(gulp.dest(paths.scripts.dest));
 }
 
 function styles(){
