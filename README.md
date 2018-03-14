@@ -10,4 +10,4 @@ For the **Restaurant Reviews** projects, you will incrementally convert a static
 
 1)  gulp                 -> runs image resize (imagemagick must be installed) and a webserver on the root development folder with live reload
 2)  gulp dist            -> builds the project in dist folder with css,js minification and image resize (imagemagick must be installed)
-2)  gulp dist-serve      -> builds the project in dist folder with css,js minification and image resize (imagemagick must be installed)
+2)  gulp dist-serve      -> builds the project in dist folder with css,js minification and image resize (imagemagick must be installed) and runs a webserver on dist folder
