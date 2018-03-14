@@ -4,7 +4,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var cleanCSS = require('gulp-clean-css');
-
+var webserver = require('gulp-webserver');
 
 
 
@@ -27,14 +27,27 @@ var paths = {
 
 
 
-gulp.task('default', gulp.series(function(done) {    
+/*gulp.task('default', gulp.series(function(done) {
     // task code here
     done();
-}));
-
+}));*/
+gulp.task('default', gulp.series(webs));
 
 
 gulp.task('dist', gulp.parallel(copy_html,copy_images,styles,scripts));
+
+
+
+function webs(){
+  return gulp.src('/')
+    .pipe(webserver({
+      livereload: true,
+      directoryListing: false,
+      open: true,
+      port:8080
+    }));
+}
+
 
 
 
