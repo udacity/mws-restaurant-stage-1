@@ -11,7 +11,12 @@ The service worker file. Here we will intercept network requests and pull data f
 
     self.addEventListener('install', function (event) {
             event.waitUntil(caches.open(staticCacheName).then(function (cache) {
-               return cache.addAll(['/','index.html','restaurant.html','js/idb.js','js/dbhelper.js','js/main.js','js/restaurant_info.js','css/styles.css','data/restaurants.json']);
+              caches.open(ImgsCache).then(function (cacheimg){
+                //we add noimage.jpg by default in case a restaurant is not visited
+                return cacheimg.addAll(['img/noimage.jpg','img/small/noimage.jpg']);
+              }).then(() => {
+                return cache.addAll(['/','index.html','restaurant.html','js/idb.js','js/dbhelper.js','js/main.js','js/restaurant_info.js','css/styles.css','data/restaurants.json']);
+              })
             }));
     });
 
@@ -79,14 +84,21 @@ The service worker file. Here we will intercept network requests and pull data f
 
     function serveImage(request) {
         let storageUrl = request.url;
+        var result=storageUrl.substring(0, storageUrl.lastIndexOf("/") + 1);
 
-        return caches.open(ImgsCache).then(function (cache) {
+        return caches.open(ImgsCache).then(function (cache) {//first check if image is cache
           return cache.match(storageUrl).then(function (response) {
+            console.log('g',response);
             if (response) return response;
 
-            return fetch(request).then(function (networkResponse) {
-              cache.put(storageUrl, networkResponse.clone());
-              return networkResponse;
+            return fetch(request).then(function (networkResponse) {//if not in cache fetch
+                cache.put(storageUrl, networkResponse.clone());
+            }).catch(err => {
+                //if fetch fails(probably offline) then get default noimage.jpg from cache
+              return cache.match(`${storageUrl.substring(0, storageUrl.lastIndexOf("/") + 1)}noimage.jpg`).then(function (response) {
+                 if (response) return response;
+              });
+
             });
           });
         });
