@@ -90,6 +90,7 @@ The service worker file. Here we will intercept network requests and pull data f
 
             return fetch(request).then(function (networkResponse) {//if not in cache fetch
                 cache.put(storageUrl, networkResponse.clone());
+                return networkResponse;
             }).catch(err => {
                 //if fetch fails(probably offline) then get default noimage.jpg from cache
               return cache.match(`${storageUrl.substring(0, storageUrl.lastIndexOf("/") + 1)}noimage.jpg`).then(function (response) {

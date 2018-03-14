@@ -6,6 +6,35 @@ var markers = [];
 var observer;
 let imgLoaded=[];//array to hold the images that allready loaded
 
+
+
+
+/**
+ * Initialize Google map, called from HTML.
+ */
+window.initMap = () => {
+
+  let loc = {
+    lat: 40.722216,
+    lng: -73.987501
+  };
+  self.map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12,
+    center: loc,
+    scrollwheel: false
+  });
+  //Since we moved updateRestaurants from the initMap to document ready, here we doublecheck if the markers were loaded and if not we load them
+  if(self.restaurants && self.markers.length==0){
+    addMarkersToMap();
+    }
+
+}
+
+
+
+
+
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -99,26 +128,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
   });
 }
 
-/**
- * Initialize Google map, called from HTML.
- */
-window.initMap = () => {
 
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  //Since we moved updateRestaurants from the initMap to document ready, here we doublecheck if the markers were loaded and if not we load them
-  if(self.restaurants && self.markers.length==0){
-    addMarkersToMap();
-    }
-
-}
 
 /**
  * Update page and map for current restaurants.
