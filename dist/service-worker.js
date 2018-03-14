@@ -84,19 +84,17 @@ The service worker file. Here we will intercept network requests and pull data f
 
     function serveImage(request) {
         let storageUrl = request.url;
-        var result=storageUrl.substring(0, storageUrl.lastIndexOf("/") + 1);
-
         return caches.open(ImgsCache).then(function (cache) {//first check if image is cache
           return cache.match(storageUrl).then(function (response) {
-            console.log('g',response);
             if (response) return response;
 
             return fetch(request).then(function (networkResponse) {//if not in cache fetch
                 cache.put(storageUrl, networkResponse.clone());
+                return networkResponse;
             }).catch(err => {
                 //if fetch fails(probably offline) then get default noimage.jpg from cache
               return cache.match(`${storageUrl.substring(0, storageUrl.lastIndexOf("/") + 1)}noimage.jpg`).then(function (response) {
-                 if (response) return response;
+                 return response;
               });
 
             });
