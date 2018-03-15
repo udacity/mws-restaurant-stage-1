@@ -24,6 +24,14 @@ npm --version
 npm install --global gulp-cli
 ```
 
+#### Install `gulp` in your devDependencies
+
+Run this command in your project directory:
+
+```sh
+npm install --save-dev gulp@next
+```
+
 ###### Install project dependancies
 ```Install project dependancies
 # npm i
@@ -48,7 +56,7 @@ gulp dist
 ```
 
 
-#### Distribution
+#### Distribution + webserver
 
 Run the gulp command in your project directory (builds the project in dist folder with css,js minification and image resize and runs a webserver on dist folder):
 
