@@ -32,7 +32,7 @@ Run this command in your project directory:
 npm install --save-dev gulp@next
 ```
 
-###### Install project dependancies
+#### Install project dependancies
 ```Install project dependancies
 # npm i
 ```
