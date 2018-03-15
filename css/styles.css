@@ -172,6 +172,7 @@ nav h1 a {
   max-width: 500px;
   text-align: left;
   float: none;
+  position: relative;
 }
 .restaurant-img {
   background-color: #ccc;
@@ -210,6 +211,15 @@ nav h1 a {
   text-decoration: none;
   text-transform: uppercase;
 }
+
+.favorite{
+  position: absolute;
+  bottom:20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+
 
 /* ====================== Restaurant Details ====================== */
 .inside header {

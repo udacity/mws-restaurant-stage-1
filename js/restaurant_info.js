@@ -1,4 +1,5 @@
 let restaurant;
+let reviews;
 var map;
 var marker;
 
@@ -54,6 +55,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         self.map.setCenter(self.restaurant.latlng);
       self.marker=DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
       }
+
+
+      //get reviews from new server
+      fetchRestaurantReviews((error, reviews) => {
+        if (error) { // Got an error!
+          console.error(error);
+        } else {
+          fillReviewsHTML();
+        }
+      });
+
     }
   });
 });
@@ -85,6 +97,32 @@ fetchRestaurantFromURL = (callback) => {
 }
 
 /**
+ * Get restaurant reviews.
+ */
+fetchRestaurantReviews = (callback) => {
+  if (self.reviews) { // restaurant already fetched!
+    callback(null, self.reviews)
+    return;
+  }
+  if(!self.restaurant){
+    console.error('Could not get reviews');
+    return;
+  }
+
+    DBHelper.fetchReviewsByRestaurantId(self.restaurant.id, (error, reviews) => {
+      self.reviews = reviews;
+      if (!reviews) {
+        console.error(error);
+        return;
+      }
+      callback(null, reviews)
+
+    });
+
+}
+
+
+/**
  * Create restaurant HTML and add it to the webpage
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
@@ -109,8 +147,6 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   if (restaurant.operating_hours) {
      fillRestaurantHoursHTML();
   }
-  // fill reviews
-  fillReviewsHTML();
 
 }
 
@@ -140,7 +176,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = self.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
@@ -183,7 +219,8 @@ createReviewHTML = (review,aa) => {
 
   const date = document.createElement('p');
   date.className='review-date';
-  date.innerHTML = review.date;
+  //get Date from timestamp (new server returns timestamp)
+  date.innerHTML = DBHelper.toDate(review.updatedAt);
 
   const tbl = document.createElement("table");
   tbl.setAttribute('width','100%');

@@ -12,6 +12,10 @@ class DBHelper {
     const port = 1337 // Change this to your server port
         return `http://localhost:${port}/restaurants/`;
   }
+  static get DATABASE_REVIEWS_URL() {
+    const port = 1337 // Change this to your server port
+        return `http://localhost:${port}/reviews/`;
+  }
   static openDB() {
     return idb.open('adamoDB', 1, upgradeDB => {
       const rests =upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
@@ -88,6 +92,27 @@ class DBHelper {
   );
 
   }
+
+
+
+  /**
+   * Fetch revies by restaurant ID.
+   */
+  static fetchReviewsByRestaurantId(id, callback) {
+
+    fetch(`${DBHelper.DATABASE_REVIEWS_URL}?restaurant_id=${id}`).then(response => response.json())
+     .then(restaurant => callback(null,restaurant))
+     .catch(err => {
+      //no network get them from indexedDB
+      DBHelper.getLocalRestaurantsDataById(id).then(restaurant => callback(null,restaurant))
+      }
+    );
+
+    }
+
+
+
+
 
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
@@ -215,6 +240,18 @@ class DBHelper {
 
 
   }
+
+/**
+   * Convert timestamp to Date.
+   */
+  static toDate(timestamp) {
+    return new Date(timestamp).toDateString();
+
+
+  }
+
+
+
 
   /**
    * Map marker for a restaurant.

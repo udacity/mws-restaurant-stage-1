@@ -201,6 +201,17 @@ createRestaurantHTML = (restaurant) => {
   image.alt=restaurant.name+` ${restaurant.cuisine_type} Restaurant`;
   div.append(image);
 
+  const fav = document.createElement('img');
+  fav.className = 'favorite';
+  fav.setAttribute('id',`fav-${restaurant.id}`);
+  fav.src ='icons/notfavorite.png';
+  fav.setAttribute('title',`Click to mark as favorite!`);
+  if(restaurant.is_favorite){
+    fav.src ='icons/favorite.png';
+    fav.setAttribute('title',`Click to mark as not favorite!`);
+  }
+  div.append(fav);
+
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   div.append(name);
