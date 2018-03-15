@@ -1,3 +1,6 @@
-.restaurant-details {
-    display: flex;
+#reviews-list li {
+    width: 90%;
+}
+#reviews-container {
+    padding: 30px 40px 80px;
 }
