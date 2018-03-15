@@ -12,10 +12,13 @@ body {
 	margin: 0;
 	position:relative;
 }
+/*added by HY*/
+
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	color: #333;
+  display: inline;
 }
 a {
 	color: orange;
@@ -25,15 +28,22 @@ a:hover, a:focus {
 	color: #3397db;
 	text-decoration: none;
 }
+/*added by HY */
 a img{
 	border: none 0px #fff;
+  max-width: 100%;
 }
+
 h1, h2, h3, h4, h5, h6 {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0 0 20px;
 }
+
+/*added by HY */
+
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
+  max-width: 100%;
 }
 #maincontent {
   background-color: #f3f3f3;
