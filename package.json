@@ -1,0 +1,21 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "description": "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhentian-wan/mws-restaurant-stage-1.git"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-responsive-images": "^0.1.6"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhentian-wan/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/zhentian-wan/mws-restaurant-stage-1#readme"
+}

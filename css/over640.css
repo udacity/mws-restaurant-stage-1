@@ -1,6 +1,5 @@
 #maincontent {
-   max-width: 960px;
-   margin: 0 auto;
+    margin: 0 40px;
 }
 
 #restaurants-list {
@@ -8,12 +7,14 @@
     flex-wrap: wrap;
     flex-direction: row;
 }
+
 #restaurants-list li {
-    width: calc((100% - 90px) / 3);
+    width: calc((100% - 60px) / 2);
 }
 
+
 #reviews-list li {
-    width: 85%;
+    width: 90%;
 }
 #reviews-container {
     padding: 30px 40px 80px;

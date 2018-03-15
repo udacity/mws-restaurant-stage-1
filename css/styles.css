@@ -161,6 +161,8 @@ nav h1 a {
     margin: 0;
     padding: 30px 15px 60px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
 #restaurants-list li {
@@ -170,6 +172,8 @@ nav h1 a {
     margin: 15px;
     min-height: 380px;
     text-align: left;
+    border-radius: 40px 15px 10px 10px;
+    overflow: hidden;
 }
 
 #restaurants-list .restaurant-img {
