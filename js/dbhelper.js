@@ -17,8 +17,16 @@ class DBHelper {
         return `http://localhost:${port}/reviews/`;
   }
   static openDB() {
-    return idb.open('adamoDB', 1, upgradeDB => {
-      const rests =upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+    return idb.open('adamoDB', 2, upgradeDB => {
+      switch (upgradeDB.oldVersion) {
+        case 0:
+        const rests =upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+        case 1:
+        const reviews =upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
+        reviews.createIndex('restaurant_id', 'restaurant_id', {unique: false});
+
+      }
+
     });
   }
 
@@ -33,6 +41,24 @@ class DBHelper {
       const tx = db.transaction('restaurants', 'readwrite');
       const store = tx.objectStore('restaurants');
       return Promise.all(restaurants.map(restaurant => store.put(restaurant))).then(() => {return restaurants})
+      .catch(() => {
+        tx.abort();
+        throw Error('Restaurants were not added to db');
+      });
+    });
+  }
+
+  static saveReviewsToDB(reviews) {
+    //save data from db api to indexedDB for offline use
+    if (!('indexedDB' in window)) {
+      return null;
+    }
+
+    return DBHelper.openDB().then(db => {
+      //console.log(db);
+      const tx = db.transaction('reviews', 'readwrite');
+      const store = tx.objectStore('reviews');
+      return Promise.all(reviews.map(review => store.put(review))).then(() => {return reviews})
       .catch(() => {
         tx.abort();
         throw Error('Restaurants were not added to db');
@@ -61,6 +87,19 @@ class DBHelper {
         .objectStore('restaurants').get(parseInt(id));
     }).then(restaurant => {return restaurant});
   }
+
+
+  static getLocalReviewsByRestaurantId(id){
+    //get reviews by restaurant_id from indexedDB when offline
+    if (!('indexedDB' in window)) {
+      return null;
+    }
+    return DBHelper.openDB().then(db => {
+      return db.transaction('reviews')
+        .objectStore('reviews').index('restaurant_id').getAll(parseInt(id));
+    }).then(reviews => {return reviews});
+  }
+
 
   /**
    * Fetch all restaurants.
@@ -101,10 +140,12 @@ class DBHelper {
   static fetchReviewsByRestaurantId(id, callback) {
 
     fetch(`${DBHelper.DATABASE_REVIEWS_URL}?restaurant_id=${id}`).then(response => response.json())
-     .then(restaurant => callback(null,restaurant))
+    .then(reviews => DBHelper.saveReviewsToDB(reviews))
+     .then(reviews => callback(null,reviews))
      .catch(err => {
       //no network get them from indexedDB
-      DBHelper.getLocalRestaurantsDataById(id).then(restaurant => callback(null,restaurant))
+      console.log('getting reviews local');
+      DBHelper.getLocalReviewsByRestaurantId(id).then(reviews => callback(null,reviews))
       }
     );
 

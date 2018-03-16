@@ -206,8 +206,10 @@ createRestaurantHTML = (restaurant) => {
   fav.setAttribute('id',`fav-${restaurant.id}`);
   fav.src ='icons/notfavorite.png';
   fav.setAttribute('title',`Click to mark as favorite!`);
+  fav.setAttribute('data-is-favorite',`false`);
   if(restaurant.is_favorite){
     fav.src ='icons/favorite.png';
+    fav.setAttribute('data-is-favorite',`true`);
     fav.setAttribute('title',`Click to mark as not favorite!`);
   }
   div.append(fav);

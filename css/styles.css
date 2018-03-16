@@ -214,9 +214,10 @@ nav h1 a {
 
 .favorite{
   position: absolute;
-  bottom:20px;
+  bottom:30px;
   right: 20px;
   cursor: pointer;
+  width:40px;
 }
 
 
@@ -348,6 +349,10 @@ nav h1 a {
   }
   .filter-options {
     width: 480px;
+  }
+  .favorite{
+    bottom:20px;
+    width:50px;
   }
 
 }
