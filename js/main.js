@@ -41,11 +41,14 @@ window.addEventListener('online', (e) => {
   toggleOffline(false);
 });
 
-toggleOffline = (offline) =>{
+toggleOffline = (offline,checkSync=true) =>{
   if(offline){
     document.getElementById('offline').style.visibility='visible';
   }else{
     document.getElementById('offline').style.visibility='hidden';
+    if(checkSync){
+    DBHelper.syncOfflineData();//when back online send temp data to server and delete them locally
+    }
   }
 }
 
@@ -54,11 +57,23 @@ toggleOffline = (offline) =>{
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  toggleOffline(!navigator.onLine);//check initial offline state
+  toggleOffline(!navigator.onLine,false);//check initial offline state
   createObserver();
   fetchNeighborhoods();
   fetchCuisines();
-  updateRestaurants();//moved this here to work offline
+
+  if(!navigator.onLine){
+    //if offline don't check for pending sync
+    updateRestaurants();//moved this here to work offline
+  }else{
+    //online first check if pending sync
+    DBHelper.syncOfflineData().then(() =>{
+      updateRestaurants();
+    });
+  }
+
+
+
 });
 
 createObserver= () => {

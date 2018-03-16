@@ -123,10 +123,41 @@ class DBHelper {
 
 
   static syncOfflineData(){
+    //send temp data to server and delete them locally
+    //first we check if there are any pending favorites
+
+   return DBHelper.openDB().then(db => {
+      return db.transaction('pending_favorite')
+        .objectStore('pending_favorite').getAll();
+    }).then(favorites => {
+      if(!favorites){
+        console.log('no sync');
+        return null;
+      }
+      return Promise.all(favorites.map(favorite => DBHelper.sendFavoritesToServer(favorite)))
+    }).then(favorites => {
+      if(!favorites){
+        return null;
+      }
+      //delete all pending reviews from local db
+      return DBHelper.openDB().then(db => {
+        //console.log(db);
+        const tx = db.transaction('pending_favorite', 'readwrite');
+        const store = tx.objectStore('pending_favorite');
+        return store.clear();
+      });
+    })
+    .catch(err => {
+        tx.abort();
+        throw Error('Panding favorites were not sent to server');
+        return null;
+      });
 
   }
 
-
+ /* static sendFavoritesToServer(pending) {
+    return fetch(`${DBHelper.DATABASE_URL}${pending.restaurant_id}/?is_favorite=${pending.is_favorite}`,{method: 'put'});
+  }*/
 
 
   /**
@@ -161,10 +192,10 @@ class DBHelper {
   }
 
   /**
-   * Toggle favorite  restaurant by its ID.
+   * Toggle favorite  restaurant by its ID and add to localDB when offline.
    */
   static toggleFavorite(restaurant_id,favorite, callback) {
-    fetch(`${DBHelper.DATABASE_URL}${restaurant_id}/?is_favorite=${favorite}`,{method: 'put'})
+   fetch(`${DBHelper.DATABASE_URL}${restaurant_id}/?is_favorite=${favorite}`,{method: 'put'})
     .catch(() => {
       //if offline we store the action to pending_favorites table to send it when online again
       DBHelper.savePendingFavorite([{restaurant_id:parseInt(restaurant_id),is_favorite:`${favorite}`}])
@@ -174,6 +205,13 @@ class DBHelper {
       DBHelper.saveRestaurantsToDB([restaurant])
     });
 
+  }
+
+/**
+   * Send pending favorites to server
+   */
+  static sendFavoritesToServer(pending) {
+    return fetch(`${DBHelper.DATABASE_URL}${pending.restaurant_id}/?is_favorite=${pending.is_favorite}`,{method: 'put'});
   }
 
 
