@@ -71,8 +71,7 @@ nav {
     height: 80px;
     background-color: #252831;
     text-align: center;
-    display: flex;
-    justify-content: center center;
+    line-height: 80px;
 }
 
 nav h1 {
