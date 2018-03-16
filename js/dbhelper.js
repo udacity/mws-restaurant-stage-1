@@ -159,7 +159,7 @@ class DBHelper {
      */
     static imageSrcset(restaurant) {
         const [name, ext] = restaurant.photograph.split('.');
-        return `/img/${name}-640_medium.${ext} 500w, /img/${name}-800_large.${ext} 800w`;
+        return `/img/${name}-320_small.${ext} 400w, /img/${name}-640_medium.${ext} 640w, /img/${name}-800_large.${ext} 800w `;
     }
 
     /**

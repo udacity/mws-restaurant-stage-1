@@ -266,9 +266,10 @@ nav h1 a {
 
 #restaurant-img {
     width: 100%;
-    max-width: 100%;
 }
-
+#restaurant-address::before {
+    content: "Address: ";
+}
 #restaurant-address {
     font-size: 12pt;
     margin: 10px 0;
