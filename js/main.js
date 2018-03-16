@@ -226,6 +226,7 @@ createRestaurantHTML = (restaurant) => {
   fav.src ='icons/notfavorite.png';
   fav.setAttribute('role',`button`);
   fav.setAttribute('title',`Click to mark as favorite!`);
+  fav.setAttribute('aria-label',`Press enter to mark as favorite!`);
   fav.setAttribute('tabindex', 0);
   fav.setAttribute('data-is-favorite',`false`);
   //first we check if the is_favorite property exists (a restaurant didn't have this value on the initial db)
@@ -234,30 +235,43 @@ createRestaurantHTML = (restaurant) => {
     fav.src ='icons/favorite.png';
     fav.setAttribute('data-is-favorite',`true`);
     fav.setAttribute('title',`Click to mark as not favorite!`);
+    fav.setAttribute('aria-label',`Press enter to mark as not favorite!`);
   }
   div.append(fav);
   //we add a click listener to toggle a restaurant as Favorite
-  fav.addEventListener('click',toggleFavorite);
-
-
+  fav.addEventListener('click',(e) => {
+    toggleFavorite(e.target);
+  });
+  //we add a keydown listener to toggle Favorite with keyboard enter (ARIA)
+  fav.addEventListener('keydown',(e) => {
+    if(e.keyCode==13){
+    toggleFavorite(e.target);
+    }
+  });
 
   self.observer.observe(div);
   return div;
 }
 
-toggleFavorite = (e) => {
-  let restaurant_id=e.target.getAttribute('id').split('-')[1];
-  let is_favorite=DBHelper.parseBoolean(e.target.getAttribute('data-is-favorite'));
+toggleFavorite = (elem) => {
+  let restaurant_id=elem.getAttribute('id').split('-')[1];
+  let is_favorite=DBHelper.parseBoolean(elem.getAttribute('data-is-favorite'));
   DBHelper.toggleFavorite(restaurant_id,!is_favorite);
   //change image
   if(!is_favorite==true){
-    e.target.src='icons/favorite.png';
-    e.target.setAttribute('data-is-favorite',`true`);
-    e.target.setAttribute('title',`Click to mark as not favorite!`);
+    elem.src='icons/favorite.png';
+    elem.setAttribute('data-is-favorite',`true`);
+    elem.setAttribute('title',`Click to mark as not favorite!`);
+    elem.setAttribute('aria-label',`Press enter to mark as not favorite!`);
+    //announce it to scren readers
+    document.getElementById('filtered-results').innerHTML=`<p>Υου marked as favorite</p>`;
   }else{
-    e.target.src='icons/notfavorite.png';
-    e.target.setAttribute('data-is-favorite',`false`);
-    e.target.setAttribute('title',`Click to mark as favorite!`);
+    elem.src='icons/notfavorite.png';
+    elem.setAttribute('data-is-favorite',`false`);
+    elem.setAttribute('title',`Click to mark as favorite!`);
+    elem.setAttribute('aria-label',`Press enter to mark as favorite!`);
+    //announce it to scren readers
+    document.getElementById('filtered-results').innerHTML=`<p>Υου marked as not favorite</p>`;
   }
 
 
