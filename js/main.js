@@ -1,3 +1,19 @@
+(() => {
+    window.addEventListener('load', () => {
+        if ('serviceWorker' in navigator) {
+            // Register a service worker hosted at the root of the
+            // site using the default scope.
+            navigator.serviceWorker.register('/sw.js').then(function (registration) {
+                console.log('Service worker registration succeeded:', registration);
+            }).catch(function (error) {
+                console.log('Service worker registration failed:', error);
+            });
+        } else {
+            console.log('Service workers are not supported.');
+        }
+    });
+})();
+
 let restaurants,
     neighborhoods,
     cuisines
@@ -115,7 +131,6 @@ resetRestaurants = (restaurants) => {
     self.restaurants = [];
     const ul = document.getElementById('restaurants-list');
     ul.innerHTML = '';
-
     // Remove all map markers
     self.markers.forEach(m => m.setMap(null));
     self.markers = [];
@@ -183,5 +198,3 @@ addMarkersToMap = (restaurants = self.restaurants) => {
         self.markers.push(marker);
     });
 }
-
-
