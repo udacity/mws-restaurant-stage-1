@@ -219,6 +219,10 @@ nav h1 a {
   cursor: pointer;
   width:40px;
 }
+.favorite-details{
+  cursor: pointer;
+  width:40px;
+}
 
 
 
@@ -364,7 +368,10 @@ nav h1 a {
     bottom:20px;
     width:50px;
   }
+  .favorite-details{
 
+    width:50px;
+  }
 }
 
 

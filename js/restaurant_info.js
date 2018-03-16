@@ -170,12 +170,61 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
 
+
+  let fav=document.getElementById('fav');
+  if(restaurant.is_favorite && DBHelper.parseBoolean(restaurant.is_favorite)){
+    fav.src ='icons/favorite.png';
+    fav.setAttribute('data-is-favorite',`true`);
+    fav.setAttribute('title',`Click to mark as not favorite!`);
+    fav.setAttribute('aria-label',`Press enter to mark as not favorite!`);
+  }
+  fav.addEventListener('click',(e) => {
+    toggleFavorite(e.target);
+  });
+  //we add a keydown listener to toggle Favorite with keyboard enter (ARIA)
+  fav.addEventListener('keydown',(e) => {
+    if(e.keyCode==13){
+    toggleFavorite(e.target);
+    }
+  });
+
   // fill operating hours
   if (restaurant.operating_hours) {
      fillRestaurantHoursHTML();
   }
 
 }
+
+
+
+toggleFavorite = (elem) => {
+  let restaurant_id=self.restaurant.id;
+  let is_favorite=DBHelper.parseBoolean(elem.getAttribute('data-is-favorite'));
+  DBHelper.toggleFavorite(restaurant_id,!is_favorite);
+  //change image
+  if(!is_favorite==true){
+    elem.src='icons/favorite.png';
+    elem.setAttribute('data-is-favorite',`true`);
+    elem.setAttribute('title',`Click to mark as not favorite!`);
+    elem.setAttribute('aria-label',`Press enter to mark as not favorite!`);
+    //announce it to scren readers
+    document.getElementById('filtered-results').innerHTML=`<p>Υου marked as favorite</p>`;
+  }else{
+    elem.src='icons/notfavorite.png';
+    elem.setAttribute('data-is-favorite',`false`);
+    elem.setAttribute('title',`Click to mark as favorite!`);
+    elem.setAttribute('aria-label',`Press enter to mark as favorite!`);
+    //announce it to scren readers
+    document.getElementById('filtered-results').innerHTML=`<p>Υου marked as not favorite</p>`;
+  }
+
+
+
+
+}
+
+
+
 
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.

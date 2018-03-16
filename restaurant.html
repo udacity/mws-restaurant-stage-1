@@ -28,7 +28,7 @@
     <!-- End nav -->
   </header>
   <!-- End header -->
-
+  <div aria-live="polite" id="filtered-results"></div>
   <!-- Beginning main -->
   <main id="maincontent" role="main">
 
@@ -39,6 +39,7 @@
       <h2 id="restaurant-name" tabindex="0"></h2>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
+      <p align="center"><img id="fav" alt="Press enter to mark as favorite!" data-is-favorite="false" tabindex="0" role="button" aria-label="Press enter to mark as favorite!" class="favorite-details" src="icons/notfavorite.png" /></p>
       <p id="restaurant-address" tabindex="0"></p>
       <table id="restaurant-hours" aria-label="Working Hours" tabindex="0"></table>
      </div>

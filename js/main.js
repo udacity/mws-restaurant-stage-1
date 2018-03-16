@@ -241,6 +241,7 @@ createRestaurantHTML = (restaurant) => {
   fav.setAttribute('id',`fav-${restaurant.id}`);
   fav.src ='icons/notfavorite.png';
   fav.setAttribute('role',`button`);
+  fav.alt="Click to mark as favorite!";
   fav.setAttribute('title',`Click to mark as favorite!`);
   fav.setAttribute('aria-label',`Press enter to mark as favorite!`);
   fav.setAttribute('tabindex', 0);
