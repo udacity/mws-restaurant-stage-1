@@ -336,7 +336,17 @@ nav h1 a {
   padding: 0px 20px;
 }
 
-
+#offline{
+  background-color: rgba(0,0,0,0.6);
+  color:#fff;
+  position: fixed;
+  left:0px;
+  bottom:0px;
+  padding:10px;
+  visibility: hidden;
+  text-align: center;
+  pointer-events: none;
+}
 
 
 @media (min-width: 768px) {

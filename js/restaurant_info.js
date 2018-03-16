@@ -37,10 +37,37 @@ function MapReady(){
 
 }
 
+
+/*
+  Listeners for offline state
+  */
+
+window.addEventListener('offline', (e) => {
+  toggleOffline(true);
+});
+
+window.addEventListener('online', (e) => {
+  toggleOffline(false);
+});
+
+toggleOffline = (offline) =>{
+  if(offline){
+    document.getElementById('offline').style.visibility='visible';
+  }else{
+    document.getElementById('offline').style.visibility='hidden';
+  }
+}
+
+
+
+
+
+
 /**
  * if offline initMap does not get called
  */
 document.addEventListener('DOMContentLoaded', (event) => {
+  toggleOffline(!navigator.onLine);//check initial offline state
  /**
  * because the initMap is not called offline we load the restaurant info on dom loaded
  * and if the map is loaded we set the center and marker

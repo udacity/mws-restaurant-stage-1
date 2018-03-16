@@ -122,6 +122,13 @@ class DBHelper {
   }
 
 
+  static syncOfflineData(){
+
+  }
+
+
+
+
   /**
    * Fetch all restaurants.
    */

@@ -30,15 +30,31 @@ window.initMap = () => {
 
 }
 
+/*
+  Listeners for offline state
+  */
+window.addEventListener('offline', (e) => {
+  toggleOffline(true);
+});
 
+window.addEventListener('online', (e) => {
+  toggleOffline(false);
+});
 
-
+toggleOffline = (offline) =>{
+  if(offline){
+    document.getElementById('offline').style.visibility='visible';
+  }else{
+    document.getElementById('offline').style.visibility='hidden';
+  }
+}
 
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
+  toggleOffline(!navigator.onLine);//check initial offline state
   createObserver();
   fetchNeighborhoods();
   fetchCuisines();
