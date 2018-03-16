@@ -201,19 +201,6 @@ createRestaurantHTML = (restaurant) => {
   image.alt=restaurant.name+` ${restaurant.cuisine_type} Restaurant`;
   div.append(image);
 
-  const fav = document.createElement('img');
-  fav.className = 'favorite';
-  fav.setAttribute('id',`fav-${restaurant.id}`);
-  fav.src ='icons/notfavorite.png';
-  fav.setAttribute('title',`Click to mark as favorite!`);
-  fav.setAttribute('data-is-favorite',`false`);
-  if(restaurant.is_favorite){
-    fav.src ='icons/favorite.png';
-    fav.setAttribute('data-is-favorite',`true`);
-    fav.setAttribute('title',`Click to mark as not favorite!`);
-  }
-  div.append(fav);
-
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   div.append(name);
@@ -231,9 +218,40 @@ createRestaurantHTML = (restaurant) => {
   more.setAttribute('aria-label', `View details about ${restaurant.name} Restaurant`);
   more.href = DBHelper.urlForRestaurant(restaurant);
   div.append(more);
+
+
+  const fav = document.createElement('img');
+  fav.className = 'favorite';
+  fav.setAttribute('id',`fav-${restaurant.id}`);
+  fav.src ='icons/notfavorite.png';
+  fav.setAttribute('role',`button`);
+  fav.setAttribute('title',`Click to mark as favorite!`);
+  fav.setAttribute('tabindex', 0);
+  fav.setAttribute('data-is-favorite',`false`);
+  //first we check if the is_favorite property exists (a restaurant didn't have this value on the initial db)
+  //then we parse the string value to boolean
+  if(restaurant.is_favorite && DBHelper.parseBoolean(restaurant.is_favorite)){
+    fav.src ='icons/favorite.png';
+    fav.setAttribute('data-is-favorite',`true`);
+    fav.setAttribute('title',`Click to mark as not favorite!`);
+  }
+  div.append(fav);
+  //we add a click listener to toggle a restaurant as Favorite
+  fav.addEventListener('click',toggleFavorite);
+
+
+
   self.observer.observe(div);
-  return div
+  return div;
 }
+
+toggleFavorite = (e) => {
+  let restaurant_id=e.target.getAttribute('id').split('-')[1];
+  let is_favorite=DBHelper.parseBoolean(e.target.getAttribute('data-is-favorite'));
+   DBHelper.toggleFavorite(restaurant_id,!is_favorite);
+}
+
+
 
 /**
  * Add markers for current restaurants to the map.

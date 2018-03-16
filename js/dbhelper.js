@@ -17,14 +17,16 @@ class DBHelper {
         return `http://localhost:${port}/reviews/`;
   }
   static openDB() {
-    return idb.open('adamoDB', 2, upgradeDB => {
+    return idb.open('adamoDB', 3, upgradeDB => {
       switch (upgradeDB.oldVersion) {
         case 0:
         const rests =upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
         case 1:
         const reviews =upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
         reviews.createIndex('restaurant_id', 'restaurant_id', {unique: false});
-
+        case 2:
+        //create a table to hold favorite actions when offline
+        const pendingFavorite =upgradeDB.createObjectStore('pending_favorite', {keyPath: 'id',autoIncrement:true});
       }
 
     });
@@ -65,6 +67,25 @@ class DBHelper {
       });
     });
   }
+
+  static savePendingFavorite(objs) {
+    //save data from db api to indexedDB for offline use
+    if (!('indexedDB' in window)) {
+      return null;
+    }
+
+    return DBHelper.openDB().then(db => {
+      //console.log(db);
+      const tx = db.transaction('pending_favorite', 'readwrite');
+      const store = tx.objectStore('pending_favorite');
+      return Promise.all(objs.map(obj => store.put(obj))).then(() => {return objs})
+      .catch(err => {
+        tx.abort();
+        throw Error('Favorites were not added to db');
+      });
+    });
+  }
+
 
   static getLocalRestaurantsData(){
     //get all restaurants from indexedDB when offline
@@ -132,6 +153,21 @@ class DBHelper {
 
   }
 
+  /**
+   * Toggle favorite  restaurant by its ID.
+   */
+  static toggleFavorite(restaurant_id,favorite, callback) {
+    fetch(`${DBHelper.DATABASE_URL}${restaurant_id}/?is_favorite=${favorite}`,{method: 'put'})
+    .catch(() => {
+      //if offline we store the action to pending_favorites table to send it when online again
+      DBHelper.savePendingFavorite([{restaurant_id:parseInt(restaurant_id),is_favorite:`${favorite}`}])
+    }).then(() => DBHelper.getLocalRestaurantsDataById(restaurant_id))
+    .then(restaurant => {
+      restaurant.is_favorite=`${favorite}`;
+      DBHelper.saveRestaurantsToDB([restaurant])
+    });
+
+  }
 
 
   /**
@@ -288,9 +324,24 @@ class DBHelper {
   static toDate(timestamp) {
     return new Date(timestamp).toDateString();
 
-
   }
 
+/**
+   * parse string to boolean
+   */
+  static parseBoolean(str) {
+    if(typeof str === 'boolean'){
+      return str;
+    }
+    switch (str.toLowerCase()) {
+      case "false":
+      return false;
+      break;
+      case "true":
+      return true;
+      break;
+    }
+  }
 
 
 
