@@ -248,7 +248,21 @@ createRestaurantHTML = (restaurant) => {
 toggleFavorite = (e) => {
   let restaurant_id=e.target.getAttribute('id').split('-')[1];
   let is_favorite=DBHelper.parseBoolean(e.target.getAttribute('data-is-favorite'));
-   DBHelper.toggleFavorite(restaurant_id,!is_favorite);
+  DBHelper.toggleFavorite(restaurant_id,!is_favorite);
+  //change image
+  if(!is_favorite==true){
+    e.target.src='icons/favorite.png';
+    e.target.setAttribute('data-is-favorite',`true`);
+    e.target.setAttribute('title',`Click to mark as not favorite!`);
+  }else{
+    e.target.src='icons/notfavorite.png';
+    e.target.setAttribute('data-is-favorite',`false`);
+    e.target.setAttribute('title',`Click to mark as favorite!`);
+  }
+
+
+
+
 }
 
 
