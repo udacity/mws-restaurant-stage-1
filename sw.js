@@ -2,13 +2,15 @@ const cacheName = 'restaurant-app-v1';
 const photosCacheName = 'restaurant-app-photos-v1';
 
 const filesToCache = [
-    'restaurant.html',
     'index.html',
+    'restaurant.html',
+    'css/styles.css',
     'js/main.js',
     'js/dbhelper.js',
     'js/restaurant_info.js',
-    'css/styles.css',
-    'manifest.json'
+    'manifest.json',
+    'assets/logo_192.png',
+    'assets/logo_512.png',
 ];
 
 self.addEventListener('install', event => {
