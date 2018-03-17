@@ -4,7 +4,8 @@
   "description": "Restaurant reviews app project for Udacity's MWS Nanodegree.",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "serve -p 8000 -o"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   },
   "homepage": "https://github.com/nmarcora/mws-restaurant-stage-1#readme",
   "dependencies": {
-    "localforage": "^1.6.0"
+    "localforage": "^1.6.0",
+    "npm": "^5.7.1"
   }
 }

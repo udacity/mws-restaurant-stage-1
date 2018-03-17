@@ -281,6 +281,7 @@ nav h1 a {
 
 #restaurant-img {
 	width: 100%;
+	display: block;
 }
 
 #restaurant-address {
@@ -423,4 +424,8 @@ nav h1 a {
     width: 47%;
   }
 
+}
+
+.hidden {
+	display: none;
 }

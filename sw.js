@@ -8,7 +8,7 @@ const filesToCache = [
     'js/dbhelper.js',
     'js/restaurant_info.js',
     'css/styles.css',
-    'data/restaurants.json'
+    'manifest.json'
 ];
 
 self.addEventListener('install', event => {

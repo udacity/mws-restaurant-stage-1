@@ -4,6 +4,19 @@ let cuisines;
 var map;
 var markers = [];
 
+const photographAlts = {
+	1: "People chatting at a full up restaurant.",
+	2: "Close-up of a pizza alla pietra.",
+	3: "Empty restaurant tables with embedded food heaters.",
+	4: "Outside of a restaurant in a corner with bright lights at night.",
+	5: "Staff serving food at behind a bar at a restaurant.",
+	6: "Crowded restaurant with wooden tables and a US flag painted on a background wall.",
+	7: "Two men walking a dog in front of a burguer shop.",
+	8: "Outside closeup of the Dutch restaurant logo.",
+	9: "Black and white picture of people eating with chopsticks at an asian restaurant.",
+	10: "Empty restaurant inside with white chairs, walls and ceilings."
+};
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -141,9 +154,10 @@ createRestaurantHTML = (restaurant) => {
   li.tabIndex = '0';
 
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
+  image.classList.add('restaurant-img');
+  // image.classList.add('restaurant-img', 'hidden');
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.alt = restaurant.photographAlt;
+  image.alt = photographAlts[restaurant.id];
   li.append(image);
 
   const name = document.createElement('h2');
@@ -161,9 +175,9 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  li.append(more);
 
-  return li
+  return li;
 }
 
 /**
@@ -185,3 +199,19 @@ if (navigator.serviceWorker) {
   navigator.serviceWorker.register('sw.js')
     .then(() => console.log('SW is alive! Yippee!'))
 };
+
+// const io = new IntersectionObserver(entries => {
+//   for (const entry of entries) {
+//     console.log('hide!')
+//     // entry.target.classList.remove('hidden')
+//     // io.unobserve(entry.target)
+//   }
+// })
+
+// window.addEventListener("load", () => {
+//   const images = document.querySelectorAll('img');
+//   for (const image of images) {
+//     // check when the image becomes visible
+//     io.observe(image);
+//   }
+// })

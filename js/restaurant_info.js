@@ -1,6 +1,19 @@
 let restaurant;
 var map;
 
+const photographAlts = {
+	1: "People chatting at a full up restaurant.",
+	2: "Close-up of a pizza alla pietra.",
+	3: "Empty restaurant tables with embedded food heaters.",
+	4: "Outside of a restaurant in a corner with bright lights at night.",
+	5: "Staff serving food at behind a bar at a restaurant.",
+	6: "Crowded restaurant with wooden tables and a US flag painted on a background wall.",
+	7: "Two men walking a dog in front of a burguer shop.",
+	8: "Outside closeup of the Dutch restaurant logo.",
+	9: "Black and white picture of people eating with chopsticks at an asian restaurant.",
+	10: "Empty restaurant inside with white chairs, walls and ceilings."
+};
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -58,7 +71,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.alt = restaurant.photographAlt;
+  image.alt = photographAlts[restaurant.id];
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
