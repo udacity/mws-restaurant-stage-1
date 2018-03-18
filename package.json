@@ -1,0 +1,13 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "lite-server",
+    "scss:watch": "sass --watch styles/main.scss:css/main.css"
+  },
+  "dependencies": {
+    "lite-server": "^2.3.0"
+  }
+}
