@@ -34,7 +34,7 @@ self.addEventListener('fetch', event => {
     if (requestUrl.origin === location.origin) {
         event.respondWith(serveResource(event.request));
     }
-};
+});
 
 const serveResource = request => {
     return caches.open(staticCache)
@@ -44,7 +44,7 @@ const serveResource = request => {
 
                 return fetch(request)
                     .then(networkResponse => {
-                        cache.put(storageUrl, networkResponse.clone());
+                        cache.put(request, networkResponse.clone());
                         return networkResponse;
                     });
             }));
