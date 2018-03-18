@@ -1,0 +1,24 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "description": "Restaurant Reviews",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -p 8000 -c-1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anyulled/mws-restaurant-stage-1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anyulled/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/anyulled/mws-restaurant-stage-1#readme",
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  }
+}

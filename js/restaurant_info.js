@@ -1,6 +1,14 @@
 let restaurant;
 var map;
 
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/js/serviceWorker.js")
+            .then(response => console.log("Service Worker Registered", response))
+            .catch(error => console.error("Error registering service worker", error));
+    });
+}
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -57,6 +65,7 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
 
     const image = document.getElementById('restaurant-img');
     image.className = 'restaurant-img';
+    image.alt = restaurant.name;
     image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
     const cuisine = document.getElementById('restaurant-cuisine');
@@ -119,18 +128,22 @@ const createReviewHTML = (review) => {
     const li = document.createElement('li');
     const name = document.createElement('p');
     name.innerHTML = review.name;
+    name.className = "review-name";
     li.appendChild(name);
 
     const date = document.createElement('p');
     date.innerHTML = review.date;
+    date.className = "review-date";
     li.appendChild(date);
 
     const rating = document.createElement('p');
     rating.innerHTML = `Rating: ${review.rating}`;
+    rating.className = "review-rating";
     li.appendChild(rating);
 
     const comments = document.createElement('p');
     comments.innerHTML = review.comments;
+    comments.className = "review-comments";
     li.appendChild(comments);
 
     return li;

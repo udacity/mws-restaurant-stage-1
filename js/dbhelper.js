@@ -8,8 +8,10 @@ class DBHelper {
      * Change this to restaurants.json file location on your server.
      */
     static get DATABASE_URL() {
-        const port = 8000; // Change this to your server port
-        return `http://localhost:${port}/data/restaurants.json`;
+        console.info(`Connecting to: ${window.location.host}`);
+        //const port = 8000; // Change this to your server port
+        return `http://${window.location.host}/data/restaurants.json`;
+        //return `http://localhost:${port}/data/restaurants.json`;
     }
 
     /**
@@ -40,7 +42,7 @@ class DBHelper {
             if (error) {
                 callback(error, null);
             } else {
-                const restaurant = restaurants.find(r => r.id === id);
+                const restaurant = restaurants.find(r => r.id === parseInt(id));
                 if (restaurant) { // Got the restaurant
                     callback(null, restaurant);
                 } else { // Restaurant does not exist in the database

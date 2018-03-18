@@ -126,7 +126,7 @@ nav h1 a {
     align-items: center;
 }
 
-.filter-options label{
+.filter-options label {
     color: white;
 }
 
@@ -237,7 +237,7 @@ nav h1 a {
 .inside #footer {
     bottom: 0;
     position: absolute;
-    width: 50%;
+    width: 100%;
 }
 
 #restaurant-name {
@@ -315,4 +315,116 @@ nav h1 a {
 
 #restaurant-hours td {
     color: #666;
+}
+
+@media all and (max-width: 838px) {
+    body {
+        position: inherit;
+        height: 100%;
+    }
+
+    nav {
+        height: 35px;
+    }
+
+    nav h1 a {
+        letter-spacing: normal;
+    }
+
+    #maincontent {
+        display: flex;
+        flex-direction: column;
+        align-content: stretch;
+    }
+
+    #maincontent section {
+        position: relative;
+        padding: 0;
+        width: 100%;
+        flex: 1 100%;
+    }
+
+    #restaurant-name {
+        margin-top: 100px;
+        margin-left: 30px;
+    }
+
+    #restaurant-container, #reviews-container {
+        padding: 0;
+    }
+
+    #restaurant-cuisine {
+        width: 100%;
+    }
+
+    #restaurant-container img.restaurant-img {
+        width: 70%;
+        margin: 0 10%;
+        border-radius: 20px 0 20px 0;
+    }
+
+    .inside #map-container {
+        position: relative;
+        width: 100%;
+    }
+
+    .inside #map {
+        height: 400px;
+    }
+
+    #reviews-container {
+        padding: 0 0 70px 0;
+    }
+
+    #reviews-container h2 {
+        padding: 0 10px;
+        margin-bottom: 0;
+    }
+
+    #reviews-list li {
+        padding: 0;
+        width: 95%;
+        background-color: #fff;
+        border-radius: 15px 0 15px 0;
+        margin: 5px auto;
+    }
+
+    #reviews-list li p {
+        margin: 0;
+        padding: 0 10px;
+    }
+
+    #reviews-list li p.review-name {
+        background-color: #444;
+        border-radius: 15px 0 0 0;
+        padding: 10px 0 5px 15px;
+        color: white;
+        margin: 0;
+    }
+
+    #reviews-list li p.review-date {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background-color: transparent;
+        color: #eeeeee;
+    }
+
+    #reviews-list li p.review-rating {
+        background-color: #f58500;
+        color: #ffffff;
+        padding: 2px 5px;
+        width: 15%;
+        margin: 5px 10px;
+        border-radius: 5px;
+    }
+
+    #breadcrumb {
+        width: 100%;
+    }
+
+    .inside #footer {
+        position: relative;
+        width: 100%;
+    }
 }
