@@ -1,5 +1,5 @@
-let cacheName = 'mws-restaurant-stage-1-cache-v6';
-const filesToChache = [
+const CACHE_NAME = 'mws-restaurant-stage-1-cache-v7';
+const FILES_TO_CACHE = [
   '/',
   '/index.html',
   '/restaurant.html',
@@ -40,30 +40,17 @@ const filesToChache = [
   '/img/10_small.jpg',
 ];
 
-// TODO: check if it is possible to cache Google Maps resource (not working adding this link to filesToChache)
+// TODO: check if it is possible to cache Google Maps resource (not working adding this link to FILES_TO_CACHE)
 // 'https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap',
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(cacheName)
+    caches.open(CACHE_NAME)
       .then((cache) => {
-        return cache.addAll(filesToChache);
+        return cache.addAll(FILES_TO_CACHE);
       })
       .catch((e) => {
         console.error('Error caching resources: ', e);
-      })
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  return event.respondWith(
-    caches.open(cacheName)
-      .then((cache) => {
-        return cache.match(event.request) 
-          .then((response) => {
-            return (response) || fetch(event.request);
-          })
-          .catch(e => console.error('Error in fetch handler: ', e));
       })
   );
 });
@@ -73,7 +60,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keyList) => {
       return Promise.all(
         keyList.map(key => {
-          if (key != cacheName) {
+          if (key != CACHE_NAME) {
             return caches.delete(key);
           }
         })
@@ -83,10 +70,17 @@ self.addEventListener('activate', (event) => {
   return self.clients.claim();
 });
 
-// updateCacheNumber = () => {
-//   cacheName = cacheName.replace(/-v(\d+)$/g, (match, p1, offset, string) => {
-//     return `-v${parseInt(p1) + 1}.`;
-//   });
-//   console.log('new cacheName = ', cacheName);
-// }
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        return cache.match(event.request) 
+          .then((response) => {
+            return response || fetch(event.request);
+          })
+          .catch(e => console.error('Error in fetch handler: ', e));
+      })
+  );
+});
+
 
