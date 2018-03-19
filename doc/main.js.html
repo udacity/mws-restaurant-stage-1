@@ -1,4 +1,32 @@
-let restaurants,
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: main.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: main.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>let restaurants,
   neighborhoods,
   cuisines
 var map
@@ -30,7 +58,7 @@ fetchNeighborhoods = () => {
 
 /**
  * @description Set neighborhoods HTML. Set accessibility attributes to select and option tags
- * <select role='listbox' aria-label='Choose a neighborhood'><option role='option' aria-label='name of the neighborhood'>
+ * &lt;select role='listbox' aria-label='Choose a neighborhood'>&lt;option role='option' aria-label='name of the neighborhood'>
  * @param {string} neighborhood - Neighborhood of the restaurants
  */
 fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
@@ -65,7 +93,7 @@ fetchCuisines = () => {
 
 /**
  * description Set cuisines HTML.Set accessibility attributes to select and option tags
- * <select role='listbox' aria-label='Choose a cuisine'><option role='option' aria-label='name of the cuisine'>
+ * &lt;select role='listbox' aria-label='Choose a cuisine'>&lt;option role='option' aria-label='name of the cuisine'>
  * @param {string} cuisine - Cuisine of the restaurants
  */
 fillCuisinesHTML = (cuisines = self.cuisines) => {
@@ -156,13 +184,13 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 /**
  * @description Create restaurant HTML. 
  * Choose a source with another im if the width device is less than 551px
- * <li>
- * <picture><source media='(min-width: 551px)' srcset='restaurant.photograph'><img src='restaurant.photoSmall'></picture>
- * <h3>The name of the restaurant</h3>
- * <p>The neighborhood of the restaurant</p>
- * <p>The address of the restaurant</p>
- * <a aria-label=''>View Details</a>
- * </li>
+ * &lt;li>
+ * &lt;picture>&lt;source media='(min-width: 551px)' srcset='restaurant.photograph'>&lt;img src='restaurant.photoSmall'>&lt;/picture>
+ * &lt;h3>The name of the restaurant&lt;/h3>
+ * &lt;p>The neighborhood of the restaurant&lt;/p>
+ * &lt;p>The address of the restaurant&lt;/p>
+ * &lt;a aria-label=''>View Details&lt;/a>
+ * &lt;/li>
  * @param {string} restaurant
  */
 createRestaurantHTML = (restaurant) => {
@@ -261,7 +289,7 @@ document.getElementById("map").setAttribute("aria-label", "Google Map");
 
 /**
 * @description Create a div and a button in the header of the page to show the map of the restaurant
-* <div id='show-map' role='button' tabindex=0 aria-pressed='false'>Text content<button></div>
+* &lt;div id='show-map' role='button' tabindex=0 aria-pressed='false'>Text content&lt;button>&lt;/div>
 * If the map doesn't appear on the page,  the text content of the button will be Map view. 
 * Otherwise there's no button. 
 */
@@ -274,7 +302,9 @@ const mapToHide = document.getElementById("map-container");
 mapToHide.style.display = "none";
 
 if(mapToHide.style.display == "none") {
-  showMapButton.textContent = 'Map view' || mapToHide.style.display == "flex";
+  showMapButton.textContent = 'Map view';
+} else {
+  mapToHide.style.display == "flex";
 }
 
 showMapButton.setAttribute('aria-label', showMapButton.textContent);
@@ -325,9 +355,9 @@ showMapButton.addEventListener('click', showMeMap);
 
 /**
 * @description Create an element to skip to the main content
-* <div class='invisible'>
-* <a href='#neighborhoods-select' class='skip-main' aria-label='Skip to the main content'>Skip to the main content</a>
-* </div>
+* &lt;div class='invisible'>
+* &lt;a href='#neighborhoods-select' class='skip-main' aria-label='Skip to the main content'>Skip to the main content&lt;/a>
+* &lt;/div>
 */
 const skipNav = document.createElement('div');
 skipNav.className = 'invisible';
@@ -341,4 +371,26 @@ linkNeighborhoods.textContent = 'Skip to the main content';
 linkNeighborhoods.setAttribute('aria-label', linkNeighborhoods.textContent);
 linkNeighborhoods.className = 'skip-main';
 
-skipNav.prepend(linkNeighborhoods);
+skipNav.prepend(linkNeighborhoods);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addMarkersToMap">addMarkersToMap</a></li><li><a href="global.html#createRestaurantHTML">createRestaurantHTML</a></li><li><a href="global.html#fetchCuisines">fetchCuisines</a></li><li><a href="global.html#fetchNeighborhoods">fetchNeighborhoods</a></li><li><a href="global.html#fillCuisinesHTML">fillCuisinesHTML</a></li><li><a href="global.html#fillNeighborhoodsHTML">fillNeighborhoodsHTML</a></li><li><a href="global.html#fillRestaurantsHTML">fillRestaurantsHTML</a></li><li><a href="global.html#resetRestaurants">resetRestaurants</a></li><li><a href="global.html#SelectGroup">SelectGroup</a></li><li><a href="global.html#showMapButton">showMapButton</a></li><li><a href="global.html#skipNav">skipNav</a></li><li><a href="global.html#slice">slice</a></li><li><a href="global.html#updateRestaurants">updateRestaurants</a></li><li><a href="global.html#VK_ENTER">VK_ENTER</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Mar 19 2018 16:13:29 GMT+0100 (Centre de l’Europe)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "short_name": "Hungry",
+  "name": "My restaurants review",
+  "scope": "/",
+  "icons": [{
+    "src": "icon.png",
+    "type": "image/png",
+    "sizes": "192x192"
+  }],
+  "display": "standalone",
+  "start_url": "/",
+  "background_color": "#2aadb7",
+  "theme_color": "#1c767d",
+  "lang": "en-US",
+  "orientation": "portrait"
+}
