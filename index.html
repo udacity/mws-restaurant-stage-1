@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/over640.css" media="screen and (max-width: 1023px) and (min-width: 640px)">
   <link rel="stylesheet" href="css/over1024.css" media="screen and (min-width: 1024px)">
@@ -15,41 +15,43 @@
 <body>
   <header>
     <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+      <h1>
+        <a href="/">Restaurant Reviews</a>
+      </h1>
     </nav>
   </header>
 
   <main id="maincontent">
-    <section id="map-container" aria-label="Google maps">
-      <div id="map"></div>
+    <!-- Map area -->
+    <section id="map-container" aria-hidden="true" tabindex="-1">
+      <div id="map" aria-hidden="true" tabindex="-1"></div>
     </section>
-    <section aria-labelledby="filter-options-title" >
-      <section class="filter-options" >
+    <section aria-labelledby="filter-options-title">
+      <!-- filters -->
+      <div class="filter-options">
         <h2 id="filter-options-title">Filter Results</h2>
-        <select id="neighborhoods-select"
-                name="neighborhoods"
-                aria-label="filter by neighborhoods"
-                onchange="updateRestaurants()">
+        <select id="neighborhoods-select" name="neighborhoods" aria-label="filter by neighborhoods" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select"
-                name="cuisines"
-                aria-label="filter by cuisines"
-                onchange="updateRestaurants()">
+        <select id="cuisines-select" name="cuisines" aria-label="filter by cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
-      </section>
-      <ul id="restaurants-list"></ul>
+      </div>
+      <!-- restaurants list -->
+      <ul id="restaurants-list" aria-label="All restaurants lists"></ul>
     </section>
   </main>
 
-  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
-  <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+  <script charset="utf-8" src="js/dbhelper.js"></script>
+  <script charset="utf-8" src="js/main.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
 
 
   <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    Copyright (c) 2017
+    <a href="/">
+      <strong>Restaurant Reviews</strong>
+    </a> All Rights Reserved.
   </footer>
 
 </body>

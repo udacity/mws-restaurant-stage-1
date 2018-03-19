@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <!-- Normalize.css for better cross-browser consistency -->
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css">
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <link rel="stylesheet" href="css/over640.css" media="screen and (max-width: 1023px) and (min-width: 640px)">
@@ -42,7 +42,7 @@
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
-    <section id="restaurant-container">
+    <section id="restaurant-container" aria-labelledby="restaurant-name">
       <h1 id="restaurant-name"></h1>
       <figure>
         <img id="restaurant-img">
@@ -71,9 +71,9 @@
 
   <!-- Beginning scripts -->
   <!-- Database helpers -->
-  <script type="text/javascript" src="js/dbhelper.js"></script>
+  <script src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
-  <script type="text/javascript" src="js/restaurant_info.js"></script>
+  <script src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
   <!-- End scripts -->

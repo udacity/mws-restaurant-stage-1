@@ -50,6 +50,10 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
     display: block;
 }
 
+img {
+    transition: width 0.5s;
+}
+
 #maincontent {
     background-color: #f3f3f3;
     min-height: 100%;
