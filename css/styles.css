@@ -160,6 +160,8 @@ nav h1 a {
     text-align: center;
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
+    align-content: stretch;
 }
 
 #restaurants-list li {
@@ -171,6 +173,7 @@ nav h1 a {
     padding: 0 30px 25px;
     text-align: left;
     width: 270px;
+    flex: 1 25%;
 }
 
 #restaurants-list .restaurant-img {
@@ -182,7 +185,7 @@ nav h1 a {
     min-width: 100%;
 }
 
-#restaurants-list li h1 {
+#restaurants-list li h2 {
     color: #f18200;
     font-family: Arial, sans-serif;
     font-size: 14pt;
