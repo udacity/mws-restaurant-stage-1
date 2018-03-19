@@ -1,10 +1,10 @@
 /**
- * Common database helper functions.
+ * @description Common database helper functions.
  */
 class DBHelper {
 
   /**
-   * Database URL.
+   * @description Database URL.
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
@@ -13,7 +13,8 @@ class DBHelper {
   }
 
   /**
-   * Fetch all restaurants.
+   * @description Fetch all restaurants.
+   * @param callback
    */
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
@@ -32,7 +33,9 @@ class DBHelper {
   }
 
   /**
-   * Fetch a restaurant by its ID.
+   * @description Fetch a restaurant by its ID.
+   * @param {string} id - ID of the restaurant
+   * @param {string} callback
    */
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
@@ -51,7 +54,9 @@ class DBHelper {
   }
 
   /**
-   * Fetch restaurants by a cuisine type with proper error handling.
+   * @description Fetch restaurants by a cuisine type with proper error handling.
+   * @param {string} cuisine - Cuisine of the restaurants
+   * @param {string} callback
    */
   static fetchRestaurantByCuisine(cuisine, callback) {
     // Fetch all restaurants  with proper error handling
@@ -67,7 +72,9 @@ class DBHelper {
   }
 
   /**
-   * Fetch restaurants by a neighborhood with proper error handling.
+   * @description Fetch restaurants by a neighborhood with proper error handling.
+   * @param {string} neighborhood - Neighborhood of the restaurant
+   * @param {string} callback
    */
   static fetchRestaurantByNeighborhood(neighborhood, callback) {
     // Fetch all restaurants
@@ -83,7 +90,10 @@ class DBHelper {
   }
 
   /**
-   * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
+   * @description Fetch restaurants by a cuisine and a neighborhood with proper error handling.
+   * @param {string} cuisine - Cuisine of the restaurants
+   * @param {string} neighborhood - Neighborhood of the restaurants
+   * @param {string} callback
    */
   static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
     // Fetch all restaurants
@@ -91,7 +101,7 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        let results = restaurants
+        let results = restaurants;
         if (cuisine != 'all') { // filter by cuisine
           results = results.filter(r => r.cuisine_type == cuisine);
         }
@@ -104,7 +114,8 @@ class DBHelper {
   }
 
   /**
-   * Fetch all neighborhoods with proper error handling.
+   * @description Fetch all neighborhoods with proper error handling.
+   * @param {string} callback
    */
   static fetchNeighborhoods(callback) {
     // Fetch all restaurants
@@ -113,16 +124,17 @@ class DBHelper {
         callback(error, null);
       } else {
         // Get all neighborhoods from all restaurants
-        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood);
         // Remove duplicates from neighborhoods
-        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
+        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i);
         callback(null, uniqueNeighborhoods);
       }
     });
   }
 
   /**
-   * Fetch all cuisines with proper error handling.
+   * @description Fetch all cuisines with proper error handling.
+   * @param {string} callback
    */
   static fetchCuisines(callback) {
     // Fetch all restaurants
@@ -131,30 +143,42 @@ class DBHelper {
         callback(error, null);
       } else {
         // Get all cuisines from all restaurants
-        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
+        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type);
         // Remove duplicates from cuisines
-        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
+        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i);
         callback(null, uniqueCuisines);
       }
     });
   }
 
   /**
-   * Restaurant page URL.
+   * @description Restaurant page URL.
+   * @param {string} restaurant
    */
   static urlForRestaurant(restaurant) {
     return (`./restaurant.html?id=${restaurant.id}`);
   }
 
   /**
-   * Restaurant image URL.
+   * @description Restaurant image URL.
+   * @param {string} restaurant
    */
   static imageUrlForRestaurant(restaurant) {
     return (`/img/${restaurant.photograph}`);
   }
 
+    /**
+   * @description Restaurant image URL.
+   * @param restaurant
+   */
+  static imageResponsiveForRestaurant(restaurant) {
+    return (`/img/${restaurant.photoSmall}`);
+  }
+
   /**
-   * Map marker for a restaurant.
+   * @description Map marker for a restaurant.
+   * @param {string} restaurant
+   * @param {string} map
    */
   static mapMarkerForRestaurant(restaurant, map) {
     const marker = new google.maps.Marker({
@@ -166,5 +190,4 @@ class DBHelper {
     );
     return marker;
   }
-
 }
