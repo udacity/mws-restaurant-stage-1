@@ -1,0 +1,7 @@
+nav h1 a {
+    color:red;
+}
+
+#restaurants-list li{
+    max-width:400px;
+}
