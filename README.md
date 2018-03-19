@@ -32,6 +32,11 @@ Run this command in your project directory:
 npm install --save-dev gulp@next
 ```
 
+#### Install ImageMagick
+```Install image magick
+# https://www.imagemagick.org/script/download.php
+```
+
 #### Install project dependancies
 ```Install project dependancies
 # npm i
