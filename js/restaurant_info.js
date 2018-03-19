@@ -69,7 +69,12 @@ formSubmit = (e) =>{
   let formData = new FormData();
   for (let elem of self.review_form) {
     if(elem.type!='submit'){
-    formData.append(elem.name, elem.value);
+      if(elem.name=='restaurant_id'){
+       //force restaurant_id to be an integer (for indexedDB index to work as expected) 
+      formData.append(elem.name, parseInt(elem.value));
+      }else{
+      formData.append(elem.name, elem.value);
+      }
     }
   }
 

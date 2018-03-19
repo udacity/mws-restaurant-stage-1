@@ -17,7 +17,7 @@ class DBHelper {
         return `http://localhost:${port}/reviews/`;
   }
   static openDB() {
-    return idb.open('adamoDB', 3, upgradeDB => {
+    return idb.open('adamoDB', 4, upgradeDB => {
       switch (upgradeDB.oldVersion) {
         case 0:
         const rests =upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
@@ -27,6 +27,10 @@ class DBHelper {
         case 2:
         //create a table to hold favorite actions when offline
         const pendingFavorite =upgradeDB.createObjectStore('pending_favorite', {keyPath: 'id',autoIncrement:true});
+        case 3:
+        //create a table to hold favorite actions when offline
+        const pendingReviews =upgradeDB.createObjectStore('pending_reviews', {keyPath: 'id',autoIncrement:true});
+        pendingReviews.createIndex('restaurant_id', 'restaurant_id', {unique: false});
       }
 
     });
@@ -81,7 +85,25 @@ class DBHelper {
       return Promise.all(objs.map(obj => store.put(obj))).then(() => {return objs})
       .catch(err => {
         tx.abort();
-        throw Error('Favorites were not added to db');
+        throw Error('Favorites were not added to indexed db');
+      });
+    });
+  }
+
+  static savePendingReview(objs) {
+    //save data from db api to indexedDB for offline use
+    if (!('indexedDB' in window)) {
+      return null;
+    }
+
+    return DBHelper.openDB().then(db => {
+      //console.log(db);
+      const tx = db.transaction('pending_reviews', 'readwrite');
+      const store = tx.objectStore('pending_reviews');
+      return Promise.all(objs.map(obj => store.put(obj))).then(() => {return objs})
+      .catch(err => {
+        tx.abort();
+        throw Error('Reviews were not added to indexed db');
       });
     });
   }
@@ -118,7 +140,18 @@ class DBHelper {
     return DBHelper.openDB().then(db => {
       return db.transaction('reviews')
         .objectStore('reviews').index('restaurant_id').getAll(parseInt(id));
-    }).then(reviews => {return reviews});
+    }).then(reviews => {
+      //we check for pendig_reviews when offline to show the users local review
+      return DBHelper.openDB().then(db => {
+        return db.transaction('pending_reviews')
+          .objectStore('pending_reviews').index('restaurant_id').getAll(parseInt(id));
+      }).then(pending_reviews => {
+        //return merged array
+        return [...reviews,...pending_reviews];
+      })
+      
+    
+    });
   }
 
 
@@ -139,7 +172,7 @@ class DBHelper {
       if(!favorites){
         return null;
       }
-      //delete all pending reviews from local db
+      //delete all pending favorites from local db
       return DBHelper.openDB().then(db => {
         //console.log(db);
         const tx = db.transaction('pending_favorite', 'readwrite');
@@ -151,7 +184,35 @@ class DBHelper {
         tx.abort();
         throw Error('Panding favorites were not sent to server');
         return null;
-      });
+      }).then(() => {
+      //sendReviewsToServer
+      return DBHelper.openDB().then(db => {
+          return db.transaction('pending_reviews')
+            .objectStore('pending_reviews').getAll();
+      })
+     }).then(reviews => {
+        if(!reviews){
+          console.log('no sync');
+          return null;
+        }
+        return Promise.all(reviews.map(review => DBHelper.sendReviewToServer(review)))
+      }).then(reviews => {
+        if(!reviews){
+          return null;
+        }
+        //delete all pending reviews from local db
+        return DBHelper.openDB().then(db => {
+          //console.log(db);
+          const tx = db.transaction('pending_reviews', 'readwrite');
+          const store = tx.objectStore('pending_reviews');
+          return store.clear();
+        });
+      })
+      .catch(err => {
+          tx.abort();
+          throw Error('Panding reviews were not sent to server');
+          return null;
+        })
 
   }
 
@@ -209,18 +270,31 @@ class DBHelper {
     return fetch(`${DBHelper.DATABASE_URL}${pending.restaurant_id}/?is_favorite=${pending.is_favorite}`,{method: 'put'});
   }
 
+  /**
+   * Send pending favorites to server
+   */
+  static sendReviewToServer(review) {
+    return fetch(`${DBHelper.DATABASE_REVIEWS_URL}`,{method: 'post',body:review})
+  }
+
 
   /**
-   * Fetch revies by restaurant ID.
+   * Fetch reviews by restaurant ID.
    */
   static fetchReviewsByRestaurantId(id, callback) {
 
     fetch(`${DBHelper.DATABASE_REVIEWS_URL}?restaurant_id=${id}`).then(response => response.json())
-    .then(reviews => DBHelper.saveReviewsToDB(reviews))
+    .then(reviews => {
+      //force restaurant_id to be integer (for indexedDB index to work correctly)
+      for (let review of reviews) {
+        review['restaurant_id'] = parseInt(review['restaurant_id']);
+      }
+      //save to local db
+      return DBHelper.saveReviewsToDB(reviews)
+    })
      .then(reviews => callback(null,reviews))
      .catch(err => {
       //no network get them from indexedDB
-      console.log('getting reviews local');
       DBHelper.getLocalReviewsByRestaurantId(id).then(reviews => callback(null,reviews))
       }
     );
@@ -231,18 +305,25 @@ class DBHelper {
    * Add review to server and add to localDB when offline.
    */
   static addReview(formData) {
-    
     return fetch(`${DBHelper.DATABASE_REVIEWS_URL}`,{method: 'post',body:formData})
      .then(formData => {return formData})
      .catch(() => {
-      //if offline we store the action to pending_favorites table to send it when online again
-      //DBHelper.savePendingFavorite([{restaurant_id:parseInt(restaurant_id),is_favorite:`${favorite}`}])
-    return null;
+      //if offline we store the review to pending_reviews table to send it when online again
+      //create an object from formData
+      let object = {};
+      for (let [key, value] of formData) {
+        object[key] = value;
+      }
+      //force restaurant_id to be integer (for indexedDB index to work correctly)
+      object['restaurant_id'] = parseInt(object['restaurant_id']);
+      
+      //add created and updated dates
+      const unx=Date.now();
+      object['createdAt'] = unx;
+      object['updatedAt'] = unx;
+      return DBHelper.savePendingReview([object])
      });
-    /* .then(restaurant => {
-       restaurant.is_favorite=`${favorite}`;
-       DBHelper.saveRestaurantsToDB([restaurant])
-     });*/
+    
  
    }
  
