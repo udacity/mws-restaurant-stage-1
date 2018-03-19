@@ -2,6 +2,7 @@ let restaurant;
 let reviews;
 var map;
 var marker;
+let review_form;
 
 /**
  * Initialize Google map, called from HTML.
@@ -63,7 +64,39 @@ toggleOffline = (offline,checkSync=true) =>{
 
 
 
+formSubmit = (e) =>{
+  e.preventDefault();
+  let formData = new FormData();
+  for (let elem of self.review_form) {
+    if(elem.type!='submit'){
+    formData.append(elem.name, elem.value);
+    }
+  }
 
+  DBHelper.addReview(formData).then(resp => {
+    if(resp){
+      self.reviews=null;
+      fetchRestaurantReviews((error, reviews) => {
+        if (error) { // Got an error!
+          console.error(error);
+        } else {
+          const ul = document.getElementById('reviews-list');
+          ul.innerHTML = '';
+          let aa=1;
+          reviews.forEach(review => {
+            ul.appendChild(createReviewHTML(review,aa));
+            aa++;
+          });
+          document.getElementById('filtered-results').innerHTML=`<p>Review added</p>`;
+          self.review_form.reset();
+        }
+      });
+    }
+
+  });
+
+
+}
 
 
 /**
@@ -126,9 +159,10 @@ if(!navigator.onLine){
     });
   });
 }
+self.review_form=document.getElementById("review-form");
 
-
-
+//add event listener for the form submit event
+self.review_form.addEventListener('submit',formSubmit);
 
 
 
@@ -225,7 +259,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     toggleFavorite(e.target);
     }
   });
-
+  //set value for hidden input restaurant id (add a review)
+  document.getElementById('form_restaurant_id').value = self.restaurant.id;
   // fill operating hours
   if (restaurant.operating_hours) {
      fillRestaurantHoursHTML();
@@ -304,14 +339,15 @@ fillReviewsHTML = (reviews = self.reviews) => {
     container.appendChild(noReviews);
     return;
   }
-  const ul = document.getElementById('reviews-list');
+  const ul = document.createElement('ul');
+  ul.setAttribute('id','reviews-list');
   let aa=1;
   reviews.forEach(review => {
     ul.appendChild(createReviewHTML(review,aa));
     aa++;
   });
-  container.appendChild(ul);
 
+  container.appendChild(ul);
 }
 
 /**

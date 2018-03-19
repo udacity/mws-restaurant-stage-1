@@ -155,11 +155,6 @@ class DBHelper {
 
   }
 
- /* static sendFavoritesToServer(pending) {
-    return fetch(`${DBHelper.DATABASE_URL}${pending.restaurant_id}/?is_favorite=${pending.is_favorite}`,{method: 'put'});
-  }*/
-
-
   /**
    * Fetch all restaurants.
    */
@@ -231,6 +226,30 @@ class DBHelper {
     );
 
     }
+
+    /**
+   * Add review to server and add to localDB when offline.
+   */
+  static addReview(formData) {
+    
+    return fetch(`${DBHelper.DATABASE_REVIEWS_URL}`,{method: 'post',body:formData})
+     .then(formData => {return formData})
+     .catch(() => {
+      //if offline we store the action to pending_favorites table to send it when online again
+      //DBHelper.savePendingFavorite([{restaurant_id:parseInt(restaurant_id),is_favorite:`${favorite}`}])
+    return null;
+     });
+    /* .then(restaurant => {
+       restaurant.is_favorite=`${favorite}`;
+       DBHelper.saveRestaurantsToDB([restaurant])
+     });*/
+ 
+   }
+ 
+
+
+
+
 
 
 

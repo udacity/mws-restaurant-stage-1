@@ -274,12 +274,12 @@ nav h1 a {
   text-transform: uppercase;
 	width: 100%;
 }
-#restaurant-container, #reviews-container {
+#restaurant-container, .reviews-container {
   width: 90%;
   margin: 0 auto;
 }
 
-#restaurant-container-wrapper,#reviews-container-wrapper{
+#restaurant-container-wrapper,.reviews-container-wrapper{
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding-top: 0px;
@@ -288,7 +288,7 @@ nav h1 a {
 #restaurant-container-wrapper{
   margin-top: 140px;
 }
-#reviews-container h2, #reviews-container h3{
+.reviews-container h2, .reviews-container h3{
   color: #aa5a00;
   font-size: 24pt;
   font-weight: 300;
@@ -318,6 +318,19 @@ nav h1 a {
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
 }
+
+#reviews-form input,#reviews-form select,#reviews-form textarea{
+  width: 90%;
+  
+}
+#reviews-form label{
+  font-weight: bold;
+}
+.form-spacer{
+  width: 100%;
+  height: 15px;
+}
+
 
 #restaurant-hours td {
   color: #666;
@@ -384,7 +397,7 @@ nav h1 a {
     float: left;
   }
 
-  #restaurant-container-wrapper,#reviews-container-wrapper{
+  #restaurant-container-wrapper,.reviews-container-wrapper{
     width: 50%;
   }
 

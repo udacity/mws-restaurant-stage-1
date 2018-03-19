@@ -46,12 +46,40 @@
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
-    <section id="reviews-container-wrapper">
-      <div id="reviews-container" >
-      <ul id="reviews-list"></ul>
+    <section id="reviews-container-wrapper" class="reviews-container-wrapper">
+      <div id="reviews-container" class="reviews-container" >
+      
     </div>
     </section>
     <!-- End reviews -->
+    <!-- Beginning reviews form -->
+    <section class="reviews-container-wrapper">
+      <div id="reviews-form" class="reviews-container" >
+        <h3 tabindex="0">Add a review</h3>
+      <form id="review-form">
+        <input type="hidden" name="restaurant_id" id="form_restaurant_id"/>
+        <label for="form_name">Enter your name:</label>
+        <input type="text" required aria-required="true" name="name" id="form_name" aria-label="Enter your name"/>
+        <div class="form-spacer"></div>
+        <label for="form_rating">Select a rating:</label>
+        <select aria-label="Select a rating" id="form_rating" name="rating" aria-required="true" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <div class="form-spacer"></div>
+        <label for="form_comment">Enter a comment:</label>
+        <textarea required aria-required="true" name="comments" id="form_comment" aria-label="Enter a comment" rows="4"></textarea>
+        <div class="form-spacer"></div>
+        <input type="submit" value="Submit Review" />
+      </form>
+      
+      </div>
+    </section>
+    <!-- End reviews form -->
+
      <!-- Beginning map -->
      <section id="map-container" >
       <div id="map" role="application" aria-label="Google Maps" tabindex="0"></div>
