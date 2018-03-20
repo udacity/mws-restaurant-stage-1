@@ -144,7 +144,7 @@ nav h1 a {
 
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
-    padding: 20px;
+    padding: 20px 40px;
     background-color: #3397DB;
     display: flex;
     flex-wrap: wrap;
