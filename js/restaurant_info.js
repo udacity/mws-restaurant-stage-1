@@ -57,11 +57,6 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const address = document.getElementById("restaurant-address");
   address.innerHTML = restaurant.address;
-  address.setAttribute(
-    "aria-label",
-    `restaurant address: ${restaurant.address}`
-  );
-  address.setAttribute("tabindex", 0);
 
   const image = document.getElementById("restaurant-img");
   image.className = "restaurant-img";
@@ -71,11 +66,6 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.sizes = "(max-width: 640px) 100vw, 50vw";
 
   const cuisine = document.getElementById("restaurant-cuisine");
-  cuisine.setAttribute(
-    "aria-label",
-    `cuisine type: ${restaurant.cuisine_type}`
-  );
-  cuisine.setAttribute("tabindex", 0);
   cuisine.innerHTML = restaurant.cuisine_type;
 
   // fill operating hours
@@ -120,8 +110,6 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   if (!reviews) {
     const noReviews = document.createElement("p");
     noReviews.innerHTML = "No reviews yet!";
-    noReviews.setAttribute("aira-label", "Reviews: No reviews yet!");
-    noReviews.setAttribute("tabindex", 0);
     container.appendChild(noReviews);
     return;
   }
@@ -137,8 +125,6 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = review => {
   const li = document.createElement("li");
-  li.setAttribute("aria-label", `${review.name}'s review`);
-  li.setAttribute("tabindex", 0);
 
   const wrapper = document.createElement("article");
   wrapper.className = "review-wrapper";
@@ -151,8 +137,6 @@ createReviewHTML = review => {
   const rating = document.createElement("p");
   rating.innerHTML = `${review.rating}`;
   rating.className = "review-rating";
-  rating.setAttribute("aria-label", `Review rating: ${review.rating} stars`);
-  rating.setAttribute("tabindex", 0);
   wrapper.appendChild(rating);
 
   li.append(wrapper);
@@ -160,14 +144,10 @@ createReviewHTML = review => {
   const date = document.createElement("p");
   date.innerHTML = review.date;
   date.className = "review-date";
-  date.setAttribute("aria-label", `Review date: ${review.date}`);
-  date.setAttribute("tabindex", 0);
   li.appendChild(date);
 
   const comments = document.createElement("p");
   comments.innerHTML = review.comments;
-  comments.setAttribute("aria-label", `Comments: ${review.comments}`);
-  comments.setAttribute("tabindex", 0);
   li.appendChild(comments);
 
   return li;
