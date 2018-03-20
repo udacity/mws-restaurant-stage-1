@@ -2,6 +2,10 @@ nav h1 a {
     letter-spacing: 8px;
 }
 
+.skip-link {
+    display: none;
+}
+
 .restaurant-map-info {
     display: flex;
     flex-direction: row;
