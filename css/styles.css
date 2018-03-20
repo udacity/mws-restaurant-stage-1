@@ -321,7 +321,16 @@ nav h1 a {
 
 #reviews-form input,#reviews-form select,#reviews-form textarea{
   width: 90%;
-  
+padding: 5px;
+}
+#form-submit{
+  max-width: 150px;
+font-weight: bold;
+font-size:1.1em;
+padding:10px;
+cursor: pointer;
+margin: 0 auto;
+display: inline-block;
 }
 #reviews-form label{
   font-weight: bold;
