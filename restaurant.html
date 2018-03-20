@@ -34,16 +34,9 @@
     <!-- End nav -->
 </header>
 <!-- End header -->
-<!-- Skip link -->
-<a href="#restaurant-container" aria-label="Skip map to main content" class="skip-link">Skip map to main content</a>
 <!-- Beginning main -->
 <main id="maincontent">
     <section class="restaurant-map-info">
-        <!-- Beginning map -->
-        <section id="map-container">
-            <div id="map" aria-label="Google map" role="application"></div>
-        </section>
-        <!-- End map -->
         <!-- Beginning restaurant -->
         <section id="restaurant-container" aria-labelledby="restaurant-name" tabindex="-1">
             <h2 id="restaurant-name"></h2>
@@ -55,6 +48,11 @@
             <table id="restaurant-hours"></table>
         </section>
         <!-- end restaurant -->
+        <!-- Beginning map -->
+        <section id="map-container" aria-label="Google map" role="application">
+            <div id="map"></div>
+        </section>
+        <!-- End map -->
         <!-- Beginning reviews -->
     </section>
     <section id="reviews-container" aria-label="Restaurant reviews">

@@ -8,14 +8,12 @@ nav h1 a {
 }
 
 .restaurant-map-info #map-container {
-    -ms-flex-order: 1;
-    order: 1;
+    order: 0;
     flex: 1;
     height: unset;
 }
 
 .restaurant-map-info #restaurant-container {
-    -ms-flex-order: 0;
     order: 0;
     flex: 1;
 }
