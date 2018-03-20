@@ -2,58 +2,60 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="stylesheet" href="//necolas.github.io/normalize.css/8.0.0/normalize.css">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/over640.css" media="screen and (max-width: 1023px) and (min-width: 640px)">
-  <link rel="stylesheet" href="css/over1024.css" media="screen and (min-width: 1024px)">
-  <title>Restaurant Reviews</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="//necolas.github.io/normalize.css/8.0.0/normalize.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/over640.css" media="screen and (max-width: 1023px) and (min-width: 640px)">
+    <link rel="stylesheet" href="css/over1024.css" media="screen and (min-width: 1024px)">
+    <title>Restaurant Reviews</title>
 </head>
 
 <body>
-  <header>
+<header>
     <nav>
-      <h1>
-        <a href="/">Restaurant Reviews</a>
-      </h1>
+        <h1>
+            <a href="/">Restaurant Reviews</a>
+        </h1>
     </nav>
-  </header>
-  <!-- Skip link -->
-  <a href="#list-container" aria-label="Skip map to main content" class="skip-link">Skip map to main content</a>
-  <main id="maincontent">
+</header>
+<!-- Skip link -->
+<a href="#list-container" aria-label="Skip map to main content" class="skip-link">Skip map to main content</a>
+<main id="maincontent">
     <!-- Map area -->
     <section id="map-container">
-      <div id="map" aria-label="Google map" role="application"></div>
+        <div id="map" aria-label="Google map" role="application"></div>
     </section>
     <section id="list-container" aria-labelledby="filter-options-title" tabindex="-1">
-      <!-- filters -->
-      <div class="filter-options">
-        <h2 id="filter-options-title">Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" aria-label="filter by neighborhoods" onchange="updateRestaurants()">
-          <option value="all">All Neighborhoods</option>
-        </select>
-        <select id="cuisines-select" name="cuisines" aria-label="filter by cuisines" onchange="updateRestaurants()">
-          <option value="all">All Cuisines</option>
-        </select>
-      </div>
-      <!-- restaurants list -->
-      <ul id="restaurants-list" aria-label="All restaurants lists"></ul>
+        <!-- filters -->
+        <div class="filter-options">
+            <h2 id="filter-options-title">Filter Results</h2>
+            <select id="neighborhoods-select" name="neighborhoods" aria-label="filter by neighborhoods"
+                    onchange="updateRestaurants()">
+                <option value="all">All Neighborhoods</option>
+            </select>
+            <select id="cuisines-select" name="cuisines" aria-label="filter by cuisines" onchange="updateRestaurants()">
+                <option value="all">All Cuisines</option>
+            </select>
+        </div>
+        <!-- restaurants list -->
+        <ul id="restaurants-list" aria-label="All restaurants lists"></ul>
     </section>
-  </main>
+</main>
 
-  <script charset="utf-8" src="js/dbhelper.js"></script>
-  <script charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
+<script charset="utf-8" src="js/dbhelper.js"></script>
+<script charset="utf-8" src="js/main.js"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
 
 
-  <footer id="footer">
+<footer id="footer">
     Copyright (c) 2017
     <a href="/">
-      <strong>Restaurant Reviews</strong>
+        <strong>Restaurant Reviews</strong>
     </a> All Rights Reserved.
-  </footer>
+</footer>
 
 </body>
 

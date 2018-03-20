@@ -86,7 +86,7 @@ nav h1 a {
     color: #fff;
     font-size: 14pt;
     font-weight: 200;
-    letter-spacing: 10px;
+    letter-spacing: 4px;
     text-transform: uppercase;
 }
 
@@ -130,6 +130,7 @@ nav h1 a {
     padding: 8px;
     z-index: 100;
 }
+
 .skip-link:focus {
     top: 0;
 }
@@ -234,13 +235,24 @@ nav h1 a {
 
 /* ====================== Restaurant Details ====================== */
 
-
 .inside {
     width: 100%;
 }
 
 .inside #maincontent {
     margin-top: 130px;
+    display: flex;
+    flex-direction: column;
+}
+
+.inside #map-container {
+    -ms-flex-order: 1;
+    order: 1;
+}
+
+.inside #estaurant-container {
+    -ms-flex-order: 2;
+    order: 2;
 }
 
 .inside header {
@@ -250,13 +262,26 @@ nav h1 a {
     z-index: 1000;
 }
 
-.inside #map-container {
-    background: blue none repeat scroll 0 0;
+.restaurant-map-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.restaurant-map-info #map-container {
+    border-bottom: 1px solid #d9d9d9;
+    flex: 1;
+    order: 0;
+    -ms-flex-order: 0;
     height: 300px;
+}
+
+.restaurant-map-info #restaurant-container {
+    -ms-flex-order: 1;
+    order: 1;
     flex: 1;
 }
 
-.inside #map {
+.restaurant-map-info #map {
     background-color: #ccc;
     height: 100%;
     width: 100%;
@@ -282,9 +307,11 @@ nav h1 a {
 #restaurant-img {
     width: 100%;
 }
+
 #restaurant-address::before {
     content: "Address: ";
 }
+
 #restaurant-address {
     font-size: 12pt;
     margin: 10px 0;
@@ -334,7 +361,6 @@ nav h1 a {
     overflow: hidden;
     padding: 20px;
     position: relative;
-    width: 95%;
 }
 
 #reviews-list li p {
@@ -345,23 +371,26 @@ nav h1 a {
     color: #666;
 }
 
-
 /* ====================== Review Box ====================== */
 .review-wrapper {
     display: flex;
     justify-content: space-between;
 }
+
 .review-name {
     font-weight: bold;
     font-size: 1.2em;
 }
+
 .review-date {
     color: #666666;
 }
+
 .review-rating::before {
     content: 'Rating: ';
     font-weight: normal;
 }
+
 .review-rating {
     font-weight: bold;
     font-size: 1.1em;

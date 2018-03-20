@@ -1,12 +1,31 @@
+nav h1 a {
+    letter-spacing: 10px;
+}
+
+.restaurant-map-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.restaurant-map-info #map-container {
+    -ms-flex-order: 1;
+    order: 1;
+    flex: 1;
+    height: unset;
+}
+
+.restaurant-map-info #restaurant-container {
+    -ms-flex-order: 0;
+    order: 0;
+    flex: 1;
+}
+
 #restaurants-list {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
 }
+
 #restaurants-list li {
     width: calc((100% - 90px) / 3);
-}
-
-#reviews-list li {
-    width: 85%;
 }

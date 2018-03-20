@@ -2,83 +2,86 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <!-- Normalize.css for better cross-browser consistency -->
-  <link rel="stylesheet" href="//necolas.github.io/normalize.css/8.0.0/normalize.css">
-  <!-- Main CSS file -->
-  <link rel="stylesheet" href="css/styles.css" type="text/css">
-  <link rel="stylesheet" href="css/over640.css" media="screen and (max-width: 1023px) and (min-width: 640px)">
-  <link rel="stylesheet" href="css/over1024.css" media="screen and (min-width: 1024px)">
-  <title>Restaurant Info</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Normalize.css for better cross-browser consistency -->
+    <link rel="stylesheet" href="//necolas.github.io/normalize.css/8.0.0/normalize.css">
+    <!-- Main CSS file -->
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+    <link rel="stylesheet" href="css/over640.css" media="screen and (max-width: 1023px) and (min-width: 640px)">
+    <link rel="stylesheet" href="css/over1024.css" media="screen and (min-width: 1024px)">
+    <title>Restaurant Info</title>
 </head>
 
 <body class="inside">
-  <!-- Beginning header -->
-  <header>
+<!-- Beginning header -->
+<header>
     <!-- Beginning nav -->
     <nav>
-      <h1>
-        <a href="/">Restaurant Reviews</a>
-      </h1>
+        <h1>
+            <a href="/">Restaurant Reviews</a>
+        </h1>
     </nav>
     <!-- Beginning breadcrumb -->
     <ul aria-label="Breadcrumb" id="breadcrumb" role="navigation">
-      <li>
-        <a href="/">Home</a>
-      </li>
+        <li>
+            <a href="/">Home</a>
+        </li>
     </ul>
 
     <!-- End breadcrumb -->
     <!-- End nav -->
-  </header>
-  <!-- End header -->
-  <!-- Skip link -->
-  <a href="#restaurant-container" aria-label="Skip map to main content" class="skip-link">Skip map to main content</a>
-  <!-- Beginning main -->
-  <main id="maincontent">
-    <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map" aria-label="Google map" role="application"></div>
+</header>
+<!-- End header -->
+<!-- Skip link -->
+<a href="#restaurant-container" aria-label="Skip map to main content" class="skip-link">Skip map to main content</a>
+<!-- Beginning main -->
+<main id="maincontent">
+    <section class="restaurant-map-info">
+        <!-- Beginning map -->
+        <section id="map-container">
+            <div id="map" aria-label="Google map" role="application"></div>
+        </section>
+        <!-- End map -->
+        <!-- Beginning restaurant -->
+        <section id="restaurant-container" aria-labelledby="restaurant-name" tabindex="-1">
+            <h2 id="restaurant-name"></h2>
+            <figure>
+                <img id="restaurant-img">
+                <figcaption id="restaurant-cuisine"></figcaption>
+            </figure>
+            <p id="restaurant-address"></p>
+            <table id="restaurant-hours"></table>
+        </section>
+        <!-- end restaurant -->
+        <!-- Beginning reviews -->
     </section>
-    <!-- End map -->
-    <!-- Beginning restaurant -->
-    <section id="restaurant-container" aria-labelledby="restaurant-name" tabindex="-1">
-      <h2 id="restaurant-name"></h2>
-      <figure>
-        <img id="restaurant-img">
-        <figcaption id="restaurant-cuisine"></figcaption>
-      </figure>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
-    </section>
-    <!-- end restaurant -->
-    <!-- Beginning reviews -->
     <section id="reviews-container" aria-label="Restaurant reviews">
-      <ul id="reviews-list"></ul>
+        <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
-  </main>
-  <!-- End main -->
+</main>
+<!-- End main -->
 
-  <!-- Beginning footer -->
-  <footer id="footer">
+<!-- Beginning footer -->
+<footer id="footer">
     Copyright (c) 2017
     <a href="/">
-      <strong>Restaurant Reviews</strong>
+        <strong>Restaurant Reviews</strong>
     </a> All Rights Reserved.
-  </footer>
-  <!-- End footer -->
+</footer>
+<!-- End footer -->
 
-  <!-- Beginning scripts -->
-  <!-- Database helpers -->
-  <script src="js/dbhelper.js"></script>
-  <!-- Main javascript file -->
-  <script src="js/restaurant_info.js"></script>
-  <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
-  <!-- End scripts -->
+<!-- Beginning scripts -->
+<!-- Database helpers -->
+<script src="js/dbhelper.js"></script>
+<!-- Main javascript file -->
+<script src="js/restaurant_info.js"></script>
+<!-- Google Maps -->
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBI8lev0MDR6MAs2vLpVjzmjgfJfIRAZTE&libraries=places&callback=initMap"></script>
+<!-- End scripts -->
 
 </body>
 
