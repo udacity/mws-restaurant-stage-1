@@ -39,6 +39,8 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 #footer {
   background-color: #444;
@@ -74,7 +76,8 @@ nav h1 a {
     font-size: 18px;
     line-height: 1.25em;
     margin: 0;
-    width: calc(50% - 80px);
+    width: 100%;
+    height: unset;
 }
 
 /* Display list items side by side */
@@ -140,12 +143,16 @@ nav h1 a {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
 }
 #restaurants-list li {
   background-color: #fff;
   border: 2px solid #ccc;
   font-family: Arial,sans-serif;
-  margin: auto;
+  margin:0  auto;
   min-height: 380px;
   padding: 10px 10px 5px;
   text-align: left;
@@ -198,7 +205,7 @@ nav h1 a {
   height: 87%;
   right: 0;
   top: 80px;
-  width: 50%;
+  width: 100%;
 }
 .inside #map {
   background-color: #ccc;
@@ -270,4 +277,28 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+
+.restaurants-list {
+  display:flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+
+}
+
+
+@media (max-width: 800px) {
+    .restaurants-list {
+        flex: 50%;
+        max-width: 50%;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .restaurants-list {
+        flex: 100%;
+        max-width: 100%;
+    }
 }
