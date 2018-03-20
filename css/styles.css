@@ -123,6 +123,18 @@ nav h1 a {
     text-decoration: underline;
 }
 
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #ccc;
+    padding: 8px;
+    z-index: 100;
+}
+.skip-link:focus {
+    top: 0;
+}
+
 /* ====================== Map ====================== */
 #map {
     height: 400px;

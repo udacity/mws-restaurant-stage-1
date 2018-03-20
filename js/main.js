@@ -26,6 +26,8 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
     fetchNeighborhoods();
     fetchCuisines();
+
+    console.log("document.activeElement", document.activeElement);
 });
 
 /**
@@ -95,7 +97,8 @@ window.initMap = () => {
     self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12,
         center: loc,
-        scrollwheel: false
+        scrollwheel: false,
+        keyboardShortcuts: false
     });
     updateRestaurants();
 }
@@ -165,6 +168,7 @@ createRestaurantHTML = (restaurant) => {
 
     const name = document.createElement('h1');
     name.innerHTML = restaurant.name;
+    name.id = `restaurant-item-${restaurant.id}`;
     info.append(name);
 
     const neighborhood = document.createElement('p');
@@ -178,8 +182,15 @@ createRestaurantHTML = (restaurant) => {
     const more = document.createElement('a');
     more.innerHTML = 'View Details';
     more.href = DBHelper.urlForRestaurant(restaurant);
+    more.setAttribute('aria-labelledby', `restaurant-detail-${restaurant.id}`);
     info.append(more);
 
+    const detail = document.createElement('span');
+    detail.hidden = true;
+    detail.id = `restaurant-detail-${restaurant.id}`;
+    detail.innerHTML = `Restaurant name: ${restaurant.name}, address:${restaurant.address}, click the link to view detail`;
+
+    li.appendChild(detail);
     li.append(info);
 
     return li
