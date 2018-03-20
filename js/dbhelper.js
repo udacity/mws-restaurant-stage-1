@@ -149,8 +149,8 @@ class DBHelper {
         //return merged array
         return [...reviews,...pending_reviews];
       })
-      
-    
+
+
     });
   }
 
@@ -163,8 +163,7 @@ class DBHelper {
       return db.transaction('pending_favorite')
         .objectStore('pending_favorite').getAll();
     }).then(favorites => {
-      if(!favorites){
-        console.log('no sync');
+      if(!favorites.length){
         return null;
       }
       return Promise.all(favorites.map(favorite => DBHelper.sendFavoritesToServer(favorite)))
@@ -191,8 +190,7 @@ class DBHelper {
             .objectStore('pending_reviews').getAll();
       })
      }).then(reviews => {
-        if(!reviews){
-          console.log('no sync');
+        if(!reviews.length){
           return null;
         }
         return Promise.all(reviews.map(review => DBHelper.sendReviewToServer(review)))
@@ -209,7 +207,6 @@ class DBHelper {
         });
       })
       .catch(err => {
-          tx.abort();
           throw Error('Panding reviews were not sent to server');
           return null;
         })
@@ -274,7 +271,21 @@ class DBHelper {
    * Send pending favorites to server
    */
   static sendReviewToServer(review) {
-    return fetch(`${DBHelper.DATABASE_REVIEWS_URL}`,{method: 'post',body:review})
+    //indexedDB reviews have createdAt and updatedAt for display purpose and autoincrement id so we remove them to send it to the server
+    if(review.createdAt){
+      delete review.createdAt;
+    }
+    if(review.updatedAt){
+      delete review.updatedAt;
+    }
+    if(review.id){
+      delete review.id;
+    }
+    let formData=new FormData();
+    for (let [key, value] of Object.entries(review)) {
+      formData.append(key, value);
+    }
+    return fetch(`${DBHelper.DATABASE_REVIEWS_URL}`,{method: 'post',body:formData});
   }
 
 
@@ -316,17 +327,17 @@ class DBHelper {
       }
       //force restaurant_id to be integer (for indexedDB index to work correctly)
       object['restaurant_id'] = parseInt(object['restaurant_id']);
-      
+
       //add created and updated dates
       const unx=Date.now();
       object['createdAt'] = unx;
       object['updatedAt'] = unx;
       return DBHelper.savePendingReview([object])
      });
-    
- 
+
+
    }
- 
+
 
 
 
