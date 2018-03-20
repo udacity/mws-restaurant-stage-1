@@ -109,6 +109,10 @@ nav h1 a {
   width: 100%;
   background-color: #ccc;
 }
+
+#map-container {
+  width:100%;
+}
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
@@ -206,6 +210,7 @@ nav h1 a {
   right: 0;
   top: 80px;
   width: 100%;
+  position: fixed;
 }
 .inside #map {
   background-color: #ccc;
@@ -298,6 +303,29 @@ nav h1 a {
 
 @media (max-width: 600px) {
     .restaurants-list {
+        flex: 100%;
+        max-width: 100%;
+    }
+}
+
+.map {
+  display:flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+
+}
+
+
+@media (max-width: 800px) {
+    .map {
+        flex: 50%;
+        max-width: 50%;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .map {
         flex: 100%;
         max-width: 100%;
     }
