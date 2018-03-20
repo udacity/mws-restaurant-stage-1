@@ -54,6 +54,8 @@ fetchRestaurantFromURL = callback => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById("restaurant-name");
   name.innerHTML = restaurant.name;
+  name.setAttribute('tabindex', '0');
+  name.setAttribute('aria-label', `restaurant ${restaurant.name}`);
 
   const address = document.getElementById("restaurant-address");
   address.innerHTML = restaurant.address;
