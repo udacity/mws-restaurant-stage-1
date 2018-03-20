@@ -11,6 +11,7 @@ nav h1 a {
     flex: 1;
     height: unset;
     order: 0;
+    margin-right: 40px;
 }
 
 .restaurant-map-info #restaurant-container {
