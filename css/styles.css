@@ -18,11 +18,11 @@ ul, li {
 	color: #333;
 }
 a {
-	color: orange;
+	color: #ccc;
 	text-decoration: none;
 }
 a:hover, a:focus {
-	color: #3397db;
+	color: #ccc;
 	text-decoration: none;
 }
 a img{
@@ -41,7 +41,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   display: grid;
 }
 #footer {
-  background-color: #444;
+  background-color: #252831;
   color: #aaa;
   font-size: 8pt;
   letter-spacing: 1px;
@@ -93,7 +93,7 @@ nav h1 a {
 
 /* Add a color to all links inside the list */
 #breadcrumb li a {
-    color: #0275d8;
+    color: #252831;
     text-decoration: none;
 }
 
@@ -112,7 +112,7 @@ nav h1 a {
 .filter-options {
   width: 100%;
   height: auto;
-  background-color: #3397DB;
+  background-color: #252831;
   align-items: center;
 }
 .filter-options h2 {
@@ -170,7 +170,7 @@ nav h1 a {
   min-width: 100%;
 }
 #restaurants-list li h1 {
-  color: #f18200;
+  color: #252831;
   font-family: Arial,sans-serif;
   font-size: 14pt;
   font-weight: 200;
@@ -184,7 +184,7 @@ nav h1 a {
   font-size: 11pt;
 }
 #restaurants-list li a {
-  background-color: orange;
+  background-color: #252831;
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
@@ -238,13 +238,13 @@ nav h1 a {
   margin-top: 20px;
   margin-bottom: 20px; 
   }
-  
+
 .inside #footer {
   bottom: 0;
   position: absolute;
 }
 #restaurant-name {
-  color: #f18200;
+  color: #252831;
   font-family: Arial,sans-serif;
   font-size: 1.5em;
   font-weight: 200;
@@ -275,13 +275,14 @@ nav h1 a {
 #restaurant-container, #reviews-container {
   grid-column-start: 1;
   grid-row-start: 1;
-  border-bottom: 1px solid #d9d9d9;
+  /*border-bottom: 1px solid #d9d9d9;*/
   border-top: 1px solid #fff;
   margin-left: 10px;
   /*padding: 140px 40px 30px;*/
   /*width: 50%;*/
 }
 #reviews-container {
+  border-top: 1px solid #d9d9d9;
   margin: 10px 0 0 10px;
   grid-row-start: 3;
   margin-bottom:48px;
@@ -290,7 +291,7 @@ nav h1 a {
   grid-column-end: 3;
 }
 #reviews-container h2 {
-  color: #f58500;
+  color: #252831;
   font-size: 2em;
   font-weight: 300;
   letter-spacing: -1px;
