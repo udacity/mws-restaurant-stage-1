@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mws-restaurant-stage-1-cache-v8';
+const CACHE_NAME = 'mws-restaurant-stage-1-cache-v9';
 const FILES_TO_CACHE = [
   '/',
   '/index.html',
