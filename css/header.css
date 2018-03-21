@@ -1,0 +1,78 @@
+/* ====================== Header ====================== */
+
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6em;
+  z-index: 2;
+}
+
+/* ====================== Navigation ====================== */
+
+.main-nav {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #252831;
+  text-align:center;
+}
+
+.main-nav .header-title {
+  margin: auto;
+}
+
+.main-nav .header-title > a {
+  color: #fff;
+  font-size: 14pt;
+  font-weight: 200;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+}
+
+#breadcrumb {
+  padding: 10px 40px 16px;
+  list-style: none;
+  background-color: #eee;
+  font-size: 17px;
+  margin: 0;
+  width: calc(50% - 80px);
+}
+
+/* Display list items side by side */
+#breadcrumb li {
+  display: inline;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+#breadcrumb li+li:before {
+  padding: 8px;
+  color: black;
+  content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+#breadcrumb li a {
+  color: #0275d8;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+#breadcrumb li a:hover {
+  color: #01447e;
+  text-decoration: underline;
+}
+
+/* Mobile view */
+
+@media (max-width: 600px) {
+  .main-header {
+    height: 3.5em;
+  }
+
+  .main-nav .header-title > a {
+    font-size: 10pt;
+    letter-spacing: 0.5em;
+  }
+}
