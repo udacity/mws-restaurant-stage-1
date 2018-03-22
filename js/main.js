@@ -8,9 +8,21 @@ var markers = []
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
+  DBHelper.initServiceWorker();
   fetchNeighborhoods();
   fetchCuisines();
+  updateRestaurants();
 });
+
+// initServiceWorker = () => {
+//   if("serviceWorker" in navigator) {
+//     navigator.serviceWorker.register("./service_worker.js", {
+//     }).then(registration => {
+//       registration.update();
+//       console.log('Service Worker Registered!');
+//     });
+//   }
+// }
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -35,6 +47,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
+    option.tabIndex = 0;
     select.append(option);
   });
 }
@@ -63,6 +76,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
+    option.tabIndex = 0;
     select.append(option);
   });
 }
@@ -136,37 +150,58 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
-  const li = document.createElement('li');
+  const template = `
+  <li>
+    <img class="restaurant-img" alt="Picture of the restaurant ${restaurant.name}" 
+    src="${DBHelper.imageUrlForRestaurant(restaurant)}" />
+    <div class="restaurant-infos">
+      <h1 tabIndex="0">${restaurant.name}</h1>
+      <p> ${restaurant.neighborhood} </p>
+      <p> ${restaurant.address} </p>
+      <a href="./restaurant.html?id=${restaurant.id}">View Details</a>
+    </div>
+  </li>
+  `;
 
-  const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  const range = document.createRange();
+  const fragment = range.createContextualFragment(template);
 
-  const name = document.createElement('h1');
-  name.innerHTML = restaurant.name;
-  li.append(name);
+  return fragment;
 
-  const neighborhood = document.createElement('p');
-  neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
+  // const li = document.createElement('li');
 
-  const address = document.createElement('p');
-  address.innerHTML = restaurant.address;
-  li.append(address);
+  // const image = document.createElement('img');
+  // image.className = 'restaurant-img';
+  // image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  // li.append(image);
 
-  const more = document.createElement('a');
-  more.innerHTML = 'View Details';
-  more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  // const name = document.createElement('h1');
+  // name.innerHTML = restaurant.name;
+  // li.append(name);
 
-  return li
+  // const neighborhood = document.createElement('p');
+  // neighborhood.innerHTML = restaurant.neighborhood;
+  // li.append(neighborhood);
+
+  // const address = document.createElement('p');
+  // address.innerHTML = restaurant.address;
+  // li.append(address);
+
+  // const more = document.createElement('a');
+  // more.innerHTML = 'View Details';
+  // more.href = DBHelper.urlForRestaurant(restaurant);
+  // li.append(more)
+
+  // return li
 }
 
 /**
  * Add markers for current restaurants to the map.
  */
 addMarkersToMap = (restaurants = self.restaurants) => {
+
+  if(typeof google === "undefined") return self.markers;
+
   restaurants.forEach(restaurant => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);

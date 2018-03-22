@@ -167,4 +167,13 @@ class DBHelper {
     return marker;
   }
 
+  static initServiceWorker(){
+    if("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service_worker.js")
+      .then(registration => {
+        registration.update();
+        console.log("Service worker registered!");
+      });
+    }
+  }
 }

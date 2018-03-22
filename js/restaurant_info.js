@@ -1,6 +1,13 @@
 let restaurant;
 var map;
 
+document.addEventListener('DOMContentLoaded', (event) => {
+  // DBHelper.initServiceHelper();
+  fetchRestaurantFromURL((error, restaurant) => {
+    fillBreadcrumb();
+  });
+});
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -14,7 +21,7 @@ window.initMap = () => {
         center: restaurant.latlng,
         scrollwheel: false
       });
-      fillBreadcrumb();
+      // fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
@@ -57,6 +64,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
+  image.alt = 'Picture of restaurant ${restaurant.name}';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
@@ -116,24 +124,39 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  * Create review HTML and add it to the webpage.
  */
 createReviewHTML = (review) => {
-  const li = document.createElement('li');
-  const name = document.createElement('p');
-  name.innerHTML = review.name;
-  li.appendChild(name);
 
-  const date = document.createElement('p');
-  date.innerHTML = review.date;
-  li.appendChild(date);
+  const template = `
+  <li>
+    <p class="review-name">${review.name}</p>
+    <p class="review-date">${review.date}</p>
+    <p class="review-rating"><span>Rating: ${review.rating}</span></p>
+    <p class="review-comments">${review.comments}</p>
+  </li>  
+  `;
 
-  const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
-  li.appendChild(rating);
+  const range = document.createRange();
+  const fragment = range.createContextualFragment(template);
 
-  const comments = document.createElement('p');
-  comments.innerHTML = review.comments;
-  li.appendChild(comments);
+  return fragment;
 
-  return li;
+  // const li = document.createElement('li');
+  // const name = document.createElement('p');
+  // name.innerHTML = review.name;
+  // li.appendChild(name);
+
+  // const date = document.createElement('p');
+  // date.innerHTML = review.date;
+  // li.appendChild(date);
+
+  // const rating = document.createElement('p');
+  // rating.innerHTML = `Rating: ${review.rating}`;
+  // li.appendChild(rating);
+
+  // const comments = document.createElement('p');
+  // comments.innerHTML = review.comments;
+  // li.appendChild(comments);
+
+  // return li;
 }
 
 /**
