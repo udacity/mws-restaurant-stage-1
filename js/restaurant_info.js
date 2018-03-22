@@ -3,7 +3,7 @@ var map;
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/js/serviceWorker.js")
+        navigator.serviceWorker.register("/serviceWorker.js")
             .then(() => console.log("Service Worker Registered"))
             .catch(error => console.error("Error registering service worker", error));
     });
