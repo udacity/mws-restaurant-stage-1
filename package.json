@@ -1,8 +1,9 @@
 {
   "name": "mws-restaurant-stage-1",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "---\r #### _Three Stage Course Material Project - Restaurant Reviews_",
   "scripts": {
+    "start": "node index.js",
     "gulp:images": "gulp images"
   },
   "repository": {
@@ -15,8 +16,13 @@
     "url": "https://github.com/fidele137/mws-restaurant-stage-1/issues"
   },
   "homepage": "https://github.com/fidele137/mws-restaurant-stage-1#readme",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.16.3",
+    "idb": "^2.1.1"
+  },
   "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-google": "^0.9.1",
     "gulp": "^4.0.0",
     "gulp-image-resize": "^0.13.0",
     "gulp-imagemin": "^4.1.0",
