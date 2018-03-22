@@ -16,17 +16,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
 /**
  * Register ServiceWorker at page load
  */
-
 registerServiceWorker = () => {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then((reg) => {
-        console.log('ServiceWorker successfully registered !');
-      })
-      .catch((e) => {
-        console.error('Error registering the service worker', e);
+  if (!navigator.serviceWorker) return;
+
+  navigator.serviceWorker.register('/service-worker.js')
+    .then((reg) => {
+      console.log('ServiceWorker successfully registered !');
+      if (!navigator.serviceWorker.controller) return;
+
+      if (reg.waiting) {
+        console.log('Service worker WAITING..., [updateReady]');
+      }
+
+      if (reg.installing) {
+        console.log('Service worker INSTALLING..., [trackInstalling]');
+      }
+
+      reg.addEventListener('updatefound', () => {
+        console.log('Service worker Update Found, [trackInstalling]');
       });
-  }
+    })
+    .catch((e) => {
+      console.error('Error registering the service worker', e);
+    });
 }
 
 /**

@@ -1,3 +1,5 @@
+import idb from 'idb';
+
 /**
  * Common database helper functions.
  */
@@ -13,20 +15,71 @@ class DBHelper {
   }
 
   /**
+   * Idb database name.
+   */
+  static get IDB_DATABASE_NAME() {
+    return `mws-restaurant-stage-1-idb`;
+  }
+
+  static get IDB_VERSION() {
+    return 1;
+  }
+
+  /**
+   * Get idb database
+   */
+  static getIdbDatabase() {
+    if (!navigator.serviceWorker) return Promise.resolve();
+
+    return idb.open(DBHelper.IDB_DATABASE_NAME, DBHelper.IDB_VERSION, (upgradeCallback) => {
+      upgradeCallback.createObjectStore('restaurants', {
+        keyPath: 'id'
+      });
+    });
+  }
+
+  /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL)
-      .then((response) => {
-        return response.json();
+    let idbRestaurants = [];
+    const restaurantsStore = DBHelper.getIdbDatabase();
+
+    restaurantsStore
+      .then((db) => {
+        const tx = db.transaction('restaurants');
+        tx.objectStore('restaurants')
+          .getAll()
+          .then((restaurants) => {
+            idbRestaurants = restaurants;
+          });
+        return db;
       })
-      .then((restaurants) => {
-        callback(null, restaurants);
-      })
-      .catch((e) => {
-        const error = `Request failed`;
-        console.log('err = ', e);
-        callback(error, null);
+      .then((db) => {
+        if (idbRestaurants) {
+          console.log('idbRestaurants = ', idbRestaurants);
+          callback(null, idbRestaurants);
+        } else {
+          fetch(DBHelper.DATABASE_URL)
+            .then((response) => {
+              return response.json();
+            })
+            .then((restaurants) => {
+              // restaurantsStore.then((db) => {
+              const tx = db.transaction('restaurants', 'readwrite');
+              const restaurantsStore = tx.objectStore('restaurants');
+              restaurants.forEach((restaurant) => {
+                restaurantsStore.put(restaurant);
+              });
+              // });
+              callback(null, restaurants);
+            })
+            .catch((e) => {
+              const error = `Request failed`;
+              console.log('err = ', e);
+              callback(error, null);
+            });
+        }
       });
   }
 
