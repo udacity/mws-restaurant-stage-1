@@ -10,7 +10,7 @@
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <title>Restaurant Info</title>
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="manifest.json">
 </head>
 
 <body class="inside">
@@ -28,7 +28,7 @@
     <!-- End nav -->
   </header>
   <!-- End header -->
-
+  <div aria-live="polite" id="filtered-results"></div>
   <!-- Beginning main -->
   <main id="maincontent" role="main">
 
@@ -39,25 +39,55 @@
       <h2 id="restaurant-name" tabindex="0"></h2>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
+      <p align="center"><img id="fav" alt="Press enter to mark as favorite!" title="Click to mark as favorite!" data-is-favorite="false" tabindex="0" role="button" aria-label="Press enter to mark as favorite!" class="favorite-details" src="icons/notfavorite.png" /></p>
       <p id="restaurant-address" tabindex="0"></p>
       <table id="restaurant-hours" aria-label="Working Hours" tabindex="0"></table>
      </div>
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
-    <section id="reviews-container-wrapper">
-      <div id="reviews-container" >
-      <ul id="reviews-list"></ul>
+    <section id="reviews-container-wrapper" class="reviews-container-wrapper">
+      <div id="reviews-container" class="reviews-container" >
+
     </div>
     </section>
     <!-- End reviews -->
+    <!-- Beginning reviews form -->
+    <section class="reviews-container-wrapper">
+      <div id="reviews-form" class="reviews-container" >
+        <h3 tabindex="0">Add a review</h3>
+      <form id="review-form">
+        <input type="hidden" name="restaurant_id" id="form_restaurant_id"/>
+        <label for="form_name">Enter your name:</label>
+        <input type="text" required aria-required="true" name="name" id="form_name" aria-label="Enter your name"/>
+        <div class="form-spacer"></div>
+        <label for="form_rating">Select a rating:</label>
+        <select aria-label="Select a rating" id="form_rating" name="rating" aria-required="true" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <div class="form-spacer"></div>
+        <label for="form_comment">Enter a comment:</label>
+        <textarea required aria-required="true" name="comments" id="form_comment" aria-label="Enter a comment" rows="4"></textarea>
+        <div class="form-spacer"></div>
+        <input type="submit" value="Submit Review" aria-label="Submit review" id="form-submit" />
+        <div class="form-spacer"></div>
+      </form>
+
+      </div>
+    </section>
+    <!-- End reviews form -->
+
      <!-- Beginning map -->
      <section id="map-container" >
       <div id="map" role="application" aria-label="Google Maps" tabindex="0"></div>
     </section>
   </main>
   <!-- End main -->
-
+  <div id="offline"><strong style="color:red;">**</strong>Currently Offline<strong style="color:red;">**</strong></div>
   <!-- Beginning footer -->
   <footer id="footer">
     Copyright (c) 2017 <a href="/" tabindex="0" aria-label="Return to home"><strong>Restaurant Reviews</strong></a> All Rights Reserved.

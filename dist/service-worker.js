@@ -13,9 +13,9 @@ The service worker file. Here we will intercept network requests and pull data f
             event.waitUntil(caches.open(staticCacheName).then(function (cache) {
               caches.open(ImgsCache).then(function (cacheimg){
                 //we add noimage.jpg by default in case a restaurant is not visited
-                return cacheimg.addAll(['img/noimage.jpg','img/small/noimage.jpg']);
+                return cacheimg.addAll(['img/noimage.jpg','img/small/noimage.jpg','icons/favorite.png','icons/notfavorite.png']);
               }).then(() => {
-                return cache.addAll(['/','index.html','restaurant.html','js/idb.js','js/dbhelper.js','js/main.js','js/restaurant_info.js','css/styles.css','data/restaurants.json']);
+                return cache.addAll(['/','index.html','restaurant.html','js/idb.js','js/dbhelper.js','js/main.js','js/restaurant_info.js','css/styles.css']);
               })
             }));
     });
@@ -45,7 +45,7 @@ The service worker file. Here we will intercept network requests and pull data f
              /*
           If request is an image
           */
-            if (requestUrl.pathname.startsWith('/img/')) {
+            if (requestUrl.pathname.startsWith('/img/') || requestUrl.pathname.startsWith('/icons/')) {
               event.respondWith(serveImage(event.request));
               return;
             }

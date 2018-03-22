@@ -52,7 +52,6 @@ function webserverDist(){
   return gulp.src('dist')
     .pipe(webserver({
       livereload: false,
-      directoryListing: false,
       open: true,
       port:8080
     }));
@@ -60,7 +59,7 @@ function webserverDist(){
 
 
 function copy_html(){
-	return gulp.src(['./index.html','./manifest.json','./restaurant.html','./service-worker.js'])
+	return gulp.src(['./index.html','./manifest.json','./restaurant.html','./service-worker.js','./favicon.ico'])
 		.pipe(gulp.dest('./dist'));
 }
 

@@ -1,12 +1,10 @@
 let restaurants,
   neighborhoods,
   cuisines;
-var map;
+  var map;
 var markers = [];
 var observer;
 let imgLoaded=[];//array to hold the images that allready loaded
-
-
 
 
 /**
@@ -26,9 +24,12 @@ window.initMap = () => {
   //Since we moved updateRestaurants from the initMap to document ready, here we doublecheck if the markers were loaded and if not we load them
   if(self.restaurants && self.markers.length==0){
     addMarkersToMap();
-    }
+  }
 
-}
+  }
+
+
+
 
 /*
   Listeners for offline state
@@ -57,6 +58,7 @@ toggleOffline = (offline,checkSync=true) =>{
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
+  console.log('domloaded');
   toggleOffline(!navigator.onLine,false);//check initial offline state
   createObserver();
   fetchNeighborhoods();

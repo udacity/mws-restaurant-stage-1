@@ -8,7 +8,7 @@
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
   <title>Restaurant Reviews</title>
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
@@ -19,9 +19,7 @@
   </header>
 
   <main id="maincontent" role="main">
-    <section id="map-container">
-      <div id="map" role="application" aria-label="Google Maps"></div>
-    </section>
+
     <section class="filter-options-section" tabindex="-1">
       <div class="filter-options" tabindex="-1">
         <h2 align="center" tabindex="0" aria-label="Filter results by neighborhood and cuisine">Filter Results</h2>
@@ -37,7 +35,14 @@
   <section>
       <div id="restaurants-list"></div>
     </section>
+
+    <section id="map-container">
+      <div id="map" role="application" aria-label="Google Maps"></div>
+    </section>
+
+
   </main>
+  <div id="offline"><strong style="color:red;">**</strong>Currently Offline<strong style="color:red;">**</strong></div>
   <script>
     if ('serviceWorker' in navigator) {
        navigator.serviceWorker.register('service-worker.js')
