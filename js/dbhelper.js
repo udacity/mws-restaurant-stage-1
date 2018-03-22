@@ -16,20 +16,6 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    // let xhr = new XMLHttpRequest();
-    // xhr.open('GET', DBHelper.DATABASE_URL);
-    // xhr.onload = () => {
-    //   if (xhr.status === 200) { // Got a success response from server!
-    //     const json = JSON.parse(xhr.responseText);
-    //     const restaurants = json.restaurants;
-    //     callback(null, restaurants);
-    //   } else { // Oops!. Got an error from server.
-    //     const error = `Request failed. Returned status of ${xhr.status}`;
-    //     callback(error, null);
-    //   }
-    // };
-    // xhr.send();
-
     fetch(DBHelper.DATABASE_URL)
       .then((response) => {
         return response.json();
@@ -163,14 +149,30 @@ class DBHelper {
    * Restaurant image utils.
    */
   static imageUrlForRestaurant(restaurant) {
-    const jpgIndex = restaurant.photograph.indexOf('.jpg');
-    const imgName = jpgIndex > -1 ? restaurant.photograph.substring(0, jpgIndex) : restaurant.photograph;
+    let imgName;
+    // The photograph property of restaurant *10* is missing from the server restaurants data
+    // A pull request have already been created, but not merged yet
+    // The next line hack is done to bypass errors
+    if (restaurant.id === 10) {
+      imgName = '10';
+    } else {
+      const jpgIndex = restaurant.photograph.indexOf('.jpg');
+      imgName = jpgIndex > -1 ? restaurant.photograph.substring(0, jpgIndex) : restaurant.photograph;
+    }
     return `/img/${imgName}_small.jpg`;
   }
 
   static imageSrcsetUrlsForRestaurant(restaurant) {
-    const jpgIndex = restaurant.photograph.indexOf('.jpg');
-    const imgName = jpgIndex > -1 ? restaurant.photograph.substring(0, jpgIndex) : restaurant.photograph;
+    let imgName;
+    // The photograph property of restaurant *10* is missing from the server restaurants data
+    // A pull request have already been created, but not merged yet
+    // The next line hack is done to bypass errors
+    if (restaurant.id === 10) {
+      imgName = '10';
+    } else {
+      const jpgIndex = restaurant.photograph.indexOf('.jpg');
+      imgName = jpgIndex > -1 ? restaurant.photograph.substring(0, jpgIndex) : restaurant.photograph;
+    }
     return `/img/${imgName}_small.jpg 400w, /img/${imgName}_medium.jpg 600w, /img/${imgName}_large.jpg 800w`;
   }
 
