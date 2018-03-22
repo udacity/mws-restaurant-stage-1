@@ -1,0 +1,34 @@
+nav h1 a {
+    letter-spacing: 10px;
+}
+
+.skip-link {
+    display: none;
+}
+
+.restaurant-map-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.restaurant-map-info #map-container {
+    flex: 1;
+    height: unset;
+    order: 0;
+    margin-right: 40px;
+}
+
+.restaurant-map-info #restaurant-container {
+    order: 0;
+    flex: 1;
+}
+
+#restaurants-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+#restaurants-list li {
+    width: calc((100% - 90px) / 3);
+}
