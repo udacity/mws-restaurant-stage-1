@@ -49,7 +49,7 @@ function webserverRoot(){
 }
 
 function webserverDist(){
-  return gulp.src('dist/')
+  return gulp.src('dist')
     .pipe(webserver({
       livereload: false,
       directoryListing: false,
