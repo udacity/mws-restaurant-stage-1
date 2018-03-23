@@ -17,8 +17,10 @@
 })();
 
 let restaurants, // eslint-disable-line no-unused-vars
-    markers = [], // eslint-disable-line no-unused-vars
-    map; // eslint-disable-line no-unused-vars
+    neighborhoods, // eslint-disable-line no-unused-vars
+    cuisines; // eslint-disable-line no-unused-vars
+let map; // eslint-disable-line no-unused-vars
+let markers = []; // eslint-disable-line no-unused-vars
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
