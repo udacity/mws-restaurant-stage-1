@@ -1,0 +1,103 @@
+.content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.header__menu {
+  display: none;
+}
+
+.hero, .top-news, .scores, .weather, .recent-news {
+  order: 10;
+}
+
+@media screen and (max-width: 549px) {
+  /* .header__logo {
+    height: 48px;
+    margin-right: 0.5em;
+  } */
+  .header__title {
+    /* margin-left: 0; */
+    font-size: 1.5em;
+    vertical-align: bottom; 
+  }
+
+  .filter-options h2 {
+    width: 100%;
+  }
+  .filter-options select {
+    width: 100%;
+  }
+
+  /* .nav {
+    z-index: 10;
+    background-color: #fff;
+    width: 300px;
+    position: absolute;
+    -webkit-transform: translate(-300px, 0);
+    transform: translate(-300px, 0);
+    
+    transition: transform 0.3s ease;
+  }
+  .nav.open {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+  .nav__item {
+    display: list-item;
+    border-bottom: 1px solid #E0E0E0;
+    width: 100%;
+    text-align: left;
+  }
+  .header__menu {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    padding: 1em;
+  }
+  .header__menu svg {
+    width: 32px;
+    fill: #E0E0E0;
+  } */
+}
+
+@media screen and (min-width: 550px) {
+
+  .header__title {
+    /* margin-left: 0; */
+    font-size: 2em;
+    vertical-align: bottom; 
+  }
+
+
+  .filter-options h2 {
+    width: 30%;
+    /* padding-top: 0px; */
+  }
+  .filter-options select {
+    width: 30%;
+  }
+
+  #restaurants-list li {
+    width: 50%;
+  }
+
+  /* .hero {
+    order: 0;
+    width: 60%;
+  }
+  .weather {
+    order: 1;
+    width: 40%;
+  } */
+}
+
+@media screen and (min-width: 850px) {
+  main, .header__inner, .nav, .content, nav, footer {
+    width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
+}
