@@ -44,7 +44,9 @@ function webserverRoot(){
       livereload: true,
       directoryListing: false,
       open: true,
-      port:8080
+      port:8080,
+      compression:true,
+      https:false
     }));
 }
 
@@ -53,7 +55,8 @@ function webserverDist(){
     .pipe(webserver({
       livereload: false,
       open: true,
-      port:8080
+      port:8080,
+      compression:true
     }));
 }
 
