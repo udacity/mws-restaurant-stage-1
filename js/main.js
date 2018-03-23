@@ -146,7 +146,7 @@ createRestaurantHTML = (restaurant) => {
     <img class="restaurant-img" alt='Picture of the restaurant at ${restaurant.name}' 
     src="${DBHelper.imageUrlForRestaurant(restaurant)}" />
     <div class="restaurant-infos">
-      <h1 tabIndex="0">${restaurant.name}</h1>
+      <h2 tabIndex="0">${restaurant.name}</h2>
       <p> ${restaurant.neighborhood} </p>
       <p> ${restaurant.address} </p>
       <a href="./restaurant.html?id=${restaurant.id}">View Details</a>
