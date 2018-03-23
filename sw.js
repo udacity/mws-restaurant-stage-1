@@ -1,8 +1,10 @@
 const staticCacheName = 'restaurant-reviews-static-v2';
+const imagesCache = 'restaurant-reviews-images';
 const restaurantsDataCache = 'restaurant-reviews-restaurants-data';
 
 const allCaches = [
     staticCacheName,
+    imagesCache,
     restaurantsDataCache
 ];
 
@@ -31,6 +33,9 @@ self.addEventListener('fetch', function (event) {
         if (requestURL.pathname.startsWith('/data/')) {
             return event.respondWith(fetchRestaurantData(event.request));
         }
+        if (requestURL.pathname.startsWith('/img/')) {
+            return event.respondWith(fetchImage(event.request));
+        }
     }
 
     return event.respondWith(
@@ -44,6 +49,17 @@ function fetchRestaurantData(request) {
         .then(cache => cache.match(request)
             .then(response => response || fetch(request).then(function (response) {
                 cache.put(request, response.clone());
+                return response;
+            })));
+}
+
+function fetchImage(request) {
+    const cachedImageUrl = request.url.replace(/(-\d*w?\.jpg$)|\.jpg$/, '');
+
+    return caches.open(imagesCache)
+        .then(cache => cache.match(cachedImageUrl)
+            .then(response => response || fetch(request).then(function (response) {
+                cache.put(cachedImageUrl, response.clone());
                 return response;
             })));
 }
