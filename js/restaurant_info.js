@@ -2,7 +2,7 @@ let restaurant;
 var map;
 
 document.addEventListener('DOMContentLoaded', (event) => {
-  // DBHelper.initServiceHelper();
+  DBHelper.initServiceWorker();
   fetchRestaurantFromURL((error, restaurant) => {
     fillBreadcrumb();
   });
@@ -63,7 +63,9 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  // image.querySelector('img').className = 'restaurant-img';
+  // image.querySelector('img').src = DBHelper.imageUrlForRestaurant(restaurant);
+  // image.querySelector('source').srcset = DBHelper.imageUrlForRestaurant(restaurant);
   image.alt = 'Picture of restaurant '+ restaurant.name;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
@@ -127,7 +129,7 @@ createReviewHTML = (review) => {
 
   const template = `
   <li>
-    <p class="review-name">${review.name}</p>
+    <p tabindex="0" class="review-name">${review.name}</p>
     <p class="review-date">${review.date}</p>
     <p class="review-rating"><span>Rating: ${review.rating}</span></p>
     <p class="review-comments">${review.comments}</p>
