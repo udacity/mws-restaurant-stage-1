@@ -57,6 +57,7 @@ nav {
 }
 nav h1 {
   margin: auto;
+  padding: 1.2em;
 }
 nav h1 a {
   color: #fff;
@@ -109,6 +110,7 @@ nav h1 a {
   height: 50px;
   background-color: #3397DB;
   align-items: center;
+  padding: 0.5em;
 }
 .filter-options h2 {
   color: white;
@@ -116,6 +118,7 @@ nav h1 a {
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+  display: inline;
 }
 .filter-options select {
   background-color: white;
@@ -136,6 +139,12 @@ nav h1 a {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
+
+  display: grid;
+  grid-gap: 27px 27px;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  max-width: 1400px;
+  margin: auto;
 }
 #restaurants-list li {
   background-color: #fff;
@@ -272,4 +281,30 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+
+/* ================= media queries ================= */
+
+@media screen and (max-width: 397px) {
+  nav {
+    min-height: 100px;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  nav h1 a {
+    font-size: 10pt;
+  }  
+}
+
+@media screen and (max-width: 600px) {
+  .filter-options {
+    height: auto;
+    text-align: center;
+  }
+
+  .filter-options h2 {
+    display: block;
+  }
 }
