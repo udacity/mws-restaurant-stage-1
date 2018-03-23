@@ -44,7 +44,7 @@ gulp.task('dist-serve', gulp.series(copy_html,copy_images,copy_icons,create_smal
 function webserverRoot(){
   return  browserSync.init({
     server: {
-        baseDir: './',
+        baseDir: './'
     },
     port: 8080
 });

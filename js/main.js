@@ -58,8 +58,7 @@ toggleOffline = (offline,checkSync=true) =>{
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  console.log('domloaded');
-  toggleOffline(!navigator.onLine,false);//check initial offline state
+    toggleOffline(!navigator.onLine,false);//check initial offline state
   createObserver();
   fetchNeighborhoods();
   fetchCuisines();
