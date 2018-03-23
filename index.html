@@ -29,19 +29,27 @@
     <section id="map-container" role="application" aria-label="Restaurant location displayed on Google Map">
       <div id="map" role="application"></div>
     </section>
-    <section id="restaurant-container">
+
+<!--     <section id="restaurant-container">
       <h1 id="restaurant-name" tabindex="0"></h1>
       <img id="restaurant-img">
       <p id="restaurant-cuisine" tabindex="0"></p>
       <p id="restaurant-address" tabindex="0"></p>
       <table id="restaurant-hours"></table>
-
+ -->
+   <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <select id="neighborhoods-select"
+                aria-label="Select a neighborhood" 
+                name="neighborhoods" 
+                onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <select id="cuisines-select" 
+                aria-label="Select a cuisine" 
+                name="cuisines" 
+                onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
       </div>

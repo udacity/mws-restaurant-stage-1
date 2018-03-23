@@ -152,7 +152,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const template = `
   <li>
-    <img class="restaurant-img" alt="Picture of the restaurant ${restaurant.name}" 
+    <img class="restaurant-img" alt='Picture of the restaurant at ${restaurant.name}' 
     src="${DBHelper.imageUrlForRestaurant(restaurant)}" />
     <div class="restaurant-infos">
       <h1 tabIndex="0">${restaurant.name}</h1>

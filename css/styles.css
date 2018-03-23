@@ -34,13 +34,12 @@ nav h1 {
   display: inline-grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
-  grid-template-areas:
   border-bottom: solid 1px #326c94;
 }
 
 .filter-options h2 {
-  grid-area: filter-options-title;
-  margin: 10px 20px 0px 20px;
+/*  grid-area: filter-options;
+*/  margin: 10px 20px 0px 20px;
 }
 
 .filter-options select {
@@ -349,13 +348,14 @@ nav h1 a {
   background-color: #3397DB;
   align-items: center;
 }
+
 .filter-options h2 {
   color: white;
   font-size: 1rem;
   font-weight: normal;
   line-height: 1;
-  /*margin: 0 20px;*/
 }
+
 .filter-options select {
   background-color: white;
   border: 1px solid #fff;
