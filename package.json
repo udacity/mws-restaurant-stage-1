@@ -23,16 +23,18 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "browser-sync": "^2.23.6",
+    "compression": "^1.7.2",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^7.0.1",
     "gulp-clean-css": "^3.9.3",
     "gulp-concat": "^2.6.1",
+    "gulp-gzip": "^1.4.2",
     "gulp-image-resize": "^0.13.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
-    "gulp-uglify-es": "^1.0.1",
-    "gulp-webserver": "^0.9.1"
+    "gulp-uglify-es": "^1.0.1"
   },
   "dependencies": {}
 }

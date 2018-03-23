@@ -15,6 +15,9 @@
   <header tabindex="-1">
     <nav tabindex="-1">
       <h1><a href="/" tabindex="0">Restaurant Reviews</a></h1>
+      <noscript>
+        <h2 align="center" style="color:#fff;"><strong style="color:red;">**</strong>Please Enable Javascript<strong style="color:red;">**</strong></h2>
+      </noscript>
     </nav>
   </header>
 
@@ -39,9 +42,13 @@
     </section>
   </main>
   <div id="offline"><strong style="color:red;">**</strong>Currently Offline<strong style="color:red;">**</strong></div>
+
+
+
+
   <script>
     if ('serviceWorker' in navigator) {
-       navigator.serviceWorker.register('service-worker.js')
+     navigator.serviceWorker.register('service-worker.js')
        .then(function(registration) {
 
        })

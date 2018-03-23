@@ -373,6 +373,16 @@ display: inline-block;
   text-align: center;
   pointer-events: none;
 }
+#noscript{
+  background-color: rgba(255,255,255,0.6);
+  color:#000;
+  position: fixed;
+  left:0px;
+  top:0px;
+  padding:10px;
+  text-align: center;
+  pointer-events: none;
+}
 
 
 @media (min-width: 768px) {

@@ -4,10 +4,13 @@ var autoprefixer = require('gulp-autoprefixer');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var cleanCSS = require('gulp-clean-css');
-var webserver = require('gulp-webserver');
 var imageResize = require('gulp-image-resize');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify-es').default;
+var gzip = require('gulp-gzip');
+var browserSync = require('browser-sync').create();
+var compression   = require("compression");
+
 
 var paths = {
   styles: {
@@ -39,25 +42,22 @@ gulp.task('dist-serve', gulp.series(copy_html,copy_images,copy_icons,create_smal
 
 
 function webserverRoot(){
-  return gulp.src('/')
-    .pipe(webserver({
-      livereload: true,
-      directoryListing: false,
-      open: true,
-      port:8080,
-      compression:true,
-      https:false
-    }));
+  return  browserSync.init({
+    server: {
+        baseDir: './',
+    },
+    port: 8080
+});
 }
 
 function webserverDist(){
-  return gulp.src('dist')
-    .pipe(webserver({
-      livereload: false,
-      open: true,
-      port:8080,
-      compression:true
-    }));
+  return browserSync.init({
+    server: {
+        baseDir: 'dist',
+        middleware: compression()
+    },
+    port: 8080
+});
 }
 
 
@@ -95,6 +95,7 @@ function create_smaller_images_dev(){
 function scripts(){
   return gulp.src(paths.scripts.src)
         .pipe(uglify())
+        .pipe(gzip())
       .pipe(gulp.dest(paths.scripts.dest));
 }
 
@@ -103,7 +104,8 @@ function styles(){
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions']
 		}))
-		.pipe(cleanCSS())
+    .pipe(cleanCSS())
+    .pipe(gzip())
 		.pipe(gulp.dest(paths.styles.dest))
 }
 
