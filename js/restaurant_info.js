@@ -14,6 +14,9 @@
     });
 })();
 
+let restaurant; // eslint-disable-line no-unused-vars
+let map; // eslint-disable-line no-unused-vars
+
 /**
  * Initialize Google map, called from HTML.
  */

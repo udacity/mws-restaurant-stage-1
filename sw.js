@@ -1,4 +1,4 @@
-const CACHE_VERSION = "restaurant_app_v7";
+const CACHE_VERSION = "restaurant_app_v10";
 
 self.addEventListener("install", event => {
   const urlsToCache = [
@@ -7,7 +7,6 @@ self.addEventListener("install", event => {
     "restaurant.html",
     "js/main.js",
     "js/restaurant_info.js",
-    "js/dbhelper.js",
     "css/over640.css",
     "css/over1024.css",
     "css/styles.css",

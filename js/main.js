@@ -1,3 +1,5 @@
+
+
 (() => {
     window.addEventListener('load', () => {
         if ('serviceWorker' in navigator) {
@@ -13,6 +15,10 @@
         }
     });
 })();
+
+let restaurants, // eslint-disable-line no-unused-vars
+    markers = [], // eslint-disable-line no-unused-vars
+    map; // eslint-disable-line no-unused-vars
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
