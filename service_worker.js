@@ -1,4 +1,4 @@
-const cacheName = "restaurant-sw-v1";
+const staticCacheName = "static-cache-v1";
 
 function getAllImages(){
     const images = [];
@@ -10,7 +10,7 @@ function getAllImages(){
 
 self.addEventListener('install', function(event) {
     event.waitUntil(
-        caches.open(cacheName).then(function(cache) {
+        caches.open(staticCacheName).then(function(cache) {
             return cache.addAll([
                 './',
                 './index.html',
@@ -29,7 +29,7 @@ self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(keyList => {
             return Promise.all(keyList.map(key => {
-                if(key !== cacheName) {
+                if(key !== staticCacheName) {
                     console.log('removing old cache', key);
                     return caches.delete(key);
                 }
@@ -41,11 +41,11 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', function(event) {
     event.respondWith(
 
-        caches.open(cacheName).then(function(cache) {
+        caches.open(staticCacheName).then(function(cache) {
             return cache.match(event.request).then(function (response) {
                 return response || fetch(event.request).then(function(response) {
                     let res = response.clone();
-                    if(event.request.url.indexOf('maps') < 0) {
+                    if(event.request.url.indexOf('img/') > 0) {
                         cache.put(event.request, res);
                     }
                     return response;
