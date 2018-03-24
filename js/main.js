@@ -1,8 +1,33 @@
+// append polyfill
+(function (arr) {
+  arr.forEach(function (item) {
+    if (item.hasOwnProperty('append')) {
+      return;
+    }
+    Object.defineProperty(item, 'append', {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function append() {
+        var argArr = Array.prototype.slice.call(arguments),
+          docFrag = document.createDocumentFragment(); F
+
+        argArr.forEach(function (argItem) {
+          var isNode = argItem instanceof Node;
+          docFrag.appendChild(isNode ? argItem : document.createTextNode(String(argItem)));
+        });
+
+        this.appendChild(docFrag);
+      }
+    });
+  });
+})([Element.prototype, Document.prototype, DocumentFragment.prototype]);
+
 let restaurants,
   neighborhoods,
-  cuisines
-var map
-var markers = []
+  cuisines;
+var map;
+var markers = [];
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -10,6 +35,7 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  resgiterServiceWorker();
 });
 
 /**
@@ -137,13 +163,31 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  li.classList.add('card');
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+
+  const imageUrl = DBHelper.imageUrlForRestaurant(restaurant);
+  image.src = imageUrl;
+
+  const imagePath = imageUrl.substring(0, imageUrl.lastIndexOf('.'));
+  const imageType = imageUrl.substring(imageUrl.lastIndexOf('.'), imageUrl.length);
+  image.srcset =
+    `${imagePath}-300w${imageType} 300w,` +
+    `${imagePath}-550w${imageType} 550w`;
+
+  image.sizes =
+    `(min-width: 1024px) 300px,` +
+    `(min-width: 720px) 300px,` +
+    `(min-width: 480px) 300px,` +
+    `(max-width: 479px) 550px`;
+
+  image.alt = `${restaurant.name} thumbnail`;
+
   li.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
   li.append(name);
 
@@ -156,8 +200,10 @@ createRestaurantHTML = (restaurant) => {
   li.append(address);
 
   const more = document.createElement('a');
+  more.classList.add('button');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
+  more.setAttribute('aria-label', `view details about ${restaurant.name}`);
   li.append(more)
 
   return li
@@ -175,4 +221,26 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
+}
+
+/** 
+ *  Register a service worker to the root of the page.
+ */
+function resgiterServiceWorker() {
+  if (!navigator.serviceWorker) {
+    return;
+  }
+
+  navigator.serviceWorker.register('sw.js')
+    .then(function (reg) {
+      if (!navigator.serviceWorker.controller) {
+        return;
+      }
+
+      if (reg.waiting) {
+        // if there is a sw already waiting then update since the user did not yet interact with the page
+        reg.waiting.postMessage({ action: 'skipWaiting' });
+        return;
+      }
+    });
 }

@@ -53,11 +53,24 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   name.innerHTML = restaurant.name;
 
   const address = document.getElementById('restaurant-address');
-  address.innerHTML = restaurant.address;
+  address.innerHTML = '<em>address: </em>' + restaurant.address;
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+
+  const imageUrl = DBHelper.imageUrlForRestaurant(restaurant);
+  image.src = imageUrl;
+
+  const imagePath = imageUrl.substring(0, imageUrl.lastIndexOf('.'));
+  const imageType = imageUrl.substring(imageUrl.lastIndexOf('.'), imageUrl.length);
+  image.srcset =
+    `${imagePath}-300w${imageType} 300w,` +
+    `${imagePath}-550w${imageType} 550w,` +
+    `${imageUrl} 800w`;
+
+  image.sizes = '(min-width: 1024px) 50vw, 100vw';
+
+  image.alt = image.alt = `${restaurant.name} banner`;
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -75,6 +88,21 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
+
+  const head = document.createElement('thead');
+  hours.appendChild(head);
+
+  const headRow = document.createElement('tr');
+  head.appendChild(headRow);
+
+  const thDay = document.createElement('th');
+  thDay.innerHTML = 'Day';
+  headRow.appendChild(thDay);
+
+  const thHours = document.createElement('th');
+  thHours.innerHTML = 'Working hours';
+  headRow.appendChild(thHours);
+
   for (let key in operatingHours) {
     const row = document.createElement('tr');
 
@@ -117,6 +145,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+  li.classList.add('card');
   const name = document.createElement('p');
   name.innerHTML = review.name;
   li.appendChild(name);
@@ -139,10 +168,11 @@ createReviewHTML = (review) => {
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-fillBreadcrumb = (restaurant=self.restaurant) => {
+fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.innerHTML = restaurant.name;
+  li.setAttribute('aria-current', 'page');
   breadcrumb.appendChild(li);
 }
 
