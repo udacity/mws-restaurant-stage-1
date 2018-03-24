@@ -1,0 +1,32 @@
+$vendors: "-moz-", "-webkit-", "";
+
+@mixin box-shadow($top, $left, $blur, $color, $inset: false) {
+  @if $inset {
+    @each $vendor in $vendors {
+      #{$vendor}box-shadow: inset $top $left $blur $color;
+    }
+  } @else {
+    @each $vendor in $vendors {
+      #{$vendor}box-shadow: $top $left $blur $color;
+    }
+  }
+}
+
+$break-small: 370px;
+$break-medium: 480px;
+$break-large: 720px;
+
+@mixin respond-to($media) {
+  @if $media == handhelds {
+    @media only screen and (max-width: $break-small) { @content; }
+  }
+  @else if $media == tablets {
+    @media only screen and (min-width: $break-small + 1) and (max-width: $break-medium - 1) { @content; }
+  }
+  @else if $media == medium-screens {
+    @media only screen and (min-width: $break-medium + 1) and (max-width: $break-large - 1) { @content; }
+  }
+  @else if $media == wide-screens {
+    @media only screen and (min-width: $break-large) { @content; }
+  }
+}

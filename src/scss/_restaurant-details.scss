@@ -1,0 +1,100 @@
+.inside {
+  header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  #map-container {
+    background: $map-container-bg;
+    height: 87%;
+    position: fixed;
+    right: 0;
+    top: 80px;
+    width: 50%;
+  }
+  #map {
+    background-color: $restaurant-details-map-bg-color;
+    height: 100%;
+    width: 100%;
+  }
+  #footer {
+    bottom: 0;
+    position: absolute;
+    width: 50%;
+  }
+}
+
+#restaurant-name {
+  color: $restaurant-name-font-color;
+  font-family: $font-stack;
+  font-size: $restaurant-name-font-size;
+  font-weight: $restaurant-name-font-weight;
+  letter-spacing: 0;
+  margin: 15px 0 30px;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+#restaurant-img {
+  width: 90%;
+}
+
+#restaurant-address {
+  font-size: $restaurant-address-font-size;
+  margin: 10px 0;
+}
+
+#restaurant-cuisine {
+  background-color: $restaurant-cuisine-bg-color;
+  color: $restaurant-cuisine-font-color;
+  font-size: $restaurant-cuisine-font-size;
+  font-weight: $restaurant-cuisine-font-weight;
+  letter-spacing: 10px;
+  margin: 0 0 20px;
+  padding: 2px 0;
+  text-align: center;
+  text-transform: uppercase;
+  width: 90%;
+}
+
+#restaurant-container, #reviews-container {
+  border-bottom: $restaurant-container-border-bottom;
+  border-top: $restaurant-container-border-top;
+  padding: 140px 40px 30px;
+  width: 50%;
+}
+
+#reviews-container {
+  padding: 30px 40px 80px;
+  h2 {
+    color: $reviews-container-header-font-color;
+    font-size: $reviews-container-header-font-size;
+    font-weight: $reviews-container-header-font-weight;
+    letter-spacing: -1px;
+    padding-bottom: 1pt;
+  }
+}
+
+#reviews-list {
+  margin: 0;
+  padding: 0;
+  li {
+    background-color: #fff;
+    border: 2px solid #f3f3f3;
+    display: block;
+    list-style-type: none;
+    margin: 0 0 30px;
+    overflow: hidden;
+    padding: 0 20px 20px;
+    position: relative;
+    width: 85%;
+    p {
+      margin: 0 0 10px;
+    }
+  }
+}
+
+#restaurant-hours td {
+  color: #666;
+}

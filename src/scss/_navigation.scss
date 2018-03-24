@@ -1,0 +1,41 @@
+nav {
+  width: 100%;
+  height: 80px;
+  background-color: $nav-bg-color;
+  text-align:center;
+  h1 {
+    margin: auto;
+    a {
+      color: $nav-header-color;
+      font-size: $nav-header-font-size;
+      font-weight: $nav-header-font-weight;
+      letter-spacing: 10px;
+      text-transform: uppercase;
+    }
+  }
+}
+
+#breadcrumb {
+  padding: 10px 40px 16px;
+  list-style: none;
+  background-color: $nav-breadcrumb-bg-color;
+  font-size: $nav-breadcrumb-font-size;
+  margin: 0;
+  width: calc(50% - 80px);
+  li { /* Display list items side by side */
+    display: inline;
+    a { /* Add a color to all links inside the list */
+      color: $nav-link-color;
+      text-decoration: none;
+      &:hover { /* Add a color on mouse-over */
+        color: $nav-hover-color;
+        text-decoration: underline;
+      }
+    }
+  }
+  li+li:before { /* Add a symbol before/behind each list item */
+    padding: 8px;
+    color: $nav-list-item-color;
+    content: $nav-list-item-symbol;
+  }
+}

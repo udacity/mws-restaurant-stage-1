@@ -1,0 +1,37 @@
+{
+  "name": "@geraldes/mws-restaurant-stage-1",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sedlareg/mws-restaurant-stage-1.git"
+  },
+  "main": "webpack.config.js",
+  "dependencies": {
+    "normalize.css": "^8.0.0"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "node-sass": "^4.8.3",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.11",
+    "webpack-dev-server": "^3.1.1"
+  },
+  "scripts": {
+    "build:prod": "./node_modules/.bin/webpack --display-entrypoints --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "udacity",
+    "nanodegree",
+    "mobile web specialist"
+  ],
+  "author": "Geraldes Pereira Ferreira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sedlareg/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/sedlareg/mws-restaurant-stage-1#readme"
+}
