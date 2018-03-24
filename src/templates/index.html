@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <% for (key in htmlWebpackPlugin.files.css) { %>
+    <link href="<%= htmlWebpackPlugin.files.css[key] %>" rel="stylesheet">
+    <% } %>
+</head>
+
+<body>
+<div class="flex-column">
+    <header>
+        <nav>
+            <h1><a href="/">Restaurant Reviews</a></h1>
+        </nav>
+    </header>
+
+    <main id="maincontent" class="flex-column">
+        <section id="map-container">
+            <div id="map"></div>
+        </section>
+        <section>
+            <div class="filter-options">
+                <h2>Filter Results</h2>
+                <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+                    <option value="all">All Neighborhoods</option>
+                </select>
+                <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+                    <option value="all">All Cuisines</option>
+                </select>
+            </div>
+            <div id="restaurants-container">
+                <ul id="restaurants-list" class="grid-list"></ul>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer">
+        Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    </footer>
+</div>
+<% for (key in htmlWebpackPlugin.files.js) { %>
+<script src="<%= htmlWebpackPlugin.files.js[key] %>"></script>
+<% } %>
+</body>
+</html>

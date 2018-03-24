@@ -1,0 +1,56 @@
+{
+  "name": "@geraldes/mws-restaurant-stage-1",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sedlareg/mws-restaurant-stage-1.git"
+  },
+  "main": "webpack.config.js",
+  "dependencies": {
+    "normalize.css": "^8.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^1.1.11",
+    "gulp": "^3.9.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-responsive": "^2.9.0",
+    "html-loader": "^0.5.5",
+    "html-minifier": "^3.5.12",
+    "html-webpack-plugin": "^3.0.6",
+    "jimp": "^0.2.28",
+    "node-sass": "^4.8.3",
+    "responsive-loader": "^1.1.0",
+    "sass-loader": "^6.0.7",
+    "serviceworker-config-webpack-plugin": "^0.1.2",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.11",
+    "webpack-dev-server": "^3.1.1"
+  },
+  "scripts": {
+    "build:prod": "./node_modules/.bin/webpack --display-entrypoints --mode production && gulp responsive-images && npm run minify-html",
+    "start:dev": "npm run start:dev-server -- --devtool source-maps --hot --progress --colors --mode development",
+    "minify-html": "./node_modules/.bin/html-minifier --file-ext html --input-dir dist --output-dir dist --remove-comments --collapse-whitespace --minify-js --minify-css",
+    "start:dev-server": "./node_modules/.bin/webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "udacity",
+    "nanodegree",
+    "mobile web specialist"
+  ],
+  "author": "Geraldes Pereira Ferreira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sedlareg/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/sedlareg/mws-restaurant-stage-1#readme"
+}
