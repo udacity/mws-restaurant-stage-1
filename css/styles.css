@@ -26,6 +26,9 @@ nav h1 {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
   border-bottom: solid 1px #326c94;
+  grid-template-areas: 
+  "filter-options-title filter-options-title"
+  "neighborhoods-select cuisines-select";  
 }
 
 .filter-options h2 {
@@ -152,7 +155,10 @@ reviews-list li {
   display: inline-grid;
   grid-template-columns: auto auto;
   grid-template-rows: auto auto auto;
-  grid-template-areas;
+  grid-template-areas: 
+  "review-name review-date"
+  "review-rating review-rating"
+  "review-comments review-comments";
 }
 
 #reviews-list p {
@@ -185,8 +191,9 @@ reviews-list li {
     display: inline-grid;
     grid-template-columns: 1fr 2fr;
     grid-template-rows: auto auto;
-    grid-template-areas;
-
+    grid-template-areas:
+    "restaurant-container reviews-container"
+    "map-container reviews-container";
   }
 
   .reviews-list li {
@@ -212,7 +219,10 @@ reviews-list li {
 
   #reviews-list li {
     display: inline-grid;
-    grid-template-areas;
+    grid-template-areas: 
+    "review-name review-rating"
+    "review-comments review-comments"
+    "review-date review-date";
   }
 
   #reviews-list li .review-rating {
@@ -421,7 +431,7 @@ nav h1 a {
   line-height: 1.1;
 }
 #restaurant-img {
-	width: 100%;
+	max-width: 100%;
 }
 #restaurant-address {
   font-size: 12pt;
@@ -439,26 +449,28 @@ nav h1 a {
   text-transform: uppercase;
 	width: 90%;
 }
+
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
 }
 
-
-#reviews-container h1 {
+#reviews-container h2 {
   color: #f58500;
   font-size: 24pt;
   font-weight: 300;
   letter-spacing: -1px;
   padding-bottom: 1pt;
 }
+
 #reviews-list {
   margin: 0;
   padding: 0;
 }
+
 #reviews-list li {
   background-color: #fff;
-    border: 2px solid #f3f3f3;
+  border: 2px solid #f3f3f3;
   list-style-type: none;
   margin: 0 0 30px;
   overflow: hidden;
