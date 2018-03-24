@@ -1,5 +1,3 @@
-import idb from 'idb';
-
 /**
  * Common database helper functions.
  */
@@ -21,21 +19,49 @@ class DBHelper {
     return `mws-restaurant-stage-1-idb`;
   }
 
+  /**
+   * Idb database version.
+   */
   static get IDB_VERSION() {
     return 1;
   }
 
   /**
-   * Get idb database
+   * Idb store name.
    */
-  static getIdbDatabase() {
-    if (!navigator.serviceWorker) return Promise.resolve();
+  static get IDB_STORE_NAME() {
+    return 'restaurants';
+  }
 
-    return idb.open(DBHelper.IDB_DATABASE_NAME, DBHelper.IDB_VERSION, (upgradeCallback) => {
-      upgradeCallback.createObjectStore('restaurants', {
-        keyPath: 'id'
-      });
-    });
+  /**
+   * Open IndexedDB database
+   */
+  static openIndexedDB(callback) {
+    // Using vanilla IndexedDB here instead of idb
+    // Understanding how it is used compared with idb-with-promises
+    // Seems to work seemlessly since we only have one version of the database
+    // But for more than one version, idb has to be preferred !
+
+    if (!navigator.serviceWorker || !window.indexedDB) {
+      return console.log('IndexedDB is not supported in your current browser');
+    };
+
+    var db;
+    var idbRequest = window.indexedDB.open(DBHelper.IDB_DATABASE_NAME, DBHelper.IDB_VERSION);
+
+    idbRequest.onerror = (event) => {
+      console.log('An error occured when trying to open indexedDB', event.target.errorCode);
+    };
+
+    idbRequest.onsuccess = (event) => {
+      db = event.target.result;
+      callback(db);
+    };
+
+    idbRequest.onupgradeneeded = (event) => {
+      var restaurantStore = event.currentTarget.result.createObjectStore(
+        DBHelper.IDB_STORE_NAME, { keyPath: 'id' });
+    };
   }
 
   /**
@@ -43,43 +69,51 @@ class DBHelper {
    */
   static fetchRestaurants(callback) {
     let idbRestaurants = [];
-    const restaurantsStore = DBHelper.getIdbDatabase();
 
-    restaurantsStore
-      .then((db) => {
-        const tx = db.transaction('restaurants');
-        tx.objectStore('restaurants')
-          .getAll()
-          .then((restaurants) => {
-            idbRestaurants = restaurants;
-          });
-        return db;
-      })
-      .then((db) => {
-        if (idbRestaurants) {
-          console.log('idbRestaurants = ', idbRestaurants);
-          callback(null, idbRestaurants);
+    return DBHelper.openIndexedDB((db) => {
+      var tx = db.transaction('restaurants');
+      var restaurantStore = tx.objectStore('restaurants');
+      var request = restaurantStore.getAll();
+
+      request.onsuccess = (event) => {
+        idbRestaurants = event.target.result;
+
+        if (idbRestaurants.length !== 0) {
+          return callback(null, idbRestaurants);
         } else {
-          fetch(DBHelper.DATABASE_URL)
-            .then((response) => {
-              return response.json();
-            })
-            .then((restaurants) => {
-              // restaurantsStore.then((db) => {
-              const tx = db.transaction('restaurants', 'readwrite');
-              const restaurantsStore = tx.objectStore('restaurants');
-              restaurants.forEach((restaurant) => {
-                restaurantsStore.put(restaurant);
-              });
-              // });
-              callback(null, restaurants);
-            })
-            .catch((e) => {
-              const error = `Request failed`;
-              console.log('err = ', e);
+          return DBHelper.fetchRestaurantsFromNetwork((error, restaurants) => {
+            if (error) {
               callback(error, null);
-            });
+            } else {
+              callback(null, restaurants);
+              var tx = db.transaction('restaurants', 'readwrite');
+              var restaurantStore = tx.objectStore('restaurants');
+              restaurants.forEach((restaurant) => {
+                restaurantStore.put(restaurant);
+              });
+            }
+          });
         }
+      };
+
+    });
+  }
+
+  /**
+   * Fetch all restaurants but only from the network.
+   */
+  static fetchRestaurantsFromNetwork(callback) {
+    fetch(DBHelper.DATABASE_URL)
+      .then((response) => {
+        return response.json();
+      })
+      .then((restaurants) => {
+        callback(null, restaurants);
+      })
+      .catch((e) => {
+        const error = `Request failed`;
+        console.log('err = ', e);
+        callback(error, null);
       });
   }
 
