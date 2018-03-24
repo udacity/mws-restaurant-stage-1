@@ -6,6 +6,10 @@
   }
 }
 
+.grid-list {
+  display: grid;
+}
+
 #restaurants-list {
   background-color: $restaurants-list-bg-color;
   list-style: outside none none;

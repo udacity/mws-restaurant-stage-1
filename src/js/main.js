@@ -131,7 +131,7 @@ window.resetRestaurants = (restaurants) => {
 export const fillRestaurantsHTML = (restaurants = self.restaurants) => {
     const container = document.getElementById('restaurants-container');
     const ul = document.getElementById('restaurants-list');
-    ul.style.display = 'block';
+    ul.style.display = 'grid';
 
     removeNoResult(container);
     if (restaurants.length < 1) {

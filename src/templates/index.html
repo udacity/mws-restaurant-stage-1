@@ -13,36 +13,37 @@
 </head>
 
 <body>
+<div class="flex-column">
+    <header>
+        <nav>
+            <h1><a href="/">Restaurant Reviews</a></h1>
+        </nav>
+    </header>
 
-<header>
-    <nav>
-        <h1><a href="/">Restaurant Reviews</a></h1>
-    </nav>
-</header>
+    <main id="maincontent" class="flex-column">
+        <section id="map-container">
+            <div id="map"></div>
+        </section>
+        <section>
+            <div class="filter-options">
+                <h2>Filter Results</h2>
+                <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+                    <option value="all">All Neighborhoods</option>
+                </select>
+                <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+                    <option value="all">All Cuisines</option>
+                </select>
+            </div>
+            <div id="restaurants-container">
+                <ul id="restaurants-list" class="grid-list"></ul>
+            </div>
+        </section>
+    </main>
 
-<main id="maincontent">
-    <section id="map-container">
-        <div id="map"></div>
-    </section>
-    <section>
-        <div class="filter-options">
-            <h2>Filter Results</h2>
-            <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-                <option value="all">All Neighborhoods</option>
-            </select>
-            <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
-                <option value="all">All Cuisines</option>
-            </select>
-        </div>
-        <div id="restaurants-container">
-            <ul id="restaurants-list"></ul>
-        </div>
-    </section>
-</main>
-
-<footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-</footer>
+    <footer id="footer">
+        Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    </footer>
+</div>
 <% for (key in htmlWebpackPlugin.files.js) { %>
 <script src="<%= htmlWebpackPlugin.files.js[key] %>"></script>
 <% } %>

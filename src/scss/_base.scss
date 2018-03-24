@@ -25,13 +25,29 @@ ul, ol {
 a {
   color: $base-link-color;
   text-decoration: none;
-  &:hover, &:focus {
+  &:hover {
     color: $base-hover-color;
     text-decoration: underline;
   }
-
+  &:focus {
+    outline: 2px solid #0044ff;
+    text-decoration: none;
+    &:hover {
+      outline: 0;
+    }
+  }
   img {
     border: $base-img-border;
+  }
+}
+
+select {
+  &:focus {
+    outline: 2px solid #0044ff;
+    text-decoration: none;
+    &:hover {
+      outline: 0;
+    }
   }
 }
 
@@ -50,6 +66,11 @@ article, main, footer, nav, header, section, div, ul, li {
 
 picture {
   max-width: 100%;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }
 
 #maincontent {

@@ -13,8 +13,8 @@ $vendors: "-moz-", "-webkit-", "";
 }
 
 $break-small: 370px;
-$break-medium: 480px;
-$break-large: 720px;
+$break-medium: 768px;
+$break-large: 1280px;
 
 @mixin respond-to($media) {
   @if $media == handhelds {
