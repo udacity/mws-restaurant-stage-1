@@ -181,7 +181,7 @@ createRestaurantHTML = (restaurant) => {
     `(min-width: 480px) 300px,` +
     `(max-width: 479px) 550px`;
 
-  image.alt = `${restaurant.name} thumbnail`;
+  image.alt = `A view from the restaurant ${restaurant.name}`;
 
   li.append(image);
 
