@@ -65,9 +65,9 @@ nav h1 {
 nav h1 a {
  
   color: #fff;
-  font-size: 14pt;
+  font-size: 0.8em;
   font-weight: 200;
-  letter-spacing: 10px;
+  letter-spacing: 5px;
   text-transform: uppercase;
 }
 #breadcrumb {
@@ -212,6 +212,7 @@ nav h1 a {
   /*position: fixed;
   right: 0;
   top: 80px;*/
+  padding-top: 50px;
   grid-column-start: 1;
   grid-row-start: 2;
   margin: 20px;
@@ -270,7 +271,7 @@ nav h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+	width: 100%;
 }
 #restaurant-container, #reviews-container {
   grid-column-start: 1;
@@ -280,6 +281,9 @@ nav h1 a {
   margin-left: 10px;
   /*padding: 140px 40px 30px;*/
   /*width: 50%;*/
+}
+#restaurant-container{
+  padding-top: 100px;
 }
 #reviews-container {
   border-top: 1px solid #d9d9d9;
@@ -328,6 +332,10 @@ nav h1 a {
 /*  media queries */
 
 @media screen and (min-width : 500px){
+  nav h1 a {
+  font-size: 1em;
+  letter-spacing: 10px;
+  }
   
   #restaurants-list {
   grid-template-columns: 1fr 1fr;
