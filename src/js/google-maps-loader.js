@@ -1,6 +1,5 @@
 export default class GoogleMapsLoader {
     constructor(async = true, defer = true) {
-        console.log('GM constructor');
         this.language = 'en';
         this.region = 'US';
         this.initializator = '__google_maps_api_provider_initializator__';
@@ -30,11 +29,11 @@ export default class GoogleMapsLoader {
 
     static get REGION() {
         return this.region;
-    };
+    }
 
     static set REGION(region) {
         this.region = region;
-    };
+    }
 
     get LIBRARIES() {
         return this.libraries;
@@ -46,19 +45,19 @@ export default class GoogleMapsLoader {
 
     get BUSINESS_API() {
         return this.businessApi;
-    };
+    }
 
     set BUSINESS_API(key) {
         this.businessApi = key;
-    };
+    }
 
     get KEY() {
         return this.key;
-    };
+    }
 
     set KEY(key) {
         this.key = key;
-    };
+    }
 
     get VERSION() {
         return this.version;
@@ -80,40 +79,31 @@ export default class GoogleMapsLoader {
         this.mapOptions = mapOptions || this.mapOptions;
         this.mapId = mapId || this.mapId;
 
-        console.log('GM load');
         if (this.google === null) {
-            console.log('GM google === null');
             if (this.loading === true) {
-                console.log('GM loading');
-                console.log('adding to callback:', onLoadCallback);
                 if (onLoadCallback) {
                     this.callbacks.push(onLoadCallback);
                 }
             } else {
-                console.log('GM not loading');
                 this.loading = true;
                 let that = this;
                 window[this.initializator] = function () {
-                    console.log('GM initializator:', onLoadCallback);
                     that.ready(onLoadCallback);
                 };
 
                 this.appendLoaderToBody();
             }
         } else if (onLoadCallback) {
-            console.log('GM google !== null');
-            onLoadCallback(google);
+            onLoadCallback(this.google);
         }
-    };
+    }
 
     onLoad(callback) {
         this.onLoadEvents.push(callback);
-    };
+    }
 
     appendLoaderToBody() {
-        console.log('GM appendLoaderToBody');
         this.scriptElement = document.createElement('script');
-        // this.scriptElement.type = 'text/javascript';
         this.scriptElement.src = this.createUrl();
         if (this.isAsync) this.scriptElement.async = true; // not needed as async is set by default
         if (this.isDefer) this.scriptElement.defer = true;
@@ -141,42 +131,34 @@ export default class GoogleMapsLoader {
             url += '&_region=' + this.region;
         }
 
-        console.log('GM createUrl', url);
         return url;
     }
 
     ready(callback) {
-        console.log('GM ready', callback);
         this.loading = false;
 
         if (this.google === null) {
-            console.log('GM ready > setting google', window.google);
             this.google = window.google;
         }
 
         let map = this.createMap();
 
-        console.log('GM ready > startingOnLoadEvents > ', this.onLoadEvents.length);
         for (let i = 0; i < this.onLoadEvents.length; i++) {
             this.onLoadEvents[i](map);
         }
 
         if (callback) {
-            console.log('GM ready > callback > ', callback);
             callback(map);
         }
 
-        console.log('GM ready > callbackArray > ', this.callbacks.length);
         for (let i = 0; i < this.callbacks.length; i++) {
             this.callbacks[i](map);
         }
 
-        console.log('GM ready > resetCallbacks');
         this.callbacks = [];
     }
 
     createMap() {
-        // window.google = google;
        return new this.google.maps.Map(
             document.getElementById(this.mapId),
             this.mapOptions

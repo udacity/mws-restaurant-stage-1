@@ -17,7 +17,6 @@ export function initHome() {
         fetchCuisines();
     });
 
-    console.log('initHome');
     /**
      * Initialize Google map, called from HTML.
      */
@@ -92,7 +91,6 @@ export const fillCuisinesHTML = (cuisines = self.cuisines) => {
  * Update page and map for current restaurants.
  */
 window.updateRestaurants = () => {
-    console.log("updateRestaurants");
     const cSelect = document.getElementById('cuisines-select');
     const nSelect = document.getElementById('neighborhoods-select');
 
@@ -173,12 +171,10 @@ export const createRestaurantHTML = (restaurant) => {
  * Add markers for current restaurants to the map.
  */
 export const addMarkersToMap = (restaurants = self.restaurants) => {
-    console.log("addMarkersToMap", google);
-    console.log("addMarkersToMap", window.google);
     restaurants.forEach(restaurant => {
         // Add marker to the map
         const marker = DBHelper.mapMarkerForRestaurant(restaurant, window.map);
-        google.maps.event.addListener(marker, 'click', () => {
+        window.google.maps.event.addListener(marker, 'click', () => {
             window.location.href = marker.url
         });
         self.markers.push(marker);
