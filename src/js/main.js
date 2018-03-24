@@ -129,11 +129,36 @@ window.resetRestaurants = (restaurants) => {
  * Create all restaurants HTML and add them to the webpage.
  */
 export const fillRestaurantsHTML = (restaurants = self.restaurants) => {
+    const container = document.getElementById('restaurants-container');
     const ul = document.getElementById('restaurants-list');
+    ul.style.display = 'block';
+
+    removeNoResult(container);
+    if (restaurants.length < 1) {
+        ul.style.display = 'none';
+        addNoResult(container);
+        return;
+    }
+
     restaurants.forEach(restaurant => {
         ul.append(createRestaurantHTML(restaurant));
     });
     addMarkersToMap();
+};
+
+export const removeNoResult = (container) => {
+    const noRestaurants = document.getElementById('restaurant-no-result');
+    if(noRestaurants) {
+        container.removeChild(noRestaurants);
+    }
+};
+
+export const addNoResult = (container) => {
+    const noRestaurants = document.createElement('p');
+    noRestaurants.id = 'restaurant-no-result';
+    noRestaurants.className = 'no-result';
+    noRestaurants.innerHTML = 'No restaurants found!';
+    container.appendChild(noRestaurants);
 };
 
 /**

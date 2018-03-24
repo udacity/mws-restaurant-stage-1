@@ -1,3 +1,11 @@
+#restaurants-container {
+  .no-result { // is active if there's no restaurant
+    padding: 10px 0 10px 20px;
+    font-weight: 600;
+    color: red;
+  }
+}
+
 #restaurants-list {
   background-color: $restaurants-list-bg-color;
   list-style: outside none none;
