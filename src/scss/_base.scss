@@ -70,15 +70,15 @@ picture {
 
 .flex-column {
   display: flex;
-  flex-direction: column;
+  flex-flow: column wrap;
 }
 
-#maincontent {
+.main-content {
   background-color: $maincontent-bg-color;
   min-height: 100%;
 }
 
-#footer {
+.footer {
   background-color: $footer-bg-color;
   color: $footer-font-color;
   font-size: $footer-font-size;
@@ -86,4 +86,13 @@ picture {
   padding: 25px;
   text-align: center;
   text-transform: uppercase;
+}
+
+.skip {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  padding: 6px 11px;
+  background: #fff;
+  border-bottom-right-radius: 6px;
 }

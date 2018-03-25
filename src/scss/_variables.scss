@@ -40,11 +40,12 @@ $filter-select-font-size: 11pt;
 
 $restaurants-list-bg-color: #f3f3f3;
 $restaurants-list-list-bg-color: #fff;
-$restaurants-list-list-border: 2px solid #ccc;
+$restaurants-list-list-border: 1px solid silver;
 $restaurants-list-header-font-color: #f18200;
 $restaurants-list-header-font-size: 14pt;
 $restaurants-list-header-font-weight: 200;
 $restaurants-list-link-bg-color: orange;
+$restaurants-list-hover-bg-color: blue;
 $restaurants-list-link-color: #fff;
 $restaurants-list-link-font-size: 10pt;
 $restaurants-list-link-border: 3px solid #eee;
@@ -68,3 +69,6 @@ $restaurant-container-border-bottom: 1px solid #d9d9d9;
 $reviews-container-header-font-color: #f58500;
 $reviews-container-header-font-size: 24pt;
 $reviews-container-header-font-weight: 300;
+
+$flex-list-item-bg-color: #e0ddd5;
+$flex-list-item-font-color: #171e42;

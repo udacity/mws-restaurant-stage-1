@@ -14,17 +14,18 @@
 
 <body>
 <div class="flex-column">
+    <a class="skip" href="#content">Skip to content</a>
     <header>
         <nav>
             <h1><a href="/">Restaurant Reviews</a></h1>
         </nav>
     </header>
 
-    <main id="maincontent" class="flex-column">
+    <main id="maincontent" class="main-content">
         <section id="map-container">
-            <div id="map"></div>
+            <div id="map" class="map"></div>
         </section>
-        <section>
+        <section id="content">
             <div class="filter-options">
                 <h2>Filter Results</h2>
                 <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
@@ -34,13 +35,13 @@
                     <option value="all">All Cuisines</option>
                 </select>
             </div>
-            <div id="restaurants-container">
-                <ul id="restaurants-list" class="grid-list"></ul>
+            <div id="restaurants-container" class="restaurants-container">
+                <ul id="restaurants-list" class="restaurants-list flex-list"></ul>
             </div>
         </section>
     </main>
 
-    <footer id="footer">
+    <footer id="footer" class="footer">
         Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
     </footer>
 </div>

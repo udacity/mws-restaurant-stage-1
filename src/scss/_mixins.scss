@@ -12,9 +12,11 @@ $vendors: "-moz-", "-webkit-", "";
   }
 }
 
-$break-small: 370px;
-$break-medium: 768px;
-$break-large: 1280px;
+$break-smallest: 360px;
+$break-smaller: 410px;
+$break-small: 720px;
+$break-medium: 1024px;
+$break-large: 1340px;
 
 @mixin respond-to($media) {
   @if $media == handhelds {

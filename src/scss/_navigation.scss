@@ -15,13 +15,13 @@ nav {
   }
 }
 
-#breadcrumb {
+.breadcrumb {
+  width:  100%;
   padding: 10px 40px 16px;
   list-style: none;
   background-color: $nav-breadcrumb-bg-color;
   font-size: $nav-breadcrumb-font-size;
   margin: 0;
-  width: calc(50% - 80px);
   li { /* Display list items side by side */
     display: inline;
     a { /* Add a color to all links inside the list */

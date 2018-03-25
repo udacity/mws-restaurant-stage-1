@@ -1,7 +1,9 @@
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
+  display: flex;
+  flex-flow: row wrap;
   width: 100%;
-  height: 50px;
+  padding: 20px 15px;
   background-color: $filter-bg-color;
   align-items: center;
   h2 {
@@ -10,6 +12,7 @@
     font-weight: $filter-header-font-weight;
     line-height: 1;
     margin: 0 20px;
+    width: 100%;
   }
   select {
     background-color: $filter-select-bg-color;

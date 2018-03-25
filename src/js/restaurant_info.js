@@ -123,23 +123,33 @@ export const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 export const createReviewHTML = (review) => {
     const li = document.createElement('li');
-    const name = document.createElement('p');
-    name.innerHTML = review.name;
-    li.appendChild(name);
 
-    const date = document.createElement('p');
-    date.innerHTML = review.date;
-    li.appendChild(date);
-
-    const rating = document.createElement('p');
-    rating.innerHTML = `Rating: ${review.rating}`;
+    const rating = document.createElement('span');
+    rating.innerHTML = createRating(review.rating);
     li.appendChild(rating);
 
     const comments = document.createElement('p');
     comments.innerHTML = review.comments;
     li.appendChild(comments);
 
+    const name = document.createElement('p');
+    name.innerHTML = `<i>${review.date}, ${review.name}</i>`;
+    li.appendChild(name);
+
     return li;
+};
+
+export const createRating = rating => {
+    let rateHtml = '<b>Rating: </b> ';
+    for(let i = 0; i < 5; i++){
+        if (i < rating){
+            rateHtml += '<span class="fa fa-star checked"></span>';
+        } else {
+            rateHtml += '<span class="fa fa-star"></span>';
+        }
+    }
+
+    return rateHtml;
 };
 
 /**
