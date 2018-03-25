@@ -169,6 +169,10 @@ section {
   width: 100%;
 }
 
+.inside #map {
+  margin-top: 137px;
+}
+
 /* ====================== Restaurant Filtering ====================== */
 
 .filter-options {
@@ -444,6 +448,7 @@ section {
 
   .inside #map {
     height: 100%;
+    margin: 0;
   }
 
   #restaurant-container {
