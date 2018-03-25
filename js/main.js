@@ -4,13 +4,30 @@ let restaurants,
 var map
 var markers = []
 
+
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  registerServiceWorker();
 });
+
+/**
+* Register a service worker if browser has this option
+*/
+registerServiceWorker = () => {
+	
+	if (!navigator.serviceWorker) return;
+	
+	navigator.serviceWorker.register('/sw.js', { scope: '/' })
+		.then(() => {console.log('Registration successfull');})
+		.catch(()=> {console.log('SW Registartion failed');});
+	
+}
+
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -80,6 +97,10 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
+  
+  const iframes = document.getElementsByTagName('iframe');
+  iframes.title = "Restaurants";
+  
   updateRestaurants();
 }
 
@@ -138,10 +159,25 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
+  const picture = document.createElement('picture');
+  picture.className = 'restaurant-img';
+  
+  let source = document.createElement('source');
+  source.srcset = DBHelper.imageUrlForRestaurant(restaurant);
+  source.media = "(max-width: 400px)";
+  picture.appendChild(source);
+  
+  source = document.createElement('source');
+  source.srcset = DBHelper.imageUrlForRestaurant(restaurant);
+  source.media = "(max-width: 1000px)";
+  picture.appendChild(source);
+  
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
+  image.alt = restaurant.name;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  picture.appendChild(image);
+  
+  li.appendChild(picture);
   
   const summary = document.createElement('div');
   summary.className = 'restaurant-summary';
@@ -161,10 +197,11 @@ createRestaurantHTML = (restaurant) => {
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
+  more.setAttribute('aria-label',`View details for ${restaurant.name} restaurant`);
   more.href = DBHelper.urlForRestaurant(restaurant);
   summary.append(more)
 
-  return li
+  return li;
 }
 
 /**

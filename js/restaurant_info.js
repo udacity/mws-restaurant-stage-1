@@ -54,10 +54,23 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
+  
+  const picture = document.getElementById('restaurant-img');
+  
+  let source = document.createElement('source');
+  source.srcset = DBHelper.imageUrlForRestaurant(restaurant);
+  source.media = "(max-width: 400px)";
+  picture.appendChild(source);
+  
+  source = document.createElement('source');
+  source.srcset = DBHelper.imageUrlForRestaurant(restaurant);
+  source.media = "(max-width: 1000px)";
+  picture.appendChild(source);
 
-  const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  const image = document.createElement('img');
+  image.alt = restaurant.name;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  picture.appendChild(image);
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -118,16 +131,19 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 createReviewHTML = (review) => {
   const li = document.createElement('li');
   
-  const title = document.createElement('div');
+  const article = document.createElement('article');
+  li.appendChild(article);
+  
+  const title = document.createElement('header');
   title.className = 'review-title';
   
-  li.appendChild(title);
+  article.appendChild(title);
   
-  const name = document.createElement('p');
+  const name = document.createElement('h2');
   name.innerHTML = review.name;
   title.appendChild(name);
 
-  const date = document.createElement('p');
+  const date = document.createElement('h2');
   date.innerHTML = review.date;
   title.appendChild(date);
   
@@ -136,7 +152,7 @@ createReviewHTML = (review) => {
   
   const review_div = document.createElement('div');
   review_div.className = 'review-content';
-  li.appendChild(review_div);
+  article.appendChild(review_div);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
