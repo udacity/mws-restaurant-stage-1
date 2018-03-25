@@ -18,11 +18,11 @@
 <!-- Beginning header -->
 <header>
     <!-- Beginning nav -->
-    <nav>
+    <nav aria-label="Navigation">
         <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" class="breadcrumb">
+    <ul id="breadcrumb" class="breadcrumb" aria-label="Breadcrumb">
         <li><a href="/">Home</a></li>
     </ul>
     <!-- End breadcrumb -->
@@ -33,13 +33,13 @@
 <!-- Beginning main -->
 <main id="maincontent" class="main-content flex-column">
     <!-- Beginning map -->
-    <section id="map-container" class="map-container" aria-label="Google Map">
-        <div id="map" class="map-details"></div>
+    <section id="map-container" class="map-container" aria-label="Google Map Api" aria-hidden="true">
+        <div id="map" class="map-details" role="application" aria-hidden="true"></div>
     </section>
     <!-- End map -->
     <div class="restaurant-review-container">
         <!-- Beginning restaurant -->
-        <section id="restaurant-container" class="restaurant-detail">
+        <section id="restaurant-container" class="restaurant-detail" aria-label="Restaurant">
             <h1 id="restaurant-name" class="restaurant-name"></h1>
             <img id="restaurant-img" class="restaurant-img">
             <p id="restaurant-cuisine" class="restaurant-cuisine"></p>
@@ -48,7 +48,7 @@
         </section>
         <!-- end restaurant -->
         <!-- Beginning reviews -->
-        <section id="reviews-container" class="reviews-container">
+        <section id="reviews-container" class="reviews-container" aria-label="Reviews">
             <ul id="reviews-list" class="reviews-list"></ul>
         </section>
         <!-- End reviews -->

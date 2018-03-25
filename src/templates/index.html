@@ -22,21 +22,21 @@
     </header>
 
     <main id="maincontent" class="main-content">
-        <section id="map-container">
-            <div id="map" class="map"></div>
+        <section id="map-container" aria-label="Google Map Api" aria-hidden="true">
+            <div id="map" class="map" role="application"></div>
         </section>
         <section id="content">
-            <div class="filter-options">
-                <h2>Filter Results</h2>
-                <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+            <div class="filter-options" aria-labelledby="filter-header">
+                <h2 id="filter-header">Filter Results</h2>
+                <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="select neighborhood">
                     <option value="all">All Neighborhoods</option>
                 </select>
-                <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+                <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="select cuisine">
                     <option value="all">All Cuisines</option>
                 </select>
             </div>
             <div id="restaurants-container" class="restaurants-container">
-                <ul id="restaurants-list" class="restaurants-list flex-list"></ul>
+                <ul id="restaurants-list" class="restaurants-list flex-list" aria-label="Restaurants"></ul>
             </div>
         </section>
     </main>
