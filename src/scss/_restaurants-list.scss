@@ -101,16 +101,17 @@
     margin-left: 10px;
     margin-top: 10px;
     @media only screen and (min-width: $break-smaller) {
-      max-width: 100%;
+      //max-width: 100%;
+      width: 100%;
     }
     @media only screen and (min-width: $break-small) {
-      max-width: 45%;
+      width: 45%;
     }
     @media only screen and (min-width: $break-medium) {
-      max-width: 30%;
+      width: 30%;
     }
     @media only screen and (min-width: $break-large) {
-      max-width: 22%;
+      width: 22%;
     }
   }
 }

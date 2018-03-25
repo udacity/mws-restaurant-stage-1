@@ -1,5 +1,6 @@
 import Config from '../../config';
 import DBHelper from './dbhelper';
+import PictureHelper from './picturehelper';
 import GoogleMapsLoader from './google-maps-loader';
 
 let restaurants,
@@ -168,10 +169,7 @@ export const createRestaurantHTML = (restaurant) => {
     const li = document.createElement('li');
     li.className = 'flex-list-item';
 
-    const image = document.createElement('img');
-    image.className = 'restaurant-img';
-    image.src = DBHelper.imageUrlForRestaurant(restaurant);
-    li.append(image);
+    li.append(PictureHelper.getPictureElement(restaurant));
 
     const container = document.createElement('div');
     li.append(container);

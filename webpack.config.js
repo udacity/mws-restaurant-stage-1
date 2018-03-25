@@ -76,7 +76,7 @@ module.exports = {
         path: buildFolder,
         filename: 'js/[name].bundle.js'
     },
-    watch: true,
+    watch: false,
     devServer: {
         inline: true,
         port: 8000
