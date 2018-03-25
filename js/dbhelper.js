@@ -8,8 +8,9 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 8000; // Change this to your server port
+    // return `http://localhost:${port}/data/restaurants.json`;
+    return `data/restaurants.json`;
   }
 
   /**
@@ -150,10 +151,9 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
-  }
+    return (`img/${restaurant.photograph}`);
+    }
 
-  /**
    * Map marker for a restaurant.
    */
   static mapMarkerForRestaurant(restaurant, map) {
@@ -167,4 +167,20 @@ class DBHelper {
     return marker;
   }
 
+
+
+  /**
+   * Start ServiceWorker
+   */
+  static startServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+      .then((reg) => {
+        console.log('SW Registration successful. Scope is ' + reg.scope);
+      }).catch((error) => {
+        console.log('SW Registration failed with ' + error);
+      });
+    }
+  }
 }
+  
