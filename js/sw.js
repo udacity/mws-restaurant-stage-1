@@ -1,12 +1,11 @@
-
-var staticCacheName = 'mws-restaurant-stage-1-master';
+var staticCacheName = 'nws-restaurant-stage-1-master';
 let fileToCache = [
    'index.html',
    'restaurant.html',
    'js/dbhelper.js',
    'js/main.js',
    'js/restaurant_info.js',
-   'sw.js',
+   'js/sw.js',
    'css/styles.css',
    'data/restaurants.json',
 ];
@@ -26,7 +25,7 @@ self.addEventListener('activate', function(event) {
     caches.keys().then(function(cacheNames) {
       return Promise.all(
         cacheNames.filter(function(cacheName) {
-          return cacheName.startsWith('nws-') &&
+          return cacheName.startsWith('mws-') &&
                  cacheName != staticCacheName;
         }).map(function(cacheName) {
           return caches.delete(cacheName);

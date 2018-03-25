@@ -154,7 +154,7 @@ class DBHelper {
     return (`img/${restaurant.photograph}`);
     }
 
-   * Map marker for a restaurant.
+   /* Map marker for a restaurant.
    */
   static mapMarkerForRestaurant(restaurant, map) {
     const marker = new google.maps.Marker({
@@ -174,7 +174,7 @@ class DBHelper {
    */
   static startServiceWorker() {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
+      navigator.serviceWorker.register('js/sw.js')
       .then((reg) => {
         console.log('SW Registration successful. Scope is ' + reg.scope);
       }).catch((error) => {
