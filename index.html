@@ -10,18 +10,20 @@
 </head>
 
 <body>
+  <div class="skipnav"><a href="#maincontent">Skip to main content</a></div>
+
   <header>
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
 
-  <main id="maincontent">
+  <main id="maincontent" tabindex="-1">
     <section id="map-container">
-      <div id="map" role="application" aria-hidden="true"</div>
+      <div id="map" class="map" role="application" aria-hidden="true"</div>
     </section>
 
-    <section>
+    <section id="filter-container">
       <div class="filter-options">
         <h2>Filter Results</h2>
         <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="Filter for Neighborhood">
@@ -29,15 +31,26 @@
         </select>
         <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="Filter for Cuisines">
           <option value="all">All Cuisines</option>
-        </select>
-      </div>
-      <ul id="restaurants-list"></ul>
+        </select></section></div>
+
+        <div>
+    <section id="restaurants-container" class="restaurants-list">
+<ul id="restaurants-list"></ul>
+</section></div>
+</main>
+
     </section>
   </main>
 
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnWFiFSV55MLS0q8oq49uZyH8dZ6fTXYQ&libraries=places&callback=initMap"></script>
+  
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUmqemzB6Uw7XZRNbBFNUgGzxHY-rJuuI&libraries=places&callback=initMap"></script>
+  
+
+
+
+
 
 
   <footer id="footer">
