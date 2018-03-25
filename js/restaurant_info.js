@@ -12,7 +12,9 @@ window.initMap = () => {
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: restaurant.latlng,
-        scrollwheel: false
+        scrollwheel: false,
+        mapTypeControl: false,
+        streetViewControl: false
       });
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
