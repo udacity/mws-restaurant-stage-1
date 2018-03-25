@@ -80,8 +80,8 @@
   }, {
     "id": 3,
     "name": "Kang Ho Dong Baekjeong",
-    "neighborhood": "Manhattan",
     "photograph": "3.jpg",
+    "neighborhood": "Manhattan",
     "address": "1 E 32nd St, New York, NY 10016",
     "latlng": {
       "lat": 40.747143,
