@@ -36,10 +36,10 @@
     "webpack-dev-server": "^3.1.1"
   },
   "scripts": {
-    "build:prod": "./node_modules/.bin/webpack --display-entrypoints --mode production && gulp responsive-images && npm run minify-html",
-    "start:dev": "npm run start:dev-server -- --devtool source-maps --hot --progress --colors --mode development",
+    "build:prod": "./node_modules/.bin/webpack --display-entrypoints --mode production && gulp responsive-images-prod && npm run minify-html",
     "minify-html": "./node_modules/.bin/html-minifier --file-ext html --input-dir dist --output-dir dist --remove-comments --collapse-whitespace --minify-js --minify-css",
-    "start:dev-server": "./node_modules/.bin/webpack-dev-server",
+    "start:dev": "gulp responsive-images-dev && npm run start:dev-server",
+    "start:dev-server": "./node_modules/.bin/webpack-dev-server --devtool source-maps --hot --progress --colors --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

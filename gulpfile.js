@@ -1,8 +1,16 @@
 let gulp = require('gulp');
 let $ = require('gulp-load-plugins')();
 
-gulp.task('responsive-images', function () {
-    return gulp.src('src/img/*.*')
+gulp.task('responsive-images-dev', function () {
+    createResponsiveImages ('src/img');
+});
+
+gulp.task('responsive-images-prod', function () {
+    createResponsiveImages ('dist/img');
+});
+
+const createResponsiveImages = function(output){
+    return gulp.src('src/images/*.*')
         .pipe($.responsive(
             {
                 '*.*':
@@ -73,5 +81,5 @@ gulp.task('responsive-images', function () {
                 errorOnEnlargement: false,
             }
         ))
-        .pipe(gulp.dest('dist/img'));
-});
+        .pipe(gulp.dest(output));
+};
