@@ -10,7 +10,7 @@
       writable: true,
       value: function append() {
         var argArr = Array.prototype.slice.call(arguments),
-          docFrag = document.createDocumentFragment(); F
+          docFrag = document.createDocumentFragment();
 
         argArr.forEach(function (argItem) {
           var isNode = argItem instanceof Node;
