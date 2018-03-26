@@ -10,7 +10,7 @@
       writable: true,
       value: function append() {
         var argArr = Array.prototype.slice.call(arguments),
-          docFrag = document.createDocumentFragment(); F
+          docFrag = document.createDocumentFragment();
 
         argArr.forEach(function (argItem) {
           var isNode = argItem instanceof Node;
@@ -35,7 +35,6 @@ var markers = [];
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
-  resgiterServiceWorker();
 });
 
 /**
@@ -104,7 +103,9 @@ window.initMap = () => {
   self.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
     center: loc,
-    scrollwheel: false
+    scrollwheel: false,
+    mapTypeControl: false,
+    streetViewControl: false
   });
   updateRestaurants();
 }
@@ -183,7 +184,7 @@ createRestaurantHTML = (restaurant) => {
     `(min-width: 480px) 300px,` +
     `(max-width: 479px) 550px`;
 
-  image.alt = `${restaurant.name} thumbnail`;
+  image.alt = `A view from the restaurant ${restaurant.name}`;
 
   li.append(image);
 
@@ -221,26 +222,4 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
-}
-
-/** 
- *  Register a service worker to the root of the page.
- */
-function resgiterServiceWorker() {
-  if (!navigator.serviceWorker) {
-    return;
-  }
-
-  navigator.serviceWorker.register('sw.js')
-    .then(function (reg) {
-      if (!navigator.serviceWorker.controller) {
-        return;
-      }
-
-      if (reg.waiting) {
-        // if there is a sw already waiting then update since the user did not yet interact with the page
-        reg.waiting.postMessage({ action: 'skipWaiting' });
-        return;
-      }
-    });
 }
