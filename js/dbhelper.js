@@ -226,10 +226,11 @@ class DBHelper {
   }
 })();
 
+
 /** 
  *  Register a service worker to the root of the page.
  */
-function resgiterServiceWorker() {
+!function resgiterServiceWorker() {
   if (!navigator.serviceWorker) {
     return;
   }
@@ -246,4 +247,4 @@ function resgiterServiceWorker() {
         return;
       }
     });
-}
+}();
