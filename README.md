@@ -68,8 +68,8 @@ gulp dist
 
 #### Usage
 
-Run the http-server on dist folder and enable gzip comporession and ssl. More info here https://github.com/indexzero/http-server
+Run the http-server on dist folder and enable gzip comporession. More info here https://github.com/indexzero/http-server
 
 ```sh
-http-server -g -c86400 --ssl
+http-server -g -c86400
 ```
