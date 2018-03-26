@@ -60,9 +60,12 @@ toggleOffline = (offline,checkSync=true) =>{
 document.addEventListener('DOMContentLoaded', (event) => {
     toggleOffline(!navigator.onLine,false);//check initial offline state
   createObserver();
-  fetchNeighborhoods();
-  fetchCuisines();
-
+  /*
+  we stopped calling these functions to reduce the number of fetches,
+  we moved this functionality to updateRestaurants which is fetched to get the restaurants
+  //fetchNeighborhoods();
+  //fetchCuisines();
+  */
   if(!navigator.onLine){
     //if offline don't check for pending sync
     updateRestaurants();//moved this here to work offline
@@ -105,19 +108,6 @@ lazy_load = (entry) => {
   img.style.visibility='visible';
 
 }
-/**
- * Fetch all neighborhoods and set their HTML.
- */
-fetchNeighborhoods = () => {
-  DBHelper.fetchNeighborhoods((error, neighborhoods) => {
-    if (error) { // Got an error
-      console.error(error);
-    } else {
-      self.neighborhoods = neighborhoods;
-      fillNeighborhoodsHTML();
-    }
-  });
-}
 
 /**
  * Set neighborhoods HTML.
@@ -132,19 +122,6 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   });
 }
 
-/**
- * Fetch all cuisines and set their HTML.
- */
-fetchCuisines = () => {
-  DBHelper.fetchCuisines((error, cuisines) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.cuisines = cuisines;
-      fillCuisinesHTML();
-    }
-  });
-}
 
 /**
  * Set cuisines HTML.
@@ -175,16 +152,25 @@ updateRestaurants = () => {
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
+  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, data) => {
     if (error) { // Got an error!
       console.error(error);
     } else {
-      resetRestaurants(restaurants);
+      //data returns restaurants,unique csisines and unique neighbothoods to reduce the number of fetch requests
+      if(!self.cuisines){
+      self.cuisines = data.cuisines;
+      fillCuisinesHTML();
+      }
+      if(!self.neighborhoods){
+      self.neighborhoods = data.neighborhoods;
+      fillNeighborhoodsHTML();
+      }
+      resetRestaurants(data.restaurants);
       fillRestaurantsHTML();
       /*
       div id=filtered-results has aria-live=polite, to announce the number of filtered results
       */
-      document.getElementById('filtered-results').innerHTML=`<p>${restaurants.length} Results</p>`;
+      document.getElementById('filtered-results').innerHTML=`<p>${data.restaurants.length} Results</p>`;
     }
   })
 }

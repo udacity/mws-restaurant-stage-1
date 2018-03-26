@@ -391,55 +391,27 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        let results = restaurants
+        let results = restaurants;
+        //we return here the unique cuisines and neighborhoods since this is called by default
+        //GET UNIQUE NEIGHBORHOODS
+        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
+        //GET UNIQUE CUISINES
+        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
+        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
+
         if (cuisine != 'all') { // filter by cuisine
           results = results.filter(r => r.cuisine_type == cuisine);
         }
         if (neighborhood != 'all') { // filter by neighborhood
           results = results.filter(r => r.neighborhood == neighborhood);
         }
-        callback(null, results);
+        const final_result={restaurants:results,cuisines:uniqueCuisines,neighborhoods:uniqueNeighborhoods}
+        callback(null, final_result);
       }
     });
   }
 
-  /**
-   * Fetch all neighborhoods with proper error handling.
-   */
-  static fetchNeighborhoods(callback) {
-
-    // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
-
-      if (error) {
-        callback(error, null);
-      } else {
-        // Get all neighborhoods from all restaurants
-        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
-        // Remove duplicates from neighborhoods
-        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
-        callback(null, uniqueNeighborhoods);
-      }
-    });
-  }
-
-  /**
-   * Fetch all cuisines with proper error handling.
-   */
-  static fetchCuisines(callback) {
-    // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        // Get all cuisines from all restaurants
-        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
-        // Remove duplicates from cuisines
-        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
-        callback(null, uniqueCuisines);
-      }
-    });
-  }
 
   /**
    * Restaurant page URL.

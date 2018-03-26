@@ -36,9 +36,9 @@ var paths = {
 
 gulp.task('default', gulp.series(create_smaller_images_dev,webserverRoot));
 
-gulp.task('dist', gulp.parallel(copy_html,copy_images,copy_icons,create_smaller_images_dist,styles,scripts));
+gulp.task('dist', gulp.parallel(copy_html,copy_images,copy_icons,create_smaller_images_dist,styles,styles_gzip,scripts,scripts_gzip));
 
-gulp.task('dist-serve', gulp.series(copy_html,copy_images,copy_icons,create_smaller_images_dist,styles,scripts,webserverDist));
+gulp.task('dist-serve', gulp.series(copy_html,copy_images,copy_icons,create_smaller_images_dist,styles,styles_gzip,scripts,scripts_gzip,webserverDist));
 
 
 function webserverRoot(){
@@ -95,11 +95,24 @@ function create_smaller_images_dev(){
 function scripts(){
   return gulp.src(paths.scripts.src)
         .pipe(uglify())
+      .pipe(gulp.dest(paths.scripts.dest));
+}
+function scripts_gzip(){
+  return gulp.src(paths.scripts.src)
+        .pipe(uglify())
         .pipe(gzip())
       .pipe(gulp.dest(paths.scripts.dest));
 }
 
 function styles(){
+	return gulp.src(paths.styles.src)
+		.pipe(autoprefixer({
+			browsers: ['last 2 versions']
+		}))
+    .pipe(cleanCSS())
+		.pipe(gulp.dest(paths.styles.dest))
+}
+function styles_gzip(){
 	return gulp.src(paths.styles.src)
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions']
