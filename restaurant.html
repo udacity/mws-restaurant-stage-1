@@ -38,10 +38,9 @@
   <main id="maincontent">
     <!-- Beginning map -->
     <section id="map-container">
-      <div id="map"
-           role="map"
-           aria-label="map"
-           tab-index="0"></div>
+      <button id="map"
+              role="application"
+              aria-label="map"></div>
     </section>
     <!-- End map -->
 
@@ -49,11 +48,14 @@
       <!-- Beginning restaurant -->
       <section id="restaurant-container">
         <h2 id="restaurant-name"></h2>
-        <img id="restaurant-img">
-        <p id="restaurant-cuisine"></p>
+        <div class="card">
+          <img id="restaurant-img">
+          <p id="restaurant-cuisine"></p>
+        </div>
         <p id="restaurant-address"></p>
         <h2 id="restaurant-schedule">Schedule</h2>
-        <table id="restaurant-hours"></table>
+        <table id="restaurant-hours"
+               class="card"></table>
       </section>
       <!-- end restaurant -->
       <!-- Beginning reviews -->

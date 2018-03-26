@@ -103,7 +103,9 @@ window.initMap = () => {
   self.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
     center: loc,
-    scrollwheel: false
+    scrollwheel: false,
+    mapTypeControl: false,
+    streetViewControl: false
   });
   updateRestaurants();
 }
@@ -162,6 +164,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  li.classList.add('card');
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
@@ -181,7 +184,7 @@ createRestaurantHTML = (restaurant) => {
     `(min-width: 480px) 300px,` +
     `(max-width: 479px) 550px`;
 
-  image.alt = `${restaurant.name} thumbnail`;
+  image.alt = `A view from the restaurant ${restaurant.name}`;
 
   li.append(image);
 
@@ -198,6 +201,7 @@ createRestaurantHTML = (restaurant) => {
   li.append(address);
 
   const more = document.createElement('a');
+  more.classList.add('button');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   more.setAttribute('aria-label', `view details about ${restaurant.name}`);
