@@ -2,11 +2,11 @@
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
 
-## Project Overview: Stage 1
+## Project Overview: Stage 3
 
-For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.
+A reviews app where users can browse restaurants by cuisine and neighborhood. The app has offline capabilities. A restaurant can be toggled favorite even when offline and this action is synced when back online. The same goes for reviews. A user can post a review while offline (this is visible only for the user with indexed db) and the review will sync with the server when online.
 
-## Project : Stage 2 Gulp instructions
+## Project : Stage 3 Gulp instructions
 
 #### Check for Node and npm
 Make sure that you've installed Node and npm before attempting to install gulp.
@@ -58,4 +58,18 @@ Run the gulp command in your project directory (builds the project in dist folde
 
 ```sh
 gulp dist
+```
+## Node http server
+
+#### Install http-server
+```Install thhp-server
+# npm install http-server -g
+```
+
+#### Usage
+
+Run the http-server on dist folder and enable gzip comporession and ssl. More info here https://github.com/indexzero/http-server
+
+```sh
+http-server -g -c86400 --ssl
 ```
