@@ -6,8 +6,9 @@ var markers = [];
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/js/serviceWorker.js")
-            .then(() => console.log("Service Worker Registered"))
+        navigator.serviceWorker
+            .register("/serviceWorker.js")
+            .then(registration => console.info(`Service Worker Registered with scope: ${registration.scope}`))
             .catch(error => console.error("Error registering service worker", error));
     });
 }
@@ -15,7 +16,7 @@ if ("serviceWorker" in navigator) {
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     fetchNeighborhoods();
     fetchCuisines();
 });
