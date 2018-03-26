@@ -36,7 +36,7 @@ var paths = {
 
 gulp.task('default', gulp.series(create_smaller_images_dev,webserverRoot));
 
-gulp.task('dist', gulp.parallel(copy_html,copy_images,copy_icons,create_smaller_images_dist,styles,styles_gzip,scripts,scripts_gzip));
+gulp.task('dist', gulp.parallel(copy_images,copy_icons,create_smaller_images_dist,styles,styles_gzip,scripts_main,scripts_main_gzip,scripts_restaurant,scripts_restaurant_gzip));
 
 //gulp.task('dist-serve', gulp.series(copy_html,copy_images,copy_icons,create_smaller_images_dist,styles,styles_gzip,scripts,scripts_gzip,webserverDist));
 
@@ -62,7 +62,7 @@ function webserverDist(){
 
 
 function copy_html(){
-	return gulp.src(['./index.html','./manifest.json','./restaurant.html','./service-worker.js','./favicon.ico'])
+	return gulp.src(['./manifest.json','./service-worker.js','./favicon.ico'])
 		.pipe(gulp.dest('./dist'));
 }
 
@@ -96,6 +96,7 @@ function scripts(){
   return gulp.src(paths.scripts.src)
         .pipe(uglify())
       .pipe(gulp.dest(paths.scripts.dest));
+
 }
 function scripts_gzip(){
   return gulp.src(paths.scripts.src)
@@ -103,6 +104,37 @@ function scripts_gzip(){
         .pipe(gzip())
       .pipe(gulp.dest(paths.scripts.dest));
 }
+
+function scripts_main(){
+    return gulp.src(['js/main.js','js/dbhelper.js','js/idb.js'])
+        .pipe(uglify())
+        .pipe(concat('main_all.js'))
+      .pipe(gulp.dest(paths.scripts.dest));
+}
+function scripts_main_gzip(){
+  return gulp.src(['js/main.js','js/dbhelper.js','js/idb.js'])
+      .pipe(uglify())
+      .pipe(concat('main_all.js'))
+      .pipe(gzip())
+    .pipe(gulp.dest(paths.scripts.dest));
+}
+
+function scripts_restaurant(){
+  return gulp.src(['js/restaurant_info.js','js/dbhelper.js','js/idb.js'])
+      .pipe(uglify())
+      .pipe(concat('restaurant_info_all.js'))
+    .pipe(gulp.dest(paths.scripts.dest));
+}
+function scripts_restaurant_gzip(){
+return gulp.src(['js/restaurant_info.js','js/dbhelper.js','js/idb.js'])
+    .pipe(uglify())
+    .pipe(concat('restaurant_info_all.js'))
+    .pipe(gzip())
+  .pipe(gulp.dest(paths.scripts.dest));
+}
+
+
+
 
 function styles(){
 	return gulp.src(paths.styles.src)
