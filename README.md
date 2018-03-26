@@ -59,13 +59,3 @@ Run the gulp command in your project directory (builds the project in dist folde
 ```sh
 gulp dist
 ```
-
-
-#### Distribution + webserver
-
-Run the gulp command in your project directory (builds the project in dist folder with css,js minification and image resize and runs a webserver on dist folder):
-
-```sh
-gulp dist-serve
-```
-

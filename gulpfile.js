@@ -38,7 +38,7 @@ gulp.task('default', gulp.series(create_smaller_images_dev,webserverRoot));
 
 gulp.task('dist', gulp.parallel(copy_html,copy_images,copy_icons,create_smaller_images_dist,styles,styles_gzip,scripts,scripts_gzip));
 
-gulp.task('dist-serve', gulp.series(copy_html,copy_images,copy_icons,create_smaller_images_dist,styles,styles_gzip,scripts,scripts_gzip,webserverDist));
+//gulp.task('dist-serve', gulp.series(copy_html,copy_images,copy_icons,create_smaller_images_dist,styles,styles_gzip,scripts,scripts_gzip,webserverDist));
 
 
 function webserverRoot(){
