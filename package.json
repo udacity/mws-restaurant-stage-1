@@ -19,6 +19,20 @@
   },
   "homepage": "https://github.com/anyulled/mws-restaurant-stage-1#readme",
   "devDependencies": {
-    "http-server": "^0.11.1"
+    "babel-core": "^6.26.0",
+    "browser-sync": "^2.23.6",
+    "eslint": "^4.19.1",
+    "eslint-config-google": "^0.9.1",
+    "gulp": "latest",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-babel": "^7.0.1",
+    "gulp-cli": "^2.0.1",
+    "gulp-eslint": "^4.0.2",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-jasmine-phantom": "^3.0.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify-js": "0.0.4",
+    "http-server": "^0.11.1",
+    "imagemin-pngquant": "^5.1.0"
   }
 }
