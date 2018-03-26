@@ -225,3 +225,25 @@ class DBHelper {
     }
   }
 })();
+
+/** 
+ *  Register a service worker to the root of the page.
+ */
+function resgiterServiceWorker() {
+  if (!navigator.serviceWorker) {
+    return;
+  }
+
+  navigator.serviceWorker.register('sw.js')
+    .then(function (reg) {
+      if (!navigator.serviceWorker.controller) {
+        return;
+      }
+
+      if (reg.waiting) {
+        // if there is a sw already waiting then update since the user did not yet interact with the page
+        reg.waiting.postMessage({ action: 'skipWaiting' });
+        return;
+      }
+    });
+}
