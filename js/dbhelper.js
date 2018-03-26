@@ -194,16 +194,12 @@ class DBHelper {
     // Keyboard trap.
     if (event.key == 'Tab') {
       if (event.shiftKey) {
-        console.log('shift+tab');
-        console.log(event.target);
         if (event.target == focusableElements[0]) {
-          console.log('preventing default');
           event.preventDefault();
           focusableElements[focusableElements.length - 1].focus();
         }
       } else {
         if (event.target == focusableElements[focusableElements.length - 1]) {
-          console.log('preventing default');
           event.preventDefault();
           focusableElements[0].focus();
         }
