@@ -164,6 +164,7 @@ class DBHelper {
       map: map,
       animation: google.maps.Animation.DROP
     });
+    self.didMapChange = true;
     return marker;
   }
 
@@ -174,7 +175,12 @@ class DBHelper {
 (function () {
   const map = document.getElementById('map');
 
+  document.body.focus();
+
+  self.didMapChange = true;
+
   let focusableElements;
+  let isMapActive = false;
 
   map.addEventListener('focus', removeFocus);
   map.addEventListener('click', addFocus);
@@ -182,18 +188,22 @@ class DBHelper {
     // Blur the map.
     if (event.key == 'Escape') {
       event.target.blur();
-      removeFocus();
+      map.focus();
     }
 
     // Keyboard trap.
     if (event.key == 'Tab') {
       if (event.shiftKey) {
+        console.log('shift+tab');
+        console.log(event.target);
         if (event.target == focusableElements[0]) {
+          console.log('preventing default');
           event.preventDefault();
           focusableElements[focusableElements.length - 1].focus();
         }
       } else {
         if (event.target == focusableElements[focusableElements.length - 1]) {
+          console.log('preventing default');
           event.preventDefault();
           focusableElements[0].focus();
         }
@@ -201,10 +211,22 @@ class DBHelper {
     }
   });
 
+  self.addEventListener('keyup', function (event) {
+    if (!map.contains(event.target)) {
+      return;
+    }
+
+    if (!isMapActive) {
+      map.focus();
+    }
+  });
+
   function removeFocus(event) {
-    // Check if we got all the focusable elements inside the map
-    if (!focusableElements || focusableElements.length < 18) {
+    isMapActive = false;
+
+    if (self.didMapChange || !focusableElements) {
       focusableElements = map.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex], [contenteditable]');
+      self.didMapChange = false;
     }
 
     // Remove the focusable elements from the tab order.
@@ -214,8 +236,9 @@ class DBHelper {
   }
 
   function addFocus(event) {
-    // Check if we got all the focusableElements inside the map
-    if (!focusableElements || focusableElements.length < 18) {
+    isMapActive = true;
+
+    if (self.didMapChange || !focusableElements) {
       focusableElements = map.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex], [contenteditable]');
     }
 
