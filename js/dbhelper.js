@@ -169,6 +169,63 @@ class DBHelper {
 
 }
 
+// Remove the elements inside the map from the tab order,
+// but add them to the tab order when it is clicked.
+(function () {
+  const map = document.getElementById('map');
+
+  let focusableElements;
+
+  map.addEventListener('focus', removeFocus);
+  map.addEventListener('click', addFocus);
+  map.addEventListener('keydown', function (event) {
+    // Blur the map.
+    if (event.key == 'Escape') {
+      event.target.blur();
+      removeFocus();
+    }
+
+    // Keyboard trap.
+    if (event.key == 'Tab') {
+      if (event.shiftKey) {
+        if (event.target == focusableElements[0]) {
+          event.preventDefault();
+          focusableElements[focusableElements.length - 1].focus();
+        }
+      } else {
+        if (event.target == focusableElements[focusableElements.length - 1]) {
+          event.preventDefault();
+          focusableElements[0].focus();
+        }
+      }
+    }
+  });
+
+  function removeFocus(event) {
+    // Check if we got all the focusable elements inside the map
+    if (!focusableElements || focusableElements.length < 18) {
+      focusableElements = map.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex], [contenteditable]');
+    }
+
+    // Remove the focusable elements from the tab order.
+    for (const focusableElement of focusableElements) {
+      focusableElement.setAttribute('tabindex', '-1');
+    }
+  }
+
+  function addFocus(event) {
+    // Check if we got all the focusableElements inside the map
+    if (!focusableElements || focusableElements.length < 18) {
+      focusableElements = map.querySelectorAll('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex], [contenteditable]');
+    }
+
+    // Add the focusable elements from the tab order
+    for (const focusableElement of focusableElements) {
+      focusableElement.setAttribute('tabindex', '0');
+    }
+  }
+})();
+
 /** 
  *  Register a service worker to the root of the page.
  */
