@@ -8,27 +8,25 @@ let review_form;
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
-  /**
- * Changed the code to only load the map with fixed center
- * because the initMap is not called offline;
- */
-let loc = {
-  lat: 40.722216,
-  lng: -73.987501
-};
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 16,
-    center: loc,
-    scrollwheel: false
-  });
-  if(self.restaurant){
-    self.map.setCenter(self.restaurant.latlng);
-    if(!self.marker){
-      self.marker=DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-  }
+ //when google maps api is loaded display the map container
+ document.getElementById('map-container').style.display='block';
 
-  google.maps.event.addListenerOnce(self.map, 'tilesloaded', MapReady);
+ //regexp taken from https://www.opentechguides.com/how-to/article/javascript/98/detect-mobile-device.html
+ const mobExp = new RegExp('Android|webOS|iPhone|iPad|' +
+ 'BlackBerry|Windows Phone|'  +
+ 'Opera Mini|IEMobile|Mobile' ,
+'i');
+
+ if (!mobExp.test(navigator.userAgent)){
+   //if not mobile start the map
+   initiateMap();
+   google.maps.event.addListenerOnce(self.map, 'tilesloaded', MapReady);
+ }else{
+   //if mobile the map will load on user request to maximize performance
+   document.getElementById('startmap').addEventListener('click',initiateMap);
+ }
+
+
 }
 function MapReady(){
   /*
@@ -37,6 +35,39 @@ function MapReady(){
   document.getElementById('restaurant-name').focus();
 
 }
+
+
+initiateMap = (e) => {
+  if(e){
+    if(!navigator.onLine){
+      alert('You are currently offline.');
+      return;
+    }
+  }
+  let mm=document.getElementById('map');
+  mm.innerHTML='';
+  document.getElementById('map-container').style.minHeight='250px';
+  let loc = {
+    lat: 40.722216,
+    lng: -73.987501
+  };
+    self.map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 16,
+      center: loc,
+      scrollwheel: false
+    });
+    if(self.restaurant){
+      self.map.setCenter(self.restaurant.latlng);
+      if(!self.marker){
+        self.marker=DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      }
+    }
+}
+
+
+
+
+
 
 
 /*

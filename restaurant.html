@@ -31,7 +31,12 @@
   <div aria-live="polite" id="filtered-results"></div>
   <!-- Beginning main -->
   <main id="maincontent" role="main">
-
+    <!-- Beginning map -->
+    <section id="map-container" >
+      <div id="map" role="application" aria-label="Google Maps" tabindex="0">
+          <div id="startmap" role="button" aria-label="Click to open the map" tabindex="0">View restaurant in a map</div>
+      </div>
+    </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container-wrapper">
@@ -81,10 +86,7 @@
     </section>
     <!-- End reviews form -->
 
-     <!-- Beginning map -->
-     <section id="map-container" >
-      <div id="map" role="application" aria-label="Google Maps" tabindex="0"></div>
-    </section>
+
   </main>
   <!-- End main -->
   <div id="offline"><strong style="color:red;">**</strong>Currently Offline<strong style="color:red;">**</strong><br>You can post reviews<br>and they will be synced<br>when you are online again.</div>
@@ -94,13 +96,7 @@
   </footer>
   <!-- End footer -->
   <script>
-    function initNoMap(){
-      console.log('html no map')
-    }
-
-
-
-    if ('serviceWorker' in navigator) {
+     if ('serviceWorker' in navigator) {
        navigator.serviceWorker.register('service-worker.js')
        .then(function(registration) {
 

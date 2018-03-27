@@ -108,9 +108,23 @@ nav h1 a {
 }
 /* ====================== Map ====================== */
 #map {
-  height: 400px;
+  height: 60px;
   width: 100%;
+  text-align: center;
   background-color: #ccc;
+  display: none;
+}
+#startmap{
+  text-align: center;
+  padding: 10px;
+  background-color: #fff;
+  color: #a56900;
+  display: inline-block;
+
+  margin-top:8px;
+  font-size: 1.2em;
+  font-weight: bold;
+  border-radius:10px;
 }
 /* ====================== Restaurant Filtering ====================== */
 #filtered-results{
@@ -235,16 +249,18 @@ nav h1 a {
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 250px;
+  height: 60px;
   position: relative;
-  margin-top:20px;
-
+  margin-top:140px;
+  display: none;
   width: 100%;
 }
 .inside #map {
   background-color: #ccc;
   height: 100%;
   width: 100%;
+  display: block;
+
 }
 
 #restaurant-name {
@@ -285,9 +301,7 @@ nav h1 a {
   padding-top: 0px;
   width: 100%;
 }
-#restaurant-container-wrapper{
-  margin-top: 140px;
-}
+
 .reviews-container h2, .reviews-container h3{
   color: #aa5a00;
   font-size: 24pt;
@@ -438,7 +452,9 @@ display: inline-block;
     border-left:1px solid #d9d9d9;;
   }
 
-
+  #restaurant-container-wrapper{
+    margin-top: 140px;
+  }
 
 
 }

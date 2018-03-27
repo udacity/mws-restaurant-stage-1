@@ -11,7 +11,34 @@ let imgLoaded=[];//array to hold the images that allready loaded
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
+  //when google maps api is loaded display the map container
+  document.getElementById('map').style.display='block';
 
+  //regexp taken from https://www.opentechguides.com/how-to/article/javascript/98/detect-mobile-device.html
+  const mobExp = new RegExp('Android|webOS|iPhone|iPad|' +
+  'BlackBerry|Windows Phone|'  +
+  'Opera Mini|IEMobile|Mobile' ,
+ 'i');
+
+  if (!mobExp.test(navigator.userAgent)){
+    //if not mobile start the map
+    initiateMap();
+  }else{
+    //if mobile the map will load on user request to maximize performance
+    document.getElementById('startmap').addEventListener('click',initiateMap);
+  }
+}
+
+initiateMap = (e) => {
+  if(e){
+    if(!navigator.onLine){
+      alert('You are currently offline.');
+      return;
+    }
+  }
+  let mm=document.getElementById('map');
+  mm.style.height='400px';
+  mm.innerHTML='';
   let loc = {
     lat: 40.722216,
     lng: -73.987501
@@ -25,10 +52,7 @@ window.initMap = () => {
   if(self.restaurants && self.markers.length==0){
     addMarkersToMap();
   }
-
-  }
-
-
+}
 
 
 /*
