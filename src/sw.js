@@ -1,4 +1,4 @@
-const cacheVersion = 'mws-restaurant-stage1-v4';
+const cacheVersion = 'mws-restaurant-stage1-v5';
 const filesToCache = [
     '/',
     '/restaurant.html',
@@ -70,58 +70,92 @@ const filesToCache = [
     '/img/10-large.webp',
 ];
 
+/**
+ * Installing Service Worker
+ */
 self.addEventListener('install', event => {
     console.log('[ServiceWorker] Installed version', cacheVersion);
     event.waitUntil(precache());
 });
 
+/**
+ * @returns {Promise<void>}
+ */
 function precache() {
     return caches.open(cacheVersion)
         .then(cache => cache.addAll(filesToCache));
 }
 
-// `onactivate` is usually called after a worker was installed and the page
-// got refreshed.
+/**
+ * Activating Service Worker
+ * `onactivate` is usually called after a worker was installed and the page
+ * got refreshed.
+ */
 self.addEventListener('activate', event => {
     console.log('[ServiceWorker] activate:', event);
+   listAllClients(self);
+    event.waitUntil(
+        // Delete old cache entries that don't match the current version.
+        caches.keys()
+            .then(cacheNames => deleteOldCaches(cacheNames))
+            .then(() => claimClient())
+    );
+});
+
+/**
+ * @param target
+ */
+function listAllClients(target) {
     // Just for debugging, list all controlled clients.
-    self.clients.matchAll({
+    target.clients.matchAll({
         includeUncontrolled: true
     }).then(clientList => {
         let urls = clientList.map(client => client.url);
         console.log('[ServiceWorker] Matching clients:', urls.join(', '));
     });
+}
 
-    event.waitUntil(
-        // Delete old cache entries that don't match the current version.
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.map(cacheName => {
-                    if (cacheName !== cacheVersion) {
-                        console.log('[ServiceWorker] Deleting old cache:', cacheName);
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        }).then(() => {
-            // `claim()` sets this worker as the active worker for all clients that
-            // match the workers scope and triggers an `oncontrollerchange` event for
-            // the clients.
-            console.log('[ServiceWorker] Claiming clients for version', cacheVersion);
-            return self.clients.claim();
+/**
+ *
+ * @param cacheNames
+ * @returns {Promise<[any , any , any , any , any , any , any , any , any , any]>}
+ */
+function deleteOldCaches(cacheNames) {
+    return Promise.all(
+        cacheNames.map(cacheName => {
+            if (cacheName !== cacheVersion) {
+                console.log('[ServiceWorker] Deleting old cache:', cacheName);
+                return caches.delete(cacheName);
+            }
         })
     );
-});
+}
 
+/**
+ * `claim()` sets this worker as the active worker for all clients that
+ * match the workers scope and triggers an `oncontrollerchange` event for
+ * the clients.
+ * @returns {Promise<void>}
+ */
+function claimClient(){
+    console.log('[ServiceWorker] Claiming clients for version', cacheVersion);
+    return self.clients.claim();
+}
+
+/**
+ * Fetching Request
+ */
 self.addEventListener('fetch', event => {
     console.log('[ServiceWorker] fetch:', event.request.url);
     event.respondWith(fromCache(evt.request));
 });
 
+/**
+ * @param request
+ * @returns {Promise<Response>}
+ */
 function fromCache(request) {
     return caches.open(cacheVersion)
-        .then(cache => {
-            return cache.match(request)
-                .then(matching => matching || fetch(request));
-        });
+        .then(cache => cache.match(request)
+                .then(matching => matching || fetch(request)));
 }
