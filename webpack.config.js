@@ -17,6 +17,7 @@ const PATHS = {
     detailTemplate: path.join(sourceFolder, 'templates/restaurant.html'),
     mainEntry: path.join(sourceFolder, 'index.js'),
     detailsEntry: path.join(sourceFolder, 'restaurant.js'),
+    swEntry: path.join(sourceFolder, 'sw.js'),
     dataSource: path.join(sourceFolder, 'data'),
     imgSource: path.join(sourceFolder, 'img'),
     dataDest: path.join(buildFolder, 'data'),
@@ -67,6 +68,7 @@ const copyWebpackPlugin = new CopyWebpackPlugin(
 const entries = {
     main: PATHS.mainEntry,
     details: PATHS.detailsEntry,
+    sw: PATHS.swEntry
 };
 
 module.exports = {
@@ -74,7 +76,7 @@ module.exports = {
     entry: entries,
     output: {
         path: buildFolder,
-        filename: 'js/[name].bundle.js'
+        filename: 'js/[name].js'
     },
     watch: false,
     devServer: {
