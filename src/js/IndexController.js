@@ -1,5 +1,8 @@
 
-/*** WIP (WORK IN PROGRESS) **/
+/**
+ *  @wip
+ *  CURRENTLY NOT IN USE
+ * */
 export default function IndexController(container) {
     this._container = container;
     this._registerServiceWorker();

@@ -1,4 +1,10 @@
 export default class GoogleMapsLoader {
+    /**
+     * @description Add script element to page and loads GoogleMap Api
+     * @constructor
+     * @param {string} async - flag to set async loading
+     * @param {string} defer - flag to set defer
+     */
     constructor(async = true, defer = true) {
         this.language = 'en';
         this.region = 'US';
@@ -75,6 +81,13 @@ export default class GoogleMapsLoader {
         this.language = language;
     }
 
+    /**
+     * @description Loads Google Map Api
+     * @param {function} onLoadCallback - callback after loading
+     * @param {object} mapOptions - map settings
+     * @param {string} mapId - id of div where maps is appended
+     * @returns {void}
+     */
     load(onLoadCallback, mapOptions, mapId) {
         this.mapOptions = mapOptions || this.mapOptions;
         this.mapId = mapId || this.mapId;
@@ -98,10 +111,19 @@ export default class GoogleMapsLoader {
         }
     }
 
+    /**
+     * @description onLoad-Handler
+     * @param {function} callback - callback after loading
+     * @returns {void}
+     */
     onLoad(callback) {
         this.onLoadEvents.push(callback);
     }
 
+    /**
+     * @description Adds script tag for loading
+     * @returns {void}
+     */
     appendLoaderToBody() {
         this.scriptElement = document.createElement('script');
         this.scriptElement.src = this.createUrl();
@@ -110,6 +132,10 @@ export default class GoogleMapsLoader {
         document.body.appendChild(this.scriptElement);
     }
 
+    /**
+     * @description Creates GoogleMapApi URL for script
+     * @returns {string}
+     */
     createUrl() {
         let url = this.mapApiUrl;
         url += '?callback=' + this.initializator;
@@ -134,6 +160,11 @@ export default class GoogleMapsLoader {
         return url;
     }
 
+    /**
+     * @description onReady-Handler
+     * @param {function} callback - fires when map is appended
+     * @returns {void}
+     */
     ready(callback) {
         this.loading = false;
 
@@ -158,6 +189,10 @@ export default class GoogleMapsLoader {
         this.callbacks = [];
     }
 
+    /**
+     * @description Creates new GoogleMap
+     * @returns {Map}
+     */
     createMap() {
         const map = document.getElementById(this.mapId);
         map.style.display = 'block';

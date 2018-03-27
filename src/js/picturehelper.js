@@ -1,9 +1,14 @@
 import DBHelper from "./dbhelper";
 
 /**
- * Common database helper functions.
+ * Common helper to create picture elements for page
  */
 export default class PictureHelper {
+    /**
+     * @description Builds picture element
+     * @param {object} restaurant
+     * @returns {HTMLElement}
+     */
     static getPictureElement(restaurant) {
         const picture = document.createElement('picture');
         picture.className = 'restaurant-img';
@@ -24,6 +29,13 @@ export default class PictureHelper {
         return picture;
     };
 
+    /**
+     * @description Builds srcset element
+     * @param {string} breakpoint
+     * @param {string} imgName
+     * @param {string} type
+     * @returns {HTMLElement}
+     */
     static getSourceForPicture(breakpoint, imgName, type) {
         let minWidth,
             imgSuffix = `-${breakpoint}`;
