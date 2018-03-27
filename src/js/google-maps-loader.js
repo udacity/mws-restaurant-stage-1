@@ -159,10 +159,10 @@ export default class GoogleMapsLoader {
     }
 
     createMap() {
-       return new this.google.maps.Map(
-            document.getElementById(this.mapId),
-            this.mapOptions
-        );
+        const map = document.getElementById(this.mapId);
+        map.style.display = 'block';
+
+       return new this.google.maps.Map(map, this.mapOptions);
     }
 
     // TODO: think about garbage collection

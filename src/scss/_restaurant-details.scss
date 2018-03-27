@@ -121,14 +121,19 @@
 .restaurant-hours{
   width: 100%;
   td {
+    vertical-align: top;
+    border-bottom:  1px solid silver;
     color: #666;
     &:first-child {
       font-weight:  bold;
       padding-right: 10px;
     }
   }
-  @media screen and (max-width: $break-small - 1) {
+  @media screen and (min-width: 558px)  and (max-width: $break-small - 1) {
     width: 95%;
+    td {
+      border-right:  1px solid silver;
+    }
     tr > *{
       display: block;
     }

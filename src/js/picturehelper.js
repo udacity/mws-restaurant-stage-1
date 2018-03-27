@@ -32,7 +32,7 @@ export default class PictureHelper {
                 minWidth = 800;
                 break;
             case 'medium':
-                minWidth = 640;
+                minWidth = 460;
                 break;
             default:
                 imgSuffix = '';

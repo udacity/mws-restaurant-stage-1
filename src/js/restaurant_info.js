@@ -134,7 +134,7 @@ export const createReviewHTML = (review) => {
     li.appendChild(comments);
 
     const name = document.createElement('p');
-    name.innerHTML = `<i>${review.date}, ${review.name}</i>`;
+    name.innerHTML = `<i>${review.date} (${review.name})</i>`;
     li.appendChild(name);
 
     return li;

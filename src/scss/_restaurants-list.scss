@@ -40,10 +40,7 @@
       min-height: 248px;
       min-width: 100%;
       @media only screen and (max-width: $break-smallest) {
-        width: 100%;
-        min-height: 0;
-        height:  80px;
-        overflow: hidden;
+        display: none;
       }
     }
     div {
@@ -100,10 +97,11 @@
     padding: 10px;
     margin-left: 10px;
     margin-top: 10px;
-    @media only screen and (min-width: $break-smaller) {
-      //max-width: 100%;
-      width: 100%;
-    }
+    width:  100%;
+    //@media only screen and (min-width: $break-smaller) {
+    //  //max-width: 100%;
+    //  width: 100%;
+    //}
     @media only screen and (min-width: $break-small) {
       width: 45%;
     }
