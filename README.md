@@ -51,7 +51,21 @@ or
 npm run start:dev
 ```
 
-I** Deploy project**
+**Deploy project**
 ```bash
 npm run build:prod
 ```
+
+### Dependencies
+- [normalize.css](http://necolas.github.io/normalize.css/)
+- [babel](https://github.com/babel/babel)
+- [clean-webpack-plugin](https://github.com/johnagan/clean-webpack-plugin)
+- [copy-webpack-plugin](https://github.com/webpack-contrib/copy-webpack-plugin)
+- [eslint](https://eslint.org/)
+- [extract-text-webpack-plugin](https://github.com/webpack-contrib/extract-text-webpack-plugin)
+- [gulp](https://gulpjs.com/)
+- [html-minifier](https://www.npmjs.com/package/html-minifier)
+- [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)
+- [node-sass](https://sass-lang.com/)
+- [responsive-loader](https://github.com/herrstucki/responsive-loader)
+- [webpack](https://webpack.js.org/)
