@@ -200,7 +200,7 @@ export default class GoogleMapsLoader {
        return new this.google.maps.Map(map, this.mapOptions);
     }
 
-    // TODO: think about garbage collection
+    // TODO: think about garbage collection (inspired from google-maps npm)
     /*
     GoogleMapsLoader.release = function(fn) {
 		var release = function() {
