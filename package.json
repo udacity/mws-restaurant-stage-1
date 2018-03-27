@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "http-server -p 8000 -c-1",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint js/** --fix --cache"
   },
   "repository": {
     "type": "git",
@@ -20,9 +21,13 @@
   "homepage": "https://github.com/anyulled/mws-restaurant-stage-1#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-fp": "^2.3.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-promise": "^3.7.0",
     "browser-sync": "^2.23.6",
     "eslint": "^4.19.1",
-    "eslint-config-google": "^0.9.1",
     "gulp": "latest",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^7.0.1",
