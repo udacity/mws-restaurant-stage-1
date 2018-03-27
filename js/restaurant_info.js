@@ -24,6 +24,7 @@ window.initMap = () => {
  }else{
    //if mobile the map will load on user request to maximize performance
    document.getElementById('startmap').addEventListener('click',initiateMap);
+   document.getElementById('startmap').addEventListener('keydown',keyinitiateMap);
  }
 
 
@@ -35,7 +36,12 @@ function MapReady(){
   document.getElementById('restaurant-name').focus();
 
 }
+keyinitiateMap = (e) => {
+  if(e.keyCode==13){
+    initiateMap();
+  }
 
+}
 
 initiateMap = (e) => {
   if(e){

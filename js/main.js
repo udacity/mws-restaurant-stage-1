@@ -26,9 +26,15 @@ window.initMap = () => {
   }else{
     //if mobile the map will load on user request to maximize performance
     document.getElementById('startmap').addEventListener('click',initiateMap);
+    document.getElementById('startmap').addEventListener('keydown',keyinitiateMap);
   }
 }
+keyinitiateMap = (e) => {
+if(e.keyCode==13){
+  initiateMap();
+}
 
+}
 initiateMap = (e) => {
   if(e){
     if(!navigator.onLine){
