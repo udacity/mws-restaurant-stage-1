@@ -1,10 +1,7 @@
-/* eslint-disable no-console, prefer-destructuring */
+/* eslint-disable no-console, prefer-destructuring, no-useless-escape */
 /* global DBHelper, google */
 /** @namespace google.maps */
 /** @namespace google.maps.Map */
-
-let restaurant;
-let map;
 
 /* if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
@@ -54,7 +51,7 @@ const fetchRestaurantFromURL = () => {
  * @param {Object[]} restaurant.operating_hours
  * @param {Object[]} restaurant.reviews
  */
-const fillRestaurantHTML = (restaurant = self.restaurant) => {
+const fillRestaurantHTML = (restaurant = self.restaurant) => {// eslint-disable-line max-statements
     const name = document.getElementById("restaurant-name");
     name.innerHTML = restaurant.name;
 
@@ -83,7 +80,7 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
     const hours = document.getElementById("restaurant-hours");
-    for (const key in operatingHours) {
+    Object.entries(operatingHours).forEach(([key, value]) => {
         const row = document.createElement("tr");
 
         const day = document.createElement("td");
@@ -91,18 +88,17 @@ const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hour
         row.appendChild(day);
 
         const time = document.createElement("td");
-        time.innerHTML = operatingHours[key];
+        time.innerHTML = value;
         row.appendChild(time);
-
         hours.appendChild(row);
-    }
+    });
 };
 
 /**
  * Create all reviews HTML and add them to the web page.
  * @param {Object[]} reviews
  */
-const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+const fillReviewsHTML = (reviews = self.restaurant.reviews) => {// eslint-disable-line max-statements
     const container = document.getElementById("reviews-container");
     const title = document.createElement("h2");
     title.innerHTML = "Reviews";
@@ -131,7 +127,7 @@ const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  * @return {Element}
  *
  */
-const createReviewHTML = review => {
+const createReviewHTML = review => {// eslint-disable-line max-statements
     const li = document.createElement("li");
     const name = document.createElement("p");
     name.innerHTML = review.name;
