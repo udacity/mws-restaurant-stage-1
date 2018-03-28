@@ -138,28 +138,39 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
+  const div = document.createElement('div');
+  div.className = 'item-content';
+
   const image = document.createElement('img');
   image.className = 'restaurant-img';
+  image.alt = `${restaurant.name} restaurant's picture`;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  div.append(image);
+
+  const divInner = document.createElement('div');
+  divInner.className = 'item-content-inner';
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
-  li.append(name);
+  divInner.append(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
+  divInner.append(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
-  li.append(address);
+  divInner.append(address);
+  div.append(divInner);
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  more.setAttribute('role', 'button');
+  more.setAttribute('aria-label', `View ${restaurant.name} details`);
+  div.append(more);
 
+  li.append(div);
   return li
 }
 
@@ -167,12 +178,18 @@ createRestaurantHTML = (restaurant) => {
  * Add markers for current restaurants to the map.
  */
 addMarkersToMap = (restaurants = self.restaurants) => {
+  let bounds = new google.maps.LatLngBounds();
+
   restaurants.forEach(restaurant => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
     google.maps.event.addListener(marker, 'click', () => {
       window.location.href = marker.url
     });
+
+    bounds.extend(marker.position);
     self.markers.push(marker);
   });
+
+  self.map.panToBounds(bounds);
 }
