@@ -239,7 +239,6 @@ h1#restaurant-name {
 }
 
 .details #restaurant-container #restaurant-img {
-  width: 100%;
   padding: 1em;
   width: calc(100% - 2em);
 }
@@ -350,6 +349,9 @@ table#restaurant-hours td, table#restaurant-hours th {
     justify-items: inherit;
     justify-content: space-between;
   }
+  .details #restaurant-container div {
+    margin: 1em;
+  }
   .details #restaurant-container div:first-child {
     width: 40%;
   }
@@ -361,7 +363,7 @@ table#restaurant-hours td, table#restaurant-hours th {
   }
   .details #restaurant-container #restaurant-img {
     padding: 1em;
-    width: calc(100% - 2em);
+    width: 100%;
   }
   .details #restaurant-container #restaurant-cuisine {
     width: 100%;
