@@ -23,15 +23,11 @@ self.addEventListener('install', function(event) {
 self.addEventListener('fetch', function(event) {
   var requestUrl = new URL(event.request.url);
 
-         //   if (requestUrl.origin === location.origin) {
               if (requestUrl.pathname.startsWith('/images/')) {
                 event.respondWith(serveImg(event.request));
                 return;
               }
-            
-     /*       event.respondWith(caches.match(event.request).then(function(response) {
-              return response || fetch(event.request);
-          }));*/
+  
     event.respondWith(
       caches.match(event.request)
         .then(function(response) {
@@ -72,27 +68,6 @@ self.addEventListener('fetch', function(event) {
 
   });
 
-  /*self.addEventListener('activate', function(event) {
-
-    /*var cacheWhitelist = ['pages-cache-v1', 'blog-posts-cache-v1'];
-  
-    event.waitUntil(
-      caches.keys().then(function(cacheNames) {
-        return Promise.all(cacheNames.filter(function(cacheName) {
-          return cacheName.startsWith('wittr-') && !allCaches.includes(cacheName);
-      }).map(function(cacheName) {
-          return caches['delete'](cacheName);
-      }));
-
-        /*  cacheNames.map(function(cacheName) {
-            if (cacheWhitelist.indexOf(cacheName) === -1) {
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      )
-    );
-  });*/
   function serveImg(request) {
     var storageUrl = request.url.replace(/-\d+px\.jpg$/, '');
 
