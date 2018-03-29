@@ -52,11 +52,11 @@
         return;
       }
 
-      if (reg.waiting) {
+      if (registration.waiting) {
         navigator.serviceWorker.controller.postMessage({action: 'skipWaiting'});
       }
 
-      if (reg.installing) {
+      if (registration.installing) {
         navigator.serviceWorker.addEventListener('statechange', function() {
         if (navigator.serviceWorker.controller.state == 'installed') {
           navigator.serviceWorker.controller.postMessage({action: 'skipWaiting'});
@@ -64,7 +64,7 @@
         });
       }
 
-      reg.addEventListener('updatefound', function() {
+      registration.addEventListener('updatefound', function() {
         navigator.serviceWorker.addEventListener('statechange', function() {
           if (navigator.serviceWorker.controller.state == 'installed') {
             navigator.serviceWorker.controller.postMessage({action: 'skipWaiting'});

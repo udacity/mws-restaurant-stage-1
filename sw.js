@@ -1,4 +1,7 @@
 let staticCacheName = 'restaurant-static-v1';
+let contentImgsCache = 'restaurant-content-imgs';
+let allCaches = [staticCacheName, contentImgsCache];
+
 self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open(staticCacheName).then(function(cache) {
@@ -10,8 +13,7 @@ self.addEventListener('install', function(event) {
                 'js/dbhelper.js',
                 'js/main.js',
                 'js/restaurant_info.js',
-                'images/',
-                'data/restaurants.json',
+                'data/restaurants.json'
             ]);
         })
     );
@@ -32,7 +34,20 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', function(event){
-    console.log(event.request.url);
+    let requestUrl = new URL(event.request.url);
+
+        if (requestUrl.pathname.startsWith('/images/')) {
+            event.respondWith(serveImg(event.request));
+            return;
+        }
+        if (requestUrl.pathname.startsWith('/restaurant.h')) {
+            event.respondWith(
+                caches.match(event.request, {ignoreSearch: true}).then(function(response) {
+                    if (response) return response;
+                    return fetch(event.request)
+                }))
+        }
+
     event.respondWith(
         caches.match(event.request).then(function(response) {
             if (response) return response;
@@ -41,6 +56,21 @@ self.addEventListener('fetch', function(event){
     );
 });
 
+function serveImg(request) {
+    let storageUrl = request.url.replace(/-\d+px\.jpg$/, '');
+
+    return caches.open(contentImgsCache).then(function(cache) {
+        return cache.match(storageUrl).then(function(response) {
+            if (response)
+                return response;
+
+            return fetch(request).then(function(networkResponse) {
+                cache.put(storageUrl, networkResponse.clone());
+                return networkResponse;
+            });
+        });
+    });
+}
 self.addEventListener('message', function(event) {
     if (event.data.action === 'skipWaiting') {
        self.skipWaiting();
