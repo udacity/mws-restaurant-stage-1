@@ -9,11 +9,17 @@ window.initMap = () => {
     if (error) { // Got an error!
       console.error(error);
     } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
+		try {
+			
+		  self.map = new google.maps.Map(document.getElementById('map'), {
+			zoom: 16,
+			center: restaurant.latlng,
+			scrollwheel: false
+		  });
+		  
+		} catch (error) {
+			console.log('Load of google map failed');
+		}
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
@@ -57,19 +63,26 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   
   const picture = document.getElementById('restaurant-img');
   
+  const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
+  
   let source = document.createElement('source');
-  source.srcset = DBHelper.imageUrlForRestaurant(restaurant);
-  source.media = "(max-width: 400px)";
+  source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
+  source.media = "(min-width: 1200px)";
   picture.appendChild(source);
   
   source = document.createElement('source');
-  source.srcset = DBHelper.imageUrlForRestaurant(restaurant);
-  source.media = "(max-width: 1000px)";
+  source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+  source.media = "(min-width: 650px)";
   picture.appendChild(source);
-
+  
+  source = document.createElement('source');
+  source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
+  source.media = "(max-width: 650px)";
+  picture.appendChild(source);
+ 
   const image = document.createElement('img');
-  image.alt = restaurant.name;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = `${restaurant.name} Restaurant Image`;
+  image.src = `${image_prefix}-400_small_1x.jpg`;
   picture.appendChild(image);
 
   const cuisine = document.getElementById('restaurant-cuisine');
@@ -139,11 +152,11 @@ createReviewHTML = (review) => {
   
   article.appendChild(title);
   
-  const name = document.createElement('h2');
+  const name = document.createElement('p');
   name.innerHTML = review.name;
   title.appendChild(name);
 
-  const date = document.createElement('h2');
+  const date = document.createElement('p');
   date.innerHTML = review.date;
   title.appendChild(date);
   

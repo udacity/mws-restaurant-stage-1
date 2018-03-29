@@ -5,7 +5,6 @@ var map
 var markers = []
 
 
-
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -24,10 +23,9 @@ registerServiceWorker = () => {
 	
 	navigator.serviceWorker.register('/sw.js', { scope: '/' })
 		.then(() => {console.log('Registration successfull');})
-		.catch(()=> {console.log('SW Registartion failed');});
+		.catch(() => {console.log('SW Registartion failed');});
 	
 }
-
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -92,15 +90,18 @@ window.initMap = () => {
     lat: 40.722216,
     lng: -73.987501
   };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  
-  const iframes = document.getElementsByTagName('iframe');
-  iframes.title = "Restaurants";
-  
+  try {
+	  
+	  self.map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 12,
+		center: loc,
+		scrollwheel: false
+	  });
+	  
+  } catch(error) {
+	  console.log('Load google map failed');
+  } 
+    
   updateRestaurants();
 }
 
@@ -162,19 +163,26 @@ createRestaurantHTML = (restaurant) => {
   const picture = document.createElement('picture');
   picture.className = 'restaurant-img';
   
+  const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
+  
   let source = document.createElement('source');
-  source.srcset = DBHelper.imageUrlForRestaurant(restaurant);
-  source.media = "(max-width: 400px)";
+  source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
+  source.media = "(min-width: 1200px)";
   picture.appendChild(source);
   
   source = document.createElement('source');
-  source.srcset = DBHelper.imageUrlForRestaurant(restaurant);
-  source.media = "(max-width: 1000px)";
+  source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+  source.media = "(min-width: 650px)";
   picture.appendChild(source);
   
+  source = document.createElement('source');
+  source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
+  source.media = "(max-width: 650px)";
+  picture.appendChild(source);
+ 
   const image = document.createElement('img');
-  image.alt = restaurant.name;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = `${restaurant.name} Restaurant Image`;
+  image.src = `${image_prefix}-400_small_1x.jpg`;
   picture.appendChild(image);
   
   li.appendChild(picture);

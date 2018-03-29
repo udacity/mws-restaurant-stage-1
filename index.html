@@ -4,6 +4,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#d40222"/>
+  <meta name="description" content="Restaurant reviews app"/>
   
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
@@ -16,7 +17,7 @@
 </head>
 
 <body>
-  <header>
+  <header role="banner">
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
@@ -24,25 +25,25 @@
 
   <main id="maincontent">
     <section id="map-container">
-      <div id="map"></div>
+      <div id="map" role="application" aria-roledescription="Restaurants google map"></div>
     </section>
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-controls="restaurants-list">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-controls="restaurants-list">
           <option value="all">All Cuisines</option>
         </select>
 		<label class="visually-hidden" for="cuisines-select">Filter by cuisine</label>
 		<label class="visually-hidden" for="neighborhoods-select">Filter by neighborhood</label>
       </div>
     </section>
-	<ul id="restaurants-list"></ul>
+	<ul id="restaurants-list" aria-live="assertive"></ul>
   </main>
   
-  <footer id="footer">
+  <footer id="footer" role="contentinfo">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
 

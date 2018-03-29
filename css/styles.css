@@ -22,7 +22,7 @@ a {
 	text-decoration: none
 }
 a:hover, a:focus {
-	color: #ff0000!important;
+	color: #FFB8B8!important;
 	text-decoration: none;
 }
 a img{
@@ -39,10 +39,9 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   background-color: #f3f3f3;
   min-height: 100%;
   width: 100%;
-  margin: 0 3px;
 }
 #footer {
-  background-color: #252831;
+  background-color: #242424;
   color: #B8B8B8;
   font-size: 8pt;
   letter-spacing: 1px;
@@ -50,8 +49,12 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-align: center;
   text-transform: uppercase;
 }
-#footer a{
-	color: #FFB8B8
+#footer a {
+	color: white;
+}
+#footer a:hover, 
+#footer a:focus {
+	text-decoration: underline;
 }
 /* ====================== Navigation ====================== */
 nav {
@@ -113,7 +116,6 @@ nav h1 a {
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
-	display: relative;
   background-color: #333;
   align-items: center;
   display: flex;
@@ -329,17 +331,17 @@ nav h1 a {
 	background-color: #333;
 	padding: 20px;
 }
-.review-title h2 {
+.review-title p {
 	font-size: 16pt!important;
 	width: 40%;
 	margin: 0;
 }
-.review-title h2:first-child{
+.review-title p:first-child{
 	float: left;	
 	font-weight: bold;
 	color: white!important;
 }
-.review-title h2:nth-child(2) {
+.review-title p:nth-child(2) {
 	float: right;	
 	color: #f3f3f3!important;
 	text-align: right;
@@ -391,7 +393,7 @@ nav h1 a {
 	#restaurant-cuisine,
 	#restaurant-hours, 
 	#reviews-list li	{
-		width: 100%;
+		width: 95%;
 	}
 }
 .visually-hidden {
