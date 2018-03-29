@@ -3,6 +3,7 @@
     "liveServer.settings.root": "/src",
     "liveServer.settings.CustomBrowser" : "chrome",
     "liveServer.settings.NoBrowser" : false,
+	"liveServer.settings.host" : "localhost",
     "liveServer.settings.ignoreFiles" : [
             ".vscode/**",
             "**/*.scss",
