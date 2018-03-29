@@ -1,0 +1,22 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "description": "first stage ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tawfiek/mws-restaurant-stage-1.git"
+  },
+  "author": "tawfiek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tawfiek/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/tawfiek/mws-restaurant-stage-1#readme",
+  "dependencies": {
+    "grunt": "^1.0.2"
+  }
+}
