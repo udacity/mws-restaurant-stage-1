@@ -317,12 +317,17 @@ nav h1 a {
     grid-template-columns: 1fr 1fr;
   }
 }
+
 @media screen and (min-width: 600px){
   #reviews-list {
     grid-row-gap: 10px;
     grid-column-gap: 10px;
     grid-template-columns: 1fr 1fr; 
     }
+  .filter-options h2{
+    display: inline-flex;
+    padding-top: 0;
+  }
 }
 
 @media screen and (min-width : 700px){
