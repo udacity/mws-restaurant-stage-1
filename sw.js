@@ -40,7 +40,7 @@ self.addEventListener('fetch', function(event){
             event.respondWith(serveImg(event.request));
             return;
         }
-        if (requestUrl.pathname.startsWith('/restaurant.h')) {
+        if (requestUrl.pathname.startsWith('/restaurant.html')) {
             event.respondWith(
                 caches.match(event.request, {ignoreSearch: true}).then(function(response) {
                     if (response) return response;
