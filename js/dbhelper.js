@@ -154,7 +154,7 @@ class DBHelper {
     return (`/images/${restaurant.photograph}`);
   }
 
-    /**
+  /**
    * Restaurant image URL reduced size
    */
   static imageUrlForRestaurantReduced(restaurant, info) {

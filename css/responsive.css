@@ -74,7 +74,6 @@
     vertical-align: bottom; 
   }
 
-
   .filter-options h2 {
     width: 25%;
     /* padding-top: 0px; */
@@ -96,6 +95,10 @@
   #restaurants-list div {
     width: 45%;
     padding-left: 5%;
+  }
+
+  #restaurant-address {
+    font-size: 1.2em;
   }
 }
 
