@@ -2,7 +2,7 @@
 /* CSS Document */
 
 body,td,th,p{
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'Athiti', Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	color: #333;
 	line-height: 1.5;
@@ -13,7 +13,7 @@ body {
 	position:relative;
 }
 ul, li {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'Athiti', Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	color: #333;
 }
@@ -29,7 +29,7 @@ a img{
 	border: none 0px #fff;
 }
 h1, h2, h3, h4, h5, h6 {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Athiti', Arial, Helvetica, sans-serif;
   margin: 0 0 20px;
 }
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -126,7 +126,7 @@ nav h1 a {
 .filter-options select {
   background-color: white;
   border: 1px solid #fff;
-  font-family: Arial,sans-serif;
+  font-family: 'Athiti', Arial,sans-serif;
   font-size: 11pt;
   height: 35px;
   letter-spacing: 0;
@@ -150,7 +150,7 @@ nav h1 a {
 #restaurants-list li {
   background-color: #fff;
   border: 2px solid #ccc;
-  font-family: Arial,sans-serif; 
+  font-family: 'Athiti', Arial,sans-serif; 
   padding: 0 30px 25px;
   text-align: left;
   display: grid;
@@ -164,7 +164,7 @@ nav h1 a {
 }
 #restaurants-list li h1 {
   color: #252831;
-  font-family: Arial,sans-serif;
+  font-family: 'Athiti', Arial,sans-serif;
   font-size: 14pt;
   font-weight: 200;
   letter-spacing: 0;
@@ -231,7 +231,7 @@ nav h1 a {
 }
 #restaurant-name {
   color: #252831;
-  font-family: Arial,sans-serif;
+  font-family: 'Athiti', Arial,sans-serif;
   font-size: 1.5em;
   font-weight: 200;
   letter-spacing: 0;
