@@ -1,0 +1,5 @@
+dist
+node_modules
+/config.js
+/src/img/
+/.gtm/
