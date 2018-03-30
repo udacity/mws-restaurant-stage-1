@@ -60,6 +60,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.getElementById('restaurant-img');
   sourceSmall.setAttribute('media', '(max-width:470px)');
   sourceLarge.setAttribute('media', '(min-width:471px)');
+  image.setAttribute('alt', `image from ${restaurant.name} restaurant`);
+  image.setAttribute('tabindex', '0');
 
   sourceSmall.setAttribute('srcset', DBHelper.imgSetUrlForRestaurantSmall(restaurant));
   sourceLarge.setAttribute('srcset', DBHelper.imgSetUrlForRestaurantLarg(restaurant));

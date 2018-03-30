@@ -155,7 +155,7 @@ class DBHelper {
 
   
   /**
-   * Restaurant image URL for srcset.
+   * Restaurant images  URL.
    */
   static imgSetUrlForRestaurantSmall(restaurant) {
     return (`/images/${restaurant.id}-small_1x.jpg 1x,/images/${restaurant.id}-small_2x.jpg 2x`);

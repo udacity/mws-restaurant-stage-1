@@ -146,6 +146,11 @@ nav h1 a {
   color: white;
 }
 
+.filter-options select:focus { 
+  outline: 0;
+  border-bottom: 2px solid orange;
+}
+
 select option { 
   color: #3397DB;
 }
@@ -166,7 +171,6 @@ select option {
   font-family: Arial,sans-serif;
   margin:  15px  0;
   min-height: 380px;
-  /* padding: 0 30px 25px; */
   text-align: left;
   width: 100%;
   margin-left: auto;
@@ -209,6 +213,11 @@ select option {
   text-transform: uppercase;
 }
 
+#restaurants-list li a:focus,
+#restaurants-list li a:hover {
+   background-color: #3397DB;
+   border-bottom: 3px solid orange;
+}
 
 /* ====================== Restaurant Details ====================== */
 .inside body,

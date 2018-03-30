@@ -19,14 +19,14 @@
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
-      <div id="map"></div>
+    <section id="map-container" >
+      <div id="map" ></div>
     </section>
     <section>
       <div class="filter-options">
-        <h2>Filter Results</h2>
+        <h2 aria-label="filter results" tabindex="0">Filter Results</h2>
         <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-          <option value="all">All Neighborhoods</option>
+          <option value="all" role="option">All Neighborhoods</option>
         </select>
         <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
