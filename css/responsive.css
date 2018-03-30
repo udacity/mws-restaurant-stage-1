@@ -1,3 +1,5 @@
+/* ============== Home Page ============== */
+
 @media screen and (max-width: 605px) {
   .filter-options h2 {
     display: block;
@@ -42,4 +44,66 @@
     margin: 0;
   }
 
+}
+
+/* ============== Restaurant Page ============== */
+
+@media screen and (max-width: 1000px) {
+  .inside #map-container {
+    height: 350px;
+    position: relative;
+    width: 100%;
+    padding: 3px 0;
+    margin: 3px 0;
+    top: 0;
+  }
+  
+  #restaurant-container,
+  #reviews-container {
+    padding: 0;
+    border: 0;
+    width: 100%;
+  }
+  #reviews-container {
+    padding: 0;
+    box-shadow: 0 3px 15px 3px rgb(170, 170, 170);
+
+  }
+  #breadcrumb {
+    width: 100%;
+    padding: 10px 0 16px;
+    font-size: 1.5em;
+  }
+  #breadcrumb li {
+    padding-left: 15px;
+  }
+
+ 
+
+  #reviews-list {
+    width: 100%;
+  }
+  #reviews-list li p {
+    padding: 2px 10px;
+    font-size: 1.5em;
+  }
+
+  #reviews-list li :first-child{ 
+    font-weight: bold;
+  }
+
+}
+
+@media screen and (min-width: 650px  ) and (max-width: 1000px){ 
+  .inside #maincontent {
+    max-width: 650px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 1286px) { 
+  .inside #maincontent {
+    max-width: 1286px;
+    margin: 0 auto;
+  }
 }

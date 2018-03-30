@@ -55,9 +55,18 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
+  const sourceSmall = document.getElementById('source-small');
+  const sourceLarge = document.getElementById('source-larg');
   const image = document.getElementById('restaurant-img');
+  sourceSmall.setAttribute('media', '(max-width:470px)');
+  sourceLarge.setAttribute('media', '(min-width:471px)');
+
+  sourceSmall.setAttribute('srcset', DBHelper.imgSetUrlForRestaurantSmall(restaurant));
+  sourceLarge.setAttribute('srcset', DBHelper.imgSetUrlForRestaurantLarg(restaurant));
+
   image.className = 'restaurant-img'
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;

@@ -157,8 +157,11 @@ class DBHelper {
   /**
    * Restaurant image URL for srcset.
    */
-  static imageSetUrlForRestaurant(restaurant) {
-    return (`/images/${restaurant.id}-small_1x.jpg 1x, ${restaurant.id}-larg_2x.jpg 2x`);
+  static imgSetUrlForRestaurantSmall(restaurant) {
+    return (`/images/${restaurant.id}-small_1x.jpg 1x,/images/${restaurant.id}-small_2x.jpg 2x`);
+  }
+  static imgSetUrlForRestaurantLarg(restaurant) {
+    return (`/images/${restaurant.id}-larg_1x.jpg 1x,/images/${restaurant.id}-larg_2x.jpg 2x`);
   }
 
   /**

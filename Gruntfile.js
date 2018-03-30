@@ -17,12 +17,22 @@ module.exports = function(grunt) {
            name: 'small',
            width: '460px',
            suffix: '_1x',
-           quality: 25
+           quality: 40
+          },{
+            name: 'small',
+            width: '100%',
+            suffix: '_2x',
+            quality: 60
           },{
             name: 'larg',
             width: '100%',
             suffix: '_2x',
-            quality: 50
+            quality: 100
+          },{
+            name: 'larg',
+            width: '636px',
+            suffix: '_1x',
+            quality: 60
           }]
         },
 

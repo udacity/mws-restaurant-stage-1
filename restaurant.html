@@ -32,35 +32,39 @@
 
   <!-- Beginning main -->
   <main id="maincontent">
+ 
+    <!-- Beginning restaurant -->
+    <section id="restaurant-container">
+      <h1 id="restaurant-name"></h1>
+      <picture >
+        <source id="source-small">
+        <source id="source-larg">  
+        <img id="restaurant-img">
+      </picture>
+      
+      <p id="restaurant-cuisine"></p>
+      <p id="restaurant-address"></p>
+      <table id="restaurant-hours"></table>
+    </section>
+
+
     <!-- Beginning map -->
     <section id="map-container">
       <div id="map"></div>
     </section>
     <!-- End map -->
-    <!-- Beginning restaurant -->
-    <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
-      <img id="restaurant-img">
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
-    </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
+
+
+  <!-- Beginning scripts -->
   </main>
   <!-- End main -->
 
-
-  <!-- Beginning footer -->
-  <footer id="footer">
-      Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-  </footer>
-  <!-- End footer -->
-  <!-- Beginning scripts -->
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
@@ -69,6 +73,11 @@
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHwBlgglg7jBjVCFys-6432hpgZva7O1k&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
 
+  <!-- Beginning footer -->
+  <footer id="footer">
+      Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+  <!-- End footer -->
 </body>
 
 
