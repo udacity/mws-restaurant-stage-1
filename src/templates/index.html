@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <!--<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">-->
+    <% for (key in htmlWebpackPlugin.files.css) { %>
+    <link href="<%= htmlWebpackPlugin.files.css[key] %>" rel="stylesheet" media="screen">
+    <% } %>
+</head>
+
+<body>
+<div class="flex-column">
+    <a class="skip" href="#content">Skip to content</a>
+    <header>
+        <nav>
+            <h1><a href="/">Restaurant Reviews</a></h1>
+        </nav>
+    </header>
+
+    <main id="maincontent" class="main-content">
+        <section id="map-container" aria-label="Google Map Api" aria-hidden="true">
+            <div id="map" class="map" role="application"></div>
+        </section>
+        <section id="content">
+            <div class="filter-options" aria-labelledby="filter-header">
+                <h2 id="filter-header">Filter Results</h2>
+                <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="select neighborhood">
+                    <option value="all">All Neighborhoods</option>
+                </select>
+                <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="select cuisine">
+                    <option value="all">All Cuisines</option>
+                </select>
+            </div>
+            <div id="restaurants-container" class="restaurants-container">
+                <ul id="restaurants-list" class="restaurants-list flex-list" aria-label="Restaurants"></ul>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer" class="footer">
+        Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    </footer>
+</div>
+<% for (key in htmlWebpackPlugin.files.js) { %>
+<script src="<%= htmlWebpackPlugin.files.js[key] %>"></script>
+<% } %>
+</body>
+</html>

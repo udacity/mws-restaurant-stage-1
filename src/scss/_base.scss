@@ -1,0 +1,98 @@
+body, td, th, p {
+  font-family: $font-stack;
+  font-size: $base-font-size;
+  color: $base-font-color;
+  line-height: 1.5;
+}
+
+body {
+  background-color: $body-bg-color;
+  margin: 0;
+  position:relative;
+}
+
+ol, ul, li {
+  font-family: $font-stack;
+  font-size: $base-list-font-size;
+  color: $base-list-font-color;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: $base-link-color;
+  text-decoration: none;
+  &:hover {
+    color: $base-hover-color;
+    text-decoration: underline;
+  }
+  &:focus {
+    outline: 2px solid #0044ff;
+    text-decoration: none;
+    &:hover {
+      outline: 0;
+    }
+  }
+  img {
+    border: $base-img-border;
+  }
+}
+
+select {
+  &:focus {
+    outline: 2px solid #0044ff;
+    text-decoration: none;
+    &:hover {
+      outline: 0;
+    }
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-stack;
+  margin: 0 0 20px;
+}
+
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+article, main, footer, nav, header, section, div, ul, li {
+  box-sizing: border-box;
+}
+
+picture {
+  max-width: 100%;
+}
+
+.flex-column {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.main-content {
+  background-color: $maincontent-bg-color;
+  min-height: 100%;
+}
+
+.footer {
+  background-color: $footer-bg-color;
+  color: $footer-font-color;
+  font-size: $footer-font-size;
+  letter-spacing: 1px;
+  padding: 25px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.skip {
+  position: absolute;
+  top: -50px;
+  left: 0;
+  padding: 6px 11px;
+  background: #fff;
+  border-bottom-right-radius: 6px;
+}
