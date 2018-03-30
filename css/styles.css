@@ -362,3 +362,31 @@ nav h1 a {
   position: absolute;
   width: 100%;
 }
+
+@media screen and (min-width: 800px) {
+
+  #restaurants-list {
+    justify-content: space-between;
+  }
+
+  #restaurants-list li {
+    width: calc(50% - 15px);
+  }
+
+  .filter-options select {
+    width: calc(50% - 2px);
+  }
+
+}
+
+@media screen and (min-width: 1190px) {
+
+  #restaurants-list li {
+    width: calc(33% - 15px);
+  }
+
+  .filter-options select {
+    width: 33%;
+  }
+
+}
