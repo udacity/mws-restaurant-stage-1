@@ -1,6 +1,11 @@
 let restaurant;
 var map;
 
+// register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -53,14 +58,37 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   name.innerHTML = restaurant.name;
 
   const address = document.getElementById('restaurant-address');
-  address.innerHTML = restaurant.address;
+  address.innerHTML = '<i class="fas fa-map-marker fa-fw" aria-hidden></i> ' + restaurant.address;
+
 
   const image = document.getElementById('restaurant-img');
+  const picture = image.parentElement;
+  const imageFile = DBHelper.imageUrlForRestaurant(restaurant);
+  const imageFileParts = imageFile.split(".");
+  const imageFileName = imageFileParts[0];
+  const imageFileExtension = imageFileParts[1];
+
+  const source670 = document.createElement('source');
+  source670.setAttribute('media', '(max-width: 700px)');
+  source670.setAttribute("srcset", imageFileName+'-670px.'+imageFileExtension);
+  picture.append(source670);
+
+  const source451 = document.createElement('source');
+  source451.setAttribute('media', '(max-width: 950px)');
+  source451.setAttribute("srcset", imageFileName+'-451px.'+imageFileExtension);
+  picture.append(source451);
+
+  const source247 = document.createElement('source');
+  source247.setAttribute('media', '(min-width: 951px)');
+  source247.setAttribute("srcset", imageFileName+'-247px.'+imageFileExtension);
+  picture.append(source247);
+
   image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.src = imageFileName+'-670px.'+imageFileExtension;
+  image.setAttribute('alt',restaurant.name);
 
   const cuisine = document.getElementById('restaurant-cuisine');
-  cuisine.innerHTML = restaurant.cuisine_type;
+  cuisine.innerHTML = '<i class="fas fa-utensils fa-fw" aria-hidden></i> ' + restaurant.cuisine_type;
 
   // fill operating hours
   if (restaurant.operating_hours) {
@@ -116,24 +144,36 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  * Create review HTML and add it to the webpage.
  */
 createReviewHTML = (review) => {
-  const li = document.createElement('li');
-  const name = document.createElement('p');
+  const div = document.createElement('div');
+  div.className = 'review flexbox-item';
+
+  const header = document.createElement('div');
+  header.className = 'review-header';
+  const name = document.createElement('span');
+  name.className = 'review-name';
   name.innerHTML = review.name;
-  li.appendChild(name);
-
-  const date = document.createElement('p');
+  header.appendChild(name);
+  const date = document.createElement('span');
   date.innerHTML = review.date;
-  li.appendChild(date);
+  date.className = 'review-date';
+  header.appendChild(date);
+  div.appendChild(header);
 
-  const rating = document.createElement('p');
+  const body = document.createElement('div');
+  body.className = 'review-body';
+  const ratingContainer = document.createElement('div');
+  ratingContainer.className = 'review-rating';
+  const rating = document.createElement('span');
   rating.innerHTML = `Rating: ${review.rating}`;
-  li.appendChild(rating);
-
+  ratingContainer.appendChild(rating);
+  body.appendChild(ratingContainer);
   const comments = document.createElement('p');
+  comments.className = 'review-comments';
   comments.innerHTML = review.comments;
-  li.appendChild(comments);
+  body.appendChild(comments);
+  div.appendChild(body);
 
-  return li;
+  return div;
 }
 
 /**
@@ -142,6 +182,7 @@ createReviewHTML = (review) => {
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
+  li.setAttribute('aria-current', 'page');
   li.innerHTML = restaurant.name;
   breadcrumb.appendChild(li);
 }

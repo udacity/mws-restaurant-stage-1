@@ -1,69 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-<head>
-  <!-- Normalize.css for better cross-browser consistency -->
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <!-- Main CSS file -->
-  <link rel="stylesheet" href="css/styles.css" type="text/css">
-  <title>Restaurant Info</title>
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- Main CSS file -->
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js" integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c" crossorigin="anonymous"></script>
+    <title>Restaurant Info</title>
+  </head>
 
-<body class="inside">
-  <!-- Beginning header -->
-  <header>
-    <!-- Beginning nav -->
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
-    </nav>
-    <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
-      <li><a href="/">Home</a></li>
-    </ul>
-    <!-- End breadcrumb -->
-    <!-- End nav -->
-  </header>
-  <!-- End header -->
+  <body class="inside">
 
-  <!-- Beginning main -->
-  <main id="maincontent">
-    <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map"></div>
-    </section>
-    <!-- End map -->
-    <!-- Beginning restaurant -->
-    <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
-      <img id="restaurant-img">
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
-    </section>
-    <!-- end restaurant -->
-    <!-- Beginning reviews -->
-    <section id="reviews-container">
-      <ul id="reviews-list"></ul>
-    </section>
-    <!-- End reviews -->
-  </main>
-  <!-- End main -->
+    <header>
 
-  <!-- Beginning footer -->
-  <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-  </footer>
-  <!-- End footer -->
+      <nav>
+        <h1><a href="/">Restaurant Reviews</a></h1>
+      </nav>
 
-  <!-- Beginning scripts -->
-  <!-- Database helpers -->
-  <script type="text/javascript" src="js/dbhelper.js"></script>
-  <!-- Main javascript file -->
-  <script type="text/javascript" src="js/restaurant_info.js"></script>
-  <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap"></script>
-  <!-- End scripts -->
+      
+      <ul id="breadcrumb" aria-label="Breadcrumb">
+        <li><a href="/">Home</a></li>
+      </ul>
+    
 
-</body>
+    </header>
 
+    <main id="maincontent">
+
+      <section id="map-container">
+        <div id="map"></div>
+      </section>
+
+      <section id="restaurant-container" class="flexbox-container">
+        <h1 id="restaurant-name"></h1>
+        <div id="restaurant-imagebox" class="flexbox-item">
+          <picture>
+            <img id="restaurant-img">
+          </picture>
+        </div>
+        <div id="restaurant-detailsbox" class="flexbox-item">
+          <p id="restaurant-cuisine"></p>
+          <p id="restaurant-address"></p>
+          <i class="fas fa-calendar-alt fa-fw" aria-hidden></i> Operating hours
+          <table id="restaurant-hours"></table>
+        </div>
+      </section>
+
+      <section id="reviews-container">
+        <div id="reviews-list" class="flexbox-container"></div>
+      </section>
+
+    </main>
+
+    <footer>
+      Copyright (c) 2018 <a href="/">Restaurant Reviews</a><br>
+      All Rights Reserved.
+    </footer>
+
+
+    <script type="text/javascript" src="js/dbhelper.js"></script>
+    <script type="text/javascript" src="js/restaurant_info.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcOjsLNFrzEgI0diLs8hmpNxw8e7lr5YU&libraries=places&callback=initMap"></script>
+
+  </body>
 </html>
