@@ -174,9 +174,6 @@ nav > h1 > a:focus {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
-
-  /* display: flex;
-  flex-wrap: wrap; */
 }
 #restaurants-list li {
   background-color: #fff;
@@ -187,7 +184,6 @@ nav > h1 > a:focus {
   padding: 0 30px 25px;
   text-align: left;
   /* width: 270px; */
-  /* width: 100%; */
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -195,7 +191,6 @@ nav > h1 > a:focus {
   margin: 0;
   max-width: 100%;
   /* min-height: 248px; */
-  /* min-width: 100%; */
 }
 
 .restaurant-img  img {
@@ -244,7 +239,7 @@ nav > h1 > a:focus {
 .inside header {
   position: fixed;
   top: 0;
-  width: 100%; /*100vmin;; */
+  width: 100%; 
   z-index: 1000;
 }
 .inside #maincontent {
@@ -263,9 +258,8 @@ nav > h1 > a:focus {
   right: 0;
   /* top: 80px; */
   width: 100%;
-  /* top: 130px; */
-
 }
+
 .inside #map {
   background-color: #ccc;
   height: 100%;
@@ -274,7 +268,6 @@ nav > h1 > a:focus {
 .inside #footer {
   bottom: 0;
   /* position: absolute; */
-  /* width: 100vmin; */
   position: relative;
   top: 130px;
 }
