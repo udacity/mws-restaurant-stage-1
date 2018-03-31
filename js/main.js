@@ -143,6 +143,7 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = ImgUtils.getAlternateById(restaurant.id - 1);
   li.append(image);
 
   const name = document.createElement('h1');
@@ -179,4 +180,4 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
-}
+};
