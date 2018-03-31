@@ -26,14 +26,14 @@
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "gulp": "^4.0.0",
-    "gulp-babel": "^8.0.0-beta.2",
+    "gulp-babel-minify": "^0.3.0",
     "gulp-clean-css": "^3.9.3",
+    "gulp-gzip": "^1.4.2",
     "gulp-htmlmin": "^4.0.0",
     "gulp-image-resize": "^0.13.0",
     "gulp-imagemin": "^4.1.0",
     "gulp-load-plugins": "^1.5.0",
     "gulp-responsive": "^2.9.0",
-    "gulp-uglify": "^3.0.0",
     "imagemin": "^5.3.1"
   }
 }

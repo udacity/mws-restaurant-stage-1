@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
+const minify = require("gulp-babel-minify");
 const del = require('del');
 
 const buildDir = 'dist';
@@ -36,9 +37,10 @@ const paths = {
  */
 
 const images = gulp.series(compressImg, responsiveImg, copyIcons, cleanTempImg);
-gulp.task('images', images);
+gulp.task('images', gulp.series(cleanForce, images));
 
-const build = gulp.series(clean, gulp.parallel(html, css, js, copyFiles));
+// const build = gulp.series(clean, gulp.parallel(html, css, js, copyFiles));
+const build = gulp.series(clean, gulp.parallel(html, css, js, copyFiles, images));
 gulp.task('build', build);
 
 const watchFiles = gulp.series(build, watch);
@@ -57,19 +59,24 @@ function html() {
 function css() {
   return gulp.src(paths.css.src)
     .pipe($.cleanCss())
+    // .pipe($.gzip())
     .pipe(gulp.dest(paths.css.dest));
 }
 
-// uglyfying JS causes errors
 function js() {
-  return gulp.src(paths.js.src, { sourcemaps: true })
-    // .pipe($.babel({ presets: ['@babel/env'] }))
-    // .pipe($.uglify())
+  return gulp.src(paths.js.src)
+    .pipe(minify({
+      mangle: {
+        keepClassName: true
+      }
+    }))
+    // .pipe($.gzip())
     .pipe(gulp.dest(paths.js.dest));
 }
 
 function copyFiles() {
   return gulp.src(paths.other.src)
+    // .pipe($.gzip())
     .pipe(gulp.dest(paths.other.dest));
 }
 
@@ -86,10 +93,6 @@ function compressImg() {
 }
 
 function responsiveImg() {
-  const config = {
-    format: 'webp',
-    quality: 80
-  };
   return gulp.src(`${paths.img.src_temp}/*.{jpg, png}`)
     .pipe($.responsive({
       '*': [
@@ -97,25 +100,31 @@ function responsiveImg() {
           width: 400,
           rename: {
             suffix: '_small',
-            extname: '.jpg',
+            extname: '.webp',
           }
         }, 
         {
           width: 600,
           rename: {
             suffix: '_medium',
-            extname: '.jpg',
+            extname: '.webp',
           }
         },
         {
           width: 800,
           rename: {
             suffix: '_large',
-            extname: '.jpg',
+            extname: '.webp',
           },
         }
-      ]
-    }))
+      ]},
+      {
+        quality: 80,
+        progressive: true,
+        withMetadata: false,
+        errorOnEnlargement: false,
+      }
+    ))
     .pipe(gulp.dest(paths.img.dest));
 }
 
@@ -126,6 +135,10 @@ function cleanTempImg() {
 // clean
 function clean() {
   return del([`${buildDir}/**`, `!${buildDir}`, `!${buildDir}/img/**`]);
+}
+
+function cleanForce() {
+  return del([`${buildDir}`]);
 }
 
 function watch() {
