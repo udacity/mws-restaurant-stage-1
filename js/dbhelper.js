@@ -16,7 +16,7 @@ class DBHelper {
    * Idb database name.
    */
   static get IDB_DATABASE_NAME() {
-    return `mws-restaurant-stage-1-idb`;
+    return `mws-restaurant-idb`;
   }
 
   /**
@@ -251,9 +251,7 @@ class DBHelper {
 
   static imageSrcsetUrlsForRestaurant(restaurant) {
     let imgName;
-    // The photograph property of restaurant *10* is missing from the server restaurants data
-    // A pull request have already been created, but not merged yet
-    // The next line hack is done to bypass errors
+    // Same as method above
     if (restaurant.id === 10) {
       imgName = '10';
     } else {

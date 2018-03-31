@@ -1,13 +1,13 @@
-const CACHE_NAME = 'mws-restaurant-stage-1-cache-v12';
+const CACHE_NAME = 'mws-restaurant-stage-1-cache-v7';
 const FILES_TO_CACHE = [
   '/',
+  'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700',
   '/index.html',
   '/restaurant.html',
   '/js/dbhelper.js',
   '/js/main.js',
   '/js/restaurant_info.js',
   '/css/styles.css',
-  '/data/restaurants.json',
   '/img/1_large.jpg',
   '/img/1_medium.jpg',
   '/img/1_small.jpg',
