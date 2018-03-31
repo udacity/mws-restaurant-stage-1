@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mws-restaurant-stage-1-cache-v14';
+const CACHE_NAME = 'mws-restaurant-stage-1-cache-v15';
 const FILES_TO_CACHE = [
   '/',
   'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700',

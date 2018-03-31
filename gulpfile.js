@@ -39,8 +39,8 @@ const paths = {
 const images = gulp.series(compressImg, responsiveImg, copyIcons, cleanTempImg);
 gulp.task('images', gulp.series(cleanForce, images));
 
-// const build = gulp.series(clean, gulp.parallel(html, css, js, copyFiles));
-const build = gulp.series(clean, gulp.parallel(html, css, js, copyFiles, images));
+const build = gulp.series(clean, gulp.parallel(html, css, js, copyFiles));
+// const build = gulp.series(clean, gulp.parallel(html, css, js, copyFiles, images));
 gulp.task('build', build);
 
 const watchFiles = gulp.series(build, watch);

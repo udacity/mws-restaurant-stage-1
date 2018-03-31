@@ -13,7 +13,7 @@ app.all('*', function(req, res, next) {
 });
 
 app.use(express.static(path.join(__dirname, 'dist')));
-app.listen(8008, () => console.log('Example app listening on port 8008!'));
+app.listen(8000, () => console.log('Example app listening on port 8000!'));
 
 // https://github.com/googlearchive/platinum-https-redirect/blob/master/platinum-https-redirect.html
 function _isLocalhost(hostname) {
