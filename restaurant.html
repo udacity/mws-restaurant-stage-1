@@ -10,16 +10,16 @@
   </head>
   <body>
     <header>
-      <nav>
+      <nav role="navigation">
         <h1><a href="/">Restaurant Reviews</a></h1>
       </nav>
-      <ul id="breadcrumb" class="breadcrumb">
+      <ul id="breadcrumb" class="breadcrumb" aria-label="breadcrumb">
         <li><a href="/">Home</a></li>
       </ul>
     </header>
     <main class="main-content restaurant-detail">
       <section class="map-container">
-        <div id="map"></div>
+        <div id="map" role="application" aria-label="Restaurants positioned on Google Maps"></div>
       </section>
       <section id="restaurant-container">
         <h1 id="restaurant-name"></h1>

@@ -11,25 +11,25 @@
 
   <body>
     <header>
-      <nav>
+      <nav role="navigation">
         <h1><a href="/">Restaurant Reviews</a></h1>
       </nav>
     </header>
     <main class="main-content">
       <section class="map-container">
-        <div id="map"></div>
+        <div id="map" role="application" aria-label="Restaurants positioned on Google Maps"></div>
       </section>
       <section class="search-container">
         <div class="filter-options">
           <h2>Filter Results</h2>
-          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+          <select id="neighborhoods-select" name="neighborhoods" aria-label="Select a neighborhood" onchange="updateRestaurants()">
             <option value="all">All Neighborhoods</option>
           </select>
-          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+          <select id="cuisines-select" name="cuisines" aria-label="Select a cousine" onchange="updateRestaurants()">
             <option value="all">All Cuisines</option>
           </select>
         </div>
-        <ul id="restaurants-list"></ul>
+        <ul id="restaurants-list" class="restaurants-list"></ul>
       </section>
     </main>
     <footer class="footer">

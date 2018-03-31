@@ -161,7 +161,7 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Listing ====================== */
-#restaurants-list {
+.restaurants-list {
   display: flex;
   flex-wrap: wrap;
   background-color: #f3f3f3;
@@ -171,7 +171,7 @@ nav h1 a {
   text-align: center;
 }
 
-#restaurants-list li {
+.restaurants-list li {
   width: 100%;
   margin-bottom: 20px;
   background-color: #fff;
@@ -181,7 +181,7 @@ nav h1 a {
   text-align: left;
 }
 
-#restaurants-list .restaurant-img {
+.restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;
   margin: 0;
@@ -191,11 +191,11 @@ nav h1 a {
   border-radius: 30px 0 0;
 }
 
-#restaurants-list .restaurant-info {
+.restaurants-list .restaurant-info {
   padding: 0 20px 20px;
 }
 
-#restaurants-list li h1 {
+.restaurants-list li h1 {
   color: #f18200;
   font-family: Roboto,sans-serif;
   font-size: 1.3rem;
@@ -206,11 +206,11 @@ nav h1 a {
   text-transform: uppercase;
 }
 
-#restaurants-list p {
+.restaurants-list p {
   margin: 0;
 }
 
-#restaurants-list li a {
+.restaurants-list li a.more-button {
   background-color: orange;
   border-bottom: 3px solid #eee;
   color: #fff;
@@ -220,6 +220,12 @@ nav h1 a {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+.restaurants-list .more-button:hover,
+.restaurants-list .more-button:focus {
+  background-color: #d88c00;
+  color: #fff;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -365,11 +371,11 @@ nav h1 a {
 
 @media screen and (min-width: 800px) {
 
-  #restaurants-list {
+  .restaurants-list {
     justify-content: space-between;
   }
 
-  #restaurants-list li {
+  .restaurants-list li {
     width: calc(50% - 15px);
   }
 
@@ -381,7 +387,7 @@ nav h1 a {
 
 @media screen and (min-width: 1190px) {
 
-  #restaurants-list li {
+  .restaurants-list li {
     width: calc(33% - 15px);
   }
 
