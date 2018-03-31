@@ -239,26 +239,26 @@ class DBHelper {
     let imgName;
     // The photograph property of restaurant *10* is missing from the server restaurants data
     // A pull request have already been created, but not merged yet
-    // The next line hack is done to bypass errors
-    if (restaurant.id === 10) {
+    // We will server img10 as a fallback if there is no id
+    if (!restaurant.photograph) {
       imgName = '10';
     } else {
       const jpgIndex = restaurant.photograph.indexOf('.jpg');
       imgName = jpgIndex > -1 ? restaurant.photograph.substring(0, jpgIndex) : restaurant.photograph;
     }
-    return `/img/${imgName}_small.jpg`;
+    return `/img/${imgName}_small.webp`;
   }
 
   static imageSrcsetUrlsForRestaurant(restaurant) {
     let imgName;
     // Same as method above
-    if (restaurant.id === 10) {
+    if (!restaurant.photograph) {
       imgName = '10';
     } else {
       const jpgIndex = restaurant.photograph.indexOf('.jpg');
       imgName = jpgIndex > -1 ? restaurant.photograph.substring(0, jpgIndex) : restaurant.photograph;
     }
-    return `/img/${imgName}_small.jpg 400w, /img/${imgName}_medium.jpg 600w, /img/${imgName}_large.jpg 800w`;
+    return `/img/${imgName}_small.webp 400w, /img/${imgName}_medium.webp 600w, /img/${imgName}_large.webp 800w`;
   }
 
   static imageSizes() {
