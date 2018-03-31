@@ -1,65 +1,44 @@
-const STATIC_CACHE_NAME = 'mws-restaurant-static-v1';
-const CONTENT_IMAGES_CACHE = 'mws-restaurant-content-images';
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
 
-const ALL_CACHES = [
-  STATIC_CACHE_NAME,
-  CONTENT_IMAGES_CACHE
-];
+if (workbox) {
 
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(STATIC_CACHE_NAME).then(cache => {
-      return cache.addAll([
-        '/',
-        '/index.html',
-        '/restaurant.html',
-        'js/main.js',
-        'js/dbhelper.js',
-        'js/restaurant_info.js',
-        'js/imgutils.js',
-        'css/styles.css',
-        'data/restaurants.json'
-      ]);
+  workbox.precaching.precacheAndRoute([
+    'index.html',
+    'restaurant.html'
+  ]);
+
+  workbox.routing.registerRoute(
+    new RegExp('restaurant.html(.*)'),
+    workbox.strategies.networkFirst()
+  );
+
+  workbox.routing.registerRoute(
+    new RegExp('.*\.js'),
+    workbox.strategies.networkFirst()
+  );
+
+  workbox.routing.registerRoute(
+    /.*\.css/,
+    workbox.strategies.staleWhileRevalidate({
+      cacheName: 'css-cache',
     })
   );
-});
 
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.filter(cacheName => {
-          return cacheName.startsWith('mws-restaurant-') &&
-            !ALL_CACHES.includes(cacheName);
-        }).map(cacheName => caches.delete(cacheName))
-      );
+  workbox.routing.registerRoute(
+    /.*\.(?:png|jpg|jpeg|svg|gif)/,
+    workbox.strategies.cacheFirst({
+      cacheName: 'image-cache',
+      plugins: [
+        new workbox.expiration.Plugin({
+          // Cache for a maximum of a week
+          maxAgeSeconds: 7 * 24 * 60 * 60,
+        })
+      ],
     })
   );
-});
 
-self.addEventListener('fetch', (event) => {
-  const requestUrl = new URL(event.request.url);
+} else {
 
-  if (requestUrl.pathname.startsWith('/img/')) {
-    event.respondWith(serve(event.request, CONTENT_IMAGES_CACHE));
-    return;
-  }
+  console.log(`Workbox didn't load 😬`);
 
-  event.respondWith(
-    caches.match(event.request).then((response) => response || fetch(event.request))
-  );
-});
-
-function serve(request, cacheName) {
-  return caches.open(cacheName).then((cache) => {
-    return cache.match(request.url).then((response) => {
-      if (response) {
-        return response;
-      }
-      return fetch(request).then((networkResponse) => {
-        cache.put(request.url, networkResponse.clone());
-        return networkResponse;
-      });
-    });
-  });
 }
