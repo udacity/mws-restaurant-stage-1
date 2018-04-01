@@ -12,6 +12,7 @@ var markers = [];
 document.addEventListener('DOMContentLoaded', function (event) {
   fetchNeighborhoods();
   fetchCuisines();
+  initServiceWorker();
 });
 
 /**
@@ -59,6 +60,20 @@ var fetchCuisines = function fetchCuisines() {
   });
 };
 
+var initServiceWorker = function initServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').then(function (registration) {
+        // Registration was successful
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }).catch(function (err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+};
+
 /**
  * Set cuisines HTML.
  */
@@ -74,7 +89,6 @@ var fillCuisinesHTML = function fillCuisinesHTML() {
     select.appendChild(option);
   });
 };
-
 /**
  * Initialize Google map, called from HTML.
  */
@@ -179,22 +193,22 @@ var appendRestaurantImage = function appendRestaurantImage(restaurant, rootEleme
   picture.className = 'restaurant-img';
 
   var image_large = document.createElement('source');
-  image_large.setAttribute('media', '(min-width: 1000px)');
-  image_large.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'large'));
+  //image_large.setAttribute('media', '(min-width: 1000px)');
+  image_large.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'large') + ' 2x, ' + DBHelper.imageUrlForRestaurant(restaurant, 'medium') + ' 1x');
   image_large.setAttribute('alt', restaurant.name);
 
-  var image_medium = document.createElement('source');
-  image_medium.setAttribute('media', '(min-width: 650px)');
-  image_medium.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'medium'));
-  image_medium.setAttribute('alt', restaurant.name);
+  // const image_medium = document.createElement('source');
+  // image_medium.setAttribute('media', '(min-width: 650px) and (max-width: 999px)');
+  // image_medium.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'medium'));
+  // image_medium.setAttribute('alt', restaurant.name);
 
   var image = document.createElement('img');
-  image.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'large'));
-  image.setAttribute('src', DBHelper.imageUrlForRestaurant(restaurant, 'large'));
+  image.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'small'));
+  image.setAttribute('src', DBHelper.imageUrlForRestaurant(restaurant, 'small'));
   image.setAttribute('alt', restaurant.name);
 
   picture.appendChild(image_large);
-  picture.appendChild(image_medium);
+  //picture.appendChild(image_medium);
   picture.appendChild(image);
 
   rootElement.appendChild(picture);

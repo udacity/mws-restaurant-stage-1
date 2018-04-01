@@ -3,6 +3,25 @@
 var restaurant = void 0;
 var map;
 
+document.addEventListener('DOMContentLoaded', function (event) {
+  fetchRestaurantFromURL();
+  initServiceWorker();
+});
+
+var initServiceWorker = function initServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').then(function (registration) {
+        // Registration was successful
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }).catch(function (err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+};
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -45,6 +64,11 @@ var fetchRestaurantFromURL = function fetchRestaurantFromURL(callback) {
         return;
       }
       fillRestaurantHTML();
+
+      if (!callback) {
+        return;
+      }
+
       callback(null, restaurant);
     });
   }
@@ -90,8 +114,8 @@ var fillRestaurantPicture = function fillRestaurantPicture(restaurant) {
   image_medium.setAttribute('alt', restaurant.name);
 
   var image = document.createElement('img');
-  image.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'large'));
-  image.setAttribute('src', DBHelper.imageUrlForRestaurant(restaurant, 'large'));
+  image.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'small'));
+  image.setAttribute('src', DBHelper.imageUrlForRestaurant(restaurant, 'small'));
   image.setAttribute('alt', restaurant.name);
 
   picture.appendChild(image_large);
