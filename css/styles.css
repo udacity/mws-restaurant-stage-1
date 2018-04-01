@@ -35,11 +35,12 @@ h1, h2, h3, h4, h5, h6 {
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-#maincontent {
+.maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
 }
-#footer {
+
+footer {
   background-color: #444;
   color: #aaa;
   font-size: 8pt;
@@ -74,7 +75,8 @@ nav h1 a {
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-#breadcrumb {
+
+.breadcrumb {
     padding: 1% 5%;
     list-style: none;
     background-color: #eee;
@@ -86,31 +88,31 @@ nav h1 a {
 }
 
 /* Display list items side by side */
-#breadcrumb li {
+.breadcrumb li {
     display: inline;
     color:white;
 }
 
 /* Add a slash symbol (/) before/behind each list item */
-#breadcrumb li+li:before {
+.breadcrumb li+li:before {
     padding: 8px;
     color: black;
     content: "/\00a0";
 }
 
 /* Add a color to all links inside the list */
-#breadcrumb li a {
-    color: rgb(125, 199, 248);
+.breadcrumb li a {
+    color: rgb(183, 223, 250);
     text-decoration: none;
 }
 
 /* Add a color on mouse-over */
-#breadcrumb li a:hover {
+.breadcrumb li a:hover {
     color: #f18200;
     text-decoration: underline;
 }
 /* ====================== Map ====================== */
-#map {
+.map {
   height: 400px;
   width: 100%;
   background-color: #ccc;
@@ -142,7 +144,7 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Listing ====================== */
-#restaurants-list {
+.restaurants-list {
   background-color: #f3f3f3;
   list-style: outside none none;
   margin: 0;
@@ -151,7 +153,7 @@ nav h1 a {
   max-width: 1200px;
   margin: 0 auto;
 }
-#restaurants-list li {
+.restaurants-list li {
   background-color: #fff;
   border-top-left-radius: 5%;
   border-bottom-right-radius: 5%;
@@ -162,7 +164,7 @@ nav h1 a {
   text-align: center;
   width: 80%;
 }
-#restaurants-list .restaurant-img {
+.restaurants-list .restaurant-img {
   background-color: #ccc;
   margin: 0;
   max-width: 100%;
@@ -171,12 +173,12 @@ nav h1 a {
   border-top-left-radius: 5%;
 }
 
-#restaurants-list .restaurant-img img {
+.restaurants-list .restaurant-img img {
   max-width: 100%;
   min-width: 100%;
 }
 
-#restaurants-list li h1 {
+.restaurants-list li h1 {
   color: #f18200;
   font-family: Arial,sans-serif;
   font-weight: 200;
@@ -185,11 +187,11 @@ nav h1 a {
   margin: 20px 0 10px;
   text-transform: uppercase;
 }
-#restaurants-list p {
+.restaurants-list p {
   margin: 0;
 }
-#restaurants-list li a {
-  background-color: orange;
+.restaurants-list li a {
+  background-color: #f18200;
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
