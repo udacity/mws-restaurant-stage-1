@@ -12,9 +12,9 @@ class DBHelper {
     const port = 8000 // Change this to your server port
 //    return `http://localhost:${port}/data/restaurants.json`;
 
-    var BASE_DOMAIN="www.vlogz.win";
+    var BASE_DOMAIN="https://www.vlogz.win";
 // we use static domain name without port
-    return `http://${BASE_DOMAIN}/data/restaurants.json`;
+    return `${BASE_DOMAIN}/data/restaurants.json`;
   }
 
   /**
