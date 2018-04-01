@@ -10,12 +10,13 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  initServiceWorker();
 });
 
 /**
  * Fetch all neighborhoods and set their HTML.
  */
-fetchNeighborhoods = () => {
+let fetchNeighborhoods = () => {
   DBHelper.fetchNeighborhoods((error, neighborhoods) => {
     if (error) { // Got an error
       console.error(error);
@@ -29,20 +30,20 @@ fetchNeighborhoods = () => {
 /**
  * Set neighborhoods HTML.
  */
-fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
+let fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
-    select.append(option);
+    select.appendChild(option);
   });
 }
 
 /**
  * Fetch all cuisines and set their HTML.
  */
-fetchCuisines = () => {
+let fetchCuisines = () => {
   DBHelper.fetchCuisines((error, cuisines) => {
     if (error) { // Got an error!
       console.error(error);
@@ -53,24 +54,37 @@ fetchCuisines = () => {
   });
 }
 
+let initServiceWorker = () => {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').then(function(registration) {
+        // Registration was successful
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }).catch(function(err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+}
+
 /**
  * Set cuisines HTML.
  */
-fillCuisinesHTML = (cuisines = self.cuisines) => {
+let fillCuisinesHTML = (cuisines = self.cuisines) => {
   const select = document.getElementById('cuisines-select');
 
   cuisines.forEach(cuisine => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
-    select.append(option);
+    select.appendChild(option);
   });
 }
-
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
+let initMap = () => {
   let loc = {
     lat: 40.722216,
     lng: -73.987501
@@ -86,7 +100,7 @@ window.initMap = () => {
 /**
  * Update page and map for current restaurants.
  */
-updateRestaurants = () => {
+let updateRestaurants = () => {
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
 
@@ -109,7 +123,7 @@ updateRestaurants = () => {
 /**
  * Clear current restaurants, their HTML and remove their map markers.
  */
-resetRestaurants = (restaurants) => {
+let resetRestaurants = (restaurants) => {
   // Remove all restaurants
   self.restaurants = [];
   const ul = document.getElementById('restaurants-list');
@@ -124,10 +138,10 @@ resetRestaurants = (restaurants) => {
 /**
  * Create all restaurants HTML and add them to the webpage.
  */
-fillRestaurantsHTML = (restaurants = self.restaurants) => {
+let fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
-    ul.append(createRestaurantHTML(restaurant));
+    ul.appendChild(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
 }
@@ -135,38 +149,62 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 /**
  * Create restaurant HTML.
  */
-createRestaurantHTML = (restaurant) => {
+let createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-
-  const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
-
+  
+  appendRestaurantImage(restaurant, li);
+  
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
-  li.append(name);
+  li.appendChild(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
+  li.appendChild(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
-  li.append(address);
+  li.appendChild(address);
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  more.setAttribute('aria-label', `View details of ${restaurant.name}`);
+  li.appendChild(more)
 
   return li
+}
+
+let appendRestaurantImage = (restaurant, rootElement) => {
+  const picture = document.createElement('picture');
+  picture.className = 'restaurant-img';
+
+  const image_large = document.createElement('source');
+  //image_large.setAttribute('media', '(min-width: 1000px)');
+  image_large.setAttribute('srcset', `${DBHelper.imageUrlForRestaurant(restaurant, 'large')} 2x, ${DBHelper.imageUrlForRestaurant(restaurant, 'medium')} 1x`);
+  image_large.setAttribute('alt', restaurant.name);
+
+  // const image_medium = document.createElement('source');
+  // image_medium.setAttribute('media', '(min-width: 650px) and (max-width: 999px)');
+  // image_medium.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'medium'));
+  // image_medium.setAttribute('alt', restaurant.name);
+
+  const image = document.createElement('img');
+  image.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'small'));
+  image.setAttribute('src', DBHelper.imageUrlForRestaurant(restaurant, 'small'));
+  image.setAttribute('alt', restaurant.name);
+
+  picture.appendChild(image_large);
+  //picture.appendChild(image_medium);
+  picture.appendChild(image);
+
+  rootElement.appendChild(picture);
 }
 
 /**
  * Add markers for current restaurants to the map.
  */
-addMarkersToMap = (restaurants = self.restaurants) => {
+let addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
