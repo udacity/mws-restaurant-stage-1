@@ -66,7 +66,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.tabIndex = '2';
-  cuisine.innerHTML = 'Cousine: ' + restaurant.cuisine_type;
+  cuisine.innerHTML = restaurant.cuisine_type + ' Cousine';
 
   // fill operating hours
   if (restaurant.operating_hours) {

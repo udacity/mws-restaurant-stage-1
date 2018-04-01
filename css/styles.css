@@ -58,11 +58,13 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 nav {
   width: 100%;
   height: 50px;
-  /*background-color: #252831;*/
+  background-color: #252831;
   text-align:center;
 }
 nav h1 {
   background-color: #252831;
+  color: #eee;
+  font-size: 1rem;
   margin: auto;
   padding-top: 10px;
 }
@@ -213,18 +215,26 @@ nav h1 a {
 /* ====================== Restaurant Details ====================== */
 .inside h1{
   background-color: #252831;
+  font-size: 1rem;
+  color: #eee;
+  height: 30px;
+  text-align: center;
+  margin: 0;
 }
 .inside #restaurant-container h1{
-  background-color: #fff;
+  background-color: #eee;
 }
 .inside h1 a{
   width:100%;
 }
 .inside nav{
-  width: 50%;
+  background-color: #eee;
+  width: 100%;
+  text-align: unset;
 }
 .inside #breadcrumb{
   width: 100%;
+  padding-left: 10px;
 }
 
 .inside header {
@@ -234,7 +244,6 @@ nav h1 a {
   z-index: 1000;
 }
 .inside #map-container {
-  padding-top: 50px;
   grid-column-start: 1;
   grid-row-start: 2;
   margin: 20px;
@@ -281,16 +290,19 @@ nav h1 a {
   margin: 10px 0px;
 }
 #restaurant-cuisine {
-  background-color: #333;
-  color: #ddd;
-  font-size: 1.2em;
+  background-color: #eee;
+  color: #333;
+  font-size: 1rem;
   font-weight: 300;
-  letter-spacing: 10px;
-  margin: 0 0 20px;
+  letter-spacing: 5px;
+  margin: 0;
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
 	width: 100%;
+}
+#restaurant-container h1{
+  margin:0;
 }
 #restaurant-container, #reviews-container {
   grid-column-start: 1;
@@ -299,7 +311,7 @@ nav h1 a {
   margin-left: 10px;
 }
 #restaurant-container{
-  padding-top: 100px;
+  padding-top: 80px;
 }
 #reviews-container {
   border-top: 1px solid #d9d9d9;
@@ -314,6 +326,7 @@ nav h1 a {
   font-weight: 300;
   letter-spacing: -1px;
   padding-bottom: 1pt;
+  margin: 0;
 
 }
 #reviews-list {
@@ -347,6 +360,9 @@ nav h1 a {
     line-height: 1.5;
     font-size: 1.4rem;
     margin: 0 5px 0 20px;
+  }
+  .filter-options select{
+    margin-left:10px;
   }
 }
 
