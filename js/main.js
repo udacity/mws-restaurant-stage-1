@@ -35,7 +35,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
-    select.append(option);
+    select.appendChild(option);
   });
 }
 
@@ -63,7 +63,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
-    select.append(option);
+    select.appendChild(option);
   });
 }
 
@@ -127,7 +127,7 @@ resetRestaurants = (restaurants) => {
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
-    ul.append(createRestaurantHTML(restaurant));
+    ul.appendChild(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
 }
@@ -142,20 +142,21 @@ createRestaurantHTML = (restaurant) => {
   
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
-  li.append(name);
+  li.appendChild(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
+  li.appendChild(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
-  li.append(address);
+  li.appendChild(address);
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  more.setAttribute('aria-label', `View details of ${restaurant.name}`);
+  li.appendChild(more)
 
   return li
 }
@@ -176,14 +177,13 @@ appendRestaurantImage = (restaurant, rootElement) => {
 
   const image = document.createElement('img');
   image.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'small'));
-  image_large.setAttribute('alt', restaurant.name);
+  image.setAttribute('alt', restaurant.name);
 
   picture.appendChild(image_large);
   picture.appendChild(image_medium);
-  //picture.appendChild(image_small);
-  picture.appendChild(image)
+  picture.appendChild(image);
 
-  rootElement.append(picture);
+  rootElement.appendChild(picture);
 }
 
 /**

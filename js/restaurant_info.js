@@ -55,9 +55,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
-  const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  fillRestaurantPicture(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -68,6 +66,29 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   }
   // fill reviews
   fillReviewsHTML();
+}
+
+fillRestaurantPicture = (restaurant) => {
+  const picture = document.getElementById('restaurant-img');
+  picture.className = 'restaurant-img'
+  
+  const image_large = document.createElement('source');
+  image_large.setAttribute('media', '(min-width: 1000px)');
+  image_large.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'large'));
+  image_large.setAttribute('alt', restaurant.name);
+
+  const image_medium = document.createElement('source');
+  image_medium.setAttribute('media', '(min-width: 650px)');
+  image_medium.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'medium'));
+  image_medium.setAttribute('alt', restaurant.name);
+
+  const image = document.createElement('img');
+  image.setAttribute('srcset', DBHelper.imageUrlForRestaurant(restaurant, 'small'));
+  image.setAttribute('alt', restaurant.name);
+
+  picture.appendChild(image_large);
+  picture.appendChild(image_medium);
+  picture.appendChild(image);
 }
 
 /**
@@ -107,22 +128,23 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     container.appendChild(noReviews);
     return;
   }
-  const ul = document.getElementById('reviews-list');
+
   reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
+    container.appendChild(createReviewHTML(review));
   });
-  container.appendChild(ul);
+  //container.appendChild(ul);
 }
 
 /**
  * Create review HTML and add it to the webpage.
  */
 createReviewHTML = (review) => {
-  const li = document.createElement('li');
+  const reviewArticle = document.createElement('article');
+  reviewArticle.className = 'review';
 
   const reviewHeader = document.createElement('div');
   reviewHeader.className = 'review-header';
-  li.appendChild(reviewHeader);
+  reviewArticle.appendChild(reviewHeader);
 
   const name = document.createElement('h2');
   name.innerHTML = review.name;
@@ -135,13 +157,13 @@ createReviewHTML = (review) => {
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
   rating.className = 'review-rating';
-  li.appendChild(rating);
+  reviewArticle.appendChild(rating);
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
-  li.appendChild(comments);
+  reviewArticle.appendChild(comments);
 
-  return li;
+  return reviewArticle;
 }
 
 /**

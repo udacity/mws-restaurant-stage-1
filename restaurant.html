@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -20,40 +20,38 @@
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
+    <ul id="breadcrumb" class="breadcrumb">
       <li><a href="/">Home</a></li>
     </ul>
     <!-- End breadcrumb -->
     <!-- End nav -->
   </header>
   <!-- End header -->
-
   <!-- Beginning main -->
-  <main id="maincontent">
-    <!-- Beginning map -->
-    <section id="map-container">
-        <div id="map"></div>
-      </section>
-      <!-- End map -->
+  <main class="maincontent">
     <!-- Beginning restaurant -->
-    <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
-      <img id="restaurant-img">
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
+    <section id="restaurant-container" class="restaurant-container">
+      <h1 id="restaurant-name" class="restaurant-name"></h1>
+      <picture id="restaurant-img" class="restaurant-img"></picture>
+      <p id="restaurant-cuisine" class="restaurant-cuisine"></p>
+      <p id="restaurant-address" class="restaurant-address"></p>
       <table id="restaurant-hours"></table>
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
-    <section id="reviews-container">
-      <ul id="reviews-list"></ul>
+    <section id="reviews-container" class="reviews-container">
     </section>
-    <!-- End reviews -->    
+    <!-- End reviews -->   
+    <!-- Beginning map -->
+    <section id="map-container" class="map-container">
+        <div id="map" class="map"></div>
+      </section>
+      <!-- End map --> 
   </main>
   <!-- End main -->
 
   <!-- Beginning footer -->
-  <footer id="footer">
+  <footer>
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
   <!-- End footer -->

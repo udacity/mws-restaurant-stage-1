@@ -58,6 +58,17 @@ module.exports = function(grunt) {
         },
       },
     },
+    babel: {
+      options: {
+          sourceMap: true,
+          presets: ['env']
+      },
+      dist: {
+          files: {
+              'dist/*.js': 'js/*.js'
+          }
+      }
+    },
 
   });
 
@@ -65,6 +76,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
-  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images']);
+  grunt.loadNpmTasks('babel');
+  grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'babel']);
 
 };
