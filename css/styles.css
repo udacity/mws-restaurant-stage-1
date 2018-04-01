@@ -35,6 +35,7 @@ h1, h2, h3, h4, h5, h6 {
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
@@ -48,6 +49,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-align: center;
   text-transform: uppercase;
 }
+
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
@@ -97,6 +99,13 @@ nav h1 a {
     color: #01447e;
     text-decoration: underline;
 }
+/* ====================== Main Content ====================== */
+.container {
+  width: 100%;
+  display:flex;
+  flex-wrap: wrap;
+}
+
 /* ====================== Map ====================== */
 #map {
   height: 400px;
