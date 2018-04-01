@@ -14,7 +14,7 @@ class DBHelper {
 
     var BASE_DOMAIN="www.vlogz.win";
 // we use static domain name without port
-    return `http://'+BASE_DOMAIN+'/data/restaurants.json`;
+    return `http://${BASE_DOMAIN}/data/restaurants.json`;
   }
 
   /**
