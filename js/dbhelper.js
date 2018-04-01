@@ -3,7 +3,7 @@
  */
 class DBHelper {
 
-  const BASE_DOMAIN="www.vlogz.win";
+  var BASE_DOMAIN="www.vlogz.win";
 //  const BASE_DOMAIN="localhost";
 
   /**
@@ -15,7 +15,7 @@ class DBHelper {
 //    return `http://localhost:${port}/data/restaurants.json`;
 
 // we use static domain name without port
-    return `http://${BASE_DOMAIN}/data/restaurants.json`;
+    return `http://'+BASE_DOMAIN+'/data/restaurants.json`;
   }
 
   /**
