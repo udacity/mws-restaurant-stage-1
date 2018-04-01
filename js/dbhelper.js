@@ -3,13 +3,18 @@
  */
 class DBHelper {
 
+  const base_domain='www.vlogz.win';
+
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
     const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+//    return `http://localhost:${port}/data/restaurants.json`;
+
+// we use static domain name without port
+    return `http://${base_domain}/data/restaurants.json`;
   }
 
   /**
