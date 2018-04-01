@@ -27,8 +27,8 @@
   padding: 1% 5%;
   min-height: 380px;
   background-color: #fff;
-  border-top-left-radius: 5%;
-  border-bottom-right-radius: 5%;
+  border-top-left-radius: 25px;
+  border-bottom-right-radius: 25px;
   font-family: Arial,sans-serif;
   text-align: center;    
 }
