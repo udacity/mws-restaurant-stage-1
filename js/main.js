@@ -159,25 +159,29 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  
+  const figure = document.createElement('figure');
+  li.appendChild(figure);
 
+  // Create responsive image
   const picture = document.createElement('picture');
   picture.className = 'restaurant-img';
   
   const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
   
   let source = document.createElement('source');
-  source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
-  source.media = "(min-width: 1200px)";
+  source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+  source.media = "(max-width: 400px)";
   picture.appendChild(source);
   
   source = document.createElement('source');
   source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
-  source.media = "(min-width: 650px)";
+  source.media = "(min-width: 601px)";
   picture.appendChild(source);
   
   source = document.createElement('source');
   source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
-  source.media = "(max-width: 650px)";
+  source.media = "(max-width: 600px) and (min-width: 401px)";
   picture.appendChild(source);
  
   const image = document.createElement('img');
@@ -185,11 +189,11 @@ createRestaurantHTML = (restaurant) => {
   image.src = `${image_prefix}-400_small_1x.jpg`;
   picture.appendChild(image);
   
-  li.appendChild(picture);
-  
-  const summary = document.createElement('div');
+  figure.appendChild(picture);
+ 
+  const summary = document.createElement('figcaption');
   summary.className = 'restaurant-summary';
-  li.append(summary);
+  figure.append(summary);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;

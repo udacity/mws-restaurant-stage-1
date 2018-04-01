@@ -61,23 +61,32 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
   
-  const picture = document.getElementById('restaurant-img');
+  const figure = document.getElementById('restaurant-img');
+  
+  // Create responsive image
+  const picture = document.createElement('picture');
+  figure.prepend(picture);
   
   const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
   
   let source = document.createElement('source');
   source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
-  source.media = "(min-width: 1200px)";
+  source.media = "(min-width: 1400px)";
   picture.appendChild(source);
   
   source = document.createElement('source');
   source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
-  source.media = "(min-width: 650px)";
+  source.media = "(max-width: 400px)";
+  picture.appendChild(source);
+  
+  source = document.createElement('source');
+  source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+  source.media = "(min-width: 1000px) and (max-width: 1399px)";
   picture.appendChild(source);
   
   source = document.createElement('source');
   source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
-  source.media = "(max-width: 650px)";
+  source.media = "(min-width: 401px) and (max-width: 999px)";
   picture.appendChild(source);
  
   const image = document.createElement('img');
