@@ -8,8 +8,8 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 8887 // Change this to your server port
+    return `http://127.0.0.1:${port}/data/restaurants.json`;
   }
 
   /**
@@ -40,9 +40,9 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) { // Got the restaurant
-          callback(null, restaurant);
+        const restaurant = restaurants.filter(r => r.id == id);
+        if (restaurant && restaurant.length > 0) { // Got the restaurant
+          callback(null, restaurant[0]);
         } else { // Restaurant does not exist in the database
           callback('Restaurant does not exist', null);
         }
@@ -149,8 +149,14 @@ class DBHelper {
   /**
    * Restaurant image URL.
    */
-  static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+  static imageUrlForRestaurant(restaurant, size) {
+    var sizesSuffixes = {
+      'large': '1600_large',
+      'medium': '800_medium',
+      'small': '350_small',
+    }
+
+    return (`/img/${restaurant.id}-${sizesSuffixes[size]}.jpg`);
   }
 
   /**
