@@ -46,7 +46,7 @@ module.exports = function(grunt) {
     /* Clear out the images directory if it exists */
     clean: {
       dev: {
-        src: ['img'],
+        src: ['img', 'dist'],
       },
     },
 
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
     mkdir: {
       dev: {
         options: {
-          create: ['img']
+          create: ['img', 'dist']
         },
       },
     },
@@ -64,9 +64,12 @@ module.exports = function(grunt) {
           presets: ['env']
       },
       dist: {
-          files: {
-              'dist/*.js': 'js/*.js'
-          }
+          files: [{
+            expand: true,
+            cwd: 'js/',
+            src: ['*.js'],
+            dest: 'dist/'
+          }]
       }
     },
 
@@ -76,7 +79,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
-  grunt.loadNpmTasks('babel');
+  grunt.loadNpmTasks('grunt-babel');
   grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'babel']);
 
 };
