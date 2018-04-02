@@ -8,6 +8,29 @@ body,td,th,p{
 	line-height: 1.5;
 }
 
+
+.skipper{
+  position: absolute;
+  top: -10000;
+  left: -1000;
+  height: 1px;
+  width: 1px;
+  text-align: left;
+  overflow: hidden; 
+}
+
+.skipper:active, 
+.skipper:focus, 
+.skipper:hover{
+  border: 1px solid orange;
+  background-color: white;
+  left: 0; 
+  top: 0;
+  width: auto; 
+  height: auto; 
+  overflow: visible;
+}
+
 body, html {
   margin: 0;
   padding: 0;

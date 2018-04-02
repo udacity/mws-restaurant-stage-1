@@ -12,18 +12,19 @@
 </head>
 
 <body>
+  <a href="#filter" class="skipper">skip to content</a>
   <header>
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
-
+  
   <main id="maincontent">
-    <section id="map-container" >
+    <section id="map-container"  role="region" aria-label="map">
       <div id="map" ></div>
     </section>
     <section>
-      <div class="filter-options">
+      <div class="filter-options" id="filter" >
         <h2 aria-label="filter results" tabindex="0">Filter Results</h2>
         <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
           <option value="all" role="option">All Neighborhoods</option>
