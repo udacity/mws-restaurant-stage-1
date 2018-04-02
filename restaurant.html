@@ -30,12 +30,12 @@
   <!-- Beginning main -->
   <main id="maincontent">
     <!-- Beginning map -->
-    <section id="map-container" aria-hidden="true" tabindex="-1">
-      <div id="map"></div>
-    </section>
+    <!--<section id="map-container" role="application" >
+      <div id="map" ></div>
+    </section> -->
     <!-- End map -->
     <!-- Beginning restaurant -->
-    <section id="restaurant-container">
+    <section id="restaurant-container" tabindex="0">
       <h1 id="restaurant-name"></h1>
       <p id="restaurant-cuisine"></p>
       <p id="restaurant-address"></p>
@@ -48,6 +48,9 @@
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
+    <section id="map-container" role="application" >
+      <div id="map" ></div>
+    </section>
   </main>
   <!-- End main -->
 
