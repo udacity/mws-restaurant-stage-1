@@ -100,6 +100,7 @@ nav > h1 > a:focus {
     font-size: 17px;
     margin: 0;
     /* width: calc(50% - 80px); */
+    text-align: left;
 }
 
 /* Display list items side by side */
@@ -195,10 +196,11 @@ nav > h1 > a:focus {
 
 .restaurant-img  img {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    height: initial;
 }
 
-#restaurants-list li h1 {
+#restaurants-list li h2 {
   color: #f18200;
   font-family: Arial,sans-serif;
   font-size: 2em;
@@ -308,7 +310,7 @@ nav > h1 > a:focus {
   width: 100%;
 }
 
-#reviews-container h2 {
+#reviews-container h3 {
   color: #f58500;
   font-size: 2em;
   font-weight: 300;

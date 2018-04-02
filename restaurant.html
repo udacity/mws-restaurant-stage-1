@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,14 +19,16 @@
       <h1 class="header__title">
         <a href="/">Restaurant Reviews</a>
       </h1>
+   
+      <!-- Beginning breadcrumb -->
+      <ul aria-label="Breadcrumb" id="breadcrumb" role="navigation">
+        <li><a href="/">Home</a></li>
+      </ul>
+      <!-- End breadcrumb -->
     </nav>
-    <!-- Beginning breadcrumb -->
-    <ul aria-label="Breadcrumb" id="breadcrumb" >
-      <li><a href="/">Home</a></li>
-    </ul>
-    <!-- End breadcrumb -->
     <!-- End nav -->
   </header>
+
   <!-- End header -->
 
   <!-- Beginning main -->
@@ -38,8 +40,8 @@
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
-      <img id="restaurant-img" alt="Restaurant image">
+      <h2 id="restaurant-name"></h2>
+      <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
       <p id="restaurant-address"></p>
       <table id="restaurant-hours"></table>
@@ -60,7 +62,7 @@
   <!-- End footer -->
 
   <!-- Beginning scripts -->
-  <script type="application/javascript" charset="utf-8" src="js/app.js"></script>
+  <!-- <script type="application/javascript" charset="utf-8" src="js/app.js"></script> -->
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->

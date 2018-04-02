@@ -107,4 +107,16 @@
   #restaurants-list div {
     width: 100%;
   }
+
+  @media screen and (min-width: 1280px) {
+    main, .header__inner, .nav, .content, nav, footer, #breadcrumb, .inside #footer {
+      width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+    } 
+
+    #restaurants-list li {
+      width: 25%;
+    }
+  }
 }
