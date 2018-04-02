@@ -291,6 +291,7 @@ nav h1 a {
 #restaurant-address {
   font-size: 1em;
   margin: 10px 0px;
+  text-align: center;
 }
 #restaurant-cuisine {
   background-color: #fff;
@@ -355,6 +356,10 @@ nav h1 a {
 #reviews-list li p {
   margin: 0 0 10px;
 }
+#restaurant-hours {
+  margin-left: 15px;
+  width: 260px;
+}
 #restaurant-hours td {
   color: #666;
 }
@@ -369,6 +374,15 @@ nav h1 a {
   }
   .filter-options select{
     margin-left:10px;
+  }
+
+  #restaurant-hours {
+    width: 280px;
+    margin-left: 20px;
+  }
+  #restaurant-hours td{
+    font-size: 1.1rem;
+    letter-spacing: 1px;
   }
 }
 
@@ -455,6 +469,9 @@ nav h1 a {
   #restaurants-list {
   grid-template-columns: 1fr 1fr 1fr;
   }
+  .inside #footer{
+    position: fixed;
+  }
 }
 
 @media screen and (min-width : 1100px){
@@ -494,5 +511,29 @@ nav h1 a {
   }
   #reviews-list {
     grid-template-columns: 1fr 1fr 1fr; 
+  }
+}
+@media screen and (min-width: 1600px){
+  #restaurant-hours {
+    width: 300px;
+    margin-left: 20px;
+  }
+  #restaurant-hours td{
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+  #reviews-list {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    } 
+}
+@media screen and (min-width:3800px){
+  .inside #maincontent{
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+  #reviews-container {
+    grid-column-end: 2;
+  }
+  .inside #map-container {
+    grid-row-end: 4;
   }
 }
