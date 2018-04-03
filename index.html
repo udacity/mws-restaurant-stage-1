@@ -1,25 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Athiti" rel="stylesheet">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
   <title>Restaurant Reviews</title>
 </head>
 
-<body>
+<body>    
   <header>
+    <a href="#filter-restaurants" class="skip-link">
+        Skip to main content
+      </a>
     <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+      <h1>Restaurant Reviews</h1>
     </nav>
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
-      <div id="map"></div>
+    <section id="map-container"  >
+      <div id="map" tabindex="0" role="application" aria-label="List of restaurants"></div>
     </section>
     <section>
-      <div class="filter-options">
+      <div id="filter-restaurants" class="filter-options">
         <h2>Filter Results</h2>
         <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
@@ -28,19 +34,55 @@
           <option value="all">All Cuisines</option>
         </select>
       </div>
-      <ul id="restaurants-list"></ul>
+      <ul id="restaurants-list" aria-label="restaurant list"></ul>
     </section>
   </main>
 
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap"></script>
-
-
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9YztfBeOOlt11Zbubd7Slpq0IUVjwYS8&libraries=places&callback=initMap"></script>
+ 
   <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    Copyright (c) 2017 <a href="/" title="back to homepage"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
+ <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').then(function(registration) {
+        // Registration was successful
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        
+      if (!navigator.serviceWorker.controller) {
+        return;
+      }
 
+      if (registration.waiting) {
+        navigator.serviceWorker.controller.postMessage({action: 'skipWaiting'});
+      }
+
+      if (registration.installing) {
+        navigator.serviceWorker.addEventListener('statechange', function() {
+        if (navigator.serviceWorker.controller.state == 'installed') {
+          navigator.serviceWorker.controller.postMessage({action: 'skipWaiting'});
+        }
+        });
+      }
+
+      registration.addEventListener('updatefound', function() {
+        navigator.serviceWorker.addEventListener('statechange', function() {
+          if (navigator.serviceWorker.controller.state == 'installed') {
+            navigator.serviceWorker.controller.postMessage({action: 'skipWaiting'});
+          }
+        });
+      });
+     
+      }, function(err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
 </body>
 
 </html>

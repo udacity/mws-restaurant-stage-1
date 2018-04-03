@@ -7,15 +7,17 @@ var map;
 window.initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
-      console.error(error);
+      //console.error('this error:' + error);
     } else {
       self.map = new google.maps.Map(document.getElementById('map'), {
         zoom: 16,
         center: restaurant.latlng,
         scrollwheel: false
       });
+      
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      
     }
   });
 }
@@ -56,11 +58,17 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
+  image.className = 'restaurant-img';
+  image.alt = '';
+  // choose image resolution depending on window with
+  const winWith = window.innerWidth;
+  if (winWith > 800) { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-800px.jpg'); }
+  else if (winWith > 600) { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-600px.jpg'); }
+  else { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-300px.jpg'); }
+  
   const cuisine = document.getElementById('restaurant-cuisine');
-  cuisine.innerHTML = restaurant.cuisine_type;
+  cuisine.innerHTML = restaurant.cuisine_type + ' Cousine';
 
   // fill operating hours
   if (restaurant.operating_hours) {
@@ -75,8 +83,10 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
+  //hours.tabIndex = 0;
   for (let key in operatingHours) {
     const row = document.createElement('tr');
+    row.tabIndex = 0;
 
     const day = document.createElement('td');
     day.innerHTML = key;
@@ -117,6 +127,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+  li.tabIndex = 0;
   const name = document.createElement('p');
   name.innerHTML = review.name;
   li.appendChild(name);
