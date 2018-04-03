@@ -89,36 +89,36 @@ nav h1 a {
   text-transform: uppercase;
 }
 #breadcrumb {
-    padding: 10px 40px 16px;
-    list-style: none;
-    background-color: #fff;
-    font-size: 17px;
-    margin: 0;
-    width: calc(50% - 80px);
+  padding: 10px 40px 16px;
+  list-style: none;
+  background-color: #fff;
+  font-size: 17px;
+  margin: 0;
+  width: calc(50% - 80px);
 }
 
 /* Display list items side by side */
 #breadcrumb li {
-    display: inline;
+  display: inline;
 }
 
 /* Add a slash symbol (/) before/behind each list item */
 #breadcrumb li+li:before {
-    padding: 8px;
-    color: black;
-    content: "/\00a0";
+  padding: 8px;
+  color: black;
+  content: "/\00a0";
 }
 
 /* Add a color to all links inside the list */
 #breadcrumb li a {
-    color: #252831;
-    text-decoration: none;
+  color: #252831;
+  text-decoration: none;
 }
 
 /* Add a color on mouse-over */
 #breadcrumb li a:hover {
-    color: #01447e;
-    text-decoration: underline;
+  color: #01447e;
+  text-decoration: underline;
 }
 /* ====================== Map ====================== */
 #map {
@@ -203,7 +203,6 @@ nav h1 a {
   text-transform: uppercase;
 }
 #restaurants-list p {
-
   margin: 0 5px 0px 20px;
   font-size: 1.2rem;
   line-height: 1;
@@ -249,7 +248,6 @@ nav h1 a {
   width: 100%;
   padding-left: 10px;
 }
-
 .inside header {
   position: fixed;
   top: 0;
@@ -385,7 +383,6 @@ nav h1 a {
   .filter-options select{
     margin-left:10px;
   }
-
   #restaurant-hours {
     width: 280px;
     margin-left: 20px;
@@ -515,14 +512,14 @@ nav h1 a {
     grid-row-start: 4;
     grid-column-start: 2;
   }
-
   #restaurants-list {
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
   #reviews-list {
     grid-template-columns: 1fr 1fr 1fr; 
   }
 }
+
 @media screen and (min-width: 1600px){
   #restaurant-hours {
     width: 300px;
@@ -536,6 +533,7 @@ nav h1 a {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     } 
 }
+
 @media screen and (min-width:3800px){
   .inside #maincontent{
     grid-template-rows: 1fr 1fr 1fr;
