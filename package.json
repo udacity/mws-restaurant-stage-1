@@ -35,9 +35,11 @@
     "gulp-eslint": "^4.0.2",
     "gulp-imagemin": "^4.1.0",
     "gulp-jasmine-phantom": "^3.0.0",
+    "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify-js": "0.0.4",
     "http-server": "^0.11.1",
-    "imagemin-pngquant": "^5.1.0"
+    "imagemin-pngquant": "^5.1.0",
+    "idb": "^2.1.1"
   }
 }

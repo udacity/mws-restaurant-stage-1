@@ -51,7 +51,7 @@ const fetchRestaurantFromURL = () => {
  * @param {Object[]} restaurant.operating_hours
  * @param {Object[]} restaurant.reviews
  */
-const fillRestaurantHTML = (restaurant = self.restaurant) => {// eslint-disable-line max-statements
+const fillRestaurantHTML = restaurant => {// eslint-disable-line max-statements
     const name = document.getElementById("restaurant-name");
     name.innerHTML = restaurant.name;
 
@@ -78,7 +78,7 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {// eslint-disable-
  * Create restaurant operating hours HTML table and add it to the web page.
  * @param {Object[]} operatingHours
  */
-const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
+const fillRestaurantHoursHTML = operatingHours => {
     const hours = document.getElementById("restaurant-hours");
     Object.entries(operatingHours).forEach(([key, value]) => {
         const row = document.createElement("tr");
@@ -98,7 +98,7 @@ const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hour
  * Create all reviews HTML and add them to the web page.
  * @param {Object[]} reviews
  */
-const fillReviewsHTML = (reviews = self.restaurant.reviews) => {// eslint-disable-line max-statements
+const fillReviewsHTML = reviews => {// eslint-disable-line max-statements
     const container = document.getElementById("reviews-container");
     const title = document.createElement("h2");
     title.innerHTML = "Reviews";
@@ -157,7 +157,7 @@ const createReviewHTML = review => {// eslint-disable-line max-statements
  * @param {Object} restaurant
  * @param {string} restaurant.name
  */
-const fillBreadcrumb = (restaurant = self.restaurant) => {
+const fillBreadcrumb = restaurant => {
     const breadcrumb = document.getElementById("breadcrumb");
     const li = document.createElement("li");
     li.innerHTML = restaurant.name;

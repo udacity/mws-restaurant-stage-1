@@ -3,7 +3,6 @@
 /** @namespace google.maps */
 /** @namespace google.maps.Marker */
 /** @namespace google.maps.Animation */
-
 /** @namespace google.maps.Animation.DROP */
 
 /**
@@ -43,6 +42,7 @@ class DBHelper {
 
     /**
      * Fetch restaurants by a cuisine type with proper error handling.
+     * TODO refactor this
      * @param {string} cuisine
      * @return {Object[]}
      */
@@ -56,6 +56,7 @@ class DBHelper {
 
     /**
      * Fetch restaurants by a neighborhood with proper error handling.
+     * TODO refactor this
      * @param {string} neighborhood
      * @return {Object[]}
      */
@@ -89,7 +90,7 @@ class DBHelper {
 
     /**
      * Fetch all neighborhoods with proper error handling.
-     * @return {string[]}
+     * @return {Promise<string[]>}
      */
     static fetchNeighborhoods() {
         return DBHelper.fetchRestaurants()
@@ -99,7 +100,7 @@ class DBHelper {
 
     /**
      * Fetch all cuisines with proper error handling.
-     * @return {string[]}
+     * @return {Promise<string[]>}
      */
     static fetchCuisines() {
         return DBHelper.fetchRestaurants()

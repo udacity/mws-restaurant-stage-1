@@ -4,7 +4,7 @@ let restaurants,
     neighborhoods,
     cuisines;
 let map;
-const markers = [];
+let markers = [];
 
 /* if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
@@ -146,7 +146,7 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * @param {string} restaurant.address
  * @return {Element}
  */
-const createRestaurantHTML = restaurant => {
+const createRestaurantHTML = restaurant => { // eslint-disable-line max-statements
     const li = document.createElement("li");
 
     const image = document.createElement("img");
@@ -181,12 +181,10 @@ const createRestaurantHTML = restaurant => {
  */
 const addMarkersToMap = (restaurants = self.restaurants) => {
     restaurants.forEach(restaurant => {
-        // Add marker to the map
         const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
         google.maps.event.addListener(marker, "click", () => {
             window.location.href = marker.url;
         });
-        // self.markers.push(marker);
         self.markers = [...self.markers, marker];
     });
 };
