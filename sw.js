@@ -1,4 +1,4 @@
-let staticCacheName = 'restaurant-static-v1';
+let staticCacheName = 'restaurant-static-v3';
 let contentImgsCache = 'restaurant-content-imgs';
 let allCaches = [staticCacheName, contentImgsCache];
 
@@ -36,6 +36,7 @@ self.addEventListener('activate', function(event) {
 self.addEventListener('fetch', function(event){
     let requestUrl = new URL(event.request.url);
   
+    if (requestUrl.origin === location.origin) {    
         if (requestUrl.pathname.startsWith('/images/')) {
             event.respondWith(serveImg(event.request));
             return;
@@ -47,7 +48,7 @@ self.addEventListener('fetch', function(event){
                     return fetch(event.request)
                 }))
         }
-    
+    }
 
     event.respondWith(
         caches.match(event.request).then(function(response) {
