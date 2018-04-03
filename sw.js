@@ -31,21 +31,13 @@ self.addEventListener('fetch', event => {
         return;
     };
 
-    if (url.pathname.startsWith('/restaurant.html')) {
-        event.respondWith(
-            caches.match('restaurant.html')
-            .then(response => response || fetch(event.request))
-        );
-        return;
-    };
-
     if (url.pathname.endsWith('.jpg')) {
         event.respondWith(servePhoto(event.request));
         return;
     };
 
     event.respondWith(
-        caches.match(event.request)
+        caches.match(url.pathname)
         .then(response => response || fetch(event.request))
     );
 });
