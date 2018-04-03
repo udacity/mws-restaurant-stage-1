@@ -58,10 +58,15 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
+
   image.className = 'restaurant-img';
   image.alt = '';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-200px.jpg');
-
+  // choose image resolution depending on window with
+  const winWith = window.innerWidth;
+  if (winWith > 800) { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-800px.jpg'); }
+  else if (winWith > 600) { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-600px.jpg'); }
+  else { image.src = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','-300px.jpg'); }
+  
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type + ' Cousine';
 
