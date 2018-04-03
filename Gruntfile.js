@@ -6,13 +6,13 @@ module.exports = function(grunt){
                 options:{
                   engine:'im',
                   sizes:[{
-                    width:1600,
-                    suffix:'_large',
+                    width:800,
+                    suffix:'_2x',
                     quality: 30
                   },
                   {
-                    width:800,
-                    suffix:'_small',
+                    width:400,
+                    suffix:'_1x',
                     quality: 30
                   }]
                 },
