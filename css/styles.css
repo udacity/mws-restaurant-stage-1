@@ -41,6 +41,15 @@ td{
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #BF1722;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
