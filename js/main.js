@@ -140,7 +140,20 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  // TODO: Get the right image url for the different sized pictures
+    // use the srcset property to set the appropriate image name for
+    // screen size. (lesson 9.2)
+
+  // decompose the url to allow selection of different images
+  // in response to the image display size
+  const baseURL = DBHelper.imageUrlForRestaurant(restaurant);
+  let urlComponents = baseURL.split(".");
+
+  image.src = `${urlComponents[0]}-800_small.${urlComponents[1]}`; // src for fallback
+  image.srcset = `${urlComponents[0]}-800_small.${urlComponents[1]} 800w,
+                  ${urlComponents[0]}-1600_large.${urlComponents[1]} 1600w`;
+  // set sizes attribute to indicate display size
+  image.sizes = `50vw`;
   li.append(image);
 
   const name = document.createElement('h1');

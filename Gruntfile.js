@@ -9,25 +9,30 @@ module.exports = function(grunt){
                     width:1600,
                     suffix:'_large',
                     quality: 30
+                  },
+                  {
+                    width:800,
+                    suffix:'_small',
+                    quality: 30
                   }]
                 },
                 files: [{
                     expand: true,
                     src: ['*.{gif,jpg,png}'],
                     cwd: 'images_src/',
-                    dest: 'images/'
+                    dest: 'img/'
                 }]
             }
         },
         clean:{
             dev:{
-                src:['images']
+                src:['img']
             }
         },
         mkdir:{
             dev:{
                 options:{
-                    create: ['images']
+                    create: ['img']
                 }
             }
         }
