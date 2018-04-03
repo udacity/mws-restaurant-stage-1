@@ -78,6 +78,7 @@ module.exports = {
             },
         ],
         "space-in-parens": 1,
+        "valid-jsdoc": ["error"],
         "require-jsdoc": ["error", {
             "require": {
                 "FunctionDeclaration": true,

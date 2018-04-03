@@ -1,11 +1,13 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, fp/no-mutating-methods */
 const gulp = require("gulp");
 const browserSync = require("browser-sync").create();
 const jasmine = require("gulp-jasmine-phantom");
 const babel = require("gulp-babel");
 const imagemin = require("gulp-imagemin");
 const pngquant = require("imagemin-pngquant");
-const eslint = require("eslint");
+const eslint = require("gulp-eslint");
+const concat = require("gulp-concat");
+const uglify = require("gulp-uglify");
 const sass = require("gulp-sass");
 const sourcemaps = require("gulp-sourcemaps");
 
@@ -26,15 +28,16 @@ gulp.task("styles", () => {
 });
 
 gulp.task("lint", () => gulp.src(["**/*.js", "!node_modules/**"])
-    .pipe(eslint())
+    .pipe(eslint({"quiet": true, "fix": true, "configFile": ".eslintrc.js"}))
     .pipe(eslint.format())
     .pipe(eslint.failAfterError()));
 
 gulp.task("default", ["lint"], () => {
+    console.log("Linting");
 });
 
 gulp.task("default", () => {
-    gulp.watch("sass/**/*.scss", ["styles"]);// eslint-disable-line fp/no-mutating-methods
+    gulp.watch("sass/**/*.scss", ["styles"]);
 });
 
 gulp.task("default", () => gulp.src("src/images/*")
@@ -45,7 +48,9 @@ gulp.task("default", () => gulp.src("src/images/*")
     .pipe(gulp.dest("dist/images")));
 
 
-gulp.task("default", () => gulp.src("spec/test.js").babel().pipe(jasmine()));
+gulp.task("default", () => gulp.src("spec/test.js")
+    .pipe(babel())
+    .pipe(jasmine()));
 
 
 gulp.task("scripts-dist", () => {

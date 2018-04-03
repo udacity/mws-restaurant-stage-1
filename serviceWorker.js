@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const staticCache = "restaurant-static";
 const staticAssets = [
     "/",
@@ -65,7 +67,7 @@ self.addEventListener("fetch", event => {
 
 /**
  * Serve resource from cache or network
- * @param request client request
+ * @param {Request} request - client request
  * @returns {Promise<Cache>}
  */
 const serveResource = request => {

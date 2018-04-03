@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-unused-vars */
 /* global google */
 /** @namespace google.maps */
 /** @namespace google.maps.Marker */

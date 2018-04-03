@@ -1,10 +1,5 @@
 /* eslint-disable prefer-destructuring, no-console */
 /* global DBHelper, google */
-let restaurants,
-    neighborhoods,
-    cuisines;
-let map;
-let markers = [];
 
 /* if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
