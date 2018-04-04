@@ -5,7 +5,7 @@ var map
 var markers = []
 
 let updateDialog = document.querySelector('.update-dialog');
-let updateInstallButton = document.querySelector('.update-dialog .install-udpate');
+let updateInstallButton = document.querySelector('.update-dialog .install-update');
 
 const serviceWorkerHelper = function ServiceWorkerHelper(workerLocation, updateUI, updateTriggerEl){
   if (!navigator.serviceWorker) throw new Error("service worker not supported")
@@ -20,7 +20,7 @@ const serviceWorkerHelper = function ServiceWorkerHelper(workerLocation, updateU
       
       // if there is one waiting - there was a service worker installed on the last refresh and its waiting
       if(reg.waiting){
-          displayHelper.revealPopup(updateUI)
+          updateUI.classList.add('active')
           return;
       }
 
@@ -56,12 +56,12 @@ const serviceWorkerHelper = function ServiceWorkerHelper(workerLocation, updateU
                   worker.postMessage({action: 'skipWaiting'})
               })
 
-              displayHelper.revealPopup(updateUI)  // show the UI
+              updateUI.classList.add('active')  // show the UI
           }
       })
   }
 
-}('./js/sw.js', updateDialog, updateInstallButton)
+}('./sw.js', updateDialog, updateInstallButton)
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.

@@ -295,7 +295,16 @@ nav h1 a {
 /*====================== Service Worker Update ==================*/
 .update-dialog{
   position:absolute;
+  visibility: hidden;
   background-color: red;
   z-index:2;
   padding:10px;
+}
+
+.update-dialog.active{
+  visibility: visible;
+}
+
+.update-dialog.active .install-update{
+  background-color:yellow;
 }

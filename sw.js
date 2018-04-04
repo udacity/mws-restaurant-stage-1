@@ -1,5 +1,3 @@
-//
-
 const staticCacheName = "restaurant-static-v1"
 
 self.addEventListener('install',(event)=>{  // do things when the service worker installs
