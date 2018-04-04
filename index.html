@@ -14,7 +14,7 @@
   <a href="#filter" class="skipper">skip to content</a>
   <header>
     <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+      <h2><a href="/">Restaurant Reviews</a></h2>
     </nav>
   </header>
   
@@ -24,11 +24,11 @@
     </section>
     <section>
       <div class="filter-options" id="filter" >
-        <h2 aria-label="filter results" tabindex="0">Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <h2 aria-label="filter results">Filter Results</h2>
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="Filter Result neighborhoods select">
           <option value="all" role="option">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="Filter Result cuisines select">
           <option value="all">All Cuisines</option>
         </select>
       </div>
