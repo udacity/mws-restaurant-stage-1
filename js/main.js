@@ -140,9 +140,6 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  // TODO: Get the right image url for the different sized pictures
-    // use the srcset property to set the appropriate image name for
-    // screen size. (lesson 9.2)
 
   // decompose the url to allow selection of different images
   // in response to the image display size
