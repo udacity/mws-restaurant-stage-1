@@ -25,4 +25,11 @@ In a terminal, check the version of Python you have: `python -V`. If you have Py
 Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
 
 
+### Use grunt tasks 
+ 
+ You can use grunt to make the images resposive : 
+
+ 1.  " $ grunt responsive_images " that takes the images from img file and out 4 versions from every image in images directory using image magick .
+ 2. " $ grunt mkdir " to make images directory that where we add the modified images .
+ 3. " $ grunt clean " to clean images directory if you need that .
 
