@@ -291,3 +291,11 @@ nav h1 a {
 #restaurant-hours td {
   color: #666;
 }
+
+/*====================== Service Worker Update ==================*/
+.update-dialog{
+  position:absolute;
+  background-color: red;
+  z-index:2;
+  padding:10px;
+}
