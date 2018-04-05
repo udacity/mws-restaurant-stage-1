@@ -1,5 +1,12 @@
 const staticCacheName = "restaurant-static-v1"
+const pictureCacheName = "restaurant-content-imgs"
+let allCaches = [
+    staticCacheName,
+    pictureCacheName
+]
 
+
+// TODO: Cache the pictures
 self.addEventListener('install',(event)=>{  // do things when the service worker installs
     event.waitUntil(
         caches.open(staticCacheName).then((cache)=>{
@@ -25,7 +32,7 @@ self.addEventListener('activate', (event)=>{   // when active -delete the outdat
             return Promise.all(
                 cacheNames.filter((cacheName)=>{
                     return cacheName.startsWith('restaurant') &&
-                            cacheName != staticCacheName
+                        !allCaches.includes(cacheName)
                 }).map((cacheName)=>{
                     return caches.delete(cacheName)
                 })
@@ -34,18 +41,44 @@ self.addEventListener('activate', (event)=>{   // when active -delete the outdat
     )
 })
 
-// TODO: The resources are cached but not being fetched from cache when offline
 self.addEventListener('fetch', (event)=>{   // listening for calls to fetch
     const requestUrl = new URL(event.request.url)
     
     // == get things from cache first || get from network if not in the cache
-    event.respondWith(
-        caches.match(event.request).then((response)=>{  // look in the caches for the response
-            return response || fetch(event.request) // if no response - get it from the network
-        })
-    )
+    if(requestUrl.origin === location.origin){  // if the request is to the site source
+        if(requestUrl.pathname.startsWith('/img/')){ // if the request if from our image store
+            event.respondWith(servePhoto(event.request))
+            return;
+        }else{
+            event.respondWith(
+                caches.match(event.request).then((response)=>{  // look in the caches for the response
+                    return response || fetch(event.request) // if no response - get it from the network
+                })
+            )
+        }
+    }
+        
 
 })
+
+function servePhoto(request){
+    console.log(request.url)
+    const storageUrl = request.url.replace(/-\d+_\d+x.jpg$/, '');
+
+    return caches.open(pictureCacheName).then(function(cache){
+        return cache.match(storageUrl).then(function(response){
+            if(response){
+                return response;
+            } 
+
+            return fetch(request).then(function(networkResponse){
+                cache.put(storageUrl, networkResponse.clone());
+                return networkResponse;
+            })
+        })
+    })
+}
+
 
 self.addEventListener('message', (event)=>{ // listening to messages to service worker
 
