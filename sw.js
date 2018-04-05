@@ -1,3 +1,5 @@
+///////
+
 const staticCacheName = "restaurant-static-v1"
 const pictureCacheName = "restaurant-content-imgs"
 let allCaches = [
@@ -5,8 +7,6 @@ let allCaches = [
     pictureCacheName
 ]
 
-
-// TODO: Cache the pictures
 self.addEventListener('install',(event)=>{  // do things when the service worker installs
     event.waitUntil(
         caches.open(staticCacheName).then((cache)=>{
@@ -49,6 +49,12 @@ self.addEventListener('fetch', (event)=>{   // listening for calls to fetch
         if(requestUrl.pathname.startsWith('/img/')){ // if the request if from our image store
             event.respondWith(servePhoto(event.request))
             return;
+        }else if(requestUrl.pathname.startsWith('/restaurant.html')){ // check to see if we need to serve the restaurants page
+            event.respondWith(
+                caches.match('restaurant.html').then((response)=>{
+                    return response || fetch(event.request)
+                })
+            )
         }else{
             event.respondWith(
                 caches.match(event.request).then((response)=>{  // look in the caches for the response
@@ -61,8 +67,11 @@ self.addEventListener('fetch', (event)=>{   // listening for calls to fetch
 
 })
 
+self.addEventListener('get', ()=>{
+    console.log("Getting the page")
+})
+
 function servePhoto(request){
-    console.log(request.url)
     const storageUrl = request.url.replace(/-\d+_\d+x.jpg$/, '');
 
     return caches.open(pictureCacheName).then(function(cache){
