@@ -91,7 +91,7 @@ class DBHelper {
     .then(db => {
       const tx = db.transaction('restaurant');
       const store = tx.objectStore('restaurant');
-      return store.get(id);
+      return store.get(parseInt(id, 10));
     })
     .then(restaurant => {
       if(!restaurant) return DBHelper.fetchAndStoreRestaurantById(id);
