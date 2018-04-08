@@ -3,6 +3,15 @@
  */
 class DBHelper {
 
+  static IDB() {
+    const dbPromise = idb.open('restaurants-app', 1, upgradeDb => {
+      upgradeDb.createObjectStore('restaurants');
+      upgradeDb.createObjectStore('restaurant', { keyPath: 'id' });
+    });
+
+    return dbPromise;
+  }
+
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
@@ -21,19 +30,73 @@ class DBHelper {
   }
 
   /**
+   * Fetch and store all restaurants to idb.
+   */
+  static fetchAndStoreRestaurants() {
+    const url = `${DBHelper.SERVER_URL}/restaurants`;
+
+    return fetch(url)
+    .then(resp => {
+      return resp.json().then(restaurants => {
+        return DBHelper.IDB().then(db => {
+          const tx = db.transaction('restaurants', 'readwrite');
+          const store = tx.objectStore('restaurants');
+          store.put(restaurants, 'all');
+          return restaurants;
+        });
+      });      
+    });      
+  }
+
+  /**
    * Fetch all restaurants.
    */
   static fetchRestaurants() {
-    const url = `${DBHelper.SERVER_URL}/restaurants`;
-    return fetch(url).then(resp => resp.json());
+    return DBHelper.IDB()
+    .then(db => {
+      const tx = db.transaction('restaurants');
+      const store = tx.objectStore('restaurants');
+      return store.get('all');
+    })
+    .then(restaurants => {
+      if(!restaurants) return DBHelper.fetchAndStoreRestaurants();
+      return restaurants;
+    });
+  }
+
+  /**
+   * Fetch a restaurant by its ID.
+   */
+  static fetchAndStoreRestaurantById(id) {
+    const url = `${DBHelper.SERVER_URL}/restaurants/${id}`;
+
+    return fetch(url)
+    .then(resp => {
+      return resp.json().then(restaurant => {
+        return DBHelper.IDB().then(db => {
+          const tx = db.transaction('restaurant', 'readwrite');
+          const store = tx.objectStore('restaurant');
+          store.put(restaurant);
+          return restaurant;
+        });
+      });      
+    });     
   }
 
   /**
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id) {
-    const url = `${DBHelper.SERVER_URL}/restaurants/${id}`;
-    return fetch(url).then(resp => resp.json());
+    return DBHelper.IDB()
+    .then(db => {
+      const tx = db.transaction('restaurant');
+      const store = tx.objectStore('restaurant');
+      return store.get(parseInt(id, 10));
+    })
+    .then(restaurant => {
+      if(!restaurant) return DBHelper.fetchAndStoreRestaurantById(id);
+      return restaurant;
+    });
   }
 
   /**

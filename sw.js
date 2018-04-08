@@ -4,6 +4,7 @@ var CACHE_NAME = 'restaurant-cache-v1';
 var urlsToCache = [
   '/css/styles.css',
   '/js/dbhelper.js',
+  '/js/idb.js',
   '/js/main.js',
   '/js/restaurant_info.js',
   '/index.html',
