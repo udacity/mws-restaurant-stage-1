@@ -1,6 +1,16 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
+importScripts('js/idbrestaurants.js');
+importScripts('js/dbhelper.js');
 
 if (workbox) {
+  let dbPromise;
+
+  self.addEventListener('activate', function(event) {
+    event.waitUntil(
+      IdbRestaurants.createDb()
+    );
+  });
+
   workbox.precaching.precacheAndRoute([
     'index.html',
     'restaurant.html'
@@ -34,6 +44,34 @@ if (workbox) {
       ],
     })
   );
+
+  // Restaurants API request
+  workbox.routing.registerRoute(
+    new RegExp(DBHelper.DATABASE_URL),
+    ({url, event, params}) => {
+      event.respondWith(
+        fetch(event.request)
+          .then(response => {
+            return response.clone().json()
+              .then(restaurants => {
+                // Update restaurants in indexedDB
+                IdbRestaurants.save(restaurants);
+                return response;
+              });
+          })
+          .catch(function(error) {
+            // If not network connection, returns restaurants from indexedDB
+            return IdbRestaurants.getAll()
+              .then(restaurants => {
+                return new Response(JSON.stringify(restaurants), {
+                  headers: {'Content-Type': 'application/json'}
+                });
+              });
+          })
+      );
+    }
+  );
+
 } else {
   console.log(`Workbox didn't load 😬`);
 }
