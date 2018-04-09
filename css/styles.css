@@ -71,7 +71,7 @@ nav h1 a {
     background-color: #eee;
     font-size: 1.5rem;
     margin: 0;
-    width: calc(50% - 80px);
+    width: 100%;
 }
 
 /* Display list items side by side */
@@ -209,11 +209,9 @@ nav h1 a {
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 87%;
-  position: fixed;
-  right: 0;
-  top: 80px;
-  width: 50%;
+  height: 25vh;
+  padding-top:140px;
+  width: 100%;
 }
 .inside #map {
   background-color: #ccc;
@@ -257,7 +255,7 @@ nav h1 a {
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
+  padding: 10px 40px 30px;
   width: 50%;
 }
 #reviews-container {
@@ -291,3 +289,53 @@ nav h1 a {
 #restaurant-hours td {
   color: #666;
 }
+
+/*====================== Service Worker Update UI ==================*/
+.update-dialog{
+  position:absolute;
+  background-color: #000000bb;
+  width:100%;
+  
+  display:flex;
+  justify-content:center;
+  
+  transform: translate(0, -240px);
+  transition: transform 0.3s ease;
+
+  z-index:2;
+  padding:10px;
+}
+
+.update-dialog p{
+  color:white;
+  padding-right:30px;
+  font-size:1.2em;
+}
+
+.update-dialog.active{
+  transform:translate(0,0);
+}
+.inside .update-dialog.active{
+  transform:translate(0,140px)
+}
+
+.update-dialog button{
+  color:white;
+  background:#00000000;
+  border:none;
+  font-weight:bold;
+  text-decoration:underline;
+
+  padding:10px;
+  font-size:1.2em;
+}
+
+.update-dialog button:hover{
+  color:lightblue;
+}
+
+.update-dialog.active .install-update{
+  background-color:orange;
+}
+
+

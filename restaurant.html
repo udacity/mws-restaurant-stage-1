@@ -6,6 +6,7 @@
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <link rel="stylesheet" href="css/review.css">
   <title>Restaurant Info</title>
 </head>
 
@@ -27,6 +28,12 @@
 
   <!-- Beginning main -->
   <main id="maincontent">
+
+    <section class="update-dialog">
+        <p> Update Available </p>
+        <button class="install-update">Update</button>
+        <button class="dismiss-update"> Later </button>
+    </section>
     <!-- Beginning map -->
     <section id="map-container">
       <div id="map"></div>
@@ -60,6 +67,7 @@
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/RegisterSW.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJe-nsswmS8a5fyFgm3zCNwQx8V_dlAWU&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
