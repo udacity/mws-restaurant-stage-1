@@ -60,7 +60,7 @@ if (workbox) {
               });
           })
           .catch(function(error) {
-            // If not network connection, returns restaurants from indexedDB
+            // If no network connection, returns restaurants from indexedDB
             return IdbRestaurants.getAll()
               .then(restaurants => {
                 return new Response(JSON.stringify(restaurants), {

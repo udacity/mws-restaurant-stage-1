@@ -4,15 +4,14 @@ let _dbPromise;
 class IdbRestaurants {
 
   static get db() {
+    if(!_dbPromise){
+      IdbRestaurants.createDb();
+    }
     return _dbPromise;
   }
 
-  static set db(db) {
-    _dbPromise = db;
-  }
-
   static createDb() {
-    IdbRestaurants.db = idb.open('restaurantsDb', 1, function(upgradeDB) {
+    _dbPromise = idb.open('restaurantsDb', 1, function(upgradeDB) {
       upgradeDB.createObjectStore('restaurants', {
         keyPath: 'id'
       });
