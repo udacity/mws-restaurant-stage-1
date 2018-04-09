@@ -1,7 +1,8 @@
-nav h1 a {
-    color:red;
+#restaurants-list li{
+    max-width:400px;
 }
 
-#restaurants-list li{
+/* ==== Restaurant Details ===== */
+#restaurant-container, #reviews-container{
     max-width:400px;
 }

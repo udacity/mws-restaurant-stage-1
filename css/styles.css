@@ -3,7 +3,7 @@
 
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
+	font-size: 12pt;
 	color: #333;
 	line-height: 1.5;
 }
@@ -172,7 +172,7 @@ nav h1 a {
 #restaurants-list li h1 {
   color: #f18200;
   font-family: Arial,sans-serif;
-  font-size: 14pt;
+  font-size: 1.2rem;
   font-weight: 200;
   letter-spacing: 0;
   line-height: 1.3;
@@ -201,6 +201,13 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Details ====================== */
+.inside #maincontent{
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
 .inside header {
   position: fixed;
   top: 0;
@@ -217,11 +224,6 @@ nav h1 a {
   background-color: #ccc;
   height: 100%;
   width: 100%;
-}
-.inside #footer {
-  bottom: 0;
-  position: absolute;
-  width: 50%;
 }
 #restaurant-name {
   color: #f18200;
@@ -253,13 +255,19 @@ nav h1 a {
 	width: 90%;
 }
 #restaurant-container, #reviews-container {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 10px 40px 30px;
-  width: 50%;
+  width: 100%;
+  padding:20px 0px;
 }
-#reviews-container {
-  padding: 30px 40px 80px;
+#reviews-container ul{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 #reviews-container h2 {
   color: #f58500;
@@ -309,14 +317,14 @@ nav h1 a {
 .update-dialog p{
   color:white;
   padding-right:30px;
-  font-size:1.2em;
+  font-size:1.2rem;
 }
 
 .update-dialog.active{
   transform:translate(0,0);
 }
 .inside .update-dialog.active{
-  transform:translate(0,140px)
+  transform:translate(0,0px)
 }
 
 .update-dialog button{
@@ -327,7 +335,7 @@ nav h1 a {
   text-decoration:underline;
 
   padding:10px;
-  font-size:1.2em;
+  font-size:1.2rem;
 }
 
 .update-dialog button:hover{
