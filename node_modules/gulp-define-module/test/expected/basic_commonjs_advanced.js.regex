@@ -1,0 +1,4 @@
+var\s([^\s]*)\s=\srequire\(\"([^\s)]*)\"\)\;module\.exports = Application\.Library\.TEMPLATES\['prefix\.basic'\] = function\(\) {
+  \/\/ this is a module definition file that includes this single module\.
+  this\.property = "some property";
+}\;

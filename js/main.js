@@ -23,7 +23,7 @@ registerServiceWorker = () => {
 	
 	navigator.serviceWorker.register('/sw.js', { scope: '/' })
 		.then(() => {console.log('Registration successfull');})
-		.catch(() => {console.log('SW Registartion failed');});
+		.catch(() => {console.log('SW Registration failed');});
 	
 }
 
@@ -158,6 +158,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
+
   const li = document.createElement('li');
   
   const figure = document.createElement('figure');
@@ -167,27 +168,30 @@ createRestaurantHTML = (restaurant) => {
   const picture = document.createElement('picture');
   picture.className = 'restaurant-img';
   
-  const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
+  if(DBHelper.imageUrlForRestaurant(restaurant)){
+    const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
+
+    let source = document.createElement('source');
+    source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+    source.media = "(max-width: 400px)";
+    picture.appendChild(source);
+    
+    source = document.createElement('source');
+    source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+    source.media = "(min-width: 601px)";
+    picture.appendChild(source);
+    
+    source = document.createElement('source');
+    source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
+    source.media = "(max-width: 600px) and (min-width: 401px)";
+    picture.appendChild(source);
+   
+    const image = document.createElement('img');
+    image.alt = `${restaurant.name} Restaurant Image`;
+    image.src = `${image_prefix}-400_small_1x.jpg`;
+    picture.appendChild(image);
   
-  let source = document.createElement('source');
-  source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
-  source.media = "(max-width: 400px)";
-  picture.appendChild(source);
-  
-  source = document.createElement('source');
-  source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
-  source.media = "(min-width: 601px)";
-  picture.appendChild(source);
-  
-  source = document.createElement('source');
-  source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
-  source.media = "(max-width: 600px) and (min-width: 401px)";
-  picture.appendChild(source);
- 
-  const image = document.createElement('img');
-  image.alt = `${restaurant.name} Restaurant Image`;
-  image.src = `${image_prefix}-400_small_1x.jpg`;
-  picture.appendChild(image);
+  }
   
   figure.appendChild(picture);
  
@@ -195,7 +199,7 @@ createRestaurantHTML = (restaurant) => {
   summary.className = 'restaurant-summary';
   figure.append(summary);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   summary.append(name);
 

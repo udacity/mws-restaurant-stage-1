@@ -25,4 +25,13 @@ In a terminal, check the version of Python you have: `python -V`. If you have Py
 Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
 
 
+### Author's notes
+
+#### Installation
+
+In order to run the project you must first run **npm install** and then **gulp** commands in order for the dependecncies to work. 
+
+#### Libraries
+
+The project uses Jake Archibald's library _**IndexedDB Promised**_. That's why all the dependencies above are required.
 
