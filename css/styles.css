@@ -315,6 +315,9 @@ nav h1 a {
 .update-dialog.active{
   transform:translate(0,0);
 }
+.inside .update-dialog.active{
+  transform:translate(0,140px)
+}
 
 .update-dialog button{
   color:white;
