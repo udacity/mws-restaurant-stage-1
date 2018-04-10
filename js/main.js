@@ -4,6 +4,7 @@ let restaurants,
 var map
 var markers = []
 
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -140,7 +141,17 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+
+  // decompose the url to allow selection of different images
+  // in response to the image display size
+  const baseURL = DBHelper.imageUrlForRestaurant(restaurant);
+  let urlComponents = baseURL.split(".");
+
+  image.src = `${urlComponents[0]}-400_1x.${urlComponents[1]}`; // src for fallback
+  image.srcset = `${urlComponents[0]}-400_1x.${urlComponents[1]} 1x,
+                  ${urlComponents[0]}-800_2x.${urlComponents[1]} 2x`;
+  // set sizes attribute to indicate display size - relevant to media queries
+  //image.sizes = `(min-width:450px) 400px, 100vw`;
   li.append(image);
 
   const name = document.createElement('h1');

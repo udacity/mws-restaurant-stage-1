@@ -1,0 +1,8 @@
+#restaurants-list li{
+    max-width:400px;
+}
+
+/* ==== Restaurant Details ===== */
+#restaurant-container, #reviews-container{
+    max-width:400px;
+}
