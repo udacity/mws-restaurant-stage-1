@@ -1,4 +1,4 @@
-///
+//////
 const staticCacheName = "restaurant-static-v1"
 const pictureCacheName = "restaurant-content-imgs"
 let allCaches = [
