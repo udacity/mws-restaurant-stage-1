@@ -1,3 +1,4 @@
+/*global google*/
 /**
  * Common database helper functions.
  */
@@ -36,7 +37,7 @@ class DBHelper {
           return restaurant;
         }
         // Restaurant does not exist in the database
-        throw (`Restaurant does not exist`);
+        throw ('Restaurant does not exist');
       });
   }
 
@@ -86,7 +87,7 @@ class DBHelper {
     return DBHelper.fetchRestaurants()
       .then((restaurants) => {
         // Get all neighborhoods from all restaurants
-        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood);
         // Remove duplicates from neighborhoods
         return neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i);
       });
@@ -100,9 +101,9 @@ class DBHelper {
     return DBHelper.fetchRestaurants()
       .then((restaurants) => {
         // Get all cuisines from all restaurants
-        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
+        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type);
         // Remove duplicates from cuisines
-        return cuisines.filter((v, i) => cuisines.indexOf(v) == i)
+        return cuisines.filter((v, i) => cuisines.indexOf(v) == i);
       });
   }
 

@@ -17,5 +17,9 @@
   "homepage": "https://github.com/francarmona/mws-restaurant-stage-1#readme",
   "dependencies": {
     "idb": "^2.1.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^4.0.2"
   }
 }
