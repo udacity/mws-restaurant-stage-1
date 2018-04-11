@@ -48,6 +48,14 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-align: center;
   text-transform: uppercase;
 }
+
+.skip-link{
+  position:absolute;
+  left:-1000px;
+}
+.skip-link:focus{ 
+  position:static;
+}
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
