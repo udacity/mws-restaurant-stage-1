@@ -59,7 +59,7 @@ module.exports = function (grunt) {
           style: 'compressed'
         },
         files: {
-          'css/main.css': 'css/sass/global.scss'
+          'src/css/styles.css': 'src/css/sass/styles.scss'
         }
       },
     },
@@ -70,7 +70,7 @@ module.exports = function (grunt) {
         options: {
           engine: 'im',
           sizes: [{
-            width: 700,
+            width: 800,
             rename: false,
             quality: 80
           }]
@@ -82,8 +82,48 @@ module.exports = function (grunt) {
         */
         files: [{
           expand: true,
-          src: ['src/images_src/*.{gif,jpg,png}'],
-          cwd: 'src/images_src/',
+          src: ['*.{gif,jpg,png}'],
+          cwd: 'src/img/images_src/',
+          dest: 'src/img/'
+        }]
+      },
+      icon: {
+        options: {
+          engine: 'im',
+          sizes: [{
+            width: 48,
+            quality: 80
+          },
+          {
+            width: 72,
+            quality: 80
+          },
+          {
+            width: 96,
+            quality: 80
+          },
+          {
+            width: 144,
+            quality: 80
+          },
+          {
+            width: 168,
+            quality: 80
+          },
+          {
+            width: 192,
+            quality: 80
+          },
+          {
+            width: 720,
+            quality: 80
+          }]
+        },
+
+        files: [{
+          expand: true,
+          cwd: 'src/img/images_src/',
+          src: ['favicon/icon.{gif,jpg,png}'],
           dest: 'src/img/'
         }]
       }
@@ -92,7 +132,7 @@ module.exports = function (grunt) {
     /* Clear out the images directory if it exists */
     clean: {
       dev: {
-        src: ['src/img'],
+        src: ['src/img/*', '!src/img/images_src', '!src/img/favicon'],
       },
     },
 
@@ -121,11 +161,29 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: 'src/',
-          src: 'images_src/fixed/*.{gif,jpg,png}',
-          dest: 'src/img/fixed',
-          flatten: true,
+          src: 'img/*.{gif,jpg,png}',
+          dest: 'dist/',
+          flatten: false,
           filter: 'isFile',
-        }]
+        },
+        {
+          expand: true,
+          cwd: 'src/',
+          src: 'img/favicon/*.{gif,jpg,png}',
+          dest: 'dist/',
+        },
+        {
+          expand: true,
+          cwd: 'src/',
+          src: '*',
+          dest: 'dist/',
+        },
+        {
+          expand: true,
+          cwd: 'src/',
+          src: 'data/*.{json}',
+          dest: 'dist/',
+        },]
       },
     },
   });
@@ -138,7 +196,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.registerTask('server', ['express', 'watch']);
-  grunt.registerTask('default', ['clean', 'mkdir', 'copy']);
-  grunt.registerTask('images', ['responsive_images']);
-  grunt.registerTask('dist', ['clean', 'mkdir', 'sass:dist', 'copy:dist']);
+  // grunt.registerTask('default', ['clean', 'mkdir', 'copy:dist']);
+  grunt.registerTask('images', ['clean', 'responsive_images:dev']);
+  grunt.registerTask('icon', ['responsive_images:icon']);
+  grunt.registerTask('dist', ['sass:dist', 'copy:dist']);
 };
