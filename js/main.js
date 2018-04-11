@@ -170,7 +170,15 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  more.id = restaurant.name;
+
+  const moreLabel = document.createElement('label');
+moreLabel.innerText = `${restaurant.name}: ${restaurant.cuisine_type} cuisine in ${restaurant.neighborhood} , View Details`;
+  moreLabel.setAttribute('for', restaurant.name)
+  moreLabel.classList.add('accessibility');
+
+  li.append(more);
+  li.append(moreLabel);
 
   return li
 }

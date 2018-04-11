@@ -65,4 +65,4 @@ const serviceWorkerHelper = function ServiceWorkerHelper(workerLocation, updateU
         updateUI.classList.remove('active');
     })
   
-}('./sw.js', updateDialog, updateInstallButton, updateDismissButton);
+}//('./sw.js', updateDialog, updateInstallButton, updateDismissButton);

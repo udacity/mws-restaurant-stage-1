@@ -56,6 +56,10 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 .skip-link:focus{ 
   position:static;
 }
+.accessibility{
+ position:absolute;
+ left:-1000px;  
+}
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
