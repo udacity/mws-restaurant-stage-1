@@ -44,7 +44,8 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   color: #aaa;
   font-size: 8pt;
   letter-spacing: 1px;
-  padding: 25px;
+  /* padding: 25px; */
+  padding: 25px 0 25px 0;
   text-align: center;
   text-transform: uppercase;
 }
@@ -108,9 +109,8 @@ nav h1 a {
   width: 100%;
   height: 50px;
   background-color: #3397DB;
-  /* background-color: #475f6f; */
   align-items: center;
-  padding: 0.5em;
+  padding: 0.5em 0 0.5em;
 }
 .filter-options h2 {
   color: white;
@@ -201,10 +201,11 @@ nav h1 a {
 .inside #map-container {
   background: blue none repeat scroll 0 0;
   height: 87%;
-  position: fixed;
   right: 0;
   top: 80px;
   width: 50%;
+  overflow: auto;
+  position: absolute;
 }
 .inside #map {
   background-color: #ccc;
@@ -214,9 +215,6 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-}
-
-#footer { 
   width: 100%;
 }
 
