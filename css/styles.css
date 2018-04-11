@@ -218,6 +218,7 @@ nav h1 a {
   flex-direction:row;
   flex-wrap:wrap;
   justify-content:center;
+  margin-top:140px; 
 }
 
 .inside header {
@@ -229,7 +230,6 @@ nav h1 a {
 .inside #map-container {
   background: blue none repeat scroll 0 0;
   height: 25vh;
-  padding-top:140px;
   width: 100%;
 }
 .inside #map {
