@@ -24,10 +24,10 @@
       <section class="search-container">
         <div class="filter-options">
           <h2>Filter Results</h2>
-          <select id="neighborhoods-select" name="neighborhoods" aria-label="Select a neighborhood" onchange="updateRestaurants()">
+          <select id="neighborhoods-select" name="neighborhoods" aria-label="Select a neighborhood" onchange="main.updateRestaurants()">
             <option value="all">All Neighborhoods</option>
           </select>
-          <select id="cuisines-select" name="cuisines" aria-label="Select a cousine" onchange="updateRestaurants()">
+          <select id="cuisines-select" name="cuisines" aria-label="Select a cousine" onchange="main.updateRestaurants()">
             <option value="all">All Cuisines</option>
           </select>
         </div>
@@ -37,9 +37,7 @@
     <footer class="footer">
       Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
     </footer>
-    <script type="text/javascript" src="js/dbhelper.js"></script>
-    <script type="text/javascript" src="js/imgutils.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/bundle.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt3TO5ejN13GWjft1tMFuXmYYY2SPFkTw&libraries=places&callback=initMap"></script>
   </body>
 </html>

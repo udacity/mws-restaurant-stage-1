@@ -1,6 +1,6 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
-importScripts('js/idbrestaurants.js');
-importScripts('js/dbhelper.js');
+import IdbRestaurants from './js/idbrestaurants';
+import DBHelper from './js/dbhelper';
 
 if (workbox) {
   let dbPromise;

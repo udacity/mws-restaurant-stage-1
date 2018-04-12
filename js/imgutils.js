@@ -12,7 +12,7 @@ const RESTAURANT_IMG_ALTERNATES = [
   'Modern and spacious restaurant with bar stools at the bar'
 ];
 
-class ImgUtils {
+export default class ImgUtils {
 
   static getAlternateById(id) {
     return RESTAURANT_IMG_ALTERNATES[id];

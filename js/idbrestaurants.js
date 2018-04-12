@@ -1,7 +1,7 @@
-importScripts('../node_modules/idb/lib/idb.js');
+import * as idb from '../node_modules/idb';
 
 let _dbPromise;
-class IdbRestaurants {
+export default class IdbRestaurants {
 
   static get db() {
     if(!_dbPromise){
@@ -31,7 +31,7 @@ class IdbRestaurants {
     return IdbRestaurants.db.then(db => {
       return db.transaction('restaurants')
         .objectStore('restaurants').getAll();
-    })
+    });
   }
 
 }
