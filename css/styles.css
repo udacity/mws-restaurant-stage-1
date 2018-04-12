@@ -31,6 +31,7 @@ a img{
 h1, h2, h3, h4, h5, h6 {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0 0 20px;
+  padding: 10px 0;
 }
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
@@ -60,7 +61,7 @@ nav h1 {
 }
 nav h1 a {
   color: #fff;
-  font-size: 14pt;
+  font-size: 1.3em;
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
@@ -144,6 +145,9 @@ nav h1 a {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 #restaurants-list li {
   background-color: #fff;
@@ -153,10 +157,11 @@ nav h1 a {
   min-height: 380px;
   padding: 0 30px 25px;
   text-align: left;
-  width: 70vmin;
-  height: 70vmin;
+  width: 100%;
+  height: 100%;
   max-width: 270px;
-  max-height: 390px;
+  min-height: 400px;
+  max-height: 420px;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -203,6 +208,7 @@ nav h1 a {
 /* ===header ===*/
 .inside header {
   width: 100vw;
+  font-size: 0.8em;
 }
 /* === map ===*/
 .inside #map-container {
@@ -222,10 +228,10 @@ nav h1 a {
 #restaurant-name {
   color: #f18200;
   font-family: Arial,sans-serif;
-  font-size: 20pt;
+  font-size: 1.8em;
   font-weight: 200;
   letter-spacing: 0;
-  margin: 15px 0 30px;
+  margin: 15px 0 15px;
   text-transform: uppercase;
   line-height: 1.1;
 }
@@ -291,4 +297,43 @@ nav h1 a {
   position: relative;
   width: 100%;
   padding: 10px 0 10px 0;
+}
+
+/* ====== Media Queries ======== */
+
+@media screen and  (min-width:701px){
+	#maincontent {
+		margin-right: 0;
+		margin-left:0;
+		width:50%
+  }
+  .inside #map-container {
+    background: blue none repeat scroll 0 0;
+    height: 87%;
+    position: fixed;
+    right: 0;
+    top: 80px;
+    width: 50%;
+  }
+  .inside #map {
+    height: 100%;
+    width: 100%;
+  }
+  .inside header {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+  }
+  #restaurant-img {
+    width: 45vw;
+  }
+  #restaurant-container {
+    margin-top: 130px;
+  }
+  h1 {
+    padding: 12px 0;
+  }
+  nav h1 a {
+    font-size: 2em;
+  }
 }
