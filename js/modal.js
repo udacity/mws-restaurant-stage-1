@@ -31,8 +31,10 @@ const openModal = ()=>{
 
   // show the modal and overlay
   modal.classList.add('active');
+  modal.setAttribute('aria-hidden', false);
   updateInstallButton.setAttribute('tabindex',0);
   updateDismissButton.setAttribute('tabindex',0);
+
 
   const focusableElementsString = `a[href], area[href], input:not([disabled]), select:not([disabled])
   textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]`;
@@ -60,6 +62,7 @@ const openModal = ()=>{
 
 const closeModal = ()=>{
     modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', true);
     focusedElementBeforeModal.focus();
     
     updateInstallButton.setAttribute('tabindex',-1);
