@@ -154,7 +154,8 @@ nav h1 a {
   width: 100%;
   background-color: #3397DB;
   align-items: center;
-  box-shadow: 0px 10px 3px -2px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.33);
+  margin-bottom: 10px;
 }
 .filter-options h2 {
   color: white;
@@ -191,10 +192,11 @@ nav h1 a {
   font-family: Arial, sans-serif;
   margin: 15px;
   min-height: 380px;
-  padding: 0 30px 25px;
-  text-align: left;
+  padding: 2px 2px 5px;
+  text-align: center;
   width: 270px;
   float: left;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 #restaurants-list li h1 {
   color: #f18200;
@@ -223,7 +225,7 @@ nav h1 a {
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
+  min-height: 100px;
   min-width: 100%;
 }
 #restaurants-list p {
@@ -334,6 +336,38 @@ nav h1 a {
   color: #666;
 }
 
+@media screen and (max-width: 396px) {
+  nav h1 {
+    padding: 9px 0;
+  }
+  nav h1 a {
+    line-height: 22px;
+  }
+}
+@media screen and (max-width: 450px) {
+  /* nav {
+      h1 {
+          padding: 9px 0;
+          a {
+              line-height: 22px;
+          }
+      }
+  } */
+  .filter-options select {
+    width: calc(100% - 20px);
+  }
+}
+@media screen and (max-width: 500px) {
+  #restaurants-list li {
+    width: calc(100% - 30px);
+    padding: 2px 2px 5px;
+    text-align: center;
+    min-height: 0px;
+  }
+  #restaurants-list .restaurant-img {
+    min-height: 100px;
+  }
+}
 @media screen and (max-width: 600px) {
   .filter-options {
     text-align: center;
@@ -352,17 +386,37 @@ nav h1 a {
     width: calc(50% - 20px);
   }
 }
-@media screen and (max-width: 450px) {
-  .filter-options select {
-    width: calc(100% - 20px);
-  }
-
+@media screen and (min-width: 500px) and (max-width: 650px) {
   #restaurants-list li {
-    width: calc(100% - 30px);
+    width: calc(70% - 30px);
     padding: 2px 2px 5px;
+    margin: 15px 15%;
     text-align: center;
     min-height: 0px;
-    box-shadow: 0px 5px 20px -5px #888;
+  }
+  #restaurants-list .restaurant-img {
+    min-height: 100px;
+  }
+}
+@media screen and (min-width: 600px) and (max-width: 850px) {
+  #restaurants-list li {
+    width: calc(50% - 40px);
+    padding: 2px 2px 5px;
+    margin: 15px 15px;
+    text-align: center;
+    min-height: 0px;
+  }
+  #restaurants-list .restaurant-img {
+    min-height: 100px;
+  }
+}
+@media screen and (min-width: 850px) and (max-width: 1400px) {
+  #restaurants-list li {
+    width: calc(33% - 40px);
+    padding: 2px 2px 5px;
+    margin: 15px 15px;
+    text-align: center;
+    min-height: 350px;
   }
   #restaurants-list .restaurant-img {
     min-height: 100px;
