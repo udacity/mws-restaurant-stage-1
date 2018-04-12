@@ -16,9 +16,10 @@
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
-    <section class="update-dialog">
+    <section class="update-dialog modal">
       <p> Update Available </p>
-      <button class="install-update" tabindex=-1> Update Now</button>
+      <label for="install-update" class="accessibility">webpage update available - Update now</label>
+      <button id="install-update" class="install-update" tabindex=-1> Update Now </button>
       <button class="dismiss-update" tabindex=-1> Update Later </button>
     </section>
   </header>
@@ -47,6 +48,7 @@
 
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+  <script type="text/javascript" src="js/modal.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/RegisterSW.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAV6MJYAq70-YOW_SCCXFFaXzpjq8uyjAM&libraries=places&callback=initMap"></script>
 

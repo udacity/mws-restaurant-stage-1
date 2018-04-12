@@ -1,4 +1,4 @@
-//////
+///////////
 const staticCacheName = "restaurant-static-v1"
 const pictureCacheName = "restaurant-content-imgs"
 let allCaches = [
@@ -16,6 +16,7 @@ self.addEventListener('install',(event)=>{  // do things when the service worker
                 '/js/dbhelper.js',
                 '/js/restaurant_info.js',
                 '/js/RegisterSW.js',
+                '/js/modal.js',
                 '/css/styles.css',
                 '/css/over450.css',
                 '/data/restaurants.json'

@@ -25,9 +25,10 @@
     </ul>
     <!-- End breadcrumb -->
     <!-- End nav -->
-    <section class="update-dialog">
+    <section class="update-dialog modal">
         <p> Update Available </p>
-        <button class="install-update" tabindex=-1>Update</button>
+        <label for="install-update" class="accessibility">webpage update available - Update now</label>
+        <button id="install-update" class="install-update" tabindex=-1>Update</button>
         <button class="dismiss-update" tabindex=-1  > Later </button>
     </section>
   </header>
@@ -70,6 +71,7 @@
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
+  <script type="text/javascript" src="js/modal.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/RegisterSW.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJe-nsswmS8a5fyFgm3zCNwQx8V_dlAWU&libraries=places&callback=initMap"></script>

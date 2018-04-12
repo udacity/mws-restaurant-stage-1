@@ -350,7 +350,8 @@ nav h1 a {
   font-size:1.2rem;
 }
 
-.update-dialog button:hover{
+.update-dialog button:hover,
+.update-dialog button:focus{
   color:lightblue;
 }
 
