@@ -300,7 +300,6 @@ nav h1 a {
 }
 
 /* ====== Media Queries ======== */
-
 @media screen and  (min-width:701px){
 	#maincontent {
 		margin-right: 0;
