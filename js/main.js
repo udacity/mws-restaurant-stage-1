@@ -136,10 +136,18 @@ createRestaurantHTML = (restaurant) => {
   const restaurantName = restaurant.name;
   const li = document.createElement('li');
 
+  // const image = document.createElement('img');
+  // image.className = 'restaurant-img';
+  // image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  // image.alt = `An image from the restaurant ${restaurantName}`;
+  // li.append(image);
+
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.className = 'restaurant-img lazy';
+  image.src = '/img/placeholder-image.jpg';
   image.alt = `An image from the restaurant ${restaurantName}`;
+  image.setAttribute("data-src", DBHelper.imageUrlForRestaurant(restaurant));
+
   li.append(image);
 
   const name = document.createElement('h2');
