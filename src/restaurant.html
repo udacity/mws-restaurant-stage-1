@@ -7,6 +7,10 @@
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <title>Restaurant Info</title>
+  <link rel="icon" type="image/png" href="img/favicon/icon-48.png" />
+  <link rel="shortcut icon" href="img/favicon/icon-48.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#BBDEFB"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -30,7 +34,7 @@
   <main id="maincontent" class="flexWrapper">
     <!-- Beginning map -->
     <section id="map-container">
-      <div id="map"></div>
+      <div id="map" title="Google Map"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
@@ -38,7 +42,7 @@
       <h1 id="restaurant-name"></h1>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
+      <address id="restaurant-address"></address>
       <table id="restaurant-hours"></table>
     <!-- </section> -->
     <!-- end restaurant -->
