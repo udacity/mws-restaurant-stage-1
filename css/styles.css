@@ -301,7 +301,11 @@ nav h1 a {
 
 /* ====== Media Queries ======== */
 @media screen and  (min-width:701px){
-
+  #restaurant-container, #reviews-container {
+		margin-right: 0;
+		margin-left:0;
+		width:50%
+  }
   .inside #map-container {
     background: blue none repeat scroll 0 0;
     height: 87%;
