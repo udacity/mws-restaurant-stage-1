@@ -28,6 +28,7 @@ var config = {
         img: './src/img/**/*.{gif,jpg,jpeg,png,svg}'
       },
       dst: {
+        root: './dev',
         js: {
           all: './dev/js',
           main: {
@@ -68,6 +69,7 @@ var config = {
         img: './src/img/**/*.{gif,jpg,jpeg,png,svg}'
       },
       dst: {
+        root: './dist',
         js: {
           all: './dist/js',
           main: {
@@ -97,10 +99,10 @@ var config = {
   }
 };
 
-var env = argv.production ? 'production' : 'development';
-var configEnv = config[env];
-var paths = configEnv.paths;
-var plugins = configEnv.plugins;
+var env = argv.env || 'development',
+    configEnv = config[env],
+    paths = configEnv.paths,
+    plugins = configEnv.plugins;
 
 gulp.task('js', function() {
   var restaurantsBundler = getBundler([paths.src.js.main]);
@@ -108,19 +110,17 @@ gulp.task('js', function() {
   if(env == 'development') {
     restaurantsBundler.on('update', function(){
       bundle(restaurantsBundler, paths.dst.js.main.bundleName);
+      browserSync.reload();
     });
     restaurantsBundler.on('log', gutil.log);
     restaurantDetailBundler.on('update', function(){
       bundle(restaurantDetailBundler, paths.dst.js.detail.bundleName);
+      browserSync.reload();
     });
     restaurantDetailBundler.on('log', gutil.log);
   }
   bundle(restaurantsBundler, paths.dst.js.main.bundleName);
   bundle(restaurantDetailBundler, paths.dst.js.detail.bundleName);
-});
-
-gulp.task('js-watch', function () {
-
 });
 
 function getBundler(entries) {
@@ -133,9 +133,9 @@ function bundle(bundler, bundleName) {
     .on('error', function(err) { console.error(err); this.emit('end'); })
     .pipe(source(bundleName))
     .pipe(buffer())
-    .pipe(sourcemaps.init())
+    .pipe(env == 'development' ? sourcemaps.init() : noop())
     .pipe(env == 'production' ? uglify(plugins.uglify) : noop())
-    .pipe(sourcemaps.write('./maps'))
+    .pipe(env == 'development' ? sourcemaps.write('./maps') : noop())
     .pipe(gulp.dest(paths.dst.js.all));
 }
 
@@ -176,14 +176,18 @@ gulp.task('lint', () => {
     .pipe(eslint.failOnError());
 });
 
-gulp.task('copy', ['html', 'styles', 'js', 'manifest', 'sw', 'img']);
-gulp.task('build', ['copy']);
+gulp.task('browserSyncReload', function(){
+  browserSync.reload();
+});
+
+gulp.task('build', ['html', 'styles', 'js', 'manifest', 'sw', 'img']);
 
 gulp.task('serve', ['lint', 'build'], function() {
   browserSync.init({
     browser: ["google chrome"],
-    server: "./dev"
+    server: paths.dst.root
   });
-  // TODO
-  //gulp.watch('js/**/*.js', ['lint']);
+  gulp.watch(paths.src.js.all, ['lint']);
+  gulp.watch(paths.src.html, ['html', 'browserSyncReload']);
+  gulp.watch(paths.src.css, ['styles', 'browserSyncReload']);
 });
