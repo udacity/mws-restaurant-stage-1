@@ -20,7 +20,7 @@ export default class DBHelper {
     return fetch(DBHelper.DATABASE_URL)
       .then(response => {
         if (!response.ok) {
-          throw (`Request failed. Returned status of ${response.status}, status text: ${response.statusText}`);
+          throw (`Request failed.gggg Returned status of ${response.status}, status text: ${response.statusText}`);
         }
         return response.json();
       });

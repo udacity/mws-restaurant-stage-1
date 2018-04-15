@@ -16,7 +16,8 @@
   },
   "homepage": "https://github.com/francarmona/mws-restaurant-stage-1#readme",
   "dependencies": {
-    "idb": "^2.1.1"
+    "idb": "^2.1.1",
+    "lodash.assign": "^4.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -27,8 +28,13 @@
     "browserify": "^16.2.0",
     "gulp": "^3.9.1",
     "gulp-eslint": "^4.0.2",
+    "gulp-noop": "^1.0.0",
     "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
     "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0"
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^3.11.0",
+    "yargs": "^11.0.0"
   }
 }

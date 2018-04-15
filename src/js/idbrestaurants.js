@@ -1,4 +1,4 @@
-import * as idb from '../node_modules/idb';
+import * as idb from '../../node_modules/idb';
 
 let _dbPromise;
 export default class IdbRestaurants {
