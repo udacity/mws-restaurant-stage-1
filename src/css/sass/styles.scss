@@ -89,17 +89,25 @@ section {
 }
 
 #footer {
-    background-color: #444;
+    background-color: $primary-text-color;
     padding: 25px 0px;
     width: 100%;
     p {
-        color: #aaa;
+        color: $divider-color;
         font-size: 8pt;
         letter-spacing: 1px;
         text-align: center;
         text-transform: uppercase;
         line-height: 25px;
     }
+}
+
+.screenreader {
+    position: absolute;
+    left: -10000;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
 
 /* ====================== Navigation ====================== */
@@ -171,7 +179,7 @@ nav {
 
 .filter-options {
     width: 100%;
-    background-color: $primary-color;
+    background-color: $primary-color-dark;
     align-items: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.33);
     margin-bottom: 10px;
@@ -193,6 +201,9 @@ nav {
         margin: 5px;
         padding: 0 10px;
         width: 200px;
+    }
+    select:focus {
+        box-shadow: 0 0 4px 4px $accent-color;
     }
 }
 
@@ -225,7 +236,7 @@ nav {
         float: left;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
         h1 {
-            color: $primary-color;
+            color: $primary-color-dark;
             font-family: Arial, sans-serif;
             font-size: 14pt;
             font-weight: 200;
@@ -236,8 +247,8 @@ nav {
         }
         a {
             background-color: $accent-color;
-            border-bottom: 3px solid #eee;
-            color: #fff;
+            border-bottom: 3px solid #eeeeee;
+            color: $primary-text-color;
             display: inline-block;
             font-size: 10pt;
             margin: 15px 0 0;
@@ -253,7 +264,6 @@ nav {
         margin: 0;
         max-width: 100%;
         min-height: 100px;
-        min-width: 100%;
     }
     p {
         margin: 0;
@@ -291,7 +301,7 @@ nav {
 }
 
 #restaurant-name {
-    color: $primary-color;
+    color: $primary-color-dark;
     font-family: Arial, sans-serif;
     font-size: 20pt;
     font-weight: 200;
@@ -336,7 +346,7 @@ nav {
 #reviews-container {
     padding: 30px 40px 80px;
     h2 {
-        color: $primary-color;
+        color: $primary-color-dark;
         font-size: 24pt;
         font-weight: 300;
         letter-spacing: -1px;

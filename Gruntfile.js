@@ -73,6 +73,18 @@ module.exports = function (grunt) {
             width: 800,
             rename: false,
             quality: 80
+          },{
+            width: 600,
+            rename: true,
+            quality: 80
+          },{
+            width: 400,
+            rename: true,
+            quality: 80
+          },{
+            width: 200,
+            rename: true,
+            quality: 80
           }]
         },
 
@@ -175,13 +187,23 @@ module.exports = function (grunt) {
         {
           expand: true,
           cwd: 'src/',
-          src: '*',
+          src: 'data/*.json',
           dest: 'dist/',
-        },
+        },{
+          expand: true,
+          cwd: 'src/',
+          src: 'css/*.css',
+          dest: 'dist/',
+        },{
+          expand: true,
+          cwd: 'src/',
+          src: 'js/*.js',
+          dest: 'dist/',
+        }, 
         {
           expand: true,
           cwd: 'src/',
-          src: 'data/*.{json}',
+          src: '*',
           dest: 'dist/',
         },]
       },
@@ -199,5 +221,5 @@ module.exports = function (grunt) {
   // grunt.registerTask('default', ['clean', 'mkdir', 'copy:dist']);
   grunt.registerTask('images', ['clean', 'responsive_images:dev']);
   grunt.registerTask('icon', ['responsive_images:icon']);
-  grunt.registerTask('dist', ['sass:dist', 'copy:dist']);
+  grunt.registerTask('dist', ['responsive_images:dev','responsive_images:icon','sass:dist', 'copy:dist']);
 };

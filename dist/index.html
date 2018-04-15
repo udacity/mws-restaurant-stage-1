@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
   <link rel="manifest" href="manifest.json" />
   <title>Restaurant Reviews</title>
+  <link rel="icon" type="image/png" href="img/favicon/icon-48.png" />
+  <link rel="shortcut icon" href="img/favicon/icon-48.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#BBDEFB"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Max Pöschl">
+  <meta name="keywords" content="YelpLight, restaurants, food, new york">
+  <meta name="description" content="Find the best resaurants in town">
 </head>
 
 <body>
@@ -18,14 +25,16 @@
 
   <main id="maincontent">
     <section id="map-container">
-      <div id="map"></div>
+      <div id="map" title="Google Map"></div>
     </section>
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
+        <label for="neighborhoods-select" class="screenreader">Select Neighborhood</label>
         <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
+        <label for="cuisines-select" class="screenreader">Select Cuisine</label>
         <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>

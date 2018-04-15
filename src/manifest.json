@@ -2,7 +2,7 @@
     "short_name": "YelpLight",
     "name": "A lightweight restaurant guide",
     "scope": "/",
-    "start_url": "/index.html",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#2196F3",
     "theme_color": "#1976D2",

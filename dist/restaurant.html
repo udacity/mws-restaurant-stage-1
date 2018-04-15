@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <!-- Normalize.css for better cross-browser consistency -->
@@ -7,7 +7,14 @@
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <title>Restaurant Info</title>
+  <link rel="icon" type="image/png" href="img/favicon/icon-48.png" />
+  <link rel="shortcut icon" href="img/favicon/icon-48.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#BBDEFB"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Max Pöschl">
+  <meta name="keywords" content="YelpLight, restaurants, food, new york">
+  <meta name="description" content="Find the best resaurants in town">
 </head>
 
 <body class="inside">
@@ -27,20 +34,20 @@
   <!-- End header -->
 
   <!-- Beginning main -->
-  <main id="maincontent">
+  <main id="maincontent" class="flexWrapper">
     <!-- Beginning map -->
     <section id="map-container">
-      <div id="map"></div>
+      <div id="map" title="Google Map"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
-    <section id="restaurant-container">
+    <!-- <section id="restaurant-container"> -->
       <h1 id="restaurant-name"></h1>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
+      <address id="restaurant-address"></address>
       <table id="restaurant-hours"></table>
-    </section>
+    <!-- </section> -->
     <!-- end restaurant -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
