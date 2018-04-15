@@ -194,12 +194,6 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 }
 
-
-if (navigator.serviceWorker) {
-  navigator.serviceWorker.register('sw.js')
-    .then(() => console.log('SW is alive! Yippee!'))
-};
-
 // const io = new IntersectionObserver(entries => {
 //   for (const entry of entries) {
 //     console.log('hide!')

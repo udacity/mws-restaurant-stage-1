@@ -180,4 +180,9 @@ class DBHelper {
 
 }
 
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.register('sw.js')
+    .then(() => console.log('SW is alive! Yippee!'))
+};
+
 window.fetchEm = DBHelper.fetchRestaurants

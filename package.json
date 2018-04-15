@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "serve -p 8000 -o"
+    "start": "serve -p 8000 -o",
+    "server": "node ../mws-part2-server/server"
   },
   "repository": {
     "type": "git",
