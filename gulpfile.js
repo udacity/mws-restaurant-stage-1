@@ -11,7 +11,10 @@ var gulp = require('gulp'),
     watchify = require('watchify'),
     noop = require('gulp-noop'),
     gutil = require('gulp-util'),
-    sass = require('gulp-sass');
+    sass = require('gulp-sass'),
+    imagemin = require('gulp-imagemin'),
+    pngquant = require('imagemin-pngquant'),
+    imageminMozjpeg = require('imagemin-mozjpeg');
 
 var config = {
   development: {
@@ -53,7 +56,14 @@ var config = {
         debug: true,
         plugin: [watchify]
       },
-      sass: {}
+      sass: {},
+      imagemin: [
+        pngquant(),
+        imageminMozjpeg({
+          progressive: true,
+          quality: 65
+        })
+      ]
     }
   },
   production: {
@@ -99,7 +109,14 @@ var config = {
       },
       sass: {
         outputStyle: 'compressed'
-      }
+      },
+      imagemin: [
+        pngquant(),
+        imageminMozjpeg({
+          progressive: true,
+          quality: 65
+        })
+      ]
     }
   }
 };
@@ -172,6 +189,7 @@ gulp.task('sw', function () {
 
 gulp.task('img', function() {
   gulp.src(paths.src.img)
+    .pipe(imagemin(plugins.imagemin))
     .pipe(gulp.dest(paths.dst.img));
 });
 
