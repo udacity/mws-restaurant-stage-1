@@ -10,7 +10,8 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     watchify = require('watchify'),
     noop = require('gulp-noop'),
-    gutil = require('gulp-util');
+    gutil = require('gulp-util'),
+    sass = require('gulp-sass');
 
 var config = {
   development: {
@@ -21,7 +22,7 @@ var config = {
           main: './src/js/main.js',
           detail: './src/js/restaurant_info.js'
         },
-        css: './src/css/**/*.css',
+        scss: './src/scss/**/*.scss',
         html: './src/*.html',
         manifest: './src/manifest.json',
         sw: './src/sw.js',
@@ -51,7 +52,8 @@ var config = {
         packageCache: {},
         debug: true,
         plugin: [watchify]
-      }
+      },
+      sass: {}
     }
   },
   production: {
@@ -62,7 +64,7 @@ var config = {
           main: './src/js/main.js',
           detail: './src/js/restaurant_info.js'
         },
-        css: './src/css/**/*.css',
+        scss: './src/scss/**/*.scss',
         html: './src/*.html',
         manifest: './src/manifest.json',
         sw: './src/sw.js',
@@ -94,6 +96,9 @@ var config = {
       },
       uglify: {
         mangle: true
+      },
+      sass: {
+        outputStyle: 'compressed'
       }
     }
   }
@@ -140,7 +145,8 @@ function bundle(bundler, bundleName) {
 }
 
 gulp.task('styles', function() {
-  gulp.src(paths.src.css)
+  gulp.src(paths.src.scss)
+    .pipe(sass(plugins.sass).on('error', sass.logError))
     .pipe(gulp.dest(paths.dst.css))
 });
 
@@ -169,7 +175,7 @@ gulp.task('img', function() {
     .pipe(gulp.dest(paths.dst.img));
 });
 
-gulp.task('lint', () => {
+gulp.task('lint', function() {
   return gulp.src([paths.src.js.all])
     .pipe(eslint())
     .pipe(eslint.format())
@@ -189,5 +195,5 @@ gulp.task('serve', ['lint', 'build'], function() {
   });
   gulp.watch(paths.src.js.all, ['lint']);
   gulp.watch(paths.src.html, ['html', 'browserSyncReload']);
-  gulp.watch(paths.src.css, ['styles', 'browserSyncReload']);
+  gulp.watch(paths.src.scss, ['styles', 'browserSyncReload']);
 });
