@@ -8,6 +8,9 @@
 First, start the server:
 
 ```shell
+npm install
+gulp --env production build
+cd dist
 # Python 2
 python -m SimpleHTTPServer 8000
 

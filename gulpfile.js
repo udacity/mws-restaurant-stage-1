@@ -155,7 +155,7 @@ gulp.task('manifest', function () {
 });
 
 gulp.task('sw', function () {
-  browserify({entries: [paths.src.manifest], debug: true})
+  browserify({entries: [paths.src.sw], debug: true})
     .transform("babelify", { presets: ["es2015"] })
     .bundle()
     .on('error', function(err) { console.error(err); this.emit('end'); })
