@@ -1,6 +1,9 @@
 /*global google*/
 import DBHelper from './dbhelper';
 import ImgUtils from './imgutils';
+import LazyImgs from './lazyImgs';
+import 'whatwg-fetch';
+import 'intersection-observer';
 
 class RestaurantInfo {
   constructor() {
@@ -46,6 +49,7 @@ class RestaurantInfo {
         .then((restaurant) => {
           this.restaurant = restaurant;
           this.fillRestaurantHTML();
+          new LazyImgs('.restaurant-img');
           callback(null, restaurant);
         })
         .catch((error) => {
@@ -66,7 +70,8 @@ class RestaurantInfo {
 
     const image = document.getElementById('restaurant-img');
     image.className = 'restaurant-img';
-    image.src = DBHelper.imageUrlForRestaurant(restaurant);
+    image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    image.dataset.src = DBHelper.imageUrlForRestaurant(restaurant);
     image.alt = ImgUtils.getAlternateById(restaurant.id - 1);
 
     const cuisine = document.getElementById('restaurant-cuisine');
