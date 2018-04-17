@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+    <title>Restaurant Info</title>
+  </head>
+  <body>
+    <header>
+      <nav role="navigation">
+        <h1><a href="/">Restaurant Reviews</a></h1>
+      </nav>
+      <ul id="breadcrumb" class="breadcrumb" aria-label="breadcrumb">
+        <li><a href="/">Home</a></li>
+      </ul>
+    </header>
+    <main class="main-content restaurant-detail" role="main">
+      <section class="map-container">
+        <div id="map" role="application" aria-label="Restaurants positioned on Google Maps"></div>
+      </section>
+      <section id="restaurant-container">
+        <h2 id="restaurant-name"></h2>
+        <div class="restaurant-wrapper">
+          <img id="restaurant-img">
+          <p id="restaurant-cuisine"></p>
+        </div>
+        <div class="restaurant-wrapper">
+          <p id="restaurant-address"></p>
+          <table id="restaurant-hours"></table>
+        </div>
+      </section>
+      <section id="reviews-container">
+        <ul id="reviews-list"></ul>
+      </section>
+    </main>
+    <footer class="footer">
+      Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    </footer>
+    <script type="text/javascript" src="js/bundleDetail.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt3TO5ejN13GWjft1tMFuXmYYY2SPFkTw&libraries=places&callback=initMap"></script>
+  </body>
+</html>

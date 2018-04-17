@@ -1,0 +1,46 @@
+{
+  "name": "restaurant-reviews",
+  "version": "0.0.0",
+  "description": "A restaurants progressive web app",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francarmona/mws-restaurant-stage-1.git"
+  },
+  "author": "Francisco José Carmona",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/francarmona/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/francarmona/mws-restaurant-stage-1#readme",
+  "dependencies": {
+    "idb": "^2.1.1",
+    "intersection-observer": "^0.5.0",
+    "lodash.assign": "^4.2.0",
+    "whatwg-fetch": "^2.0.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browser-sync": "^2.23.6",
+    "browserify": "^16.2.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^4.0.2",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-noop": "^1.0.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
+    "imagemin-mozjpeg": "^7.0.0",
+    "imagemin-pngquant": "^5.1.0",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0",
+    "watchify": "^3.11.0",
+    "yargs": "^11.0.0"
+  }
+}
