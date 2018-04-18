@@ -18,8 +18,7 @@
     </nav>
     <section class="update-dialog modal" aria-hidden=true>
       <p> Update Available </p>
-      <label for="install-update" class="accessibility">webpage update available - Update now</label>
-      <button id="install-update" class="install-update" tabindex=-1> Update Now </button>
+      <button id="install-update" class="install-update" tabindex=-1 aria-label="webpage update available"> Update Now </button>
       <button class="dismiss-update" tabindex=-1> Update Later </button>
     </section>
   </header>
@@ -32,13 +31,11 @@
     <section>
       <div id="filter-options" class="filter-options">
         <h2>Filter Results</h2>
-        <label class="accessibility" for="neighborhoods-select">Select Neighbourhood</label>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="Select Neighbourhood">
           <option value="all">All Neighborhoods</option>
         </select>
         
-        <label class="accessibility" for="cuisines-select">Select Cuisine</label>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="Select Cuisine">
           <option value="all">All Cuisines</option>
         </select>
       </div>

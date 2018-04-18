@@ -172,13 +172,9 @@ createRestaurantHTML = (restaurant) => {
   more.href = DBHelper.urlForRestaurant(restaurant);
   more.id = restaurant.name;
 
-  const moreLabel = document.createElement('label');
-moreLabel.innerText = `${restaurant.name}: ${restaurant.cuisine_type} cuisine in ${restaurant.neighborhood} , View Details`;
-  moreLabel.setAttribute('for', restaurant.name)
-  moreLabel.classList.add('accessibility');
+  more.setAttribute('aria-label', `${restaurant.name}: ${restaurant.cuisine_type} cuisine in ${restaurant.neighborhood} , View Details`);
 
   li.append(more);
-  li.append(moreLabel);
 
   return li
 }
