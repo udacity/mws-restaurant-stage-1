@@ -1,12 +1,8 @@
-let updateDialog = document.querySelector('.update-dialog');
-let updateInstallButton = document.querySelector('.update-dialog .install-update');
-let updateDismissButton = document.querySelector('.update-dialog .dismiss-update')
-
-const serviceWorkerHelper = function ServiceWorkerHelper(workerLocation, updateUI, updateTriggerEl, dismissButton){
+const serviceWorkerHelper = function ServiceWorkerHelper(workerLocation, openUICallback){
     if (!navigator.serviceWorker) throw new Error("service worker not supported")
   
-    const updateTriggerElement = updateTriggerEl;
-  
+    let activeWorker;
+
     // register the service worker
     navigator.serviceWorker.register(workerLocation).then((reg)=>{
         
@@ -15,11 +11,9 @@ const serviceWorkerHelper = function ServiceWorkerHelper(workerLocation, updateU
         
         // if there is one waiting - there was a service worker installed on the last refresh and its waiting
         if(reg.waiting){
-            updateUI.classList.add('active');
 
-            updateTriggerElement.addEventListener('click', ()=>{ // add click event to the UI
-                reg.waiting.postMessage({action: 'skipWaiting'})
-            });
+            activeWorker = reg.waiting
+            openUICallback()
 
             return;
         }
@@ -52,17 +46,18 @@ const serviceWorkerHelper = function ServiceWorkerHelper(workerLocation, updateU
         worker.addEventListener('statechange', ()=>{
             if(worker.state == 'installed'){
   
-                updateTriggerElement.addEventListener('click', ()=>{ // add click event to the UI
-                    worker.postMessage({action: 'skipWaiting'})
-                })
-  
-                updateUI.classList.add('active')  // show the UI
+                activeWorker = worker;
+                openUICallback()  // show the UI
             }
         })
     }
+    
+    const workerSkipWaiting = ()=>{
+        if(activeWorker == undefined) throw new Error("no active worker")
+        return activeWorker.postMessage({action: 'skipWaiting'});
+    }
 
-    dismissButton.addEventListener('click',()=>{
-        updateUI.classList.remove('active');
-    })
-  
-}('./sw.js', updateDialog, updateInstallButton, updateDismissButton);
+    return {
+        workerSkipWaiting
+    }
+}//('./sw.js', openModal);

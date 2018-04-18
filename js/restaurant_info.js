@@ -65,6 +65,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.srcset = `${urlComponents[0]}-400_1x.${urlComponents[1]} 1x,
                   ${urlComponents[0]}-800_2x.${urlComponents[1]} 2x`
 
+  image.alt = DBHelper.imageAltTextForRestaurant(restaurant);
+
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
 

@@ -150,8 +150,9 @@ createRestaurantHTML = (restaurant) => {
   image.src = `${urlComponents[0]}-400_1x.${urlComponents[1]}`; // src for fallback
   image.srcset = `${urlComponents[0]}-400_1x.${urlComponents[1]} 1x,
                   ${urlComponents[0]}-800_2x.${urlComponents[1]} 2x`;
-  // set sizes attribute to indicate display size - relevant to media queries
-  //image.sizes = `(min-width:450px) 400px, 100vw`;
+
+  image.alt = DBHelper.imageAltTextForRestaurant(restaurant);
+
   li.append(image);
 
   const name = document.createElement('h1');
@@ -169,7 +170,11 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  more.id = restaurant.name;
+
+  more.setAttribute('aria-label', `${restaurant.name}: ${restaurant.cuisine_type} cuisine in ${restaurant.neighborhood} , View Details`);
+
+  li.append(more);
 
   return li
 }

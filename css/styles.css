@@ -48,6 +48,18 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-align: center;
   text-transform: uppercase;
 }
+
+.skip-link{
+  position:absolute;
+  left:-1000px;
+}
+.skip-link:focus{ 
+  position:static;
+}
+.accessibility{
+ position:absolute;
+ left:-1000px;  
+}
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
@@ -206,6 +218,7 @@ nav h1 a {
   flex-direction:row;
   flex-wrap:wrap;
   justify-content:center;
+  margin-top:140px; 
 }
 
 .inside header {
@@ -217,7 +230,6 @@ nav h1 a {
 .inside #map-container {
   background: blue none repeat scroll 0 0;
   height: 25vh;
-  padding-top:140px;
   width: 100%;
 }
 .inside #map {
@@ -338,7 +350,8 @@ nav h1 a {
   font-size:1.2rem;
 }
 
-.update-dialog button:hover{
+.update-dialog button:hover,
+.update-dialog button:focus{
   color:lightblue;
 }
 
