@@ -37,7 +37,7 @@ self.addEventListener('activate', function(event) {
     );
   });
  
-
+// fetch static contents as well as img which go in a separate cache
 self.addEventListener('fetch', function(event) {
     event.respondWith(
       caches.match(event.request)
