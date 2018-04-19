@@ -62,12 +62,36 @@ function cacheImages(request) {
   })
 }
 
+function saveRestaurantsInIndexedDB(request) {
+
+  return fetch(request.clone()).then(networkResponse => {
+
+    networkResponse.clone().json().then(json => {
+      dbPromise.then(db => {
+            
+        if(!db) return;
+
+        var tx = db.transaction('restaurants', 'readwrite');
+        var store = tx.objectStore('restaurants');
+        json.forEach(restaurant => {
+          console.log(restaurant);
+          store.put(restaurant, restaurant.id);
+        });
+      });
+    })
+
+    return networkResponse;
+  });
+}
+
 // /**
 //  * Create an indexed db of keyval type named `restaurants`
 //  */
 function createDB () {
-  dbPromise = idb.open('restaurants', 1, function(upgradeDB) {
-    var store = upgradeDB.createObjectStore('keyval');
+  dbPromise = idb.open('restaurants', 1, upgradeDB => {
+    var store = upgradeDB.createObjectStore('restaurants', {
+      keypath: 'id'
+    });
   });
 }
 
@@ -101,7 +125,10 @@ self.addEventListener('fetch', event => {
   if(event.request.url.endsWith('.jpg')) {
     event.respondWith(cacheImages(event.request));  
     return;
-  } else {
+  } else if (event.request.url.includes('restaurants')) {
+    event.respondWith(saveRestaurantsInIndexedDB(event.request));
+  } 
+  else {
     event.respondWith(cacheStaticContent(event.request));
     return;
   }
