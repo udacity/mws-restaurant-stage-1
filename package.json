@@ -24,7 +24,8 @@
   "homepage": "https://github.com/MonikaKrudysz/mws-restaurant-stage-1#readme",
   "devDependencies": {
     "browser-sync": "^2.23.6",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "gulp-responsive": "^2.10.0"
   },
   "dependencies": {}
 }
