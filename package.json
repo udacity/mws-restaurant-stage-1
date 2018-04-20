@@ -1,0 +1,31 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "description": "Mobile Web Specialist Restaurant App",
+  "main": "js/main.js",
+  "scripts": {
+    "watch": "gulp watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MonikaKrudysz/mws-restaurant-stage-1.git"
+  },
+  "keywords": [
+    "Udacity",
+    "Nanodegree",
+    "Restaurant",
+    "App"
+  ],
+  "author": "Monika Krudysz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MonikaKrudysz/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/MonikaKrudysz/mws-restaurant-stage-1#readme",
+  "devDependencies": {
+    "browser-sync": "^2.23.6",
+    "gulp": "^3.9.1",
+    "gulp-responsive": "^2.10.0"
+  },
+  "dependencies": {}
+}

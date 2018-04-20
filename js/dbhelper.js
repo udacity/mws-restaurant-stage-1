@@ -4,6 +4,15 @@
 class DBHelper {
 
   /**
+   * Returns responsive images path.
+   *
+   * @returns {string}
+   */
+  static get imgPath() {
+      return 'images/';
+  }
+
+  /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
@@ -113,9 +122,9 @@ class DBHelper {
         callback(error, null);
       } else {
         // Get all neighborhoods from all restaurants
-        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood);
         // Remove duplicates from neighborhoods
-        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
+        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i);
         callback(null, uniqueNeighborhoods);
       }
     });
@@ -133,7 +142,7 @@ class DBHelper {
         // Get all cuisines from all restaurants
         const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
         // Remove duplicates from cuisines
-        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
+        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i);
         callback(null, uniqueCuisines);
       }
     });
@@ -150,7 +159,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+     return (`/images/${restaurant.id}`+ `-800w.jpg`);
   }
 
   /**
@@ -165,6 +174,19 @@ class DBHelper {
       animation: google.maps.Animation.DROP}
     );
     return marker;
+  }
+
+  /**
+   * Prepare src set for images.
+   */
+  static getSrcSet(restaurantId, images) {
+    let srcSet = '';
+
+    images.forEach((imgData) => {
+      srcSet += this.imgPath + restaurantId + `-${imgData.imgTitle}` + `.jpg ${imgData.width},`;
+    });
+
+    return srcSet;
   }
 
 }
