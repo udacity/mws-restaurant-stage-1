@@ -140,13 +140,12 @@ nav h1 a {
   padding: 30px 15px 60px;
   text-align: center;
 
-  display: grid;
-  grid-gap: 27px 27px;
-  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-  max-width: 1400px;
-  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;  
 }
-#restaurants-list li {
+#restaurants-list div {
   background-color: #fff;
   border: 2px solid #ccc;
   font-family: Arial,sans-serif;
@@ -164,7 +163,7 @@ nav h1 a {
   min-height: 248px;
   min-width: 100%;
 }
-#restaurants-list li h2 {
+#restaurants-list div h2 {
   color: #995900;
   font-family: Arial,sans-serif;
   font-size: 14pt;
@@ -178,7 +177,7 @@ nav h1 a {
   margin: 0;
   font-size: 11pt;
 }
-#restaurants-list li a {
+#restaurants-list div a {
   background-color: #995900;
   border-bottom: 3px solid #eee;
   color: #fff;
