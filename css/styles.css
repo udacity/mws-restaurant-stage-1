@@ -50,16 +50,16 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-transform: uppercase;
 }
 /* ====================== Navigation ====================== */
-nav {
+nav.title {
   width: 100%;
   height: 80px;
   background-color: #252831;
   text-align:center;
 }
-nav h1 {
+h1 {
   margin: auto;
 }
-nav h1 a {
+h1 a {
   color: #fff;
   font-size: 1.3em;
   font-weight: 200;
@@ -305,7 +305,7 @@ nav h1 a {
 }
 
 /* ====== Media Queries ======== */
-@media screen and  (min-width:701px){
+@media screen and (min-width:701px){
   .filter-options {
     padding: 5px 40px;
   }
@@ -340,7 +340,14 @@ nav h1 a {
   h1 {
     padding: 12px 0;
   }
-  nav h1 a {
-    font-size: 2em;
+  h1 a {
+    font-size: 1.8em;
+  }
+}
+
+@media screen and (max-width:520px){
+  h1 {
+    padding: 12px 0;
+    line-height: 1.3;
   }
 }
