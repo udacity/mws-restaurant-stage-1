@@ -62,8 +62,10 @@ function cacheImages(request) {
   })
 }
 
-function saveRestaurantsInIndexedDB(request) {
+function cacheRestaurantsInIndexedDB(request) {
 
+  var pathSlices = request.url.split("/");
+  var restaurantId = pathSlices[pathSlices.length - 1];
   return fetch(request.clone()).then(networkResponse => {
 
     networkResponse.clone().json().then(json => {
@@ -73,14 +75,43 @@ function saveRestaurantsInIndexedDB(request) {
 
         var tx = db.transaction('restaurants', 'readwrite');
         var store = tx.objectStore('restaurants');
-        json.forEach(restaurant => {
-          console.log(restaurant);
-          store.put(restaurant, restaurant.id);
-        });
+
+        if(restaurantId === 'restaurants'){
+          json.forEach(restaurant => {
+            store.put(restaurant, restaurant.id);
+          });
+        } else {
+           store.put(json, json.id);
+        }
       });
     })
 
     return networkResponse;
+  });
+}
+
+function searchInIndexedDB(request) {
+
+  var pathSlices = request.url.split("/");
+  var restaurantId = pathSlices[pathSlices.length - 1];
+
+  dbPromise.then(db => {
+    
+    if(!db) return;
+
+    var store = db.transaction('restaurants').objectStore('restaurants');
+
+    if(restaurantId === 'restaurants') {
+      return store.getAll().then(restaurants => {
+        if(!restaurants) cacheRestaurantsInIndexedDB(request);
+        return JSON.stringify(restaurants);
+      });
+    } else {
+      return store.get(restaurantId).then(restaurant => {
+        if(!restaurant) cacheRestaurantsInIndexedDB(request);
+        return JSON.stringify(restaurant);
+      });
+    }
   });
 }
 
@@ -126,7 +157,8 @@ self.addEventListener('fetch', event => {
     event.respondWith(cacheImages(event.request));  
     return;
   } else if (event.request.url.includes('restaurants')) {
-    event.respondWith(saveRestaurantsInIndexedDB(event.request));
+    event.respondWith(searchInIndexedDB(event.request));
+    return;
   } 
   else {
     event.respondWith(cacheStaticContent(event.request));
