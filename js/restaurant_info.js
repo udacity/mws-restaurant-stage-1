@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
   // });
 });
 
+initServiceWorker = () => {
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./service_worker.js")
+            .then(registration => {
+                registration.update();
+                console.log("Service worker registered");
+            });
+    }
+}
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -21,7 +31,6 @@ window.initMap = () => {
         center: restaurant.latlng,
         scrollwheel: false
       });
-      // fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });

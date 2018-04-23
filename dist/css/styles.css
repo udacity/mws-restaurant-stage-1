@@ -213,7 +213,7 @@ reviews-list li {
   #reviews-list li .review-name,
   #reviews-list li .review-date,
   #reviews-list li .review-comments {
-    background-color: transparent;;
+    background-color: transparent;
     color: #333;
   }
 
@@ -414,7 +414,7 @@ nav h1 a {
 /* ====================== Restaurant Details ====================== */
 
 .inside #map-container {
-  background: blue none repeat scroll 0 0;
+  background: #eee none repeat scroll 0 0;
 }
 .inside #map {
   background-color: #ccc;
@@ -447,7 +447,7 @@ nav h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+  width: 90%;
 }
 
 #restaurant-container, #reviews-container {
@@ -455,11 +455,12 @@ nav h1 a {
   border-top: 1px solid #fff;
 }
 
-#reviews-container h2 {
+#reviews-container h4 {
   color: #f58500;
-  font-size: 24pt;
-  font-weight: 300;
-  letter-spacing: -1px;
+  font-family: Arial,sans-serif;
+  font-size: 13pt;
+  font-weight: 200;
+  letter-spacing: 1px;
   padding-bottom: 1pt;
 }
 
