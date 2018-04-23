@@ -69,6 +69,7 @@ nav {
 }
 nav h1 {
   margin: auto;
+  height:80px;
 }
 nav h1 a {
   color: #fff;
