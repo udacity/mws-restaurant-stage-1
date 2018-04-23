@@ -10,6 +10,7 @@
 
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <link rel="manifest" href="manifest.json">
   <title>Restaurant Info</title>
 </head>
 
@@ -43,12 +44,12 @@
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
       <h3 id="restaurant-name" tabIndex="0"></h3>
-      <img id="restaurant-img" >
-<!--       <picture id="restaurant-img">
-        <source srcset="" type="image/png">
-        <img class="restaurant-img" type="image/png" alt='' src="" /> 
+      <picture id="restaurant-img">
+        <source srcset="" type="image/webp">
+        <img class="restaurant-img" type="image/png" alt=''/>
       </picture>
- -->      <p id="restaurant-cuisine" tabIndex="0"></p>
+      <!--<img id="restaurant-img" >-->
+      <p id="restaurant-cuisine" tabIndex="0"></p>
       <p id="restaurant-address" tabIndex="0"></p>
       <table id="restaurant-hours" tabIndex="0"></table>
     </section>
@@ -69,6 +70,8 @@
 
   <!-- Beginning scripts -->
   <!-- Database helpers -->
+  <script type="application/javascript" charset="utf-8" src="js/localforage.min.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/apihelper.js"></script>
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>

@@ -1,0 +1,32 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "description": "Udacity nanodegree project",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tagazok/mws-restaurant-stage-1.git"
+  },
+  "author": "Olivier Leplus",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tagazok/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/tagazok/mws-restaurant-stage-1#readme",
+  "devDependencies": {
+    "browser-sync": "^2.23.6",
+    "gulp": "^3.9.1",
+    "gulp-gzip": "^1.4.2",
+    "gulp-pipe": "^1.0.4",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "gulp-uglify-es": "^1.0.1",
+    "gulp-util": "^3.0.8",
+    "gulp-webp": "^3.0.0",
+    "uglify": "^0.1.5",
+    "uglify-es": "^3.3.10"
+  }
+}
