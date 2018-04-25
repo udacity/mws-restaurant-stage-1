@@ -20,9 +20,7 @@ function cacheImages(request) {
    
       // Cache hit - return response else fetch
       // We clone the request because it's a stream and can be consumed only once
-      var networkFetch = fetch(request.clone()).then(
-  
-        networkResponse => {
+      var networkFetch = fetch(request.clone()).then(networkResponse => {
           // Check if we received an invalid response
           if(networkResponse.status == 404) return;
        
@@ -62,13 +60,20 @@ function cacheImages(request) {
   })
 }
 
-function cacheRestaurantsInIndexedDB(request) {
+/**
+ * Fetch from network and save in indexed DB
+ */
+function fetchFromNetworkAndCacheRestaurantsInIndexedDB(request) {
 
   var pathSlices = request.url.split("/");
-  var restaurantId = pathSlices[pathSlices.length - 1];
-  return fetch(request.clone()).then(networkResponse => {
+  var restaurantId = parseInt(pathSlices[pathSlices.length - 1]) || 0;
+
+  return fetch(request).then(networkResponse => {
 
     networkResponse.clone().json().then(json => {
+
+      if(!dbPromise) return;
+
       dbPromise.then(db => {
             
         if(!db) return;
@@ -76,12 +81,17 @@ function cacheRestaurantsInIndexedDB(request) {
         var tx = db.transaction('restaurants', 'readwrite');
         var store = tx.objectStore('restaurants');
 
-        if(restaurantId === 'restaurants'){
+        // if we rrefer to all data
+        if(!restaurantId){
+
           json.forEach(restaurant => {
             store.put(restaurant, restaurant.id);
           });
-        } else {
+        
+        } else { // if we refer to per restaurant data 
+        
            store.put(json, json.id);
+        
         }
       });
     })
@@ -90,34 +100,58 @@ function cacheRestaurantsInIndexedDB(request) {
   });
 }
 
-function searchInIndexedDB(request) {
+/**
+ * Search in indexed DB and if no result fetch from network 
+ */
+function getData(request) {
 
-  var pathSlices = request.url.split("/");
-  var restaurantId = pathSlices[pathSlices.length - 1];
+  var pathSlices = request.clone().url.split("/");
+  var restaurantId = parseInt(pathSlices[pathSlices.length - 1]) || 0;
+  var dataPromise;
 
-  dbPromise.then(db => {
+  // if not indexed db functionality fetch from network 
+  if(!dbPromise) return fetchFromNetworkAndCacheRestaurantsInIndexedDB(request.clone());
+
+  return dbPromise.then(db => {
     
     if(!db) return;
 
     var store = db.transaction('restaurants').objectStore('restaurants');
 
-    if(restaurantId === 'restaurants') {
-      return store.getAll().then(restaurants => {
-        if(!restaurants) cacheRestaurantsInIndexedDB(request);
-        return JSON.stringify(restaurants);
-      });
-    } else {
-      return store.get(restaurantId).then(restaurant => {
-        if(!restaurant) cacheRestaurantsInIndexedDB(request);
-        return JSON.stringify(restaurant);
-      });
+    // if all data are requested
+    if(!restaurantId) {
+
+      dataPromise = store.getAll();
+
+    } else { // if per restaurant data are requested
+
+      dataPromise = store.get(restaurantId);
+    
     }
+    
+    if(dataPromise) {
+
+      return dataPromise.then(data => {  
+      
+        // if data found in indexed db return them
+        if(JSON.stringify(data) !== JSON.stringify([]) && data !== undefined)  { 
+
+          console.log('Found cached');
+          return new Response(JSON.stringify(data)); 
+        }
+
+        console.log('Fetch from network');
+        // if not fetch from network 
+        return fetchFromNetworkAndCacheRestaurantsInIndexedDB(request);
+        
+      });
+    }    
   });
 }
 
-// /**
-//  * Create an indexed db of keyval type named `restaurants`
-//  */
+/**
+ * Create an indexed db of keyval type named `restaurants`
+ */
 function createDB () {
   dbPromise = idb.open('restaurants', 1, upgradeDB => {
     var store = upgradeDB.createObjectStore('restaurants', {
@@ -157,7 +191,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(cacheImages(event.request));  
     return;
   } else if (event.request.url.includes('restaurants')) {
-    event.respondWith(searchInIndexedDB(event.request));
+    event.respondWith(getData(event.request));
     return;
   } 
   else {

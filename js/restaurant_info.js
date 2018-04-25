@@ -90,7 +90,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   picture.appendChild(source);
  
   const image = document.createElement('img');
-  image.alt = `${restaurant.name} Restaurant Image`;
+  image.alt = `${restaurant.name} Restaurant`;
   image.src = `${image_prefix}-400_small_1x.jpg`;
   picture.appendChild(image);
 
