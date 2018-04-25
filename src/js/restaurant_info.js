@@ -64,35 +64,46 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const figure = document.getElementById('restaurant-img');
   
   // Create responsive image
-  const picture = document.createElement('picture');
-  figure.prepend(picture);
-  
-  const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
-  
-  let source = document.createElement('source');
-  source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
-  source.media = "(min-width: 1400px)";
-  picture.appendChild(source);
-  
-  source = document.createElement('source');
-  source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
-  source.media = "(max-width: 400px)";
-  picture.appendChild(source);
-  
-  source = document.createElement('source');
-  source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
-  source.media = "(min-width: 1000px) and (max-width: 1399px)";
-  picture.appendChild(source);
-  
-  source = document.createElement('source');
-  source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
-  source.media = "(min-width: 401px) and (max-width: 999px)";
-  picture.appendChild(source);
- 
-  const image = document.createElement('img');
-  image.alt = `${restaurant.name} Restaurant`;
-  image.src = `${image_prefix}-400_small_1x.jpg`;
-  picture.appendChild(image);
+
+  if(DBHelper.imageUrlForRestaurant(restaurant)) {
+
+    let picture = document.createElement('picture');
+    figure.prepend(picture);
+    
+    const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
+    
+    let source = document.createElement('source');
+    source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
+    source.media = "(min-width: 1400px)";
+    picture.appendChild(source);
+    
+    source = document.createElement('source');
+    source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+    source.media = "(max-width: 400px)";
+    picture.appendChild(source);
+    
+    source = document.createElement('source');
+    source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+    source.media = "(min-width: 1000px) and (max-width: 1399px)";
+    picture.appendChild(source);
+    
+    source = document.createElement('source');
+    source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
+    source.media = "(min-width: 401px) and (max-width: 999px)";
+    picture.appendChild(source);
+   
+    const image = document.createElement('img');
+    image.alt = `${restaurant.name} Restaurant`;
+    image.src = `${image_prefix}-400_small_1x.jpg`;
+    picture.appendChild(image);
+
+  } else { 
+
+    let picture = document.createElement('p');
+    picture.className = 'restaurant-img-not-available';
+    picture.innerHTML = 'Image not Available';
+    figure.prepend(picture);
+  }
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;

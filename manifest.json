@@ -1,0 +1,9 @@
+{
+  "short_name": "ResReview",
+  "name": "Restaurant Review App",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "natural",
+  "theme_color": "#d40222",
+  "background_color": "#d40222"
+}

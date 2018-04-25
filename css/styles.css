@@ -210,6 +210,13 @@ nav h1 a {
   margin: 0;
   width: 100%;
 }
+#restaurants-list .restaurant-img-not-available {
+  background-color: #ccc;
+  vertical-align: middle;
+  border-radius: 20px 0 0 0;
+  padding: 30% 15%;
+  margin: 0;
+}
 #restaurants-list .restaurant-summary h2 {
   color: #d40222;
   font-family: Arial,sans-serif;
@@ -295,6 +302,13 @@ nav h1 a {
 #restaurant-img img {
   width: 100%;
   border-radius: 20px 0 20px 0;
+}
+.inside .restaurant-img-not-available {
+  background-color: #ccc;
+  vertical-align: middle;
+  border-radius: 20px 0 20px 0;
+  padding: 30% 15%;
+  margin: 0;
 }
 #restaurant-address {
   font-size: 16pt;

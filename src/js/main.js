@@ -165,10 +165,12 @@ createRestaurantHTML = (restaurant) => {
   li.appendChild(figure);
 
   // Create responsive image
-  const picture = document.createElement('picture');
+
+  let picture = document.createElement('picture');
   picture.className = 'restaurant-img';
-  
+
   if(DBHelper.imageUrlForRestaurant(restaurant)){
+
     const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
 
     let source = document.createElement('source');
@@ -191,6 +193,11 @@ createRestaurantHTML = (restaurant) => {
     image.src = `${image_prefix}-400_small_1x.jpg`;
     picture.appendChild(image);
   
+  } else {
+
+     picture = document.createElement('p');
+     picture.className = 'restaurant-img-not-available';
+     picture.innerHTML = 'Image not Available';
   }
   
   figure.appendChild(picture);
