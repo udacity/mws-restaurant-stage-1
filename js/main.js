@@ -162,6 +162,7 @@ createRestaurantHTML = (restaurant) => {
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.setAttribute('aria-labelledby', `title_${restaurant.id}`);
+  image.alt = restaurant.name;
   picture.append(image);
 
   const name = document.createElement('h3');

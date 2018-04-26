@@ -97,3 +97,9 @@
         font-size: 13pt;
     }
 }
+
+@media screen and (min-width:1301px) {
+    #restaurants-list li {
+        width: calc(100%/4 - 66px);
+    }
+}

@@ -2,10 +2,13 @@
  * Service Worker configurations
  */
 
- const CACHE_VERSION = 'mws-v4';
+ const CACHE_VERSION = 'mws-v6';
 
 self.addEventListener('fetch', function(event) {
     
+    //TODO remove me
+    return;
+
     event.respondWith(
 
         caches.match(event.request).then(function(responseFromCache) {
