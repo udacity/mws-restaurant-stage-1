@@ -3,20 +3,28 @@ let restaurants,
   cuisines
 var map
 var markers = []
+let dbPromise$
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  fetchNeighborhoods();
-  fetchCuisines();
+
+  dbPromise$ = IDBHelper.openDatabase();
+
+  IDBHelper.populateRestaurants(dbPromise$)
+    .then( () => {
+      fetchNeighborhoods();
+      fetchCuisines();
+    });
 });
 
 /**
  * Fetch all neighborhoods and set their HTML.
  */
 fetchNeighborhoods = () => {
-  DBHelper.fetchNeighborhoods()
+  //DBHelper.fetchNeighborhoods()
+  IDBHelper.getNeighborhoods(dbPromise$)
     .then(neighborhoods => {
       self.neighborhoods = neighborhoods;
       fillNeighborhoodsHTML();
@@ -42,12 +50,13 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
  */
 fetchCuisines = () => {
 
-  DBHelper.fetchCuisines()
-  .then(cuisines => {
-    self.cuisines = cuisines;
-    fillCuisinesHTML();
-  })
-  .catch(error => console.log(error));
+  //DBHelper.fetchCuisines()
+  IDBHelper.getCuisines(dbPromise$)
+    .then(cuisines => {
+      self.cuisines = cuisines;
+      fillCuisinesHTML();
+    })
+    .catch(error => console.log(error));
 }
 
 /**
@@ -93,12 +102,13 @@ updateRestaurants = () => {
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood)
-  .then(restaurants => {
-    resetRestaurants(restaurants);
-    fillRestaurantsHTML();
-  })
-  .catch(error => console.log(error));
+  //DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood)
+  IDBHelper.getRestaurantByCuisineAndNeighborhood(dbPromise$, cuisine, neighborhood)
+    .then(restaurants => {
+      resetRestaurants(restaurants);
+      fillRestaurantsHTML();
+    })
+    .catch(error => console.log(error));
 }
 
 /**
@@ -157,10 +167,10 @@ createRestaurantHTML = (restaurant) => {
 
   const picture = createRestaurantPictureHTML(restaurant);
   li.append(picture);
-  
+
   const div = document.createElement('div');
   li.append(div);
-  
+
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   div.append(name);

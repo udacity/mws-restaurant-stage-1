@@ -24,7 +24,6 @@ class DBHelper {
         const error = (`Request failed. Returned status of ${e.status}`);
         throw error;
       });
-
   }
 
   /**

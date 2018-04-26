@@ -25,13 +25,15 @@ fetchRestaurantFromURL = () => {
   if (self.restaurant) { // restaurant already fetched!
     return Promise.resolve(self.restaurant);
   }
-  const id = getParameterByName('id');
+  const id = Number(getParameterByName('id'));
   if (!id) { // no id found in URL
     error = 'No restaurant id in URL'
     return Promise.reject(error);
   } 
   else {
-    return DBHelper.fetchRestaurantById(id)
+    const database$ = IDBHelper.openDatabase();
+    return IDBHelper.getRestaurantById(database$, id)
+    //return DBHelper.fetchRestaurantById(id)
       .then(restaurant => {
         self.restaurant = restaurant;
         if (!restaurant) {
