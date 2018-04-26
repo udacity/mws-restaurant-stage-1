@@ -1,6 +1,12 @@
 @charset "utf-8";
 /* CSS Document */
 
+/* Add catch all to prevent overflow */
+img, embed, object, video {
+  max-width: 100%;
+}
+
+/* General styles */
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
@@ -272,4 +278,18 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+/* ====================== Adjust for Medium Viewport ====================== */
+@media screen and (min-width: 401px) and (max-width: 600px) {
+  body {
+    background-color: green;
+  }
+}
+
+/* ====================== Adjust for Large Viewport ====================== */
+@media screen and (min-width: 600px) {
+  body {
+    background-color: blue;
+  }
 }
