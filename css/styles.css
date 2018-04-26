@@ -51,7 +51,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 #footer {
   background-color: #444;
-  color: #aaa;
+  color: rgb(235, 233, 233);
   font-size: 8pt;
   letter-spacing: 1px;
   padding: 25px;
@@ -144,7 +144,7 @@ nav > h1 > a:focus {
   flex-wrap: wrap;
 }
 .filter-options h2 {
-  color: white;
+  color: black;
   font-size: 1rem;
   font-weight: bold;
   /* line-height: 1; */
@@ -201,10 +201,10 @@ nav > h1 > a:focus {
 }
 
 #restaurants-list li h2 {
-  color: #f18200;
+  color: #000000;
   font-family: Arial,sans-serif;
   font-size: 2em;
-  font-weight: 200;
+  font-weight: 600;
   letter-spacing: 0;
   line-height: 1.3;
   margin: 20px 0 10px;
