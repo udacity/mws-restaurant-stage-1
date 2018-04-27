@@ -48,7 +48,7 @@ class IDBHelper {
 
             //put data in the in the database
             return Promise.all(restaurants.map(function (restaurant) {
-                console.log('Adding item: ', restaurant);
+                //console.log('Adding item: ', restaurant);
                 return store.add(restaurant);
             }));
         });
