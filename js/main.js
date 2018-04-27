@@ -1,6 +1,4 @@
-let restaurants,
-  neighborhoods,
-  cuisines
+let restaurants
 var map
 var markers = []
 
@@ -9,15 +7,40 @@ var markers = []
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   DBHelper.initServiceWorker();
-  fetchNeighborhoods();
-  fetchCuisines();
-  updateRestaurants();
+  init();
 });
+
+init = async () => {
+
+    response = await APIHelper.fetchRestaurants();
+    restaurants = await response.json();
+
+    const restaurantsPromises = [];
+    const neighborhoods = new Set();
+    const cuisines = new Set();
+
+    restaurants.forEach(restaurant => {
+        neighborhoods.add(restaurant.neighborhood);
+    cuisines.add(restaurant.cuisine_type);
+    restaurantsPromises.push(DBHelper.add(restaurant));
+});
+    fillNeighborhoodsHTML(neighborhoods);
+    fillCuisinesHTML(cuisines);
+
+    Promise.all(restaurantsPromises)
+        .then(() => {
+        updateRestaurants()
+    })
+.catch(error => {
+        console.log(error)
+});
+}
 
 
 /**
  * Fetch all neighborhoods and set their HTML.
  */
+/*
 fetchNeighborhoods = () => {
   DBHelper.fetchNeighborhoods((error, neighborhoods) => {
     if (error) { // Got an error
@@ -28,6 +51,7 @@ fetchNeighborhoods = () => {
     }
   });
 }
+*/
 
 /**
  * Set neighborhoods HTML.
@@ -46,6 +70,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
 /**
  * Fetch all cuisines and set their HTML.
  */
+/*
 fetchCuisines = () => {
   DBHelper.fetchCuisines((error, cuisines) => {
     if (error) { // Got an error!
@@ -56,6 +81,7 @@ fetchCuisines = () => {
     }
   });
 }
+*/
 
 /**
  * Set cuisines HTML.
@@ -101,6 +127,14 @@ updateRestaurants = () => {
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
 
+  APIHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood)
+      .then(restaurants => {
+        resetRestaurants(restaurants);
+      fillRestaurantsHTML(restaurants);
+  })
+  .catch(error => console.error(error));
+
+/*
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
     if (error) { // Got an error!
       console.error(error);
@@ -109,6 +143,8 @@ updateRestaurants = () => {
       fillRestaurantsHTML();
     }
   })
+*/
+
 }
 
 /**
@@ -141,6 +177,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
+  /*
   const template = `
   <li>
     <picture>
@@ -151,6 +188,22 @@ createRestaurantHTML = (restaurant) => {
       <h2 tabIndex="0">${restaurant.name}</h2>
       <p tabIndex="0"> ${restaurant.neighborhood} </p>
       <p tabIndex="0"> ${restaurant.address} </p>
+      <a href="./restaurant.html?id=${restaurant.id}">View Details</a>
+    </div>
+  </li>
+  `;
+  */
+
+  const template = `
+  <li>
+  <picture>
+    <source srcset="img/${restaurant.id}.webp" type="image/webp">
+    <img class="restaurant-img" src="img/${restaurant.id}.png" type="image/png" alt="Picture of the restaurant ${restaurant.name}">
+  </picture>
+    <div class="restaurant-infos">
+      <h1 tabindex="0">${restaurant.name}</h1>
+      <p>${restaurant.neighborhood}</p>
+      <p>${restaurant.address}</p>
       <a href="./restaurant.html?id=${restaurant.id}">View Details</a>
     </div>
   </li>

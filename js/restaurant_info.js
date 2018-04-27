@@ -3,10 +3,20 @@ var map;
 
 document.addEventListener('DOMContentLoaded', (event) => {
   DBHelper.initServiceWorker();
-  fetchRestaurantFromURL((error, restaurant) => {
-    fillBreadcrumb();
-  });
+  // fetchRestaurantFromURL((error, restaurant) => {
+  //   fillBreadcrumb();
+  // });
 });
+
+initServiceWorker = () => {
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./service_worker.js")
+            .then(registration => {
+                registration.update();
+                console.log("Service worker registered");
+            });
+    }
+}
 
 /**
  * Initialize Google map, called from HTML.
@@ -21,7 +31,6 @@ window.initMap = () => {
         center: restaurant.latlng,
         scrollwheel: false
       });
-      // fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
@@ -30,7 +39,7 @@ window.initMap = () => {
 /**
  * Get current restaurant from page URL.
  */
-fetchRestaurantFromURL = (callback) => {
+fetchRestaurantFromURL = async (callback) => {
   if (self.restaurant) { // restaurant already fetched!
     callback(null, self.restaurant)
     return;
@@ -40,6 +49,7 @@ fetchRestaurantFromURL = (callback) => {
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
+    /*
     DBHelper.fetchRestaurantById(id, (error, restaurant) => {
       self.restaurant = restaurant;
       if (!restaurant) {
@@ -49,6 +59,19 @@ fetchRestaurantFromURL = (callback) => {
       fillRestaurantHTML();
       callback(null, restaurant)
     });
+    */
+      try {
+          self.restaurant = await APIHelper.fetchRestaurantById(id);
+          if (!self.restaurant) {
+              return;
+          }
+      } catch (error) {
+          console.error(error);
+      }
+
+      fillRestaurantHTML();
+      callback(null, self.restaurant)
+
   }
 }
 
@@ -63,11 +86,11 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  // image.querySelector('img').className = 'restaurant-img';
-  // image.querySelector('img').src = DBHelper.imageUrlForRestaurant(restaurant);
-  // image.querySelector('source').srcset = DBHelper.imageUrlForRestaurant(restaurant);
-  image.alt = 'Picture of restaurant '+ restaurant.name;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.querySelector('img').className = 'restaurant-img';
+  image.querySelector('img').src = `img/${restaurant.id}.png`;
+  image.querySelector('source').srcset = `img/${restaurant.id}.webp`;
+  image.alt = `Picture of restaurant ${restaurant.name}`;
+  // image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -107,7 +130,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h4');
   title.innerHTML = 'Reviews';
-  container.appendChild(title);
+  container.append(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');

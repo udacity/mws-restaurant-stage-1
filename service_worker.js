@@ -1,9 +1,9 @@
-const staticCacheName = "static-cache-v1";
+const staticCacheName = "static-cache-v2";
 
 function getAllImages(){
     const images = [];
     for(let i=1; i<11; i++){
-        images.push(`./img/${i}.jpg`);
+        images.push(`./img/${i}.webp`);
     }
     return images;
 }
@@ -15,10 +15,11 @@ self.addEventListener('install', function(event) {
                 './',
                 './index.html',
                 './restaurant.html',
+                './js/apihelper.js',
                 './js/dbhelper.js',
+                './js/localforage.min.js',
                 './js/main.js',
                 './js/restaurant_info.js',
-                './data/restaurants.json',
                 './css/styles.css'
                 ].concat(getAllImages()));
         })

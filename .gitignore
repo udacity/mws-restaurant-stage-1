@@ -1,1 +1,7 @@
 .idea/
+
+node_modules
+
+dist
+
+npm-shrinkwrap.json
