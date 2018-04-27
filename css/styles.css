@@ -32,6 +32,7 @@ nav h1 {
 }
 
 .filter-options h2 {
+  grid-area: filter-options-title;
   margin: 10px 20px 0px 20px;
 }
 

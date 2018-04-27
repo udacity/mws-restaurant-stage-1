@@ -21,19 +21,19 @@ init = async () => {
 
     restaurants.forEach(restaurant => {
         neighborhoods.add(restaurant.neighborhood);
-    cuisines.add(restaurant.cuisine_type);
-    restaurantsPromises.push(DBHelper.add(restaurant));
-});
+        cuisines.add(restaurant.cuisine_type);
+        restaurantsPromises.push(DBHelper.add(restaurant));
+    });
     fillNeighborhoodsHTML(neighborhoods);
     fillCuisinesHTML(cuisines);
 
     Promise.all(restaurantsPromises)
         .then(() => {
-        updateRestaurants()
+            updateRestaurants()
     })
-.catch(error => {
+    .catch(error => {
         console.log(error)
-});
+    });
 }
 
 
@@ -111,7 +111,7 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
-  updateRestaurants();
+  // updateRestaurants();
 }
 
 /**

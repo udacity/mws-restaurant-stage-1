@@ -1,4 +1,4 @@
-const staticCacheName = "static-cache-v2";
+const staticCacheName = "static-cache-v3";
 
 function getAllImages(){
     const images = [];
@@ -41,12 +41,11 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', function(event) {
     event.respondWith(
-
         caches.open(staticCacheName).then(function(cache) {
-            return cache.match(event.request).then(function (response) {
+            return cache.match(event.request , { ignoreSearch: true }).then(function (response) {
                 return response || fetch(event.request).then(function(response) {
                     let res = response.clone();
-                    if(event.request.url.indexOf('img/') < 0) {
+                    if(event.request.url.indexOf('img/') > 0) {
                         cache.put(event.request, res);
                     }
                     return response;

@@ -9,12 +9,12 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-//    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 8001 // Change this to your server port
+    return `http://localhost:${port}/data/restaurants.json`;
 
-    var BASE_DOMAIN="https://www.vlogz.win";
+    // var BASE_DOMAIN="https://www.vlogz.win";
 // we use static domain name without port
-    return `${BASE_DOMAIN}/data/restaurants.json`;
+//     return `${BASE_DOMAIN}/data/restaurants.json`;
   }
 
   /**
@@ -156,7 +156,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (`/img/${restaurant.id}.png`);
   }
 
   /**
