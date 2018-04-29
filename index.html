@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/styles.css">
     <title>Restaurant Reviews</title>
 </head>
-<body>
+<body class="container">
 
 <header>
     <nav>
@@ -15,11 +15,11 @@
     </nav>
 </header>
 
-<main id="maincontent" class="grid-container">
+<main id="main-content">
     <section id="map-container" class="row">
         <div id="map"></div>
     </section>
-    <section class="row">
+    <section>
         <div class="filter-options">
             <h2>Filter Results</h2>
             <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
@@ -33,14 +33,14 @@
     </section>
 </main>
 
+<footer id="footer">
+    Copyright (c) 2018 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+</footer>
+
 <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
 <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key= AIzaSyAyjrYiYsgEWzQFDGTyHTBI1-J3OrwW3-4&libraries=places&callback=initMap"></script>
-
-<footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-</footer>
+        src="https://maps.googleapis.com/maps/api/js?key=  AIzaSyD4hyJWf3OUedW-G24gZwneEZci6ta5GGI &libraries=places&callback=initMap"></script>
 
 </body>
 </html>
