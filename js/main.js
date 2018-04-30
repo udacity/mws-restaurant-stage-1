@@ -147,9 +147,9 @@ createRestaurantHTML = (restaurant) => {
   const baseURL = DBHelper.imageUrlForRestaurant(restaurant);
   let urlComponents = baseURL.split(".");
 
-  image.src = `${urlComponents[0]}-400_1x.${urlComponents[1]}`; // src for fallback
-  image.srcset = `${urlComponents[0]}-400_1x.${urlComponents[1]} 1x,
-                  ${urlComponents[0]}-800_2x.${urlComponents[1]} 2x`;
+  image.src = `${urlComponents[0]}-400_1x.${urlComponents[1] || 'jpg' }`; // src for fallback
+  image.srcset = `${urlComponents[0]}-400_1x.${ urlComponents[1] || 'jpg' } 1x,
+                  ${urlComponents[0]}-800_2x.${ urlComponents[1] || 'jpg' } 2x`;
 
   image.alt = DBHelper.imageAltTextForRestaurant(restaurant);
 
