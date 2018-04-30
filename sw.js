@@ -1,9 +1,11 @@
 //////////
-const staticCacheName = "restaurant-static-v1"
+const staticCacheName = "restaurant-static-v2"
 const pictureCacheName = "restaurant-content-imgs"
+const detailsCacheName = "restaurant-content-details"
 let allCaches = [
     staticCacheName,
-    pictureCacheName
+    pictureCacheName,
+    detailsCacheName
 ]
 
 self.addEventListener('install',(event)=>{  // do things when the service worker installs
@@ -18,8 +20,7 @@ self.addEventListener('install',(event)=>{  // do things when the service worker
                 '/js/RegisterSW.js',
                 '/js/modal.js',
                 '/css/styles.css',
-                '/css/over450.css',
-                '/data/restaurants.json'
+                '/css/over450.css'
             ])
         })
     )
@@ -46,11 +47,15 @@ self.addEventListener('fetch', (event)=>{   // listening for calls to fetch
     const requestUrl = new URL(event.request.url)
     
     // == get things from cache first || get from network if not in the cache
-    if(requestUrl.origin === location.origin){  // if the request is to the site source
-        if(requestUrl.pathname.startsWith('/img/')){ // if the request if from our image store
+
+    // if the request is to the site source
+    if(requestUrl.origin === location.origin){
+        // if the request if from our image store
+        if(requestUrl.pathname.startsWith('/img/')){ 
             event.respondWith(servePhoto(event.request))
             return;
-        }else if(requestUrl.pathname.startsWith('/restaurant.html')){ // check to see if we need to serve the restaurants page
+        }// check to see if we need to serve the restaurants page
+        else if(requestUrl.pathname.startsWith('/restaurant.html')){ 
             event.respondWith(
                 caches.match('restaurant.html').then((response)=>{
                     return response || fetch(event.request)
@@ -64,7 +69,13 @@ self.addEventListener('fetch', (event)=>{   // listening for calls to fetch
             )
         }
     }
-        
+    
+    // if the request is to the restaurant details database
+    if(requestUrl.hostname == location.hostname && requestUrl.port == 1337){
+        console.log("Request to the data server");
+        event.respondWith(serveRestaurantData(event.request))
+        return;
+    }
 
 })
 
@@ -84,6 +95,29 @@ function servePhoto(request){
             return fetch(request).then(function(networkResponse){
                 cache.put(storageUrl, networkResponse.clone());
                 return networkResponse;
+            })
+        })
+    })
+}
+
+// TODO : handle requests being made to the data server
+function serveRestaurantData(request){
+    console.log("Data request make")
+    const storageUrl = request.url;
+
+    return caches.open(detailsCacheName).then(function(cache){
+        return cache.match(storageUrl).then(function(response){
+            // if there is already a call in the cache
+            if(response){   
+                return response;
+            }
+
+            // if it isn't in the cache - grab it from the network
+            return fetch(request).then(function(networkResponse){
+                // write a version to the cache
+                cache.put(storageUrl, networkResponse.clone());
+                // send back the network response
+                return networkResponse
             })
         })
     })

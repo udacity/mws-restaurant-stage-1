@@ -60,4 +60,4 @@ const serviceWorkerHelper = function ServiceWorkerHelper(workerLocation, openUIC
     return {
         workerSkipWaiting
     }
-}//('./sw.js', openModal);
+}('./sw.js', openModal);
