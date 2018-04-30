@@ -1,6 +1,23 @@
 let restaurant;
 var map;
 
+document.addEventListener('DOMContentLoaded', (event) => {
+  DBHelper.initServiceWorker();
+  // fetchRestaurantFromURL((error, restaurant) => {
+  //   fillBreadcrumb();
+  // });
+});
+
+initServiceWorker = () => {
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./service_worker.js")
+            .then(registration => {
+                registration.update();
+                console.log("Service worker registered");
+            });
+    }
+}
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -14,7 +31,6 @@ window.initMap = () => {
         center: restaurant.latlng,
         scrollwheel: false
       });
-      fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
@@ -23,7 +39,7 @@ window.initMap = () => {
 /**
  * Get current restaurant from page URL.
  */
-fetchRestaurantFromURL = (callback) => {
+fetchRestaurantFromURL = async (callback) => {
   if (self.restaurant) { // restaurant already fetched!
     callback(null, self.restaurant)
     return;
@@ -33,6 +49,7 @@ fetchRestaurantFromURL = (callback) => {
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
+    /*
     DBHelper.fetchRestaurantById(id, (error, restaurant) => {
       self.restaurant = restaurant;
       if (!restaurant) {
@@ -42,6 +59,19 @@ fetchRestaurantFromURL = (callback) => {
       fillRestaurantHTML();
       callback(null, restaurant)
     });
+    */
+      try {
+          self.restaurant = await APIHelper.fetchRestaurantById(id);
+          if (!self.restaurant) {
+              return;
+          }
+      } catch (error) {
+          console.error(error);
+      }
+
+      fillRestaurantHTML();
+      callback(null, self.restaurant)
+
   }
 }
 
@@ -56,8 +86,11 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.querySelector('img').className = 'restaurant-img';
+  image.querySelector('img').src = `img/${restaurant.id}.png`;
+  image.querySelector('source').srcset = `img/${restaurant.id}.webp`;
+  image.alt = `Picture of restaurant ${restaurant.name}`;
+  // image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -95,9 +128,9 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
-  const title = document.createElement('h2');
+  const title = document.createElement('h4');
   title.innerHTML = 'Reviews';
-  container.appendChild(title);
+  container.append(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -116,24 +149,21 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  * Create review HTML and add it to the webpage.
  */
 createReviewHTML = (review) => {
-  const li = document.createElement('li');
-  const name = document.createElement('p');
-  name.innerHTML = review.name;
-  li.appendChild(name);
 
-  const date = document.createElement('p');
-  date.innerHTML = review.date;
-  li.appendChild(date);
+  const template = `
+  <li>
+    <p tabindex="0" class="review-name">${review.name}</p>
+    <p class="review-date">${review.date}</p>
+    <p class="review-rating"><span>Rating: ${review.rating}</span></p>
+    <p class="review-comments">${review.comments}</p>
+  </li>  
+  `;
 
-  const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
-  li.appendChild(rating);
+  const range = document.createRange();
+  const fragment = range.createContextualFragment(template);
 
-  const comments = document.createElement('p');
-  comments.innerHTML = review.comments;
-  li.appendChild(comments);
+  return fragment;
 
-  return li;
 }
 
 /**

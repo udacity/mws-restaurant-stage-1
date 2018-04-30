@@ -1,6 +1,4 @@
-let restaurants,
-  neighborhoods,
-  cuisines
+let restaurants
 var map
 var markers = []
 
@@ -8,13 +6,41 @@ var markers = []
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  fetchNeighborhoods();
-  fetchCuisines();
+  DBHelper.initServiceWorker();
+  init();
 });
+
+init = async () => {
+
+    response = await APIHelper.fetchRestaurants();
+    restaurants = await response.json();
+
+    const restaurantsPromises = [];
+    const neighborhoods = new Set();
+    const cuisines = new Set();
+
+    restaurants.forEach(restaurant => {
+        neighborhoods.add(restaurant.neighborhood);
+        cuisines.add(restaurant.cuisine_type);
+        restaurantsPromises.push(DBHelper.add(restaurant));
+    });
+    fillNeighborhoodsHTML(neighborhoods);
+    fillCuisinesHTML(cuisines);
+
+    Promise.all(restaurantsPromises)
+        .then(() => {
+            updateRestaurants()
+    })
+    .catch(error => {
+        console.log(error)
+    });
+}
+
 
 /**
  * Fetch all neighborhoods and set their HTML.
  */
+/*
 fetchNeighborhoods = () => {
   DBHelper.fetchNeighborhoods((error, neighborhoods) => {
     if (error) { // Got an error
@@ -25,6 +51,7 @@ fetchNeighborhoods = () => {
     }
   });
 }
+*/
 
 /**
  * Set neighborhoods HTML.
@@ -35,6 +62,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
+    option.tabIndex = 0;
     select.append(option);
   });
 }
@@ -42,6 +70,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
 /**
  * Fetch all cuisines and set their HTML.
  */
+/*
 fetchCuisines = () => {
   DBHelper.fetchCuisines((error, cuisines) => {
     if (error) { // Got an error!
@@ -52,6 +81,7 @@ fetchCuisines = () => {
     }
   });
 }
+*/
 
 /**
  * Set cuisines HTML.
@@ -63,6 +93,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
+    option.tabIndex = 0;
     select.append(option);
   });
 }
@@ -80,7 +111,6 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
-  updateRestaurants();
 }
 
 /**
@@ -96,6 +126,14 @@ updateRestaurants = () => {
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
 
+  APIHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood)
+      .then(restaurants => {
+        resetRestaurants(restaurants);
+      fillRestaurantsHTML(restaurants);
+  })
+  .catch(error => console.error(error));
+
+/*
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
     if (error) { // Got an error!
       console.error(error);
@@ -104,6 +142,8 @@ updateRestaurants = () => {
       fillRestaurantsHTML();
     }
   })
+*/
+
 }
 
 /**
@@ -136,37 +176,52 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
-  const li = document.createElement('li');
+  /*
+  const template = `
+  <li>
+    <picture>
+      <source srcset="img/${restaurant.id}.jpg" type="image/png">
+      <img class="restaurant-img" type="image/png" alt='Picture of the restaurant at ${restaurant.name}' src="img/${restaurant.id}.png" /> 
+    </picture>
+    <div class="restaurant-infos">
+      <h2 tabIndex="0">${restaurant.name}</h2>
+      <p tabIndex="0"> ${restaurant.neighborhood} </p>
+      <p tabIndex="0"> ${restaurant.address} </p>
+      <a href="./restaurant.html?id=${restaurant.id}">View Details</a>
+    </div>
+  </li>
+  `;
+  */
 
-  const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  const template = `
+  <li>
+  <picture>
+    <source srcset="img/${restaurant.id}.webp" type="image/webp">
+    <img class="restaurant-img" src="img/${restaurant.id}.png" type="image/png" alt="Picture of the restaurant ${restaurant.name}">
+  </picture>
+    <div class="restaurant-infos">
+      <h1 tabindex="0">${restaurant.name}</h1>
+      <p>${restaurant.neighborhood}</p>
+      <p>${restaurant.address}</p>
+      <a href="./restaurant.html?id=${restaurant.id}">View Details</a>
+    </div>
+  </li>
+  `;
 
-  const name = document.createElement('h1');
-  name.innerHTML = restaurant.name;
-  li.append(name);
+  const range = document.createRange();
+  const fragment = range.createContextualFragment(template);
 
-  const neighborhood = document.createElement('p');
-  neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
+  return fragment;
 
-  const address = document.createElement('p');
-  address.innerHTML = restaurant.address;
-  li.append(address);
-
-  const more = document.createElement('a');
-  more.innerHTML = 'View Details';
-  more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
-
-  return li
 }
 
 /**
  * Add markers for current restaurants to the map.
  */
 addMarkersToMap = (restaurants = self.restaurants) => {
+
+  if(typeof google === "undefined") return self.markers;
+
   restaurants.forEach(restaurant => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);

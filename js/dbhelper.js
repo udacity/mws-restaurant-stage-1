@@ -3,13 +3,18 @@
  */
 class DBHelper {
 
+
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
+    const port = 8001 // Change this to your server port
     return `http://localhost:${port}/data/restaurants.json`;
+
+    // var BASE_DOMAIN="https://www.vlogz.win";
+// we use static domain name without port
+//     return `${BASE_DOMAIN}/data/restaurants.json`;
   }
 
   /**
@@ -18,6 +23,7 @@ class DBHelper {
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
+    xhr.responseType = 'json';
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
         const json = JSON.parse(xhr.responseText);
@@ -150,7 +156,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (`/img/${restaurant.id}.png`);
   }
 
   /**
@@ -165,6 +171,19 @@ class DBHelper {
       animation: google.maps.Animation.DROP}
     );
     return marker;
+  }
+
+  static initServiceWorker(){
+    if("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service_worker.js")
+      .then(registration => {
+        registration.update();
+        console.log("Service worker registered!");
+      });
+    }
+  }
+  static add(restaurant) {
+    return localforage.setItem(String(restaurant.id), restaurant);
   }
 
 }
