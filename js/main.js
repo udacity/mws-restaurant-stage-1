@@ -4,6 +4,7 @@ let restaurants,
 var map
 var markers = []
 
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -140,7 +141,18 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+
+  // decompose the url to allow selection of different images
+  // in response to the image display size
+  const baseURL = DBHelper.imageUrlForRestaurant(restaurant);
+  let urlComponents = baseURL.split(".");
+
+  image.src = `${urlComponents[0]}-400_1x.${urlComponents[1] || 'jpg' }`; // src for fallback
+  image.srcset = `${urlComponents[0]}-400_1x.${ urlComponents[1] || 'jpg' } 1x,
+                  ${urlComponents[0]}-800_2x.${ urlComponents[1] || 'jpg' } 2x`;
+
+  image.alt = DBHelper.imageAltTextForRestaurant(restaurant);
+
   li.append(image);
 
   const name = document.createElement('h1');
@@ -158,7 +170,11 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  more.id = restaurant.name;
+
+  more.setAttribute('aria-label', `${restaurant.name}: ${restaurant.cuisine_type} cuisine in ${restaurant.neighborhood} , View Details`);
+
+  li.append(more);
 
   return li
 }
