@@ -149,7 +149,9 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (restaurant.photograph != undefined)
+      ? `/img/${restaurant.photograph}`
+      : '/img/noneProvided'
   }
   static imageAltTextForRestaurant(restaurant){
     return restaurant.photoAltText
