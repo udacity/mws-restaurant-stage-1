@@ -1,4 +1,4 @@
-//////////
+///
 const staticCacheName = "restaurant-static-v2"
 const pictureCacheName = "restaurant-content-imgs"
 const detailsCacheName = "restaurant-content-details"
@@ -100,7 +100,6 @@ function servePhoto(request){
     })
 }
 
-// TODO : handle requests being made to the data server
 function serveRestaurantData(request){
     console.log("Data request make")
     const storageUrl = request.url;

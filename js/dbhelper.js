@@ -154,7 +154,9 @@ class DBHelper {
       : '/img/noneProvided'
   }
   static imageAltTextForRestaurant(restaurant){
-    return restaurant.photoAltText
+    return (restaurant.photoAltText != undefined)
+      ? restaurant.photoAltText
+      : `picture of ${restaurant.name} premises`  
   }
   /**
    * Map marker for a restaurant.
