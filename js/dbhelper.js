@@ -16,6 +16,7 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
 class DBHelper {
 
   /**
