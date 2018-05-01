@@ -18,10 +18,7 @@ gulp.task('clear-images', ()=>{
     return del(`img/**/*`)
 })
 
-// TODO: Bundle up dbhelper using browserify to pull in idb module
-gulp.task('bundle-db', ()=>{
-    return browserify('./js/dbhelper_src.js')
-      .bundle()
-      .pipe(source(`dbhelper.js`))
-      .pipe(gulp.dest('./js/'))
+gulp.task('grab-idb', ()=>{
+    gulp.src(['node_modules/idb/lib/idb.js'])
+      .pipe(gulp.dest('js'))
 })
