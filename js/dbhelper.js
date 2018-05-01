@@ -1,7 +1,39 @@
+var idb = require('idb');
+
 /**
  * Common database helper functions.
  */
 class DBHelper {
+
+  // open the indexedDB database
+  static dbPromise = idb.open('restaurant-details', 1, (upgradeDb)=>{
+    switch(upgradeDB.oldVersion){
+      case 0:
+        var restaurantStore = upgradeDb.createObjectStore('restaurant-details', 'id');
+        restaurantStore.createIndex('by-neighbourhood', 'neighborhood');
+        restaurantStore.createIndex('by-cuisine', 'cuisine')
+    }
+  })
+
+  // ===  IDB functions ===
+  static addRecord = (restaurantID, restaurantDetails)=>{
+    return this.dbPromise.then((db)=>{
+      var tx = db.transaction('restaurant-details', 'readwrite');
+      var listStore = tx.objectStore('restaurant-details');
+      listStore.put(restaurantDetails)
+      return tx.complete;
+    })
+  }
+
+  static getRecord = (restaurantID)=>{
+    return this.dbPromise.then((db)=>{
+      var tx = db.transaction('restaurant-details')
+      var restaurantDetailsStore = tx.objectStore('restaurant-details')
+      return restaurantDetailsStore.get(restaurantID);
+    })
+  }
+
+  // == IDB Functions END
 
   /**
    * Database URL.
@@ -16,11 +48,19 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
+
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
         const restaurants = JSON.parse(xhr.responseText);
+        // store in the indexedDB database
+        Promise.all(restaurants.map(DBHelper.addRecord))
+          .then(()=>{console.log("all restaurant data in database")})
+          .catch((err)=>{
+            console.error(err)
+          })
+
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
@@ -28,6 +68,7 @@ class DBHelper {
       }
     };
     xhr.send();
+
   }
 
   /**
@@ -171,5 +212,12 @@ class DBHelper {
     );
     return marker;
   }
+
+  // ===== 
+  // storing information in local indexDB
+  // ===== 
+
+
+
 
 }
