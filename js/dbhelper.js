@@ -4,7 +4,32 @@
 class DBHelper {
 
   constructor(){
+    this.dbPromise = idb.open('restaurant-details', 1, (upgradeDb)=>{
+      switch(upgradeDb.oldVersion){
+        case 0:
+          var restaurantStore = upgradeDb.createObjectStore('restaurant-details', {keyPath:'id'});
+          restaurantStore.createIndex('by-neighbourhood', 'neighborhood');
+          restaurantStore.createIndex('by-cuisine', 'cuisine')
+      }
+    })
 
+  }
+
+  addRecord(restaurantDetails){
+    return this.dbPromise.then((db)=>{
+      var tx = db.transaction('restaurant-details', 'readwrite');
+      var listStore = tx.objectStore('restaurant-details');
+      listStore.put(restaurantDetails)
+      return tx.complete;
+    })
+  }
+  
+  getRecord(restaurantID){
+    return this.dbPromise.then((db)=>{
+      var tx = db.transaction('restaurant-details')
+      var restaurantDetailsStore = tx.objectStore('restaurant-details')
+      return restaurantDetailsStore.get(restaurantID);
+    })
   }
 
   /**
