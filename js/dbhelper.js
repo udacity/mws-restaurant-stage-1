@@ -12,7 +12,7 @@ class DBHelper {
       switch(upgradeDb.oldVersion){
         case 0:
           var restaurantStore = upgradeDb.createObjectStore('restaurant-details', {keyPath:'id'});
-          restaurantStore.createIndex('by-neighbourhood', 'neighborhood');
+          restaurantStore.createIndex('by-neighborhood', 'neighborhood');
           restaurantStore.createIndex('by-cuisine', 'cuisine_type')
       }
     })
@@ -61,22 +61,45 @@ class DBHelper {
     })
   }
 
+  // could write a getUniqueIndexKeys - index name is the only difference
   getCuisines(){
     return this.dbPromise.then((db)=>{
       let tx = db.transaction(DBHelper.RESTAURANT_TABLE_NAME)
       let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_TABLE_NAME)
+      let cuisineKeys = [];
 
-      let cuisineKeys = restaurantDetailsStore.index('by-cuisine').openCursor(null, "nextunique")
-        .then(function collectKeys(cursor, cuisineList = []){
-          if(!cursor) return cuisineList; // return if we get to the end
+      restaurantDetailsStore.index('by-cuisine').openCursor(null, "nextunique")
+        .then(function collectKeys(cursor){
+          if(!cursor) return; // return if we get to the end
 
-          cuisineList.push(cursor.key);
+          cuisineKeys.push(cursor.key);
 
-          return cursor.continue().then( (cursor)=>{ collectKeys(cursor, cuisineList)} ) // keep going
+          return cursor.continue().then( collectKeys ) // keep going
         })
 
       return tx.complete.then(() => {
-        
+        return cuisineKeys
+      } ) 
+    })
+  }
+
+  getNeighborhoods(){
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction(DBHelper.RESTAURANT_TABLE_NAME)
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_TABLE_NAME)
+      let neighborhoods = [];
+
+      restaurantDetailsStore.index('by-neighborhood').openCursor(null, "nextunique")
+        .then(function collectKeys(cursor){
+          if(!cursor) return; // return if we get to the end
+
+          neighborhoods.push(cursor.key);
+
+          return cursor.continue().then( collectKeys ) // keep going
+        })
+
+      return tx.complete.then(() => {
+        return neighborhoods
       } ) 
     })
   }
