@@ -3,13 +3,17 @@
  */
 class DBHelper {
 
+  static get RESTAURANT_TABLE_NAME(){
+    return 'restaurant-details'
+  }
+
   constructor(){
-    this.dbPromise = idb.open('restaurant-details', 1, (upgradeDb)=>{
+    this.dbPromise = idb.open(DBHelper.RESTAURANT_TABLE_NAME, 1, (upgradeDb)=>{
       switch(upgradeDb.oldVersion){
         case 0:
           var restaurantStore = upgradeDb.createObjectStore('restaurant-details', {keyPath:'id'});
           restaurantStore.createIndex('by-neighbourhood', 'neighborhood');
-          restaurantStore.createIndex('by-cuisine', 'cuisine')
+          restaurantStore.createIndex('by-cuisine', 'cuisine_type')
       }
     })
 
@@ -33,11 +37,11 @@ class DBHelper {
     })
   }
   
-  getRecord(restaurantID){
+  getRecord(restaurantId){
     return this.dbPromise.then((db)=>{
-      let tx = db.transaction('restaurant-details')
-      let restaurantDetailsStore = tx.objectStore('restaurant-details')
-      return restaurantDetailsStore.get(restaurantID);
+      let tx = db.transaction(DBHelper.RESTAURANT_TABLE_NAME)
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_TABLE_NAME)
+      return restaurantDetailsStore.get(restaurantId);
     })
   }
 
@@ -46,6 +50,34 @@ class DBHelper {
       let tx = db.transaction('restaurant-details')
       let restaurantDetailsStore = tx.objectStore('restaurant-details')
       return restaurantDetailsStore.getAll();
+    })
+  }
+
+  getRestaurantById(restaurantId){
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction(DBHelper.RESTAURANT_TABLE_NAME)
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_TABLE_NAME)
+      return restaurantDetailsStore.get(restaurantId)
+    })
+  }
+
+  getCuisines(){
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction(DBHelper.RESTAURANT_TABLE_NAME)
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_TABLE_NAME)
+
+      let cuisineKeys = restaurantDetailsStore.index('by-cuisine').openCursor(null, "nextunique")
+        .then(function collectKeys(cursor, cuisineList = []){
+          if(!cursor) return cuisineList; // return if we get to the end
+
+          cuisineList.push(cursor.key);
+
+          return cursor.continue().then( (cursor)=>{ collectKeys(cursor, cuisineList)} ) // keep going
+        })
+
+      return tx.complete.then(() => {
+        
+      } ) 
     })
   }
 
