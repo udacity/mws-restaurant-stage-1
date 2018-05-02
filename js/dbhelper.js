@@ -15,6 +15,15 @@ class DBHelper {
 
   }
 
+  // populate the local IndexedDB database
+  populateOfflineDatabase(){
+    return fetch(DBHelper.DATABASE_URL)
+      .then((response)=>{ return response.json(); })
+      .then((restaurants)=>{ return Promise.all(restaurants.map(this.addRecord, this)) })
+      .then(()=>{ console.log(`Database filled`) })
+      .catch((err)=>{ console.error(`Database not filled : ${err.message}`) })
+  }
+
   addRecord(restaurantDetails){
     return this.dbPromise.then((db)=>{
       var tx = db.transaction('restaurant-details', 'readwrite');
@@ -26,9 +35,17 @@ class DBHelper {
   
   getRecord(restaurantID){
     return this.dbPromise.then((db)=>{
-      var tx = db.transaction('restaurant-details')
-      var restaurantDetailsStore = tx.objectStore('restaurant-details')
+      let tx = db.transaction('restaurant-details')
+      let restaurantDetailsStore = tx.objectStore('restaurant-details')
       return restaurantDetailsStore.get(restaurantID);
+    })
+  }
+
+  getAllRecords(){
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction('restaurant-details')
+      let restaurantDetailsStore = tx.objectStore('restaurant-details')
+      return restaurantDetailsStore.getAll();
     })
   }
 
@@ -45,7 +62,7 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-
+    // TODO: - how to deal with a failed fetch request to data source
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
     xhr.onload = () => {
@@ -53,12 +70,12 @@ class DBHelper {
         const restaurants = JSON.parse(xhr.responseText);
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
+        // grab the data from the local database
         const error = (`Request failed. Returned status of ${xhr.status}`);
         callback(error, null);
       }
     };
     xhr.send();
-
   }
 
   /**

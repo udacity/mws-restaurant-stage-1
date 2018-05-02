@@ -1,3 +1,5 @@
+///////
+
 const staticCacheName = "restaurant-static-v2"
 const pictureCacheName = "restaurant-content-imgs"
 const detailsCacheName = "restaurant-content-details"
@@ -18,8 +20,9 @@ self.addEventListener('install',(event)=>{  // do things when the service worker
                 '/js/restaurant_info.js',
                 '/js/RegisterSW.js',
                 '/js/modal.js',
+                '/js/idb.js',
                 '/css/styles.css',
-                '/css/over450.css'
+                '/css/over450.css',
             ])
         })
     )
@@ -69,12 +72,13 @@ self.addEventListener('fetch', (event)=>{   // listening for calls to fetch
         }
     }
     
+    /*
     // if the request is to the restaurant details database
     if(requestUrl.hostname == location.hostname && requestUrl.port == 1337){
-        console.log("Request to the data server");
         event.respondWith(serveRestaurantData(event.request))
         return;
     }
+    */
 
 })
 
@@ -100,7 +104,6 @@ function servePhoto(request){
 }
 
 function serveRestaurantData(request){
-    console.log("Data request make")
     const storageUrl = request.url;
 
     return caches.open(detailsCacheName).then(function(cache){
