@@ -408,7 +408,7 @@ nav h1 a {
   }
 
   #restaurant-img {
-    height: 250px;
+    height: 370px;
     width: 100%;
   }
 
@@ -449,6 +449,10 @@ nav h1 a {
 /* ====================== only for mobile ====================== */
 
 @media screen and (max-width:519px) {
+  main {
+    min-width: 300px;
+  }
+
   .filter-options {
     height: 100%;
   }
@@ -514,13 +518,19 @@ nav h1 a {
   }
 
   #restaurant-img {
-    height: 150px;
+    height: 200px;
     width: 100%;
   }
 
   #restaurant-address,
   #restaurant-hours {
     width: 100%;
+  }
+
+  #restaurant-hours tr {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   #reviews-container {

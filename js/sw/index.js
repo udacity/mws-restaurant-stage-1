@@ -15,8 +15,8 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-    //if found a match in cache
-    //else make a fetch request to internet
+    // if found a match in cache
+    // else make a fetch request
     event.respondWith(
         caches.match(event.request).then(function(response) {
             return response || fetch(event.request);
