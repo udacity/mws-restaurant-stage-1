@@ -15,8 +15,23 @@ self.addEventListener('install', function (e) {
     );
 });
 
+self.addEventListener('activate', function (event) { // Delete old cache versions
+    event.waitUntil(
+        caches.keys().then(function (cacheNames) {
+            return Promise.all(
+                cacheNames.filter(function (cacheName) {
+                    return cacheName.startsWith('yelplight-') &&
+                        !allCaches.includes(cacheName);
+                }).map(function (cacheName) {
+                    return caches.delete(cacheName);
+                })
+            );
+        })
+    );
+});
+
 self.addEventListener('fetch', function (event) {
-    console.log(event.request.url);
+    // console.log(event.request.url);
     event.respondWith(
         caches.match(event.request).then(function (response) {
             return response || fetch(event.request);
