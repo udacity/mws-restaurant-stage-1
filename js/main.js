@@ -142,8 +142,10 @@ resetRestaurants = (restaurants) => {
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
     const ul = document.getElementById('restaurants-list');
+    let tabIndex = 5; // use for navigation on page
     restaurants.forEach(restaurant => {
-        ul.append(createRestaurantHTML(restaurant));
+        ul.append(createRestaurantHTML(restaurant, tabIndex));
+        tabIndex += 5;
     });
     addMarkersToMap();
 }
@@ -151,30 +153,37 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 /**
  * Create restaurant HTML.
  */
-createRestaurantHTML = (restaurant) => {
+createRestaurantHTML = (restaurant, tabIndex) => {
     const li = document.createElement('li');
 
     const image = document.createElement('img');
     image.className = 'restaurant-img';
     image.src = DBHelper.imageUrlForRestaurant(restaurant);
     image.alt = DBHelper.imageAltForRestaurant(restaurant);
+    image.tabIndex = tabIndex + 1;
     li.append(image);
 
     const name = document.createElement('h1');
     name.innerHTML = restaurant.name;
+    name.tabIndex = tabIndex;
     li.append(name);
 
     const neighborhood = document.createElement('p');
     neighborhood.innerHTML = restaurant.neighborhood;
+    neighborhood.tabIndex = tabIndex + 2;
     li.append(neighborhood);
 
     const address = document.createElement('p');
     address.innerHTML = restaurant.address;
+    address.tabIndex = tabIndex + 3;
     li.append(address);
 
     const more = document.createElement('a');
     more.innerHTML = 'View Details';
     more.href = DBHelper.urlForRestaurant(restaurant);
+    more.tabIndex = tabIndex + 4;
+    more.setAttribute("aria-label", "click to get more information about " + restaurant.name);
+    more.setAttribute("aria-role", "link");
     li.append(more)
 
     return li

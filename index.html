@@ -11,25 +11,25 @@
 <body>
   <header>
     <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+      <h1><a href="/" tabindex="-1">Restaurant Reviews</a></h1>
     </nav>
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
+    <section id="map-container" tabindex="-1" aria-hidden="true">
       <div id="map"></div>
     </section>
     <section>
       <div class="filter-options">
-        <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <h2 tabindex="1">Filter Results</h2>
+        <select tabindex="2" id="neighborhoods-select" name="neighborhoods" aria-label="select neighborhood" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <select tabindex="3" id="cuisines-select" name="cuisines" aria-label="select cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
       </div>
-      <ul id="restaurants-list"></ul>
+      <ul tabindex="4" id="restaurants-list" aria-label="list of restaurant"></ul>
     </section>
   </main>
 
@@ -38,8 +38,8 @@
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzcgOKQmEIK0NeXBhK3-WJRo8sgYjT9ME&libraries=places&callback=initMap"></script>
 
 
-  <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  <footer id="footer" tabindex="-1">
+    Copyright (c) 2017 <a href="/" tabindex="-1"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
 
 </body>

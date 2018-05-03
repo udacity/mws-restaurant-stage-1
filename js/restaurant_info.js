@@ -96,6 +96,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     const container = document.getElementById('reviews-container');
+    let tabIndex = 8;
     const title = document.createElement('h2');
     title.innerHTML = 'Reviews';
     container.appendChild(title);
@@ -103,12 +104,14 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     if (!reviews) {
         const noReviews = document.createElement('p');
         noReviews.innerHTML = 'No reviews yet!';
+        noReviews.setAttribute('tabindex', tabIndex);
         container.appendChild(noReviews);
         return;
     }
     const ul = document.getElementById('reviews-list');
     reviews.forEach(review => {
-        ul.appendChild(createReviewHTML(review));
+        ul.appendChild(createReviewHTML(review, tabIndex));
+        tabIndex += 4;
     });
     container.appendChild(ul);
 }
@@ -116,22 +119,26 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 /**
  * Create review HTML and add it to the webpage.
  */
-createReviewHTML = (review) => {
+createReviewHTML = (review, tabIndex) => {
     const li = document.createElement('li');
     const name = document.createElement('p');
     name.innerHTML = review.name;
+    name.setAttribute('tabindex', tabIndex);
     li.appendChild(name);
 
     const date = document.createElement('p');
     date.innerHTML = review.date;
+    date.setAttribute('tabindex', tabIndex + 1);
     li.appendChild(date);
 
     const rating = document.createElement('p');
     rating.innerHTML = `Rating: ${review.rating}`;
+    rating.setAttribute('tabindex', tabIndex + 2);
     li.appendChild(rating);
 
     const comments = document.createElement('p');
     comments.innerHTML = review.comments;
+    comments.setAttribute('tabindex', tabIndex + 3);
     li.appendChild(comments);
 
     return li;
