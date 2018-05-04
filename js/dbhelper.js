@@ -3,12 +3,12 @@
  */
 class DBHelper {
 
-  static get RESTAURANT_TABLE_NAME(){
+  static get RESTAURANT_STORE_NAME(){
     return 'restaurant-details'
   }
 
   constructor(){
-    this.dbPromise = idb.open(DBHelper.RESTAURANT_TABLE_NAME, 1, (upgradeDb)=>{
+    this.dbPromise = idb.open(DBHelper.RESTAURANT_STORE_NAME, 1, (upgradeDb)=>{
       switch(upgradeDb.oldVersion){
         case 0:
           var restaurantStore = upgradeDb.createObjectStore('restaurant-details', {keyPath:'id'});
@@ -37,15 +37,7 @@ class DBHelper {
     })
   }
   
-  getRecord(restaurantId){
-    return this.dbPromise.then((db)=>{
-      let tx = db.transaction(DBHelper.RESTAURANT_TABLE_NAME)
-      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_TABLE_NAME)
-      return restaurantDetailsStore.get(restaurantId);
-    })
-  }
-
-  getAllRecords(){
+  getRestaurants(){
     return this.dbPromise.then((db)=>{
       let tx = db.transaction('restaurant-details')
       let restaurantDetailsStore = tx.objectStore('restaurant-details')
@@ -55,17 +47,55 @@ class DBHelper {
 
   getRestaurantById(restaurantId){
     return this.dbPromise.then((db)=>{
-      let tx = db.transaction(DBHelper.RESTAURANT_TABLE_NAME)
-      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_TABLE_NAME)
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME)
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME)
       return restaurantDetailsStore.get(restaurantId)
     })
   }
 
-  // could write a getUniqueIndexKeys - index name is the only difference
+  getRestaurantsByCuisine(cuisine){
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME);
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME);
+
+      return restaurantDetailsStore.index('by-cuisine').getAll(cuisine)
+    })
+  }
+
+  getRestaurantsByNeighborhood(neighborhood){
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME);
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME);
+
+      return restaurantDetailsStore.index('by-neighborhood').getAll(neighborhood);
+    })
+  }
+
+  getRestaurantsByCuisineAndNeighborhood(cuisine, neighborhood, numRecords){
+    /*return this.getRestaurantsByCuisine(cuisine)
+      .then((restaurants)=>{ return restaurants.filter( restaurant => restaurant.neighborhood == neighborhood) })
+      */
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME);
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME)
+      let restaurants = [];
+
+      restaurantDetailsStore.index('by-cuisine').openCursor(cuisine, "next")
+        .then(function checkRestaurant(cursor){
+          if(!cursor) return;
+          if(cursor.value.neighborhood == neighborhood) restaurants.push(cursor.value)
+          return cursor.continue().then( checkRestaurant )
+        })
+      
+      return tx.complete.then( () => restaurants )
+    })
+
+  }
+
   getCuisines(){
     return this.dbPromise.then((db)=>{
-      let tx = db.transaction(DBHelper.RESTAURANT_TABLE_NAME)
-      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_TABLE_NAME)
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME)
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME)
       let cuisineKeys = [];
 
       restaurantDetailsStore.index('by-cuisine').openCursor(null, "nextunique")
@@ -85,16 +115,14 @@ class DBHelper {
 
   getNeighborhoods(){
     return this.dbPromise.then((db)=>{
-      let tx = db.transaction(DBHelper.RESTAURANT_TABLE_NAME)
-      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_TABLE_NAME)
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME)
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME)
       let neighborhoods = [];
 
       restaurantDetailsStore.index('by-neighborhood').openCursor(null, "nextunique")
         .then(function collectKeys(cursor){
           if(!cursor) return; // return if we get to the end
-
           neighborhoods.push(cursor.key);
-
           return cursor.continue().then( collectKeys ) // keep going
         })
 
@@ -274,12 +302,5 @@ class DBHelper {
     );
     return marker;
   }
-
-  // ===== 
-  // storing information in local indexDB
-  // ===== 
-
-
-
 
 }
