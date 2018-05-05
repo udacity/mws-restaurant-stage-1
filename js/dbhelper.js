@@ -223,4 +223,11 @@ class DBHelper {
     return marker;
   }
 
+  /**
+   * Format date value.
+   */
+  static dateFormat(value, locale='en-us') {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(value).toLocaleString(locale, options);
+  }
 }
