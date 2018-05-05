@@ -13,15 +13,18 @@ window.initMap = () => {
   fetchRestaurantFromURL()
   .then(restaurant => {
     self.restaurant = restaurant;
-    if(!restaurant) {
-      return;
-    }
+    if(!restaurant) return;
+    
+    return fetchRestaurantReviewsFromURL();
+  })
+  .then(reviews => {
+    self.restaurant.reviews = reviews;
 
     fillRestaurantHTML();
 
     self.map = new google.maps.Map(document.getElementById('map'), {
       zoom: 16,
-      center: restaurant.latlng,
+      center: self.restaurant.latlng,
       scrollwheel: false
     });
 
@@ -37,6 +40,14 @@ window.initMap = () => {
 fetchRestaurantFromURL = () => {  
   const id = getParameterByName('id');
   return DBHelper.fetchRestaurantById(id);
+}
+
+/**
+ * Get all reviews of the restaurant.
+ */
+fetchRestaurantReviewsFromURL = () => {
+  const id = getParameterByName('id');
+  return DBHelper.fetchRestaurantReviewsById(id);
 }
 
 /**

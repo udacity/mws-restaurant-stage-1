@@ -7,6 +7,7 @@ class DBHelper {
     const dbPromise = idb.open('restaurants-app', 1, upgradeDb => {
       upgradeDb.createObjectStore('restaurants');
       upgradeDb.createObjectStore('restaurant', { keyPath: 'id' });
+      upgradeDb.createObjectStore('reviews');
     });
 
     return dbPromise;
@@ -80,7 +81,7 @@ class DBHelper {
           return restaurant;
         });
       });      
-    });     
+    });
   }
 
   /**
@@ -99,6 +100,39 @@ class DBHelper {
     });
   }
 
+  /**
+   * Fetch and store all reviews of a restaurant by ID. 
+   */
+  static fetchAndStoreRestaurantReviewsById(id) { 
+    const url = `${DBHelper.SERVER_URL}/reviews/?restaurant_id=${id}`;
+
+    return fetch(url)
+    .then(resp => resp.json())
+    .then(reviews => {
+      return DBHelper.IDB().then(db => {
+        const tx = db.transaction('reviews', 'readwrite');
+        const store = tx.objectStore('reviews');
+        store.put(reviews, id);
+        return reviews;
+      });  
+    });
+  }
+
+  /**
+   * Fetch all reviews of a restaurant by ID. 
+   */
+  static fetchRestaurantReviewsById(id) {
+    return DBHelper.IDB()
+    .then(db => {
+      const tx = db.transaction('reviews');
+      const store = tx.objectStore('reviews');
+      return store.get(parseInt(id, 10));
+    })
+    .then(reviews => {
+      if(!reviews) return DBHelper.fetchAndStoreRestaurantReviewsById(id);
+      return reviews;
+    });
+  }
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
    */
