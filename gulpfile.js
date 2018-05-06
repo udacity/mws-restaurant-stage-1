@@ -8,6 +8,8 @@ var hbsfy = require('hbsfy');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var mergeStream = require('merge-stream');
+var minify = require('gulp-minify');
+var runSequence = require('run-sequence');
 
 var args = process.argv.slice(3);
 
@@ -16,7 +18,11 @@ gulp.task("copy", function() {
 	gulp.src('src/responsive_images/*.jpg').pipe(gulp.dest("./responsive_images"));
 	gulp.src('src/js/*.js').pipe(gulp.dest("./js"));
 	gulp.src('src/index.html').pipe(gulp.dest("./"));
+  gulp.src('src/404.html').pipe(gulp.dest("./"));
 	gulp.src('src/restaurant.html').pipe(gulp.dest("./"));
+  gulp.src('src/manifest.json').pipe(gulp.dest("./"));
+  gulp.src('src/icons/*.png').pipe(gulp.dest("./icons"));
+  gulp.src('src/icons/*.gif').pipe(gulp.dest("./icons"));
 		
 });
 
@@ -72,6 +78,12 @@ gulp.task('js:browser', function () {
   );
 });
 
+gulp.task('compress:js', function() {
+  gulp.src('js/*.js')
+    .pipe(minify())
+    .pipe(gulp.dest('./js'))
+});
+
 // gulp.task('js:server', function () {
 //   return gulp.src('src/**/*.js')
 //     .pipe(plugins.sourcemaps.init())
@@ -81,4 +93,6 @@ gulp.task('js:browser', function () {
 //     .pipe(gulp.dest('./'));
 // });
 
-gulp.task('default', ['copy', 'js:browser']);
+gulp.task('default', function(callback) {
+  runSequence('copy', 'js:browser', 'compress:js', callback);
+});

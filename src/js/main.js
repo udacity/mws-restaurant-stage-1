@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 /**
+ * Enables lazy loading of images when content is loaded
+ */
+window.addEventListener('load', (event) => {
+  lazyLoadImages();
+});
+
+/**
 * Register a service worker if browser has this option
 */
 registerServiceWorker = () => {
@@ -97,7 +104,7 @@ window.initMap = () => {
 		center: loc,
 		scrollwheel: false
 	  });
-	  
+
   } catch(error) {
 	  console.log('Load google map failed');
   } 
@@ -167,30 +174,34 @@ createRestaurantHTML = (restaurant) => {
   // Create responsive image
 
   let picture = document.createElement('picture');
-  picture.className = 'restaurant-img';
+  picture.className = 'restaurant-img lazy-loading';
 
   if(DBHelper.imageUrlForRestaurant(restaurant)){
 
     const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
 
     let source = document.createElement('source');
-    source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+    source.srcset = '/icons/loading.gif';
+    source.setAttribute('data-srcset', `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`);
     source.media = "(max-width: 400px)";
     picture.appendChild(source);
     
     source = document.createElement('source');
-    source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+    source.srcset = '/icons/loading.gif';
+    source.setAttribute('data-srcset', `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`);
     source.media = "(min-width: 601px)";
     picture.appendChild(source);
     
     source = document.createElement('source');
-    source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
+    source.srcset = '/icons/loading.gif';
+    source.setAttribute('data-srcset', `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`);
     source.media = "(max-width: 600px) and (min-width: 401px)";
     picture.appendChild(source);
    
     const image = document.createElement('img');
     image.alt = `${restaurant.name} Restaurant`;
-    image.src = `${image_prefix}-400_small_1x.jpg`;
+    image.src = '/icons/loading.gif';
+    image.setAttribute('data-src', `${image_prefix}-400_small_1x.jpg`);
     picture.appendChild(image);
   
   } else {
@@ -225,6 +236,34 @@ createRestaurantHTML = (restaurant) => {
   summary.append(more)
 
   return li;
+}
+
+/**
+ * Lazy loads pictures so app can be faster
+ */
+lazyLoadImages = () => {
+
+  var pictures = Array.from(document.getElementsByTagName('picture'));
+
+  pictures.forEach(picture => {
+
+    var sources = Array.from(picture.getElementsByTagName('source'));
+
+    sources.forEach(source => {
+      source.setAttribute('srcset', source.getAttribute('data-srcset'));
+      source.removeAttribute('data-srcset');
+    });
+
+    var images = Array.from(picture.getElementsByTagName('img'));
+
+    images.forEach(img => {
+      img.setAttribute('src', img.getAttribute('data-src'));
+      img.removeAttribute('data-src');
+    });
+
+    picture.classList.remove("lazy-loading");
+
+  });
 }
 
 /**

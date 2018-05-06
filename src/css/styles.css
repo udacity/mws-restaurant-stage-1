@@ -462,3 +462,11 @@ nav h1 a {
     float: none;
   }
 }
+.lazy-loading {
+ 
+}
+.lazy-loading img, .lazy-loading source {
+  width: 50% !important;
+  margin: auto auto !important;
+  padding-bottom: 30px;
+}

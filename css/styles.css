@@ -308,7 +308,7 @@ nav h1 a {
   vertical-align: middle;
   border-radius: 20px 0 20px 0;
   padding: 30% 15%;
-  margin: 0;
+  margin-botton: 0;
 }
 #restaurant-address {
   font-size: 16pt;
@@ -461,4 +461,12 @@ nav h1 a {
     text-align: left!important;
     float: none;
   }
+}
+.lazy-loading {
+ 
+}
+.lazy-loading img, .lazy-loading source {
+  width: 50% !important;
+  margin: auto auto !important;
+  padding-bottom: 30px;
 }
