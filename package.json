@@ -1,11 +1,13 @@
 {
   "name": "mws-restaurant-stage-1",
   "version": "1.0.0",
-  "description": "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
+  "description":
+    "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "lite-server"
+    "start": "lite-server",
+    "remote-ios": "remotedebug_ios_webkit_adapter --port=9000"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,7 @@
   },
   "homepage": "https://github.com/bushidocodes/mws-restaurant-stage-1#readme",
   "devDependencies": {
-    "lite-server": "^2.3.0"
+    "lite-server": "^2.3.0",
+    "remotedebug-ios-webkit-adapter": "^0.2.2"
   }
 }
