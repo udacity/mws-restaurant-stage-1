@@ -15,9 +15,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 registerServiceWorker = function () {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then(function () { console.log("Service Worker Registered"); });
+    navigator.serviceWorker.register('/sw.js').then(function (reg) {
+       console.log("Service Worker Registered"); 
+      }
+    );
   }
 }
 
