@@ -3,14 +3,28 @@ let restaurants,
   cuisines
 var map
 var markers = []
-
+let dbHelper = new DBHelper();
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  fetchNeighborhoods();
-  fetchCuisines();
+  
+  dbHelper.populateOfflineDatabase()
+  .then(()=>{ // fill with network fresh data
+    return Promise.all([
+      dbHelper.getCuisines().then(fillCuisinesHTML),
+      dbHelper.getNeighborhoods().then(fillNeighborhoodsHTML)
+    ]).then(updateRestaurants)
+  })  // fill with the locally stored
+  .catch((err)=>{
+    console.log(`Couldn't populate the database || ${err}`)
+    return Promise.all([
+      dbHelper.getCuisines().then(fillCuisinesHTML),
+      dbHelper.getNeighborhoods().then(fillNeighborhoodsHTML)
+    ]).then(updateRestaurants)
+  })
+
 });
 
 /**
@@ -81,7 +95,6 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
-  updateRestaurants();
 }
 
 /**
@@ -94,17 +107,15 @@ updateRestaurants = () => {
   const cIndex = cSelect.selectedIndex;
   const nIndex = nSelect.selectedIndex;
 
-  const cuisine = cSelect[cIndex].value;
-  const neighborhood = nSelect[nIndex].value;
+  const cuisine = (cSelect[cIndex].value == "all") ? undefined : cSelect[cIndex].value;
+  const neighborhood = (nSelect[nIndex].value == "all") ? undefined : nSelect[nIndex].value;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      resetRestaurants(restaurants);
-      fillRestaurantsHTML();
-    }
-  })
+  
+  dbHelper.getRestaurantsByCuisineAndNeighborhood(cuisine, neighborhood)
+    .then(resetRestaurants)
+    .then(fillRestaurantsHTML)
+    .catch( err => console.err(err) )
+  
 }
 
 /**
@@ -147,9 +158,9 @@ createRestaurantHTML = (restaurant) => {
   const baseURL = DBHelper.imageUrlForRestaurant(restaurant);
   let urlComponents = baseURL.split(".");
 
-  image.src = `${urlComponents[0]}-400_1x.${urlComponents[1]}`; // src for fallback
-  image.srcset = `${urlComponents[0]}-400_1x.${urlComponents[1]} 1x,
-                  ${urlComponents[0]}-800_2x.${urlComponents[1]} 2x`;
+  image.src = `${urlComponents[0]}-400_1x.${urlComponents[1] || 'jpg' }`; // src for fallback
+  image.srcset = `${urlComponents[0]}-400_1x.${ urlComponents[1] || 'jpg' } 1x,
+                  ${urlComponents[0]}-800_2x.${ urlComponents[1] || 'jpg' } 2x`;
 
   image.alt = DBHelper.imageAltTextForRestaurant(restaurant);
 

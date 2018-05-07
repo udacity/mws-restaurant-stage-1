@@ -17,11 +17,17 @@
   },
   "homepage": "https://github.com/Marcamillian/mws-restaurant-stage-1#readme",
   "devDependencies": {
+    "browserify": "^16.2.0",
+    "del": "^3.0.0",
     "grunt": "^1.0.2",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-mkdir": "^1.0.0",
-    "grunt-responsive-images": "^1.10.1"
+    "grunt-responsive-images": "^1.10.1",
+    "gulp": "^3.9.1",
+    "gulp-cli": "^2.0.1",
+    "gulp-gm": "0.0.9",
+    "idb": "^2.1.1"
   },
   "dependencies": {
     "express": "^4.16.3",
