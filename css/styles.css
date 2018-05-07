@@ -133,7 +133,7 @@ nav h1 a {
   font-size: 11pt;
   height: 40px;
   letter-spacing: 0;
-  margin: 10px;
+  margin: auto;
   padding: 0 10px;
   width: 90%;
 }
@@ -142,8 +142,8 @@ nav h1 a {
 #restaurants-list {
   background-color: #f3f3f3;
   list-style: outside none none;
-  margin: 0;
-  padding: 30px 15px 60px;
+  margin: 30px 15px 60px;
+  padding: 0;
   text-align: center;
 }
 #restaurants-list li {
@@ -152,9 +152,9 @@ nav h1 a {
   font-family: Arial,sans-serif;
   margin: 15px 0;
   min-height: 380px;
-  padding: 0 2.5% 25px;
+  padding: 0 15px 15px;
   text-align: left;
-  width: 95%;
+  width: calc(100% - 34px);
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -284,18 +284,27 @@ nav h1 a {
 }
 
 /* ====================== Adjust for Medium Viewport ====================== */
-@media screen and (min-width: 401px) and (max-width: 600px) {
-}
-
-/* ====================== Adjust for Large Viewport ====================== */
 @media screen and (min-width: 600px) {
   .filter-options {
     height: 60px;
   }
   .filter-options h2 {
-    width: 100px;
+    width: calc(24% - 40px);
   }
   .filter-options select {
-    width: 200px;
+    margin: 0 15px;
+    width: calc(35% - 22px);
   }
+  #restaurants-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #restaurants-list li {
+    margin: 15px 5px;
+    width: calc(50% - 44px);
+  }
+}
+
+/* ====================== Adjust for Large Viewport ====================== */
+@media screen and (min-width: 800px) {
 }
