@@ -6,6 +6,7 @@
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restaurant Info</title>
 </head>
 
@@ -13,24 +14,24 @@
   <!-- Beginning header -->
   <header>
     <!-- Beginning nav -->
-    <nav>
+    <nav class="col-12">
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
+    <!-- End nav -->
+  </header>
+  <!-- End header -->
+  <div class="row">
+  <section id="map-container" class="col-6">
+      <div id="map"></div>
+  </section>
+  <!-- Beginning main -->
+  <main id="maincontent" class="col-6">
     <!-- Beginning breadcrumb -->
     <ul id="breadcrumb" >
       <li><a href="/">Home</a></li>
     </ul>
-    <!-- End breadcrumb -->
-    <!-- End nav -->
-  </header>
-  <!-- End header -->
-
-  <!-- Beginning main -->
-  <main id="maincontent">
     <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map"></div>
-    </section>
+
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
@@ -48,6 +49,7 @@
     <!-- End reviews -->
   </main>
   <!-- End main -->
+  </div>
 
   <!-- Beginning footer -->
   <footer id="footer">
@@ -61,7 +63,7 @@
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjRRKAjImtklgibYqd4Nrvy0MYGo-RC7o&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
 
 </body>
