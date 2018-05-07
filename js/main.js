@@ -11,11 +11,18 @@ let dbHelper = new DBHelper();
 document.addEventListener('DOMContentLoaded', (event) => {
   
   dbHelper.populateOfflineDatabase()
-  .then(()=>{
+  .then(()=>{ // fill with network fresh data
     return Promise.all([
       dbHelper.getCuisines().then(fillCuisinesHTML),
       dbHelper.getNeighborhoods().then(fillNeighborhoodsHTML)
-    ])
+    ]).then(updateRestaurants)
+  })  // fill with the locally stored
+  .catch((err)=>{
+    console.log(`Couldn't populate the database || ${err}`)
+    return Promise.all([
+      dbHelper.getCuisines().then(fillCuisinesHTML),
+      dbHelper.getNeighborhoods().then(fillNeighborhoodsHTML)
+    ]).then(updateRestaurants)
   })
 
 });
@@ -88,7 +95,6 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
-  updateRestaurants();
 }
 
 /**

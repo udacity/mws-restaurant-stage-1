@@ -20,12 +20,15 @@ class DBHelper {
   }
 
   // populate the local IndexedDB database
+  // TODO: make this handle not having a connection
   populateOfflineDatabase(){
     return fetch(DBHelper.DATABASE_URL)
       .then((response)=>{ return response.json(); })
       .then((restaurants)=>{ return Promise.all(restaurants.map(this.addRecord, this)) })
       .then(()=>{ console.log(`Database filled`) })
-      .catch((err)=>{ console.error(`Database not filled : ${err.message}`) })
+      .catch((err)=>{
+        console.log(`Database not updated with fresh network data:  ${err}`)
+      })
   }
 
   addRecord(restaurantDetails){

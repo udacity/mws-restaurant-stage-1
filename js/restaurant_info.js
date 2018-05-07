@@ -5,21 +5,25 @@ let dbHelper = new DBHelper()
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
-
-  dbHelper.getRestaurantById(getParameterByName('id'))
+window.addEventListener('DOMContentLoaded', (event)=>{
+  dbHelper.getRestaurantById(Number(getParameterByName('id')))
   .then((restaurant)=>{ // set the restaurant details
     self.restaurant = restaurant;
     fillRestaurantHTML(restaurant)
+    self.fillBreadcrumb();
     return restaurant;
   })
+})
+
+window.initMap = () => {
+
+  dbHelper.getRestaurantById(getParameterByName('id'))
   .then((restaurant)=>{  // set the map details
     self.map = new google.maps.Map(document.getElementById('map'),{
       zoom: 16,
       center: self.restaurant.latlng,
       scrollwheel: false
     })
-    self.fillBreadcrumb();
     DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
   })
 
