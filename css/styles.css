@@ -1,6 +1,12 @@
 @charset "utf-8";
 /* CSS Document */
 
+/* Add catch all to prevent overflow */
+img, embed, object, video {
+  max-width: 100%;
+}
+
+/* General styles */
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
@@ -106,9 +112,11 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  height: 50px;
+  height: 150px;
   background-color: #3397DB;
   align-items: center;
+  display: flex;
+  flex-wrap: wrap;
 }
 .filter-options h2 {
   color: white;
@@ -116,36 +124,37 @@ nav h1 a {
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+  width: 100%;
 }
 .filter-options select {
   background-color: white;
   border: 1px solid #fff;
   font-family: Arial,sans-serif;
   font-size: 11pt;
-  height: 35px;
+  height: 40px;
   letter-spacing: 0;
-  margin: 10px;
+  margin: auto;
   padding: 0 10px;
-  width: 200px;
+  width: 90%;
 }
 
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
   background-color: #f3f3f3;
   list-style: outside none none;
-  margin: 0;
-  padding: 30px 15px 60px;
+  margin: 30px 15px 60px;
+  padding: 0;
   text-align: center;
 }
 #restaurants-list li {
   background-color: #fff;
   border: 2px solid #ccc;
   font-family: Arial,sans-serif;
-  margin: 15px;
+  margin: 15px 0;
   min-height: 380px;
-  padding: 0 30px 25px;
+  padding: 0 15px 15px;
   text-align: left;
-  width: 270px;
+  width: calc(100% - 34px);
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -272,4 +281,63 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+/* ====================== Adjust for Medium Viewport ====================== */
+@media screen and (min-width: 600px) {
+  .filter-options {
+    height: 60px;
+  }
+  .filter-options h2 {
+    width: calc(24% - 40px);
+  }
+  .filter-options select {
+    margin: 0 15px;
+    width: calc(35% - 22px);
+  }
+  #restaurants-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #restaurants-list li {
+    margin: 15px 5px;
+    width: calc(50% - 44px);
+  }
+}
+
+/* ====================== Adjust for Large Viewport ====================== */
+@media screen and (min-width: 800px) {
+  #results-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .filter-options {
+    display: block;
+    width: 25%;
+    height: inherit;
+    padding-top: 15px;
+  }
+  .filter-options h2 {
+    width: 100%;
+    height: 48px;
+  }
+  .filter-options select {
+    margin: 10px 5%;
+    width: 90%;
+    height: 48px;
+  }
+  #restaurants-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(75% - 30px);
+    margin-top: 0;
+  }
+}
+
+/* ====================== Adjust for X-Large Viewport ====================== */
+@media screen and (min-width: 1000px) {
+  #results-container {
+    width: 1000px;
+    margin: auto;
+  }
 }
