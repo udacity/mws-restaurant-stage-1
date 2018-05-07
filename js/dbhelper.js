@@ -45,11 +45,20 @@ class DBHelper {
     })
   }
 
-  getRestaurantById(restaurantId){
-    return this.dbPromise.then((db)=>{
+  getRestaurantById(restaurantId, callback){ 
+    return this.dbPromise.then((db)=>{  // try to get it from the local database
       let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME)
       let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME)
       return restaurantDetailsStore.get(restaurantId)
+    }).then((response)=>{ // if nothing from the local database - get from the network
+      return (response != undefined)
+        ? response
+        : fetch(`${DBHelper.DATABASE_URL}/${restaurantId}`) // grab the restaurant from the database
+            .then(response => response.json()) // unwrap the json
+            .then(response => { // store the response
+              this.addRecord(response);
+              return response
+            })
     })
   }
 
@@ -72,9 +81,7 @@ class DBHelper {
   }
 
   getRestaurantsByCuisineAndNeighborhood(cuisine, neighborhood, numRecords){
-    /*return this.getRestaurantsByCuisine(cuisine)
-      .then((restaurants)=>{ return restaurants.filter( restaurant => restaurant.neighborhood == neighborhood) })
-      */
+
     return this.dbPromise.then((db)=>{
       let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME);
       let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME)
@@ -82,8 +89,9 @@ class DBHelper {
 
       restaurantDetailsStore.index('by-cuisine').openCursor(cuisine, "next")
         .then(function checkRestaurant(cursor){
-          if(!cursor) return;
-          if(cursor.value.neighborhood == neighborhood) restaurants.push(cursor.value)
+          if(!cursor || restaurants.length >= numRecords ) return; 
+          if(cursor.value.neighborhood == neighborhood
+              || neighborhood == undefined ) restaurants.push(cursor.value)
           return cursor.continue().then( checkRestaurant )
         })
       
@@ -161,6 +169,7 @@ class DBHelper {
     xhr.send();
   }
 
+  
   /**
    * Fetch a restaurant by its ID.
    */

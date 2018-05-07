@@ -9,8 +9,15 @@ let dbHelper = new DBHelper();
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  fetchNeighborhoods();
-  fetchCuisines();
+  
+  dbHelper.populateOfflineDatabase()
+  .then(()=>{
+    return Promise.all([
+      dbHelper.getCuisines().then(fillCuisinesHTML),
+      dbHelper.getNeighborhoods().then(fillNeighborhoodsHTML)
+    ])
+  })
+
 });
 
 /**
@@ -94,17 +101,15 @@ updateRestaurants = () => {
   const cIndex = cSelect.selectedIndex;
   const nIndex = nSelect.selectedIndex;
 
-  const cuisine = cSelect[cIndex].value;
-  const neighborhood = nSelect[nIndex].value;
+  const cuisine = (cSelect[cIndex].value == "all") ? undefined : cSelect[cIndex].value;
+  const neighborhood = (nSelect[nIndex].value == "all") ? undefined : nSelect[nIndex].value;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      resetRestaurants(restaurants);
-      fillRestaurantsHTML();
-    }
-  })
+  
+  dbHelper.getRestaurantsByCuisineAndNeighborhood(cuisine, neighborhood)
+    .then(resetRestaurants)
+    .then(fillRestaurantsHTML)
+    .catch( err => console.err(err) )
+  
 }
 
 /**
