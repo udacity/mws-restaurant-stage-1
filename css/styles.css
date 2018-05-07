@@ -6,6 +6,7 @@
   --lights-salmon: rgb(239, 183, 161);
   --dark-theme-headers: var(--lights-salmon);
   --offblack: #252831;
+  --infantry-blue: #b1d2e8;
 }
 
 html,
@@ -42,7 +43,7 @@ a {
 }
 a:hover,
 a:focus {
-  color: #3397db;
+  color: var(--infantry-blue);
   text-decoration: none;
 }
 a img {
@@ -150,7 +151,7 @@ nav h1 {
 
 /* Add a color on mouse-over */
 #breadcrumb li a:hover {
-  color: #01447e;
+  color: var(--infantry-blue);
   text-decoration: underline;
 }
 /* ====================== Map ====================== */
