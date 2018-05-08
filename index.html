@@ -2,8 +2,13 @@
 <html>
 
 <head>
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css">
+  <link rel="stylesheet" media="screen and (min-width:450px)" href="css/over450.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="manifest" href="/manifest.json">
+  
   <title>Restaurant Reviews</title>
 </head>
 
@@ -12,19 +17,26 @@
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
+    <section class="update-dialog modal" aria-hidden=true>
+      <p> Update Available </p>
+      <button id="install-update" class="install-update" tabindex=-1 aria-label="webpage update available"> Update Now </button>
+      <button class="dismiss-update" tabindex=-1> Update Later </button>
+    </section>
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
+    <a href="#filter-options" class="skip-link">Skip to filter options</a>
+    <section id="map-container" role="application" aria-label="map display">
       <div id="map"></div>
     </section>
     <section>
-      <div class="filter-options">
+      <div id="filter-options" class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="Select Neighbourhood">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="Select Cuisine">
           <option value="all">All Cuisines</option>
         </select>
       </div>
@@ -32,9 +44,12 @@
     </section>
   </main>
 
+  <script type="application/javascript" charset="utf-8" src="js/idb.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap"></script>
+  <script type="text/javascript" src="js/modal.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/RegisterSW.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAV6MJYAq70-YOW_SCCXFFaXzpjq8uyjAM&libraries=places&callback=initMap"></script>
 
 
   <footer id="footer">

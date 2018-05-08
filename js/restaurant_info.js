@@ -1,23 +1,32 @@
 let restaurant;
 var map;
+let dbHelper = new DBHelper()
 
 /**
  * Initialize Google map, called from HTML.
  */
+window.addEventListener('DOMContentLoaded', (event)=>{
+  dbHelper.getRestaurantById(Number(getParameterByName('id')))
+  .then((restaurant)=>{ // set the restaurant details
+    self.restaurant = restaurant;
+    fillRestaurantHTML(restaurant)
+    self.fillBreadcrumb();
+    return restaurant;
+  })
+})
+
 window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-  });
+
+  dbHelper.getRestaurantById(getParameterByName('id'))
+  .then((restaurant)=>{  // set the map details
+    self.map = new google.maps.Map(document.getElementById('map'),{
+      zoom: 16,
+      center: self.restaurant.latlng,
+      scrollwheel: false
+    })
+    DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+  })
+
 }
 
 /**
@@ -57,7 +66,15 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+
+  const baseImageUrl = DBHelper.imageUrlForRestaurant(restaurant);
+  const urlComponents = baseImageUrl.split(".");
+  // TODO: Increase the quality of the pictures for bigger sizes
+  image.src = `${urlComponents[0]}-400_1x.${urlComponents[1] || 'jpg'}`; // src for fallback
+  image.srcset = `${urlComponents[0]}-400_1x.${urlComponents[1] || 'jpg'} 1x,
+                  ${urlComponents[0]}-800_2x.${urlComponents[1] || 'jpg'} 2x`
+
+  image.alt = DBHelper.imageAltTextForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;

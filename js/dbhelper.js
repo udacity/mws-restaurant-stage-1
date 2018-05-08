@@ -3,27 +3,168 @@
  */
 class DBHelper {
 
+  static get RESTAURANT_STORE_NAME(){
+    return 'restaurant-details'
+  }
+
+  constructor(){
+    this.dbPromise = idb.open(DBHelper.RESTAURANT_STORE_NAME, 1, (upgradeDb)=>{
+      switch(upgradeDb.oldVersion){
+        case 0:
+          var restaurantStore = upgradeDb.createObjectStore('restaurant-details', {keyPath:'id'});
+          restaurantStore.createIndex('by-neighborhood', 'neighborhood');
+          restaurantStore.createIndex('by-cuisine', 'cuisine_type')
+      }
+    })
+
+  }
+
+  // populate the local IndexedDB database
+  // TODO: make this handle not having a connection
+  populateOfflineDatabase(){
+    return fetch(DBHelper.DATABASE_URL)
+      .then((response)=>{ return response.json(); })
+      .then((restaurants)=>{ return Promise.all(restaurants.map(this.addRecord, this)) })
+      .then(()=>{ console.log(`Database filled`) })
+      .catch((err)=>{
+        console.log(`Database not updated with fresh network data:  ${err}`)
+      })
+  }
+
+  addRecord(restaurantDetails){
+    return this.dbPromise.then((db)=>{
+      var tx = db.transaction('restaurant-details', 'readwrite');
+      var listStore = tx.objectStore('restaurant-details');
+      listStore.put(restaurantDetails)
+      return tx.complete;
+    })
+  }
+  
+  getRestaurants(){
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction('restaurant-details')
+      let restaurantDetailsStore = tx.objectStore('restaurant-details')
+      return restaurantDetailsStore.getAll();
+    })
+  }
+
+  getRestaurantById(restaurantId, callback){ 
+    return this.dbPromise.then((db)=>{  // try to get it from the local database
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME)
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME)
+      return restaurantDetailsStore.get(restaurantId)
+    }).then((response)=>{ // if nothing from the local database - get from the network
+      return (response != undefined)
+        ? response
+        : fetch(`${DBHelper.DATABASE_URL}/${restaurantId}`) // grab the restaurant from the database
+            .then(response => response.json()) // unwrap the json
+            .then(response => { // store the response
+              this.addRecord(response);
+              return response
+            })
+    })
+  }
+
+  getRestaurantsByCuisine(cuisine){
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME);
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME);
+
+      return restaurantDetailsStore.index('by-cuisine').getAll(cuisine)
+    })
+  }
+
+  getRestaurantsByNeighborhood(neighborhood){
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME);
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME);
+
+      return restaurantDetailsStore.index('by-neighborhood').getAll(neighborhood);
+    })
+  }
+
+  getRestaurantsByCuisineAndNeighborhood(cuisine, neighborhood, numRecords){
+
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME);
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME)
+      let restaurants = [];
+
+      restaurantDetailsStore.index('by-cuisine').openCursor(cuisine, "next")
+        .then(function checkRestaurant(cursor){
+          if(!cursor || restaurants.length >= numRecords ) return; 
+          if(cursor.value.neighborhood == neighborhood
+              || neighborhood == undefined ) restaurants.push(cursor.value)
+          return cursor.continue().then( checkRestaurant )
+        })
+      
+      return tx.complete.then( () => restaurants )
+    })
+
+  }
+
+  getCuisines(){
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME)
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME)
+      let cuisineKeys = [];
+
+      restaurantDetailsStore.index('by-cuisine').openCursor(null, "nextunique")
+        .then(function collectKeys(cursor){
+          if(!cursor) return; // return if we get to the end
+
+          cuisineKeys.push(cursor.key);
+
+          return cursor.continue().then( collectKeys ) // keep going
+        })
+
+      return tx.complete.then(() => {
+        return cuisineKeys
+      } ) 
+    })
+  }
+
+  getNeighborhoods(){
+    return this.dbPromise.then((db)=>{
+      let tx = db.transaction(DBHelper.RESTAURANT_STORE_NAME)
+      let restaurantDetailsStore = tx.objectStore(DBHelper.RESTAURANT_STORE_NAME)
+      let neighborhoods = [];
+
+      restaurantDetailsStore.index('by-neighborhood').openCursor(null, "nextunique")
+        .then(function collectKeys(cursor){
+          if(!cursor) return; // return if we get to the end
+          neighborhoods.push(cursor.key);
+          return cursor.continue().then( collectKeys ) // keep going
+        })
+
+      return tx.complete.then(() => {
+        return neighborhoods
+      } ) 
+    })
+  }
+
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
+    // TODO: - how to deal with a failed fetch request to data source
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
+        const restaurants = JSON.parse(xhr.responseText);
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
+        // grab the data from the local database
         const error = (`Request failed. Returned status of ${xhr.status}`);
         callback(error, null);
       }
@@ -31,6 +172,7 @@ class DBHelper {
     xhr.send();
   }
 
+  
   /**
    * Fetch a restaurant by its ID.
    */
@@ -150,9 +292,15 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (restaurant.photograph != undefined)
+      ? `/img/${restaurant.photograph}`
+      : '/img/noneProvided'
   }
-
+  static imageAltTextForRestaurant(restaurant){
+    return (restaurant.photoAltText != undefined)
+      ? restaurant.photoAltText
+      : `picture of ${restaurant.name} premises`  
+  }
   /**
    * Map marker for a restaurant.
    */
