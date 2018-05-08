@@ -19,7 +19,30 @@ module.exports = function(grunt){
                 files: [{
                     expand: true,
                     src: ['*.{gif,jpg,png}'],
-                    cwd: 'images_src/',
+                    cwd: 'images_src/restaurants',
+                    dest: 'img/'
+                }]
+            }
+        },
+        icon_images:{
+            dev:{
+                options:{
+                  engine:'im',
+                  sizes:[{
+                    width:96,
+                    suffix:'_2x',
+                    quality: 30
+                  },
+                  {
+                    width:48,
+                    suffix:'_1x',
+                    quality: 30
+                  }]
+                },
+                files: [{
+                    expand: true,
+                    src: ['images_src/*.png'],
+                    cwd: 'images_src',
                     dest: 'img/'
                 }]
             }
@@ -42,6 +65,6 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-mkdir');
-    grunt.registerTask('default', ['clean', 'mkdir'])
+    grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images', 'icon-images'])
 
 };

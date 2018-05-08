@@ -1,0 +1,17 @@
+{
+  "short_name": "RESTRevs",
+  "name": "Restaurant Reviews",
+  "icons":[
+    {
+      "src":"launcher-icon-48_1x.png",
+      "type":"image/png",
+      "sizes": "48x48"
+    },
+    {
+        "src":"launcher-icon-96_2x.png",
+        "type":"image/png",
+        "sizes": "96x96"
+      }
+  ],
+  "start_url": "index.html?launcher=true"
+}

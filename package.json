@@ -27,6 +27,7 @@
     "gulp": "^3.9.1",
     "gulp-cli": "^2.0.1",
     "gulp-gm": "0.0.9",
+    "gulp-rename": "^1.2.2",
     "idb": "^2.1.1"
   },
   "dependencies": {
