@@ -1,9 +1,11 @@
 @charset "utf-8";
 /* CSS Document */
-
+img, embed, object, video {
+	max-width: 100%;
+}
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
+	font-size: 14pt;
 	color: #333;
 	line-height: 1.5;
 }
@@ -14,7 +16,7 @@ body {
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
+	font-size: 14pt;
 	color: #333;
 }
 a {
@@ -38,6 +40,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
+	display: grid;
 }
 #footer {
   background-color: #444;
@@ -48,6 +51,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-align: center;
   text-transform: uppercase;
 }
+
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
@@ -174,13 +178,43 @@ nav h1 a {
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
-  font-size: 10pt;
+  font-size: 14pt;
   margin: 15px 0 0;
   padding: 8px 30px 10px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
 }
+
+.grid-container {
+	display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.row {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+
+#footer {
+  grid-column-start: auto;
+}
+
+.responsive-img {
+  width: 100%;
+  height: auto;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media screen and (min-width:768px) { /* ... */ }
+
+/* Medium devices (desktops, 992px and up) */
+@media screen and (min-width:992px) { /* ... */ }
+
+/* Large devices (large desktops, 1200px and up) */
+@media screen and (min-width:1200px) { /* ... */ }
+
 
 /* ====================== Restaurant Details ====================== */
 .inside header {
@@ -194,7 +228,7 @@ nav h1 a {
   height: 87%;
   position: fixed;
   right: 0;
-  top: 80px;
+  top: 133px;
   width: 50%;
 }
 .inside #map {
@@ -213,7 +247,7 @@ nav h1 a {
   font-size: 20pt;
   font-weight: 200;
   letter-spacing: 0;
-  margin: 15px 0 30px;
+  margin: 30px 0 30px;
   text-transform: uppercase;
   line-height: 1.1;
 }
