@@ -207,13 +207,26 @@ nav h1 a {
 }
 
 /* Small devices (tablets, 768px and up) */
-@media screen and (min-width:768px) { /* ... */ }
+@media screen and (min-width:768px) {
+	#restaurant-img {
+		width: 50%;
+	}
+
+}
 
 /* Medium devices (desktops, 992px and up) */
-@media screen and (min-width:992px) { /* ... */ }
+@media screen and (min-width:992px) {
+	#restaurant-img {
+		width: 70%;
+	}
+}
 
 /* Large devices (large desktops, 1200px and up) */
-@media screen and (min-width:1200px) { /* ... */ }
+@media screen and (min-width:1200px) {
+	#restaurant-img {
+		width: 90%;
+	}
+}
 
 
 /* ====================== Restaurant Details ====================== */
@@ -247,13 +260,11 @@ nav h1 a {
   font-size: 20pt;
   font-weight: 200;
   letter-spacing: 0;
-  margin: 30px 0 30px;
+  margin: 15px 0 30px;
   text-transform: uppercase;
   line-height: 1.1;
 }
-#restaurant-img {
-	width: 90%;
-}
+
 #restaurant-address {
   font-size: 12pt;
   margin: 10px 0px;
