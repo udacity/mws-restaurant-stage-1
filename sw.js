@@ -1,3 +1,8 @@
+// In addition to the Udacity Jake Archibald content, I've been using Max
+// Schwarzmueller's PWA course on Udemy.
+// The service worker reflects patterns, I've learned from both courses
+// https://www.udemy.com/progressive-web-app-pwa-the-complete-guide/learn/v4/
+
 const SW_VERSION = "3";
 
 // Service Worker Lifecycle Events
