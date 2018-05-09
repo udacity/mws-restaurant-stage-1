@@ -47,7 +47,7 @@ a:focus {
   text-decoration: none;
 }
 a img {
-  border: none 0px #fff;
+  border: none 0 #fff;
 }
 h1,
 h2,
@@ -165,8 +165,7 @@ nav h1 {
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 0 5px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 5px;
@@ -194,7 +193,7 @@ nav h1 {
 #restaurants-list {
   background-color: #f3f3f3;
   list-style: outside none none;
-  padding: 0px;
+  padding: 0;
   text-align: center;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
@@ -272,7 +271,7 @@ nav h1 {
 }
 #restaurant-address {
   font-size: 12pt;
-  margin: 10px 0px;
+  margin: 10px 0;
 }
 #restaurant-cuisine {
   background-color: #333;
@@ -287,8 +286,7 @@ nav h1 {
 }
 #restaurant-container,
 #reviews-container {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   width: 90%;
   max-width: 1200px;
   border-bottom: 1px solid #d9d9d9;
@@ -303,8 +301,7 @@ nav h1 {
   padding-bottom: 1pt;
 }
 #reviews-list {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin: 15px 0;
   margin: 0;
   padding: 0;
   display: grid;
