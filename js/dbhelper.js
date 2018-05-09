@@ -162,10 +162,16 @@ class DBHelper {
   }
 
   /**
-   * Restaurant image URL.
+   * Generate a valid srcset based on the array of filenames
+   * at restaurant.photographs
    */
-  static imageUrlForRestaurant(restaurant) {
-    return `/img/${restaurant.photograph}`;
+  static imageSrcsetForRestaurant(restaurant) {
+    return restaurant.photographs
+      .map(photo => {
+        const resolution = photo.match(/-(\w+)\./)[1];
+        return `/img/${photo} ${resolution}w`;
+      })
+      .join(", ");
   }
 
   /**
