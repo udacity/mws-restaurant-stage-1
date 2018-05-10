@@ -55,9 +55,28 @@ The service worker file. Here we will intercept network requests and pull data f
 
 
 
-          event.respondWith(caches.match(event.request).then(function (response) {
+          /*event.respondWith(caches.match(event.request).then(function (response) {
             return response || fetch(event.request);
-          }));
+          }));*/
+		
+			event.respondWith(caches.match(event.request).then(function (res) {
+				if (res !== undefined) {
+					return res;
+				} else {
+					return fetch(event.request).then(function (res) {
+						var responseClone = res.clone();
+						caches.open(CACHE_VERSION).then(function (cache) {
+							cache.put(event.request, responseClone);
+						});
+						return res;
+					});
+				}
+			}));
+		
+		
+		
+		
+		
     });
 
     function serveDynamicUrl(request) {
