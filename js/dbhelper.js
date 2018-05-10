@@ -17,6 +17,28 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+/*
+* Open Indexed Database .
+*/
+
+function openIndexedDB (){
+  if (!'serviceWorker' in navigator) return ;
+
+  let indexedDB;
+  indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+  if (!indexedDB) {
+    console.error("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
+  }
+  const openRequst = indexedDB.open('restaurants', 1 );
+  openRequst.onupgradeneeded = function(event) {
+    idb = event.target.result;
+    var store = idb.createObjectStore('restaurant', {
+      keyPath: 'id'
+    });
+  }
+  return openRequst ;
+}
+
 class DBHelper {
 
   /**
@@ -36,7 +58,19 @@ class DBHelper {
     xhr.open('GET', DBHelper.DATABASE_URL);
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
-        const restaurants = JSON.parse(xhr.responseText);     
+        const restaurants = JSON.parse(xhr.responseText);   
+        const openIDB = openIndexedDB();
+
+        openIDB.onsuccess = (event)=> { 
+          const idb= event.target.result;
+          const objectStore = idb.transaction('restaurant', 'readwrite').objectStore('restaurant');
+          restaurants.forEach(restaurant => {
+            objectStore.add(restaurant);
+          });
+        }
+        openIDB.onerror = (error)=> { 
+          console.error('IDB is not opened');
+        }
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);

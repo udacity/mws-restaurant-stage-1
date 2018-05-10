@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6aa931c5-2cd2-4e2b-ab1e-e7022f46568c" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="6aa931c5-2cd2-4e2b-ab1e-e7022f46568c" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -111,7 +109,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -128,6 +125,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -175,6 +173,7 @@
       <workItem from="1522711208430" duration="153000" />
       <workItem from="1525217298518" duration="370000" />
       <workItem from="1525461890002" duration="101000" />
+      <workItem from="1525902893944" duration="26000" />
     </task>
     <task id="LOCAL-00001" summary="feat: make images load depend on  DPR of the screen">
       <created>1522360099349</created>
@@ -201,7 +200,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3644000" />
+    <option name="totallyTimeSpent" value="3670000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -213,8 +212,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="25" width="1920" height="998" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="27" width="1920" height="996" extended-state="6" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1530343" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32905483" />
@@ -225,17 +223,17 @@
       <window_info anchor="bottom" id="Run" order="2" weight="0.32905483" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3282887" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32908458" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.3282887" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.3282887" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -278,6 +276,34 @@
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/js/dbhelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="864">
+          <caret line="38" column="19" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4344">
+          <caret line="181" column="5" selection-start-line="181" selection-start-column="5" selection-end-line="181" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/restaurant_info.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1272">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.eslintrc.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="2" column="1" selection-start-line="2" selection-end-line="2" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/dbhelper.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="864">
