@@ -8,9 +8,19 @@ var markers = []
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
+  registerServiceWorker();
   fetchNeighborhoods();
   fetchCuisines();
 });
+
+registerServiceWorker = function () {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').then(function (reg) {
+       console.log("Service Worker Registered"); 
+      }
+    );
+  }
+}
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -140,7 +150,21 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  var imgsrc = DBHelper.imageUrlForRestaurant(restaurant);
+  if (parseInt(imgsrc) != -1) {
+    image.src = imgsrc;
+    imgsrc = imgsrc.split('.');
+    image.srcset = `${imgsrc[0]}-200.${imgsrc[1]} 200w, ${imgsrc[0]}-400.${imgsrc[1]} 400w, ${imgsrc[0]}-600.${imgsrc[1]} 600w, ${imgsrc[0]}.${imgsrc[1]} 800w`;
+    image.title = `Picture of ${restaurant.name}`;
+    image.alt = `Picture of ${restaurant.name}`;
+  } else {
+    image.src = '/img/noimage.jpg';
+    imgsrc = image.src.split('.');
+    image.srcset = `${imgsrc[0]}-200.${imgsrc[1]} 200w, ${imgsrc[0]}-400.${imgsrc[1]} 400w, ${imgsrc[0]}-600.${imgsrc[1]} 600w, ${imgsrc[0]}.${imgsrc[1]} 800w`;
+    image.title = `No image for ${restaurant.name} available`;
+    image.alt = `No image for ${restaurant.name} available`;
+  }
+
   li.append(image);
 
   const name = document.createElement('h1');
@@ -159,6 +183,11 @@ createRestaurantHTML = (restaurant) => {
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
+
+  /* const fav = document.createElement('p');
+  fav.innerHTML = '♥';
+  fav.className = 'fav';
+  li.append(fav); */
 
   return li
 }

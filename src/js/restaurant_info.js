@@ -37,6 +37,8 @@ fetchRestaurantFromURL = (callback) => {
       self.restaurant = restaurant;
       if (!restaurant) {
         console.error(error);
+        document.getElementById('restaurant-name').innerHTML = error;
+        document.getElementById('restaurant-address').innerHTML = `<a href="/">Bring me home</a>`;
         return;
       }
       fillRestaurantHTML();
@@ -57,7 +59,20 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  var imgsrc = DBHelper.imageUrlForRestaurant(restaurant);
+  if (parseInt(imgsrc) != -1) {
+    image.src = imgsrc;
+    imgsrc = imgsrc.split('.');
+    image.srcset = `${imgsrc[0]}-200.${imgsrc[1]} 200w, ${imgsrc[0]}-400.${imgsrc[1]} 400w, ${imgsrc[0]}-600.${imgsrc[1]} 600w, ${imgsrc[0]}.${imgsrc[1]} 800w`;
+    image.title = `Picture of ${restaurant.name}`;
+    image.alt = `Picture of ${restaurant.name}`;
+  } else {
+    image.src = '/img/noimage.jpg';
+    imgsrc = image.src.split('.');
+    image.srcset = `${imgsrc[0]}-200.${imgsrc[1]} 200w, ${imgsrc[0]}-400.${imgsrc[1]} 400w, ${imgsrc[0]}-600.${imgsrc[1]} 600w, ${imgsrc[0]}.${imgsrc[1]} 800w`;
+    image.title = `No image for ${restaurant.name} available`;
+    image.alt = `No image for ${restaurant.name} available`;
+  }
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
