@@ -1,0 +1,7 @@
+node_modules/
+img_src_temp/
+dist/css/
+dist/js/
+dist/*.html
+dist/*.json
+dist/*.js

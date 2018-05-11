@@ -8,27 +8,113 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
+  }
+
+  /**
+   * Idb database name.
+   */
+  static get IDB_DATABASE_NAME() {
+    return `mws-restaurant-idb`;
+  }
+
+  /**
+   * Idb database version.
+   */
+  static get IDB_VERSION() {
+    return 1;
+  }
+
+  /**
+   * Idb store name.
+   */
+  static get IDB_STORE_NAME() {
+    return 'restaurants';
+  }
+
+  /**
+   * Open IndexedDB database
+   */
+  static openIndexedDB(callback) {
+    // Using vanilla IndexedDB here instead of idb
+    // Understanding how it is used compared with idb-with-promises
+    // Seems to work seemlessly since we only have one version of the database
+    // But for more than one version, idb has to be preferred !
+
+    if (!navigator.serviceWorker || !window.indexedDB) {
+      return console.log('IndexedDB is not supported in your current browser');
+    };
+
+    var db;
+    var idbRequest = window.indexedDB.open(DBHelper.IDB_DATABASE_NAME, DBHelper.IDB_VERSION);
+
+    idbRequest.onerror = (event) => {
+      console.log('An error occured when trying to open indexedDB', event.target.errorCode);
+    };
+
+    idbRequest.onsuccess = (event) => {
+      db = event.target.result;
+      callback(db);
+    };
+
+    idbRequest.onupgradeneeded = (event) => {
+      var restaurantStore = event.currentTarget.result.createObjectStore(
+        DBHelper.IDB_STORE_NAME, { keyPath: 'id' });
+    };
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
+    let idbRestaurants = [];
+
+    return DBHelper.openIndexedDB((db) => {
+      var tx = db.transaction('restaurants');
+      var restaurantStore = tx.objectStore('restaurants');
+      var request = restaurantStore.getAll();
+
+      request.onsuccess = (event) => {
+        idbRestaurants = event.target.result;
+
+        if (idbRestaurants.length !== 0) {
+          return callback(null, idbRestaurants);
+        } else {
+          return DBHelper.fetchRestaurantsFromNetwork((error, restaurants) => {
+            if (error) {
+              callback(error, null);
+            } else {
+              callback(null, restaurants);
+              var tx = db.transaction('restaurants', 'readwrite');
+              var restaurantStore = tx.objectStore('restaurants');
+              restaurants.forEach((restaurant) => {
+                restaurantStore.put(restaurant);
+              });
+            }
+          });
+        }
+      };
+
+    });
+  }
+
+  /**
+   * Fetch all restaurants but only from the network.
+   */
+  static fetchRestaurantsFromNetwork(callback) {
+    fetch(DBHelper.DATABASE_URL)
+      .then((response) => {
+        return response.json();
+      })
+      .then((restaurants) => {
         callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
+      })
+      .catch((e) => {
+        const error = `Request failed`;
+        console.log('err = ', e);
         callback(error, null);
-      }
-    };
-    xhr.send();
+      });
   }
 
   /**
@@ -143,14 +229,44 @@ class DBHelper {
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {
-    return (`./restaurant.html?id=${restaurant.id}`);
+    return `./restaurant.html?id=${restaurant.id}`;
   }
 
   /**
-   * Restaurant image URL.
+   * Restaurant image utils.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    let imgName;
+    // The photograph property of restaurant *10* is missing from the server restaurants data
+    // A pull request have already been created, but not merged yet
+    // We will server img10 as a fallback if there is no id
+    if (!restaurant.photograph) {
+      imgName = '10';
+    } else {
+      const jpgIndex = restaurant.photograph.indexOf('.jpg');
+      imgName = jpgIndex > -1 ? restaurant.photograph.substring(0, jpgIndex) : restaurant.photograph;
+    }
+    return `/img/${imgName}_small.webp`;
+  }
+
+  static imageSrcsetUrlsForRestaurant(restaurant) {
+    let imgName;
+    // Same as method above
+    if (!restaurant.photograph) {
+      imgName = '10';
+    } else {
+      const jpgIndex = restaurant.photograph.indexOf('.jpg');
+      imgName = jpgIndex > -1 ? restaurant.photograph.substring(0, jpgIndex) : restaurant.photograph;
+    }
+    return `/img/${imgName}_small.webp 400w, /img/${imgName}_medium.webp 600w, /img/${imgName}_large.webp 800w`;
+  }
+
+  static imageSizes() {
+    return `(min-width: 769px) 50%, 100%`;
+  }
+
+  static imageAltForRestaurant(restaurant) {
+    return `Restaurant ${restaurant.name}`;
   }
 
   /**
