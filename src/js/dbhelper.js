@@ -40,7 +40,11 @@ class DBHelper {
     fetch(url)
       .then(restaurant => restaurant.json())
       .then(function (response) {
-        callback(null, response);
+        if(response === -1) {
+          callback(`Sorry, you are offline right now`, null);
+        } else {
+          callback(null, response);
+        }
       })
       .catch(function (error) {
         callback(`Sorry, that restaurant doesn't exist`, null);
