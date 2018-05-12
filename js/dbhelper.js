@@ -29,7 +29,7 @@ class DBHelper {
     return localforage.setItem('restaurants', restaurants)
   }
 
-  static getRestaurantsLocally(callback) {
+  static getRestaurantsLocally() {
     return localforage.getItem('restaurants')
   }
 
