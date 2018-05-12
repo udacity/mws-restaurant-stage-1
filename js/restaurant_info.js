@@ -160,6 +160,24 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
 }
 
 /**
+ * Submit review to backend.
+ */
+addReview = () => {
+  const reviewForm = document.getElementById('review-form');
+  const restaurantID = getParameterByName('id');
+  const data = {
+    "restaurant_id": restaurantID,
+    "name": reviewForm.name.value,
+    "rating": reviewForm.rating.value,
+    "comments": reviewForm.comments.value,    
+  }
+
+  DBHelper.submitReview(data)
+  .then(resp => console.log(resp))
+  .catch(err => console.log(err));
+}
+
+/**
  * Get a parameter by name from page URL.
  */
 getParameterByName = (name, url) => {

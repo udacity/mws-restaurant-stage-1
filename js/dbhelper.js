@@ -230,4 +230,17 @@ class DBHelper {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(value).toLocaleString(locale, options);
   }
+
+  /**
+   * Submit a review.
+   */
+  static submitReview(data) {
+    const url = `${DBHelper.SERVER_URL}/reviews/`;
+    const body = JSON.stringify(data);
+    
+    return fetch(url, {
+      method: 'post',
+      body: body
+    });
+  }
 }

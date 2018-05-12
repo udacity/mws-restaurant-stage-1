@@ -47,6 +47,14 @@
     <!-- end restaurant -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
+      <h3>Your review</h3>
+      <form id="review-form" onsubmit="return false;">        
+        <input name="name" placeholder="Your name (required)" type="text" aria-label="username input"/>
+        <input name="rating" type="number" aria-label="rating input"/>
+        <textarea name="comments" placeholder="Add a comment..." aria-label="comments input"></textarea>
+        <button onclick="addReview()">Send!</button>
+      </form>
+
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
