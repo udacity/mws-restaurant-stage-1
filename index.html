@@ -26,22 +26,24 @@
 
 <body>
   <header>
-    <nav>
+    <div id="titlebar">
       <h1>
         <a href="/">Restaurant Reviews</a>
       </h1>
-    </nav>
+    </div>
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb">
-      <li>
-        <a href="/">Home</a>
-      </li>
-    </ul>
-    <!-- End breadcrumb -->
+    <nav aria-label="Breadcrumb">
+      <ol id="breadcrumb">
+        <li>
+          <a href="/" aria-current="page">Home</a>
+        </li>
+      </ol>
+    </nav>
+    <!-- End s -->
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
+    <section id="map-container" role="application" aria-roledescription="Google Maps">
       <div id="map"></div>
     </section>
     <section>

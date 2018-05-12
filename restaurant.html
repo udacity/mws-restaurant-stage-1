@@ -30,17 +30,21 @@
   <!-- Beginning header -->
   <header>
     <!-- Beginning nav -->
-    <nav>
+    <div id="titlebar">
       <h1>
         <a href="/">Restaurant Reviews</a>
       </h1>
-    </nav>
+    </div>
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb">
-      <li>
-        <a href="/">Home</a>
-      </li>
-    </ul>
+    <!-- Beginning breadcrumb -->
+    <nav aria-label=Breadcrumb>
+      <ol id="breadcrumb">
+        <li>
+          <a href="/">Home</a>
+        </li>
+      </ol>
+    </nav>
+    <!-- End breadcrumb -->
     <!-- End breadcrumb -->
     <!-- End nav -->
   </header>
@@ -49,7 +53,7 @@
   <!-- Beginning main -->
   <main id="maincontent">
     <!-- Beginning map -->
-    <section id="map-container">
+    <section id="map-container" role="application" aria-roledescription="Google Maps">
       <div id="map"></div>
     </section>
     <!-- End map -->

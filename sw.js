@@ -3,7 +3,7 @@
 // The service worker reflects patterns, I've learned from both courses
 // https://www.udemy.com/progressive-web-app-pwa-the-complete-guide/learn/v4/
 
-const SW_VERSION = "3";
+const SW_VERSION = "4";
 
 // Service Worker Lifecycle Events
 self.addEventListener("install", event => {

@@ -60,7 +60,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const image = document.getElementById("restaurant-img");
   image.className = "restaurant-img";
-  image.setAttribute("alt", "");
+  image.setAttribute("alt", `Image of ${restaurant.name}`);
   image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
 
   const cuisine = document.getElementById("restaurant-cuisine");
@@ -147,8 +147,12 @@ createReviewHTML = review => {
  */
 fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById("breadcrumb");
+  const anchor = document.createElement("a");
+  anchor.setAttribute("href", `restaurant.html?id=${restaurant.id}`);
+  anchor.setAttribute("aria-current", "page");
+  anchor.innerText = restaurant.name;
   const li = document.createElement("li");
-  li.innerHTML = restaurant.name;
+  li.appendChild(anchor);
   breadcrumb.appendChild(li);
 };
 

@@ -68,6 +68,7 @@ header,
 hgroup,
 menu,
 nav,
+div#titlebar,
 section {
   display: block;
 }
@@ -101,11 +102,11 @@ header {
   align-items: stretch;
 }
 
-nav {
+#titlebar {
   grid-area: nav;
   place-self: center;
 }
-nav h1 a {
+#titlebar h1 a {
   color: #fff;
   font-size: 14pt;
   font-weight: 200;
@@ -113,12 +114,12 @@ nav h1 a {
   text-transform: uppercase;
 }
 @media (max-width: 500px) {
-  nav h1 a {
+  #titlebar h1 a {
     letter-spacing: 5px;
   }
 }
 
-nav h1 {
+#titlebar h1 {
   margin: auto;
 }
 #breadcrumb {
