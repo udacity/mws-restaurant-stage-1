@@ -162,16 +162,14 @@ class DBHelper {
   }
 
   /**
-   * Generate a valid srcset based on the array of filenames
-   * at restaurant.photographs
+   * Generate a valid srcset based a photoId.
+   * The backend API seems to be missing the expected key for Casa Enrique,
+   * so we just return an empty string if photoId is falsy to silence the errors
    */
-  static imageSrcsetForRestaurant(restaurant) {
-    return restaurant.photographs
-      .map(photo => {
-        const resolution = photo.match(/-(\w+)\./)[1];
-        return `/img/${photo} ${resolution}w`;
-      })
-      .join(", ");
+  static imageSrcsetForRestaurant(photoId) {
+    return photoId
+      ? `/img/${photoId}-400.jpg 400w, /img/${photoId}-800.jpg 800w`
+      : "";
   }
 
   /**

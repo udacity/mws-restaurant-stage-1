@@ -4,12 +4,9 @@ var map;
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) {
-      // Got an error!
-      console.error(error);
-    } else {
+window.initMap = () =>
+  fetchRestaurantFromURL()
+    .then(restaurant => {
       self.map = new google.maps.Map(document.getElementById("map"), {
         zoom: 16,
         center: restaurant.latlng,
@@ -17,34 +14,35 @@ window.initMap = () => {
       });
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-  });
-};
+    })
+    .catch(err => console.error(err));
 
 /**
  * Get current restaurant from page URL.
  */
-fetchRestaurantFromURL = callback => {
+fetchRestaurantFromURL = () => {
   if (self.restaurant) {
+    console.log("restaurant already fetched!");
     // restaurant already fetched!
-    callback(null, self.restaurant);
-    return;
+    return Promise.resolve(self.restaurant);
   }
   const id = getParameterByName("id");
   if (!id) {
     // no id found in URL
     error = "No restaurant id in URL";
-    callback(error, null);
+    return Promise.reject(error);
   } else {
-    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
-      self.restaurant = restaurant;
-      if (!restaurant) {
-        console.error(error);
+    return fetch(`http://localhost:1337/restaurants/${id}`)
+      .then(response => response.json())
+      .then(restaurant => {
+        self.restaurant = restaurant;
+        fillRestaurantHTML(restaurant); // writes restaurant to the DOM
+        return Promise.resolve(restaurant);
+      })
+      .catch(err => {
+        console.error(err);
         return;
-      }
-      fillRestaurantHTML();
-      callback(null, restaurant);
-    });
+      });
   }
 };
 
@@ -61,7 +59,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.getElementById("restaurant-img");
   image.className = "restaurant-img";
   image.setAttribute("alt", `Image of ${restaurant.name}`);
-  image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
+  image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant.photograph);
 
   const cuisine = document.getElementById("restaurant-cuisine");
   cuisine.innerHTML = restaurant.cuisine_type;

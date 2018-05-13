@@ -22,5 +22,6 @@
   "devDependencies": {
     "lite-server": "^2.3.0",
     "remotedebug-ios-webkit-adapter": "^0.2.2"
-  }
+  },
+  "dependencies": {}
 }

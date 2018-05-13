@@ -103,19 +103,27 @@ updateRestaurants = () => {
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(
-    cuisine,
-    neighborhood,
-    (error, restaurants) => {
-      if (error) {
-        // Got an error!
-        console.error(error);
-      } else {
-        resetRestaurants(restaurants);
-        fillRestaurantsHTML();
-      }
-    }
-  );
+  return fetch("http://localhost:1337/restaurants/")
+    .then(res => res.json())
+    .then(restaurants => {
+      if (cuisine === "all") return restaurants;
+      return restaurants.filter(
+        restaurant => restaurant.cuisine_type === cuisine
+      );
+    })
+    .then(restaurants => {
+      if (neighborhood === "all") return restaurants;
+      return restaurants.filter(
+        restaurant => restaurant.neighborhood === neighborhood
+      );
+    })
+    .then(filteredRestaurants => {
+      resetRestaurants(filteredRestaurants);
+      fillRestaurantsHTML();
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 /**
@@ -155,7 +163,7 @@ createRestaurantHTML = restaurant => {
   image.setAttribute("alt", `Image of ${restaurant.name}`);
   image.sizes =
     "'(max-width: 620px) 100vw', '(max-width: 930px) 40vw', '(max-width: 1230px) 30vw'";
-  image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
+  image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant.photograph);
   li.append(image);
 
   const name = document.createElement("h1");
