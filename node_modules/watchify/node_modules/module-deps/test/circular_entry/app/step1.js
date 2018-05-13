@@ -1,1 +1,0 @@
-var index = require('./index');

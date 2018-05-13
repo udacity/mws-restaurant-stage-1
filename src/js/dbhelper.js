@@ -163,4 +163,48 @@ class DBHelper {
     return marker;
   }
 
+  /**
+  * Register a service worker if browser has this option
+  */
+  static registerServiceWorker() {
+    
+    if (!navigator.serviceWorker) return;
+    
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then(() => {console.log('Registration successfull');})
+      .catch(() => {console.log('SW Registration failed');});
+    
+  }
+
+  /**
+   * Lazy loads pictures so app can be faster
+   */
+  static lazyLoadImages() {
+
+    setTimeout(function() {
+
+      var pictures = Array.from(document.getElementsByTagName('picture'));
+
+      pictures.forEach(picture => {
+
+        var sources = Array.from(picture.getElementsByTagName('source'));
+
+        sources.forEach(source => {
+          source.setAttribute('srcset', source.getAttribute('data-srcset'));
+          source.removeAttribute('data-srcset');
+        });
+
+        var images = Array.from(picture.getElementsByTagName('img'));
+
+        images.forEach(img => {
+          img.setAttribute('src', img.getAttribute('data-src'));
+          img.removeAttribute('data-src');
+        });
+
+        picture.classList.remove("lazy-loading");
+
+      });
+
+    }, 200);
+  }
 }

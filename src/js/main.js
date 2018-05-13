@@ -1,9 +1,9 @@
 let restaurants,
   neighborhoods,
   cuisines
+  firstload = true;
 var map
 var markers = []
-
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -11,28 +11,15 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
-  registerServiceWorker();
+  DBHelper.registerServiceWorker();
 });
 
 /**
  * Enables lazy loading of images when content is loaded
  */
 window.addEventListener('load', (event) => {
-  lazyLoadImages();
+  DBHelper.lazyLoadImages();
 });
-
-/**
-* Register a service worker if browser has this option
-*/
-registerServiceWorker = () => {
-	
-	if (!navigator.serviceWorker) return;
-	
-	navigator.serviceWorker.register('/sw.js', { scope: '/' })
-		.then(() => {console.log('Registration successfull');})
-		.catch(() => {console.log('SW Registration failed');});
-	
-}
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -130,7 +117,7 @@ updateRestaurants = () => {
       console.error(error);
     } else {
       resetRestaurants(restaurants);
-      fillRestaurantsHTML();
+      fillRestaurantsHTML(self.restaurants, () => {DBHelper.lazyLoadImages()});
     }
   })
 }
@@ -153,12 +140,18 @@ resetRestaurants = (restaurants) => {
 /**
  * Create all restaurants HTML and add them to the webpage.
  */
-fillRestaurantsHTML = (restaurants = self.restaurants) => {
+fillRestaurantsHTML = (restaurants = self.restaurants, callback) => {
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
+  
+  if(!firstload){
+    callback();
+  }
+
+  firstload = false;
 }
 
 /**
@@ -236,34 +229,6 @@ createRestaurantHTML = (restaurant) => {
   summary.append(more)
 
   return li;
-}
-
-/**
- * Lazy loads pictures so app can be faster
- */
-lazyLoadImages = () => {
-
-  var pictures = Array.from(document.getElementsByTagName('picture'));
-
-  pictures.forEach(picture => {
-
-    var sources = Array.from(picture.getElementsByTagName('source'));
-
-    sources.forEach(source => {
-      source.setAttribute('srcset', source.getAttribute('data-srcset'));
-      source.removeAttribute('data-srcset');
-    });
-
-    var images = Array.from(picture.getElementsByTagName('img'));
-
-    images.forEach(img => {
-      img.setAttribute('src', img.getAttribute('data-src'));
-      img.removeAttribute('data-src');
-    });
-
-    picture.classList.remove("lazy-loading");
-
-  });
 }
 
 /**

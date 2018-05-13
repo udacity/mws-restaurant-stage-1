@@ -340,7 +340,7 @@ nav h1 a {
 #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 40px 30px;
+  padding: 40px 0px;
   width: 70%;
   margin: 0 auto;
   text-align: center;
@@ -441,7 +441,7 @@ nav h1 a {
   #restaurant-container, 
   #reviews-container {
     width: 100%;
-    padding: 3px;
+    padding: 0;
   }
 }
 @media screen and (max-width: 1000px) {
@@ -462,11 +462,11 @@ nav h1 a {
     float: none;
   }
 }
-.lazy-loading {
- 
-}
-.lazy-loading img, .lazy-loading source {
-  width: 50% !important;
+.lazy-loading img, 
+.lazy-loading source, 
+.inside .lazy-loading img, 
+.inside .lazy-loading source  {
+  width: 45% !important;
   margin: auto auto !important;
   padding-bottom: 30px;
 }

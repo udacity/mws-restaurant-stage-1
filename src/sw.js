@@ -5,8 +5,8 @@ import idb from 'idb';
  */
 var CACHE_STATIC = 'restaurant-reviews-static-v1';
 var CACHE_IMAGES = 'restaurant-reviews-images-v1';
-var dbPromise;
 const offlinePage = './404.html';
+var dbPromise;
 
 /** 
  * Fetch and cache image request 
@@ -15,38 +15,32 @@ function cacheImages(request) {
   
   // Remove size-related info from image name 
   var urlToFetch = request.url.slice(0, request.url.indexOf('-'));
-  
+   
   
   return caches.open(CACHE_IMAGES).then(cache => {  
     return cache.match(urlToFetch).then(response => {
-   
-      //we need to check the status of the network fetch promise because we use it first
-      let isFullfilled = false;
-
+  
       // Cache hit - return response else fetch
       // We clone the request because it's a stream and can be consumed only once
-      var networkFetch = fetch(request.clone()).then(networkResponse => {
+      var networkFetch = fetch(request.clone()).then((networkResponse) => {
           // Check if we received an invalid response
           if(networkResponse.status == 404) return;
 
-          isFullfilled = true;
-       
           // We clone the response because it's a stream and can be consumed only once
           cache.put(urlToFetch, networkResponse.clone());
   
           return networkResponse;
-        }
-      );
-  
-      //if access to network is good we want the best quality image
 
-      if(isFullfilled === false) {
-        return response;
-      }
+        }, (rejected) => {
+          return response || caches.match(offlinePage);
+        }).catch(() => {
+          return response || caches.match(offlinePage);
+        });
 
+      // //if access to network is good we want the best quality image
       return networkFetch;
 
-    }).catch(() => caches.match(offlinePage))
+    }).catch(() => { caches.match(offlinePage); })
   })
 }
 
@@ -68,7 +62,7 @@ function cacheImages(request) {
         cache.put(request, networkResponse.clone());
         return networkResponse;
       });
-    }).catch(() => caches.match(offlinePage))
+    }).catch(() => { caches.match(offlinePage); })
   })
 }
 
@@ -176,7 +170,7 @@ function createDB () {
  * Open caches on install of sw 
  */
 self.addEventListener('install', event => {
-  // Open cache for static content
+  // Open cache for static content and cache 404 page
   event.waitUntil(
     caches.open(CACHE_STATIC).then(cache => {
       cache.addAll([offlinePage]);

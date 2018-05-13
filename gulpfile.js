@@ -8,23 +8,13 @@ var hbsfy = require('hbsfy');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var mergeStream = require('merge-stream');
-var minify = require('gulp-minify');
 var runSequence = require('run-sequence');
+var del = require('del');
+var cleanCSS = require('gulp-clean-css');
+var concat = require('gulp-concat');
+var minify = require('gulp-minify');
 
 var args = process.argv.slice(3);
-
-gulp.task("copy", function() {
-	gulp.src('src/css/*.css').pipe(gulp.dest("./css"));
-	gulp.src('src/responsive_images/*.jpg').pipe(gulp.dest("./responsive_images"));
-	gulp.src('src/js/*.js').pipe(gulp.dest("./js"));
-	gulp.src('src/index.html').pipe(gulp.dest("./"));
-  gulp.src('src/404.html').pipe(gulp.dest("./"));
-	gulp.src('src/restaurant.html').pipe(gulp.dest("./"));
-  gulp.src('src/manifest.json').pipe(gulp.dest("./"));
-  gulp.src('src/icons/*.png').pipe(gulp.dest("./icons"));
-  gulp.src('src/icons/*.gif').pipe(gulp.dest("./icons"));
-		
-});
 
 function createBundle(src) {
   if (!src.push) {
@@ -55,13 +45,7 @@ function bundle(b, outputPath) {
   return b.bundle()
     // log errors if they happen
     .on('error', plugins.util.log.bind(plugins.util, 'Browserify Error'))
-
     .pipe(source(outputFile))
-    // optional, remove if you don't need to buffer file contents
-    // .pipe(buffer())
-    // optional, remove if you dont want sourcemaps
-    // .pipe(plugins.sourcemaps.init({loadMaps: true})) // loads map from browserify file
-       // Add transformation tasks to the pipeline here.
     // .pipe(plugins.sourcemaps.write('./')) // writes .map file
     .pipe(gulp.dest(outputDir));
 }
@@ -79,20 +63,59 @@ gulp.task('js:browser', function () {
 });
 
 gulp.task('compress:js', function() {
-  gulp.src('js/*.js')
-    .pipe(minify())
+  gulp.src(['src/js/main.js','src/js/dbhelper.js'])
+    .pipe(concat('main.js'))
     .pipe(gulp.dest('./js'))
+    .pipe(minify({
+      ext: {
+        min: '.js'
+      },
+      noSource: true
+    }))
+    .pipe(gulp.dest('./js'));
+
+   gulp.src(['src/js/restaurant_info.js','src/js/dbhelper.js'])
+    .pipe(concat('restaurant_info.js'))
+    .pipe(gulp.dest('./js'))
+    .pipe(minify({
+      ext: {
+        min: '.js'
+      },
+      noSource: true
+    }))
+    .pipe(gulp.dest('./js'));
 });
 
-// gulp.task('js:server', function () {
-//   return gulp.src('src/**/*.js')
-//     .pipe(plugins.sourcemaps.init())
-//     .pipe(plugins.babel({stage: 1}))
-//     .on('error', plugins.util.log.bind(plugins.util))
-//     .pipe(plugins.sourcemaps.write('.'))
-//     .pipe(gulp.dest('./'));
+// gulp.task('compress:js', function() {
+//   gulp.src('src/js/*.js')
+//     .pipe(minify({
+//       noSource: true
+//     }))
+//     .pipe(gulp.dest('./js'))
 // });
 
+gulp.task('minify:css', () => {
+  return gulp.src('src/css/*.css')
+    .pipe(cleanCSS())
+    .pipe(gulp.dest('./css'));
+});
+
+gulp.task('clean', function (done) {
+  del(['./js', './css', './icons', './responsive_images'], done);
+});
+
+gulp.task("copy", function() {
+  // gulp.src('src/css/*.css').pipe(gulp.dest("./css"));
+  gulp.src('src/responsive_images/*.jpg').pipe(gulp.dest("./responsive_images"));
+  gulp.src('src/index.html').pipe(gulp.dest("./"));
+  gulp.src('src/404.html').pipe(gulp.dest("./"));
+  gulp.src('src/restaurant.html').pipe(gulp.dest("./"));
+  gulp.src('src/manifest.json').pipe(gulp.dest("./"));
+  gulp.src('src/icons/*.png').pipe(gulp.dest("./icons"));
+  gulp.src('src/icons/*.gif').pipe(gulp.dest("./icons"));
+});
+
+
 gulp.task('default', function(callback) {
-  runSequence('copy', 'js:browser', 'compress:js', callback);
+  runSequence('clean', ['copy', 'js:browser', 'compress:js', 'minify:css'], callback);
 });

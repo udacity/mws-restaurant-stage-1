@@ -2,6 +2,20 @@ let restaurant;
 var map;
 
 /**
+ * Register service worker as soon as the page is loaded.
+ */
+document.addEventListener('DOMContentLoaded', (event) => {
+  DBHelper.registerServiceWorker();
+});
+
+/**
+ * Enables lazy loading of images when content is loaded
+ */
+window.addEventListener('load', (event) => {
+  DBHelper.lazyLoadImages();  
+});
+
+/**
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
@@ -68,33 +82,39 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   if(DBHelper.imageUrlForRestaurant(restaurant)) {
 
     let picture = document.createElement('picture');
+    picture.className = 'restaurant-img-available lazy-loading';
     figure.prepend(picture);
     
     const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
     
     let source = document.createElement('source');
-    source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
+    source.srcset = '/icons/loading.gif';
+    source.setAttribute('data-srcset', `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`);
     source.media = "(min-width: 1400px)";
     picture.appendChild(source);
     
     source = document.createElement('source');
-    source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+    source.srcset = '/icons/loading.gif';
+    source.setAttribute('data-srcset', `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`);
     source.media = "(max-width: 400px)";
     picture.appendChild(source);
     
     source = document.createElement('source');
-    source.srcset = `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`;
+    source.srcset = '/icons/loading.gif';
+    source.setAttribute('data-srcset', `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`);
     source.media = "(min-width: 1000px) and (max-width: 1399px)";
     picture.appendChild(source);
     
     source = document.createElement('source');
-    source.srcset = `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`;
+    source.srcset = '/icons/loading.gif';
+    source.setAttribute('data-srcset', `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`);
     source.media = "(min-width: 401px) and (max-width: 999px)";
     picture.appendChild(source);
    
     const image = document.createElement('img');
     image.alt = `${restaurant.name} Restaurant`;
-    image.src = `${image_prefix}-400_small_1x.jpg`;
+    image.src = '/icons/loading.gif';
+    image.setAttribute('data-src', `${image_prefix}-400_small_1x.jpg`);
     picture.appendChild(image);
 
   } else { 
