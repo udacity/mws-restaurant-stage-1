@@ -2,27 +2,74 @@
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
 
-## Project Overview: Stage 1
+## Project Overview: Stage 3
 
-For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.
+A reviews app where users can browse restaurants by cuisine and neighborhood. The app has offline capabilities. A restaurant can be toggled favorite even when offline and this action is synced when back online. The same goes for reviews. A user can post a review while offline (this is visible only for the user with indexed db) and the review will sync with the server when online.
 
-### Specification
+## Project : Stage 3 Gulp instructions
 
-You have been provided the code for a restaurant reviews website. The code has a lot of issues. It’s barely usable on a desktop browser, much less a mobile device. It also doesn’t include any standard accessibility features, and it doesn’t work offline at all. Your job is to update the code to resolve these issues while still maintaining the included functionality. 
+#### Check for Node and npm
+Make sure that you've installed Node and npm before attempting to install gulp.
 
-### What do I do from here?
+```sh
+node --version
+```
+```sh
+npm --version
+```
 
-1. In this folder, start up a simple HTTP server to serve up the site files on your local computer. Python has some simple tools to do this, and you don't even need to know Python. For most people, it's already installed on your computer. 
+#### Install the `gulp` command
 
-In a terminal, check the version of Python you have: `python -V`. If you have Python 2.x, spin up the server with `python -m SimpleHTTPServer 8000` (or some other port, if port 8000 is already in use.) For Python 3.x, you can use `python3 -m http.server 8000`. If you don't have Python installed, navigate to Python's [website](https://www.python.org/) to download and install the software.
+```sh
+npm install --global gulp-cli
+```
 
-2. With your server running, visit the site: `http://localhost:8000`, and look around for a bit to see what the current experience looks like.
-3. Explore the provided code, and make start making a plan to implement the required features in three areas: responsive design, accessibility and offline use.
-4. Write code to implement the updates to get this site on its way to being a mobile-ready website.
+#### Install `gulp` in your devDependencies
 
-### Note about ES6
+Run this command in your project directory:
 
-Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
+```sh
+npm install --save-dev gulp@next
+```
 
+#### Install ImageMagick
+```Install image magick
+# https://www.imagemagick.org/script/download.php
+```
 
+#### Install project dependancies
+```Install project dependancies
+# npm i
+```
 
+## Development And Distribution
+
+#### Development server
+
+Run the gulp command in your project directory (runs image resize and a webserver on the root development folder with live reload):
+
+```sh
+gulp
+```
+
+#### Distribution
+
+Run the gulp command in your project directory (builds the project in dist folder with css,js minification and image resize):
+
+```sh
+gulp dist
+```
+## Node http server
+
+#### Install http-server
+```Install thhp-server
+# npm install http-server -g
+```
+
+#### Usage
+
+Run the http-server on dist folder and enable gzip comporession. More info here https://github.com/indexzero/http-server
+
+```sh
+http-server -g -c86400
+```

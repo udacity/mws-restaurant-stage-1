@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="theme-color" content="#252831"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Normalize.css for better cross-browser consistency -->
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!-- Main CSS file -->
+  <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <title>Restaurant Info</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+
+<body class="inside">
+  <!-- Beginning header -->
+  <header tabindex="-1">
+    <!-- Beginning nav -->
+    <nav tabindex="-1">
+      <h1><a href="/" tabindex="0">Restaurant Reviews</a></h1>
+    </nav>
+    <!-- Beginning breadcrumb -->
+    <ul id="breadcrumb" role="navigation" >
+      <li><a href="/" aria-label="Return to Home">Home</a></li>
+    </ul>
+    <!-- End breadcrumb -->
+    <!-- End nav -->
+  </header>
+  <!-- End header -->
+  <div aria-live="polite" id="filtered-results"></div>
+  <!-- Beginning main -->
+  <main id="maincontent" role="main">
+
+    <!-- End map -->
+    <!-- Beginning restaurant -->
+    <section id="restaurant-container-wrapper">
+      <div  id="restaurant-container" >
+      <h2 id="restaurant-name" tabindex="0"></h2>
+      <img id="restaurant-img">
+      <p id="restaurant-cuisine"></p>
+      <p align="center"><img id="fav" alt="Press enter to mark as favorite!" title="Click to mark as favorite!" data-is-favorite="false" tabindex="0" role="button" aria-label="Press enter to mark as favorite!" class="favorite-details" src="icons/notfavorite.png" /></p>
+      <p id="restaurant-address" tabindex="0"></p>
+      <table id="restaurant-hours" aria-label="Working Hours" tabindex="0"></table>
+     </div>
+    </section>
+    <!-- end restaurant -->
+    <!-- Beginning reviews -->
+    <section id="reviews-container-wrapper" class="reviews-container-wrapper">
+      <div id="reviews-container" class="reviews-container" >
+
+    </div>
+    </section>
+    <!-- End reviews -->
+    <!-- Beginning reviews form -->
+    <section class="reviews-container-wrapper">
+      <div id="reviews-form" class="reviews-container" >
+        <h3 tabindex="0">Add a review</h3>
+      <form id="review-form">
+        <input type="hidden" name="restaurant_id" id="form_restaurant_id"/>
+        <label for="form_name">Enter your name:</label>
+        <input type="text" required aria-required="true" name="name" id="form_name" aria-label="Enter your name"/>
+        <div class="form-spacer"></div>
+        <label for="form_rating">Select a rating:</label>
+        <select aria-label="Select a rating" id="form_rating" name="rating" aria-required="true" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <div class="form-spacer"></div>
+        <label for="form_comment">Enter a comment:</label>
+        <textarea required aria-required="true" name="comments" id="form_comment" aria-label="Enter a comment" rows="4"></textarea>
+        <div class="form-spacer"></div>
+        <input type="submit" value="Submit Review" aria-label="Submit review" id="form-submit" />
+        <div class="form-spacer"></div>
+      </form>
+
+      </div>
+    </section>
+    <!-- End reviews form -->
+
+     <!-- Beginning map -->
+     <section id="map-container" >
+      <div id="map" role="application" aria-label="Google Maps" tabindex="0"></div>
+    </section>
+  </main>
+  <!-- End main -->
+  <div id="offline"><strong style="color:red;">**</strong>Currently Offline<strong style="color:red;">**</strong><br>You can post reviews<br>and they will be synced<br>when you are online again.</div>
+  <!-- Beginning footer -->
+  <footer id="footer">
+    Copyright (c) 2017 <a href="/" tabindex="0" aria-label="Return to home"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+  <!-- End footer -->
+  <script>
+    function initNoMap(){
+      console.log('html no map')
+    }
+
+
+
+    if ('serviceWorker' in navigator) {
+       navigator.serviceWorker.register('service-worker.js')
+       .then(function(registration) {
+
+       })
+       .catch(function(error) {
+        console.error(error);
+       });
+     }
+     </script>
+  <!-- Beginning scripts -->
+
+  <!-- Main javascript file -->
+  <script type="text/javascript" src="js/restaurant_info_all.js"></script>
+  <!-- Google Maps -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEmaR9pjKC612N3uP2SXC31Q0sVs9lmK0&libraries=places&callback=initMap"></script>
+  <!-- End scripts -->
+
+</body>
+
+</html>
