@@ -140,6 +140,14 @@ nav h1 a {
   padding: 30px 15px 60px;
   text-align: center;
 }
+
+/* TODO: Add breakpoints for max-width 1136px & 772px
+list items to span width as it goes to one and two columns*/
+
+/* TODO: At mobile width, switch list items to be tiles*/
+
+/* TODO: Set max width on container surrounding list, so there aren't a million reviews spanning the width of the page*/
+
 #restaurants-list li {
   background-color: #fff;
   border: 2px solid #ccc;
@@ -206,6 +214,13 @@ nav h1 a {
   height: 100%;
   width: 100%;
 }
+
+/* TODO: Fix footer. Ending at a weird spot on the screen 
+
+    TODO: On mobile, move map to top, sticky, with restaurant details below
+
+    TODO: Fix overhanding review white box*/
+
 .inside #footer {
   bottom: 0;
   position: absolute;
@@ -262,12 +277,12 @@ nav h1 a {
 }
 #reviews-list li {
   background-color: #fff;
-    border: 2px solid #f3f3f3;
+  border: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
   margin: 0 0 30px;
   overflow: hidden;
-  padding: 0 20px 20px;
+  padding: 20px;
   position: relative;
   width: 85%;
 }
