@@ -7,6 +7,7 @@
   <link rel="manifest" href="/manifest.json">
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <title>Restaurant Info</title>
@@ -46,11 +47,22 @@
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
-    <section id="reviews-container">
+    <section id="reviews-container">        
       <h3>Your review</h3>
       <form id="review-form" onsubmit="return false;">        
         <input name="name" placeholder="Your name (required)" type="text" aria-label="username input"/>
-        <input name="rating" type="number" aria-label="rating input"/>
+        <fieldset class="rating">
+          <input type="radio" id="star5" name="rating" value="5" />
+          <label for="star5" title="Awesome - 5 stars"></label>    
+          <input type="radio" id="star4" name="rating" value="4" />
+          <label for="star4" title="Pretty good - 4 stars"></label>    
+          <input type="radio" id="star3" name="rating" value="3" />
+          <label for="star3" title="Meh - 3 stars"></label>    
+          <input type="radio" id="star2" name="rating" value="2" />
+          <label for="star2" title="Kinda bad - 2 stars"></label>    
+          <input type="radio" id="star1" name="rating" value="1" />
+          <label for="star1" title="Sucks big time - 1 star"></label>
+        </fieldset>
         <textarea name="comments" placeholder="Add a comment..." aria-label="comments input"></textarea>
         <button onclick="addReview()">Send!</button>
       </form>

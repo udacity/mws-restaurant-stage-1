@@ -119,6 +119,25 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 }
 
 /**
+ * Create 5-star rating.
+ */
+createReviewRatingHTML = (review) => {
+  const reviewRating = review.rating;
+  
+  const rating = document.createElement('p');
+  rating.innerHTML = 'Rating: ';
+  rating.className = 'rating-stars';
+
+  for (let i = 1; i <= 5; i++) {
+    const span = document.createElement('span');
+    span.className = (i <= reviewRating ? 'fa fa-star checked' : 'fa fa-star');
+    rating.appendChild(span);
+  }
+
+  return rating;
+}
+
+/**
  * Create review HTML and add it to the webpage.
  */
 createReviewHTML = (review) => {
@@ -131,8 +150,7 @@ createReviewHTML = (review) => {
   date.innerHTML = DBHelper.dateFormat(review.createdAt);
   li.appendChild(date);
 
-  const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
+  const rating = createReviewRatingHTML(review);
   li.appendChild(rating);
 
   const comments = document.createElement('p');
