@@ -190,9 +190,30 @@ addReview = () => {
     "comments": reviewForm.comments.value,    
   }
 
-  DBHelper.submitReview(data)
-  .then(resp => console.log(resp))
-  .catch(err => console.log(err));
+  if(navigator.onLine) {
+    // Online
+    DBHelper.submitReview(data)
+    .then(resp => {
+      console.log(resp);
+      fillReviewsHTML([data]);
+    })
+    .catch(err => console.error(err));
+  } else {
+    // Offline.
+    DBHelper.storeOfflineReview(data)
+    .then(review => {
+      console.log(review);
+      fillReviewsHTML([review]);
+    })
+    .catch(err => console.error(err));
+  }  
+}
+
+/**
+ * Update previously deferred reviews.
+ */
+updateDeferredReviews = () => {
+  DBHelper.updateAndDeleteDeferredReviews();
 }
 
 /**
@@ -210,3 +231,13 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+window.addEventListener('online', () => {
+  updateDeferredReviews();
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  if(navigator.onLine) { 
+    updateDeferredReviews();
+  }
+});
