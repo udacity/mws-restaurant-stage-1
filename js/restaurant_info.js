@@ -182,6 +182,12 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
  */
 addReview = () => {
   const reviewForm = document.getElementById('review-form');
+  
+  if(!reviewForm.name.value){
+    displayMessage('Please enter your name before submitting.');
+    return;
+  }
+
   const restaurantID = getParameterByName('id');
   const data = {
     "restaurant_id": restaurantID,
