@@ -194,16 +194,16 @@ addReview = () => {
     // Online
     DBHelper.submitReview(data)
     .then(resp => {
-      console.log(resp);
       fillReviewsHTML([data]);
+      displayMessage('Your review has been submitted successfully.');
     })
     .catch(err => console.error(err));
   } else {
     // Offline.
     DBHelper.storeOfflineReview(data)
     .then(review => {
-      console.log(review);
       fillReviewsHTML([review]);
+      displayMessage('You are offline, your review has been saved.');
     })
     .catch(err => console.error(err));
   }  
@@ -214,6 +214,19 @@ addReview = () => {
  */
 updateDeferredReviews = () => {
   DBHelper.updateAndDeleteDeferredReviews();
+}
+
+/**
+ * Display the message in a snackbar.
+ */
+displayMessage = (message, duration=5000) => {
+  const snackbar = document.getElementById('snackbar');
+  snackbar.className = "show";
+  snackbar.innerHTML = message;  
+
+  setTimeout(() => { 
+    snackbar.className = snackbar.className.replace("show", ""); 
+  }, duration);
 }
 
 /**
