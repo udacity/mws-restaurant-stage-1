@@ -13,15 +13,18 @@ window.initMap = () => {
   fetchRestaurantFromURL()
   .then(restaurant => {
     self.restaurant = restaurant;
-    if(!restaurant) {
-      return;
-    }
+    if(!restaurant) return;
+    
+    return fetchRestaurantReviewsFromURL();
+  })
+  .then(reviews => {
+    self.restaurant.reviews = reviews;
 
     fillRestaurantHTML();
 
     self.map = new google.maps.Map(document.getElementById('map'), {
       zoom: 16,
-      center: restaurant.latlng,
+      center: self.restaurant.latlng,
       scrollwheel: false
     });
 
@@ -37,6 +40,14 @@ window.initMap = () => {
 fetchRestaurantFromURL = () => {  
   const id = getParameterByName('id');
   return DBHelper.fetchRestaurantById(id);
+}
+
+/**
+ * Get all reviews of the restaurant.
+ */
+fetchRestaurantReviewsFromURL = () => {
+  const id = getParameterByName('id');
+  return DBHelper.fetchRestaurantReviewsById(id);
 }
 
 /**
@@ -108,6 +119,25 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 }
 
 /**
+ * Create 5-star rating.
+ */
+createReviewRatingHTML = (review) => {
+  const reviewRating = review.rating;
+  
+  const rating = document.createElement('p');
+  rating.innerHTML = 'Rating: ';
+  rating.className = 'rating-stars';
+
+  for (let i = 1; i <= 5; i++) {
+    const span = document.createElement('span');
+    span.className = (i <= reviewRating ? 'fa fa-star checked' : 'fa fa-star');
+    rating.appendChild(span);
+  }
+
+  return rating;
+}
+
+/**
  * Create review HTML and add it to the webpage.
  */
 createReviewHTML = (review) => {
@@ -117,11 +147,10 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  date.innerHTML = DBHelper.dateFormat(review.createdAt);
   li.appendChild(date);
 
-  const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
+  const rating = createReviewRatingHTML(review);
   li.appendChild(rating);
 
   const comments = document.createElement('p');
@@ -146,6 +175,24 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
   li.appendChild(a);
 
   breadcrumb.appendChild(li);
+}
+
+/**
+ * Submit review to backend.
+ */
+addReview = () => {
+  const reviewForm = document.getElementById('review-form');
+  const restaurantID = getParameterByName('id');
+  const data = {
+    "restaurant_id": restaurantID,
+    "name": reviewForm.name.value,
+    "rating": reviewForm.rating.value,
+    "comments": reviewForm.comments.value,    
+  }
+
+  DBHelper.submitReview(data)
+  .then(resp => console.log(resp))
+  .catch(err => console.log(err));
 }
 
 /**
