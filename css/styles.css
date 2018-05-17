@@ -27,7 +27,8 @@ header {
     align-items: center;
     justify-content: center;
     margin: auto;
-    background-color: red;
+    background-color: teal;
+    color: white;
 }
 
 header h1 {
@@ -130,6 +131,7 @@ nav h1 a {
     font-weight: 200;
     letter-spacing: 10px;
     text-transform: uppercase;
+
 }
 
 #breadcrumb {
@@ -188,7 +190,7 @@ nav h1 a {
 .filter-options {
     width: 100%;
     height: 100%;
-    background-color: red;
+    background-color: teal;
 
     display: flex;
     flex-wrap: wrap;
