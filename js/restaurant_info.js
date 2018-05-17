@@ -197,19 +197,19 @@ addReview = () => {
   }
 
   if(navigator.onLine) {
-    // Online
     DBHelper.submitReview(data)
     .then(resp => {
       fillReviewsHTML([data]);
       displayMessage('Your review has been submitted successfully.');
+      reviewForm.reset();  
     })
     .catch(err => console.error(err));
   } else {
-    // Offline.
     DBHelper.storeOfflineReview(data)
     .then(review => {
       fillReviewsHTML([review]);
       displayMessage('You are offline, your review has been saved.');
+      reviewForm.reset(); 
     })
     .catch(err => console.error(err));
   }  
