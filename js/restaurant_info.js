@@ -147,7 +147,7 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = DBHelper.dateFormat(review.createdAt);
+  date.innerHTML = (review.createdAt ? DBHelper.dateFormat(review.createdAt) : 'Offline review');
   li.appendChild(date);
 
   const rating = createReviewRatingHTML(review);
