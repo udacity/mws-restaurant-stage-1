@@ -18,7 +18,7 @@ ul, li {
 	color: #333;
 }
 a {
-	color: orange;
+	color: black;
 	text-decoration: none;
 }
 a:hover, a:focus {
@@ -41,10 +41,11 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 #footer {
   background-color: #444;
-  color: #aaa;
+  color: #b3b3b3;
   font-size: 8pt;
   letter-spacing: 1px;
-  padding: 25px;
+  /* padding: 25px; */
+  padding: 25px 0 25px 0;
   text-align: center;
   text-transform: uppercase;
 }
@@ -57,6 +58,7 @@ nav {
 }
 nav h1 {
   margin: auto;
+  padding: 1.2em;
 }
 nav h1 a {
   color: #fff;
@@ -68,10 +70,9 @@ nav h1 a {
 #breadcrumb {
     padding: 10px 40px 16px;
     list-style: none;
-    background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
+    float: left;
 }
 
 /* Display list items side by side */
@@ -88,13 +89,13 @@ nav h1 a {
 
 /* Add a color to all links inside the list */
 #breadcrumb li a {
-    color: #0275d8;
+    color: #01447e;
     text-decoration: none;
 }
 
 /* Add a color on mouse-over */
 #breadcrumb li a:hover {
-    color: #01447e;
+    color: #01396A;
     text-decoration: underline;
 }
 /* ====================== Map ====================== */
@@ -107,15 +108,17 @@ nav h1 a {
 .filter-options {
   width: 100%;
   height: 50px;
-  background-color: #3397DB;
+  background-color: #3397db;
   align-items: center;
+  padding: 0.5em 0 0.5em;
 }
 .filter-options h2 {
-  color: white;
+  color: black;
   font-size: 1rem;
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+  display: inline;
 }
 .filter-options select {
   background-color: white;
@@ -136,8 +139,13 @@ nav h1 a {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;  
 }
-#restaurants-list li {
+#restaurants-list div {
   background-color: #fff;
   border: 2px solid #ccc;
   font-family: Arial,sans-serif;
@@ -155,8 +163,8 @@ nav h1 a {
   min-height: 248px;
   min-width: 100%;
 }
-#restaurants-list li h1 {
-  color: #f18200;
+#restaurants-list div h2 {
+  color: #995900;
   font-family: Arial,sans-serif;
   font-size: 14pt;
   font-weight: 200;
@@ -169,8 +177,8 @@ nav h1 a {
   margin: 0;
   font-size: 11pt;
 }
-#restaurants-list li a {
-  background-color: orange;
+#restaurants-list div a, form > button {
+  background-color: #995900;
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
@@ -192,10 +200,11 @@ nav h1 a {
 .inside #map-container {
   background: blue none repeat scroll 0 0;
   height: 87%;
-  position: fixed;
   right: 0;
   top: 80px;
   width: 50%;
+  overflow: auto;
+  position: absolute;
 }
 .inside #map {
   background-color: #ccc;
@@ -205,10 +214,16 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: 100%;
 }
+
+#footer a {
+  color: orange;
+}
+
 #restaurant-name {
-  color: #f18200;
+  /* color: #f18200; */
+  color: #995900;
   font-family: Arial,sans-serif;
   font-size: 20pt;
   font-weight: 200;
@@ -245,8 +260,9 @@ nav h1 a {
 #reviews-container {
   padding: 30px 40px 80px;
 }
-#reviews-container h2 {
-  color: #f58500;
+#reviews-container h3 {
+  /* color: #f58500; */
+  color: #995900;
   font-size: 24pt;
   font-weight: 300;
   letter-spacing: -1px;
@@ -272,4 +288,106 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+form > input, textarea { 
+  display: block;
+  width: 50%;
+}
+
+form {
+  margin-bottom: 5%;
+}
+
+/* ================= Star Rating ================= */
+
+.rating { 
+  border: none;
+  float: left;
+}
+
+.rating > input { 
+  display: none; 
+} 
+
+.rating > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > label { 
+  color: #ddd;
+  float: right; 
+}
+
+.rating > input:checked ~ label,
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label { 
+  color: #ffd700;  
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label,
+.rating > input:checked ~ label:hover ~ label { 
+  color: #ffed85;  
+} 
+
+.rating-stars > span {
+  color: #ddd;
+}
+
+.rating-stars > span.checked {
+  color: #ffd700;
+}
+
+/* ================= Snackbar ================= */
+
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 1.0rem;
+}
+
+#snackbar.show {
+  visibility: visible;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* ================= Media Queries ================= */
+
+@media screen and (max-width: 397px) {
+  nav {
+    min-height: 100px;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  nav h1 a {
+    font-size: 10pt;
+  }  
+}
+
+@media screen and (max-width: 600px) {
+  .filter-options {
+    height: auto;
+    text-align: center;
+  }
+
+  .filter-options h2 {
+    display: block;
+  }
 }

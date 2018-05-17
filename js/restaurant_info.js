@@ -1,48 +1,53 @@
 let restaurant;
 var map;
 
+
 /**
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-  });
+  if (self.restaurant) {
+    return;
+  }
+
+  fetchRestaurantFromURL()
+  .then(restaurant => {
+    self.restaurant = restaurant;
+    if(!restaurant) return;
+    
+    return fetchRestaurantReviewsFromURL();
+  })
+  .then(reviews => {
+    self.restaurant.reviews = reviews;
+
+    fillRestaurantHTML();
+
+    self.map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 16,
+      center: self.restaurant.latlng,
+      scrollwheel: false
+    });
+
+    fillBreadcrumb();
+    DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+  })
+  .catch(err => console.error(err));
 }
 
 /**
  * Get current restaurant from page URL.
  */
-fetchRestaurantFromURL = (callback) => {
-  if (self.restaurant) { // restaurant already fetched!
-    callback(null, self.restaurant)
-    return;
-  }
+fetchRestaurantFromURL = () => {  
   const id = getParameterByName('id');
-  if (!id) { // no id found in URL
-    error = 'No restaurant id in URL'
-    callback(error, null);
-  } else {
-    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
-      self.restaurant = restaurant;
-      if (!restaurant) {
-        console.error(error);
-        return;
-      }
-      fillRestaurantHTML();
-      callback(null, restaurant)
-    });
-  }
+  return DBHelper.fetchRestaurantById(id);
+}
+
+/**
+ * Get all reviews of the restaurant.
+ */
+fetchRestaurantReviewsFromURL = () => {
+  const id = getParameterByName('id');
+  return DBHelper.fetchRestaurantReviewsById(id);
 }
 
 /**
@@ -58,6 +63,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = image.alt = `An image from the restaurant ${restaurant.name}`;
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -95,7 +101,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
-  const title = document.createElement('h2');
+  const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
@@ -113,6 +119,25 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 }
 
 /**
+ * Create 5-star rating.
+ */
+createReviewRatingHTML = (review) => {
+  const reviewRating = review.rating;
+  
+  const rating = document.createElement('p');
+  rating.innerHTML = 'Rating: ';
+  rating.className = 'rating-stars';
+
+  for (let i = 1; i <= 5; i++) {
+    const span = document.createElement('span');
+    span.className = (i <= reviewRating ? 'fa fa-star checked' : 'fa fa-star');
+    rating.appendChild(span);
+  }
+
+  return rating;
+}
+
+/**
  * Create review HTML and add it to the webpage.
  */
 createReviewHTML = (review) => {
@@ -122,11 +147,10 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  date.innerHTML = (review.createdAt ? DBHelper.dateFormat(review.createdAt) : 'Offline review');
   li.appendChild(date);
 
-  const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
+  const rating = createReviewRatingHTML(review);
   li.appendChild(rating);
 
   const comments = document.createElement('p');
@@ -141,9 +165,74 @@ createReviewHTML = (review) => {
  */
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
+  
+  const a = document.createElement('a');
+  a.setAttribute('aria-current', 'page');
+  a.setAttribute('href', '#');
+  a.innerHTML = restaurant.name;
+
   const li = document.createElement('li');
-  li.innerHTML = restaurant.name;
+  li.appendChild(a);
+
   breadcrumb.appendChild(li);
+}
+
+/**
+ * Submit review to backend.
+ */
+addReview = () => {
+  const reviewForm = document.getElementById('review-form');
+  
+  if(!reviewForm.name.value){
+    displayMessage('Please enter your name before submitting.');
+    return;
+  }
+
+  const restaurantID = getParameterByName('id');
+  const data = {
+    "restaurant_id": restaurantID,
+    "name": reviewForm.name.value,
+    "rating": reviewForm.rating.value,
+    "comments": reviewForm.comments.value,    
+  }
+
+  if(navigator.onLine) {
+    DBHelper.submitReview(data)
+    .then(resp => {
+      fillReviewsHTML([data]);
+      displayMessage('Your review has been submitted successfully.');
+      reviewForm.reset();  
+    })
+    .catch(err => console.error(err));
+  } else {
+    DBHelper.storeOfflineReview(data)
+    .then(review => {
+      fillReviewsHTML([review]);
+      displayMessage('You are offline, your review has been saved.');
+      reviewForm.reset(); 
+    })
+    .catch(err => console.error(err));
+  }  
+}
+
+/**
+ * Update previously deferred reviews.
+ */
+updateDeferredReviews = () => {
+  DBHelper.updateAndDeleteDeferredReviews();
+}
+
+/**
+ * Display the message in a snackbar.
+ */
+displayMessage = (message, duration=5000) => {
+  const snackbar = document.getElementById('snackbar');
+  snackbar.className = "show";
+  snackbar.innerHTML = message;  
+
+  setTimeout(() => { 
+    snackbar.className = snackbar.className.replace("show", ""); 
+  }, duration);
 }
 
 /**
@@ -161,3 +250,13 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+window.addEventListener('online', () => {
+  updateDeferredReviews();
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  if(navigator.onLine) { 
+    updateDeferredReviews();
+  }
+});

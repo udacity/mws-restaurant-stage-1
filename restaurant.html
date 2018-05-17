@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#3397db"/>
+  <link rel="manifest" href="/manifest.json">
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <title>Restaurant Info</title>
@@ -13,15 +17,16 @@
   <!-- Beginning header -->
   <header>
     <!-- Beginning nav -->
-    <nav>
+    <nav aria-label="Breadcrumb">
       <h1><a href="/">Restaurant Reviews</a></h1>
+
+      <!-- Beginning breadcrumb -->
+      <ol id="breadcrumb">
+        <li><a href="/">Home</a></li>
+      </ol>
+      <!-- End breadcrumb -->
     </nav>
-    <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
-      <li><a href="/">Home</a></li>
-    </ul>
-    <!-- End breadcrumb -->
-    <!-- End nav -->
+
   </header>
   <!-- End header -->
 
@@ -29,12 +34,12 @@
   <main id="maincontent">
     <!-- Beginning map -->
     <section id="map-container">
-      <div id="map"></div>
+      <div id="map" role="application" aria-label="restaurant location"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
+      <h2 id="restaurant-name"></h1>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
       <p id="restaurant-address"></p>
@@ -42,7 +47,29 @@
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
-    <section id="reviews-container">
+    <section id="reviews-container">        
+      <h3>Your review</h3>
+      <form id="review-form" onsubmit="return false;">        
+        <input name="name" placeholder="Your name (required)" type="text" aria-label="username input"/>
+        <fieldset class="rating">
+          <input type="radio" id="star5" name="rating" value="5" aria-label="review rating five stars" />
+          <label for="star5" title="Awesome - 5 stars"></label>    
+          <input type="radio" id="star4" name="rating" value="4" aria-label="review rating four stars" />
+          <label for="star4" title="Pretty good - 4 stars"></label>    
+          <input type="radio" id="star3" name="rating" value="3" aria-label="review rating three stars" />
+          <label for="star3" title="Meh - 3 stars"></label>    
+          <input type="radio" id="star2" name="rating" value="2" aria-label="review rating two stars" />
+          <label for="star2" title="Kinda bad - 2 stars"></label>    
+          <input type="radio" id="star1" name="rating" value="1" aria-label="review rating one star" />
+          <label for="star1" title="Sucks big time - 1 star"></label>
+        </fieldset>
+        <br><br><br>
+        <textarea name="comments" placeholder="Add a comment..." aria-label="comments input"></textarea>
+        <button onclick="addReview()">Submit</button>
+      </form>
+
+      <div id="snackbar"></div>
+
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
@@ -56,14 +83,28 @@
   <!-- End footer -->
 
   <!-- Beginning scripts -->
+  <!-- IndexedDb Promises -->
+  <script type="text/javascript" src="js/idb.js"></script>
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxj-p1mVktypKkZ1U1NVFpAuCJuEtmKHc&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
 
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function(registration) {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function(err) {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
+  
 </body>
 
 </html>
