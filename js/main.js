@@ -102,18 +102,14 @@ updateRestaurants = () => {
 
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
-
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(
     cuisine,
     neighborhood,
-    (error, restaurants) => {
-      if (error) {
-        // Got an error!
-        console.error(error);
-      } else {
-        resetRestaurants(restaurants);
-        fillRestaurantsHTML();
-      }
+    (err, filteredRestaurants) => {
+      if (err) throw err;
+
+      resetRestaurants(filteredRestaurants);
+      fillRestaurantsHTML();
     }
   );
 };
@@ -155,7 +151,7 @@ createRestaurantHTML = restaurant => {
   image.setAttribute("alt", `Image of ${restaurant.name}`);
   image.sizes =
     "'(max-width: 620px) 100vw', '(max-width: 930px) 40vw', '(max-width: 1230px) 30vw'";
-  image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
+  image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant.photograph);
   li.append(image);
 
   const name = document.createElement("h1");

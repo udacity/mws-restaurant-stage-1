@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "lite-server",
+    "start": "http-server -p 8080 -c-1",
     "remote-ios": "remotedebug_ios_webkit_adapter --port=9000"
   },
   "repository": {
@@ -20,7 +20,11 @@
   },
   "homepage": "https://github.com/bushidocodes/mws-restaurant-stage-1#readme",
   "devDependencies": {
+    "http-server": "^0.11.1",
     "lite-server": "^2.3.0",
     "remotedebug-ios-webkit-adapter": "^0.2.2"
+  },
+  "dependencies": {
+    "idb": "^2.1.1"
   }
 }

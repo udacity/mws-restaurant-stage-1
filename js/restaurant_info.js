@@ -1,3 +1,10 @@
+// Check for Service Worker Support
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js").then(() => {
+    console.log("Service Worker Registered");
+  });
+}
+
 let restaurant;
 var map;
 
@@ -5,10 +12,9 @@ var map;
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) {
-      // Got an error!
-      console.error(error);
+  fetchRestaurantFromURL((err, restaurant) => {
+    if (err) {
+      console.error(err);
     } else {
       self.map = new google.maps.Map(document.getElementById("map"), {
         zoom: 16,
@@ -24,26 +30,27 @@ window.initMap = () => {
 /**
  * Get current restaurant from page URL.
  */
-fetchRestaurantFromURL = callback => {
-  if (self.restaurant) {
-    // restaurant already fetched!
-    callback(null, self.restaurant);
-    return;
-  }
+fetchRestaurantFromURL = cb => {
   const id = getParameterByName("id");
-  if (!id) {
+  if (self.restaurant) {
+    console.log("restaurant already fetched!");
+    // restaurant already fetched!
+    cb(null, self.restaurant);
+  } else if (!id) {
     // no id found in URL
     error = "No restaurant id in URL";
-    callback(error, null);
+    cb(error);
   } else {
-    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
-      self.restaurant = restaurant;
-      if (!restaurant) {
-        console.error(error);
-        return;
+    DBHelper.fetchRestaurantById(id, (err, restaurant) => {
+      if (err) {
+        cb(err, null);
+      } else {
+        self.restaurant = restaurant;
+        if (restaurant) {
+          fillRestaurantHTML(restaurant); // writes restaurant to the DOM
+          cb(null, restaurant);
+        }
       }
-      fillRestaurantHTML();
-      callback(null, restaurant);
     });
   }
 };
@@ -61,7 +68,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.getElementById("restaurant-img");
   image.className = "restaurant-img";
   image.setAttribute("alt", `Image of ${restaurant.name}`);
-  image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
+  image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant.photograph);
 
   const cuisine = document.getElementById("restaurant-cuisine");
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -71,7 +78,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  fillReviewsHTML(restaurant.reviews);
 };
 
 /**
@@ -81,6 +88,7 @@ fillRestaurantHoursHTML = (
   operatingHours = self.restaurant.operating_hours
 ) => {
   const hours = document.getElementById("restaurant-hours");
+  hours.innerHTML = "";
   for (let key in operatingHours) {
     const row = document.createElement("tr");
 
@@ -101,6 +109,7 @@ fillRestaurantHoursHTML = (
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById("reviews-container");
+  container.innerHTML = "";
   const title = document.createElement("h2");
   title.innerHTML = "Reviews";
   container.appendChild(title);
@@ -111,11 +120,12 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     container.appendChild(noReviews);
     return;
   }
-  const ul = document.getElementById("reviews-list");
+  const reviewList = document.createElement("ul");
+  reviewList.id = "reviews-list";
   reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
+    reviewList.appendChild(createReviewHTML(review));
   });
-  container.appendChild(ul);
+  container.appendChild(reviewList);
 };
 
 /**
@@ -147,6 +157,9 @@ createReviewHTML = review => {
  */
 fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById("breadcrumb");
+  while (breadcrumb.children.length > 1) {
+    breadcrumb.removeChild(breadcrumb.lastChild);
+  }
   const anchor = document.createElement("a");
   anchor.setAttribute("href", `restaurant.html?id=${restaurant.id}`);
   anchor.setAttribute("aria-current", "page");
