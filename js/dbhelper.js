@@ -7,48 +7,54 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8080; // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337; // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else {
+    let networkDataReceived = false;
+    fetch(DBHelper.DATABASE_URL)
+      .then(res => {
+        if (res) {
+          return res.json();
+        }
+      })
+      .then(data => {
+        if (data) {
+          networkDataReceived = true;
+          callback(null, data);
+        }
+      })
+      .catch(err => {
         // Oops!. Got an error from server.
-        const error = `Request failed. Returned status of ${xhr.status}`;
-        callback(error, null);
-      }
-    };
-    xhr.send();
+        const error = `Request failed. Returned status of ${err}`;
+      });
+    // Fetch from IndexedDB
+    if ("indexedDB" in window) {
+      getItems("restaurants").then(restaurants => {
+        if (!networkDataReceived && restaurants) {
+          callback(null, restaurants);
+        }
+      });
+    }
   }
 
   /**
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
-    // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
+    let networkDataReceived = false;
+    DBHelper.fetchRestaurants((err, restaurants) => {
+      if (err) {
+        const error = `Request failed. Returned status of ${err}`;
         callback(error, null);
       } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) {
-          // Got the restaurant
-          callback(null, restaurant);
-        } else {
-          // Restaurant does not exist in the database
-          callback("Restaurant does not exist", null);
-        }
+        networkDataReceived = true;
+        const results = restaurants.filter(r => r.id == id)[0];
+        callback(null, results);
       }
     });
   }

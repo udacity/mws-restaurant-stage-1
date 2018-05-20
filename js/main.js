@@ -102,28 +102,16 @@ updateRestaurants = () => {
 
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
+  DBHelper.fetchRestaurantByCuisineAndNeighborhood(
+    cuisine,
+    neighborhood,
+    (err, filteredRestaurants) => {
+      if (err) throw err;
 
-  return fetch("http://localhost:1337/restaurants/")
-    .then(res => res.json())
-    .then(restaurants => {
-      if (cuisine === "all") return restaurants;
-      return restaurants.filter(
-        restaurant => restaurant.cuisine_type === cuisine
-      );
-    })
-    .then(restaurants => {
-      if (neighborhood === "all") return restaurants;
-      return restaurants.filter(
-        restaurant => restaurant.neighborhood === neighborhood
-      );
-    })
-    .then(filteredRestaurants => {
       resetRestaurants(filteredRestaurants);
       fillRestaurantsHTML();
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    }
+  );
 };
 
 /**
