@@ -1,5 +1,4 @@
-
-/* ====================== Restaurant Filtering ====================== */
+/* #region: Restaurant Filtering */
 
 .filter-options {
     width: 100%;
@@ -27,30 +26,29 @@
     padding: 0 10px;
     width: 200px;
 }
+/* #endregion */
 
-
-/* ====================== Restaurant Listing ====================== */
+/* #region: Restaurant Listing */
 
 #restaurants-list {
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: flex-start;
     background-color: #f3f3f3;
-    list-style: outside none none;
-    /* margin: 0;
-    padding: 30px 15px 60px;
-    text-align: center; */
+    list-style: none;
+    padding: var(--restaurant-padding);
 }
 
 #restaurants-list li {
+    flex-basis: auto;
     background-color: #fff;
     border: 2px solid #ccc;
     font-family: Arial, sans-serif;
-    margin: 15px;
     min-height: 380px;
     padding: 0 30px 25px;
     text-align: left;
+    margin: var(--restaurant-margin);
     width: var(--restaurant-width);
 }
 
@@ -91,9 +89,9 @@
     text-decoration: none;
     text-transform: uppercase;
 }
+/* #endregion */
 
-
-/* ====================== Restaurant Details ====================== */
+/* #region: Restaurant Details */
 
 .inside header {
     position: fixed;
@@ -200,3 +198,4 @@
 #restaurant-hours td {
     color: #666;
 }
+/* #endregion */

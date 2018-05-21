@@ -1,3 +1,15 @@
 :root {
-    --restaurant-width: 270px;
+    /* #region: Restaurant */
+    --restaurant-width: 100%;
+    --restaurant-margin: 0 0 15px 0;
+    --restaurant-padding: 0 2px;
+    /* #endregion */
+}
+
+@media only screen and (min-width: 745px) {
+    :root {
+        --restaurant-width: 270px;
+        --restaurant-margin: 15px;
+        --restaurant-padding: 0;
+    }
 }
