@@ -211,15 +211,15 @@ nav h1 a {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
-  display: flex;
   flex-wrap: wrap;
 }
 
 #restaurants-list li {
+  max-width: 250px;
   background-color: #fff;
   border: 2px solid var(--primary);
   font-family: Arial,sans-serif;
-  margin: 15px;
+  margin: 25px;
   min-height: 380px;
   transition: all .4s;
 }
@@ -237,7 +237,7 @@ nav h1 a {
   min-width: 100%;
 }
 
-#restaurants-list li h1 {
+#restaurants-list li h3 {
   color: #f18200;
   font-family: Arial,sans-serif;
   font-size: 1.6rem;
