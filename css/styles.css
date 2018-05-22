@@ -19,6 +19,8 @@
 
 /* Styles */
 
+/* TODO: Use CSS Grid for document */
+
 html {
   font-size: 62.5%; /* Set 1rem == 10px */
 }
@@ -227,6 +229,8 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Listing ====================== */
+
+/* TODO: Convert list to use CSS grid instead of flexbox */
 
 #restaurants-list {
   background-color: #f3f3f3;
