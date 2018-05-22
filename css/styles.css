@@ -285,7 +285,7 @@ nav h1 a {
 	}
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (min-width: 500; max-width: 800px) {
 	.filter-options select {
 		width: 360px;
 	}
