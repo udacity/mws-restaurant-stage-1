@@ -2,15 +2,14 @@
 <html>
 
   <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" /> -->
     <link rel="stylesheet" href="css/styles.css">
     <title>Restaurant Reviews</title>
   </head>
 
   <body>
-    <button class="skip-link">Skip to Main Content</button>
+    <a href="#filter-restaurants" id="skip-link">Skip to Filter Restaurants</a>
 
     <header> <!-- Header -->
       <nav class="flex-center">
@@ -23,8 +22,8 @@
         <div id="map"></div>
       </section>
       <section id="results">
-        <div class="filter-options flex-center">
-          <h2>Filter Restaurants</h2>
+        <div id="filter-restaurants" class="filter-options flex-center">
+          <h2 id="filter-header">Filter Restaurants</h2>
           <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
             <option value="all">All Neighborhoods</option>
           </select>
@@ -41,8 +40,8 @@
     </footer> <!-- End Footer -->
 
     <!-- Scripts -->
-    <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
-    <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+    <script charset="utf-8" src="js/dbhelper.js"></script>
+    <script charset="utf-8" src="js/main.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD466FELHa1YmI6-5V8o9b58-GyFaYGsSo&libraries=places&callback=initMap"></script>
   </body>
 
