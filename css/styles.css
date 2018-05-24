@@ -3,10 +3,12 @@
 /* ========== Variables ========== */
 
 :root {
-  --primary: #252831;
+  --blue: #252831;
+  --orange: #f18200;
+  --bright-orange: orange;
   --black: #333;
-  --white: ;
-  --bg-color: #fdfdfd;
+  --white: #fefefe;
+  --bg-color: #f3f3f3;
 }
 
 /* ========== Object Classes ========== */
@@ -54,7 +56,7 @@ li {
 }
 
 a {
-  color: orange;
+  color: var(--orange);
   text-decoration: none;
 }
 
@@ -102,7 +104,7 @@ section {
   min-width: 100%;
   height: 100px;
   padding: 0 25px;
-  background-color: var(--primary);
+  background-color: var(--blue);
   color: #aaa;
   font-size: 1.2rem;
   letter-spacing: 0.1rem;
@@ -124,7 +126,7 @@ section {
 nav {
   width: 100%;
   height: 100px;
-  background-color: var(--primary);
+  background-color: var(--blue);
   text-align: center;
 }
 
@@ -202,7 +204,7 @@ nav h1 a {
 .filter-options {
   width: 100%;
   height: 150px;
-  background-color: var(--primary);
+  background-color: var(--blue);
   flex-direction: column;
 }
 
@@ -245,7 +247,7 @@ nav h1 a {
   max-width: 250px;
   /* max-height: 400px; */
   background-color: #fff;
-  border: 2px solid var(--primary);
+  border: 2px solid var(--blue);
   font-family: Arial, sans-serif;
   margin: 25px;
   transition: all 0.4s;
@@ -262,7 +264,7 @@ nav h1 a {
 }
 
 #restaurants-list li h3 {
-  color: #f18200;
+  color: var(--orange);
   font-family: Arial, sans-serif;
   font-size: 1.6rem;
   font-weight: 200;
@@ -279,7 +281,7 @@ nav h1 a {
 }
 
 #restaurants-list li a {
-  background-color: orange;
+  background-color: var(--orange);
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
@@ -292,7 +294,6 @@ nav h1 a {
 }
 
 #restaurants-list div.restaurant-info {
-  /* background: green; */
   padding: 10px 20px;
   min-width: 100%;
   min-height: 100%;
@@ -308,7 +309,6 @@ nav h1 a {
 }
 
 .inside #map-container {
-  background: blue none repeat scroll 0 0;
   height: 87%;
   position: fixed;
   right: 0;
@@ -329,7 +329,7 @@ nav h1 a {
 }
 
 #restaurant-name {
-  color: #f18200;
+  color: var(--orange);
   font-family: Arial, sans-serif;
   font-size: 2rem;
   font-weight: 200;
@@ -374,7 +374,7 @@ nav h1 a {
 }
 
 #reviews-container h2 {
-  color: #f58500;
+  color: var(--orange);
   font-size: 2rem;
   font-weight: 300;
   letter-spacing: -1px;
