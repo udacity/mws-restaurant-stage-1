@@ -8,33 +8,35 @@
     <title>Restaurant Info</title>
   </head>
 
-  <body class="inside">
+  <body id="inside">
     <header> <!-- Header -->
       <nav class="flex-center">
         <h1><a href="/">Restaurant Reviews</a></h1>
       </nav>
 
-      <ul id="breadcrumb" >
+      <ul id="breadcrumb" class="breadcrumb">
         <li><a href="/">Home</a></li>
       </ul>
     </header> <!-- End Header -->
 
-    <main id="maincontent"> <!-- Main Content -->
+    <div class="spacing-container"></div> <!-- Spacing container for fixed header -->
+
+    <main id="maincontent" class="maincontent"> <!-- Main Content -->
       <!-- Map -->
-      <section id="map-container">
-        <div id="map"></div>
+      <section id="map-container" class="map-container">
+        <div id="map" class="map"></div>
       </section>
       <!-- Restaurant Info -->
-      <section id="restaurant-container">
-        <h1 id="restaurant-name"></h1>
-        <img id="restaurant-img">
-        <p id="restaurant-cuisine"></p>
-        <p id="restaurant-address"></p>
-        <table id="restaurant-hours"></table>
+      <section id="restaurant-container" class="restaurant-container">
+        <h2 id="restaurant-name" class="restaurant-name"></h2>
+        <img id="restaurant-img" class="restaurant-img">
+        <p id="restaurant-cuisine" class="restaurant-cuisine"></p>
+        <p id="restaurant-address" class="restaurant-address"></p>
+        <table id="restaurant-hours" class="restaurant-hours"></table>
       </section>
       <!-- Restaurant Reviews -->
-      <section id="reviews-container">
-        <ul id="reviews-list"></ul>
+      <section id="reviews-container" class="reviews-container">
+        <ul id="reviews-list" class="reviews-list"></ul>
       </section>
     </main> <!-- End Main Content -->
 

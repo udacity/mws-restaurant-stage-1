@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <a href="#filter-restaurants" id="skip-link">Skip to Filter Restaurants</a>
+    <a href="#filter-restaurants" id="skip-link" class="skip-link">Skip to Filter Restaurants</a>
 
     <header> <!-- Header -->
       <nav class="flex-center">
@@ -17,21 +17,21 @@
       </nav>
     </header> <!-- End Header-->
 
-    <main id="maincontent"> <!-- Main Content -->
-      <section id="map-container">
-        <div id="map"></div>
+    <main id="maincontent" class="maincontent"> <!-- Main Content -->
+      <section id="map-container" class="map-container">
+        <div id="map" class="map"></div>
       </section>
-      <section id="results">
-        <div id="filter-restaurants" class="filter-options">
-          <h2 id="filter-header">Filter Restaurants</h2>
-          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+      <section id="results" class="results">
+        <div id="filter-restaurants" class="filter-restaurants">
+          <h2 id="filter-header" class="filter-header">Filter Restaurants</h2>
+          <select id="neighborhoods-select" class="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
             <option value="all">All Neighborhoods</option>
           </select>
-          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+          <select id="cuisines-select" class="cuisines-select" name="cuisines" onchange="updateRestaurants()">
             <option value="all">All Cuisines</option>
           </select>
         </div>
-        <ul id="restaurants-list"></ul>
+        <ul id="restaurants-list" class="restaurants-list"></ul>
       </section>
     </main> <!-- End Main Content -->
 
