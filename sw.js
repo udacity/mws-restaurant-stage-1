@@ -1,6 +1,7 @@
-var staticCachName = 'restaurant-v1';
+var staticCachName = 'restaurant-v2';
 
 self.addEventListener('fetch', function(event) {
+    if (event.request.url.endsWith('/restaurants')) return ; 
     event.respondWith(
         caches.match(event.request).then(function(response) {
         if (response) {

@@ -55,11 +55,25 @@ class DBHelper {
    */
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
+    const openIDB = openIndexedDB();
+    openIDB.onsuccess = (event)=> {
+      const idb= event.target.result;
+      const objectStore = idb.transaction('restaurant').objectStore('restaurant');
+      constdbGetRequest = objectStore.getAll();
+      dbGetRequest.onsuccess = ()=>{
+        if (dbGetRequest.result)  {
+          console.log(dbGetRequest.result);
+          
+          callback(null, dbGetRequest.result);
+        }        
+      }
+
+    }
     xhr.open('GET', DBHelper.DATABASE_URL);
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
         const restaurants = JSON.parse(xhr.responseText);   
-        const openIDB = openIndexedDB();
+       
 
         openIDB.onsuccess = (event)=> { 
           const idb= event.target.result;
