@@ -300,9 +300,8 @@ ul.breadcrumb { /* Display list items side by side */
   align-items: center;
 }
 
-/* ====================== Restaurant Details ====================== */
+/* ============ Restaurant Details ============ */
 
-/* Header */
 #inside header {
   position: fixed;
   top: 0;
@@ -341,6 +340,7 @@ ul.breadcrumb { /* Display list items side by side */
 }
 
 /* =============== Restaurant Info =============== */
+
 .restaurant-name {
   color: var(--orange);
   font-family: var(--ff-primary);
@@ -385,6 +385,7 @@ ul.breadcrumb { /* Display list items side by side */
 }
 
 /* =============== Reviews =============== */
+
 .reviews-container h2 {
   color: var(--orange);
   font-size: 2rem;
