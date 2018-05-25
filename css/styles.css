@@ -202,18 +202,24 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 
 .filter-options {
-  width: 100%;
-  height: 150px;
+  height: 100px;
   background-color: var(--blue);
-  flex-direction: column;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: auto 1fr 1fr;
+  padding: 0 50px;
+  align-items: center;
+  align-content: center;
 }
 
 .filter-options h2 {
   color: white;
+  width: 100%;
+  margin: 0;
+  text-align: center;
   font-size: 1.6rem;
   font-weight: normal;
   line-height: 1;
-  margin: 0 20px;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
 }
@@ -225,9 +231,7 @@ nav h1 a {
   font-size: 1.6rem;
   height: 35px;
   letter-spacing: 0;
-  margin: 10px;
   padding: 0 10px;
-  width: 350px;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -241,15 +245,15 @@ nav h1 a {
   padding: 30px 15px 60px;
   text-align: center;
   flex-wrap: wrap;
+  display: grid;
+  grid-gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
 #restaurants-list li {
-  max-width: 250px;
-  /* max-height: 400px; */
   background-color: #fff;
   border: 2px solid var(--blue);
   font-family: Arial, sans-serif;
-  margin: 25px;
   transition: all 0.4s;
 }
 
@@ -271,8 +275,7 @@ nav h1 a {
   letter-spacing: 0;
   line-height: 1.3;
   text-transform: uppercase;
-  margin-bottom: 10px;
-  min-height: 40px;
+  margin-bottom: 0px;
 }
 
 #restaurants-list p {
@@ -286,7 +289,6 @@ nav h1 a {
   color: #fff;
   display: inline-block;
   font-size: 1.6rem;
-  margin: 15px 0;
   padding: 10px 30px 10px;
   text-align: center;
   text-decoration: none;
@@ -294,9 +296,12 @@ nav h1 a {
 }
 
 #restaurants-list div.restaurant-info {
+  height: 200px;
   padding: 10px 20px;
-  min-width: 100%;
-  min-height: 100%;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-rows: auto auto 1fr 48px;
+  align-items: center;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -408,10 +413,16 @@ nav h1 a {
 
 /* ==================== Media Queries ====================  */
 
-@media screen and (max-width: 400px) {
-  .filter-options select {
-    min-width: calc(100% - 70px);
+@media screen and (max-width: 1020px) {
+  .filter-options {
+    height: 150px;
+    grid-gap: 10px;
+    grid-template-columns: 1fr;
   }
+}
+
+@media screen and (max-width: 400px) {
+
 }
 
 @media screen and (min-width: 650px) {
@@ -421,13 +432,7 @@ nav h1 a {
 }
 
 @media screen and (min-width: 900px) {
-  .filter-options {
-    height: 100px;
-    flex-direction: row;
-  }
-  .filter-options select {
-    width: 300px;
-  }
+
 }
 
 @media screen and (min-width: 1250px) {
