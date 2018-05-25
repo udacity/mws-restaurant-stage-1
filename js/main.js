@@ -191,3 +191,7 @@ const skipLink = document.getElementById('skip-link');
 skipLink.addEventListener('click', (e) => {
   document.getElementById('filter-header').focus();
 });
+
+navigator.serviceWorker.register('/sw.js')
+  .then((reg) => console.log(reg))
+  .catch((err) => console.log(err));
