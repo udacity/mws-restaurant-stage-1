@@ -1,14 +1,14 @@
-const restaurant1 = require("responsive-loader?sizes[]=100,sizes[]=200,sizes[]=400,sizes[]=800!../img/1.jpg");
-const restaurant2 = require("responsive-loader?sizes[]=100,sizes[]=200,sizes[]=400,sizes[]=800!../img/2.jpg");
-const restaurant3 = require("responsive-loader?sizes[]=100,sizes[]=200,sizes[]=400,sizes[]=800!../img/3.jpg");
-const restaurant4 = require("responsive-loader?sizes[]=100,sizes[]=200,sizes[]=400,sizes[]=800!../img/4.jpg");
-const restaurant5 = require("responsive-loader?sizes[]=100,sizes[]=200,sizes[]=400,sizes[]=800!../img/5.jpg");
-const restaurant6 = require("responsive-loader?sizes[]=100,sizes[]=200,sizes[]=400,sizes[]=800!../img/6.jpg");
-const restaurant7 = require("responsive-loader?sizes[]=100,sizes[]=200,sizes[]=400,sizes[]=800!../img/7.jpg");
-const restaurant8 = require("responsive-loader?sizes[]=100,sizes[]=200,sizes[]=400,sizes[]=800!../img/8.jpg");
-const restaurant9 = require("responsive-loader?sizes[]=100,sizes[]=200,sizes[]=400,sizes[]=800!../img/9.jpg");
-const restaurant10 = require("responsive-loader?sizes[]=100,sizes[]=200,sizes[]=400,sizes[]=800!../img/10.jpg");
-const failwhale = require("responsive-loader?sizes[]=100,sizes[]=200,sizes[]=400,sizes[]=800!../img/failwhale.jpg");
+import restaurant1 from "../img/1.jpg";
+import restaurant2 from "../img/2.jpg";
+import restaurant3 from "../img/3.jpg";
+import restaurant4 from "../img/4.jpg";
+import restaurant5 from "../img/5.jpg";
+import restaurant6 from "../img/6.jpg";
+import restaurant7 from "../img/7.jpg";
+import restaurant8 from "../img/8.jpg";
+import restaurant9 from "../img/9.jpg";
+import restaurant10 from "../img/10.jpg";
+import failwhale from "../img/failwhale.jpg";
 
 export function getImage(fileName) {
   switch (fileName) {
