@@ -192,6 +192,13 @@ skipLink.addEventListener('click', (e) => {
   document.getElementById('filter-header').focus();
 });
 
-navigator.serviceWorker.register('/sw.js')
-  .then((reg) => console.log(reg))
-  .catch((err) => console.log(err));
+
+function registerServiceWorker() {
+  if(!navigator.serviceWorker) return;
+
+  navigator.serviceWorker.register('/sw.js')
+    .then((reg) => console.log(reg))
+    .catch((err) => console.log(err));
+}
+
+registerServiceWorker();
