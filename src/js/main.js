@@ -162,8 +162,7 @@ const createRestaurantHTML = restaurant => {
   const image = document.createElement("img");
   image.className = "restaurant-img";
   image.setAttribute("alt", `Image of ${restaurant.name}`);
-  image.sizes =
-    "(max-width: 450px) 400px, (max-width: 620px) 600px, (max-width: 930px) 400px, (max-width: 1230px) 250px";
+  image.setAttribute("sizes", "(max-width: 450px) 90vw, 600px");
   image.srcset = imageFile.srcSet;
   image.src = imageFile.src;
   li.append(image);
