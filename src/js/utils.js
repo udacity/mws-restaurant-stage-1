@@ -1,3 +1,5 @@
+import * as idb from "idb";
+
 const dbPromise = idb.open("restaurants-store", 1, db => {
   // create the restaurants table if it doesn't exist
   if (!db.objectStoreNames.contains("restaurants")) {
@@ -6,7 +8,7 @@ const dbPromise = idb.open("restaurants-store", 1, db => {
   }
 });
 
-function writeItem(storeName, item) {
+export function writeItem(storeName, item) {
   console.log("writeItem", storeName, item);
   return dbPromise.then(db => {
     const tx = db.transaction(storeName, "readwrite");
@@ -15,8 +17,8 @@ function writeItem(storeName, item) {
     return tx.complete;
   });
 }
-function getItems(storeName) {
-  console.log("getItems", storeName);
+
+export function getItems(storeName) {
   return dbPromise.then(db => {
     const tx = db.transaction(storeName, "readonly");
     const store = tx.objectStore(storeName);
@@ -24,7 +26,7 @@ function getItems(storeName) {
   });
 }
 
-function getItem(storeName, id) {
+export function getItem(storeName, id) {
   console.log("getItem", storeName, id);
   return dbPromise.then(db => {
     const tx = db.transaction(storeName, "readonly");
@@ -32,7 +34,8 @@ function getItem(storeName, id) {
     return store.get(id);
   });
 }
-function deleteItems(storeName) {
+
+export function deleteItems(storeName) {
   console.log("deleteItems", storeName);
   return dbPromise.then(db => {
     const tx = db.transaction(storeName, "readwrite");
@@ -42,7 +45,7 @@ function deleteItems(storeName) {
   });
 }
 
-function deleteItem(storeName, id) {
+export function deleteItem(storeName, id) {
   console.log("deleteItem", storeName, id);
   return dbPromise
     .then(db => {

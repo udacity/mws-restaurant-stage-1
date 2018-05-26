@@ -1,5 +1,4 @@
 "use strict";
-// Jake Archibald idb helper
 
 (function() {
   function toArray(arr) {
