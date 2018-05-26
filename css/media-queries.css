@@ -42,3 +42,13 @@
         height: 300px;
     }
 }
+
+@media only screen and (max-width: 650px) {
+    .filter-options {
+        display: block;
+        text-align: center;
+    }
+    .filter-options h2 {
+        padding-top: 10px;
+    }
+}
