@@ -1,7 +1,10 @@
+const merge = require("webpack-merge");
+const common = require("./webpack.common.js");
+
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
+module.exports = merge(common, {
   mode: "development",
   entry: {
     main: path.resolve(__dirname, "src", "js", "main.js"),
@@ -25,16 +28,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"]
-          }
-        }
-      },
-      {
         test: /\.css$/,
         use: [
           { loader: "style-loader" },
@@ -47,18 +40,9 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: ["file-loader"]
-      },
-      {
         test: /\.(jpg|png)$/i,
-        loader: "responsive-loader",
-        options: {
-          // If you want to enable sharp support:
-          // adapter: require("responsive-loader/sharp"),
-          sizes: [300, 600, 1200, 2000]
-        }
+        loader: "responsive-loader"
       }
     ]
   }
-};
+});

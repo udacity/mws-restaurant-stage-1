@@ -1,17 +1,20 @@
+const merge = require("webpack-merge");
+const common = require("./webpack.common.js");
+
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-module.exports = {
+module.exports = merge(common, {
   mode: "production",
-  entry: {
-    main: path.resolve(__dirname, "src", "js", "main.js"),
-    restaurantInfo: "./src/js/restaurant_info.js"
-  },
   plugins: [
+    new CleanWebpackPlugin(["dist"]),
     new HtmlWebpackPlugin({
-      chunks: ["main"],
-
+      inject: true,
+      chunks: ["main", "main~restaurantInfo"],
       filename: "index.html",
       minify: {
         removeComments: true,
@@ -28,7 +31,8 @@ module.exports = {
       template: "./src/index.html"
     }),
     new HtmlWebpackPlugin({
-      chunks: ["restaurantInfo"],
+      inject: true,
+      chunks: ["restaurantInfo", "main~restaurantInfo"],
       filename: "restaurant.html",
       minify: {
         removeComments: true,
@@ -46,24 +50,20 @@ module.exports = {
     }),
     new ManifestPlugin({
       fileName: "asset-manifest.json"
+    }),
+    new ExtractTextPlugin("styles.css"),
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.optimize\.css$/g,
+      cssProcessor: require("cssnano"),
+      cssProcessorOptions: { discardComments: { removeAll: true } },
+      canPrint: true
     })
   ],
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"]
-          }
-        }
-      },
-      {
         test: /\.css$/,
-        use: [
-          { loader: "style-loader" },
+        loader: ExtractTextPlugin.extract([
           {
             loader: "css-loader",
             options: {
@@ -71,21 +71,33 @@ module.exports = {
               minimize: true
             }
           }
-        ]
+        ])
       },
-      {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: ["file-loader"]
-      },
+      // {
+      //   test: /\.(gif|png|jpe?g|svg)$/i,
+      //   use: [
+      //     "file-loader",
+      //     {
+      //       loader: "image-webpack-loader",
+      //       options: {
+      //         bypassOnDebug: true
+      //       }
+      //     }
+      //   ]
+      // },
       {
         test: /\.(jpg|png)$/i,
-        loader: "responsive-loader",
-        options: {
-          // If you want to enable sharp support:
-          adapter: require("responsive-loader/sharp"),
-          sizes: [300, 600, 1200, 2000]
-        }
+        use: [
+          {
+            loader: "responsive-loader",
+            options: {
+              // If you want to enable sharp support:
+              adapter: require("responsive-loader/sharp"),
+              sizes: [300, 600]
+            }
+          }
+        ]
       }
     ]
   }
-};
+});
