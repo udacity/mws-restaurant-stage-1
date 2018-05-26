@@ -23,16 +23,19 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
+    width: var(--breadcrumb-width);
 }
 
 
 /* Display list items side by side */
 
+.inside header {
+    width: 100%;
+}
+
 #breadcrumb li {
     display: inline;
 }
-
 
 /* Add a slash symbol (/) before/behind each list item */
 
