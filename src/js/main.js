@@ -1,4 +1,6 @@
 import * as idb from "idb";
+import "../../node_modules/responsively-lazy/responsivelyLazy.js";
+import "../../node_modules/responsively-lazy/responsivelyLazy.css";
 import {
   fetchNeighborhoods,
   fetchCuisines,
@@ -159,13 +161,21 @@ const fillRestaurantsHTML = restaurants => {
 const createRestaurantHTML = restaurant => {
   const imageFile = getImage(restaurant.photograph);
   const li = document.createElement("li");
+  const wrapper = document.createElement("div");
+  wrapper.className = "responsively-lazy";
+  wrapper.style = "padding-bottom:68.44%;";
   const image = document.createElement("img");
   image.className = "restaurant-img";
   image.setAttribute("alt", `Image of ${restaurant.name}`);
   image.setAttribute("sizes", "(max-width: 450px) 90vw, 600px");
-  image.srcset = imageFile.srcSet;
+  image.setAttribute("data-srcset", imageFile.srcSet);
+  image.setAttribute(
+    "srcset",
+    "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+  );
   image.src = imageFile.src;
-  li.append(image);
+  wrapper.append(image);
+  li.append(wrapper);
 
   const name = document.createElement("h1");
   name.innerHTML = restaurant.name;

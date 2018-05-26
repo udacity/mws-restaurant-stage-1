@@ -29,6 +29,7 @@
     "css-loader": "^0.28.11",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
+    "html-webpack-inline-source-plugin": "0.0.10",
     "html-webpack-plugin": "^3.2.0",
     "http-server": "^0.11.1",
     "image-webpack-loader": "^4.2.0",
@@ -54,6 +55,7 @@
   "dependencies": {
     "google-maps": "^3.3.0",
     "idb": "^2.1.1",
-    "optimize-css-assets-webpack-plugin": "^4.0.1"
+    "optimize-css-assets-webpack-plugin": "^4.0.1",
+    "responsively-lazy": "^2.0.2"
   }
 }

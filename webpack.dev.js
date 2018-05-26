@@ -1,5 +1,6 @@
 const merge = require("webpack-merge");
 const common = require("./webpack.common.js");
+const ManifestPlugin = require("webpack-manifest-plugin");
 
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -16,14 +17,17 @@ module.exports = merge(common, {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+      inject: true,
       chunks: ["main"],
       filename: "index.html"
     }),
     new HtmlWebpackPlugin({
       template: "./src/restaurant.html",
+      inject: true,
       chunks: ["restaurantInfo"],
       filename: "restaurant.html"
-    })
+    }),
+    new ManifestPlugin()
   ],
   module: {
     rules: [

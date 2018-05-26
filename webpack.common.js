@@ -6,11 +6,6 @@ module.exports = {
     main: path.resolve(__dirname, "src", "js", "main.js"),
     restaurantInfo: "./src/js/restaurant_info.js"
   },
-  optimization: {
-    splitChunks: {
-      chunks: "all"
-    }
-  },
   module: {
     rules: [
       {

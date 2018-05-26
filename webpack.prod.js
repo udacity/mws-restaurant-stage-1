@@ -7,15 +7,22 @@ const ManifestPlugin = require("webpack-manifest-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin");
 
 module.exports = merge(common, {
   mode: "production",
+  optimization: {
+    splitChunks: {
+      chunks: "all"
+    }
+  },
   plugins: [
     new CleanWebpackPlugin(["dist"]),
     new HtmlWebpackPlugin({
       inject: true,
       chunks: ["main", "main~restaurantInfo"],
       filename: "index.html",
+      inlineSource: ".(css)$",
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -34,6 +41,7 @@ module.exports = merge(common, {
       inject: true,
       chunks: ["restaurantInfo", "main~restaurantInfo"],
       filename: "restaurant.html",
+      inlineSource: ".(css)$",
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -48,6 +56,7 @@ module.exports = merge(common, {
       },
       template: "./src/restaurant.html"
     }),
+    new HtmlWebpackInlineSourcePlugin(),
     new ManifestPlugin({
       fileName: "asset-manifest.json"
     }),
@@ -73,18 +82,6 @@ module.exports = merge(common, {
           }
         ])
       },
-      // {
-      //   test: /\.(gif|png|jpe?g|svg)$/i,
-      //   use: [
-      //     "file-loader",
-      //     {
-      //       loader: "image-webpack-loader",
-      //       options: {
-      //         bypassOnDebug: true
-      //       }
-      //     }
-      //   ]
-      // },
       {
         test: /\.(jpg|png)$/i,
         use: [
