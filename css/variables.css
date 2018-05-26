@@ -1,0 +1,22 @@
+:root {
+    --orange: #f58500;
+    --page-backgroud: #f3f3f3;
+    /* #region: Restaurant list */
+    --restaurant-width: 100%;
+    --restaurant-margin: 0 0 15px 0;
+    --restaurant-padding: 0 2px;
+    /* #endregion */
+
+    /* #region: Restaurant detail */
+    --review-container-width: calc(100% - 60px);
+    --review-footer-width: 100%;
+    --review-container-padding: 30px 40px 80px;
+    --review-restaurant-padding: 140px 0 30px 35px;
+    --restaurant-content-width: calc(100% - 35px);
+    /* #endregion */
+
+    /* #region: Navigator */
+    --breadcrumb-width: calc(100% - 80px);
+    --review-margin-top: 130px;
+    /* #endregion */
+}

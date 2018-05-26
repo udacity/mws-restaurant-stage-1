@@ -1,0 +1,54 @@
+@media only screen and (max-width: 1000px) {
+    :root {
+        --review-restaurant-padding: 0 0 30px 35px;
+    }
+
+    .inside #map-container {
+        position: unset;
+        margin-top: 130px;
+        height: 500px;
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 1001px) {
+    :root {
+        --breadcrumb-width: calc(50% - 80px);
+        --review-footer-width: 50%;
+        --review-margin-top: 0;
+        --review-width-items: 48%;
+        --review-container-width: calc(50% - 50px);
+    }
+}
+
+@media only screen and (min-width: 745px) {
+    :root {
+        /* #region: Restaurant list */
+        --restaurant-width: 270px;
+        --restaurant-margin: 15px;
+        --restaurant-padding: 0;
+        /* #endregion */
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    :root {
+        --review-restaurant-padding: 0 0 80px 0;
+        --review-container-width: 100%;
+        --restaurant-content-width: 100%;
+    }
+
+    .inside #map-container {
+        height: 300px;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    .filter-options {
+        display: block;
+        text-align: center;
+    }
+    .filter-options h2 {
+        padding-top: 10px;
+    }
+}
