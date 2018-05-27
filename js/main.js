@@ -190,6 +190,7 @@ const skipLink = document.getElementById('skip-link');
 
 skipLink.addEventListener('click', (e) => {
   document.getElementById('filter-header').focus();
+  // document.getElementById('restaurant-container').focus();
 });
 
 
