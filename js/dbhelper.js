@@ -125,6 +125,7 @@ class DBHelper {
      * @param {Object} restaurant
      * @param {string} restaurant.photograph
      * @param {string} [restaurant.neighborhood]
+     * @param {string} [restaurant.name]
      * @return {string}
      */
     static imageUrlForRestaurant(restaurant) {

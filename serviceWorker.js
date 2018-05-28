@@ -1,4 +1,13 @@
 /* eslint-disable no-console */
+import idb from "idb";
+
+const objectStore = "keyval";
+
+const transaction = "transaction";
+
+const dbPromise = idb.open("restaurant-store", 1, upgradeDB => {
+    upgradeDB.createObjectStore(objectStore);
+});
 
 const staticCache = "restaurant-static";
 const staticAssets = [
@@ -20,7 +29,7 @@ const staticAssets = [
     "/img/9.jpg",
     "/img/10.jpg",
     "https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2",
-    "https://fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fBBc4AMP6lQ.woff2"
+    "https://fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fBBc4AMP6lQ.woff2",
 ];
 
 /**
@@ -42,13 +51,11 @@ self.addEventListener("activate", event => {
     console.info("activate");
     event.waitUntil(
         caches.keys()
-            .then(cacheNames => {
-                return Promise.all(
-                    cacheNames.filter(cacheName => cacheName.startsWith("restaurant-") &&
-                        !staticCache.includes(cacheName))
-                        .map(cacheName => caches.delete(cacheName))
-                );
-            })
+            .then(cacheNames => Promise.all(
+                cacheNames.filter(cacheName => cacheName.startsWith("restaurant-") &&
+                    !staticCache.includes(cacheName))
+                    .map(cacheName => caches.delete(cacheName))
+            ))
             .catch(error => console.error("Something happened", error))
     );
 });
@@ -58,22 +65,46 @@ self.addEventListener("activate", event => {
  */
 self.addEventListener("fetch", event => {
     console.info("fetch", event.request.url);
-    //const requestUrl = new URL(event.request.url);
-
-    //if (requestUrl.origin === location.origin) {
-    event.respondWith(serveResource(event.request));
-    //}
+    console.log("event", event);
+    const requestUrl = new URL(event.request.url);
+    console.log(`request url ${requestUrl} location: ${location.origin}`);
+    if (requestUrl.origin === location.origin) {
+        // event.respondWith(serveResource(event.request));
+        event.respondWith(serveResponseIdb(event.request));
+    }
 });
+
+
+const serveResponseIdb = request => {
+    // Get from cache
+    dbPromise
+        .then(db => db.transaction(transaction).objectStore(objectStore).get(request.url))
+        .catch(error => console.error("Unable to access cache", error));
+
+    // Fetch the request
+    return fetch(request)
+        .then(response =>
+            dbPromise.then(db => {
+                const tx = db.transaction(transaction, "readwrite");
+                tx.objectStore(objectStore)
+                    .put(response.clone(), request.url)
+                    .then(response => console.info("operation succeed", response))
+                    .catch(error => console.error("something went wrong", error));
+                return response;
+            }))
+        .catch(error => console.error("Something failed", error));
+};
 
 /**
  * Serve resource from cache or network
+ * @deprecated use {@link serveResponseIdb} instead
  * @param {Request} request - client request
- * @returns {Promise<Cache>}
+ * @return {Promise<Cache>|Promise<Response>}
  */
-const serveResource = request => {
-    return caches.open(staticCache)
-        .then(cache => {
-            return cache.match(request)
+const serveResource = request => // eslint-disable-line no-unused-vars
+    caches.open(staticCache)
+        .then(cache =>
+            cache.match(request)
                 .then(response => {
                     console.log(`Matching request ${request.url}`);
                     if (response) {
@@ -89,7 +120,5 @@ const serveResource = request => {
                                 .catch(error => console.error("Caching failed", error));
                             return networkResponse;
                         });
-                });
-        })
+                }))
         .catch(error => console.error("Something happened", error));
-};

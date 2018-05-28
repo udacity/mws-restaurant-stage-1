@@ -3,13 +3,13 @@
 /** @namespace google.maps */
 /** @namespace google.maps.Map */
 
-/* if ("serviceWorker" in navigator) {
+if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
         navigator.serviceWorker.register("/serviceWorker.js")
             .then(() => console.log("Service Worker Registered"))
             .catch(error => console.error("Error registering service worker", error));
     });
-}*/
+}
 
 /**
  * Initialize Google map, called from HTML.

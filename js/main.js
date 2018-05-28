@@ -1,14 +1,14 @@
 /* eslint-disable prefer-destructuring, no-console */
 /* global DBHelper, google */
 
-/* if ("serviceWorker" in navigator) {
+if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
         navigator.serviceWorker
             .register("/serviceWorker.js")
             .then(registration => console.info(`Service Worker Registered with scope: ${registration.scope}`))
             .catch(error => console.error("Error registering service worker", error));
     });
-}*/
+}
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
