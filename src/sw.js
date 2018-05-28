@@ -1,4 +1,4 @@
-const staticCacheName = 'restaurant-reviews-static-v2';
+const staticCacheName = 'restaurant-reviews-static-v3';
 const imagesCache = 'restaurant-reviews-images';
 const restaurantsDataCache = 'restaurant-reviews-restaurants-data';
 
@@ -15,7 +15,6 @@ self.addEventListener('install', event => event.waitUntil(
             '/index.html',
             '/restaurant.html',
             'css/styles.css',
-            'js/dbhelper.js',
             'js/main.js',
             'js/restaurant_info.js'
         ]))
@@ -28,9 +27,12 @@ self.addEventListener('fetch', function (event) {
 
     if (requestURL.origin === location.origin) {
         if (requestURL.pathname.startsWith('/restaurant.html')) {
-            return event.respondWith(caches.match('/restaurant.html'));
+            return event.respondWith(
+                caches.match('/restaurant.html')
+                    .then(response => response || fetch('/restaurant.html'))
+            );
         }
-        if (requestURL.pathname.startsWith('/data/')) {
+        if (requestURL.pathname.startsWith('/data/restaurants.json')) {
             return event.respondWith(fetchRestaurantData(event.request));
         }
         if (requestURL.pathname.startsWith('/img/')) {
