@@ -24,7 +24,6 @@ if ('serviceWorker' in navigator) {
 function openIndexedDB (){
   if (!'serviceWorker' in navigator) return ;
 
-  let indexedDB;
   indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
   if (!indexedDB) {
     console.error("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
@@ -59,7 +58,7 @@ class DBHelper {
     openIDB.onsuccess = (event)=> {
       const idb= event.target.result;
       const objectStore = idb.transaction('restaurant').objectStore('restaurant');
-      constdbGetRequest = objectStore.getAll();
+      const dbGetRequest = objectStore.getAll();
       dbGetRequest.onsuccess = ()=>{
         if (dbGetRequest.result)  {
           console.log(dbGetRequest.result);

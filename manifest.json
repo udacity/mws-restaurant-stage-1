@@ -1,0 +1,20 @@
+{
+  "short_name": "Restaurants",
+  "name": "Restaurant Reviews",
+  "icons": [
+    {
+      "src":"img/burger.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src":"img/burger.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./",
+  "background_color": "#fff",
+  "theme_color": "#3397DB",
+  "display": "standalone"
+}
