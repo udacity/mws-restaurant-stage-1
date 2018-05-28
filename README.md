@@ -33,3 +33,6 @@ Most of the code in this project has been written to the ES6 JavaScript specific
  2. " $ grunt mkdir " to make images directory that where we add the modified images .
  3. " $ grunt clean " to clean images directory if you need that .
 
+### Use gulp tasks 
+ 
+ You have to use gulp to uglify javascript file if you midify any one of them once before running the application by run " $ gulp scripts " and it will watch any changes to re-uglify  the file without needs  to run any command agian  
