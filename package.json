@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "install": "cd server && npm install",
     "build": "gulp build",
     "start": "gulp watch"
   },
