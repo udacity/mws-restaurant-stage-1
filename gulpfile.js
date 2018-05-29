@@ -208,7 +208,7 @@ gulp.task('browser-sync', () =>
 
 // build
 gulp.task('build', done =>
-    runSequence('del', ['html', 'js', 'sass', 'images'], () => done())
+    runSequence('del', 'sass', ['html', 'js', 'images'], () => done())
 );
 
 // watch
