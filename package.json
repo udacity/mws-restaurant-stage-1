@@ -6,7 +6,7 @@
   "scripts": {
     "install": "cd server && npm install",
     "build": "gulp build",
-    "start": "gulp watch"
+    "start": "cd server | node server | cd .. | gulp watch"
   },
   "author": "Adrian Dinca",
   "license": "MIT",
