@@ -1,0 +1,25 @@
+#map {
+  background-color: #ccc;
+  height: 400px;
+  width: 100%;
+}
+
+.inside #map {
+  margin-top: 137px;
+}
+
+@media screen and (min-width: 1024px) {
+  .inside #map-container {
+    background: blue none repeat scroll 0 0;
+    height: calc(100% - 80px);
+    position: fixed;
+    right: 0;
+    top: 80px;
+    width: 50%;
+  }
+
+  .inside #map {
+    height: 100%;
+    margin: 0;
+  }
+}

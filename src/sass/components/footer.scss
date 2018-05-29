@@ -1,0 +1,23 @@
+#footer {
+  background-color: #333;
+  color: #aaa;
+  font-size: .875rem;
+  letter-spacing: 1px;
+  padding: 25px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#footer a {
+  color: #36a4ef;
+}
+
+.inside #footer {
+  width: 100%;
+}
+
+@media screen and (min-width: 1024px) {
+  .inside #footer { 
+    width: 50%;
+  }
+}
