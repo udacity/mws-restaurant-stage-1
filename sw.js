@@ -6,6 +6,7 @@ self.addEventListener('install', (e) => {
       .then((cache) => {
         return cache.addAll([
           '/',
+          '/restaurant.html',
           '/js/main.js',
           '/js/dbhelper.js',
           '/js/restaurant_info.js',
@@ -29,8 +30,6 @@ self.addEventListener('activate', (e) => {
       })
   );
 });
-
-
 
 self.addEventListener('fetch', (e) => {
   e.respondWith(
