@@ -28,10 +28,8 @@ if ("IntersectionObserver" in window) {
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
-document.addEventListener('DOMContentLoaded', (event) => {
-  fetchNeighborhoods();
-  fetchCuisines();
-});
+fetchNeighborhoods();
+fetchCuisines();
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -52,6 +50,14 @@ function fetchNeighborhoods() {
  */
 function fillNeighborhoodsHTML(neighborhoods = self.neighborhoods) {
   const select = document.getElementById('neighborhoods-select');
+
+  select.innerHTML = '';
+
+  const option = document.createElement('option');
+  option.innerHTML = 'All Neighborhoods';
+  option.value = 'all';
+  select.appendChild(option);
+
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
@@ -79,6 +85,13 @@ function fetchCuisines() {
  */
 function fillCuisinesHTML(cuisines = self.cuisines) {
   const select = document.getElementById('cuisines-select');
+
+  select.innerHTML = '';
+
+  const option = document.createElement('option');
+  option.innerHTML = 'All Cuisines';
+  option.value = 'all';
+  select.appendChild(option);
 
   cuisines.forEach(cuisine => {
     const option = document.createElement('option');
