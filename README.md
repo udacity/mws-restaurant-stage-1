@@ -1,4 +1,19 @@
 # Mobile Web Specialist Certification Course
+
+### Install all dependencies
+```sh
+npm install
+```
+
+### Run the app
+```sh
+npm start
+```
+
+### Build for production
+```sh
+npm build
+```
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
 
