@@ -31,6 +31,24 @@ let cuisines;
 let map;
 self.markers = [];
 
+let lazyImageObserver;
+
+/**
+ * Lazy load offscreen images
+ */
+if ("IntersectionObserver" in window) {
+  lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        let lazyImage = entry.target;
+        lazyImage.src = lazyImage.dataset.src;
+        lazyImage.srcset = lazyImage.dataset.srcset;
+        lazyImageObserver.unobserve(lazyImage);
+      }
+    });
+  });
+}
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -170,24 +188,31 @@ function createRestaurantHTML(restaurant) {
   li.classList.add('card');
 
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
+  image.classList.add('restaurant-img');
+  image.classList.add('lazy');
 
   const imageUrl = DBHelper.imageUrlForRestaurant(restaurant);
-  image.src = imageUrl;
+  image.dataset.src = imageUrl;
 
   const imagePath = imageUrl.substring(0, imageUrl.lastIndexOf('.'));
   const imageType = imageUrl.substring(imageUrl.lastIndexOf('.'), imageUrl.length);
-  image.srcset =
+
+  image.src = `img/placeholder.svg`;
+
+  image.dataset.srcset =
     `${imagePath}-300w${imageType} 300w,` +
     `${imagePath}-550w${imageType} 550w`;
 
-  image.sizes =
+  image.dataset.sizes =
     `(min-width: 1024px) 300px,` +
     `(min-width: 720px) 300px,` +
     `(min-width: 480px) 300px,` +
     `(max-width: 479px) 550px`;
 
   image.alt = `A view from the restaurant ${restaurant.name}`;
+
+  if (lazyImageObserver)
+    lazyImageObserver.observe(image);
 
   li.append(image);
 
