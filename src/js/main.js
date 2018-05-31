@@ -24,6 +24,7 @@
 })([Element.prototype, Document.prototype, DocumentFragment.prototype]);
 
 import DBHelper from './dbhelper.js';
+import 'intersection-observer';
 
 let restaurants;
 let neighborhoods;
