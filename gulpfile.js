@@ -192,6 +192,20 @@ gulp.task('images:watch', () =>
         .on('change', browserSync.reload)
 );
 
+/* ====================  MANIFEST.JSON  ==================== */
+
+// copy manifest.json
+gulp.task('manifest', () =>
+    gulp.src('src/manifest.json')
+        .pipe(gulp.dest('dist'))
+);
+
+// watch manifest.json
+gulp.task('manifest:watch', () =>
+    gulp.watch('src/manifest.json', ['manifest'])
+        .on('change', browserSync.reload)
+);
+
 /* ====================  BROWSER-SYNC  ==================== */
 
 // development server
@@ -208,10 +222,10 @@ gulp.task('browser-sync', () =>
 
 // build
 gulp.task('build', done =>
-    runSequence('del', 'sass', ['html', 'js', 'images'], () => done())
+    runSequence('del', 'sass', ['html', 'js', 'images', 'manifest'], () => done())
 );
 
 // watch
 gulp.task('watch', done =>
-    runSequence('build', ['html:watch', 'js:watch', 'sass:watch', 'images:watch', 'browser-sync'], () => done())
+    runSequence('build', ['html:watch', 'js:watch', 'sass:watch', 'images:watch', 'manifest:watch', 'browser-sync'], () => done())
 );
