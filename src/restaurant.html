@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <!-- Main CSS file -->
+  <link rel="stylesheet"
+        href="css/styles.css"
+        type="text/css">
+  <title>Restaurant Info</title>
+
+  <!-- theme color -->
+  <meta name="theme-color"
+        content="#252831">
+
+  <!-- icons -->
+  <link rel="icon"
+        sizes="192x192"
+        href="images/launcher-icon-192x192.png">
+  <link rel="icon"
+        sizes="152x152"
+        href="images/launcher-icon-152x152.png">
+  <link rel="icon"
+        sizes="144x144"
+        href="images/launcher-icon-144x144.png">
+  <link rel="icon"
+        sizes="128x128"
+        href="images/launcher-icon-128x128.png">
+
+  <!-- let the browser know this is a pwa -->
+  <meta name="mobile-web-app-capable"
+        content="yes">
+  <meta name="apple-mobile-web-app-capable"
+        content="yes">
+  <meta name="msapplication-starturl"
+        content="/">
+
+  <!-- manifest.json -->
+  <link rel="manifest"
+        href="manifest.json">
+</head>
+
+<body class="inside">
+  <!-- Beginning header -->
+  <header>
+    <!-- Beginning nav -->
+    <nav class="navbar">
+      <h1><a href="/">Restaurant Reviews</a></h1>
+    </nav>
+    <!-- Beginning breadcrumb -->
+    <nav role="breadcrumb"
+         aria-label="breadcrumb">
+      <ul id="breadcrumb">
+        <li><a href="/">Home</a></li>
+      </ul>
+    </nav>
+    <!-- End breadcrumb -->
+    <!-- End nav -->
+  </header>
+  <!-- End header -->
+
+  <!-- Beginning main -->
+  <main id="maincontent">
+    <!-- Beginning map -->
+    <section id="map-container">
+      <button id="map"
+              role="application"
+              aria-label="map"></div>
+    </section>
+    <!-- End map -->
+
+    <div id="restaurant-details">
+      <!-- Beginning restaurant -->
+      <section id="restaurant-container">
+        <h2 id="restaurant-name"></h2>
+        <div class="card">
+          <img id="restaurant-img">
+          <p id="restaurant-cuisine"></p>
+        </div>
+        <p id="restaurant-address"></p>
+        <h2 id="restaurant-schedule">Schedule</h2>
+        <table id="restaurant-hours"
+               class="card"></table>
+      </section>
+      <!-- end restaurant -->
+      <!-- Beginning reviews -->
+      <section id="reviews-container">
+        <ul id="reviews-list"></ul>
+      </section>
+      <!-- End reviews -->
+    </div>
+  </main>
+  <!-- End main -->
+
+  <!-- Beginning footer -->
+  <footer id="footer">
+    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+  <!-- End footer -->
+
+  <!-- Beginning scripts -->
+  <!-- Main javascript file -->
+  <script async
+          src="js/restaurant_info.js"></script>
+  <!-- Google Maps -->
+  <script async
+          defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCz-NSzy5kH2MTJOy0rGDWgrYbTHxrqkzg&libraries=places&callback=initMap"></script>
+  <!-- End scripts -->
+
+</body>
+
+</html>

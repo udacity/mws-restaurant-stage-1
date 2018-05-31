@@ -1,0 +1,24 @@
+.navbar {
+  background-color: #252831;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  text-align: center;
+  width: 100%;
+}
+
+.navbar h1 {
+  padding: 16px;
+  margin: 0;
+}
+
+.navbar h1 a {
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 200;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+}

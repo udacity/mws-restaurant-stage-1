@@ -1,0 +1,105 @@
+@charset "utf-8";
+
+@import "normalize";
+@import "components/breadcrumb";
+@import "components/button";
+@import "components/card";
+@import "components/filter-options";
+@import "components/footer";
+@import "components/header";
+@import "components/map";
+@import "components/navbar";
+@import "components/placeholder";
+@import "components/restaurant-details";
+@import "components/restaurants-list";
+
+/* CSS Document */
+
+[hidden] {
+  display: none;
+}
+
+img {
+  vertical-align: middle;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+td,
+th,
+p {
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  background-color: #fdfdfd;
+  margin: 0;
+  position:relative;
+}
+
+ul,
+li {
+  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+}
+
+a {
+	color: orange;
+	text-decoration: none;
+}
+
+a:hover,
+a:focus {
+	color: #36a4ef;
+	text-decoration: none;
+}
+
+a img {
+	border: none 0px #fff;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0 0 20px;
+}
+
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	display: block;
+}
+
+#maincontent {
+  background-color: #f3f3f3;
+  min-height: 100%;
+}

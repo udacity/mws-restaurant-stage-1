@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet"
+        href="css/styles.css">
+  <title>Restaurant Reviews</title>
+
+  <!-- theme color -->
+  <meta name="theme-color"
+        content="#252831">
+
+  <!-- icons -->
+  <link rel="icon"
+        sizes="192x192"
+        href="images/launcher-icon-192x192.png">
+  <link rel="icon"
+        sizes="152x152"
+        href="images/launcher-icon-152x152.png">
+  <link rel="icon"
+        sizes="144x144"
+        href="images/launcher-icon-144x144.png">
+  <link rel="icon"
+        sizes="128x128"
+        href="images/launcher-icon-128x128.png">
+
+  <!-- let the browser know this is a pwa -->
+  <meta name="mobile-web-app-capable"
+        content="yes">
+  <meta name="apple-mobile-web-app-capable"
+        content="yes">
+  <meta name="msapplication-starturl"
+        content="/">
+
+  <!-- manifest.json -->
+  <link rel="manifest"
+        href="manifest.json">
+</head>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <h1><a href="/">Restaurant Reviews</a></h1>
+    </nav>
+  </header>
+
+  <main id="maincontent">
+    <section id="map-container">
+      <button id="map"
+              role="application"
+              aria-label="map"></button>
+    </section>
+    <section>
+      <div class="filter-options">
+        <h2>Filter Results</h2>
+        <select id="neighborhoods-select"
+                class="button"
+                aria-label="filter by neighborhoods"
+                name="neighborhoods">
+          <option value="all">All Neighborhoods</option>
+        </select>
+        <select id="cuisines-select"
+                class="button"
+                aria-label="filter by cuisines"
+                name="cuisines">
+          <option value="all">All Cuisines</option>
+        </select>
+      </div>
+      <ul id="restaurants-list">
+        <li class="card"
+            aria-hidden="true">
+          <img class="restaurant-img"
+               src="img/placeholder.svg"
+               sizes="(min-width: 1024px) 300px,(min-width: 720px) 300px,(min-width: 480px) 300px,(max-width: 479px) 550px"
+               alt="placeholder image">
+          <h3 class="placeholder"></h3>
+          <p class="placeholder"></p>
+          <p class="placeholder"></p>
+          <a class="button"
+             href="#">View Details</a>
+        </li>
+        <li class="card"
+            aria-hidden="true">
+          <img class="restaurant-img"
+               src="img/placeholder.svg"
+               sizes="(min-width: 1024px) 300px,(min-width: 720px) 300px,(min-width: 480px) 300px,(max-width: 479px) 550px"
+               alt="placeholder image">
+          <h3 class="placeholder"></h3>
+          <p class="placeholder"></p>
+          <p class="placeholder"></p>
+          <a class="button"
+             href="#">View Details</a>
+        </li>
+        <li class="card"
+            aria-hidden="true">
+          <img class="restaurant-img"
+               src="img/placeholder.svg"
+               sizes="(min-width: 1024px) 300px,(min-width: 720px) 300px,(min-width: 480px) 300px,(max-width: 479px) 550px"
+               alt="placeholder image">
+          <h3 class="placeholder"></h3>
+          <p class="placeholder"></p>
+          <p class="placeholder"></p>
+          <a class="button"
+             href="#">View Details</a>
+        </li>
+        <li class="card"
+            aria-hidden="true">
+          <img class="restaurant-img"
+               src="img/placeholder.svg"
+               sizes="(min-width: 1024px) 300px,(min-width: 720px) 300px,(min-width: 480px) 300px,(max-width: 479px) 550px"
+               alt="placeholder image">
+          <h3 class="placeholder"></h3>
+          <p class="placeholder"></p>
+          <p class="placeholder"></p>
+          <a class="button"
+             href="#">View Details</a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <script async
+          src="js/main.js"></script>
+  <script async
+          defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCz-NSzy5kH2MTJOy0rGDWgrYbTHxrqkzg&libraries=places&callback=initMap"></script>
+
+
+  <footer id="footer">
+    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+
+</body>
+
+</html>

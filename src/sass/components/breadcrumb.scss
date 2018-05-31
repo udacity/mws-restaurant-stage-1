@@ -1,0 +1,38 @@
+#breadcrumb {
+  background-color: #eee;
+  font-size: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 16px;
+  width: 100%;
+}
+
+/* Display list items side by side */
+#breadcrumb li {
+  display: inline;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+#breadcrumb li+li::before {
+  padding: 8px;
+  color: black;
+  content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+#breadcrumb li a {
+  color: #0070af;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+#breadcrumb li a:hover {
+  color: #01447e;
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 1024px) {
+  #breadcrumb { 
+    width: 50%;
+  }
+}

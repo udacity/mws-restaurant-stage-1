@@ -1,0 +1,44 @@
+.filter-options {
+  align-items: center;
+  background-color: #007ac1;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+              0 1px 10px 0 rgba(0, 0, 0, 0.12),
+              0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  height: 56px;
+  padding: 0 8px;
+  position: relative;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 4;
+}
+
+.filter-options h2 {
+  color: white;
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1;
+  padding: 16px 16px 8px 16px;
+  margin: 0;
+}
+
+.filter-options select {
+  background-color: white;
+  margin: 0 8px;
+  padding: 0 8px;
+  max-width: 110px;
+  text-transform: none;
+}
+
+@media screen and (min-width: 360px) {
+  .filter-options select {
+    max-width: 200px;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .filter-options select {
+    width: 200px;
+  }
+}
