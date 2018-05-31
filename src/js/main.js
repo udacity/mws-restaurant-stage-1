@@ -1,28 +1,3 @@
-// append polyfill
-(function (arr) {
-  arr.forEach(function (item) {
-    if (item.hasOwnProperty('append')) {
-      return;
-    }
-    Object.defineProperty(item, 'append', {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: function append() {
-        var argArr = Array.prototype.slice.call(arguments),
-          docFrag = document.createDocumentFragment();
-
-        argArr.forEach(function (argItem) {
-          var isNode = argItem instanceof Node;
-          docFrag.appendChild(isNode ? argItem : document.createTextNode(String(argItem)));
-        });
-
-        this.appendChild(docFrag);
-      }
-    });
-  });
-})([Element.prototype, Document.prototype, DocumentFragment.prototype]);
-
 import DBHelper from './dbhelper.js';
 import 'intersection-observer';
 
@@ -81,7 +56,7 @@ function fillNeighborhoodsHTML(neighborhoods = self.neighborhoods) {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
-    select.append(option);
+    select.appendChild(option);
   });
 }
 
@@ -109,7 +84,7 @@ function fillCuisinesHTML(cuisines = self.cuisines) {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
-    select.append(option);
+    select.appendChild(option);
   });
 }
 
@@ -177,7 +152,7 @@ function resetRestaurants(restaurants) {
  */
 function fillRestaurantsHTML(restaurants = self.restaurants) {
   const ul = document.getElementById('restaurants-list');
-  restaurants.forEach(restaurant => ul.append(createRestaurantHTML(restaurant)));
+  restaurants.forEach(restaurant => ul.appendChild(createRestaurantHTML(restaurant)));
   addMarkersToMap();
 }
 
@@ -215,26 +190,26 @@ function createRestaurantHTML(restaurant) {
   if (lazyImageObserver)
     lazyImageObserver.observe(image);
 
-  li.append(image);
+  li.appendChild(image);
 
   const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
-  li.append(name);
+  li.appendChild(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
+  li.appendChild(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
-  li.append(address);
+  li.appendChild(address);
 
   const more = document.createElement('a');
   more.classList.add('button');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   more.setAttribute('aria-label', `view details about ${restaurant.name}`);
-  li.append(more)
+  li.appendChild(more)
 
   return li
 }
