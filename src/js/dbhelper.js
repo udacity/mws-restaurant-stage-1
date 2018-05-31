@@ -1,3 +1,18 @@
+import idb from './idb';
+
+/**
+  * @returns a promise for the database
+  */
+function getIdbPromise() {
+  if (!navigator.serviceWorker) {
+    return Promise.resolve();
+  }
+
+  return idb.open('restaurant-reviews', 1, upgradeDb => upgradeDb.createObjectStore('restaurant-data', { keyPath: 'id' }));
+}
+
+const idbPromise = getIdbPromise();
+
 /**
  * Common database helper functions.
  */
@@ -16,12 +31,22 @@ export default class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
+    idbPromise
+      .then(db => db.transaction('restaurant-data').objectStore('restaurant-data').getAll())
+      .then(restaurants => callback(null, restaurants));
+
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
         const restaurants = JSON.parse(xhr.responseText);
-        callback(null, restaurants);
+
+        if (restaurants) {
+          restaurants.forEach(restaurant =>
+            idbPromise.then(db =>
+              db.transaction('restaurant-data', 'readwrite').objectStore('restaurant-data').put(restaurant))
+          );
+        }
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
         callback(error, null);

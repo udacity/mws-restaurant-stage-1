@@ -32,9 +32,7 @@ self.addEventListener('fetch', function (event) {
                     .then(response => response || fetch('/restaurant.html'))
             );
         }
-        if (requestURL.pathname.startsWith('/data/restaurants.json')) {
-            return event.respondWith(fetchRestaurantData(event.request));
-        }
+
         if (requestURL.pathname.startsWith('/img/')) {
             return event.respondWith(fetchImage(event.request));
         }
@@ -45,15 +43,6 @@ self.addEventListener('fetch', function (event) {
             .then(response => response || fetch(event.request))
     )
 });
-
-function fetchRestaurantData(request) {
-    return caches.open(restaurantsDataCache)
-        .then(cache => cache.match(request)
-            .then(response => response || fetch(request).then(function (response) {
-                cache.put(request, response.clone());
-                return response;
-            })));
-}
 
 function fetchImage(request) {
     const cachedImageUrl = request.url.replace(/(-\d*w?\.jpg$)|\.jpg$/, '');
