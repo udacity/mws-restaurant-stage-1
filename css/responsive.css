@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS Document */
+
+@media screen and (min-width: 700px) {
+    #restaurants-list li {
+        width: 606px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    #restaurants-list li {
+        width: calc((100% - 188px)/2);
+    }
+}
+
+@media screen and (min-width: 1500px) {
+    #restaurants-list li {
+        width: calc((100% - 282px)/3);
+    }
+}
