@@ -82,7 +82,6 @@ module.exports = merge(common, {
       include: [/\.html$/, /\.css$/, /\.js$/],
       swSrc: "./src/sw-cache/sw.base.js",
       swDest: "sw.js",
-      importScripts: ["/idb.js", "/utils.js"],
       importWorkboxFrom: "local"
     })
   ],
