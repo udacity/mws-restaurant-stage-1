@@ -163,6 +163,7 @@ const createRestaurantHTML = restaurant => {
   const li = document.createElement("li");
   const wrapper = document.createElement("div");
   wrapper.className = "responsively-lazy";
+  wrapper.style = "padding-bottom: 75%";
   const image = document.createElement("img");
   image.className = "restaurant-img";
   image.setAttribute("alt", `Image of ${restaurant.name}`);
