@@ -140,7 +140,8 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.setAttribute('alt', restaurant.name);
+  image.setAttribute('alt', restaurant.altText);
+  image.srcset = `/img/${restaurant.photo400} 400w, /img/${restaurant.photo800} 800w`
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   li.append(image);
 
@@ -190,6 +191,7 @@ const skipLink = document.getElementById('skip-link');
 
 skipLink.addEventListener('click', (e) => {
   document.getElementById('filter-header').focus();
+  // document.getElementById('restaurant-container').focus();
 });
 
 
