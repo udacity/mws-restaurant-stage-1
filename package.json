@@ -9,7 +9,7 @@
     "start:dev":
       "npm run build-sw && webpack-dev-server --open --config webpack.dev.js",
     "start:prod": "npm run build-sw && npm run build && http-server dist",
-    "start": "npm run start:prod",
+    "start": "npm run start:dev",
     "remote-ios": "remotedebug_ios_webkit_adapter --port=9000",
     "build-sw": "webpack --config webpack.sw.js",
     "build": "webpack --config webpack.prod.js"
@@ -61,6 +61,7 @@
   "dependencies": {
     "google-maps": "^3.3.0",
     "idb": "^2.1.1",
+    "lit-html": "^0.10.0",
     "optimize-css-assets-webpack-plugin": "^4.0.1",
     "responsively-lazy": "^2.0.2"
   }

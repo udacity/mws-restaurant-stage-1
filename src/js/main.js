@@ -8,11 +8,13 @@ import {
   mapMarkerForRestaurant,
   urlForRestaurant
 } from "./dbhelper";
+import heartTemplate from "./heart";
 
 import "../css/normalize.css";
 import "../css/styles.css";
 import { getImage } from "./imageLoader";
 import { initMap } from "./mapsLoader";
+import { html, render } from "lit-html";
 
 // Check for Service Worker Support
 if ("serviceWorker" in navigator) {
@@ -155,44 +157,44 @@ const fillRestaurantsHTML = restaurants => {
   addMarkersToMap(restaurants);
 };
 
+window.clickFavorite = target => {
+  const restaurantID = target.dataset.restaurantid;
+  console.log(`Clicked on ${restaurantID}`);
+};
+
 /**
  * Create restaurant HTML.
  */
 const createRestaurantHTML = restaurant => {
-  const imageFile = getImage(restaurant.photograph);
+  console.log(restaurant);
   const li = document.createElement("li");
-  const wrapper = document.createElement("div");
-  wrapper.className = "responsively-lazy";
-  wrapper.style = "padding-bottom: 75%";
-  const image = document.createElement("img");
-  image.className = "restaurant-img";
-  image.setAttribute("alt", `Image of ${restaurant.name}`);
-  image.setAttribute("sizes", "(max-width: 450px) 90vw, 600px");
-  image.setAttribute("data-srcset", imageFile.srcSet);
-  image.setAttribute(
-    "srcset",
-    "data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-  );
-  image.src = imageFile.src;
-  wrapper.append(image);
-  li.append(wrapper);
+  const restaurantTemplate = restaurant => html`
+    <div class="responsively-lazy" style="padding-bottom: 75%;">
+      <img 
+        alt="Image of ${restaurant.name}" 
+        class="restaurant-img"
+        sizes="(max-width: 450px) 90vw, 600px" 
+        data-srcset=${getImage(restaurant.photograph).srcSet}
+        srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+        src=${getImage(restaurant.photograph).src}
+      />
+    </div>
+    <h1>${restaurant.name}</h1>
+    <p>${restaurant.neighborhood}</p>
+    <p>${restaurant.address}</p>
+    <div style="display: flex; flex-direction: row;">
+      <a href=${urlForRestaurant(restaurant)}>View Details</a>
+    <button type="button" style="padding-top: 10px;" class="favorite-button" data-restaurantid=${
+      restaurant.id
+    } onclick="clickFavorite(this)">
+      ${heartTemplate(40, 40)}
+    </button>
+    </div>
+  `;
 
-  const name = document.createElement("h1");
-  name.innerHTML = restaurant.name;
-  li.append(name);
+  render(heartTemplate(50, 50), li);
+  render(restaurantTemplate(restaurant), li);
 
-  const neighborhood = document.createElement("p");
-  neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
-
-  const address = document.createElement("p");
-  address.innerHTML = restaurant.address;
-  li.append(address);
-
-  const more = document.createElement("a");
-  more.innerHTML = "View Details";
-  more.href = urlForRestaurant(restaurant);
-  li.append(more);
   return li;
 };
 
