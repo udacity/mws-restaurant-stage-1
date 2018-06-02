@@ -2,6 +2,17 @@ let restaurant;
 var map;
 
 /**
+ * Skip links logic
+ */
+const skipLink = document.getElementById('skip-link');
+console.log(skipLink);
+
+skipLink.addEventListener('click', (e) => {
+  console.log('clicked');
+  document.getElementById('restaurant-name').focus();
+});
+
+/**
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
@@ -57,6 +68,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
+  image.setAttribute('alt', restaurant.altText);
+  image.srcset = `/img/${restaurant.photo400} 400w, /img/${restaurant.photo800} 800w`
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
