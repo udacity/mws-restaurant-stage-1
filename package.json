@@ -1,0 +1,66 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "description":
+    "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "broken-start-dev": "webpack-dev-server --open --config webpack.dev.js",
+    "start:prod": "npm run build-sw && npm run build && http-server dist",
+    "start": "npm run start:prod",
+    "remote-ios": "remotedebug_ios_webkit_adapter --port=9000",
+    "build-sw": "webpack --config webpack.sw.js",
+    "build": "webpack --config webpack.prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bushidocodes/mws-restaurant-stage-1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bushidocodes/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/bushidocodes/mws-restaurant-stage-1#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.49",
+    "@babel/preset-env": "^7.0.0-beta.49",
+    "ajv": "^6.5.0",
+    "babel-loader": "^8.0.0-beta.3",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.11",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^1.1.11",
+    "html-webpack-inline-source-plugin": "0.0.10",
+    "html-webpack-plugin": "^3.2.0",
+    "http-server": "^0.11.1",
+    "image-webpack-loader": "^4.2.0",
+    "imagemin-gifsicle": "^5.2.0",
+    "imagemin-jpegtran": "^5.0.2",
+    "imagemin-mozjpeg": "^7.0.0",
+    "imagemin-optipng": "^5.2.1",
+    "imagemin-pngquant": "^5.1.0",
+    "imagemin-svgo": "^6.0.0",
+    "imagemin-webpack": "^3.0.0",
+    "jimp": "^0.2.28",
+    "remotedebug-ios-webkit-adapter": "^0.2.2",
+    "responsive-loader": "^1.1.0",
+    "script-ext-html-webpack-plugin": "^2.0.1",
+    "sharp": "^0.20.2",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.9.1",
+    "webpack-cli": "^2.1.4",
+    "webpack-dev-server": "^3.1.4",
+    "webpack-manifest-plugin": "^2.0.3",
+    "webpack-merge": "^4.1.2",
+    "workbox-webpack-plugin": "^3.2.0"
+  },
+  "dependencies": {
+    "google-maps": "^3.3.0",
+    "idb": "^2.1.1",
+    "optimize-css-assets-webpack-plugin": "^4.0.1",
+    "responsively-lazy": "^2.0.2"
+  }
+}

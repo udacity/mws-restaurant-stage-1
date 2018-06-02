@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Restaurant Info</title>
+  <!-- Link to the standard Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  <!-- Safari Fallbacks -->
+  <link rel="apple-mobile-web-app-capable" content="yes">
+  <link rel="apple-mobile-web-app-status-bar-style" content="white">
+  <link rel="apple-mobile-web-app-title" content="Restaurant Reviews">
+  <link rel="apple-touch-icon" href="/img/icons/apple-touch-icon-60x60.png" sizes="60x60">
+  <link rel="apple-touch-icon" href="/img/icons/apple-touch-icon-76x76.png" sizes="76x76">
+  <link rel="apple-touch-icon" href="/img/icons/apple-touch-icon-120x120.png" sizes="120x120">
+  <link rel="apple-touch-icon" href="/img/icons/apple-touch-icon-152x152.png" sizes="152x152">
+  <!-- IE11 Metro App Fallbacks -->
+  <meta name="msapplication-TileImage" content="/img/icons/icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#fff">
+  <meta name="theme-color" content="#3f51b5">
+</head>
+
+<body class="inside">
+  <!-- Beginning header -->
+  <header>
+    <!-- Beginning nav -->
+    <div id="titlebar">
+      <h1>
+        <a href="/">Restaurant Reviews</a>
+      </h1>
+    </div>
+    <!-- Beginning breadcrumb -->
+    <!-- Beginning breadcrumb -->
+    <nav aria-label=Breadcrumb>
+      <ol id="breadcrumb">
+        <li>
+          <a href="/">Home</a>
+        </li>
+      </ol>
+    </nav>
+    <!-- End breadcrumb -->
+    <!-- End nav -->
+  </header>
+  <!-- End header -->
+
+  <!-- Beginning main -->
+  <main id="maincontent">
+    <!-- Beginning map -->
+    <section id="map-container" role="application" aria-roledescription="Google Maps">
+      <div id="map"></div>
+    </section>
+    <!-- End map -->
+    <!-- Beginning restaurant -->
+    <section id="restaurant-container">
+      <h1 id="restaurant-name"></h1>
+      <img id="restaurant-img">
+      <p id="restaurant-cuisine"></p>
+      <p id="restaurant-address"></p>
+      <table id="restaurant-hours"></table>
+    </section>
+    <!-- end restaurant -->
+    <!-- Beginning reviews -->
+    <section id="reviews-container">
+      <ul id="reviews-list"></ul>
+    </section>
+    <!-- End reviews -->
+  </main>
+  <!-- End main -->
+
+  <!-- Beginning footer -->
+  <footer id="footer">
+    <div class="center">
+      Copyright (c) 2017
+      <a href="/">
+        <strong>Restaurant Reviews</strong>
+      </a> All Rights Reserved.
+    </div>
+  </footer>
+  <!-- End footer -->
+
+
+</body>
+
+</html>
