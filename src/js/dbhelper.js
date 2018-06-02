@@ -1,4 +1,4 @@
-import { getItems } from "./utils";
+import { getItems, getItem } from "./utils";
 
 const PORT = 1337;
 const DATABASE_URL = `http://localhost:${PORT}/restaurants`;
@@ -39,16 +39,30 @@ export function fetchRestaurants(callback) {
  */
 export function fetchRestaurantById(id, callback) {
   let networkDataReceived = false;
-  fetchRestaurants((err, restaurants) => {
-    if (err) {
+  fetch(`${DATABASE_URL}/${id}`)
+    .then(res => {
+      if (res) {
+        return res.json();
+      }
+    })
+    .then(data => {
+      if (data) {
+        networkDataReceived = true;
+        callback(null, data);
+      }
+    })
+    .catch(err => {
+      // Oops!. Got an error from server.
       const error = `Request failed. Returned status of ${err}`;
-      callback(error, null);
-    } else {
-      networkDataReceived = true;
-      const results = restaurants.filter(r => r.id == id)[0];
-      callback(null, results);
-    }
-  });
+    });
+  // Fetch from IndexedDB
+  if ("indexedDB" in window) {
+    getItem("restaurants", id).then(restaurant => {
+      if (!networkDataReceived && restaurant) {
+        callback(null, restaurant);
+      }
+    });
+  }
 }
 
 /**

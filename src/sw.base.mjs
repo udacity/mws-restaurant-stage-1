@@ -1,4 +1,4 @@
-import { deleteItems, writeItem } from "./js/utils";
+import { deleteItem, deleteItems, writeItem } from "./js/utils";
 
 const APP_VERSION = 2;
 
@@ -57,4 +57,21 @@ workbox.routing.registerRoute(
       }
       return res;
     })
+);
+
+workbox.routing.registerRoute(
+  new RegExp(/http:\/\/localhost:1337\/restaurants\/[0-9]+/),
+  ({ url, event, params }) => {
+    const matchRestaurantID = /\/restaurants\/([0-9]+)/g;
+    const restaurantID = matchRestaurantID.exec(url)[1];
+    fetch(event.request).then(res => {
+      if (res.ok) {
+        const cloneRes = res.clone();
+        deleteItem("restaurants", restaurantID).then(() =>
+          cloneRes.json().then(resAsJSON => writeItem("restaurants", resAsJSON))
+        );
+      }
+      return res;
+    });
+  }
 );
