@@ -1,13 +1,15 @@
 {
   "name": "mws-restaurant-stage-1",
   "version": "1.0.0",
-  "description": "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
+  "description":
+    "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "start:prod": "npm run build && http-server dist",
     "remote-ios": "remotedebug_ios_webkit_adapter --port=9000",
+    "build-sw": "webpack --config webpack.sw.js",
     "build": "webpack --config webpack.prod.js"
   },
   "repository": {
@@ -50,7 +52,8 @@
     "webpack-cli": "^2.1.4",
     "webpack-dev-server": "^3.1.4",
     "webpack-manifest-plugin": "^2.0.3",
-    "webpack-merge": "^4.1.2"
+    "webpack-merge": "^4.1.2",
+    "workbox-webpack-plugin": "^3.2.0"
   },
   "dependencies": {
     "google-maps": "^3.3.0",

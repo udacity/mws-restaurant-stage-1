@@ -1,5 +1,6 @@
 const merge = require("webpack-merge");
 const common = require("./webpack.common.js");
+const { InjectManifest } = require("workbox-webpack-plugin");
 
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -15,6 +16,11 @@ module.exports = merge(common, {
     splitChunks: {
       chunks: "all"
     }
+  },
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
+    filename: "[name].js"
   },
   plugins: [
     new CleanWebpackPlugin(["dist"]),
@@ -66,6 +72,13 @@ module.exports = merge(common, {
       cssProcessor: require("cssnano"),
       cssProcessorOptions: { discardComments: { removeAll: true } },
       canPrint: true
+    }),
+    new InjectManifest({
+      include: [/\.html$/, /\.css$/, /\.js$/],
+      swSrc: "./src/sw-cache/sw.base.js",
+      swDest: "sw.js",
+      importScripts: ["/idb.js", "/utils.js"],
+      importWorkboxFrom: "local"
     })
   ],
   module: {

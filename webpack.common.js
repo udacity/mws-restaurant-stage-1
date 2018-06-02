@@ -1,15 +1,16 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: {
     main: path.resolve(__dirname, "src", "js", "main.js"),
-    restaurantInfo: "./src/js/restaurant_info.js"
+    restaurantInfo: path.resolve(__dirname, "src", "js", "restaurant_info.js"),
+    utils: path.resolve(__dirname, "src", "js", "utils.js"),
+    idb: path.resolve(__dirname, "src", "js", "idb.js")
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\/js\*.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: "babel-loader",
