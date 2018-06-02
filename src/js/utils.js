@@ -9,7 +9,7 @@ const dbPromise = idb.open("restaurants-store", 1, db => {
 });
 
 export function writeItem(storeName, item) {
-  console.log("writeItem", storeName, item);
+  // console.log("writeItem", storeName, item);
   return dbPromise.then(db => {
     const tx = db.transaction(storeName, "readwrite");
     const store = tx.objectStore(storeName);
@@ -27,7 +27,7 @@ export function getItems(storeName) {
 }
 
 export function getItem(storeName, id) {
-  console.log("getItem", storeName, id);
+  // console.log("getItem", storeName, id);
   return dbPromise.then(db => {
     const tx = db.transaction(storeName, "readonly");
     const store = tx.objectStore(storeName);
@@ -36,7 +36,7 @@ export function getItem(storeName, id) {
 }
 
 export function deleteItems(storeName) {
-  console.log("deleteItems", storeName);
+  // console.log("deleteItems", storeName);
   return dbPromise.then(db => {
     const tx = db.transaction(storeName, "readwrite");
     const store = tx.objectStore(storeName);
@@ -46,7 +46,7 @@ export function deleteItems(storeName) {
 }
 
 export function deleteItem(storeName, id) {
-  console.log("deleteItem", storeName, id);
+  // console.log("deleteItem", storeName, id);
   return dbPromise
     .then(db => {
       const tx = db.transaction(storeName, "readwrite");

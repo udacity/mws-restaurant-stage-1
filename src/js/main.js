@@ -15,11 +15,11 @@ import { getImage } from "./imageLoader";
 import { initMap } from "./mapsLoader";
 
 // Check for Service Worker Support
-// if ("serviceWorker" in navigator) {
-//   navigator.serviceWorker.register("/sw.js").then(() => {
-//     console.log("Service Worker Registered");
-//   });
-// }
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js").then(() => {
+    console.log("Service Worker Registered");
+  });
+}
 
 // Global State container used to keep track of the Google Map
 window.state = {

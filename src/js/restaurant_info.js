@@ -6,11 +6,11 @@ import "../css/normalize.css";
 import "../css/styles.css";
 
 // Check for Service Worker Support
-// if ("serviceWorker" in navigator) {
-//   navigator.serviceWorker.register("/sw.js").then(() => {
-//     console.log("Service Worker Registered");
-//   });
-// }
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js").then(() => {
+    console.log("Service Worker Registered");
+  });
+}
 
 window.state = {
   markers: [],

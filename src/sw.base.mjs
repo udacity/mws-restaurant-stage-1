@@ -24,28 +24,37 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
+// Redirect proper route IDs to main restaurant.html
+workbox.routing.registerRoute(/restaurant.html\?id=[0-9]+/, () =>
+  caches.match("/restaurant.html")
+);
+
+// Cache images
 workbox.routing.registerRoute(
-  ({ url, event }) => {
-    console.log("Pathname: ", url.pathname);
-    return url.pathname === "/restaurants";
-  },
+  ({ url }) => url.origin === self.origin && url.pathname.includes(".jpg"),
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: "restaurant-images",
+    cacheExpiration: {
+      maxEntries: 3,
+      maxAgeSeconds: 60 * 60 * 24 * 30
+    }
+  })
+);
+
+workbox.routing.registerRoute(
+  ({ url }) => url.pathname === "/restaurants",
   ({ url, event, params }) =>
-    fetch(event.request)
-      .then(res => {
-        if (res.ok) {
-          console.log(`[SW] Received ${JSON.stringify(res)}`);
-          const cloneRes = res.clone();
-          deleteItems("restaurants").then(() =>
-            cloneRes.json().then(resAsJSON => {
-              resAsJSON.forEach(item => {
-                writeItem("restaurants", item);
-              });
-            })
-          );
-          return res;
-        } else {
-          return console.log(`[SW] Failed to fetch ${event.request}`, res);
-        }
-      })
-      .catch(err => console.log(`[SW] Failed to fetch ${event.request}`, err))
+    fetch(event.request).then(res => {
+      if (res.ok) {
+        const cloneRes = res.clone();
+        deleteItems("restaurants").then(() =>
+          cloneRes.json().then(resAsJSON => {
+            resAsJSON.forEach(item => {
+              writeItem("restaurants", item);
+            });
+          })
+        );
+      }
+      return res;
+    })
 );

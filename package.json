@@ -1,12 +1,14 @@
 {
   "name": "mws-restaurant-stage-1",
   "version": "1.0.0",
-  "description": "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
+  "description":
+    "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open --config webpack.dev.js",
-    "start:prod": "npm run build && http-server dist",
+    "broken-start-dev": "webpack-dev-server --open --config webpack.dev.js",
+    "start:prod": "npm run build-sw && npm run build && http-server dist",
+    "start": "npm run start:prod",
     "remote-ios": "remotedebug_ios_webkit_adapter --port=9000",
     "build-sw": "webpack --config webpack.sw.js",
     "build": "webpack --config webpack.prod.js"
