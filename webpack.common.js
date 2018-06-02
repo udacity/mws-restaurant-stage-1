@@ -3,9 +3,7 @@ const path = require("path");
 module.exports = {
   entry: {
     main: path.resolve(__dirname, "src", "js", "main.js"),
-    restaurantInfo: path.resolve(__dirname, "src", "js", "restaurant_info.js"),
-    utils: path.resolve(__dirname, "src", "js", "utils.js"),
-    idb: path.resolve(__dirname, "src", "js", "idb.js")
+    restaurantInfo: path.resolve(__dirname, "src", "js", "restaurant_info.js")
   },
   module: {
     rules: [
