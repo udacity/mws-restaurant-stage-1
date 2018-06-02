@@ -61,7 +61,6 @@ a {
 
 a:hover,
 a:focus {
-  /* TODO: Verify that all focus is consistently styled across all elements */
   color: var(--info);
   text-decoration: none;
 }

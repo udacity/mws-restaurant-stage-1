@@ -2,6 +2,17 @@ let restaurant;
 var map;
 
 /**
+ * Skip links logic
+ */
+const skipLink = document.getElementById('skip-link');
+console.log(skipLink);
+
+skipLink.addEventListener('click', (e) => {
+  console.log('clicked');
+  document.getElementById('restaurant-name').focus();
+});
+
+/**
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {

@@ -1,8 +1,28 @@
 let restaurants,
     neighborhoods,
     cuisines
-var map
-var markers = []
+var map;
+var markers = [];
+
+/**
+ * Skip links logic
+ */
+const skipLink = document.getElementById('skip-link');
+
+skipLink.addEventListener('click', (e) => {
+  document.getElementById('filter-header').focus();
+});
+
+
+function registerServiceWorker() {
+  if(!navigator.serviceWorker) return;
+
+  navigator.serviceWorker.register('/sw.js')
+    .then((reg) => console.log(reg))
+    .catch((err) => console.log(err));
+}
+
+registerServiceWorker();
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -183,24 +203,3 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 }
-
-/**
- * Skip links logic
- */
-const skipLink = document.getElementById('skip-link');
-
-skipLink.addEventListener('click', (e) => {
-  document.getElementById('filter-header').focus();
-  // document.getElementById('restaurant-container').focus();
-});
-
-
-function registerServiceWorker() {
-  if(!navigator.serviceWorker) return;
-
-  navigator.serviceWorker.register('/sw.js')
-    .then((reg) => console.log(reg))
-    .catch((err) => console.log(err));
-}
-
-registerServiceWorker();
