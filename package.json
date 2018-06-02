@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "broken-start-dev": "webpack-dev-server --open --config webpack.dev.js",
+    "start:dev":
+      "npm run build-sw && webpack-dev-server --open --config webpack.dev.js",
     "start:prod": "npm run build-sw && npm run build && http-server dist",
     "start": "npm run start:prod",
     "remote-ios": "remotedebug_ios_webkit_adapter --port=9000",
