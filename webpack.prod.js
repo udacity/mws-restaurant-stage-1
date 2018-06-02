@@ -25,7 +25,10 @@ module.exports = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin(["dist"]),
-    new CopyWebpackPlugin(["./src/manifest.json"]),
+    new CopyWebpackPlugin([
+      "./src/manifest.json",
+      { from: "./src/img/icons/*", to: "./img/icons/", flatten: true }
+    ]),
     new HtmlWebpackPlugin({
       inject: true,
       chunks: ["main", "main~restaurantInfo"],
