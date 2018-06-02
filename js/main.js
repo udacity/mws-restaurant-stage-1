@@ -176,3 +176,22 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 }
+
+/**
+ * Add functionality for filter accordion 
+ */
+var accordion = document.getElementsByClassName("accordion");
+accordion[0].addEventListener("click", function() {
+  this.classList.toggle("active");
+
+  var panel = this.nextElementSibling;
+  if (panel.style.maxHeight) {
+    panel.style.maxHeight = null;
+    this.classList.remove('fontawesome-angle-up')
+    this.classList.add('fontawesome-angle-down')
+  } else {
+    panel.style.maxHeight = panel.scrollHeight + "px";
+    this.classList.remove('fontawesome-angle-down')
+    this.classList.add('fontawesome-angle-up')
+  }
+})

@@ -1,6 +1,14 @@
 @charset "utf-8";
 /* CSS Document */
 
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+
+/* fontawesome */
+[class*="fontawesome-"]:before {
+  font-family: 'FontAwesome',sans-serif;
+  margin: 0 4px 0 0;
+}
+
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
@@ -107,14 +115,22 @@ nav h1 a {
 .filter-options {
   width: 100%;
   background-color: #3397DB;
-  align-items: center;
+  text-align: center;
 }
-.filter-options h2 {
+.accordion {
   color: white;
   font-size: 1rem;
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+  padding: 10px 0;
+}
+.accordion:hover {
+  cursor: pointer;
+  color: #eee;
+}
+.active {
+  border-bottom: 1px solid white; 
 }
 .filter-options select {
   background-color: white;
@@ -126,6 +142,11 @@ nav h1 a {
   margin: 10px;
   padding: 0 10px;
   width: 200px;
+}
+.panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 }
 
 /* ====================== Restaurant Listing ====================== */
