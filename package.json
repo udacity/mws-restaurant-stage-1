@@ -1,8 +1,7 @@
 {
   "name": "mws-restaurant-stage-1",
   "version": "1.0.0",
-  "description":
-    "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
+  "description": "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -28,6 +27,7 @@
     "ajv": "^6.5.0",
     "babel-loader": "^8.0.0-beta.3",
     "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.11",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",

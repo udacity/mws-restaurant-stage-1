@@ -9,6 +9,7 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = merge(common, {
   mode: "production",
@@ -24,6 +25,7 @@ module.exports = merge(common, {
   },
   plugins: [
     new CleanWebpackPlugin(["dist"]),
+    new CopyWebpackPlugin(["./src/manifest.json"]),
     new HtmlWebpackPlugin({
       inject: true,
       chunks: ["main", "main~restaurantInfo"],
