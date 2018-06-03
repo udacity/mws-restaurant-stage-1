@@ -6,17 +6,24 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = merge(common, {
   mode: "production",
   optimization: {
-    splitChunks: {
-      chunks: "all"
-    }
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true // set to true if you want JS source maps
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ]
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -30,7 +37,6 @@ module.exports = merge(common, {
       { from: "./src/img/icons/*", to: "./img/icons/", flatten: true }
     ]),
     new HtmlWebpackPlugin({
-      inject: true,
       chunks: ["main", "main~restaurantInfo"],
       filename: "index.html",
       inlineSource: ".(css)$",
@@ -71,12 +77,8 @@ module.exports = merge(common, {
     new ManifestPlugin({
       fileName: "asset-manifest.json"
     }),
-    new ExtractTextPlugin("styles.css"),
-    new OptimizeCssAssetsPlugin({
-      assetNameRegExp: /\.optimize\.css$/g,
-      cssProcessor: require("cssnano"),
-      cssProcessorOptions: { discardComments: { removeAll: true } },
-      canPrint: true
+    new MiniCSSExtractPlugin({
+      filename: "[name].css"
     }),
     new InjectManifest({
       include: [/\.html$/, /\.css$/, /\.js$/],
@@ -89,15 +91,7 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract([
-          {
-            loader: "css-loader",
-            options: {
-              sourceMap: false,
-              minimize: true
-            }
-          }
-        ])
+        use: [MiniCSSExtractPlugin.loader, "css-loader"]
       },
       {
         test: /\.(jpg|png)$/i,
