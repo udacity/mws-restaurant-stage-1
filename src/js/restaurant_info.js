@@ -1,4 +1,8 @@
-import { mapMarkerForRestaurant, fetchRestaurantById } from "./dbhelper";
+import {
+  mapMarkerForRestaurant,
+  fetchRestaurantById,
+  fetchReviewsForRestaurant
+} from "./dbhelper";
 import { getImage } from "./imageLoader";
 import { initMap } from "./mapsLoader";
 
@@ -62,8 +66,14 @@ const fetchRestaurantFromURL = cb => {
       } else {
         self.restaurant = restaurant;
         if (restaurant) {
-          fillRestaurantHTML(restaurant); // writes restaurant to the DOM
-          cb(null, restaurant);
+          fetchReviewsForRestaurant(restaurant.id, (err, reviews) => {
+            if (err) {
+              cb(err, null);
+            } else {
+              fillRestaurantHTML(restaurant, reviews); // writes restaurant to the DOM
+              cb(null, restaurant, reviews);
+            }
+          });
         }
       }
     });
@@ -73,7 +83,10 @@ const fetchRestaurantFromURL = cb => {
 /**
  * Create restaurant HTML and add it to the webpage
  */
-const fillRestaurantHTML = (restaurant = self.restaurant) => {
+const fillRestaurantHTML = (
+  restaurant = self.restaurant,
+  reviews = self.reviews
+) => {
   const name = document.getElementById("restaurant-name");
   name.innerHTML = restaurant.name;
 
@@ -95,7 +108,7 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML(restaurant.reviews);
+  fillReviewsHTML(reviews);
 };
 
 /**
@@ -154,9 +167,19 @@ const createReviewHTML = review => {
   name.innerHTML = review.name;
   li.appendChild(name);
 
-  const date = document.createElement("p");
-  date.innerHTML = review.date;
-  li.appendChild(date);
+  const createdAtDate = document.createElement("p");
+  createdAtDate.innerHTML = `Created At: ${new Date(
+    review.createdAt
+  ).toLocaleDateString()} 
+    ${new Date(review.createdAt).toLocaleTimeString()}`;
+  li.appendChild(createdAtDate);
+
+  const updatedAtDate = document.createElement("p");
+  updatedAtDate.innerHTML = `Updated At: ${new Date(
+    review.createdAt
+  ).toLocaleDateString()} 
+    ${new Date(review.createdAt).toLocaleTimeString()}`;
+  li.appendChild(updatedAtDate);
 
   const rating = document.createElement("p");
   rating.innerHTML = `Rating: ${review.rating}`;

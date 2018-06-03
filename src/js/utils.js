@@ -1,10 +1,14 @@
 import * as idb from "idb";
 
-const dbPromise = idb.open("restaurants-store", 1, db => {
+const dbPromise = idb.open("restaurants-store", 2, db => {
   // create the restaurants table if it doesn't exist
   if (!db.objectStoreNames.contains("restaurants")) {
-    console.log("Creating Object Store Restaurant");
+    console.log("Creating Object Store - restaurants");
     db.createObjectStore("restaurants", { keyPath: "id" });
+  }
+  if (!db.objectStoreNames.contains("reviews")) {
+    console.log("Creating Object Store - reviews");
+    db.createObjectStore("reviews", { keyPath: "id" });
   }
 });
 

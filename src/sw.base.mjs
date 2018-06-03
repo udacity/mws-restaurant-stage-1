@@ -92,3 +92,34 @@ workbox.routing.registerRoute(
   restaurantByIDHandler,
   "POST"
 );
+
+// Handlers for /reviews route
+
+const reviewsMatcher = ({ url }) => url.pathname === "/reviews";
+const reviewsHandler = ({ url, event, params }) =>
+  fetch(event.request).then(res => {
+    if (res.ok) {
+      const cloneRes = res.clone();
+      deleteItems("reviews").then(() =>
+        cloneRes.json().then(resAsJSON => {
+          resAsJSON.forEach(item => {
+            writeItem("reviews", item);
+          });
+        })
+      );
+    }
+    return res;
+  });
+
+workbox.routing.registerRoute(reviewsMatcher, reviewsHandler, "GET");
+workbox.routing.registerRoute(
+  reviewsMatcher,
+  ({ url, event, params }) => fetch(event.request),
+  "PUT"
+);
+
+workbox.routing.registerRoute(
+  reviewsMatcher,
+  ({ url, event, params }) => fetch(event.request),
+  "POST"
+);

@@ -1,14 +1,14 @@
 import { getItems, getItem } from "./utils";
 
 const PORT = 1337;
-const DATABASE_URL = `http://localhost:${PORT}/restaurants`;
+const SERVER = `http://localhost:1337`;
 
 /**
  * Fetch all restaurants.
  */
 export function fetchRestaurants(callback) {
   let networkDataReceived = false;
-  fetch(DATABASE_URL)
+  fetch(`${SERVER}/restaurants`)
     .then(res => {
       if (res) {
         return res.json();
@@ -37,9 +37,9 @@ export function fetchRestaurants(callback) {
 /**
  * Fetch a restaurant by its ID.
  */
-export function fetchRestaurantById(id, callback) {
+export function fetchRestaurantById(restaurantID, callback) {
   let networkDataReceived = false;
-  fetch(`${DATABASE_URL}/${id}`)
+  fetch(`${SERVER}/restaurants/${restaurantID}`)
     .then(res => {
       if (res) {
         return res.json();
@@ -57,7 +57,7 @@ export function fetchRestaurantById(id, callback) {
     });
   // Fetch from IndexedDB
   if ("indexedDB" in window) {
-    getItem("restaurants", id).then(restaurant => {
+    getItem("restaurants", restaurantID).then(restaurant => {
       if (!networkDataReceived && restaurant) {
         callback(null, restaurant);
       }
@@ -71,7 +71,7 @@ export function updateRestaurant(body, callback) {
   if (!body.id) {
     throw new Error("A valid ID must be present in the body");
   }
-  fetch(`${DATABASE_URL}/${body.id}`, {
+  fetch(`${SERVER}/restaurants/${body.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -192,6 +192,52 @@ export function fetchCuisines(callback) {
         (v, i) => cuisines.indexOf(v) == i
       );
       callback(null, uniqueCuisines);
+    }
+  });
+}
+
+export function fetchReviews(callback) {
+  let networkDataReceived = false;
+  fetch(`${SERVER}/reviews`)
+    .then(res => {
+      if (res) {
+        return res.json();
+      }
+    })
+    .then(data => {
+      if (data) {
+        networkDataReceived = true;
+        callback(null, data);
+      }
+    })
+    .catch(err => {
+      // Oops!. Got an error from server.
+      const error = `GET /reviews request failed. Returned status of ${err}`;
+    });
+  // Fetch from IndexedDB
+  if ("indexedDB" in window) {
+    getItems("reviews").then(reviews => {
+      if (!networkDataReceived && reviews) {
+        callback(null, reviews);
+      }
+    });
+  }
+}
+
+/**
+ * Fetch all reviews matching a particular restaurant ID
+ */
+export function fetchReviewsForRestaurant(restaurantID, callback) {
+  // Fetch all reviews
+  fetchReviews((error, reviews) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      // Filter Reviews for a particular restuarant
+      const reviewsForThisRestaurant = reviews.filter(
+        review => review.restaurant_id === restaurantID
+      );
+      callback(null, reviewsForThisRestaurant);
     }
   });
 }
