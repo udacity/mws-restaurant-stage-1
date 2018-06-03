@@ -28,11 +28,13 @@ export function getItems(storeName) {
 
 export function getItem(storeName, id) {
   // console.log("getItem", storeName, id);
-  return dbPromise.then(db => {
-    const tx = db.transaction(storeName, "readonly");
-    const store = tx.objectStore(storeName);
-    return store.get(id);
-  });
+  const validID = typeof id === "number" ? id : Number(id);
+  return dbPromise.then(db =>
+    db
+      .transaction(storeName, "readonly")
+      .objectStore(storeName)
+      .get(validID)
+  );
 }
 
 export function deleteItems(storeName) {
