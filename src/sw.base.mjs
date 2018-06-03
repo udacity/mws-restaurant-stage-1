@@ -59,19 +59,36 @@ workbox.routing.registerRoute(
     })
 );
 
+const restaurantByIDMatcher = new RegExp(
+  /http:\/\/localhost:1337\/restaurants\/[0-9]+/
+);
+const restaurantByIDHandler = ({ url, event, params }) => {
+  const matchRestaurantID = /\/restaurants\/([0-9]+)/g;
+  const restaurantID = matchRestaurantID.exec(url)[1];
+  fetch(event.request).then(res => {
+    const cloneRes = res.clone();
+    if (cloneRes.ok) {
+      cloneRes.json().then(restaurant => {
+        writeItem("restaurants", restaurant);
+      });
+    }
+    return res;
+  });
+};
+
+// Because PUT and POST return the resulting object, we can reuse the logic for GET
 workbox.routing.registerRoute(
-  new RegExp(/http:\/\/localhost:1337\/restaurants\/[0-9]+/),
-  ({ url, event, params }) => {
-    const matchRestaurantID = /\/restaurants\/([0-9]+)/g;
-    const restaurantID = matchRestaurantID.exec(url)[1];
-    fetch(event.request).then(res => {
-      if (res.ok) {
-        const cloneRes = res.clone();
-        deleteItem("restaurants", restaurantID).then(() =>
-          cloneRes.json().then(resAsJSON => writeItem("restaurants", resAsJSON))
-        );
-      }
-      return res;
-    });
-  }
+  restaurantByIDMatcher,
+  restaurantByIDHandler,
+  "GET"
+);
+workbox.routing.registerRoute(
+  restaurantByIDMatcher,
+  restaurantByIDHandler,
+  "PUT"
+);
+workbox.routing.registerRoute(
+  restaurantByIDMatcher,
+  restaurantByIDHandler,
+  "POST"
 );

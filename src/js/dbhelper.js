@@ -64,6 +64,33 @@ export function fetchRestaurantById(id, callback) {
     });
   }
 }
+/**
+ * Update a restaurant
+ */
+export function updateRestaurant(body, callback) {
+  if (!body.id) {
+    throw new Error("A valid ID must be present in the body");
+  }
+
+  fetch(`${DATABASE_URL}/${body.id}`, {
+    method: "PUT",
+    body
+  })
+    .then(res => {
+      if (res) {
+        return res.json();
+      }
+    })
+    .then(data => {
+      if (data) {
+        callback(null, data);
+      }
+    })
+    .catch(err => {
+      // Oops!. Got an error from server.
+      const error = `Request failed. Returned status of ${err}`;
+    });
+}
 
 /**
  * Fetch restaurants by a cuisine type with proper error handling.
