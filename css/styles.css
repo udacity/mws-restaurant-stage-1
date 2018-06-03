@@ -109,6 +109,14 @@ nav h1 a {
   height: 50px;
   background-color: #3397DB;
   align-items: center;
+  display: flex; /* changed display to flex */
+}
+/* changed options container flow to wrap for all screens below 479px */
+@media screen and (max-width:478px) {
+  .filter-options {
+    height: auto;
+    flex-flow: wrap;
+  }
 }
 .filter-options h2 {
   color: white;
@@ -116,6 +124,13 @@ nav h1 a {
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+}
+/* added width 100% to options header for all screens below 479px*/
+@media screen and (max-width:478px) {
+  .filter-options h2 {
+    margin-top: 10px;
+    width: 100%;
+  }
 }
 .filter-options select {
   background-color: white;
@@ -127,6 +142,11 @@ nav h1 a {
   margin: 10px;
   padding: 0 10px;
   width: 200px;
+}
+@media screen and (max-width:439px) {
+  .filter-options select {
+    width: 100%;
+  }
 }
 
 /* ====================== Restaurant Listing ====================== */
