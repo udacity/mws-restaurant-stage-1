@@ -1,3 +1,4 @@
+const MAIN_CONSOLE_PREFIX = '>> MAIN >> ';
 let restaurants,
   neighborhoods,
   cuisines
@@ -10,7 +11,36 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  registerServiceWorker();
 });
+
+registerServiceWorker = () => {
+  if (!navigator.serviceWorker) {
+    console.warn(MAIN_CONSOLE_PREFIX, '[registerServiceWorker] No service worker available in browser.');
+  }
+
+  navigator.serviceWorker.register('/sw.js').then(function(reg) {
+    if (!navigator.serviceWorker.controller) {
+      console.warn(MAIN_CONSOLE_PREFIX, '[serviceWorker.register] No controller. Aborting.');
+      return;
+    }
+
+    if (reg.waiting) {
+      console.log(MAIN_CONSOLE_PREFIX, '[serviceWorker.register] State::Waiting');
+      return;
+    }
+
+    if (reg.installing) {
+      console.log(MAIN_CONSOLE_PREFIX, '[serviceWorker.register] State::Installing');
+      reg.installing.addEventListener('statechange', (worker) => {
+        if (worker.state === 'installed') {
+          console.log(MAIN_CONSOLE_PREFIX, '[serviceWorker.register] StateChange::Installed');
+        }
+      });
+      return;
+    }
+  });
+}
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -141,6 +171,7 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = '';
   li.append(image);
 
   const name = document.createElement('h1');
