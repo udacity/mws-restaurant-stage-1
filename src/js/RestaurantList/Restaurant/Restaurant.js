@@ -40,11 +40,11 @@ function Restaurant(restaurant) {
   <h1>${restaurant.name}</h1>
   <p>${restaurant.neighborhood}</p>
   <p>${restaurant.address}</p>
-  <div style="display: flex; flex-direction: row;">
+  <div style="display: flex; flex-direction: row; justify-content: space-between;">
     <a href=${urlForRestaurant(restaurant)}>View Details</a>
   <button 
     type="button" 
-    style="padding-top: 10px;" 
+    style="padding-top: 10px; background-color: white; border: none; color: white;" 
     class="favorite-button" 
     data-restaurantid=${restaurant.id} 
     onclick="clickFavorite(this)"
