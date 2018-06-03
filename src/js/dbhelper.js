@@ -211,8 +211,8 @@ export function mapMarkerForRestaurant(restaurant, map) {
     position: restaurant.latlng,
     title: restaurant.name,
     url: urlForRestaurant(restaurant),
-    map: map,
-    animation: google.maps.Animation.DROP
+    map: map
+    // animation: google.maps.Animation.DROP
   });
   return marker;
 }
