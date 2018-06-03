@@ -71,10 +71,13 @@ export function updateRestaurant(body, callback) {
   if (!body.id) {
     throw new Error("A valid ID must be present in the body");
   }
-
   fetch(`${DATABASE_URL}/${body.id}`, {
     method: "PUT",
-    body
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(body)
   })
     .then(res => {
       if (res) {

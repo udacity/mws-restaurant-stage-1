@@ -9,7 +9,7 @@ const dbPromise = idb.open("restaurants-store", 1, db => {
 });
 
 export function writeItem(storeName, item) {
-  console.log("writeItem", storeName, item);
+  // console.log("writeItem", storeName, item);
   return dbPromise.then(db => {
     const tx = db.transaction(storeName, "readwrite");
     const store = tx.objectStore(storeName);

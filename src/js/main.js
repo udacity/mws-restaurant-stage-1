@@ -6,15 +6,15 @@ import {
   fetchCuisines,
   fetchRestaurantByCuisineAndNeighborhood,
   mapMarkerForRestaurant,
-  urlForRestaurant
+  updateRestaurant
 } from "./dbhelper";
-import heartTemplate from "./heart";
 
 import "../css/normalize.css";
 import "../css/styles.css";
-import { getImage } from "./imageLoader";
-import { initMap } from "./mapsLoader";
-import { html, render } from "lit-html";
+import { initMap, setMarkers } from "./mapsLoader";
+import RestaurantList from "./RestaurantList";
+import { render } from "lit-html";
+import { getSelectedCuisineAndNeighborhood } from "./Toolbar";
 
 // Check for Service Worker Support
 if ("serviceWorker" in navigator) {
@@ -26,7 +26,8 @@ if ("serviceWorker" in navigator) {
 // Global State container used to keep track of the Google Map
 window.state = {
   markers: [],
-  map: {}
+  map: {},
+  restaurants: []
 };
 
 /**
@@ -111,22 +112,18 @@ function loadMap() {
 /**
  * Update page and map for current restaurants.
  */
-const updateRestaurants = () => {
-  const cSelect = document.getElementById("cuisines-select");
-  const nSelect = document.getElementById("neighborhoods-select");
-
-  const cIndex = cSelect.selectedIndex;
-  const nIndex = nSelect.selectedIndex;
-
-  const cuisine = cSelect[cIndex].value;
-  const neighborhood = nSelect[nIndex].value;
+export const updateRestaurants = () => {
+  const { cuisine, neighborhood } = getSelectedCuisineAndNeighborhood();
+  console.log("UPDATE", cuisine, neighborhood);
   fetchRestaurantByCuisineAndNeighborhood(
     cuisine,
     neighborhood,
     (err, filteredRestaurants) => {
+      console.log(filteredRestaurants);
       if (err) throw err;
-      resetRestaurants(filteredRestaurants);
-      fillRestaurantsHTML(filteredRestaurants);
+      clearMarkers(filteredRestaurants);
+      renderRestaurantList(filteredRestaurants);
+      setMarkers(filteredRestaurants);
     }
   );
 };
@@ -135,13 +132,9 @@ const updateRestaurants = () => {
 window.updateRestaurants = updateRestaurants;
 
 /**
- * Clear current restaurants, their HTML and remove their map markers.
+ * Remove all map markers.
  */
-const resetRestaurants = restaurants => {
-  const ul = document.getElementById("restaurants-list");
-  ul.innerHTML = "";
-
-  // Remove all map markers
+const clearMarkers = restaurants => {
   state.markers.forEach(m => m.setMap(null));
   state.markers = [];
 };
@@ -149,65 +142,7 @@ const resetRestaurants = restaurants => {
 /**
  * Create all restaurants HTML and add them to the webpage.
  */
-const fillRestaurantsHTML = restaurants => {
-  const ul = document.getElementById("restaurants-list");
-  restaurants.forEach(restaurant => {
-    ul.append(createRestaurantHTML(restaurant));
-  });
-  addMarkersToMap(restaurants);
-};
-
-window.clickFavorite = target => {
-  const restaurantID = target.dataset.restaurantid;
-  console.log(`Clicked on ${restaurantID}`);
-};
-
-/**
- * Create restaurant HTML.
- */
-const createRestaurantHTML = restaurant => {
-  console.log(restaurant);
-  const li = document.createElement("li");
-  const restaurantTemplate = restaurant => html`
-    <div class="responsively-lazy" style="padding-bottom: 75%;">
-      <img 
-        alt="Image of ${restaurant.name}" 
-        class="restaurant-img"
-        sizes="(max-width: 450px) 90vw, 600px" 
-        data-srcset=${getImage(restaurant.photograph).srcSet}
-        srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-        src=${getImage(restaurant.photograph).src}
-      />
-    </div>
-    <h1>${restaurant.name}</h1>
-    <p>${restaurant.neighborhood}</p>
-    <p>${restaurant.address}</p>
-    <div style="display: flex; flex-direction: row;">
-      <a href=${urlForRestaurant(restaurant)}>View Details</a>
-    <button type="button" style="padding-top: 10px;" class="favorite-button" data-restaurantid=${
-      restaurant.id
-    } onclick="clickFavorite(this)">
-      ${heartTemplate(40, 40)}
-    </button>
-    </div>
-  `;
-
-  render(heartTemplate(50, 50), li);
-  render(restaurantTemplate(restaurant), li);
-
-  return li;
-};
-
-/**
- * Add markers for current restaurants to the map.
- */
-const addMarkersToMap = (restaurants, map = window.state.map) => {
-  restaurants.forEach(restaurant => {
-    // Add marker to the map
-    const marker = mapMarkerForRestaurant(restaurant, map);
-    google.maps.event.addListener(marker, "click", () => {
-      window.location.href = marker.url;
-    });
-    state.markers.push(marker);
-  });
+const renderRestaurantList = restaurants => {
+  const restaurantListMountPoint = document.getElementById("restaurants-list");
+  render(RestaurantList(restaurants), restaurantListMountPoint);
 };
