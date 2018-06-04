@@ -1,11 +1,8 @@
 /* eslint-disable no-console */
-// import idb from "idb";
 
 self.importScripts("node_modules/idb/lib/idb.js");
 
 const objectStore = "objectStore";
-
-const transaction = "transaction";
 
 const dbPromise = idb.open("restaurant-store", 1, upgradeDB => {
     upgradeDB.createObjectStore(objectStore);
