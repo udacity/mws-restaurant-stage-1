@@ -15,6 +15,10 @@ body {
 img, embed, object, video {
   max-width: 100%;
 }
+nav, a, button {
+  min-width: 48px;
+  min-height: 48px;
+}
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
