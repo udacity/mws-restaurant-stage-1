@@ -32,7 +32,7 @@ gulp.task("styles", () => {
 });
 
 gulp.task("lint", () => {
-    gulp.src(["**/*.js", "!node_modules/**"])
+    gulp.src(["js/**/*.js", "!node_modules/**"])
         .pipe(eslint({"quiet": true, "fix": true, "configFile": ".eslintrc.js"}))
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
@@ -72,7 +72,7 @@ gulp.task("minify-html", () => {
 
 gulp.task("serve", () => {
     const reload = browserSync.reload;
-    browserSync({
+    browserSync.init({
         notify: false,
         logPrefix: "MWS",
         server: "./",
@@ -82,11 +82,12 @@ gulp.task("serve", () => {
     gulp.watch(["./*.html"], reload);
     gulp.watch(["css/**/*.{scss,css}"], ["styles", reload]);
     gulp.watch(["js/**/*.js"], ["lint", "scripts-dist", reload]);
+    gulp.watch(["./serviceWorker.js"], ["lint", "scripts-sw", reload]);
     gulp.watch(["img/**/*"], reload);
 });
 
 gulp.task("serve:dist", () => {
-    browserSync({
+    browserSync.init({
         notify: false,
         logPrefix: "MWS",
         server: "dist",

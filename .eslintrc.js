@@ -84,7 +84,7 @@ module.exports = {
                 "FunctionDeclaration": true,
                 "MethodDefinition": true,
                 "ClassDeclaration": true,
-                "ArrowFunctionExpression": false,
+                "ArrowFunctionExpression": true,
             },
         }],
         "comma-dangle": ["error"],

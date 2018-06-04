@@ -12,6 +12,7 @@ class DBHelper {
     /**
      * Database URL.
      * Change this to restaurants.json file location on your server.
+     * @return {string} host
      */
     static get DATABASE_URL() {
         return "http://localhost:1337";
@@ -25,12 +26,12 @@ class DBHelper {
         return fetch(`${DBHelper.DATABASE_URL}/restaurants`)
             .then(response => response.json())
             .then(json => json)
-            .catch(error => console.error(error));
+            .catch(error => console.error("Fetch Restaurants error: ", error));
     }
 
     /**
      * Fetch a restaurant by its ID.
-     * @param {string} id
+     * @param {string} id - identifier
      * @return {Object}
      */
     static fetchRestaurantById(id) {
@@ -71,7 +72,7 @@ class DBHelper {
      * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
      * @param {string} cuisine
      * @param {string} neighborhood
-     * @return {Object[]}
+     * @return {Promise<Object[]>}
      */
     static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood) {
         return DBHelper.fetchRestaurants()

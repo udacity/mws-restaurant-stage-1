@@ -1,13 +1,15 @@
 /* eslint-disable no-console */
-import idb from "idb";
+// import idb from "idb";
 
-const objectStore = "keyval";
+self.importScripts("node_modules/idb/lib/idb.js");
+
+const objectStore = "objectStore";
 
 const transaction = "transaction";
 
 const dbPromise = idb.open("restaurant-store", 1, upgradeDB => {
     upgradeDB.createObjectStore(objectStore);
-});
+});// eslint-disable-line no-undef
 
 const staticCache = "restaurant-static";
 const staticAssets = [
@@ -64,35 +66,51 @@ self.addEventListener("activate", event => {
  * Fetch from network event
  */
 self.addEventListener("fetch", event => {
-    console.info("fetch", event.request.url);
-    console.log("event", event);
-    const requestUrl = new URL(event.request.url);
-    console.log(`request url ${requestUrl} location: ${location.origin}`);
-    if (requestUrl.origin === location.origin) {
+    const port = event.request.url.split("/")[2].split(":")[1];
+    if (port !== undefined && port === "1337") {
         // event.respondWith(serveResource(event.request));
         event.respondWith(serveResponseIdb(event.request));
     }
 });
 
-
+/**
+ * Serve response from indexedDB
+ * @param {Request} request
+ * @return {Promise<Response | void>}
+ */
 const serveResponseIdb = request => {
     // Get from cache
+    console.groupCollapsed(`getting from cache ${request.url}`);
     dbPromise
-        .then(db => db.transaction(transaction).objectStore(objectStore).get(request.url))
-        .catch(error => console.error("Unable to access cache", error));
+        .then(db => {
+            let response = new Response(db.transaction(objectStore).objectStore(objectStore).get(request.url));
+            console.log("cached response", response);
+            return Promise.resolve(response);
+        })
+        .catch(error => console.error("Unable to access cache: ", error));
+    console.groupEnd();
 
     // Fetch the request
     return fetch(request)
-        .then(response =>
-            dbPromise.then(db => {
-                const tx = db.transaction(transaction, "readwrite");
-                tx.objectStore(objectStore)
-                    .put(response.clone(), request.url)
-                    .then(response => console.info("operation succeed", response))
-                    .catch(error => console.error("something went wrong", error));
-                return response;
-            }))
-        .catch(error => console.error("Something failed", error));
+        .then(fetchResponse => {
+            if (fetchResponse.headers.get('Content-Type').match(/application\/json/i)) {
+                dbPromise
+                    .then(db => {
+                        fetchResponse.clone().json().then(content => {
+                            const tx = db.transaction(objectStore, "readwrite");
+                            tx.objectStore(objectStore)
+                                .put(content, request.url)
+                                .then(response => console.info("put operation succeed: ", response))
+                                .catch(error => console.error("Put operation failed: ", error));
+                            return tx.complete;
+                        });
+                    })
+                    .catch(error => console.error("Error opening transaction: ", error));
+            }
+
+            return fetchResponse;
+        })
+        .catch(error => console.error("Fetch Error: ", error));
 };
 
 /**
