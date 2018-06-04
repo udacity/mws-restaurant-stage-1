@@ -202,9 +202,9 @@ nav h1 a {
   background-color: #ccc;
   display: block;
   margin-top: 10px; /* added top margins to imgs*/
-  max-width: 100%;
-  min-height: 248px;
-  min-width: 100%;
+  width: 100%;
+  height: auto;  /* fixed height to auto */
+  /*min-width: 100%;*/
   align-self: flex-start; /* added flex item align*/
 }
 #restaurants-list li h1 {
