@@ -10,6 +10,19 @@ if ("serviceWorker" in navigator) {
     });
 }
 
+const io = new IntersectionObserver(
+    entries => {
+        console.log("== IntersectionObserver ==", entries);
+    },
+    {
+        /* Using default options. Details below */
+    }
+);
+// Start observing an element
+let restaurantList = document.querySelector("#restaurants-list");
+io.observe(restaurantList);
+// TODO https://www.smashingmagazine.com/2018/01/deferring-lazy-loading-intersection-observer-api/
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */

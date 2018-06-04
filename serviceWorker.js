@@ -77,15 +77,15 @@ self.addEventListener("fetch", event => {
  */
 const serveResponseIdb = request => {
     // Get from cache
-    console.groupCollapsed(`getting from cache ${request.url}`);
+    // console.groupCollapsed(`getting from cache ${request.url}`);
     dbPromise
         .then(db => {
             let response = new Response(db.transaction(objectStore).objectStore(objectStore).get(request.url));
-            console.log("cached response", response);
+            //console.log("cached response", response);
             return Promise.resolve(response);
         })
         .catch(error => console.error("Unable to access cache: ", error));
-    console.groupEnd();
+    // console.groupEnd();
 
     // Fetch the request
     return fetch(request)
