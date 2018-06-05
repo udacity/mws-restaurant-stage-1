@@ -44,6 +44,7 @@ gulp.task("webp", () =>
             preset: "photo",
             method: 6,
         }))
+        .pipe(gulp.dest("img"))
         .pipe(gulp.dest("dist/img"))
 );
 

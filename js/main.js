@@ -137,8 +137,9 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  * @param {Object} restaurant
  * @param {string} restaurant.name
- * @param {string} restaurant.neighborhood
- * @param {string} restaurant.address
+ * @param {string} [restaurant.neighborhood]
+ * @param {string} [restaurant.address]
+ * @param {string} [restaurant.photograph]
  * @return {Element}
  */
 const createRestaurantHTML = restaurant => { // eslint-disable-line max-statements
@@ -147,10 +148,10 @@ const createRestaurantHTML = restaurant => { // eslint-disable-line max-statemen
     const image = document.createElement("img");
     image.className = "restaurant-img lazyload";
     image.dataset.sizes = "auto";
-    image.dataset.src = DBHelper.imageUrlForRestaurant(restaurant);
-    image.dataset.srcset = DBHelper.imageUrlForRestaurant(restaurant, "webp");
+    image.dataset.src = DBHelper.imageUrlForRestaurant(restaurant, "webp");
+    image.dataset.srcset = DBHelper.imageUrlForRestaurant(restaurant);
     image.alt = restaurant.name;
-    image.src = DBHelper.imageUrlForRestaurant(restaurant);
+    //image.src = DBHelper.imageUrlForRestaurant(restaurant, "webp");
     li.append(image);
 
     const name = document.createElement("h2");
