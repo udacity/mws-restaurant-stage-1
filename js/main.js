@@ -151,7 +151,7 @@ const createRestaurantHTML = restaurant => { // eslint-disable-line max-statemen
     image.dataset.src = DBHelper.imageUrlForRestaurant(restaurant, "webp");
     image.dataset.srcset = DBHelper.imageUrlForRestaurant(restaurant);
     image.alt = restaurant.name;
-    //image.src = DBHelper.imageUrlForRestaurant(restaurant, "webp");
+    // image.src = DBHelper.imageUrlForRestaurant(restaurant, "webp");
     li.append(image);
 
     const name = document.createElement("h2");

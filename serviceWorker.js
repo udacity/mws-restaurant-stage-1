@@ -17,16 +17,16 @@ const staticAssets = [
     "/js/dbhelper.js",
     "/js/restaurant_info.js",
     "/css/styles.css",
-    "/img/1.jpg",
-    "/img/2.jpg",
-    "/img/3.jpg",
-    "/img/5.jpg",
-    "/img/5.jpg",
-    "/img/6.jpg",
-    "/img/7.jpg",
-    "/img/8.jpg",
-    "/img/9.jpg",
-    "/img/10.jpg",
+    "/img/1.jpg", "/img/1.webp",
+    "/img/2.jpg", "/img/2.webp",
+    "/img/3.jpg", "/img/3.webp",
+    "/img/4.jpg", "/img/4.webp",
+    "/img/5.jpg", "/img/5.webp",
+    "/img/6.jpg", "/img/6.webp",
+    "/img/7.jpg", "/img/7.webp",
+    "/img/8.jpg", "/img/8.webp",
+    "/img/9.jpg", "/img/9.webp",
+    "/img/10.jpg", "/img/10.jpg",
     "https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff2",
     "https://fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmEU9fBBc4AMP6lQ.woff2",
 ];
@@ -65,7 +65,6 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
     const port = event.request.url.split("/")[2].split(":")[1];
     if (port !== undefined && port === "1337") {
-        // event.respondWith(serveResource(event.request));
         event.respondWith(serveResponseIdb(event.request));
     } else {
         event.respondWith(serveResource(event.request));
@@ -78,21 +77,16 @@ self.addEventListener("fetch", event => {
  * @return {Promise<Response | void>}
  */
 const serveResponseIdb = request => {
-    // Get from cache
-    // console.groupCollapsed(`getting from cache ${request.url}`);
     dbPromise
         .then(db => {
             const response = new Response(db.transaction(objectStore).objectStore(objectStore).get(request.url));
-            // console.log("cached response", response);
             return Promise.resolve(response);
         })
         .catch(error => console.error("Unable to access cache: ", error));
-    // console.groupEnd();
 
-    // Fetch the request
     return fetch(request)
         .then(fetchResponse => {
-            if (fetchResponse.headers.get('Content-Type').match(/application\/json/i)) {
+            if (fetchResponse.headers.get("Content-Type").match(/application\/json/i)) {
                 dbPromise
                     .then(db => {
                         fetchResponse.clone().json().then(content => {
@@ -114,29 +108,24 @@ const serveResponseIdb = request => {
 
 /**
  * Serve resource from cache or network
- * @param request client request
- * @returns {Promise<Response | void>}
+ * @param {Request} request client request
+ * @return {Promise<Response | void>}
  */
-const serveResource = request => {
-    return caches.open(staticCache)
-        .then(cache => {
-            return cache.match(request)
+const serveResource = request =>
+    caches.open(staticCache)
+        .then(cache =>
+            cache.match(request)
                 .then(response => {
-                    console.log(`Matching request ${request.url}`);
                     if (response) {
-                        console.info("returning from cache");
                         return response;
                     }
 
                     return fetch(request)
                         .then(networkResponse => {
-                            console.log(`Fetching ${request.url} from network`);
                             cache.put(request, networkResponse.clone())
                                 .then(() => console.info("Caching succeed"))
                                 .catch(error => console.error("Caching failed", error));
                             return networkResponse;
                         });
-                });
-        })
+                }))
         .catch(error => console.error("Something happened", error));
-};
