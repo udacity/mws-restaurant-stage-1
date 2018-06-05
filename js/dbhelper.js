@@ -154,12 +154,12 @@ class DBHelper {
   }
 /* Restaurant image srcset URLs */
   static imageSrcsetForRestaurant(restaurant) {
-    let photographs = `${restaurant.photograph}`;
+    let photographs = restaurant.photograph;
     let fixedUrl = photographs.substr(0, photographs.length - 4);
     let srcsetUrls = [`/img/${fixedUrl}-sm_600.jpg 600w`, `/img/${fixedUrl}-md_800.jpg 800w`, `/img/${fixedUrl}-lg_1200.jpg 1200w`];
     return srcsetUrls.join(', ');
   }
-  
+ 
   /**
    * Map marker for a restaurant.
    */
