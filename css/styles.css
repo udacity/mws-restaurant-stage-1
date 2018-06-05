@@ -1,6 +1,10 @@
 @charset "utf-8";
 /* CSS Document */
 
+*, ::before, ::after {
+  box-sizing: border-box;
+}
+
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
@@ -131,6 +135,9 @@ nav h1 a {
 
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 30px;
   background-color: #f3f3f3;
   list-style: outside none none;
   margin: 0;
