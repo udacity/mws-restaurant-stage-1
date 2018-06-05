@@ -67,6 +67,8 @@ self.addEventListener("fetch", event => {
     if (port !== undefined && port === "1337") {
         // event.respondWith(serveResource(event.request));
         event.respondWith(serveResponseIdb(event.request));
+    } else {
+        event.respondWith(serveResource(event.request));
     }
 });
 
@@ -108,4 +110,33 @@ const serveResponseIdb = request => {
             return fetchResponse;
         })
         .catch(error => console.error("Fetch Error: ", error));
+};
+
+/**
+ * Serve resource from cache or network
+ * @param request client request
+ * @returns {Promise<Response | void>}
+ */
+const serveResource = request => {
+    return caches.open(staticCache)
+        .then(cache => {
+            return cache.match(request)
+                .then(response => {
+                    console.log(`Matching request ${request.url}`);
+                    if (response) {
+                        console.info("returning from cache");
+                        return response;
+                    }
+
+                    return fetch(request)
+                        .then(networkResponse => {
+                            console.log(`Fetching ${request.url} from network`);
+                            cache.put(request, networkResponse.clone())
+                                .then(() => console.info("Caching succeed"))
+                                .catch(error => console.error("Caching failed", error));
+                            return networkResponse;
+                        });
+                });
+        })
+        .catch(error => console.error("Something happened", error));
 };
