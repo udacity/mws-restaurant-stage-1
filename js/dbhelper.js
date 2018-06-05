@@ -149,11 +149,10 @@ class DBHelper {
   /**
    * Restaurant image URL.
    */
-  
   static imageUrlForRestaurant(restaurant) {
     return (`/img/${restaurant.photograph}`);
   }
-
+/* Restaurant image srcset URLs */
   static imageSrcsetForRestaurant(restaurant) {
     let photographs = `${restaurant.photograph}`;
     let fixedUrl = photographs.substr(0, photographs.length - 4);
