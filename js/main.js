@@ -1,8 +1,8 @@
 let restaurants,
   neighborhoods,
-  cuisines
-var map
-var markers = []
+  cuisines;
+var map;
+var markers = [];
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -87,14 +87,8 @@ window.initMap = () => {
  * Update page and map for current restaurants.
  */
 updateRestaurants = () => {
-  const cSelect = document.getElementById('cuisines-select');
-  const nSelect = document.getElementById('neighborhoods-select');
-
-  const cIndex = cSelect.selectedIndex;
-  const nIndex = nSelect.selectedIndex;
-
-  const cuisine = cSelect[cIndex].value;
-  const neighborhood = nSelect[nIndex].value;
+  const cuisine = getSelectedCusine();
+  const neighborhood = getSelectedNeighborhood();
 
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
     if (error) { // Got an error!
@@ -104,6 +98,24 @@ updateRestaurants = () => {
       fillRestaurantsHTML();
     }
   })
+}
+
+/*
+ * Get selected cusine
+ */
+getSelectedCusine = () => {
+  const cSelect = document.getElementById('cuisines-select');
+  const cIndex = cSelect.selectedIndex;
+  return cSelect[cIndex].value;
+}
+
+/*
+ * Get selected neighborhood
+*/
+getSelectedNeighborhood = () => {
+  const nSelect = document.getElementById('neighborhoods-select');
+  const nIndex = nSelect.selectedIndex;
+  return nSelect[nIndex].value;
 }
 
 /**
@@ -126,6 +138,7 @@ resetRestaurants = (restaurants) => {
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
+  ul.setAttribute('aria-label', `List of ${getSelectedCusine()} food within ${getSelectedNeighborhood()} neighborhood`);
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
@@ -140,6 +153,8 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
+  image.alt = 'Restaurant Image';
+  image.setAttribute('aria-label', `Restaurant ${restaurant.name} image`);
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   li.append(image);
 
@@ -157,10 +172,11 @@ createRestaurantHTML = (restaurant) => {
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
+  more.setAttribute('aria-label', `View restaurant ${restaurant.name}`);
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  li.append(more);
 
-  return li
+  return li;
 }
 
 /**
