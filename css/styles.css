@@ -79,7 +79,7 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
+    width: calc(100% - 80px);
 }
 
 /* Display list items side by side */
@@ -212,23 +212,10 @@ nav h1 a {
   width: 100%;
   z-index: 1000;
 }
-.inside #map-container {
-  background: blue none repeat scroll 0 0;
-  height: 87%;
-  position: fixed;
-  right: 0;
-  top: 80px;
-  width: 50%;
-}
-.inside #map {
-  background-color: #ccc;
-  height: 100%;
-  width: 100%;
-}
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: calc(100% - 50px);
 }
 #restaurant-name {
   color: #f18200;
@@ -236,16 +223,17 @@ nav h1 a {
   font-size: 20pt;
   font-weight: 200;
   letter-spacing: 0;
-  margin: 15px 0 30px;
+  margin: 15px 0;
   text-transform: uppercase;
   line-height: 1.1;
 }
 #restaurant-img {
-  width: 90%;
+  width: 80%;
   border-radius: 10px;
 }
 #restaurant-address {
   font-size: 12pt;
+  font-weight: bold;
   margin: 10px 0px;
 }
 #restaurant-cuisine {
@@ -258,16 +246,17 @@ nav h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+	width: 100%;
 }
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
-  width: 50%;
+  width: 100%;
+  text-align: center;
 }
 #reviews-container {
   padding: 30px 40px 80px;
+  width: calc(100% - 80px);
 }
 #reviews-container h2 {
   color: #f58500;
@@ -279,21 +268,50 @@ nav h1 a {
 #reviews-list {
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
 }
 #reviews-list li {
   background-color: #fff;
-    border: 2px solid #f3f3f3;
-  display: block;
+  border: 2px solid #f3f3f3;
   list-style-type: none;
   margin: 0 0 30px;
   overflow: hidden;
-  padding: 0 20px 20px;
-  position: relative;
-  width: 85%;
+  border-radius: 10px;
 }
-#reviews-list li p {
-  margin: 0 0 10px;
+#restaurant-hours {
+  margin: auto;
 }
 #restaurant-hours td {
   color: #666;
+}
+.review-header {
+  background-color: #444;
+  display: flex;
+  flex-wrap: wrap;
+}
+.review-name {
+  float: left;
+  font-size: 1.6em;
+  color: white;
+  text-align: left;
+  margin:10px 0 0 20px;
+  width: calc(50% - 20px);
+}
+.review-date {
+  float: right;
+  color: #ccc;
+  text-align: right;
+  margin: 10px 0 20px 0 px;
+  width: calc(50% - 20px);
+}
+.review-body {
+  padding: 0 20px 20px;
+}
+.review-stars {
+  margin-top: 10px;
+}
+.marked {
+  color: orange;
 }
