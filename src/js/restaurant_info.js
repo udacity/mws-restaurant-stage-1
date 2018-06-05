@@ -183,10 +183,9 @@ const Review = review => html`
  * Create all reviews HTML and add them to the webpage.
  */
 const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
-  console.log("Reviews: ", reviews);
   const reviewsList = document.getElementById("reviews-list");
   render(
-    reviews && reviews.length ? ReviewList(reviews) : NoReviews,
+    reviews && reviews.length ? ReviewList(reviews) : NoReviews(),
     reviewsList
   );
 };
