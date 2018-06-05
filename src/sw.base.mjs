@@ -68,11 +68,10 @@ const restaurantByIDHandler = ({ url, event, params }) => {
   fetch(event.request).then(res => {
     const cloneRes = res.clone();
     if (cloneRes.ok) {
-      cloneRes.json().then(restaurant => {
-        writeItem("restaurants", restaurant)
-          .then(res => console.log("RES", res))
-          .catch(err => console.log("ERR: ", err));
-      });
+      cloneRes
+        .json()
+        .then(restaurant => writeItem("restaurants", restaurant))
+        .catch(err => console.log("ERR: ", err));
     }
     return res;
   });
@@ -131,12 +130,13 @@ const reviewsByRestaurantIDMatcher = new RegExp(
   /http:\/\/localhost:1337\/reviews\/\?restaurant_id=[0-9]+/
 );
 const reviewsByRestaurantIDHandler = ({ url, event, params }) => {
-  console.log("MATCH");
   fetch(event.request).then(res => {
     const cloneRes = res.clone();
     if (cloneRes.ok) {
-      cloneRes.json().then(review => {
-        writeItem("reviews", review);
+      cloneRes.json().then(resAsJSON => {
+        resAsJSON.forEach(item => {
+          writeItem("reviews", item);
+        });
       });
     }
     return res;
