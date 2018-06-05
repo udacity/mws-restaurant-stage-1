@@ -2,11 +2,13 @@
 /* CSS Document */
 :root {
   --burnt-umber: rgb(149, 83, 1);
+  --tomato-red: rgb(208, 67, 25);
   --light-theme-headers: var(--burnt-umber);
-  --lights-salmon: rgb(239, 183, 161);
+  --light-salmon: rgb(239, 183, 161);
   --dark-theme-headers: var(--lights-salmon);
   --offblack: #252831;
   --infantry-blue: #b1d2e8;
+  --dublin-green: #91d30c;
 }
 
 html,
@@ -323,4 +325,105 @@ header {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+body {
+  z-index: 1;
+}
+
+div#create-review {
+  z-index: 2;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
+  background: rgba(0, 0, 0, 0.7);
+  text-align: center;
+  transform: translateY(100vh);
+  transition: transform 0.3s;
+}
+
+div#create-review form {
+  z-index: 3;
+  background: white;
+  padding: 30px;
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: 500px;
+  max-height: 500px;
+  top: calc((100vh - 500px) / 2);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+div#create-review form input,
+div#create-review form textarea {
+  border: 1px solid black;
+}
+
+#button-row {
+  padding-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#add-review-btn {
+  color: var(--burnt-umber);
+  background: transparent;
+  border: 2px solid var(--burnt-umber);
+  border-radius: 6px;
+  transition-duration: 0.4s;
+}
+
+#add-review-btn:hover {
+  background-color: var(--burnt-umber);
+  color: white;
+}
+
+#close-create-review-modal-btn {
+  color: var(--tomato-red);
+  background: transparent;
+  border: 2px solid var(--tomato-red);
+  border-radius: 6px;
+  transition-duration: 0.4s;
+}
+
+#add-review-btn:hover {
+  background-color: var(--tomato-red);
+  color: white;
+}
+
+button[type="reset"] {
+  color: var(--burnt-umber);
+  background: transparent;
+  border: 2px solid var(--burnt-umber);
+  border-radius: 6px;
+  transition-duration: 0.4s;
+}
+
+btn[type="reset"]:hover {
+  background-color: var(--burnt-umber);
+  color: white;
+}
+
+#create-review-submit-btn {
+  color: var(--dublin-green);
+  background: transparent;
+  border: 2px solid var(--dublin-green);
+  border-radius: 6px;
+  transition-duration: 0.4s;
+}
+#create-review-submit-btn:hover {
+  background-color: var(--dublin-green);
+  color: white;
+}
+
+.dialog {
+  z-index: 3;
+}
+.dialog-overlay {
+  z-index: 2;
 }

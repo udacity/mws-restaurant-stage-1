@@ -224,22 +224,68 @@ export function fetchReviews(callback) {
   }
 }
 
+export function postReview(body, callback) {
+  console.log("postReview: ", body);
+  fetch(`${SERVER}/reviews`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(body)
+  })
+    .then(res => {
+      if (res) {
+        console.log("RES: ", res);
+        return res.json();
+      }
+    })
+    .then(data => {
+      console.log("data: ", data);
+      if (data) {
+        callback(null, data);
+      }
+    })
+    .catch(err => {
+      // Oops!. Got an error from server.
+      const error = `GET /reviews request failed. Returned status of ${err}`;
+    });
+}
+
 /**
  * Fetch all reviews matching a particular restaurant ID
  */
 export function fetchReviewsForRestaurant(restaurantID, callback) {
   // Fetch all reviews
-  fetchReviews((error, reviews) => {
-    if (error) {
-      callback(error, null);
-    } else {
-      // Filter Reviews for a particular restuarant
+  // http://localhost:1337/reviews/?restaurant_id=<restaurant_id>
+  let networkDataReceived = false;
+  fetch(`${SERVER}/reviews/?restaurant_id=${restaurantID}`)
+    .then(res => {
+      if (res) {
+        return res.json();
+      }
+    })
+    .then(data => {
+      if (data) {
+        networkDataReceived = true;
+        callback(null, data);
+      }
+    })
+    .catch(err => {
+      // Oops!. Got an error from server.
+      const error = `Request failed. Returned status of ${err}`;
+    });
+  // Fetch from IndexedDB
+  if ("indexedDB" in window) {
+    getItems("reviews").then(reviews => {
       const reviewsForThisRestaurant = reviews.filter(
         review => review.restaurant_id === restaurantID
       );
-      callback(null, reviewsForThisRestaurant);
-    }
-  });
+      if (!networkDataReceived) {
+        callback(null, reviewsForThisRestaurant);
+      }
+    });
+  }
 }
 
 /**

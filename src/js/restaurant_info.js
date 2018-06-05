@@ -1,13 +1,16 @@
 import {
   mapMarkerForRestaurant,
   fetchRestaurantById,
-  fetchReviewsForRestaurant
+  fetchReviewsForRestaurant,
+  postReview
 } from "./dbhelper";
 import { getImage } from "./imageLoader";
 import { initMap } from "./mapsLoader";
+import CreateReviewModal from "./CreateReviewModal";
 
 import "../css/normalize.css";
 import "../css/styles.css";
+import { html, render } from "lit-html";
 
 // Check for Service Worker Support
 if ("serviceWorker" in navigator) {
@@ -57,7 +60,7 @@ const fetchRestaurantFromURL = cb => {
     cb(null, self.restaurant);
   } else if (!id) {
     // no id found in URL
-    error = "No restaurant id in URL";
+    const error = "No restaurant id in URL";
     cb(error);
   } else {
     fetchRestaurantById(id, (err, restaurant) => {
@@ -78,6 +81,21 @@ const fetchRestaurantFromURL = cb => {
       }
     });
   }
+};
+/**
+ * Get current restaurant from page URL.
+ */
+const fetchReviewsFromURL = cb => {
+  console.log("Fetching Reviews");
+  const id = getParameterByName("id");
+  fetchReviewsForRestaurant(restaurant.id, (err, reviews) => {
+    if (err) {
+      cb(err, null);
+    } else {
+      fillRestaurantHTML(restaurant, reviews); // writes restaurant to the DOM
+      cb(null, restaurant, reviews);
+    }
+  });
 };
 
 /**
@@ -134,62 +152,43 @@ const fillRestaurantHoursHTML = (
   }
 };
 
-/**
- * Create all reviews HTML and add them to the webpage.
- */
-const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
-  const container = document.getElementById("reviews-container");
-  container.innerHTML = "";
-  const title = document.createElement("h2");
-  title.innerHTML = "Reviews";
-  container.appendChild(title);
+const NoReviews = () => html`
+  <p>No Reviews yet!</p>
+  `;
 
-  if (!reviews) {
-    const noReviews = document.createElement("p");
-    noReviews.innerHTML = "No reviews yet!";
-    container.appendChild(noReviews);
-    return;
-  }
-  const reviewList = document.createElement("ul");
-  reviewList.id = "reviews-list";
-  reviews.forEach(review => {
-    reviewList.appendChild(createReviewHTML(review));
-  });
-  container.appendChild(reviewList);
-};
+const ReviewList = reviews => html`
+  ${reviews.map(review => Review(review))}
+`;
 
 /**
  * Create review HTML and add it to the webpage.
  */
-const createReviewHTML = review => {
-  const li = document.createElement("li");
-  const name = document.createElement("p");
-  name.innerHTML = review.name;
-  li.appendChild(name);
+const Review = review => html`
+  <li>
+    <p>${review.name}</p>
+    <p>Created At: ${new Date(review.createdAt).toLocaleDateString() +
+      " " +
+      new Date(review.createdAt).toLocaleTimeString()}
+    </p>
+    <p>Updated At: ${new Date(review.createdAt).toLocaleDateString() +
+      " " +
+      new Date(review.createdAt).toLocaleTimeString()}
+    </p>
+    <p>Rating: ${review.rating}</p>
+    <p>${review.comments}</p>
+  </li>
+  `;
 
-  const createdAtDate = document.createElement("p");
-  createdAtDate.innerHTML = `Created At: ${new Date(
-    review.createdAt
-  ).toLocaleDateString()} 
-    ${new Date(review.createdAt).toLocaleTimeString()}`;
-  li.appendChild(createdAtDate);
-
-  const updatedAtDate = document.createElement("p");
-  updatedAtDate.innerHTML = `Updated At: ${new Date(
-    review.createdAt
-  ).toLocaleDateString()} 
-    ${new Date(review.createdAt).toLocaleTimeString()}`;
-  li.appendChild(updatedAtDate);
-
-  const rating = document.createElement("p");
-  rating.innerHTML = `Rating: ${review.rating}`;
-  li.appendChild(rating);
-
-  const comments = document.createElement("p");
-  comments.innerHTML = review.comments;
-  li.appendChild(comments);
-
-  return li;
+/**
+ * Create all reviews HTML and add them to the webpage.
+ */
+const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+  console.log("Reviews: ", reviews);
+  const reviewsList = document.getElementById("reviews-list");
+  render(
+    reviews && reviews.length ? ReviewList(reviews) : NoReviews,
+    reviewsList
+  );
 };
 
 /**
@@ -221,3 +220,18 @@ const getParameterByName = (name, url) => {
   if (!results[2]) return "";
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
+
+const CRM = new CreateReviewModal({
+  restaurantID: getParameterByName("id"),
+  onSubmit: postBody =>
+    postReview(postBody, (err, res) => {
+      if (err) {
+        console.log("ERR: ", err);
+      }
+      fetchReviewsFromURL();
+      clearReviewForm();
+    })
+});
+
+const addReviewButton = document.querySelector("#add-review-btn");
+addReviewButton.addEventListener("click", () => CRM.open());

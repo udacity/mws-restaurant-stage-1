@@ -63,17 +63,44 @@
     <!-- end restaurant -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
+      <h2>Reviews</h2>
+      <button id="add-review-btn">Add Review</button>
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
   </main>
+  <div id="create-review" class="dialog-overlay" hidden>
+    <form id="create-review-form" class="dialog" role="dialog" aria-labeledby="dialog-title">
+      <h2 id="dialog-title">Create Review</h2>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name">
+      <label for="rating">Rating:</label>
+      <input type="number" name="rating" id="rating" min="1" max="5" step="1">
+      <label for="comments">Comments:</label>
+      <textarea cols="30" rows="10" id="comments" name="comments"></textarea>
+      <div id="button-row">
+        <button id="close-create-review-modal-btn">
+          <strong>Cancel</strong>
+        </button>
+        <button type="reset">
+          <strong>Reset</strong>
+        </button>
+        <button type="submit" id="create-review-submit-btn">
+          <strong>Submit</strong>
+        </button>
+      </div>
+    </form>
+
+
+  </div>
+
   <!-- End main -->
 
   <!-- Beginning footer -->
-  <footer id="footer">
-    <div class="center">
+  <footer id="footer ">
+    <div class="center ">
       Copyright (c) 2018
-      <a href="/">
+      <a href="/ ">
         <strong>Restaurant Reviews</strong>
       </a> All Rights Reserved.
     </div>

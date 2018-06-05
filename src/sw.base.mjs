@@ -69,7 +69,9 @@ const restaurantByIDHandler = ({ url, event, params }) => {
     const cloneRes = res.clone();
     if (cloneRes.ok) {
       cloneRes.json().then(restaurant => {
-        writeItem("restaurants", restaurant);
+        writeItem("restaurants", restaurant)
+          .then(res => console.log("RES", res))
+          .catch(err => console.log("ERR: ", err));
       });
     }
     return res;
@@ -122,4 +124,27 @@ workbox.routing.registerRoute(
   reviewsMatcher,
   ({ url, event, params }) => fetch(event.request),
   "POST"
+);
+
+// fetch(`${SERVER}/reviews/?restaurant_id=${restaurantID}`)
+const reviewsByRestaurantIDMatcher = new RegExp(
+  /http:\/\/localhost:1337\/reviews\/\?restaurant_id=[0-9]+/
+);
+const reviewsByRestaurantIDHandler = ({ url, event, params }) => {
+  console.log("MATCH");
+  fetch(event.request).then(res => {
+    const cloneRes = res.clone();
+    if (cloneRes.ok) {
+      cloneRes.json().then(review => {
+        writeItem("reviews", review);
+      });
+    }
+    return res;
+  });
+};
+
+workbox.routing.registerRoute(
+  reviewsByRestaurantIDMatcher,
+  reviewsByRestaurantIDHandler,
+  "GET"
 );
