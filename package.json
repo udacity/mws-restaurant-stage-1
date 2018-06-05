@@ -20,19 +20,20 @@
   },
   "homepage": "https://github.com/anyulled/mws-restaurant-stage-1#readme",
   "devDependencies": {
+    "apache-server-configs": "^3.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
-    "browser-sync": "^2.23.6",
+    "browser-sync": "^2.24.4",
     "del": "^3.0.0",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-promise": "^3.7.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-babel": "^7.0.1",
     "gulp-cache": "^1.0.2",
@@ -51,6 +52,7 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
     "gulp-useref": "^3.1.5",
+    "gulp-webp": "^3.0.0",
     "http-server": "^0.11.1",
     "idb": "^2.1.1",
     "imagemin-pngquant": "^5.1.0",
@@ -58,7 +60,11 @@
     "psi": "^3.1.0",
     "run-sequence": "^2.2.1",
     "sw-precache": "^5.2.1",
-    "webpack": "^4.5.0",
+    "webpack": "^4.10.2",
     "webpack-cli": "^2.0.14"
+  },
+  "dependencies": {
+    "imagemin-webp": "^4.1.0",
+    "lazysizes": "^4.0.2"
   }
 }

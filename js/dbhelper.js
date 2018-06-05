@@ -124,13 +124,14 @@ class DBHelper {
     /**
      * Restaurant image URL.
      * @param {Object} restaurant
+     * @param {String} [format=jpg] - image format defaults to jpg
      * @param {string} restaurant.photograph
      * @param {string} [restaurant.neighborhood]
      * @param {string} [restaurant.name]
      * @return {string}
      */
-    static imageUrlForRestaurant(restaurant) {
-        return (`/img/${restaurant.photograph}.jpg`);
+    static imageUrlForRestaurant(restaurant, format = "jpg") {
+        return (`/img/${restaurant.photograph}.${format}`);
     }
 
     /**

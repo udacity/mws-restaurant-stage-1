@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-self.importScripts("node_modules/idb/lib/idb.js");
+self.importScripts("js/idb.js");
 
 const objectStore = "objectStore";
 
@@ -80,8 +80,8 @@ const serveResponseIdb = request => {
     // console.groupCollapsed(`getting from cache ${request.url}`);
     dbPromise
         .then(db => {
-            let response = new Response(db.transaction(objectStore).objectStore(objectStore).get(request.url));
-            //console.log("cached response", response);
+            const response = new Response(db.transaction(objectStore).objectStore(objectStore).get(request.url));
+            // console.log("cached response", response);
             return Promise.resolve(response);
         })
         .catch(error => console.error("Unable to access cache: ", error));
@@ -109,31 +109,3 @@ const serveResponseIdb = request => {
         })
         .catch(error => console.error("Fetch Error: ", error));
 };
-
-/**
- * Serve resource from cache or network
- * @deprecated use {@link serveResponseIdb} instead
- * @param {Request} request - client request
- * @return {Promise<Cache>|Promise<Response>}
- */
-const serveResource = request => // eslint-disable-line no-unused-vars
-    caches.open(staticCache)
-        .then(cache =>
-            cache.match(request)
-                .then(response => {
-                    console.log(`Matching request ${request.url}`);
-                    if (response) {
-                        console.info("returning from cache");
-                        return response;
-                    }
-
-                    return fetch(request)
-                        .then(networkResponse => {
-                            console.log(`Fetching ${request.url} from network`);
-                            cache.put(request, networkResponse.clone())
-                                .then(() => console.info("Caching succeed"))
-                                .catch(error => console.error("Caching failed", error));
-                            return networkResponse;
-                        });
-                }))
-        .catch(error => console.error("Something happened", error));

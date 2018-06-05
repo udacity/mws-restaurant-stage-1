@@ -10,19 +10,6 @@ if ("serviceWorker" in navigator) {
     });
 }
 
-const io = new IntersectionObserver(
-    entries => {
-        console.log("== IntersectionObserver ==", entries);
-    },
-    {
-        /* Using default options. Details below */
-    }
-);
-// Start observing an element
-let restaurantList = document.querySelector("#restaurants-list");
-io.observe(restaurantList);
-// TODO https://www.smashingmagazine.com/2018/01/deferring-lazy-loading-intersection-observer-api/
-
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -158,7 +145,10 @@ const createRestaurantHTML = restaurant => { // eslint-disable-line max-statemen
     const li = document.createElement("li");
 
     const image = document.createElement("img");
-    image.className = "restaurant-img";
+    image.className = "restaurant-img lazyload";
+    image.dataset.sizes = "auto";
+    image.dataset.src = DBHelper.imageUrlForRestaurant(restaurant);
+    image.dataset.srcset = DBHelper.imageUrlForRestaurant(restaurant, "webp");
     image.alt = restaurant.name;
     image.src = DBHelper.imageUrlForRestaurant(restaurant);
     li.append(image);
