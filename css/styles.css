@@ -71,7 +71,9 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 81px); /* adjusted */
+    /*width: calc(50% - 81px); adjusted */
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Display list items side by side */
@@ -247,10 +249,10 @@ nav h1 a {
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 100%; 
+  height: 67%; 
   position: fixed;
   right: 0;
-  top: 80px;
+  top: 131px;
   width: 50%;
 }
 .inside #map {
@@ -261,7 +263,8 @@ nav h1 a {
 .inside #footer {
   /*bottom: 0;*/
   /*position: absolute;*/
-  width: 47%;
+  width: 100%;
+  box-sizing: border-box;
 }
 #restaurant-name {
   color: #f18200;
@@ -303,14 +306,11 @@ nav h1 a {
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 30px 25px 30px;
-  width: 47%;
+  padding: 30px 0;
+  width: 50%;
   display: flex;  
-  flex-flow: column;
+  flex-flow: column wrap;
   justify-content: center;
-}
-#reviews-container {
-  padding: 30px 40px 80px;
 }
 #reviews-container h2 {
   color: #f58500;
@@ -318,10 +318,14 @@ nav h1 a {
   font-weight: 300;
   letter-spacing: -1px;
   padding-bottom: 1pt;
+  align-self: center;
 }
 #reviews-list {
   margin: 0;
   padding: 0;
+  display: flex;  
+  flex-flow: wrap;
+  justify-content: center;
 }
 #reviews-list li {
   background-color: #fff;
@@ -384,10 +388,15 @@ nav h1 a {
 /* added styles for table */
 #restaurant-hours {
   border-spacing: 0;
-  width: 60%;
+  width: 45%;
   border: 1px solid #333333;
   border-radius: 15px;
   align-self: center;
+}
+@media screen and (max-width:513px) {
+  #restaurant-hours {
+    width: 75%
+  }
 }
 tr:nth-child(even){background-color: #66666670}
 #restaurant-hours td {
@@ -404,16 +413,10 @@ tr:nth-child(even){background-color: #66666670}
     position: static;
     width: 100%;
   }
-  #breadcrumb {
-    width: 100%;
-    box-sizing: border-box;
-  }
+ 
   #restaurant-container, #reviews-container {
     width: 100%;
     box-sizing: border-box;
   }
-  .inside #footer {
-    width: 100%;
-    box-sizing: border-box;
-  }
+ 
 }
