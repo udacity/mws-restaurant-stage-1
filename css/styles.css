@@ -59,9 +59,16 @@ h1, h2, h3, h4, h5, h6 {
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+.flex-container {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+}
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
+  display: flex;
+  flex-flow: row wrap;
 }
 #footer {
   background-color: #444;
@@ -124,6 +131,10 @@ nav h1 a {
   text-decoration: underline;
 }
 /* ====================== Map ====================== */
+#map-container {
+  width: 100%;
+  height: 400px;
+}
 #map {
   height: 400px;
   width: 100%;
@@ -259,9 +270,13 @@ nav h1 a {
   border-top: 1px solid #fff;
   padding: 15px;
   width: 100%;
+  display: inline-block;
+  align-items: center;
 }
 #reviews-container {
   padding: 15px;
+  display: inline-block;
+  align-items: center;
 }
 #reviews-container h2 {
   color: #f58500;

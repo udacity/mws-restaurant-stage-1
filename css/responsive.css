@@ -1,11 +1,26 @@
 @media screen and (min-width: 700px) {
-    #restaurants-list li {
+    #restaurants-list li{ 
         width: calc(90% / 2);
+    }
+    #restaurant-container {
+        width: 60%;
+    }
+    #reviews-container {
+        width: 40%;
     }
 }
 
 @media screen and (min-width: 1024px) {
     #restaurants-list li {
         width: calc(90% / 3);
+    }
+}
+
+@media screen and (min-width: 1260px) {
+    .flex-item {
+        width: 50%;
+    }
+    #restaurant-info {
+        padding: 60px 20px;
     }
 }
