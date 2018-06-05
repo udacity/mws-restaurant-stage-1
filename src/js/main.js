@@ -114,12 +114,10 @@ function loadMap() {
  */
 export const updateRestaurants = () => {
   const { cuisine, neighborhood } = getSelectedCuisineAndNeighborhood();
-  console.log("UPDATE", cuisine, neighborhood);
   fetchRestaurantByCuisineAndNeighborhood(
     cuisine,
     neighborhood,
     (err, filteredRestaurants) => {
-      console.log(filteredRestaurants);
       if (err) throw err;
       clearMarkers(filteredRestaurants);
       renderRestaurantList(filteredRestaurants);

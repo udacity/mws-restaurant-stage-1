@@ -225,7 +225,6 @@ export function fetchReviews(callback) {
 }
 
 export function postReview(body, callback) {
-  console.log("postReview: ", body);
   fetch(`${SERVER}/reviews`, {
     method: "POST",
     headers: {
@@ -236,12 +235,10 @@ export function postReview(body, callback) {
   })
     .then(res => {
       if (res) {
-        console.log("RES: ", res);
         return res.json();
       }
     })
     .then(data => {
-      console.log("data: ", data);
       if (data) {
         callback(null, data);
       }
