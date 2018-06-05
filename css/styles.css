@@ -72,7 +72,6 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-align: center;
   text-transform: uppercase;
   width: 100%;
-  min-height: 150px;
 }
 /* ====================== Navigation ====================== */
 nav {
@@ -160,8 +159,10 @@ nav h1 a {
   background-color: #f3f3f3;
   list-style: outside none none;
   margin: 0;
-  padding: 15px;
   text-align: center;
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
 }
 #restaurants-list li {
   background-color: #fff;
@@ -172,6 +173,8 @@ nav h1 a {
   padding: 10px;
   text-align: left;
   width: 90%;
+  display: inline-block;
+  align-items: center;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;

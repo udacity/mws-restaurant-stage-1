@@ -1,0 +1,11 @@
+@media screen and (min-width: 700px) {
+    #restaurants-list li {
+        width: calc(90% / 2);
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #restaurants-list li {
+        width: calc(90% / 3);
+    }
+}
