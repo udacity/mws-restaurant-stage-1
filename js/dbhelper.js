@@ -1,170 +1,155 @@
+/* eslint-disable no-console, no-unused-vars */
+/* global google */
+/** @namespace google.maps */
+/** @namespace google.maps.Marker */
+/** @namespace google.maps.Animation */
+/** @namespace google.maps.Animation.DROP */
+
 /**
  * Common database helper functions.
  */
 class DBHelper {
+    /**
+     * Database URL.
+     * Change this to restaurants.json file location on your server.
+     * @return {string} host
+     */
+    static get DATABASE_URL() {
+        return "http://localhost:1337";
+    }
 
-  /**
-   * Database URL.
-   * Change this to restaurants.json file location on your server.
-   */
-  static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
-  }
+    /**
+     * Fetch all restaurants.
+     * @return {Promise<Object[]>|null}
+     */
+    static fetchRestaurants() {
+        return fetch(`${DBHelper.DATABASE_URL}/restaurants`)
+            .then(response => response.json())
+            .then(json => json)
+            .catch(error => console.error("Fetch Restaurants error: ", error));
+    }
 
-  /**
-   * Fetch all restaurants.
-   */
-  static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
-  }
+    /**
+     * Fetch a restaurant by its ID.
+     * @param {string} id - identifier
+     * @return {Object}
+     */
+    static fetchRestaurantById(id) {
+        return fetch(`${DBHelper.DATABASE_URL}/restaurants/${id}`)
+            .then(response => response.json())
+            .then(json => json)
+            .catch(error => console.error(error));
+    }
 
-  /**
-   * Fetch a restaurant by its ID.
-   */
-  static fetchRestaurantById(id, callback) {
-    // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) { // Got the restaurant
-          callback(null, restaurant);
-        } else { // Restaurant does not exist in the database
-          callback('Restaurant does not exist', null);
-        }
-      }
-    });
-  }
+    /**
+     * Fetch restaurants by a cuisine type with proper error handling.
+     * TODO refactor this
+     * @param {string} cuisine
+     * @return {Object[]}
+     */
+    static fetchRestaurantByCuisine(cuisine) {
+        // TODO implement server side function
 
-  /**
-   * Fetch restaurants by a cuisine type with proper error handling.
-   */
-  static fetchRestaurantByCuisine(cuisine, callback) {
-    // Fetch all restaurants  with proper error handling
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        // Filter restaurants to have only given cuisine type
-        const results = restaurants.filter(r => r.cuisine_type == cuisine);
-        callback(null, results);
-      }
-    });
-  }
+        return DBHelper.fetchRestaurants()
+            .then(response => response.filter(restaurant => restaurant.cuisine_type === cuisine))
+            .catch(error => console.error(error));
+    }
 
-  /**
-   * Fetch restaurants by a neighborhood with proper error handling.
-   */
-  static fetchRestaurantByNeighborhood(neighborhood, callback) {
-    // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        // Filter restaurants to have only given neighborhood
-        const results = restaurants.filter(r => r.neighborhood == neighborhood);
-        callback(null, results);
-      }
-    });
-  }
+    /**
+     * Fetch restaurants by a neighborhood with proper error handling.
+     * TODO refactor this
+     * @param {string} neighborhood
+     * @return {Object[]}
+     */
+    static fetchRestaurantByNeighborhood(neighborhood) {
+        // TODO implement server side function
+        return DBHelper.fetchRestaurants()
+            .then(response => response.filter(restaurant => restaurant.neighborhood === neighborhood))
+            .catch(error => console.error(error));
+    }
 
-  /**
-   * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
-   */
-  static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
-    // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        let results = restaurants
-        if (cuisine != 'all') { // filter by cuisine
-          results = results.filter(r => r.cuisine_type == cuisine);
-        }
-        if (neighborhood != 'all') { // filter by neighborhood
-          results = results.filter(r => r.neighborhood == neighborhood);
-        }
-        callback(null, results);
-      }
-    });
-  }
+    /**
+     * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
+     * @param {string} cuisine
+     * @param {string} neighborhood
+     * @return {Promise<Object[]>}
+     */
+    static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood) {
+        return DBHelper.fetchRestaurants()
+            .then(response => {
+                let results = response;
+                if (cuisine !== "all") {
+                    results = results.filter(restaurant => restaurant.cuisine_type === cuisine);
+                }
+                if (neighborhood !== "all") {
+                    results = results.filter(restaurant => restaurant.neighborhood === neighborhood);
+                }
+                return results;
+            })
+            .catch(error => console.error(error));
+    }
 
-  /**
-   * Fetch all neighborhoods with proper error handling.
-   */
-  static fetchNeighborhoods(callback) {
-    // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        // Get all neighborhoods from all restaurants
-        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
-        // Remove duplicates from neighborhoods
-        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
-        callback(null, uniqueNeighborhoods);
-      }
-    });
-  }
+    /**
+     * Fetch all neighborhoods with proper error handling.
+     * @return {Promise<string[]>}
+     */
+    static fetchNeighborhoods() {
+        return DBHelper.fetchRestaurants()
+            .then(response => Promise.resolve([...new Set(response.map(item => item.neighborhood))].sort()))// eslint-disable-line fp/no-mutating-methods
+            .catch(error => console.error(error));
+    }
 
-  /**
-   * Fetch all cuisines with proper error handling.
-   */
-  static fetchCuisines(callback) {
-    // Fetch all restaurants
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        // Get all cuisines from all restaurants
-        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
-        // Remove duplicates from cuisines
-        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
-        callback(null, uniqueCuisines);
-      }
-    });
-  }
+    /**
+     * Fetch all cuisines with proper error handling.
+     * @return {Promise<string[]>}
+     */
+    static fetchCuisines() {
+        return DBHelper.fetchRestaurants()
+            .then(response => [...new Set(response.map(item => item.cuisine_type))].sort()) // eslint-disable-line fp/no-mutating-methods
+            .catch(error => console.error(error));
+    }
 
-  /**
-   * Restaurant page URL.
-   */
-  static urlForRestaurant(restaurant) {
-    return (`./restaurant.html?id=${restaurant.id}`);
-  }
+    /**
+     * Restaurant page URL.
+     * @param {Object} restaurant
+     * @param {number} restaurant.id
+     * @param {string} [restaurant.neighborhood]
+     * @param {string} [restaurant.photograph]
+     * @return {string}
+     */
+    static urlForRestaurant(restaurant) {
+        return (`./restaurant.html?id=${restaurant.id}`);
+    }
 
-  /**
-   * Restaurant image URL.
-   */
-  static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
-  }
+    /**
+     * Restaurant image URL.
+     * @param {Object} restaurant
+     * @param {String} [format=jpg] - image format defaults to jpg
+     * @param {string} restaurant.photograph
+     * @param {string} [restaurant.neighborhood]
+     * @param {string} [restaurant.name]
+     * @return {string}
+     */
+    static imageUrlForRestaurant(restaurant, format = "jpg") {
+        return (`/img/${restaurant.photograph}.${format}`);
+    }
 
-  /**
-   * Map marker for a restaurant.
-   */
-  static mapMarkerForRestaurant(restaurant, map) {
-    const marker = new google.maps.Marker({
-      position: restaurant.latlng,
-      title: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant),
-      map: map,
-      animation: google.maps.Animation.DROP}
-    );
-    return marker;
-  }
-
+    /**
+     * Map marker for a restaurant.
+     * @param {Object} restaurant
+     * @param {number} restaurant.id
+     * @param {Object} restaurant.latlng
+     * @param {string} restaurant.name
+     * @param {Object} map
+     * @return {Object}
+     */
+    static mapMarkerForRestaurant(restaurant, map) {
+        return new google.maps.Marker({
+            position: restaurant.latlng,
+            title: restaurant.name,
+            url: DBHelper.urlForRestaurant(restaurant),
+            map: map,
+            animation: google.maps.Animation.DROP,
+        });
+    }
 }
