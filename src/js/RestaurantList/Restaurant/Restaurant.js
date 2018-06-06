@@ -43,7 +43,10 @@ function Restaurant(restaurant) {
   <div style="display: flex; flex-direction: row; justify-content: space-between;">
     <a href=${urlForRestaurant(restaurant)}>View Details</a>
   <button 
-    type="button" 
+    type="button"
+    role="button"
+    aria-label="Mark ${restaurant.name} as Favorite"
+    aria-pressed=${restaurant.is_favorite}
     style="padding-top: 10px; background-color: white; border: none; color: white;" 
     class="favorite-button" 
     data-restaurantid=${restaurant.id} 
