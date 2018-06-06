@@ -28,18 +28,22 @@ fetchRestaurantFromURL = (callback) => {
     callback(null, self.restaurant)
     return;
   }
+  console.log('fetching restaurant');
   const id = getParameterByName('id');
   if (!id) { // no id found in URL
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
+    console.log('checking for restaurant data');
     DBHelper.fetchRestaurantById(id, (error, restaurant) => {
       self.restaurant = restaurant;
       if (!restaurant) {
         console.error(error);
         return;
       }
+      console.log('filling restaurant html');
       fillRestaurantHTML();
+      console.log('calling back');
       callback(null, restaurant)
     });
   }
@@ -118,18 +122,24 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 createReviewHTML = (review) => {
   const li = document.createElement('li');
   const name = document.createElement('p');
+  name.setAttribute('class','review-name');
   name.innerHTML = review.name;
   li.appendChild(name);
 
   const date = document.createElement('p');
+  date.setAttribute('class','review-date');
   date.innerHTML = review.date;
   li.appendChild(date);
 
   const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
+  rating.setAttribute('class','review-rating');
+  const ratingSpan = document.createElement('span');
+  ratingSpan.innerHTML = `Rating: ${review.rating}`;
+  rating.appendChild(ratingSpan);
   li.appendChild(rating);
 
   const comments = document.createElement('p');
+  comments.setAttribute('class','review-comments');
   comments.innerHTML = review.comments;
   li.appendChild(comments);
 

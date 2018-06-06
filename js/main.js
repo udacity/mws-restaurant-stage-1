@@ -30,6 +30,7 @@ fetchNeighborhoods = () => {
  * Set neighborhoods HTML.
  */
 fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
+  console.log(neighborhoods);
   const select = document.getElementById('neighborhoods-select');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
@@ -156,6 +157,7 @@ createRestaurantHTML = (restaurant) => {
   li.append(address);
 
   const more = document.createElement('a');
+  more.setAttribute('aria-lable', `${restaurant.name}, in ${restaurant.neighborhood}. Click for more`);
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
@@ -176,3 +178,14 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 }
+
+/*
+  * Service worker nonesense.
+  */
+ if (navigator.serviceWorker) {
+   navigator.serviceWorker.register('/sw.js').then((reg) => {
+     console.log('yay!');
+   }).catch((err) => {
+     console.log('boo ):');
+   }) ;
+ }
