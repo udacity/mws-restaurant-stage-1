@@ -9,7 +9,7 @@
     "dev:ui": "webpack-dev-server --open --config webpack.dev.js",
     "start:dev": "npm-run-all --parallel dev:*",
     "start:prod": "npm run build-sw && npm run build && node ./serve.js",
-    "start": "npm run start:dev",
+    "start": "npm run start:prod",
     "remote-ios": "remotedebug_ios_webkit_adapter --port=9000",
     "build-sw": "webpack --config webpack.sw.js",
     "build": "webpack --config webpack.prod.js"
