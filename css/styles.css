@@ -7,6 +7,15 @@ body,td,th,p{
 	color: #333;
 	line-height: 1.5;
 }
+a.skip-main {
+  left:-999px;
+  position:absolute;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  z-index:-999;
+}
 body {
 	background-color: #fdfdfd;
 	margin: 0;
@@ -64,6 +73,8 @@ nav h1 a {
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
+  vertical-align: middle;
+  line-height: 80px;
 }
 #breadcrumb {
     padding: 10px 40px 16px;
@@ -74,6 +85,7 @@ nav h1 a {
     /*width: calc(50% - 81px); adjusted */
     width: 100%;
     box-sizing: border-box;
+    text-align: left;
 }
 
 /* Display list items side by side */
@@ -83,9 +95,12 @@ nav h1 a {
 
 /* Add a slash symbol (/) before/behind each list item */
 #breadcrumb li+li:before {
-    padding: 8px;
-    color: black;
-    content: "/\00a0";
+  display: inline-block;
+  margin: 0 .50em;
+  transform: rotate(15deg);
+  border-right: .1em solid currentColor;
+  height: .8em;
+  content:'';
 }
 
 /* Add a color to all links inside the list */
@@ -95,7 +110,7 @@ nav h1 a {
 }
 
 /* Add a color on mouse-over */
-#breadcrumb li a:hover {
+#breadcrumb li a:hover,a:active {
     color: #01447e;
     text-decoration: underline;
 }
@@ -249,10 +264,9 @@ nav h1 a {
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 67%; 
+  height: 87vh; 
   position: fixed;
   right: 0;
-  top: 131px;
   width: 50%;
 }
 .inside #map {
@@ -262,7 +276,7 @@ nav h1 a {
 }
 .inside #footer {
   /*bottom: 0;*/
-  /*position: absolute;*/
+  position: absolute;
   width: 100%;
   box-sizing: border-box;
 }
