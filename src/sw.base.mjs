@@ -1,6 +1,14 @@
-import { deleteItem, deleteItems, writeItem } from "./js/utils";
+import {
+  deleteItem,
+  deleteItems,
+  writeItem,
+  getItems,
+  sanitizeReview
+} from "./js/utils";
+import { postReviewDirectly } from "./js/dbhelper";
 
 const APP_VERSION = 2;
+const SERVER = `http://localhost:1337`;
 
 /**
  * The workboxSW.precacheAndRoute() method efficiently caches and responds to
@@ -94,37 +102,6 @@ workbox.routing.registerRoute(
   "POST"
 );
 
-// Handlers for /reviews route
-
-const reviewsMatcher = ({ url }) => url.pathname === "/reviews";
-const reviewsHandler = ({ url, event, params }) =>
-  fetch(event.request).then(res => {
-    if (res.ok) {
-      const cloneRes = res.clone();
-      deleteItems("reviews").then(() =>
-        cloneRes.json().then(resAsJSON => {
-          resAsJSON.forEach(item => {
-            writeItem("reviews", item);
-          });
-        })
-      );
-    }
-    return res;
-  });
-
-workbox.routing.registerRoute(reviewsMatcher, reviewsHandler, "GET");
-workbox.routing.registerRoute(
-  reviewsMatcher,
-  ({ url, event, params }) => fetch(event.request),
-  "PUT"
-);
-
-workbox.routing.registerRoute(
-  reviewsMatcher,
-  ({ url, event, params }) => fetch(event.request),
-  "POST"
-);
-
 // fetch(`${SERVER}/reviews/?restaurant_id=${restaurantID}`)
 const reviewsByRestaurantIDMatcher = new RegExp(
   /http:\/\/localhost:1337\/reviews\/\?restaurant_id=[0-9]+/
@@ -133,11 +110,16 @@ const reviewsByRestaurantIDHandler = ({ url, event, params }) => {
   fetch(event.request).then(res => {
     const cloneRes = res.clone();
     if (cloneRes.ok) {
-      cloneRes.json().then(resAsJSON => {
-        resAsJSON.forEach(item => {
-          writeItem("reviews", item);
+      cloneRes
+        .json()
+        .then(dirtyReviews =>
+          dirtyReviews.map(dirtyReview => sanitizeReview(dirtyReview))
+        )
+        .then(cleanReviews => {
+          cleanReviews.forEach(review => {
+            writeItem("reviews", review);
+          });
         });
-      });
     }
     return res;
   });
@@ -148,3 +130,83 @@ workbox.routing.registerRoute(
   reviewsByRestaurantIDHandler,
   "GET"
 );
+
+/**
+ * Send a message to a client, returning a promise that resolves to the client's response
+ *
+ * @param {any} client
+ * @param {any} msg
+ * @returns
+ */
+function send_message_to_client(client, msg) {
+  return new Promise((resolve, reject) => {
+    var msg_chan = new MessageChannel();
+
+    msg_chan.port1.onmessage = function(event) {
+      if (event.data.error) {
+        reject(event.data.error);
+      } else {
+        resolve(event.data);
+      }
+    };
+
+    // Pass a message with a response channel
+    client.postMessage(msg, [msg_chan.port2]);
+  });
+}
+
+/**
+ * Send a message to all clients controlled by this service worker
+ *
+ * @param {any} msg
+ */
+function send_message_to_all_clients(msg) {
+  return clients.matchAll().then(clients => {
+    clients.forEach(client => {
+      send_message_to_client(client, msg).then(m =>
+        console.log(`[SW]: Received message from client ` + m)
+      );
+    });
+  });
+}
+
+function syncNewReviews() {
+  return getItems("sync-reviews").then(reviews => {
+    const arrOfPromises = reviews.map(review => {
+      return postReviewDirectly(review)
+        .then(resBody => {
+          // and delete the review from the sync-reviews store if successful
+          console.log(`[SW] Synced review with server`, resBody);
+          return deleteItem("sync-reviews", [
+            resBody.name,
+            resBody.restaurant_id
+          ]);
+        })
+        .catch(err => {
+          console.log(`[SW] Error syncing review ${review.id}`, err);
+          return Promise.reject(err);
+        });
+    });
+    // After all reviews are successfully uploaded
+    return Promise.all(arrOfPromises)
+      .then(res => {
+        console.log(`[SW] Successfully synced all reviews to server`);
+        // tell all clients to refresh their reviews
+        send_message_to_all_clients("refresh");
+        return Promise.resolve(res);
+      })
+      .catch(err => {
+        console.log(`[SW] Failed to sync all reviews to server`, err);
+        return Promise.reject(err);
+      });
+  });
+}
+
+self.addEventListener("sync", function(event) {
+  switch (event.tag) {
+    case "sync-new-reviews":
+      return event.waitUntil(syncNewReviews());
+    default:
+      console.log(`[SW] Error: ${event.tag} is an unknown sync tag`);
+  }
+});

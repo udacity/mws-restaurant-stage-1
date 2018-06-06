@@ -1,4 +1,4 @@
-import { getItems, getItem } from "./utils";
+import { getItems, getItem, writeItem } from "./utils";
 
 const PORT = 1337;
 const SERVER = `http://localhost:1337`;
@@ -196,36 +196,39 @@ export function fetchCuisines(callback) {
   });
 }
 
-export function fetchReviews(callback) {
-  let networkDataReceived = false;
-  fetch(`${SERVER}/reviews`)
-    .then(res => {
-      if (res) {
-        return res.json();
-      }
-    })
-    .then(data => {
-      if (data) {
-        networkDataReceived = true;
-        callback(null, data);
-      }
-    })
-    .catch(err => {
-      // Oops!. Got an error from server.
-      const error = `GET /reviews request failed. Returned status of ${err}`;
-    });
-  // Fetch from IndexedDB
-  if ("indexedDB" in window) {
-    getItems("reviews").then(reviews => {
-      if (!networkDataReceived && reviews) {
-        callback(null, reviews);
-      }
-    });
+/**
+ * Post review via Sync Manager if supported to enable offline caching
+ */
+export function postReviewViaSyncManager(body, callback) {
+  return navigator.serviceWorker.ready.then(sw => {
+    writeItem("sync-reviews", body)
+      .then(() => {
+        console.log(`[App] Persisted Review to sync-review in IDB`);
+        return sw.sync.register("sync-new-reviews");
+      })
+      .catch(err => {
+        console.log(
+          `[App] Failed to register a sync-new-reviews event with the service worker`,
+          err
+        );
+      });
+  });
+}
+
+export function postReview(body) {
+  if ("serviceWorker" in navigator && "SyncManager" in window) {
+    console.log(`[App] Support for Background Sync Detected`);
+    return postReviewViaSyncManager(body);
+  } else {
+    console.log(
+      `[App] Browser does not support Background Sync. Executing fallback`
+    );
+    return postReviewDirectly(body);
   }
 }
 
-export function postReview(body, callback) {
-  fetch(`${SERVER}/reviews`, {
+export function postReviewDirectly(body) {
+  return fetch(`${SERVER}/reviews`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -234,18 +237,16 @@ export function postReview(body, callback) {
     body: JSON.stringify(body)
   })
     .then(res => {
-      if (res) {
+      if (res && res.ok) {
         return res.json();
-      }
-    })
-    .then(data => {
-      if (data) {
-        callback(null, data);
+      } else {
+        return Promise.reject("Response object was malformed");
       }
     })
     .catch(err => {
       // Oops!. Got an error from server.
       const error = `GET /reviews request failed. Returned status of ${err}`;
+      return Promise.reject(err);
     });
 }
 

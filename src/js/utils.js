@@ -1,6 +1,6 @@
 import * as idb from "idb";
 
-const dbPromise = idb.open("restaurants-store", 2, db => {
+const dbPromise = idb.open("restaurants-store", 6, db => {
   // create the restaurants table if it doesn't exist
   if (!db.objectStoreNames.contains("restaurants")) {
     console.log("Creating Object Store - restaurants");
@@ -9,6 +9,12 @@ const dbPromise = idb.open("restaurants-store", 2, db => {
   if (!db.objectStoreNames.contains("reviews")) {
     console.log("Creating Object Store - reviews");
     db.createObjectStore("reviews", { keyPath: "id" });
+  }
+  // create an object store to cache outgoing review submissions
+  if (!db.objectStoreNames.contains("sync-reviews")) {
+    db.createObjectStore("sync-reviews", {
+      keyPath: ["name", "restaurant_id"]
+    });
   }
 });
 
@@ -61,4 +67,17 @@ export function deleteItem(storeName, id) {
       return tx.complete;
     })
     .then(() => console.log(`Item ${id} deleted`));
+}
+
+// For some reason, the Sails backend returns inconsistent data
+export function sanitizeReview(review) {
+  return {
+    id: Number(review.id),
+    name: String(review.name),
+    rating: Number(review.rating),
+    restaurant_id: Number(review.restaurant_id),
+    comments: String(review.comments),
+    createdAt: Date.parse(review.createdAt),
+    updatedAt: Date.parse(review.updatedAt)
+  };
 }

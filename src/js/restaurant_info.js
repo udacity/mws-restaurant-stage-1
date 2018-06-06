@@ -85,15 +85,14 @@ const fetchRestaurantFromURL = cb => {
 /**
  * Get current restaurant from page URL.
  */
-const fetchReviewsFromURL = cb => {
+const fetchReviewsFromURL = () => {
   console.log("Fetching Reviews");
   const id = getParameterByName("id");
-  fetchReviewsForRestaurant(restaurant.id, (err, reviews) => {
+  fetchReviewsForRestaurant(id, (err, reviews) => {
     if (err) {
-      cb(err, null);
+      console.log(err);
     } else {
       fillRestaurantHTML(restaurant, reviews); // writes restaurant to the DOM
-      cb(null, restaurant, reviews);
     }
   });
 };
@@ -223,14 +222,31 @@ const getParameterByName = (name, url) => {
 const CRM = new CreateReviewModal({
   restaurantID: getParameterByName("id"),
   onSubmit: postBody =>
-    postReview(postBody, (err, res) => {
-      if (err) {
-        console.log("ERR: ", err);
+    postReview(postBody).then(() => {
+      // If we don't support background syncing, refresh after 500ms
+      if (!"SyncManager" in window) {
+        window.setTimeout(() => {
+          fetchReviewsFromURL();
+        }, 500);
       }
-      fetchReviewsFromURL();
-      clearReviewForm();
     })
 });
 
 const addReviewButton = document.querySelector("#add-review-btn");
 addReviewButton.addEventListener("click", () => CRM.open());
+
+if ("serviceWorker" in navigator) {
+  // Handler for messages coming from the service worker
+  navigator.serviceWorker.addEventListener("message", event => {
+    console.log("[App] Received Message from SW: " + event.data);
+    // This is not really used, but this shows how to send an immediate response using the second channel
+    event.ports[0].postMessage("ACK");
+    switch (event.data) {
+      // Allows the service worker to tell the client to refresh the reviews if new posts are available
+      case "refresh":
+        console.log("[App] Instructed to Refresh Cards: " + event.data);
+        fetchReviewsFromURL();
+        break;
+    }
+  });
+}
