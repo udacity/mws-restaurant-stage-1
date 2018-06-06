@@ -138,10 +138,10 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
-  const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  const picture = document.createElement('picture');
+  li.append(picture);
+
+  ImgHelper.addImages(restaurant, picture, 'restaurant-img');
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
@@ -176,3 +176,22 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 }
+
+/**
+ * Add functionality for filter accordion 
+ */
+var accordion = document.getElementsByClassName("accordion");
+accordion[0].addEventListener("click", function() {
+  this.classList.toggle("active");
+
+  var panel = this.nextElementSibling;
+  if (panel.style.maxHeight) {
+    panel.style.maxHeight = null;
+    this.classList.remove('fontawesome-angle-up')
+    this.classList.add('fontawesome-angle-down')
+  } else {
+    panel.style.maxHeight = panel.scrollHeight + "px";
+    this.classList.remove('fontawesome-angle-down')
+    this.classList.add('fontawesome-angle-up')
+  }
+})

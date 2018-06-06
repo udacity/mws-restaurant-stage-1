@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* CSS Document */
+
+@media screen and (min-width: 700px) {
+  #restaurants-list li {
+    width: 606px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .review-comments, .review-stars, .review-date {
+    font-size: 1.1em;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  #restaurants-list li {
+    width: calc((100% - 188px)/2);
+  }
+  .detail-img {
+    width: 785px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .review-comments, .review-stars, .review-date {
+    font-size: 1em;
+  }
+  #reviews-list li {
+    width: calc((100% - 8px)/2);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media screen and (min-width: 1300px) {
+  .review-comments, .review-stars, .review-date {
+    font-size: 1.2em;
+  }
+}
+
+@media screen and (min-width: 1500px) {
+  #restaurants-list li {
+    width: calc((100% - 282px)/3);
+  }
+}

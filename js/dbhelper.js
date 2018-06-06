@@ -149,8 +149,29 @@ class DBHelper {
   /**
    * Restaurant image URL.
    */
-  static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+  static imageUrlForRestaurant(restaurant, size) {
+    const startOfFileEnding = restaurant.photograph.lastIndexOf('.');
+    const imgName = restaurant.photograph.substr(0, startOfFileEnding);
+    const imgType = restaurant.photograph.substr(startOfFileEnding, restaurant.photograph.length);
+    switch(size) {
+      case 'small':
+        return (`/img/${imgName}-small${imgType}`);
+      case 'medium':
+        return (`/img/${imgName}-medium${imgType}`);
+      case 'large1x':
+        return (`/img/${imgName}-800_large_1x${imgType}`);
+      case 'large2x':
+        return (`/img/${imgName}-1600_large_2x${imgType}`);
+      default:
+        return (`/img/${imgName}-small${imgType}`);
+    }
+  }
+
+  /**
+   * Restaurant alt text
+   */
+  static imageAltForRestaurant(restaurant) {
+
   }
 
   /**
