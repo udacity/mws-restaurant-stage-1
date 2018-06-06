@@ -100,7 +100,7 @@ header {
   grid-area: header;
   background-color: var(--offblack);
   display: grid;
-  grid-template: "nav" auto "breadcrumbs" auto / 100%;
+  grid-template: "nav nav" auto "breadcrumbs mapbtn" auto / 1fr 90px;
   align-items: stretch;
 }
 
@@ -157,9 +157,18 @@ header {
   color: var(--infantry-blue);
   text-decoration: underline;
 }
+
+#maptoggle {
+  grid-area: mapbtn;
+  background-color: black;
+  color: white;
+  float: left;
+  justify-self: stretch;
+  align-self: stretch;
+}
 /* ====================== Map ====================== */
 #map-container {
-  height: 50vh;
+  height: 0vh;
 }
 #map {
   height: inherit;
@@ -251,8 +260,6 @@ header {
 
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 100%;
-  height: 50vh;
 }
 .inside #map {
   background-color: #ccc;

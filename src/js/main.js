@@ -27,14 +27,15 @@ if ("serviceWorker" in navigator) {
 window.state = {
   markers: [],
   map: {},
-  restaurants: []
+  restaurants: [],
+  mapClosed: true
 };
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener("DOMContentLoaded", event => {
-  loadMap();
+  updateRestaurants();
   fetchAndFillNeighborhoods();
   fetchAndFillCuisines();
 });
@@ -144,3 +145,19 @@ const renderRestaurantList = restaurants => {
   const restaurantListMountPoint = document.getElementById("restaurants-list");
   render(RestaurantList(restaurants), restaurantListMountPoint);
 };
+
+const toggleMapBtn = document.querySelector("#maptoggle");
+const mapContainer = document.querySelector("#map-container");
+
+toggleMapBtn.addEventListener("click", () => {
+  if (window.state.mapClosed) {
+    mapContainer.style.height = "50vh";
+    window.state.mapClosed = false;
+    toggleMapBtn.setAttribute("aria-pressed", "true");
+    loadMap();
+  } else {
+    mapContainer.style.height = "0vh";
+    window.state.mapClosed = true;
+    toggleMapBtn.setAttribute("aria-pressed", "false");
+  }
+});
