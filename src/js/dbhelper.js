@@ -85,6 +85,7 @@ class DBHelper {
         callback(error, null);
       } else {
         let results = restaurants
+
         if (cuisine != 'all') { // filter by cuisine
           results = results.filter(r => r.cuisine_type == cuisine);
         }
@@ -107,6 +108,7 @@ class DBHelper {
       } else {
         // Get all neighborhoods from all restaurants
         const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+
         // Remove duplicates from neighborhoods
         const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
         callback(null, uniqueNeighborhoods);
@@ -123,8 +125,10 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
+
         // Get all cuisines from all restaurants
         const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
+
         // Remove duplicates from cuisines
         const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
         callback(null, uniqueCuisines);
@@ -164,19 +168,6 @@ class DBHelper {
   }
 
   /**
-  * Register a service worker if browser has this option
-  */
-  static registerServiceWorker() {
-    
-    if (!navigator.serviceWorker) return;
-    
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-      .then(() => {console.log('Registration successfull');})
-      .catch(() => {console.log('SW Registration failed');});
-    
-  }
-
-  /**
    * Lazy loads pictures so app can be faster
    */
   static lazyLoadImages() {
@@ -201,7 +192,11 @@ class DBHelper {
           img.removeAttribute('data-src');
         });
 
-        picture.classList.remove("lazy-loading");
+        setTimeout(() => {
+           picture.classList.remove("lazy-loading");
+
+        }, 200)
+       
 
       });
 

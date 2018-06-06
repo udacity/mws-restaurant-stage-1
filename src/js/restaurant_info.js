@@ -2,13 +2,6 @@ let restaurant;
 var map;
 
 /**
- * Register service worker as soon as the page is loaded.
- */
-document.addEventListener('DOMContentLoaded', (event) => {
-  DBHelper.registerServiceWorker();
-});
-
-/**
  * Enables lazy loading of images when content is loaded
  */
 window.addEventListener('load', (event) => {

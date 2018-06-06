@@ -23,25 +23,41 @@ function cacheImages(request) {
       // Cache hit - return response else fetch
       // We clone the request because it's a stream and can be consumed only once
       var networkFetch = fetch(request.clone()).then((networkResponse) => {
-          // Check if we received an invalid response
-          if(networkResponse.status == 404) return;
+        // Check if we received an invalid response
+        if(networkResponse.status == 404) return;
 
-          // We clone the response because it's a stream and can be consumed only once
-          cache.put(urlToFetch, networkResponse.clone());
-  
-          return networkResponse;
+        // We clone the response because it's a stream and can be consumed only once
+        cache.put(urlToFetch, networkResponse.clone());
 
-        }, (rejected) => {
-          return response || caches.match(offlinePage);
-        }).catch(() => {
-          return response || caches.match(offlinePage);
-        });
+        return networkResponse;
+
+      }, (rejected) => {
+        return response;
+      }).catch(() => {
+        return response;
+      });
 
       // //if access to network is good we want the best quality image
       return networkFetch;
 
-    }).catch(() => { caches.match(offlinePage); })
-  })
+    }).catch(() => { 
+
+      return fetch(request.clone()).then((networkResponse) => {
+        // Check if we received an invalid response
+        if(networkResponse.status == 404) return;
+
+        // We clone the response because it's a stream and can be consumed only once
+        cache.put(urlToFetch, networkResponse.clone());
+
+        return networkResponse;
+
+      }, (rejected) => {
+        return caches.match(offlinePage); 
+      }).catch(() => {
+        return caches.match(offlinePage); 
+      });
+    })
+  });
 }
 
 /** 
@@ -61,9 +77,12 @@ function cacheImages(request) {
         // We clone the response because it's a stream and can be consumed only once
         cache.put(request, networkResponse.clone());
         return networkResponse;
-      });
-    }).catch(() => { caches.match(offlinePage); })
-  })
+
+      }).catch(() => { 
+        return caches.match(offlinePage); 
+      })
+    });
+  });
 }
 
 /**
@@ -87,7 +106,7 @@ function fetchFromNetworkAndCacheRestaurantsInIndexedDB(request) {
         var tx = db.transaction('restaurants', 'readwrite');
         var store = tx.objectStore('restaurants');
 
-        // if we rrefer to all data
+        // if we refer to all data
         if(!restaurantId){
 
           json.forEach(restaurant => {
@@ -158,8 +177,8 @@ function getData(request) {
 /**
  * Create an indexed db of keyval type named `restaurants`
  */
-function createDB () {
-  dbPromise = idb.open('restaurants', 1, upgradeDB => {
+function createDB() {
+  return idb.open('restaurants', 1, upgradeDB => {
     var store = upgradeDB.createObjectStore('restaurants', {
       keypath: 'id'
     });
@@ -171,22 +190,35 @@ function createDB () {
  */
 self.addEventListener('install', event => {
   // Open cache for static content and cache 404 page
-  event.waitUntil(
-    caches.open(CACHE_STATIC).then(cache => {
+
+    var openStaticCachePromise = caches.open(CACHE_STATIC).then(cache => {
       cache.addAll([offlinePage]);
-	    console.log(`Cache ${CACHE_STATIC} opened`);
-	  })
-  );
-   // Open cache for images content
-  event.waitUntil(
-    caches.open(CACHE_IMAGES).then(cache => {
-	    console.log(`Cache ${CACHE_IMAGES} opened`);
-	  })
-  );
-  //create indexed db
-  event.waitUntil(
-    createDB()
-  );
+      console.log(`Cache ${CACHE_STATIC} opened`);
+    });
+
+    var openImageCachePromise = caches.open(CACHE_IMAGES).then(cache => {
+      console.log(`Cache ${CACHE_IMAGES} opened`);
+    })
+
+    dbPromise = createDB();
+
+    event.waitUntil(
+      Promise.all([openStaticCachePromise, openImageCachePromise])
+      .then(() => {
+        return self.skipWaiting()
+      })
+    );
+});
+
+
+/** 
+ * Open index db on activate
+ */
+self.addEventListener('activate', event => {
+
+  dbPromise = createDB();
+  event.waitUntil(dbPromise);
+
 });
 
 /** 
@@ -200,10 +232,8 @@ self.addEventListener('fetch', event => {
   } else if (event.request.url.includes('restaurants')) {
     event.respondWith(getData(event.request));
     return;
-  } 
-  else {
+  } else {
     event.respondWith(cacheStaticContent(event.request));
     return;
   }
 });
-
