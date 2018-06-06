@@ -164,7 +164,6 @@ nav h1 a {
   border: 2px solid #ccc;
   font-family: Arial,sans-serif;
   margin: 15px;
-  min-height: 380px;
   text-align: center;
   width: 100%;
   border-radius: 10px;
@@ -174,7 +173,6 @@ nav h1 a {
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
   min-width: 100%;
   border-radius: 10px 10px 0 0;
 }
@@ -227,7 +225,7 @@ nav h1 a {
   text-transform: uppercase;
   line-height: 1.1;
 }
-#restaurant-img {
+.detail-img {
   width: 80%;
   border-radius: 10px;
 }

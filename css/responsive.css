@@ -16,7 +16,7 @@
   #restaurants-list li {
     width: calc((100% - 188px)/2);
   }
-  #restaurant-img {
+  .detail-img {
     width: 785px;
     margin-left: auto;
     margin-right: auto;
