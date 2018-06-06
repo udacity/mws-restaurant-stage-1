@@ -51,9 +51,9 @@ fetchRestaurantFromURL = (callback) => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
-
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
+  address.setAttribute('aria-label', `Address ${restaurant.address}`);
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
@@ -83,10 +83,15 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 
     const day = document.createElement('td');
     day.innerHTML = key;
+    day.tabIndex = 0;
     row.appendChild(day);
 
     const time = document.createElement('td');
     time.innerHTML = operatingHours[key];
+    const timeHtml = operatingHours[key];
+    const labelString = timeHtml.replace(/-/g, 'to').replace(/,/g, ' and');
+    time.tabIndex = 0;
+    time.setAttribute('aria-label', `From ${labelString}`);
     row.appendChild(time);
 
     hours.appendChild(row);
@@ -100,11 +105,13 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
+  title.tabIndex = 0;
   container.appendChild(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
+    noReviews.tabIndex = 0 ;
     container.appendChild(noReviews);
     return;
   }
@@ -123,21 +130,26 @@ createReviewHTML = (review) => {
   const name = document.createElement('p');
   const nameContainer = document.createElement('div');  /*created a div for head comtainer*/
   name.innerHTML = review.name;
+  name.tabIndex = 0;
+  name.setAttribute('aria-label', `reviewer name : ${review.name} `)
   li.appendChild(nameContainer);  /*div is child of review li*/ 
   nameContainer.appendChild(name); /* name now child of the div*/
   name.classList.add('review-name');  /* added class for reviewer  name  */
 
   const date = document.createElement('time'); /*added semantic meaning to date using time tag*/
   date.innerHTML = review.date;
+  date.tabIndex = 0;
   nameContainer.appendChild(date); /* added date as child of div */
   
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
+  rating.tabIndex = 0;
   li.appendChild(rating);
   rating.classList.add('review-rating');  /* added class for reviewer rating */
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
+  comments.tabIndex = 0 ;
   li.appendChild(comments);
 
   return li;
@@ -149,8 +161,12 @@ createReviewHTML = (review) => {
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
-  li.innerHTML = restaurant.name;
+  const a = document.createElement('a');
+  a.innerHTML = restaurant.name;
+  a.setAttribute('aria-current', 'page');
+  a.href = DBHelper.urlForRestaurant(restaurant);
   breadcrumb.appendChild(li);
+  li.appendChild(a);
 }
 
 /**
