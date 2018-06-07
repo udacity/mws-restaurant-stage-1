@@ -35,6 +35,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
+    option.setAttribute('role', 'menuitem');
     select.setAttribute('role', 'menu');
     select.append(option);
   });
@@ -64,6 +65,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
+    option.setAttribute('role', 'menuitem');
     select.setAttribute('role', 'menu');
     select.append(option);
   });
@@ -157,11 +159,13 @@ createRestaurantHTML = (restaurant) => {
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   neighborhood.tabIndex = 0;
+  neighborhood.setAttribute('aria-label', `neighborhood town : ${restaurant.neighborhood}`)
   li.append(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
   address.tabIndex = 0;
+  address.setAttribute('aria-label', `Address ${restaurant.address}`);
   li.append(address);
 
   const more = document.createElement('a');
