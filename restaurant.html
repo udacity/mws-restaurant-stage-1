@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <!-- Character coding meta -->
@@ -14,14 +14,17 @@
 </head>
 
 <body class="inside">
+  <!-- Beginning Skip link-->
   <a class="skip-main" href="#restaurant-container" tabindex="0">Skip to main content</a>
+  <!-- End Skip Link -->
+  
   <!-- Beginning header -->
   <header>
     <!-- Beginning nav -->
     <nav aria-label="Breadcrumb">
       <h1><a href="/">Restaurant Reviews</a></h1>
       <!-- Beginning breadcrumb -->
-      <ol id="breadcrumb" >
+      <ol id="breadcrumb" role="navigation">
         <li><a href="/">Home</a></li>
       </ol>
       <!-- End breadcrumb -->
@@ -34,7 +37,7 @@
   <main id="maincontent">
     <!-- Beginning map -->
     <section id="map-container">
-      <div id="map" aria-label="Google Map"></div>
+      <div id="map" role="application" aria-label="Google Map"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant --> 
@@ -55,7 +58,7 @@
   <!-- End main -->
 
   <!-- Beginning footer -->
-  <footer id="footer">
+  <footer id="footer" tabindex="0">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
   <!-- End footer -->
