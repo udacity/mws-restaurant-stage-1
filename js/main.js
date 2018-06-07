@@ -152,11 +152,12 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
   const picture = document.createElement('picture');
-  const sourceWebp = document.createElement('source');
   const imgPath = DBHelper.imageUrlForRestaurant(restaurant);
 
+  const sourceWebp = document.createElement('source');
   sourceWebp.type = 'image/webp';
   sourceWebp.srcset = `${imgPath}.webp`;
+  
   const sourceJpeg = document.createElement('source');
   sourceJpeg.type = 'image/jpeg';
   
@@ -164,18 +165,15 @@ createRestaurantHTML = (restaurant) => {
   image.className = 'restaurant-img';
   image.alt = 'Restaurant Image';
   image.setAttribute('aria-label', `Restaurant ${restaurant.name} image`);
-
-  
   image.src = `${imgPath}-800.jpg`;
   image.sizes='(max-width: 960px) 50vw, 100vw';
   image.srcset = [`${imgPath}-400.jpg 400w`, `${imgPath}-800.jpg 800w`];
 
-  
+  // Append sources to picrure
   picture.append(sourceWebp);
   picture.append(sourceJpeg);
   picture.append(image);
 
-  //li.append(image);
   li.append(picture);
 
   const name = document.createElement('h1');
