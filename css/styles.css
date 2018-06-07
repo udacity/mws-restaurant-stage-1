@@ -419,7 +419,7 @@ tr:nth-child(even){background-color: #66666670}
   /*color: #666;*/
   padding: 10px 10px;
 }
-/* break points for mobile css styling */
+/* break points for mobile screen styling */
 @media screen and (max-width: 889px) {
   .inside header {
     box-sizing: border-box;

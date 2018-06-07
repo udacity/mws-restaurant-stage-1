@@ -91,9 +91,12 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     const timeHtml = operatingHours[key];
     const labelString = timeHtml.replace(/-/g, 'to').replace(/,/g, ' and');
     time.tabIndex = 0;
-    time.setAttribute('aria-label', `From ${labelString}`);
+    if (time.innerHTML == 'Closed') {
+      time.setAttribute('aria-label', `${labelString}`);
+    } else {
+      time.setAttribute('aria-label', `From ${labelString}`);
+    }
     row.appendChild(time);
-
     hours.appendChild(row);
   }
 }
