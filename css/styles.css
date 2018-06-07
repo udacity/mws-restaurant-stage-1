@@ -110,7 +110,7 @@ nav h1 a {
 }
 
 /* Add a color on mouse-over */
-#breadcrumb li a:hover,a:active {
+#breadcrumb li a:hover {
     color: #01447e;
     text-decoration: underline;
 }
@@ -264,9 +264,10 @@ nav h1 a {
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 87vh; 
+  height: 85.5vh; 
   position: fixed;
   right: 0;
+  top:126px;
   width: 50%;
 }
 .inside #map {
@@ -286,7 +287,7 @@ nav h1 a {
   font-size: 20pt;
   font-weight: 200;
   letter-spacing: 0;
-  margin: 15px 0 30px;
+  margin: 30px 0 30px;
   text-transform: uppercase;
   line-height: 1.1;
   align-self: center;
@@ -373,7 +374,7 @@ nav h1 a {
   align-self: flex-start;
   font-weight: 500;
   padding: 0 15px;
-  font-size: 4.5vh;
+  font-size: 2em;
   vertical-align: middle;
   line-height: 50px;
 }
@@ -394,7 +395,7 @@ nav h1 a {
     align-self: flex-end;
     color: #B7B7B7;
     padding: 0 20px;
-    font-size: 3.1vh;
+    font-size: 1.4em;
     vertical-align: middle;
     line-height: 50px;
 }
@@ -426,11 +427,21 @@ tr:nth-child(even){background-color: #66666670}
     height: 400px;
     position: static;
     width: 100%;
+    margin-top: 45px;
   }
- 
   #restaurant-container, #reviews-container {
     width: 100%;
     box-sizing: border-box;
   }
+  #restaurant-name {
+    margin: 0 0 20px;
+  }
  
+}
+@media screen and (max-width: 396px) {
+  nav h1 a {
+    line-height: 2em;
+  }
+
+
 }
