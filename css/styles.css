@@ -291,6 +291,7 @@ nav h1 a {
   text-transform: uppercase;
   line-height: 1.1;
   align-self: center;
+  text-align: center;
 }
 /* styled the img*/
 #restaurant-img {
@@ -441,6 +442,11 @@ tr:nth-child(even){background-color: #66666670}
 @media screen and (max-width: 396px) {
   nav h1 a {
     line-height: 2em;
+  }
+  #reviews-list time {
+    line-height: 2.2em;
+    font-size: 1.3em;
+    padding-left: 0;
   }
 
 
