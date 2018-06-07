@@ -1,0 +1,396 @@
+@charset "utf-8";
+@import '_variables.scss';
+@import 'compass';
+/* CSS Document */
+
+body {
+  background-color: #f58500;
+	margin: 0;
+	position:relative;
+  td, th, p, {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    color: #333;
+    line-height: 1.5;
+  }
+}
+ul, li {
+  font-family: Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	color: #333;
+}
+a {
+	color: orange;
+  text-decoration: none;
+  &:hover, &:focus {
+    color: #3397db;
+    text-decoration: none;
+   }
+   img{
+     border: none 0px #fff;
+   }
+
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0 0 20px;
+}
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+#maincontent {
+  background-color: #f3f3f3;
+  min-height: 100%;
+  max-width: 1206px;
+  margin: 0 auto;
+  -webkit-box-shadow: 0px 0px 50px 10px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 50px 10px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 50px 10px rgba(0,0,0,0.75);
+}
+#footer {
+  background-color: #444;
+  color: #aaa;
+  font-size: 8pt;
+  letter-spacing: 1px;
+  padding: 25px;
+  text-align: center;
+  text-transform: uppercase;
+  .inside & {
+    bottom: 0;
+    position: absolute;
+    width: calc(100vw - 50px);
+    @media screen and (min-width: $tablet) {
+      width: calc(50% - 50px);
+    }
+  }
+}
+/* ====================== Navigation ====================== */
+nav {
+  width: 100%;
+  height: auto;
+  line-height: 6.75rem;
+  background-color: #252831;
+  text-align:center;
+
+  @media screen and (min-width: 451px) {
+    height: 80px;
+  }
+
+  h1 {
+    margin: auto;
+    @media screen and (min-width: 451px) {
+      line-height: 5rem;
+    }
+  }
+  h1 a {
+    color: #fff;
+    font-size: 0.8rem;
+    letter-spacing: 0.3rem;
+    font-weight: 200;
+    text-transform: uppercase;
+    @media screen and (min-width: 451px) {
+      font-size: 14pt;
+      letter-spacing: 10px;
+    }
+  }
+}
+
+#breadcrumb {
+  padding: 10px 40px 16px;
+  list-style: none;
+  background-color: #eee;
+  font-size: 17px;
+  margin: 0;
+  width: calc(100vw - 80px);
+
+  @media screen and (min-width: $tablet) {
+    width: calc(50% - 80px);
+  }
+
+  /* Display list items side by side */
+  li {
+    display: inline;
+
+    /* Add a slash symbol (/) before/behind each list item */
+    &+li:before {
+      padding: 8px;
+      color: black;
+      content: "/\00a0";
+    }
+
+    /* Add a color to all links inside the list */
+    a{
+    color: #0275d8;
+    text-decoration: none;
+
+      /* Add a color on mouse-over */
+    &:hover {
+        color: #01447e;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+/* ====================== Map ====================== */
+#map {
+  height: 82.5vh;
+  background-color: #ccc;
+
+  @media screen and (min-width: 451px) {
+    height: 400px;
+  }
+
+  .inside & {
+    background-color: #ccc;
+    height: 100%;
+    max-width: 600px;
+    width: auto;
+  }
+}
+/* ====================== Restaurant Filtering ====================== */
+.filter-options {
+  width: 100%;
+  background-color: #3397DB;
+  align-items: center;
+  text-align: center;
+
+  h2 {
+    color: white;
+    font-size: 1rem;
+    font-weight: normal;
+    line-height: 2rem;
+    margin: 0 20px;
+  }
+
+  select {
+    background-color: white;
+    border: 1px solid #fff;
+    font-family: Arial,sans-serif;
+    font-size: 11pt;
+    height: 35px;
+    letter-spacing: 0;
+    margin: 10px;
+    padding: 0 10px;
+    width: 200px;
+
+    &:hover, &:focus {
+      outline-color: tomato;
+      outline-width: 3px;
+    }
+  }
+}
+
+/* ====================== Restaurant Listing ====================== */
+#restaurants-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: #f3f3f3;
+  list-style: outside none none;
+  margin: 0;
+  padding: 30px 15px 60px;
+  text-align: center;
+
+  @media screen and (min-width: 1023px) {
+    justify-content: baseline;
+    align-content: space-around;
+  }
+
+  li {
+    background-color: #fff;
+    border: 2px solid #ccc;
+    font-family: Arial,sans-serif;
+    margin: 15px;
+    padding: 0 30px 25px;
+    text-align: left;
+    max-width: 200px;
+    height: 330px;
+    position: relative;
+
+    h1 {
+      color: #f18200;
+      font-family: Arial,sans-serif;
+      font-size: 14pt;
+      font-weight: 200;
+      letter-spacing: 0;
+      line-height: 1.3;
+      margin: 20px 0 10px;
+      text-transform: uppercase;
+    }
+
+    a {
+      background-color: orange;
+      border-bottom: 3px solid #eee;
+      color: #fff;
+      display: inline-block;
+      font-size: 10pt;
+      padding: 8px 30px 10px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+      position: absolute;
+      bottom: 12px;
+    }
+
+    .restaurant-img {
+      background-color: #ccc;
+      display: block;
+      margin: 0;
+      margin-top: 12px;
+      max-width: 100%;
+      min-width: 100%;
+    }
+
+    p {
+      margin: 0;
+      font-size: 11pt;
+    }
+  }
+}
+  /* ====================== Restaurant Details ====================== */
+.inside {
+  header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  #map-container {
+    top: 158px;
+    height: 72vh;
+    width: 100vw;
+    position: fixed;
+
+    @media screen and (min-width: $tablet) {
+      height: 89.5%;
+      right: 0;
+      top: 80px;
+      width: 50%;
+    }
+  }
+}
+#restaurant-name {
+  color: #f18200;
+  font-family: Arial,sans-serif;
+  font-size: 20pt;
+  font-weight: 200;
+  letter-spacing: 0;
+  margin: 15px 8px 30px;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+#restaurant-img {
+  width: 90%;
+  display: block;
+  margin: auto;
+  border-radius: 10px 10px 0 0;
+}
+#restaurant-address {
+  font-size: 12pt;
+  margin: 10px 0px;
+}
+#restaurant-cuisine {
+  background-color: #333;
+  color: #ddd;
+  font-size: 12pt;
+  font-weight: 300;
+  letter-spacing: 10px;
+  margin: 0 0 20px;
+  padding: 2px 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+#restaurant-container, #reviews-container {
+  position: relative;
+  border-bottom: 1px solid #d9d9d9;
+  border-top: 1px solid #fff;
+  @media screen and (min-width: $tablet) {
+    padding: 140px 40px 30px;
+    width: 50%;
+  }
+}
+#restaurant-container {
+  margin-top: 100vh;
+  box-sizing: border-box;
+  background-color: $bg;
+  border: 2px solid $border;
+
+  @media screen and (min-width: $tablet) {
+    margin-top: 0;
+  }
+  @media screen and (max-width: calc($tablet - 1px )) {
+    -webkit-box-shadow: 0px 0px 17px 10px rgba(0,0,0,0.25);
+    -moz-box-shadow: 0px 0px 17px 10px rgba(0,0,0,0.25);
+    box-shadow: 0px 0px 17px 10px rgba(0,0,0,0.25);
+  }
+}
+
+#reviews-container {
+  padding: 30px 40px 80px;
+  background-color: rgba(255,255,255, 0.7);
+
+  @media screen and (min-width: $tablet) {
+    width: calc(50% - 80px);
+  }
+  h2 {
+    color: #f58500;
+    font-size: 24pt;
+    font-weight: 300;
+    letter-spacing: -1px;
+    padding-bottom: 1pt;
+  }
+}
+#reviews-list {
+  margin: 0;
+  padding: 0;
+  li {
+    background-color: #fff;
+      border: 2px solid #f3f3f3;
+    display: block;
+    list-style-type: none;
+    margin: 0 0 30px;
+    overflow: hidden;
+    padding: 0 20px 20px;
+    position: relative;
+    width: 85%;
+    border-radius: 30px 0;
+
+    background-color: rgba(51,51,51,1);
+    background-color: rgba(51,51,51,1);
+   @include filter-gradient(#333333, #333333, vertical);
+   @include background-image(linear-gradient(top, rgba(51,51,51,1) 0%, rgba(51,51,51,1) 60px, rgba(255,255,255,1) 60px, rgba(255,255,255,1) 100%));      margin: 0 0 10px;
+
+   .review-name {
+    line-height: 20px;
+    color: #fff;
+    font-size: 1.2rem;
+   }
+
+   .review-date {
+    position: absolute;
+    top: 0px;
+    right: 12px;
+    color: silver;
+    line-height: 33px;
+   }
+
+   .review-rating {
+    margin-top: 30px;
+    & > span {
+      background-color: #f58500;
+      color: #fff;
+      letter-spacing: 0.1rem;
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 3px;
+    }
+   }
+
+  }
+}
+#restaurant-hours td {
+  color: #666;
+}
