@@ -1,16 +1,18 @@
 # Mobile Web Specialist Certification Course
 ---
-#### _Three Stage Course Material Project - Restaurant Reviews_
+## _Three Stage Course Material Project - Restaurant Reviews_
 
-### Project Overview: Stage 2
+### Project Overview
 
-| Item | Score |
-| --- | ---: |
-| _Performance_ | **79**|
-| _Progressive Web App_ | **91**|
-| _Accessibility_ | **90**|
-| _Best Practices_ | **69**|
-| _SEO_ | **89**|
+#### Description
+A responsive mobile-first offline capable restaurant finder
+
+#### Prerequisite
+run gulp's `default` and `serve:dist` tasks
+
+#### Installation
+ You will need to have **NodeJs** & [npm](https://nodejs.org/en/) installed in your machine.
+ run `npm install` to download all associated dependencies.
 
 Steps to run the project:
 
@@ -27,4 +29,10 @@ Steps to run the project:
 
 * Gulp's `serve` task will mount an **http** server with unoptimised **ES6** scripts and watch for any change on the _root_ folder.
 
-* Gulp's `serve:dist` task will mount an **https** server and minify and uglify and Babel transpile every javascript file on the **dist** folder and watch for every change on the _dist_ folder. 
+* Gulp's `serve:dist` task will mount an **https** server and minify and uglify and Babel transpile every javascript file on the **dist** folder and watch for every change on the _dist_ folder.
+
+##### Aditional notes
+
+* Configure a commit message template 
+
+`git config --global commit.template <.git-commit-template.txt file path>`
