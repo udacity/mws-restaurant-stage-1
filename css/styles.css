@@ -323,9 +323,6 @@ nav {
   margin: 2.5%; 
   height: 40px;
 }
-#restaurants-list {
-  display: none;
-}
 #footer {
   background-color: #444444;
   bottom: 0px;
@@ -337,3 +334,25 @@ body {
   background-color: #444444;
   height: 100%;
 }
+
+@media screen and (min-width: 800px) {
+
+  #map-container {
+    width: 75%;
+    float: left;
+  }
+  #filter-options {
+    width: 25%;
+    float: right;
+  }
+  #footer {
+    float: left;
+    width: 100%;
+  }
+  main {
+    background-color: #3397db;
+    height: auto;
+    overflow: auto;
+  }
+}
+
