@@ -13,13 +13,14 @@
 <body class="inside">
   <!-- Beginning header -->
   <header>
+    <a href="#reviews-list" class="skip-link">Skip to reviews</a>
     <!-- Beginning nav -->
     <!-- <nav> -->
-      <h1 aria-label="Restaurant Reviews" tabindex="1">Restaurant Reviews</h1>
+      <h1 aria-label="Restaurant Reviews" >Restaurant Reviews</h1>
     <!-- </nav> -->
     <!-- Beginning breadcrumb -->
     <ul id="breadcrumb" >
-      <li><a href="/" tabindex="2">Home</a></li>
+      <li><a href="/" >Home</a></li>
     </ul>
     <!-- End breadcrumb -->
     <!-- End nav -->
@@ -31,7 +32,7 @@
    
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
-      <h1 id="restaurant-name" tabindex="3"></h1>
+      <h1 id="restaurant-name" ></h1>
 
       <picture>
 
@@ -41,19 +42,19 @@
         <img id="restaurant-img">
     </picture>
 
-      <p id="restaurant-cuisine" tabindex="4"></p>
-      <p id="restaurant-address" tabindex="5"></p>
-      <table id="restaurant-hours" tabindex="6"></table>
+      <p id="restaurant-cuisine" ></p>
+      <p id="restaurant-address" ></p>
+      <table id="restaurant-hours" ></table>
     </section>
     <!-- end restaurant -->
      <!-- Beginning map -->
-    <section id="map-container" tabindex="-1">
-      <div id="map" aria-label="location of restaurant on google maps" role="application"></div>
+    <section id="map-container">
+      <div id="map" aria-label="location of restaurant on google maps" role="application" ></div>
     </section>
     <!-- End map -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
-      <ul id="reviews-list"></ul>
+      <ul id="reviews-list" tabindex="-1"></ul>
     </section>
     <!-- End reviews -->
   </main>

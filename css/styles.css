@@ -1,5 +1,6 @@
 @charset "utf-8";
 
+
 /* CSS Document */
 
 body,
@@ -36,9 +37,7 @@ header h1 {
     margin: auto;
 }
 
-header h1 a {
-
-}
+header h1 a {}
 
 nav {
     width: 70%;
@@ -63,6 +62,7 @@ li {
 }
 
 
+
 /*a {
   color: teal;
   text-decoration: none;
@@ -76,16 +76,14 @@ a:hover,
 a:focus {
     color: blue;
     text-decoration: none;
-
 }
 
 li a:focus {
     box-shadow: 0 0 8px 3px black;
-    
 }
 
-button:focus{
-   box-shadow: 0 0 8px 3px black; 
+button:focus {
+    box-shadow: 0 0 8px 3px black;
 }
 
 
@@ -137,6 +135,7 @@ section {
 }
 
 
+
 /* ====================== Navigation ====================== */
 
 nav {
@@ -156,7 +155,6 @@ nav h1 a {
     font-weight: 200;
     letter-spacing: 10px;
     text-transform: uppercase;
-
 }
 
 #breadcrumb {
@@ -169,6 +167,7 @@ nav h1 a {
 }
 
 
+
 /* Display list items side by side */
 
 #breadcrumb li {
@@ -176,6 +175,7 @@ nav h1 a {
     font-size: 20px;
     display: inline;
 }
+
 
 
 /* Add a slash symbol (/) before/behind each list item */
@@ -188,6 +188,7 @@ nav h1 a {
 }
 
 
+
 /* Add a color to all links inside the list */
 
 #breadcrumb li a {
@@ -197,12 +198,14 @@ nav h1 a {
 }
 
 
+
 /* Add a color on mouse-over */
 
 #breadcrumb li a:hover {
     color: #01447e;
     text-decoration: underline;
 }
+
 
 
 /* ====================== Map ====================== */
@@ -216,6 +219,7 @@ nav h1 a {
 #map-container {
     width: 100%;
 }
+
 
 /* ====================== Restaurant Filtering ====================== */
 
@@ -253,6 +257,8 @@ nav h1 a {
     /*display: none;*/
     font-size: 48px;
 }
+
+
 /* ====================== Restaurant Listing ====================== */
 
 #restaurants-list {
@@ -264,7 +270,6 @@ nav h1 a {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-
 }
 
 #restaurants-list li {
@@ -319,6 +324,7 @@ nav h1 a {
 }
 
 
+
 /* ====================== Restaurant Details ====================== */
 
 .inside {
@@ -333,17 +339,22 @@ nav h1 a {
     z-index: 1000;
 }
 
+.inside #map-container, .inside #restaurant-container {
+    flex: 1;
+}
+
 .inside #map-container {
-    background: blue none repeat scroll 0 0;
-    height: 45%;
+    background: none repeat scroll 0 0;
+    /*height: 45%;*/
     /*position: fixed;*/
     /*right: 0;*/
     top: 80px;
     width: 45%;
+    padding: 160px 0 180px 0;
 }
 
 .inside #map {
-    background-color: #ccc;
+    background-color: #fff;
     height: 100%;
     width: 100%;
 }
@@ -366,7 +377,6 @@ nav h1 a {
     text-transform: uppercase;
     line-height: 1.1;
     text-align: center;
-
 }
 
 #restaurant-img {
@@ -402,7 +412,6 @@ nav h1 a {
 #reviews-container {
     padding: 30px 40px 80px;
     width: 100%;
-    
 }
 
 #reviews-container h2 {
@@ -441,6 +450,19 @@ nav h1 a {
     color: #666;
 }
 
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: white;
+    color: teal;
+    padding: 8px;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 0;
+}
 
 
 @media screen and (max-width: 800px) {
@@ -452,7 +474,9 @@ nav h1 a {
         display: flex;
         justify-content: center;
     }
-    #restaurants-list li, #restaurant-container, .inside #map-container {
+    #restaurants-list li,
+    #restaurant-container,
+    .inside #map-container {
         width: 100%;
     }
 
@@ -465,18 +489,25 @@ nav h1 a {
     #breadcrumb {
         padding: 0;
     }
+    .inside #map-container, .inside #restaurant-container{
+        flex: auto;
+        padding: 20px;
+    }
 }
 
 @media screen and (max-width: 500px) {
-    header, nav, #breadcrumb, {
-      height: 100px;
+    header,
+    nav,
+    #breadcrumb,
+    {
+        height: 100px;
     }
     .filter-options select {
         max-width: 30%;
         height: 60%;
     }
     #map {
-      height: 200px;
+        height: 200px;
     }
 
     #breadcrumb {
@@ -492,11 +523,13 @@ nav h1 a {
         display: flex;
         flex-wrap: wrap;
     }
-
+    #reviews-list li p {
+        font-size: 16px;
+    }
 }
 
 @media screen and (max-width: 920px) {
-  #reviews-list li {
-    width: 100%;
-  }  
+    #reviews-list li {
+        width: 100%;
+    }
 }
