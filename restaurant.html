@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta name="viewport" content="width=device-width" charset="utf-8">
@@ -14,12 +14,12 @@
   <!-- Beginning header -->
   <header>
     <!-- Beginning nav -->
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
-    </nav>
+    <!-- <nav> -->
+      <h1 aria-label="Restaurant Reviews" tabindex="1">Restaurant Reviews</h1>
+    <!-- </nav> -->
     <!-- Beginning breadcrumb -->
     <ul id="breadcrumb" >
-      <li><a href="/">Home</a></li>
+      <li><a href="/" tabindex="2">Home</a></li>
     </ul>
     <!-- End breadcrumb -->
     <!-- End nav -->
@@ -28,14 +28,10 @@
 
   <!-- Beginning main -->
   <main id="maincontent">
-    <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map"></div>
-    </section>
-    <!-- End map -->
+   
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
+      <h1 id="restaurant-name" tabindex="3"></h1>
 
       <picture>
 
@@ -45,11 +41,16 @@
         <img id="restaurant-img">
     </picture>
 
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
+      <p id="restaurant-cuisine" tabindex="4"></p>
+      <p id="restaurant-address" tabindex="5"></p>
+      <table id="restaurant-hours" tabindex="6"></table>
     </section>
     <!-- end restaurant -->
+     <!-- Beginning map -->
+    <section id="map-container" tabindex="-1">
+      <div id="map" aria-label="location of restaurant on google maps" role="application"></div>
+    </section>
+    <!-- End map -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
       <ul id="reviews-list"></ul>
