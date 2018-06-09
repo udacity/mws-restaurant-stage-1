@@ -208,7 +208,7 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: 100%;
 }
 #restaurant-name {
   color: #f18200;
@@ -258,6 +258,7 @@ nav h1 a {
 #reviews-list {
   margin: 0;
   padding: 0;
+  width: 90%;
 }
 #reviews-list li {
   background-color: #fff;
@@ -275,4 +276,30 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+
+@media screen and (max-width: 800px){
+
+  .inside {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  #restaurant-container, #reviews-container {
+    width: 75%;
+    max-width: 100%;
+  } 
+  .inside #map-container{
+    height: 25%;
+    position: relative;
+    top: 0;
+    width: 100%;
+  }
+  #breadcrumb{
+    width: 100%;
+  }
+  .inside #footer {
+    position: relative;
+  }
 }
