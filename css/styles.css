@@ -182,9 +182,6 @@ nav h1 a {
 
 .inside #map-container {
   height: 400px;
-  /*position: fixed;
-  right: 0;
-  top: 80px;*/
   width: 100%;
 }
 .inside #map {
@@ -229,7 +226,6 @@ nav h1 a {
 #restaurant-container, 
 #reviews-container {
   border-top: 1px solid #fff;
-  padding: 20px;
 }
 #reviews-container h2 {
   color: #f58500;
