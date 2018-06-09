@@ -297,6 +297,9 @@ header {
   color: white;
   font-size: 24px;
 }
+#sitelogo {
+  max-width: 25%;
+}
 nav {
   display: none;
 }
