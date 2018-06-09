@@ -7,18 +7,30 @@
   padding: 0 15px
 }
 
-#restaurants-list li:last-child {
+#restaurants-list li:last-child,
+#reviews-list li:last-child {
   margin-bottom: 0;
+} 
+
+#reviews-list li p:first-child {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 20px;
 }
 
 
 @media screen and (min-width: 501px) {
+  nav h1 a {
+    font-size: 28px;
+  }
+  
   #restaurants-list li {
     max-width: 40%;
     display: inline-block;
     margin: 20px;
     vertical-align: top;
   }
+  
 }
 
 @media screen and (min-width: 768px) {
