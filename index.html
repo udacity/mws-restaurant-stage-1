@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" media="screen and (min-width: 650px)" href="tablet.css">
-  <link rel="stylesheet" media="screen and (min-width: 980px)" href="laptop.css">
   <title>Restaurant Reviews</title>
 </head>
 
@@ -21,6 +19,7 @@
     <section id="map-container">
       <div id="map"></div>
     </section>
+
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
@@ -31,13 +30,16 @@
           <option value="all">All Cuisines</option>
         </select>
       </div>
+    </section>
+
+    <section>
       <ul id="restaurants-list"></ul>
     </section>
   </main>
 
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9lm64QfrCLmZiBaRo8hxe6qMViVatn1c&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABxRJKHOlRwXn6qbmg2Qb96__7matr6LQ&libraries=places&callback=initMap"></script>
 
 
   <footer id="footer">
