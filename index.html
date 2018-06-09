@@ -19,19 +19,25 @@
 
   <main id="maincontent">
     <section id="map-container">
+      <h1 class="visually-hidden">Map</h1>
       <div id="map"></div>
     </section>
-    <section>
+    <section id="restaurants-section">
+      <h1 class="visually-hidden">Restaurants</h1>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-          <option value="all">All Neighborhoods</option>
-        </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
-          <option value="all">All Cuisines</option>
-        </select>
+        <div class="option-container">
+          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+            <option value="all">All Neighborhoods</option>
+          </select>
+          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+            <option value="all">All Cuisines</option>
+          </select>
+        </div>
       </div>
-      <ul id="restaurants-list"></ul>
+      <div class="page-container">
+        <ul id="restaurants-list"></ul>
+      </div>
     </section>
   </main>
 
