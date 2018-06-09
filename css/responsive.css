@@ -1,0 +1,36 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+#restaurants-list h1,
+#restaurants-list p {
+  padding: 0 15px
+}
+
+#restaurants-list li:last-child {
+  margin-bottom: 0;
+}
+
+
+@media screen and (min-width: 501px) {
+  #restaurants-list li {
+    max-width: 40%;
+    display: inline-block;
+    margin: 20px;
+    vertical-align: top;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #restaurants-list li {
+    max-width: 25%;
+  }
+
+  #restaurants-list h1 {
+    font-size: 18px;
+  }
+
+  #restaurants-list p {
+    font-size: 16px;
+  }
+}
