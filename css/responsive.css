@@ -49,28 +49,28 @@
 }
 
 @media screen and (min-width: 650px) {
-  #main-content {
+  .inside #maincontent {
     display: flex;
     flex-wrap: wrap;
   }
 
-  #restaurant-container,
-  #reviews-container {
+  .inside #restaurant-container {
     order: 0;
     width: 50%;
   }
 
   .inside #map-container {
-    position: fixed;
+    order: 1;
     width: 50%;
-    right: 0;
-    top: 0;
-    height: 100%;
+    height: inherit;
   }
 
-  header, footer {
-    width: 50%;
-  }
+  .inside #reviews-container {
+    order: 2;
+    width: 100%;
+  } 
+
+
 }
 
 @media screen and (min-width: 768px) {
@@ -88,16 +88,40 @@
 }
 
 @media screen and (min-width: 981px) {
-  #restaurant-container,
-  #reviews-container {
-    width: 60%
-  }
-
-  header, footer {
+  .inside #restaurant-container {
     width: 60%;
   }
 
   .inside #map-container {
     width: 40%;
   }
+}
+
+@media screen and (min-width: 1080px) {
+  #maincontent {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+ 
+  #restaurant-container .content {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  #restaurant-name {
+    order: 0;
+    width: 100%;
+  }
+
+  #restaurant-img {
+    order: 1;
+    width: 50%;
+    height: 100%;
+  }
+
+  #restaurant-details {
+    order: 2;
+    width: 46%;
+    margin-left: 20px;
+  } 
 }
