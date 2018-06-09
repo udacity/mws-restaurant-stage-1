@@ -334,7 +334,7 @@ nav h1 a {
   flex-flow: column wrap;
   justify-content: center;
 }
-#reviews-container h2 {
+#reviews-container h3 {
   color: #aa5a00;
   font-size: 24pt;
   font-weight: 300;

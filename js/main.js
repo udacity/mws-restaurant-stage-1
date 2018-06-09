@@ -5,6 +5,18 @@ var map
 var markers = []
 
 /**
+ * Registering Service worker
+ */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js', { scope: '/' })
+  .then((reg) => {
+    console.log('ServiceWorker Registration successful. Scope is ' + reg.scope);
+  }).catch((error) => {
+    console.log('ServiceWorker Registration failed with ' + error);
+  });
+}
+
+/**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
