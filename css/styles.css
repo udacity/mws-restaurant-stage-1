@@ -378,7 +378,7 @@ nav h1 a {
     }
     
     #restaurants-list li {      
-        width: 45%;
+       width: calc((100% - 30)/2);
     }
 
     #restaurants-list li:last-of-type {
