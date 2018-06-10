@@ -1,0 +1,36 @@
+@media screen and (min-width: 700px) {
+    #restaurants-list li{ 
+        width: calc(90% / 2);
+    }
+    .flex-item {
+        width: 50%;
+    }
+    #restaurant-info {
+        padding: 60px 20px;
+    }
+}
+@media screen and (min-width: 960px) {
+    #restaurant-container {
+        width: 60%;
+    }
+    #reviews-container {
+        width: 40%;
+    }
+    .flex-item {
+        width: 100%;
+    }
+}
+@media screen and (min-width: 1024px) {
+    #restaurants-list li {
+        width: calc(90% / 3);
+    }
+}
+
+@media screen and (min-width: 1260px) {
+    .flex-item {
+        width: 50%;
+    }
+    #restaurant-info {
+        padding: 60px 20px;
+    }
+}
