@@ -158,6 +158,10 @@ nav h1 a {
   width: 200px;
 }
 
+select:focus {
+  outline: auto 5px orange;
+}
+
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
   background-color: #f3f3f3;
