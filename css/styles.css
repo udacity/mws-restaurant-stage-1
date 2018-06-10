@@ -26,7 +26,7 @@ ul, li {
 	color: #333;
 }
 a {
-	color: orange;
+	color: #E65100;
 	text-decoration: none;
 }
 a:hover, a:focus {
@@ -40,6 +40,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0 0 20px;
 }
+
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -48,8 +49,8 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   min-height: 100%;
 }
 #footer {
-  background-color: #444;
-  color: #aaa;
+  background-color: #01579B;
+  color: #ffffff;
   font-size: 8pt;
   letter-spacing: 1px;
   padding: 25px;
@@ -78,7 +79,7 @@ a:focus.skip-link {
 nav {
   width: 100%;
   xheight: 80px;
-  background-color: #252831;
+  background-color: #01579B;
   text-align:center;
   padding: 25px 0;
 }
@@ -134,18 +135,23 @@ nav h1 a {
 .filter-options {
   width: 100%;
   xheight: 50px;
-  background-color: #3397DB;
+  background-color: #0277BD;
   align-items: center;
   padding: 25px 0;
   text-align: center;
 }
 .filter-options h2 {
   color: white;
-  font-size: 1rem;
+  xfont-size: 1rem;
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
 }
+
+.filter-options label {
+  color: #fff;
+}
+
 .filter-options select {
   background-color: white;
   border: 1px solid #fff;
@@ -159,7 +165,7 @@ nav h1 a {
 }
 
 select:focus {
-  outline: auto 5px orange;
+  outline: auto 5px #E65100;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -215,7 +221,7 @@ list items to span width as it goes to one and two columns*/
 /* TODO Make buttons are least 48x48 px */
 
 #restaurants-list li a {
-  background-color: orange;
+  background-color: #E65100;
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
