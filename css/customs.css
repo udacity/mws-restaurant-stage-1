@@ -1,0 +1,26 @@
+nav h1 {
+  top: 1em;
+  position: relative;
+}
+
+.filter-options {
+  text-align: center;
+  padding: 1em 0;
+  height: 100%;
+}
+
+#restaurants-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.inside #footer {
+  width: 100%;
+  padding: 25px 0;
+  position: relative;
+}
+
+#restaurant-container, #reviews-container {
+  width: 45vw;
+}
