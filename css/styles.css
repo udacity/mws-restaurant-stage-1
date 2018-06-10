@@ -22,11 +22,11 @@ ul, li {
 	color: #333;
 }
 a {
-	color: orange;
+	color: #b01ae0;;
 	text-decoration: none;
 }
 a:hover, a:focus {
-	color: #3397db;
+	color: #9d60e2;
 	text-decoration: none;
 }
 a img{
@@ -41,17 +41,16 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 
 header {
-  display: flex;
   align-items: center;
-  /* justify-content: space-between; */
 }
+
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
 }
 #footer {
   background-color: #444;
-  color: #b9b0b0;
+  color: white;
   font-size: 8pt;
   letter-spacing: 1px;
   padding: 25px;
@@ -59,6 +58,12 @@ header {
   text-transform: uppercase;
 }
 /* ====================== Navigation ====================== */
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+}
+
 nav {
   width: 100%;
   height: 80px;
@@ -67,10 +72,11 @@ nav {
 }
 nav h1 {
   margin: auto;
+  
 }
 nav h1 a {
   color: #fff;
-  font-size: 14pt;
+  font-size: 1.5rem;
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
@@ -81,7 +87,6 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
 }
 
 /* Display list items side by side */
@@ -98,13 +103,13 @@ nav h1 a {
 
 /* Add a color to all links inside the list */
 #breadcrumb li a {
-    color: #0275d8;
+    color: #8747d0;
     text-decoration: none;
 }
 
 /* Add a color on mouse-over */
 #breadcrumb li a:hover {
-    color: #01447e;
+    color: #e04bd4;
     text-decoration: underline;
 }
 /* ====================== Map ====================== */
@@ -119,7 +124,7 @@ nav h1 a {
   flex-flow: row wrap;
   /* justify-content: space-around; */
   width: 100%;
-  background-color: #0388e2;
+  background-color: #9d60e2;
   align-items: center;
 }
 .filter-options h2 {
@@ -214,21 +219,20 @@ nav h1 a {
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 87%;
-  position: fixed;
-  right: 0;
-  top: 80px;
-  width: 50%;
+  height: 80%;
+  width: 100%;
+  position: relative;
+  bottom: 2%;
 }
 .inside #map {
-  background-color: #ccc;
-  height: 100%;
+  height: 400px;
   width: 100%;
+  background-color: #ccc;
 }
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: 100%;
 }
 #restaurant-name {
   color: #b01ae0;
@@ -244,7 +248,7 @@ nav h1 a {
 	width: 90%;
 }
 #restaurant-address {
-  font-size: 12pt;
+  font-size: 16pt;
   margin: 10px 0px;
 }
 #restaurant-cuisine {
@@ -259,11 +263,18 @@ nav h1 a {
   text-transform: uppercase;
 	width: 90%;
 }
+
+#restaurant-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 140px 40px 30px;
-  width: 50%;
 }
 #reviews-container {
   padding: 30px 40px 80px;
@@ -281,7 +292,7 @@ nav h1 a {
 }
 #reviews-list li {
   background-color: #fff;
-    border: 2px solid #f3f3f3;
+  border: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
   margin: 0 0 30px;
@@ -291,8 +302,9 @@ nav h1 a {
   width: 85%;
 }
 #reviews-list li p {
-  margin: 0 0 10px;
+  margin: 10px 0 0 10px;
 }
 #restaurant-hours td {
   color: #666;
+  font-size: 14pt:
 }
