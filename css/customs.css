@@ -1,26 +1,40 @@
+/* ===== navigation ===== */
 nav h1 {
   top: 1em;
   position: relative;
 }
 
+/* ===== filter results ===== */
 .filter-options {
   text-align: center;
   padding: 1em 0;
   height: 100%;
 }
 
+/* ===== restaurant lists ===== */
 #restaurants-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
 }
 
-.inside #footer {
-  width: 100%;
-  padding: 25px 0;
-  position: relative;
+#restaurants-list .restaurant-img {
+  min-height: 0;
 }
 
 #restaurant-container, #reviews-container {
   width: 45vw;
+}
+
+#restaurant-address-and-hours {
+  border-bottom: 1px solid #d9d9d9;
+  border-top: 1px solid #fff;
+  padding: 20px 40px 30px;
+}
+
+/* ===== footer ===== */
+.inside #footer {
+  width: 100%;
+  padding: 25px 0;
+  position: relative;
 }
