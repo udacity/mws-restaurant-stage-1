@@ -158,9 +158,6 @@ createRestaurantHTML = (restaurant) => {
   sourceWebp.type = 'image/webp';
   sourceWebp.srcset = `${imgPath}.webp`;
   
-  const sourceJpeg = document.createElement('source');
-  sourceJpeg.type = 'image/jpeg';
-  
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.alt = 'Restaurant Image';
@@ -171,7 +168,6 @@ createRestaurantHTML = (restaurant) => {
 
   // Append sources to picrure
   picture.append(sourceWebp);
-  picture.append(sourceJpeg);
   picture.append(image);
 
   li.append(picture);
