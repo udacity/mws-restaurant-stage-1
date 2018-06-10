@@ -182,14 +182,21 @@ class DBHelper {
 
         sources.forEach(source => {
           source.setAttribute('srcset', source.getAttribute('data-srcset'));
-          source.removeAttribute('data-srcset');
+          source.addEventListener('load',()=>{
+            source.removeAttribute('data-srcset');
+          });
+
         });
 
         var images = Array.from(picture.getElementsByTagName('img'));
 
+        /** TODO check again */
         images.forEach(img => {
           img.setAttribute('src', img.getAttribute('data-src'));
-          img.removeAttribute('data-src');
+          img.addEventListener('load',()=>{
+            img.removeAttribute('data-src');
+          });
+          
         });
 
         setTimeout(() => {
