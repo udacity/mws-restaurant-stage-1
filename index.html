@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!--<link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />-->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/responsive.css">
   <title>Restaurant Reviews</title>
@@ -44,6 +44,14 @@
   <footer id="footer">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
+  <script>
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(function() { console.log("Service Worker Registered"); })
+        .catch(function(error) { console.log('Registration failed with ' + error); });
+    }
+  </script>
 
 </body>
 
