@@ -56,6 +56,24 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-align: center;
   text-transform: uppercase;
 }
+
+/* ====================== Skip Link ====================== */
+
+a.skip-link { 
+  position: absolute; 
+  left: -10000px; 
+  top: auto; 
+  width: 1px; 
+  height: 1px; 
+  overflow: hidden;
+} 
+ 
+a:focus.skip-link { 
+  position: static; 
+  width: auto; 
+  height: auto; 
+  } 
+
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
@@ -189,6 +207,9 @@ list items to span width as it goes to one and two columns*/
   margin: 0;
   font-size: 11pt;
 }
+
+/* TODO Make buttons are least 48x48 px */
+
 #restaurants-list li a {
   background-color: orange;
   border-bottom: 3px solid #eee;
@@ -196,6 +217,7 @@ list items to span width as it goes to one and two columns*/
   display: inline-block;
   font-size: 10pt;
   margin: 15px 0 0;
+  xmin-height: 48px;
   padding: 8px 30px 10px;
   text-align: center;
   text-decoration: none;
