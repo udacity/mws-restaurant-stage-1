@@ -13,7 +13,7 @@ self.addEventListener('install', (event) => {
     '/data/restaurant.json'
   ];
   event.waitUntil(
-    caches.open(currentCache).then((cache) => {
+    caches.open(currentCacheName).then((cache) => {
       cache.addAll(cachedUrls);
     })
   );
@@ -41,7 +41,7 @@ self.addEventListener('fetch', (event) => {
       caches.match(event.request).then((response) => {
         return response || fetch(event.request).then((response) => {
             if (response.ok) {
-              return caches.open(currentCache)
+              return caches.open(currentCacheName)
                 .then((cache) => {
                   cache.put(event.request, response.clone());
                   return response;
