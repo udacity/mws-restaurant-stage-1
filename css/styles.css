@@ -264,7 +264,7 @@ list items to span width as it goes to one and two columns*/
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: 100%;
 }
 #restaurant-name {
   color: #f18200;
