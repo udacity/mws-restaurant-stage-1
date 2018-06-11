@@ -6,7 +6,7 @@ img,
 embed,
 object,
 video {
-  max-width: 100% /
+  max-width: 100%;
 }
 
 body,td,th,p{
