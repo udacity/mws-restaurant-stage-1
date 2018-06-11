@@ -86,14 +86,16 @@ function cacheImages(request) {
 }
 
 /**
- * Fetch from network and save in indexed DB
+ * Search in indexed DB and if no result fetch from network  ///TODO recheck!!!
  */
-function fetchFromNetworkAndCacheRestaurantsInIndexedDB(request) {
+function getData(request) {
 
   var pathSlices = request.url.split("/");
   var restaurantId = parseInt(pathSlices[pathSlices.length - 1]) || 0;
 
-  return fetch(request).then(networkResponse => {
+  return fetch(request.clone()).then(networkResponse => {
+
+    if(networkResponse.status == 404) return searchInIDB(request.clone());
 
     networkResponse.clone().json().then(json => {
 
@@ -106,36 +108,36 @@ function fetchFromNetworkAndCacheRestaurantsInIndexedDB(request) {
         var tx = db.transaction('restaurants', 'readwrite');
         var store = tx.objectStore('restaurants');
 
-        // if we refer to all data
-        if(!restaurantId){
+        if(!restaurantId){ // if we refer to all data
 
           json.forEach(restaurant => {
             store.put(restaurant, restaurant.id);
           });
         
         } else { // if we refer to per restaurant data 
-        
            store.put(json, json.id);
-        
         }
       });
     })
 
+    console.log('Fetched from network');
     return networkResponse;
+
+  }, rejected => {
+    return searchInIDB(request.clone());
+  }).catch(() => {
+    return searchInIDB(request.clone());
   });
 }
 
-/**
- * Search in indexed DB and if no result fetch from network  ///TODO recheck!!!
- */
-function getData(request) {
+function searchInIDB(request) {
 
   var pathSlices = request.clone().url.split("/");
   var restaurantId = parseInt(pathSlices[pathSlices.length - 1]) || 0;
   var dataPromise;
 
-  // if not indexed db functionality fetch from network 
-  if(!dbPromise) return fetchFromNetworkAndCacheRestaurantsInIndexedDB(request.clone());
+  // if not indexed db functionality
+  if(!dbPromise) return;
 
   return dbPromise.then(db => {
     
@@ -143,34 +145,30 @@ function getData(request) {
 
     var store = db.transaction('restaurants').objectStore('restaurants');
 
-    // if all data are requested
-    if(!restaurantId) {
-
+    if(!restaurantId) { // if all data are requested
       dataPromise = store.getAll();
-
     } else { // if per restaurant data are requested
-
       dataPromise = store.get(restaurantId);
-    
     }
     
-    if(dataPromise) {
+    if(!dataPromise) return;
 
-      return dataPromise.then(data => {  
+    return dataPromise.then(data => {  
+    
+      // if data found in indexed db return them
+      if(JSON.stringify(data) !== JSON.stringify([]) && data !== undefined)  { 
+
+        console.log('Found cached');
+        return new Response(JSON.stringify(data)); 
+      }
       
-        // if data found in indexed db return them
-        if(JSON.stringify(data) !== JSON.stringify([]) && data !== undefined)  { 
-
-          console.log('Found cached');
-          return new Response(JSON.stringify(data)); 
-        }
-
-        console.log('Fetch from network');
-        // if data not cached then fetch from network 
-        return fetchFromNetworkAndCacheRestaurantsInIndexedDB(request);
-        
-      });
-    }    
+    }, rejected => {
+      return caches.match(offlinePage); 
+    }).catch(() => {
+      return caches.match(offlinePage); 
+    });
+  }).catch(() => {
+    return caches.match(offlinePage); 
   });
 }
 
