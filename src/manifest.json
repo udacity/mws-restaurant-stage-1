@@ -1,11 +1,18 @@
 {
   "short_name": "ResReview",
   "name": "Restaurant Review App",
+  "description": "The Absolute Restaurant Review App",
   "start_url": "/",
+  "launch_path": "/",
   "display": "standalone",
   "orientation": "natural",
   "theme_color": "#d40222",
+  "scope": "/",
   "background_color": "#ffffff",
+  "default_locale": "en",
+  "developer": {
+    "name": "Vickie Chantzis"
+  },
   "icons": [{
         "src": "./icons/icon-128x128.png",
         "sizes": "128x128",

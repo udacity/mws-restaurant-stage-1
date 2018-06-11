@@ -172,41 +172,50 @@ class DBHelper {
    */
   static lazyLoadImages() {
 
-    setTimeout(function() {
+    var pictures = Array.from(document.getElementsByTagName('picture'));
 
-      var pictures = Array.from(document.getElementsByTagName('picture'));
+    pictures.forEach(picture => {
 
-      pictures.forEach(picture => {
+      if(this.isInViewport(picture)) {
 
         var sources = Array.from(picture.getElementsByTagName('source'));
 
         sources.forEach(source => {
-          source.setAttribute('srcset', source.getAttribute('data-srcset'));
-          source.addEventListener('load',()=>{
-            source.removeAttribute('data-srcset');
-          });
-
+          if(!source.getAttribute('srcset')) {
+            source.setAttribute('srcset', source.getAttribute('data-srcset'));
+          }
         });
 
         var images = Array.from(picture.getElementsByTagName('img'));
 
-        /** TODO check again */
         images.forEach(img => {
-          img.setAttribute('src', img.getAttribute('data-src'));
-          img.addEventListener('load',()=>{
-            img.removeAttribute('data-src');
-          });
           
-        });
+          if(!img.getAttribute('src')) {
+            img.setAttribute('src', img.getAttribute('data-src'));
+          }
+          
+          img.addEventListener('load',()=>{
 
-        setTimeout(() => {
-           picture.classList.remove("lazy-loading");
+            img.removeAttribute('data-src');
 
-        }, 200)
-       
-
-      });
-
-    }, 200);
+            sources.forEach(source => {
+                source.removeAttribute('data-srcset');
+            });
+          });      
+        });   
+      }    
+    });
   }
+
+  static isInViewport (elem) {
+
+    var bounding = elem.getBoundingClientRect();
+
+    return (
+        bounding.top >= 0 &&
+        bounding.left >= 0 &&
+        bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+};
 }

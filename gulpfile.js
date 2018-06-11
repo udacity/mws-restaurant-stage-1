@@ -112,7 +112,7 @@ gulp.task("copy", function() {
   gulp.src('src/restaurant.html').pipe(gulp.dest("./"));
   gulp.src('src/manifest.json').pipe(gulp.dest("./"));
   gulp.src('src/icons/*.png').pipe(gulp.dest("./icons"));
-  gulp.src('src/icons/*.gif').pipe(gulp.dest("./icons"));
+  gulp.src('src/icons/*.ico').pipe(gulp.dest("./icons"));
 });
 
 

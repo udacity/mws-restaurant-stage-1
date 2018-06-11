@@ -463,10 +463,11 @@ nav h1 a {
   }
 }
 .lazy-loading img, 
-.lazy-loading source, 
-.inside .lazy-loading img, 
-.inside .lazy-loading source  {
-  width: 45% !important;
-  margin: auto auto !important;
-  padding-bottom: 30px;
+.lazy-loading source {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+.lazy-loading img[data-src], 
+.lazy-loading source[data-srcset] {
+  opacity: 0;
 }

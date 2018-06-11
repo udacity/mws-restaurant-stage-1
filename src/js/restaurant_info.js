@@ -2,13 +2,6 @@ let restaurant;
 var map;
 
 /**
- * Enables lazy loading of images when content is loaded
- */
-window.addEventListener('load', (event) => {
-  DBHelper.lazyLoadImages();  
-});
-
-/**
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
@@ -81,32 +74,27 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
     
     let source = document.createElement('source');
-    source.srcset = '/icons/loading.gif';
     source.setAttribute('data-srcset', `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`);
     source.media = "(min-width: 1400px)";
     picture.appendChild(source);
     
     source = document.createElement('source');
-    source.srcset = '/icons/loading.gif';
     source.setAttribute('data-srcset', `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`);
     source.media = "(max-width: 400px)";
     picture.appendChild(source);
     
     source = document.createElement('source');
-    source.srcset = '/icons/loading.gif';
     source.setAttribute('data-srcset', `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`);
     source.media = "(min-width: 1000px) and (max-width: 1399px)";
     picture.appendChild(source);
     
     source = document.createElement('source');
-    source.srcset = '/icons/loading.gif';
     source.setAttribute('data-srcset', `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`);
     source.media = "(min-width: 401px) and (max-width: 999px)";
     picture.appendChild(source);
    
     const image = document.createElement('img');
     image.alt = `${restaurant.name} Restaurant`;
-    image.src = '/icons/loading.gif';
     image.setAttribute('data-src', `${image_prefix}-400_small_1x.jpg`);
     picture.appendChild(image);
 
@@ -127,6 +115,9 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   }
   // fill reviews
   fillReviewsHTML();
+
+  DBHelper.lazyLoadImages();  
+
 }
 
 /**

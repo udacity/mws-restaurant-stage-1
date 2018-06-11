@@ -6,17 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#d40222"/>
   <meta name="description" content="Restaurant reviews app"/>
-  
-  <!-- Normalize.css for better cross-browser consistency -->
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <!-- Main CSS file -->
-  <link rel="stylesheet" href="css/styles.css" type="text/css">
 
-  <!-- Manifest file -->
-  <link rel="manifest" href="manifest.json">
-  
-  <!-- Beginning scripts -->
-  <!-- Main javascript file -->
+  <!-- Service worker register javascript file -->
   <script type="application/javascript" charset="utf-8">
     
     window.addEventListener('load', function() {
@@ -29,10 +20,16 @@
 
     });
   </script>
-  <script type="text/javascript" charset="utf-8" src="js/restaurant_info.js"></script>
-  <!-- Google Maps -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX-KPndDEQQjfRPi_jqtfyJzc1VFK-y10&libraries=places&callback=initMap"></script>
-  <!-- End scripts -->
+
+   <!-- Normalize.css for better cross-browser consistency -->
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!-- Main CSS file -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="icon" href="icons/favicon.ico">
+
+  <!-- Manifest file -->
+  <link rel="manifest" href="manifest.json">
   
   <!-- Page title -->
   <title>Restaurant Info</title>
@@ -93,6 +90,13 @@
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
   <!-- End footer -->
+
+  <!-- Beginning scripts -->
+  <!-- Main javascript file -->
+  <script defer type="text/javascript" charset="utf-8" src="js/restaurant_info.js"></script>
+  <!-- Google Maps -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX-KPndDEQQjfRPi_jqtfyJzc1VFK-y10&libraries=places&callback=initMap"></script>
+  <!-- End scripts -->
 
 </body>
 

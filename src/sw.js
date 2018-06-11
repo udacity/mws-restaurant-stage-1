@@ -126,7 +126,7 @@ function fetchFromNetworkAndCacheRestaurantsInIndexedDB(request) {
 }
 
 /**
- * Search in indexed DB and if no result fetch from network 
+ * Search in indexed DB and if no result fetch from network  ///TODO recheck!!!
  */
 function getData(request) {
 
@@ -193,6 +193,7 @@ self.addEventListener('install', event => {
 
     var openStaticCachePromise = caches.open(CACHE_STATIC).then(cache => {
       cache.addAll([offlinePage]);
+      // cache.put('start_url', fetch('/'));
       console.log(`Cache ${CACHE_STATIC} opened`);
     });
 
