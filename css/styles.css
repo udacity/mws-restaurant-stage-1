@@ -131,6 +131,13 @@ nav h1 a {
   width: 100%;
   background-color: #ccc;
 }
+
+@media screen AND (max-width: 500px) {
+  #map {
+    height: 250px;
+  }
+}
+
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
@@ -150,6 +157,12 @@ nav h1 a {
 
 .filter-options label {
   color: #fff;
+}
+
+@media screen AND (max-width: 500px) {
+  .filter-options label {
+    display:block;
+  }
 }
 
 .filter-options select {
