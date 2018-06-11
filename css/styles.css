@@ -152,14 +152,14 @@ nav h1 a {
   xfont-size: 1rem;
   font-weight: normal;
   line-height: 1;
-  margin: 0 20px;
+  margin: 0 20px 20px;
 }
 
 .filter-options label {
   color: #fff;
 }
 
-@media screen AND (max-width: 500px) {
+@media screen AND (max-width: 710px) {
   .filter-options label {
     display:block;
   }
@@ -170,7 +170,7 @@ nav h1 a {
   border: 1px solid #fff;
   font-family: Arial,sans-serif;
   font-size: 11pt;
-  height: 35px;
+  height: 48px;
   letter-spacing: 0;
   margin: 10px;
   padding: 0 10px;
@@ -238,13 +238,15 @@ list items to span width as it goes to one and two columns*/
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
+  height: 48px;
+  line-height: 48px;
   font-size: 10pt;
   margin: 15px 0 0;
-  xmin-height: 48px;
-  padding: 8px 30px 10px;
+  xpadding: 8px 30px 10px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+  width: 100%;
 }
 
 /* ====================== Restaurant Details ====================== */
