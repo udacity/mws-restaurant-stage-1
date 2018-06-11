@@ -99,7 +99,13 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
+    width: 100%;
+}
+
+@media screen AND (min-width: 501px) {
+  #breadcrumb {
     width: calc(50% - 80px);
+  }
 }
 
 /* Display list items side by side */
@@ -231,8 +237,6 @@ list items to span width as it goes to one and two columns*/
   font-size: 11pt;
 }
 
-/* TODO Make buttons are least 48x48 px */
-
 #restaurants-list li a {
   background-color: #E65100;
   border-bottom: 3px solid #eee;
@@ -268,6 +272,12 @@ list items to span width as it goes to one and two columns*/
   background-color: #ccc;
   height: 100%;
   width: 100%;
+}
+
+@media screen AND (max-width: 500px) {
+  .inside #map {
+  height: 400px;
+  }
 }
 
 /* TODO: Fix footer. Ending at a weird spot on the screen 
@@ -316,6 +326,14 @@ list items to span width as it goes to one and two columns*/
   padding: 140px 40px 30px;
   width: 50%;
 }
+
+@media screen AND (max-width: 500px) {
+  #restaurant-container, #reviews-container {
+  padding: 40px 30px;
+  width: 100%;
+  }
+}
+
 #reviews-container {
   padding: 30px 40px 80px;
 }

@@ -1,6 +1,7 @@
 {
   "restaurants": [{
     "id": 1,
+    "alt": "Test alt text",
     "name": "Mission Chinese Food",
     "neighborhood": "Manhattan",
     "photograph": "1.jpg",
