@@ -90,7 +90,7 @@ window.initMap = () => {
   } catch(error) {
 	  console.log('Load google map failed');
   } 
-    
+ 
   updateRestaurants();
 }
 

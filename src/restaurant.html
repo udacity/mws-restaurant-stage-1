@@ -55,14 +55,7 @@
   <!-- Beginning main -->
   <main id="maincontent">
   
-    <!-- Skip content link -->
-	  <a href="#restaurant-container" class="visually-hidden skip-anchor">Skip to main content</a>
 	  <!-- End skip content link-->
-	
-    <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map" role="application" aria-label="Restaurant google map"></div>
-    </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
@@ -81,6 +74,14 @@
     <section id="reviews-container">
       <ul id="reviews-list" tabindex="0" aria-label="The list of reviews"></ul>
     </section>
+
+    <!-- Skip content link -->
+	  <a href="#restaurant-container" class="visually-hidden skip-anchor">Skip to main content</a>
+
+    <!-- Beginning map -->
+    <section id="map-container">
+      <div id="map" role="application" aria-label="Restaurant google map"></div>
+    </section>
     <!-- End reviews -->
   </main>
   <!-- End main -->
@@ -93,7 +94,7 @@
 
   <!-- Beginning scripts -->
   <!-- Main javascript file -->
-  <script defer type="text/javascript" charset="utf-8" src="js/restaurant_info.js"></script>
+  <script type="text/javascript" charset="utf-8" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX-KPndDEQQjfRPi_jqtfyJzc1VFK-y10&libraries=places&callback=initMap"></script>
   <!-- End scripts -->

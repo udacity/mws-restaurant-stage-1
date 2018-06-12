@@ -61,6 +61,11 @@ figure {
   min-height: 100%;
   width: 100%;
 }
+#intro {
+  background-color: #ffffff;
+  font-weight: lighter;
+  padding: 2% 15%;
+}
 #footer {
   background-color: #242424;
   color: #B8B8B8;
@@ -133,7 +138,7 @@ nav h1 a {
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
-  background-color: #333;
+  background-color: #d40222;
   align-items: center;
   display: flex;
   flex-wrap: wrap;

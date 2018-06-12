@@ -48,16 +48,13 @@
 
   <!-- Beginning main -->
   <main id="maincontent">
-    
-	<!-- Beginning skip content link -->
-    <a href="#filter-options" class="visually-hidden skip-anchor">Skip to main content</a>
-	<!-- End skip content link-->
-	<!-- Beginning map -->
-    <section id="map-container">
-      <div id="map" role="application" aria-label="Restaurants google map"></div>
+
+    <section id="intro" tabindex="0">
+      <p style="font-size: 20pt; color:#d40222;">Welcome to Restaurants review site where your opinion is important!</p> 
+      <p style="font-size: 14pt; font-style: italic;">Search to find the best quality restaurants of the city and make a difference in food industry with your review. </p>
     </section>
-	<!-- End map -->
-	<!-- Beginning filter options -->
+  
+	  <!-- Beginning filter options -->
     <section>
       <div id="filter-options" class="filter-options" tabindex="0" aria-label="Choose restaurant filters section">
         <h2>Filter Results</h2>
@@ -74,7 +71,17 @@
 	<!-- End filter options -->
 	<!-- Beginning restaurants list -->
 	  <ul id="restaurants-list" aria-live="assertive" aria-atomic="true" tabindex="0" aria-label="Restaurants"></ul>
-	<!-- End restaurants list -->
+  <!-- End restaurants list -->
+
+  <!-- Beginning skip content link -->
+  <a href="#filter-options" class="visually-hidden skip-anchor">Skip to main content</a>
+	<!-- End skip content link-->
+  
+  <!-- Beginning map -->
+  <section id="map-container">
+    <div id="map" role="application" aria-label="Restaurants google map"></div>
+  </section>
+  <!-- End map -->
   </main>
   <!-- End main -->
   
@@ -89,7 +96,7 @@
 <!-- Beginning scripts -->
 
 <!-- Main javascript file -->
-<script defer type="application/javascript" charset="utf-8" src="js/main.js"></script>
+<script type="application/javascript" charset="utf-8" src="js/main.js"></script>
 
 <!-- Google Maps -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX-KPndDEQQjfRPi_jqtfyJzc1VFK-y10&libraries=places&callback=initMap"></script>
