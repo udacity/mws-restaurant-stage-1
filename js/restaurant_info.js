@@ -81,7 +81,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  DBHelper.getReviewsForRestaurant(restaurant.id, fillReviewsHTML);
 }
 
 /**
@@ -107,15 +107,16 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (error, reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   title.tabIndex = '0';
   container.appendChild(title);
 
-  if (!reviews) {
+  if (error || reviews.length === 0) {
     const noReviews = document.createElement('p');
+    noReviews.classList.add('no-reviews')
     noReviews.innerHTML = 'No reviews yet!';
     container.appendChild(noReviews);
     return;
@@ -141,7 +142,7 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  date.innerHTML = formatTime(review.updatedAt);
   date.classList.add('review-date');
   li.appendChild(date);
 
@@ -158,10 +159,19 @@ createReviewHTML = (review) => {
   return li;
 }
 
+formatTime = time => {
+  const date = new Date(time);
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-fillBreadcrumb = (restaurant=self.restaurant) => {
+fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const breadcrumbElements = breadcrumb.querySelectorAll('li');
 

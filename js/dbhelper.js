@@ -7,7 +7,15 @@ class DBHelper {
    * Database URL.
    */
   static get DATABASE_URL() {
-    return `http://localhost:1337/restaurants`;
+    return `http://localhost:1337`;
+  }
+
+  static get RESTAURANTS_URL() {
+    return `${DBHelper.DATABASE_URL}/restaurants`;
+  }
+
+  static get REVIEWS_URL() {
+    return `${DBHelper.DATABASE_URL}/reviews`;
   }
 
   /**
@@ -34,7 +42,7 @@ class DBHelper {
   }
 
   static getRestaurantsRemotely(callback = () => null) {
-    return fetch(DBHelper.DATABASE_URL)
+    return fetch(DBHelper.RESTAURANTS_URL)
       .then(response => response.json())
       .then(json => {
         DBHelper.saveRestaurants(json)
@@ -176,6 +184,13 @@ class DBHelper {
       animation: google.maps.Animation.DROP}
     );
     return marker;
+  }
+
+  static getReviewsForRestaurant(restaurantId, callback) {
+    return fetch(`${this.REVIEWS_URL}/?restaurant_id=${restaurantId}`)
+      .then(data => data.json())
+      .then(reviews => callback(null, reviews))
+      .catch(error => callback(error, null))
   }
 
 }

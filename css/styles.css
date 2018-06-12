@@ -351,6 +351,10 @@ nav h1 a {
   color: #666;
 }
 
+.no-reviews {
+  margin: 11px;
+}
+
 .review-card {
   border-radius: 5px;
 }
