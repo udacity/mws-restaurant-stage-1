@@ -169,10 +169,12 @@ nav h1 a {
   line-height: 1.3;
   margin: 20px 0 10px;
   text-transform: uppercase;
+  text-align: center;
 }
 #restaurants-list p {
   margin: 0;
   font-size: 11pt;
+  text-align: center;
 }
 #restaurants-list li a {
   background-color: orange;
@@ -277,4 +279,13 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+@media only screen and (max-width: 480px){
+  #restaurants-list li {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 2%;
+    padding: 0;
+  }
 }
