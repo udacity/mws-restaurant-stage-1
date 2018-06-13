@@ -75,7 +75,7 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
+    /* width: 100%; */
 }
 
 /* Display list items side by side */
@@ -200,17 +200,15 @@ nav h1 a {
 
 /* ====================== Restaurant Details ====================== */
 .inside header {
-  position: absolute;
+  position: relative;
   width: 100%;
   z-index: 1000;
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 87%;
-  position: absolute;
-  right: 0;
-  top: 80px;
-  width: 50%;
+  height: 30vh;
+  position: relative;
+  width: 100%;
 }
 .inside #map {
   background-color: #ccc;
@@ -218,12 +216,12 @@ nav h1 a {
   width: 100%;
 }
 .inside #footer {
-  bottom: 0;
-  position: absolute;
-  width: 50%;
+  /* bottom: 0;
+  position: relative;
+  width: 100%; */
 }
 #restaurant-name {
-  color: #f18200;
+  color: black;
   font-family: Arial,sans-serif;
   font-size: 20pt;
   font-weight: 200;
@@ -233,7 +231,7 @@ nav h1 a {
   line-height: 1.1;
 }
 #restaurant-img {
-	width: 90%;
+	width: 100%;
 }
 #restaurant-address {
   font-size: 12pt;
@@ -249,16 +247,18 @@ nav h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+	width: 100%;
 }
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
-  width: 50%;
+  padding: 5%;
+  
+  /* width: 100%; */
 }
 #reviews-container {
-  padding: 30px 40px 80px;
+  padding: 5%;
+  
 }
 #reviews-container h2 {
   color: #f58500;
@@ -277,13 +277,13 @@ nav h1 a {
   display: block;
   list-style-type: none;
   margin: 0 0 30px;
+  padding: 3%;
   overflow: hidden;
-  padding: 0 20px 20px;
   position: relative;
-  width: 85%;
 }
 #reviews-list li p {
   margin: 0 0 10px;
+  font-size: 1.2em;
 }
 #restaurant-hours td {
   color: #666;
@@ -305,4 +305,19 @@ nav h1 a {
   #restaurants-list li {
     width: 27%;
   }
+
+  #restaurant-reviews-flex-container {
+    display: flex;
+  }
+
+  #restaurant-container {
+    width: 48%;
+    padding: 2%;
+  }
+
+  #reviews-container {
+    width: 48%;
+    padding: 2%;
+  }
+  
 }
