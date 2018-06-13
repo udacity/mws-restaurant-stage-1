@@ -22,6 +22,11 @@ nav h1 {
   min-height: 0;
 }
 
+#restaurants-list li {
+  border: unset;
+  padding: 30px 25px;
+}
+
 #restaurant-container, #reviews-container {
   width: 45vw;
 }

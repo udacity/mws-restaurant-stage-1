@@ -15,8 +15,8 @@ module.exports = function(grunt) {
           engine: 'im',
           sizes: [
           {
-            width: 420,
-            suffix: '_small',
+            width: 680,
+            suffix: '_2x',
             quality: 80
           }]
         },
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
           expand: true,
           src: ['*.{gif,jpg,png}'],
           cwd: 'img/',
-          dest: 'responsive-images/'
+          dest: 'img/responsive-images/'
         }]
       }
     },
