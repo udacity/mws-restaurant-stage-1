@@ -9,7 +9,6 @@ body,td,th,p{
 }
 body {
 	background-color: #fdfdfd;
-	margin: 0;
   position:relative;
   max-width: 1200px;
   margin-left: auto;
@@ -201,15 +200,14 @@ nav h1 a {
 
 /* ====================== Restaurant Details ====================== */
 .inside header {
-  position: fixed;
-  top: 0;
+  position: absolute;
   width: 100%;
   z-index: 1000;
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
   height: 87%;
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 80px;
   width: 50%;
