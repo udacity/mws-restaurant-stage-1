@@ -303,3 +303,12 @@ nav h1 a {
     position: relative;
   }
 }
+
+@media screen and (min-width: 1150px){
+  /** Handle max size**/
+  .outside #maincontent {
+    width: 1150px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
