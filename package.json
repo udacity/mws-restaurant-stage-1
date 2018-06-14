@@ -20,5 +20,8 @@
   "homepage": "https://github.com/nmarcora/mws-restaurant-stage-1#readme",
   "dependencies": {
     "localforage": "^1.6.0"
+  },
+  "devDependencies": {
+    "serve": "^8.2.0"
   }
 }
