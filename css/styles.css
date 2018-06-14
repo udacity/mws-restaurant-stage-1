@@ -269,6 +269,7 @@ nav h1 a {
 }
 
 #restaurant-name {
+  display: inline;
   color: #f18200;
   font-family: Arial,sans-serif;
   font-size: 1.2rem;
@@ -277,6 +278,18 @@ nav h1 a {
   margin: 15px;
   text-transform: uppercase;
   line-height: 1.1;
+}
+
+#star-button {
+	width: 50px;
+	height: 50px;
+	background: none;
+	border: none;
+	padding: 8px;
+}
+
+#star-icon {
+	width: 100%;
 }
 
 #restaurant-img {
@@ -310,9 +323,7 @@ nav h1 a {
   flex-wrap: wrap;
 }
 
-#restaurant-name,
-#restaurant-display,
-#restaurant-image {
+#restaurant-display, #restaurant-image {
   width: 100%;
 }
 
@@ -349,6 +360,15 @@ nav h1 a {
 
 #restaurant-hours td {
   color: #666;
+}
+
+#restaurant-header {
+  margin: 10px 0;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .no-reviews {

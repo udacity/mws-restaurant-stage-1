@@ -1,4 +1,4 @@
-let restaurant;
+var restaurant;
 var map;
 
 const photographAlts = {
@@ -36,7 +36,7 @@ window.initMap = () => {
 /**
  * Get current restaurant from page URL.
  */
-fetchRestaurantFromURL = (callback) => {
+fetchRestaurantFromURL = callback => {
   if (self.restaurant) { // restaurant already fetched!
     callback(null, self.restaurant)
     return;
@@ -65,6 +65,9 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
+  const star = document.querySelector('#star-button');
+  star.addEventListener('click', () => toggleFavorite(restaurant));
+
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
@@ -82,6 +85,28 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   }
   // fill reviews
   DBHelper.getReviewsForRestaurant(restaurant.id, fillReviewsHTML);
+}
+
+toggleFavorite = restaurant => {
+  restaurant.is_favorite
+    ? removeFromFavorites(restaurant.id)
+    : addToFavorites(restaurant.id);
+}
+
+addToFavorites = restaurantId => {
+  console.log(restaurant);
+  restaurant.is_favorite = true;
+  DBHelper.addToFavorites(restaurantId);
+  const starIcon = document.querySelector('#star-icon');
+  starIcon.src = './assets/star-filled.png';
+}
+
+removeFromFavorites = restaurantId => {
+  console.log(restaurant);
+  restaurant.is_favorite = false;
+  DBHelper.removeFromFavorites(restaurantId);
+  const starIcon = document.querySelector('#star-icon');
+  starIcon.src = './assets/star-empty.png';
 }
 
 /**

@@ -193,6 +193,16 @@ class DBHelper {
       .catch(error => callback(error, null))
   }
 
+  static addToFavorites(restaurantId) {
+    const url = `${DBHelper.RESTAURANTS_URL}/${restaurantId}/?is_favorite=true`;
+    fetch(url, { method: 'PUT' })
+  }
+
+  static removeFromFavorites(restaurantId) {
+    const url = `${DBHelper.RESTAURANTS_URL}/${restaurantId}/?is_favorite=false`;
+    fetch(url, { method: 'PUT' })
+  }
+
 }
 
 if (navigator.serviceWorker) {
