@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "serve -p 8000 -o",
-    "server": "node ../mws-part2-server/server"
+    "server": "node ../stage3-server/server"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/nmarcora/mws-restaurant-stage-1#readme",
   "dependencies": {
-    "localforage": "^1.6.0",
-    "npm": "^5.7.1"
+    "localforage": "^1.6.0"
   }
 }
