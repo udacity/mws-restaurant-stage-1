@@ -31,6 +31,12 @@ a {
   text-decoration: none;
 }
 
+/* Change the color for increasing the accessibility features */
+.leaflet-container a {
+  color: darkblue !important;
+}
+
+
 a:hover,
 a:focus {
   color: #3397db;
@@ -79,8 +85,8 @@ section {
 }
 
 #footer {
-  background-color: #444;
-  color: #aaa;
+  background-color: black;
+  color: white;
   font-size: 8pt;
   letter-spacing: 1px;
   padding: 25px;
@@ -135,7 +141,7 @@ nav h1 a {
 /* Add a color to all links inside the list */
 
 #breadcrumb li a {
-  color: #0275d8;
+  color: #004d91;
   text-decoration: none;
 }
 
@@ -287,6 +293,7 @@ nav h1 a {
   font-size: 20pt;
   font-weight: 200;
   letter-spacing: 0;
+  padding-top: 4%;
   margin: 15px 0 30px;
   text-transform: uppercase;
   line-height: 1.1;
@@ -298,7 +305,8 @@ nav h1 a {
 
 #restaurant-address {
   font-size: 12pt;
-  margin: 10px 0px;
+  margin-left: 2%;
+  float: left;
 }
 
 #restaurant-cuisine {
@@ -327,7 +335,7 @@ nav h1 a {
 }
 
 #reviews-container h2 {
-  color: #f58500;
+  color: black;
   font-size: 24pt;
   font-weight: 300;
   letter-spacing: -1px;
@@ -381,10 +389,12 @@ nav h1 a {
   #restaurant-container {
     width: 48%;
     padding: 2%;
+    order: 1;
   }
   #reviews-container {
     width: 48%;
     padding: 2%;
+    order: 2;
   }
 
   /* Table styling for operation hours*/
@@ -421,4 +431,15 @@ nav h1 a {
     color: white;
   }
 
+}
+
+/* Hide classes for aria and accesibility purposes */
+.restaurant-cuisine-label {
+  position: absolute;
+  top: -9999px;
+}
+
+.restaurant-address-label {
+  position: absolute;
+  top: -9999px;
 }

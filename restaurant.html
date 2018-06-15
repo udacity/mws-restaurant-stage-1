@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <!-- Normalize.css for better cross-browser consistency -->
@@ -37,15 +37,17 @@
     <!-- Beginning map -->
     <section id="map-container">
       <div id="map"></div>
+      <p id="restaurant-address" aria-labelledby="restaurant-address-label"></p>
+      <label id="restaurant-address-label" class="restaurant-address-label">Address</label>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-reviews-flex-container">
       <section id="restaurant-container">
-        <h1 id="restaurant-name"></h1>
+        <h2 id="restaurant-name"></h2>
         <img id="restaurant-img">
-        <p id="restaurant-cuisine"></p>
-        <p id="restaurant-address"></p>
+        <p id="restaurant-cuisine" aria-labelledby="restaurant-cuisine-label"></p>
+        <label id="restaurant-cuisine-label" class="restaurant-cuisine-label">Restaurant Cuisine</label>
         <table id="restaurant-hours"></table>
       </section>
       <!-- end restaurant -->
@@ -73,7 +75,7 @@
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
-  <script type="application/javascript" charset="utf-8" src="js/sw.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/register_sw.js"></script>
   <!-- Google Maps -->
   <!--  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap"></script> -->
   <!-- End scripts -->
