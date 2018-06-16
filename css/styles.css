@@ -371,11 +371,26 @@ nav h1 a {
   #restaurants-list li {
     width: 100%;
   }
+  .inside #map-container {
+    height: 20vh;
+  }
+
+  #map {
+    height: 20vh;
+  }
 }
 
 @media only screen and (min-width: 601px) and (max-width: 800px) {
   #restaurants-list li {
     width: 40%;
+  }
+
+  .inside #map-container {
+    height: 27vh;
+  }
+
+  #map {
+    height: 27vh;
   }
 }
 
@@ -429,6 +444,14 @@ nav h1 a {
   tr td:hover {
     background: orange;
     color: white;
+  }
+
+  .inside #map-container {
+    height: 35vh;
+  }
+
+  #map {
+    height: 35vh;
   }
 
 }
