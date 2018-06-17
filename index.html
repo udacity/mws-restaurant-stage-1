@@ -1,7 +1,9 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
   <title>Restaurant Reviews</title>
@@ -42,10 +44,16 @@
   </footer>
 
   <script>
-    if('serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator) {
       navigator.serviceWorker
-               .register('/sw.js')
-               .then(function() { console.log("Service Worker Registered"); });
+        .register('/sw.js', {
+          scope: '/'
+        })
+        .then(function(register) { 
+          console.log('Service Worker Registered');
+        }).catch(function(error) {
+          console.log('Service Worker Not-Registered');
+      });
     }
   </script>
 
