@@ -40,7 +40,7 @@
 
 
   <footer id="footer" role="contentinfo">
-    <h1>Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.</h1>
+    <h1>Copyright (c) 2018 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.</h1>
   </footer>
 
   <script>
@@ -49,11 +49,13 @@
         .register('/sw.js', {
           scope: '/'
         })
-        .then(function(register) { 
-          console.log('Service Worker Registered');
+        .then(function() { 
+          console.log('Service Worker Registered!');
         }).catch(function(error) {
-          console.log('Service Worker Not-Registered');
-      });
+          console.error(error);
+      })
+    } else {
+      console.log('Service Worker Not-Registered!');
     }
   </script>
 
