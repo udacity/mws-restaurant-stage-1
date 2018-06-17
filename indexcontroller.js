@@ -32,3 +32,14 @@ IndexController.prototype._trackInstalling = function(worker) {
         }
     });
 };
+
+IndexController.prototype._updateReady = function(worker) {
+    var toast = this._toastsView.show("New version available", {
+        buttons: [ 'refresh', 'dismiss']
+    });
+
+    toast.answer.then(function(answer) {
+        if (answer !== 'refresh') return;
+        worker.postMessage({ action: 'skipWaiting' });
+    });
+};
