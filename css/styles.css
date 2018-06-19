@@ -11,6 +11,8 @@ body {
 	background-color: #fdfdfd;
 	margin: 0;
 	position:relative;
+  overflow: hidden;
+  overflow-y: auto; 
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
@@ -199,7 +201,6 @@ nav h1 a {
 /* ====================== Restaurant Details ====================== */
 
 .inside {
-  display: flex;
   flex-wrap: wrap;
 }
 
@@ -226,7 +227,6 @@ nav h1 a {
 
 .inside #maincontent{
   order: 1;
-  overflow-y: auto;
 }
 
 .inside #footer {

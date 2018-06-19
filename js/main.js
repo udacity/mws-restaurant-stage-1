@@ -10,7 +10,18 @@ var markers = []
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  loadSw();
 });
+
+loadSw = () => {
+    if (!navigator.serviceWorker) return;
+
+    navigator.serviceWorker.register('sw.js', {scope: '/'}).then(function() {
+      console.log('Registration worked!');
+    }).catch(function() {
+      console.log('Registration failed!');
+    });
+  }
 
 /**
  * Fetch all neighborhoods and set their HTML.
