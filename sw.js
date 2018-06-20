@@ -1,3 +1,6 @@
+// I did take the code from the service worker section to get started on this. 
+// Do I need to add each image speciffically? 
+
 var staticCacheName = 'mws-static-v1';
 
 self.addEventListener('install', function(event) {
