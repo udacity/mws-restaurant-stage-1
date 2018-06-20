@@ -5,8 +5,13 @@ self.addEventListener('install', function(event) {
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
         '/',
+        '/index.html',
         'js/main.js',
-        'css/syles.css'
+        'js/dbhelper.js',
+        'js/restaurant_info.js',
+        'css/syles.css',
+        '/restaurant.html',
+        '/images'
       ]);
     })
   );
