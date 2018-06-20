@@ -1,5 +1,5 @@
 // I did take the code from the service worker section to get started on this. 
-// Do I need to add each image speciffically? 
+// Do I need to add each image specifically? 
 
 var staticCacheName = 'mws-static-v1';
 
