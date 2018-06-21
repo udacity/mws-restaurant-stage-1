@@ -12,17 +12,17 @@
 <body class="outside">
   <header>
     <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+      <h1><a tabindex=0 href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
 
   <main id="maincontent">
     <section id="map-container">
-      <div id="map"></div>
+      <div role="application" id="map"></div>
     </section>
 
     <section>
-      <div class="filter-options">
+      <div role="Listbox" class="filter-options">
         <h2>Filter Results</h2>
         <select id="neighborhoods-select" name="neighborhoods" aria-label= "neighborhoods select" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
