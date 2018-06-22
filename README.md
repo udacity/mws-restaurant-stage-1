@@ -4,25 +4,21 @@
 
 ## Project Overview: Stage 1
 
-For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.
+### Description
+A simple restaurant review site for the neighborhoods of Manhattan, Brooklyn, and Queens. The site offers location, reviews, and descriptions of various cuisines and provides details of each restaurant's location, ratings, and store hours.
 
-### Specification
+### Prerequisites
+1. Python 2.X or Python 3.X
+2. npm 5.6.0
+3. Modern internet browser
 
-You have been provided the code for a restaurant reviews website. The code has a lot of issues. It’s barely usable on a desktop browser, much less a mobile device. It also doesn’t include any standard accessibility features, and it doesn’t work offline at all. Your job is to update the code to resolve these issues while still maintaining the included functionality. 
+### Installing
+1. Go to 'mws-restaurant-stage-1' as the working directory and then run npm install 
+2. Get a Google API Key and swap out my API key for yours on 
+`https://maps.googleapis.com/maps/api/js?key=`
+3. Run `python -m SimpleHTTPServer 8002` on the working directory to get the server started.
+4. Note that 8002 up there. Since 8000 is common, I flipped this to 8002.
 
-### What do I do from here?
-
-1. In this folder, start up a simple HTTP server to serve up the site files on your local computer. Python has some simple tools to do this, and you don't even need to know Python. For most people, it's already installed on your computer. 
-
-In a terminal, check the version of Python you have: `python -V`. If you have Python 2.x, spin up the server with `python -m SimpleHTTPServer 8000` (or some other port, if port 8000 is already in use.) For Python 3.x, you can use `python3 -m http.server 8000`. If you don't have Python installed, navigate to Python's [website](https://www.python.org/) to download and install the software.
-
-2. With your server running, visit the site: `http://localhost:8000`, and look around for a bit to see what the current experience looks like.
-3. Explore the provided code, and make start making a plan to implement the required features in three areas: responsive design, accessibility and offline use.
-4. Write code to implement the updates to get this site on its way to being a mobile-ready website.
-
-### Note about ES6
-
-Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
-
-
+### Run Time Environment
+1. Just need a valid Google Map API Key.
 
