@@ -99,12 +99,12 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: 100%;
+    /*width: 100%;*/
 }
 
 @media screen AND (min-width: 501px) {
   #breadcrumb {
-    width: calc(50% - 80px);
+    /*width: calc(50% - 80px);*/
   }
 }
 
@@ -303,7 +303,7 @@ button {
   line-height: 1.1;
 }
 #restaurant-img {
-	width: 90%;
+	width: calc(100% - 60px);
 }
 #restaurant-address {
   font-size: 12pt;
@@ -319,24 +319,24 @@ button {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+	width: calc(100% - 60px);
 }
 #restaurant-container, #reviews-container {
   xborder-bottom: 1px solid #d9d9d9;
   xborder-top: 1px solid #fff;
-  padding: 140px 40px 30px;
-  width: 50%;
+  padding: 30px;
+  /* width: 100%; */
 }
 
 @media screen AND (max-width: 500px) {
   #restaurant-container, #reviews-container {
-  padding: 40px 30px;
-  width: 100%;
+  /* padding: 40px 30px;
+  width: 100%; */
   }
 }
 
 #reviews-container {
-  padding: 30px 40px 80px;
+  padding: 30px;
 }
 #reviews-container h2 {
   color: #f58500;
@@ -345,23 +345,29 @@ button {
   letter-spacing: -1px;
   padding-bottom: 1pt;
 }
+
+#restaurant-img,
+#restaurant-cuisine {
+  width: 100%;
+}
+
 #reviews-list {
   margin: 0;
   padding: 0;
 }
 #reviews-list li {
   background-color: #fff;
-  xborder: 2px solid #f3f3f3;
+  border-bottom: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
-  margin: 0 0 30px;
+  xmargin: 0 0 30px;
   overflow: hidden;
   padding: 20px;
-  position: relative;
-  width: 85%;
+  /*position: relative;*/
+  width: calc(100% - 40px);
 }
 #reviews-list li p {
-  margin: 0 0 10px;
+  /*margin: 0 0 10px;*/
 }
 #restaurant-hours td {
   color: #666;
