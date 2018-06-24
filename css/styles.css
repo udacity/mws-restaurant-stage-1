@@ -53,6 +53,19 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-transform: uppercase;
 }
 /* ====================== Navigation ====================== */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: gray;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
 nav {
   width: 100%;
   height: 80px;
@@ -105,7 +118,8 @@ nav h1 a {
 
 @media screen and (min-width: 800px) {
   #breadcrumb {
-    width: calc(50% - 80px);
+    width: 100%;
+    box-sizing: border-box;
   }
   #breadcrumb li a {
     padding: 20px 0;
@@ -191,7 +205,7 @@ nav h1 a {
   min-width: 100%;
 }
 #restaurants-list li h1 {
-  color: #f18200;
+  color: #b36407;
   font-family: Arial,sans-serif;
   font-size: 14pt;
   font-weight: 200;
@@ -246,7 +260,7 @@ nav h1 a {
   width: 100%;
 }
 #restaurant-name {
-  color: #f18200;
+  color: #b36407;
   font-family: Arial,sans-serif;
   font-size: 20pt;
   font-weight: 200;
@@ -284,7 +298,7 @@ nav h1 a {
   padding: 30px 40px 80px;
 }
 #reviews-container h2 {
-  color: #f58500;
+  color: #b36407;
   font-size: 24pt;
   font-weight: 300;
   letter-spacing: -1px;
@@ -313,18 +327,15 @@ nav h1 a {
 }
 
 @media screen and (min-width: 800px) {
-  .inside #maincontent {
-    display: block;
-  }
   .inside #map-container {
-    position: fixed;
-    height: 87%;
-    width: 50%;
+    height: 100%;
+    width: 100%;
   }
   .inside #map {
     height: 100%;
   }
   #restaurant-container, #reviews-container {
+    box-sizing: border-box;
     width: 50%;
   }
 }
