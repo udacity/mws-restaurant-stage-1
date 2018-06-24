@@ -4,6 +4,8 @@ let restaurants,
 var map
 var markers = []
 
+// SERVICE WORKER HERE
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -37,7 +39,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
     option.value = neighborhood;
     select.append(option);
   });
-}
+};
 
 /**
  * Fetch all cuisines and set their HTML.
@@ -81,7 +83,7 @@ window.initMap = () => {
     scrollwheel: false
   });
   updateRestaurants();
-}
+};
 
 /**
  * Update page and map for current restaurants.
@@ -137,10 +139,15 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  let imgSrc = restaurant.photograph;
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.srcset = `/img/${imgSrc}-1x 300w, /img/${imgSrc}-2x 600w`;
+  image.sizes = "(max-width: 300px), (min-width: 600px)";
+  //image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.setAttribute('alt', `A picture of ${restaurant.description} in ${restaurant.name}'s restaurant`);
   li.append(image);
 
   const name = document.createElement('h1');
@@ -158,10 +165,10 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  li.append(more);
 
   return li
-}
+};
 
 /**
  * Add markers for current restaurants to the map.
@@ -175,4 +182,4 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
-}
+};

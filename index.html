@@ -2,8 +2,10 @@
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width initial-scale=1">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
+  <script type="application/javascript" charset="utf-8" src="js/service-worker.js"></script>
   <title>Restaurant Reviews</title>
 </head>
 
@@ -15,18 +17,23 @@
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
+    <section id="map-container" aria-labelledby="google-map" role="application">
       <div id="map"></div>
     </section>
+    <label id="google-map">Google Map</label>
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-          <option value="all">All Neighborhoods</option>
-        </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
-          <option value="all">All Cuisines</option>
-        </select>
+        <div class="selections">
+          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+            <option value="all" role="option" aria-label="neighborhoods to select">All Neighborhoods</option>
+          </select>
+          <label id="neighborhoods-label">Filter By Neighborhood</label>
+          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+            <option value="all" role="option">All Cuisines</option>
+          </select>
+          <label id="cuisine-label">Filter By Cuisine</label>
+        </div>
       </div>
       <ul id="restaurants-list"></ul>
     </section>
@@ -34,7 +41,7 @@
 
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4V-YYKBOR0v-IB97b2mCkaZb6ub77Bvg&libraries=places&callback=initMap"></script>
 
 
   <footer id="footer">

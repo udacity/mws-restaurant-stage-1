@@ -9,12 +9,15 @@ body,td,th,p{
 }
 body {
 	background-color: #fdfdfd;
-	margin: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
 	position:relative;
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
+	font-size: 1rem;
 	color: #333;
 }
 a {
@@ -28,6 +31,17 @@ a:hover, a:focus {
 a img{
 	border: none 0px #fff;
 }
+
+img {
+  -webkit-transition: width 0.5s;
+  -moz-transition: width 0.5s;
+  -ms-transition: width 0.5s;
+  -o-transition: width 0.5s;
+  transition: width 0.5s;
+  -webkit-background-size: contain;
+  background-size: contain;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0 0 20px;
@@ -35,14 +49,20 @@ h1, h2, h3, h4, h5, h6 {
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
+/* ====================== FlexBox ====================== */
+
 #maincontent {
+  display: flex; /*Sets Content In A Row (default is row)*/
+  flex-direction: column; /* Set to Column */
   background-color: #f3f3f3;
   min-height: 100%;
 }
+
 #footer {
   background-color: #444;
-  color: #aaa;
-  font-size: 8pt;
+  color: #ccd;
+  font-size: 0.8rem;
   letter-spacing: 1px;
   padding: 25px;
   text-align: center;
@@ -60,7 +80,7 @@ nav h1 {
 }
 nav h1 a {
   color: #fff;
-  font-size: 14pt;
+  font-size: 1.4rem;
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
@@ -72,6 +92,7 @@ nav h1 a {
     font-size: 17px;
     margin: 0;
     width: calc(50% - 80px);
+    /* Change Above Width? */
 }
 
 /* Display list items side by side */
@@ -116,6 +137,7 @@ nav h1 a {
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+  /* Padding-Top/Bottom? */
 }
 .filter-options select {
   background-color: white;
@@ -127,6 +149,13 @@ nav h1 a {
   margin: 10px;
   padding: 0 10px;
   width: 200px;
+  /* Pixels or Percents? */
+}
+
+.selections {
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -136,6 +165,8 @@ nav h1 a {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 #restaurants-list li {
   background-color: #fff;
@@ -145,7 +176,8 @@ nav h1 a {
   min-height: 380px;
   padding: 0 30px 25px;
   text-align: left;
-  width: 270px;
+  min-width: 270px;
+  max-width: 300px;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -184,18 +216,21 @@ nav h1 a {
 
 /* ====================== Restaurant Details ====================== */
 .inside header {
-  position: fixed;
+  /*position: fixed;*/
   top: 0;
   width: 100%;
   z-index: 1000;
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 87%;
-  position: fixed;
-  right: 0;
-  top: 80px;
-  width: 50%;
+  max-height: 87%;
+  max-width: 50%;
+  /* Possible Set height: 240px; */
+
+  /*position: fixed;*/
+  /*right: 0;*/
+  /*top: 80px;*/
+
 }
 .inside #map {
   background-color: #ccc;
@@ -205,7 +240,7 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  /*width: 50%;*/
 }
 #restaurant-name {
   color: #f18200;
@@ -218,11 +253,16 @@ nav h1 a {
   line-height: 1.1;
 }
 #restaurant-img {
-	width: 90%;
+	max-width: 100%;
+  display: block;
+  margin: 0;
+  -webkit-background-size: contain;
+  background-size: contain;
+  /* Added display, margin */
 }
 #restaurant-address {
   font-size: 12pt;
-  margin: 10px 0px;
+  margin: 10px 0;
 }
 #restaurant-cuisine {
   background-color: #333;
@@ -234,13 +274,13 @@ nav h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+	max-width: 90%;
 }
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 140px 40px 30px;
-  width: 50%;
+  max-width: 50%;
 }
 #reviews-container {
   padding: 30px 40px 80px;
@@ -258,14 +298,15 @@ nav h1 a {
 }
 #reviews-list li {
   background-color: #fff;
-    border: 2px solid #f3f3f3;
+  border: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
   margin: 0 0 30px;
   overflow: hidden;
   padding: 0 20px 20px;
   position: relative;
-  width: 85%;
+  max-width: 85%;
+  /* Possible Remove margin, overflow, padding, position Add padding 3%, margin-bottom 2% */
 }
 #reviews-list li p {
   margin: 0 0 10px;
@@ -273,3 +314,32 @@ nav h1 a {
 #restaurant-hours td {
   color: #666;
 }
+
+/* ====================== Media Queries ====================== */
+
+@media screen and (max-width: 300px){
+  .inside #map-container {
+
+  }
+
+}
+
+@media screen and (min-width: 600px){
+  .inside #map-container {
+
+  }
+}
+
+@media screen and (min-width: 800px){
+  .inside #map-container {
+    
+  }
+}
+
+
+/*CSS background-size property can allow for images to resize no matter
+  the size of the viewport*/
+/*Cover: Does Not 'Shrink' the Image, the Overflow is Merely Covered Up*/
+/*Contain: Can 'Shrink' and Image to Fit a Container*/
+
+/*ImageSet (like srcSet?) various image options based on pre-*/
