@@ -41,9 +41,10 @@ a {
 }
 a:hover, a:focus {
   color: #f12c32;
-  /*text-decoration: none;*/
+  text-decoration: none;
   text-decoration-color: #f12c32;
   outline-color: #f12c32;
+
 }
 a img{
   border: none 0px #fff;
@@ -64,6 +65,16 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 
 #footer {
+  background-color: #444;
+  color: #aaa;
+  font-size: 8pt;
+  letter-spacing: 1px;
+  padding: 25px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.inside #footer{
   background-color: #444;
   color: #aaa;
   font-size: 8pt;
@@ -257,7 +268,7 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: 100%;
 }
 
 #restaurant-name {
