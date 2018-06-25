@@ -11,20 +11,20 @@
 
 <body>
   
-  <a href="#maincontent" class="skip-link">Skip to main content</a>
+  <a href="#maincontent" class="skip-link" aria-label="navigation">Skip to main content</a>
 
   <header>
-    <nav>
+    <nav role="navigation" aria-label="Breadcrumb">
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
 
   <main id="maincontent">
     <section id="map-container">
-      <div id="map"></div>
+      <div id="map" aria-label="map" ></div>
     </section>
     <section>
-      <div class="filter-options">
+      <div class="filter-options" role="group">
         <h2>Filter Results</h2>
         <label for="neighborhoods-select">Select a Neighborhood</label>
         <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" role="select">
