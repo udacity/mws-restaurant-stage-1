@@ -56,10 +56,10 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  let imgSrc = `${restaurant.photograph}.jpg`;
+  let imgSrc = `${restaurant.photograph}`;
   image.className = 'restaurant-img';
-  image.src = `/img/${imgSrc}-300x300-1x`;
-  image.srcset = `/img/${imgSrc}-300x300-1x 300w, /img/${imgSrc}-600x600-2x 600w`;
+  image.src = `/img/1x-${imgSrc}`;
+  image.srcset = `/img/1x-${imgSrc} 300w, /img/2x-${imgSrc} 600w`;
   image.sizes = "(max-width: 300px), (min-width: 600px)";
   image.setAttribute('alt', `A picture of ${restaurant.description} in ${restaurant.name}'s restaurant`);
 
