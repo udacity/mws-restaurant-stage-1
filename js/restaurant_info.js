@@ -65,7 +65,16 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
+  const isFavorite = restaurant.is_favorite ?
+    JSON.parse(restaurant.is_favorite) :
+    false
+
   const star = document.querySelector('#star-button');
+  const starIcon = document.querySelector('#star-icon');
+
+  starIcon.src = isFavorite ?
+    './assets/star-filled.png' :
+    './assets/star-empty.png'
   star.addEventListener('click', () => toggleFavorite(restaurant));
 
   const address = document.getElementById('restaurant-address');
@@ -88,7 +97,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 }
 
 toggleFavorite = restaurant => {
-  restaurant.is_favorite
+  const isFavourite = JSON.parse(restaurant.is_favorite)
+  isFavourite
     ? removeFromFavorites(restaurant.id)
     : addToFavorites(restaurant.id);
 }
@@ -129,6 +139,11 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
   }
 }
 
+appendReview = review => {
+  const ul = document.getElementById('reviews-list');
+  ul.appendChild(createReviewHTML(review));
+}
+
 /**
  * Create all reviews HTML and add them to the webpage.
  */
@@ -147,9 +162,7 @@ fillReviewsHTML = (error, reviews) => {
     return;
   }
   const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
-  });
+  reviews.forEach(appendReview);
   container.appendChild(ul);
 }
 
@@ -180,8 +193,6 @@ createReviewHTML = (review) => {
   comments.innerHTML = review.comments;
   comments.classList.add('review-comments');
   li.appendChild(comments);
-
-  addReviewFormListener();
 
   return li;
 }
@@ -230,14 +241,26 @@ addReviewFormListener = () => {
   const form = document.querySelector('#review-form');
   form.addEventListener('submit', event => {
     event.preventDefault()
+    const name = form.querySelector('#reviewer-name')
+    const rating = form.querySelector('#review-rating')
+    const comments = form.querySelector('#review-comments')
+
     const review = {
       restaurant_id: getParameterByName('id'),
-      name: form.querySelector('#reviewer-name').value,
-      rating: form.querySelector('#review-rating').value,
-      comments: form.querySelector('#review-comments').value
+      name: name.value,
+      rating: rating.value,
+      comments: comments.value
     }
-    console.log('Review: ', review);
 
+    console.log(review)
+
+    appendReview({...review, updatedAt: new Date() });
     DBHelper.submitRestaurantReview(review);
+
+    name.value = ''
+    rating.value = 1
+    comments.value = ''
   })
 }
+
+addReviewFormListener();

@@ -203,6 +203,14 @@ class DBHelper {
     fetch(url, { method: 'PUT' })
   }
 
+  static submitRestaurantReview(review) {
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(review)
+    }
+    fetch(this.REVIEWS_URL, options)
+  }
+
 }
 
 if (navigator.serviceWorker) {
