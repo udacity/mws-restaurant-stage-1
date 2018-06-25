@@ -181,6 +181,8 @@ createReviewHTML = (review) => {
   comments.classList.add('review-comments');
   li.appendChild(comments);
 
+  addReviewFormListener();
+
   return li;
 }
 
@@ -213,9 +215,7 @@ fillBreadcrumb = (restaurant = self.restaurant) => {
 /**
  * Get a parameter by name from page URL.
  */
-getParameterByName = (name, url) => {
-  if (!url)
-    url = window.location.href;
+getParameterByName = (name, url = window.location.href) => {
   name = name.replace(/[\[\]]/g, '\\$&');
   const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`),
     results = regex.exec(url);
@@ -224,4 +224,20 @@ getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+addReviewFormListener = () => {
+  const form = document.querySelector('#review-form');
+  form.addEventListener('submit', event => {
+    event.preventDefault()
+    const review = {
+      restaurant_id: getParameterByName('id'),
+      name: form.querySelector('#reviewer-name').value,
+      rating: form.querySelector('#review-rating').value,
+      comments: form.querySelector('#review-comments').value
+    }
+    console.log('Review: ', review);
+
+    DBHelper.submitRestaurantReview(review);
+  })
 }
