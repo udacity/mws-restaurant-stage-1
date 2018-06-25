@@ -22,7 +22,7 @@
     <!-- End nav -->
   <!-- Beginning breadcrumb -->
     --<h3>
-    <ul id="breadcrumb">
+    <ul id="breadcrumb" aria-labelledby="breadcrumb" role="application">
       <li><a href="/" >Home</a></li>
     </ul>
     </h3>
@@ -39,17 +39,17 @@
   </section>
   <!-- End map -->
   <!-- Beginning restaurant -->
-  <section id="restaurant-container" aria-labelledby="restaurant-container" role="application">
-      <h2 id="restaurant-name" aria-labelledby="restaurant-name" role="application"></h2>
+  <section id="restaurant-container" tabindex="0" aria-labelledby="restaurant-container" role="application">
+      <h2 id="restaurant-name"   aria-labelledby="restaurant-name" role="application"></h2>
       <img id="restaurant-img" aria-labelledby="restaurant-img" role="application">
-      <p id="restaurant-cuisine" aria-labelledby="restaurant-cuisine" role="application"></p>
-      <p id="restaurant-address" aria-labelledby="restaurant-address-label" role="application"></p>
-      <table id="restaurant-hours" aria-labelledby="restaurant-hours-label" role="application"></table>
+      <p id="restaurant-cuisine" tabindex="0" aria-labelledby="restaurant-cuisine" role="application"></p>
+      <p id="restaurant-address" tabindex="0" aria-labelledby="restaurant-address-label" role="application"></p>
+      <table id="restaurant-hours" tabindex="0" aria-labelledby="restaurant-hours-label" role="application"></table>
   </section>
   <!-- end restaurant -->
   <!-- Beginning reviews -->
-  <section id="reviews-container" aria-labelledby="restaurant-container" role="application">
-    <ul id="reviews-list" aria-labelledby="reviews-list" role="application"></ul>
+  <section id="reviews-container" tabindex="0" aria-labelledby="restaurant-container" role="application">
+    <ul id="reviews-list" tabindex="0" aria-labelledby="reviews-list" role="application"></ul>
   </section>
   <!-- End reviews -->
 </main>
@@ -68,7 +68,7 @@
 <!-- Main javascript file -->
 <script type="text/javascript" src="js/restaurant_info.js"></script>
 <!-- Google Maps -->
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=API-KEY-HERE&libraries=places&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKlmBk4YXWs3FDOGxCmOdwFEVcVPQdfkg&libraries=places&callback=initMap"></script>
 <!-- End scripts -->
 </body>
 </html>
