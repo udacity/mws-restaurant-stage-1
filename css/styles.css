@@ -1,12 +1,10 @@
+@charset "utf-8";
+/* CSS Document */
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-
 }
-
-@charset "utf-8";
-/* CSS Document */
 image, embed, object, video{
   max-width: 100%;
 }
@@ -14,7 +12,6 @@ image, embed, object, video{
   height: 400px;
   width: 100%;
   background-color: #ccc;
-
 }
 body,td,th,p{
   font-family: Arial, Helvetica, sans-serif;
@@ -44,7 +41,6 @@ a:hover, a:focus {
   text-decoration: none;
   text-decoration-color: #f12c32;
   outline-color: #f12c32;
-
 }
 a img{
   border: none 0px #fff;
@@ -63,7 +59,6 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   display: flex;
   flex-direction: column;
 }
-
 #footer {
   background-color: #444;
   color: #aaa;
@@ -73,7 +68,6 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-align: center;
   text-transform: uppercase;
 }
-
 .inside #footer{
   background-color: #444;
   color: #aaa;
@@ -86,13 +80,15 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
-  height: 80px;
+  height: auto;
   background-color: #252831;
   text-align:center;
 }
 nav h1 {
   margin: auto;
   padding: 25px 20px;
+  min-height:  140px;
+
 }
 nav h1 a {
   color: #fff;
@@ -100,6 +96,10 @@ nav h1 a {
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 #breadcrumb {
   /*padding: 10px 40px 16px;*/
@@ -108,10 +108,9 @@ nav h1 a {
   background-color: #eee;
   font-size: 18px;
   margin: 0;
-  /*width: calc(50% - 80px);*/
   width: 100%;
   text-align: center;
-  min-height: 40px;
+  max-height: 30px;
   position: relative;
   top: -26px;
 }
@@ -145,11 +144,13 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  /*height: 50px;*/
   background-color: #3397DB;
   align-items: center;
   display: flex;
   padding: 15px 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .filter-options h2 {
   color: white;
@@ -169,7 +170,6 @@ nav h1 a {
   padding: 0 10px;
   width: 200px;
 }
-
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
   background-color: #f3f3f3;
@@ -198,9 +198,12 @@ nav h1 a {
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;
-  margin: 10px;
-  width: 270px;
-  height: 203px;
+  /*margin: 10px;*/
+  max-width: 100%;
+  max-height: 100%;
+  /*width: 270px;
+  height: 203px;*/
+
 }
 
 #restaurants-list li h1 {
@@ -242,6 +245,18 @@ nav h1 a {
   top: 0;
   width: 100%;
   z-index: 1000;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+header {
+  min-height: 100px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 .inside #map-container {
   background: #ccc none repeat scroll 0 0;
@@ -365,16 +380,15 @@ nav h1 a {
   color: #000000;
 }
 @media only screen and (min-width: 0px){
-  #restaurants-list li{
+  #restaurants-list li {
     max-width: 100%;
   }
 }
-@media only screen and (min-width: 714px){
+@media only screen and (min-width: 700px){
   #restaurants-list li{
     max-width: 45%;
   }
 }
-
 @media only screen and (min-width: 1000px){
   #restaurants-list li{
     max-width: 300px;
