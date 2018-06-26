@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Meta tags -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#d40222"/>
+  <meta name="description" content="Restaurant reviews app"/>
+
+  <!-- Service worker register javascript file -->
+  <script type="application/javascript" charset="utf-8">
+    
+    window.addEventListener('load', function() {
+    
+       if (!navigator.serviceWorker) return;
+    
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then(() => {console.log('Registration successfull');})
+          .catch(() => {console.log('SW Registration failed');});
+
+    });
+  </script>
+
+   <!-- Normalize.css for better cross-browser consistency -->
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!-- Main CSS file -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="icon" href="icons/favicon.ico">
+
+  <!-- Manifest file -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Page title -->
+  <title>Restaurant Info</title>
+</head>
+
+<body class="inside">
+  <!-- Beginning header -->
+  <header role="banner">
+    <!-- Beginning nav -->
+    <nav>
+      <h1><a href="/">Restaurant Reviews</a></h1>
+    </nav>
+	<!-- End nav -->
+	
+    <!-- Beginning breadcrumb -->
+    <ul id="breadcrumb" >
+      <li><a href="/">Home</a></li>
+    </ul>
+    <!-- End breadcrumb -->
+  </header>
+  <!-- End header -->
+
+  <!-- Beginning main -->
+  <main id="maincontent">
+  
+	  <!-- End skip content link-->
+    <!-- End map -->
+    <!-- Beginning restaurant -->
+    <section id="restaurant-container">
+      <h2 id="restaurant-name"></h2>
+      <figure id="restaurant-img">
+	      <figcaption>
+	        <p id="restaurant-cuisine"></p>
+          <p id="restaurant-address"></p>
+		    </figcaption>
+	    </figure>
+      <p id="table-description" class="visually-hidden">The working hours of the restaurant</p>
+      <table id="restaurant-hours" aria-labelledby="table-description" tabindex="0"></table>
+    </section>
+    <!-- end restaurant -->
+    <!-- Beginning reviews -->
+    <section id="reviews-container">
+      <ul id="reviews-list" tabindex="0" aria-label="The list of reviews"></ul>
+    </section>
+
+    <!-- Skip content link -->
+	  <a href="#restaurant-container" class="visually-hidden skip-anchor">Skip to main content</a>
+
+    <!-- Beginning map -->
+    <section id="map-container">
+      <div id="map" role="application" aria-label="Restaurant google map"></div>
+    </section>
+    <!-- End reviews -->
+  </main>
+  <!-- End main -->
+
+  <!-- Beginning footer -->
+  <footer id="footer" role="contentinfo">
+    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+  <!-- End footer -->
+
+  <!-- Beginning scripts -->
+  <!-- Main javascript file -->
+  <script type="text/javascript" charset="utf-8" src="js/restaurant_info.js"></script>
+  <!-- Google Maps -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX-KPndDEQQjfRPi_jqtfyJzc1VFK-y10&libraries=places&callback=initMap"></script>
+  <!-- End scripts -->
+
+</body>
+
+</html>

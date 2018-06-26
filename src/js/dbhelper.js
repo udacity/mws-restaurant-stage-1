@@ -9,14 +9,17 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 1337 // Change this to your server port
-    return `http://localhost:${port}/restaurants`;
+    return { 
+      restaurants:`http://localhost:${port}/restaurants`,
+      reviews: `http://localhost:${port}/reviews`,
+    };
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    return fetch(DBHelper.DATABASE_URL)
+    return fetch(DBHelper.DATABASE_URL.restaurants)
       .then(restaurants => {
         restaurants.json().then(json => {
           callback(null, json);
@@ -32,7 +35,7 @@ class DBHelper {
    */
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
-    return fetch(`${DBHelper.DATABASE_URL}/${id}`)
+    return fetch(`${DBHelper.DATABASE_URL.restaurants}/${id}`)
       .then(restaurant => {
         restaurant.json().then(json => {
           callback(null, json);
@@ -162,60 +165,20 @@ class DBHelper {
       title: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant),
       map: map,
-      animation: google.maps.Animation.DROP}
-    );
+      animation: google.maps.Animation.DROP
+    });
     return marker;
   }
 
-  /**
-   * Lazy loads pictures so app can be faster
-   */
-  static lazyLoadImages() {
-
-    var pictures = Array.from(document.getElementsByTagName('picture'));
-
-    pictures.forEach(picture => {
-
-      if(this.isInViewport(picture)) {
-
-        var sources = Array.from(picture.getElementsByTagName('source'));
-
-        sources.forEach(source => {
-          if(!source.getAttribute('srcset')) {
-            source.setAttribute('srcset', source.getAttribute('data-srcset'));
-          }
-        });
-
-        var images = Array.from(picture.getElementsByTagName('img'));
-
-        images.forEach(img => {
-          
-          if(!img.getAttribute('src')) {
-            img.setAttribute('src', img.getAttribute('data-src'));
-          }
-          
-          img.addEventListener('load',()=>{
-
-            img.removeAttribute('data-src');
-
-            sources.forEach(source => {
-                source.removeAttribute('data-srcset');
-            });
-          });      
-        });   
-      }    
-    });
+  static fetchReviews(callback) {
+    return fetch(DBHelper.DATABASE_URL.reviews)
+      .then(reviews => {
+        reviews.json().then(json => {
+          callback(null, json);
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
-
-  static isInViewport (elem) {
-
-    var bounding = elem.getBoundingClientRect();
-
-    return (
-        bounding.top >= 0 &&
-        bounding.left >= 0 &&
-        bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-};
 }

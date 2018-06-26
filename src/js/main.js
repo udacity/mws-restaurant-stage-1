@@ -6,7 +6,7 @@ var map
 var markers = []
 
 window.addEventListener("scroll", () => {
-  DBHelper.lazyLoadImages();
+  jsHelper.lazyLoadImages();
 });
 
 /**
@@ -142,7 +142,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants, callback) => {
   });
   addMarkersToMap();
 
-  DBHelper.lazyLoadImages();
+  jsHelper.lazyLoadImages();
 }
 
 /**

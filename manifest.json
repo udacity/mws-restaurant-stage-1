@@ -1,0 +1,37 @@
+{
+  "short_name": "ResReview",
+  "name": "Restaurant Review App",
+  "description": "The Absolute Restaurant Review App",
+  "start_url": "/",
+  "launch_path": "/",
+  "display": "standalone",
+  "orientation": "natural",
+  "theme_color": "#d40222",
+  "scope": "/",
+  "background_color": "#ffffff",
+  "default_locale": "en",
+  "developer": {
+    "name": "Vickie Chantzis"
+  },
+  "icons": [{
+        "src": "./icons/icon-128x128.png",
+        "sizes": "128x128",
+        "type": "image/png"
+    }, {
+        "src": "./icons/icon-152x152.png",
+        "sizes": "152x152",
+        "type": "image/png"
+    }, {
+        "src": "./icons/icon-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+    }, {
+        "src": "./icons/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    }, {
+        "src": "./icons/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }]
+}
