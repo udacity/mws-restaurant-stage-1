@@ -120,6 +120,7 @@ nav h1 a {
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+  padding-top: 1em;
 }
 .filter-options select {
   background-color: white;
@@ -295,6 +296,9 @@ nav h1 a {
     margin-right: 10px;
     width: calc(50% - 20px);
   }
+  .filter-options h2 {
+    padding-top: 0;
+  }
 }
 @media screen and (min-width: 1024px) {
   nav h1 a {
@@ -312,5 +316,6 @@ nav h1 a {
   }
   .filter-options h2 {
     font-size: 20pt;
+    padding-top: 1em;
   }
 }
