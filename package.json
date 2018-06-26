@@ -1,7 +1,7 @@
 {
   "name": "mws-restaurant-stage-1",
   "version": "1.0.0",
-  "description": "A restaurant review project with powerfull offline PWA features for Google's MWS Nanodegree",
+  "description": "A restaurant review project with powerfull offline PWA features for Google's MWS Nanodegree ",
   "main": "index.html",
   "scripts": {
     "start": "python3 -m http.server 8000",
