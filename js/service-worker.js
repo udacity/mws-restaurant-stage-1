@@ -15,7 +15,10 @@ self.addEventListener('install', function(event) {
           'js/main.js',
           'js/dbhelper.js',
           'js/restaurant_info.js',
-          'css/styles.css'
+          'js/service-worker.js',
+          'css/styles.css',
+          'css/normalize.css',
+          'css/font-awesome.css'
         ]);
       })
   );
