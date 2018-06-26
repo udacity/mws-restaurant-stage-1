@@ -377,6 +377,7 @@ nav h1 a {
 
 .review-card {
   border-radius: 5px;
+  width: 100%;
 }
 
 .review-name,
