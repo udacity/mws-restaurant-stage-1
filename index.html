@@ -3,8 +3,9 @@
 
 <head>
   <meta name="viewport" content="width=device-width initial-scale=1">
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link rel="stylesheet" href="css/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/font-awesome.css" />
   <!--<script type="application/javascript" charset="utf-8" src="js/service-worker.js"></script>-->
   <title>Restaurant Reviews</title>
 </head>
@@ -12,6 +13,29 @@
 <body>
   <header>
     <nav>
+      <ul class="social-nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link fa fa-facebook-square color-theme" href="http://facebook.com"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fa fa-twitter-square color-theme" href="http://twitter.com"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fa fa-share-alt-square color-theme" href="#"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fa fa-digg color-theme" href="#"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fa fa-google-plus-square color-theme" href="#"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link  fa fa-at color-theme" href="mailto://pcprincess@outlook.com"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link color-theme" href="#"></a>
+        </li>
+      </ul>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
@@ -24,7 +48,6 @@
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <div class="selections">
           <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
             <option value="all" role="option" aria-label="neighborhoods to select">All Neighborhoods</option>
           </select>
@@ -33,9 +56,8 @@
             <option value="all" role="option">All Cuisines</option>
           </select>
           <label id="cuisine-label">Filter By Cuisine</label>
-        </div>
       </div>
-      <ul id="restaurants-list"></ul>
+        <ul class="restaurant-container" id="restaurants-list"></ul>
     </section>
   </main>
 
