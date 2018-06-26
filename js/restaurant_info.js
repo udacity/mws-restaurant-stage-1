@@ -252,8 +252,6 @@ addReviewFormListener = () => {
       comments: comments.value
     }
 
-    console.log(review)
-
     appendReview({...review, updatedAt: new Date() });
     DBHelper.submitRestaurantReview(review);
 
