@@ -9,7 +9,7 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
       caches.open(staticCache).then(function(cache) {
         return cache.addAll([
-          '/',
+          '/skeleton',
           'index.html*',
           'restaurant.html',
           'js/main.js',
@@ -44,7 +44,7 @@ self.addEventListener('fetch', function(event) {
 
   if (requestUrl.origin === location.origin) {
     if (requestUrl.pathname === '/') {
-      event.respondWith(caches.match('/'));
+      event.respondWith(caches.match('/skeleton'));
       return;
     }
     if (requestUrl.pathname.startsWith('/img/')) {
@@ -59,6 +59,7 @@ self.addEventListener('fetch', function(event) {
       })
   );
 });
+
 
 function serveImg(request) {
   let storageUrl = request.url.replace(/-\d+px\.jpg$/, '');
