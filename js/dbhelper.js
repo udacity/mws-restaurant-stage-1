@@ -27,9 +27,8 @@ class DBHelper {
       if (response) {
         DBHelper.getRestaurantsRemotely()
         return callback(null, response)
-      } else {
-        return DBHelper.getRestaurantsRemotely(callback)
       }
+      return DBHelper.getRestaurantsRemotely(callback)
     })
   }
 
@@ -187,9 +186,38 @@ class DBHelper {
   }
 
   static getReviewsForRestaurant(restaurantId, callback) {
+    this.getReviewsForRestaurantLocally(restaurantId)
+    .then(response => {
+      if (response) {
+        DBHelper.getReviewsForRestaurantRemotely(restaurantId)
+        return callback(null, response)
+      }
+      return DBHelper.getReviewsForRestaurantRemotely(
+        restaurantId,
+        callback
+      )
+    })
+
+  }
+
+  static saveReviewsForRestaurant(restaurantId, reviews) {
+    return localforage.setItem(
+      `reviewsForRestaurant${restaurantId}`,
+      reviews
+    )
+  }
+
+  static getReviewsForRestaurantLocally(restaurantId) {
+    return localforage.getItem(`reviewsForRestaurant${restaurantId}`)
+  }
+
+  static getReviewsForRestaurantRemotely(restaurantId, callback = () => null) {
     return fetch(`${this.REVIEWS_URL}/?restaurant_id=${restaurantId}`)
       .then(data => data.json())
-      .then(reviews => callback(null, reviews))
+      .then(reviews => {
+        this.saveReviewsForRestaurant(restaurantId, reviews)
+        callback(null, reviews)
+      })
       .catch(error => callback(error, null))
   }
 

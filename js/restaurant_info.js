@@ -104,7 +104,6 @@ toggleFavorite = restaurant => {
 }
 
 addToFavorites = restaurantId => {
-  console.log(restaurant);
   restaurant.is_favorite = true;
   DBHelper.addToFavorites(restaurantId);
   const starIcon = document.querySelector('#star-icon');
@@ -112,7 +111,6 @@ addToFavorites = restaurantId => {
 }
 
 removeFromFavorites = restaurantId => {
-  console.log(restaurant);
   restaurant.is_favorite = false;
   DBHelper.removeFromFavorites(restaurantId);
   const starIcon = document.querySelector('#star-icon');
