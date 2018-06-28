@@ -2,12 +2,12 @@
  * Service Worker configurations
  */
 
- const CACHE_VERSION = 'mws-v6';
+ const CACHE_VERSION = 'mws-v7';
 
 self.addEventListener('fetch', function(event) {
     
-    //TODO remove me
-    return;
+    //Uncomment this to disable cache
+    //return;
 
     event.respondWith(
 
