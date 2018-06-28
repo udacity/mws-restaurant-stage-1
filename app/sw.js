@@ -55,13 +55,13 @@ self.addEventListener('fetch', (event) => {
     if (checkURL.port === '1337') {
       const parts = checkURL.pathname.split('/');
       const id = parts[parts.length - 1] === 'restaurants' ? '-1' : parts[parts.length -1];
-      handleAjaxEvent(event , id);
+      handleAJAXEvent(event, id);
     } else {
-        handleNonAjaxEvent(event. cacheRequest);
+      handleNonAJAXEvent(event, cacheRequest);
     }
   }); 
 
-    const handleAjaxEvent = (event, id) => {
+    const handleAJAXEvent = (event, id) => {
       event.respondWith(
         dbPromise.then(db => {
           return db.transaction('restaurants').objectStore('restaurants').get(id);
@@ -88,21 +88,17 @@ self.addEventListener('fetch', (event) => {
     };
 
 
-    const handleNonAjaxEvent = (event, cacheRequest) => {
+    const handleNonAJAXEvent = (event, cacheRequest) => {
       event.respondWith(
-        caches.match(event.request).then((response) => {
-          return response || fetch(event.request).then((response) => {
-              if (response.ok) {
+        caches.match(cacheRequest).then(response => {
+          return ( response || fetch(event.request).then(fetchResponse => {
                 return caches.open(currentCacheName)
-                  .then((cache) => {
-                    cache.put(event.request, response.clone());
-                    return response;
+                  .then(cache => {
+                    cache.put(event.request, fetchResponse.clone());
+                    return fetchResponse;
                   });
-              } else {
-                return response;
-              }
-            }).catch(() => {
-              if (event.request.url.indexOf('.jpg') > -1){
+            }).catch(error => {
+              if (event.request.url.indexOf('.jpg') > -1) {
                 return caches.match('/img/na.png');
               }
               return new Response (
@@ -111,7 +107,8 @@ self.addEventListener('fetch', (event) => {
                   statusText: 'Application is not connected to the internet'
                 }
               );
-            });
+            })
+          );
         })
       );
     };
