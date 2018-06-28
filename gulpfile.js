@@ -81,14 +81,14 @@ gulp.task('html', ['css', 'js', 'sw'], () => {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('images', () => {
+gulp.task('img', () => {
   return gulp.src('app/img/**/*')
     .pipe($.cache($.imagemin()))
-    .pipe(gulp.dest('dist/img'));
+    .pipe(gulp.dest('.tmp/img'));
 });
 
 gulp.task('icons', () => {
-  return gulp.src('app/icons/**/*').pipe(gulp.dest('dist/icons'));
+  return gulp.src('app/icons/**/*').pipe(gulp.dest('.tmp/icons'));
 });
 
 gulp.task('fonts', () => {
@@ -109,7 +109,7 @@ gulp.task('extras', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 gulp.task('serve', () => {
-  runSequence(['clean', 'wiredep'], ['css', 'js', 'sw', 'fonts'], () => {
+  runSequence(['clean', 'wiredep'], ['css', 'js', 'sw', 'fonts','img'], () => {
     browserSync.init({
       notify: false,
       port: 8000,
@@ -128,8 +128,8 @@ gulp.task('serve', () => {
       '.tmp/fonts/**/*'
     ]).on('change', reload);
 
-    gulp.watch('app/styles/**/*.css', ['css']);
-    gulp.watch('app/scripts/**/*.js', ['js']);
+    gulp.watch('app/css/**/*.css', ['css']);
+    gulp.watch('app/js/**/*.js', ['js']);
     gulp.watch('app/sw.js', ['sw']);
     gulp.watch('app/fonts/**/*', ['fonts']);
     gulp.watch('bower.json', ['wiredep', 'fonts']);
@@ -174,7 +174,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'img', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
