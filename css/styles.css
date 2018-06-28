@@ -1,6 +1,13 @@
 @charset "utf-8";
 /* CSS Document */
-
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+img, embed, object, video {
+  max-width: 100%;
+}
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
@@ -10,7 +17,8 @@ body,td,th,p{
 body {
 	background-color: #fdfdfd;
 	margin: 0;
-	position:relative;
+	position: relative;
+	width: 100%;
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
@@ -71,7 +79,7 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
+    max-width: 100%;
 }
 
 /* Display list items side by side */
@@ -106,7 +114,7 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  height: 50px;
+  /* height: 50px; */
   background-color: #3397DB;
   align-items: center;
 }
@@ -116,17 +124,18 @@ nav h1 a {
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+  padding-top: 1em;
 }
 .filter-options select {
   background-color: white;
   border: 1px solid #fff;
   font-family: Arial,sans-serif;
   font-size: 11pt;
-  height: 35px;
+  height: 48px;
   letter-spacing: 0;
   margin: 10px;
   padding: 0 10px;
-  width: 200px;
+  width: 90%;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -136,6 +145,9 @@ nav h1 a {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:  center;
 }
 #restaurants-list li {
   background-color: #fff;
@@ -152,7 +164,7 @@ nav h1 a {
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
+  /*! min-height: 248px; */
   min-width: 100%;
 }
 #restaurants-list li h1 {
@@ -184,7 +196,7 @@ nav h1 a {
 
 /* ====================== Restaurant Details ====================== */
 .inside header {
-  position: fixed;
+  position: static;
   top: 0;
   width: 100%;
   z-index: 1000;
@@ -205,7 +217,7 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: 100%;
 }
 #restaurant-name {
   color: #f18200;
@@ -239,8 +251,10 @@ nav h1 a {
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
   width: 50%;
+}
+#restaurant-container {
+  padding: 0px 40px 30px;
 }
 #reviews-container {
   padding: 30px 40px 80px;
@@ -258,18 +272,81 @@ nav h1 a {
 }
 #reviews-list li {
   background-color: #fff;
-    border: 2px solid #f3f3f3;
+  border: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
   margin: 0 0 30px;
   overflow: hidden;
   padding: 0 20px 20px;
   position: relative;
-  width: 85%;
+  width: 80%;
 }
 #reviews-list li p {
   margin: 0 0 10px;
 }
+#reviews-list li p:first-of-type {
+  font-weight: bold;
+  padding-top: 10px;
+}
+#reviews-list li p:nth-child(2) {
+  font-style: italic;
+}
 #restaurant-hours td {
   color: #666;
+}
+/* ====================== Media Queries ====================== */
+@media screen and (max-width: 425px) {
+  .inside, #maincontent {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #maincontent #map-container, 
+  #maincontent #restaurant-container,
+  #maincontent #reviews-container {
+    width: 100%;
+  }
+  #maincontent #map-container {
+    height: 10%;
+    width:  100%;
+    position: static;
+    right: auto;
+    top: auto;
+  }
+  .inside #footer {
+    position: fixed;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .filter-options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .filter-options select {
+    margin-right: 10px;
+    width: calc(50% - 20px);
+  }
+  .filter-options h2 {
+    padding-top: 0;
+  }
+
+}
+@media screen and (min-width: 1024px) {
+  nav h1 a {
+    font-size: 24pt;
+  }  
+  #maincontent section:nth-child(2) {
+    display: flex;
+    flex-direction: row;
+  }  
+  div.filter-options {
+    width: 25%;
+  }
+  #restaurants-list {
+    width: 75%;
+  }
+  .filter-options h2 {
+    font-size: 20pt;
+    padding-top: 1em;
+  }
 }
