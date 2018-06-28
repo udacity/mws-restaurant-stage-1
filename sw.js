@@ -9,7 +9,6 @@ var CACHE_FILES = [
     '/restaurant.html',
     '/images'
  ]
- // var staticCacheName = 'mws-static-v1';
 
 self.addEventListener('install', function(event) {
     event.waitUntil(
@@ -20,43 +19,44 @@ self.addEventListener('install', function(event) {
     );
 });
 
-self.addEventListener('activate', function (event) {
+self.addEventListener('activate', function(event) {
+
+  var cacheWhitelist = ['rr-app-v1'];
+
   event.waitUntil(
-      caches.keys().then(function(keys){
-          return Promise.all(keys.map(function(key, i){
-              if(key !== CACHE_VERSION){
-                  return caches.delete(keys[i]);
-              }
-          }))
-      })
-  )
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
 });
 
 self.addEventListener('fetch', function (event) {
   event.respondWith(
-      caches.match(event.request).then(function(res){
-          if(res){
-              return res;
+      caches.match(event.request).then(function(response){
+          if(response){
+              return response;
           }
-          requestBackend(event);
+          var fetchRequest = event.request.clone();
+
+          return fetch(fetchRequest).then(
+            function(response) {
+              if(!response || response.status !== 200 || response.type !== 'basic'){
+                return response;
+              }
+              var responseToCache = response.clone();
+
+              caches.open(CACHE_VERSION).then(function(cache){
+                cache.put(event.request, responseToCache);
+              });
+            return response;
+            }
+          );
       })
-  )
+  );
 });
-
-function requestBackend(event){
-  var url = event.request.clone();
-  return fetch(url).then(function(res){
-      //if not a valid response send the error
-      if(!res || res.status !== 200 || res.type !== 'basic'){
-          return res;
-      }
-
-      var response = res.clone();
-
-      caches.open(CACHE_VERSION).then(function(cache){
-          cache.put(event.request, response);
-      });
-
-      return res;
-  })
-}
