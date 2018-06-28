@@ -164,7 +164,7 @@ nav h1 a {
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
+  /*! min-height: 248px; */
   min-width: 100%;
 }
 #restaurants-list li h1 {
@@ -312,6 +312,9 @@ nav h1 a {
     right: auto;
     top: auto;
   }
+  .inside #footer {
+    position: fixed;
+  }
 }
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .filter-options {
@@ -334,7 +337,7 @@ nav h1 a {
   }  
   #maincontent section:nth-child(2) {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }  
   div.filter-options {
     width: 25%;
