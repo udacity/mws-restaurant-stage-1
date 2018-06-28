@@ -3,6 +3,18 @@ let restaurants,
   cuisines
 var newMap
 var markers = []
+const altText = {
+  1: 'People sitting at a table',
+  2: 'Freshly baked pizza',
+  3: 'Empty tables with built in gas burners',
+  4: 'Corner of a deli shop',
+  5: 'Busy restaurant with open kitchen in the background',
+  6: 'Families eating at tables with American flag on the back wall',
+  7: 'Large window of a burger joint with many people inside',
+  8: 'Blue sign with The Dutch logo in white',
+  9: 'People looking at their phones and eating with chopsticks',
+  10: 'Empty restaurant with clean white interior and metal bar'
+}
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -161,6 +173,8 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  const restaurantId = DBHelper.idForRestaurant(restaurant);
+  image.alt = altText[restaurantId];
   li.append(image);
 
   const name = document.createElement('h1');

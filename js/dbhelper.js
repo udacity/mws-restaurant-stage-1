@@ -154,6 +154,13 @@ class DBHelper {
   }
 
   /**
+   * Restaurant ID.
+   */
+  static idForRestaurant(restaurant) {
+    return (`${restaurant.id}`);
+  }
+
+  /**
    * Map marker for a restaurant.
    */
    static mapMarkerForRestaurant(restaurant, map) {
