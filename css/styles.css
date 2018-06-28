@@ -408,6 +408,34 @@ nav h1 a {
   text-align: center;
 }
 
+#review-form {
+  width: 50vw;
+  min-width: 400px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+#reviewer-name, #review-comments {
+  width: 100%;
+  max-width: 400px;
+}
+
+#review-comments {
+  min-height: 100px;
+  border: solid 2px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+
+
+
 @media screen and (min-width: 400px) {
 
   .review-date {

@@ -207,6 +207,17 @@ class DBHelper {
     )
   }
 
+  static saveSingleReviewForRestaurant(review) {
+    const key =
+    this.getReviewsForRestaurantLocally(review.restaurant_id)
+    .then(reviews => {
+      localforage.setItem(
+        `reviewsForRestaurant${review.restaurant_id}`,
+        [...reviews, { ...review, updatedAt: new Date() }]
+      )
+    })
+  }
+
   static getReviewsForRestaurantLocally(restaurantId) {
     return localforage.getItem(`reviewsForRestaurant${restaurantId}`)
   }

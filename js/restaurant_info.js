@@ -97,8 +97,12 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 }
 
 toggleFavorite = restaurant => {
-  const isFavourite = JSON.parse(restaurant.is_favorite)
-  isFavourite
+
+  const isFavorite = restaurant.is_favorite ?
+    JSON.parse(restaurant.is_favorite) :
+    false
+
+  isFavorite
     ? removeFromFavorites(restaurant.id)
     : addToFavorites(restaurant.id);
 }
@@ -252,6 +256,7 @@ addReviewFormListener = () => {
 
     appendReview({...review, updatedAt: new Date() });
     DBHelper.submitRestaurantReview(review);
+    DBHelper.saveSingleReviewForRestaurant(review);
 
     name.value = ''
     rating.value = 1
