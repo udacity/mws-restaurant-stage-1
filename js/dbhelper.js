@@ -25,6 +25,12 @@ class DBHelper {
         const json = JSON.parse(xhr.responseText);
         //const restaurants = json.restaurants;
         const restaurants = json;
+
+        var restaurantsStore = _db.transaction('restaurants', 'readwrite').objectStore('restaurants');        
+        restaurants.forEach(function (restaurant) {
+          restaurantsStore.put(restaurant);
+        });
+
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
