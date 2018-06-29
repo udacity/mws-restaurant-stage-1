@@ -8,7 +8,7 @@ registerServiceWorker = function() {
     
   if(!navigator.serviceWorker) return;
 
-  navigator.serviceWorker.register('/sw.js', {scope: '/'}).then(function() {
+  navigator.serviceWorker.register('sw.js', {scope: '/'}).then(function() {
       console.log('Service worker registrated.');
   }).catch(function() {
     console.log('service worker registration failed');
@@ -20,10 +20,10 @@ registerServiceWorker();
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
-document.addEventListener('DOMContentLoaded', (event) => {
+initMainScreen = function() {
   fetchNeighborhoods();
   fetchCuisines();
-});
+};
 
 /**
  * Fetch all neighborhoods and set their HTML.

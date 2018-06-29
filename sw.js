@@ -6,8 +6,8 @@
 
 self.addEventListener('fetch', function(event) {
     
-    //Uncomment this to disable cache
-    //return;
+    //Comment/Uncomment this to enable/disable cache
+    return;
 
     event.respondWith(
 
