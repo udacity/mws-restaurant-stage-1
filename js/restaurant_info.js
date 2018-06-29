@@ -250,12 +250,12 @@ addReviewFormListener = () => {
     const review = {
       restaurant_id: getParameterByName('id'),
       name: name.value,
-      rating: rating.value,
+      rating: parseInt(rating.value),
       comments: comments.value
     }
 
     appendReview({...review, updatedAt: new Date() });
-    DBHelper.submitRestaurantReview(review);
+    DBHelper.sendReviewSyncRequest(review);
     DBHelper.saveSingleReviewForRestaurant(review);
 
     name.value = ''

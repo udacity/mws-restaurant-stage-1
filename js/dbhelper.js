@@ -250,11 +250,40 @@ class DBHelper {
     fetch(this.REVIEWS_URL, options)
   }
 
+  static sendReviewSyncRequest(review) {
+    if (navigator.serviceWorker) {
+      console.log('REQUESTING REVIEW SYNC')
+      this.storeReview(review)
+      navigator.serviceWorker.ready
+      .then(reg => reg.sync.register('sync-reviews'))
+    } else {
+      this.submitRestaurantReview(review)
+    }
+  }
+
+  static async storeReview(review) {
+    console.log('STORING REVIEW')
+    const reviews = await localforage.getItem('reviewsToSend') || []
+    return localforage.setItem('reviewsToSend', [...reviews, review])
+  }
+
+  static async sendStoredReviews() {
+    console.log('SENDING REVIEWS')
+    const reviews = await localforage.getItem('reviewsToSend') || []
+    for (const review of reviews) {
+      this.submitRestaurantReview(review)
+    }
+    localforage.setItem('reviewsToSend', [])
+  }
+
 }
 
 if (navigator.serviceWorker) {
   navigator.serviceWorker.register('sw.js')
-    .then(() => console.log('SW is alive! Yippee!'))
-};
-
-window.fetchEm = DBHelper.fetchRestaurants
+    .then(() => {
+      navigator.serviceWorker.addEventListener('message', message => {
+        message.data.action === 'send-reviews' &&
+          DBHelper.sendStoredReviews()
+      })
+    })
+}

@@ -418,11 +418,40 @@ nav h1 a {
   display: flex;
   padding: 10px;
   margin: 0 auto;
+  font-size: 1.2rem;
 }
 
 #reviewer-name, #review-comments {
-  width: 100%;
   max-width: 400px;
+  font-size: 1rem;
+  margin: 10px 0;
+  padding: 5px;
+  border: solid 2px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+#reviewer-name {
+  width: 50%;
+}
+
+#review-comments {
+  width: 100%;
+}
+
+#review-rating {
+  font-size: 1.2rem;
+  background: #333;
+  color:  white;
+}
+
+#review-submit-button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  background: #f18200;
+  color: white;
+  border:  none;
+  border-radius: 5px;
 }
 
 #review-comments {

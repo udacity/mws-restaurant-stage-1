@@ -16,9 +16,14 @@ const filesToCache = [
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(cacheName)
-        .then(cache => {cache.addAll(filesToCache);})
+        .then(cache => cache.addAll(filesToCache))
+        .then(() => self.skipWaiting())
     )
 });
+
+self.addEventListener('activate', () => {
+    return self.clients.claim();
+})
 
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
@@ -42,6 +47,15 @@ self.addEventListener('fetch', event => {
     );
 });
 
+self.addEventListener('sync', event => {
+    if (event.tag === 'sync-reviews') {
+        console.log('SYNCING REVIEWS')
+        event.waitUntil(
+            broadcast({ action: 'send-reviews' })
+        )
+    }
+})
+
 function servePhoto(request) {
     return caches.open(photosCacheName).then(cache => {
         return cache.match(request).then(response => (
@@ -53,4 +67,12 @@ function servePhoto(request) {
 function cacheAndFetch(cache, request) {
     cache.add(request);
     return fetch(request);
+}
+
+function broadcast(message) {
+    return clients.matchAll().then(clients => {
+        for (const client of clients) {
+            client.postMessage(message)
+        }
+    })
 }
