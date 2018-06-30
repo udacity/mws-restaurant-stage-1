@@ -181,7 +181,7 @@ class DBHelper {
    */
   static lazyLoadImages() {
 
-    setTimeout(function() {
+    document.requestAnimationFrame();
 
       var pictures = Array.from(document.getElementsByTagName('picture'));
 
