@@ -36,7 +36,7 @@ self.addEventListener('fetch', event => {
         return;
     };
 
-    if (url.pathname.endsWith('.jpg')) {
+    if (url.pathname.endsWith('.webp')) {
         event.respondWith(servePhoto(event.request));
         return;
     };

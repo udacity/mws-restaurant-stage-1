@@ -168,7 +168,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.id}.jpg`);
+    return (`/img/${restaurant.id}.webp`);
   }
 
   /**
@@ -276,14 +276,4 @@ class DBHelper {
     localforage.setItem('reviewsToSend', [])
   }
 
-}
-
-if (navigator.serviceWorker) {
-  navigator.serviceWorker.register('sw.js')
-    .then(() => {
-      navigator.serviceWorker.addEventListener('message', message => {
-        message.data.action === 'send-reviews' &&
-          DBHelper.sendStoredReviews()
-      })
-    })
 }
