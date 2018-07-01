@@ -335,10 +335,17 @@ nav h1 a {
   nav h1 a {
     font-size: 24pt;
   }  
-  #maincontent section:nth-child(2) {
+  #maincontent #restaurant-container {
+    display: flex;
+    flex-direction: column;
+  }
+  #maincontent section {
     display: flex;
     flex-direction: row;
-  }  
+  }
+  #maincontent section:nth-child(3) {
+    flex-direction: column;
+  }
   div.filter-options {
     width: 25%;
   }
@@ -349,4 +356,9 @@ nav h1 a {
     font-size: 20pt;
     padding-top: 1em;
   }
+}
+a:hover, a:focus,
+select:hover, select:focus {
+  outline: 3px solid cyan;
+  box-shadow: 3px solid cyan;
 }
