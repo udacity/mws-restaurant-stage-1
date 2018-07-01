@@ -242,12 +242,17 @@ class DBHelper {
     fetch(url, { method: 'PUT' })
   }
 
+  static submitOrSyncReview(review) {
+    this.submitRestaurantReview(review)
+    .catch(() => this.sendReviewSyncRequest(review))
+  }
+
   static submitRestaurantReview(review) {
     const options = {
       method: 'POST',
       body: JSON.stringify(review)
     }
-    fetch(this.REVIEWS_URL, options)
+    return fetch(this.REVIEWS_URL, options)
   }
 
   static sendReviewSyncRequest(review) {
@@ -256,24 +261,28 @@ class DBHelper {
       this.storeReview(review)
       navigator.serviceWorker.ready
       .then(reg => reg.sync.register('sync-reviews'))
-    } else {
-      this.submitRestaurantReview(review)
     }
   }
 
-  static async storeReview(review) {
+  static storeReview(review) {
     console.log('STORING REVIEW')
-    const reviews = await localforage.getItem('reviewsToSend') || []
-    return localforage.setItem('reviewsToSend', [...reviews, review])
+    localforage.getItem('reviewsToSend')
+    .then(reviews => {
+      localforage.setItem('reviewsToSend', [...reviews, review])
+    })
   }
 
-  static async sendStoredReviews() {
+  static sendStoredReviews() {
     console.log('SENDING REVIEWS')
-    const reviews = await localforage.getItem('reviewsToSend') || []
-    for (const review of reviews) {
-      this.submitRestaurantReview(review)
-    }
-    localforage.setItem('reviewsToSend', [])
-  }
+    localforage.getItem('reviewsToSend')
+    .then(response => {
+      const reviews = response || []
+      console.log('REVIEWS: ', reviews)
+      for (const review of reviews) {
+        this.submitRestaurantReview(review)
+      }
+      localforage.setItem('reviewsToSend', [])
+    })
 
+  }
 }

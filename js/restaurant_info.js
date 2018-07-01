@@ -255,7 +255,7 @@ addReviewFormListener = () => {
     }
 
     appendReview({...review, updatedAt: new Date() });
-    DBHelper.sendReviewSyncRequest(review);
+    DBHelper.submitOrSyncReview(review);
     DBHelper.saveSingleReviewForRestaurant(review);
 
     name.value = ''
