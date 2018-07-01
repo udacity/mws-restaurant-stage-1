@@ -7,6 +7,7 @@ var CACHE_STATIC = 'restaurant-reviews-static-v1';
 var CACHE_IMAGES = 'restaurant-reviews-images-v1';
 const offlinePage = './404.html';
 var dbPromise;
+var reviewsDbPromise;
 
 /** 
  * Fetch and cache image request 
@@ -23,25 +24,41 @@ function cacheImages(request) {
       // Cache hit - return response else fetch
       // We clone the request because it's a stream and can be consumed only once
       var networkFetch = fetch(request.clone()).then((networkResponse) => {
-          // Check if we received an invalid response
-          if(networkResponse.status == 404) return;
+        // Check if we received an invalid response
+        if(networkResponse.status == 404) return;
 
-          // We clone the response because it's a stream and can be consumed only once
-          cache.put(urlToFetch, networkResponse.clone());
-  
-          return networkResponse;
+        // We clone the response because it's a stream and can be consumed only once
+        cache.put(urlToFetch, networkResponse.clone());
 
-        }, (rejected) => {
-          return response || caches.match(offlinePage);
-        }).catch(() => {
-          return response || caches.match(offlinePage);
-        });
+        return networkResponse;
+
+      }, (rejected) => {
+        return response;
+      }).catch(() => {
+        return response;
+      });
 
       // //if access to network is good we want the best quality image
       return networkFetch;
 
-    }).catch(() => { caches.match(offlinePage); })
-  })
+    }).catch(() => { 
+
+      return fetch(request.clone()).then((networkResponse) => {
+        // Check if we received an invalid response
+        if(networkResponse.status == 404) return;
+
+        // We clone the response because it's a stream and can be consumed only once
+        cache.put(urlToFetch, networkResponse.clone());
+
+        return networkResponse;
+
+      }, (rejected) => {
+        return caches.match(offlinePage); 
+      }).catch(() => {
+        return caches.match(offlinePage); 
+      });
+    })
+  });
 }
 
 /** 
@@ -61,20 +78,25 @@ function cacheImages(request) {
         // We clone the response because it's a stream and can be consumed only once
         cache.put(request, networkResponse.clone());
         return networkResponse;
-      });
-    }).catch(() => { caches.match(offlinePage); })
-  })
+
+      }).catch(() => { 
+        return caches.match(offlinePage); 
+      })
+    });
+  });
 }
 
 /**
- * Fetch from network and save in indexed DB
+ * Search in indexed DB and if no result fetch from network  ///TODO recheck!!!
  */
-function fetchFromNetworkAndCacheRestaurantsInIndexedDB(request) {
+function getLatestData(request) {
 
   var pathSlices = request.url.split("/");
   var restaurantId = parseInt(pathSlices[pathSlices.length - 1]) || 0;
 
-  return fetch(request).then(networkResponse => {
+  return fetch(request.clone()).then(networkResponse => {
+
+    if(networkResponse.status == 404) return;
 
     networkResponse.clone().json().then(json => {
 
@@ -87,106 +109,216 @@ function fetchFromNetworkAndCacheRestaurantsInIndexedDB(request) {
         var tx = db.transaction('restaurants', 'readwrite');
         var store = tx.objectStore('restaurants');
 
-        // if we rrefer to all data
-        if(!restaurantId){
+        if(!restaurantId){ // if we refer to all data
 
           json.forEach(restaurant => {
             store.put(restaurant, restaurant.id);
           });
         
         } else { // if we refer to per restaurant data 
-        
            store.put(json, json.id);
-        
         }
       });
-    })
+    });
 
     return networkResponse;
+
+  }).catch(() => {
+    return caches.match(offlinePage); 
   });
 }
 
-/**
- * Search in indexed DB and if no result fetch from network 
- */
-function getData(request) {
+function searchInIDB(request) {
 
   var pathSlices = request.clone().url.split("/");
   var restaurantId = parseInt(pathSlices[pathSlices.length - 1]) || 0;
   var dataPromise;
 
-  // if not indexed db functionality fetch from network 
-  if(!dbPromise) return fetchFromNetworkAndCacheRestaurantsInIndexedDB(request.clone());
+  // if not indexed db functionality
+  if(!dbPromise) return getLatestData(request.clone());
 
   return dbPromise.then(db => {
     
-    if(!db) return;
+    if(!db) return getLatestData(request.clone());
 
     var store = db.transaction('restaurants').objectStore('restaurants');
 
-    // if all data are requested
-    if(!restaurantId) {
-
+    if(!restaurantId) { // if all data are requested
       dataPromise = store.getAll();
-
     } else { // if per restaurant data are requested
-
       dataPromise = store.get(restaurantId);
-    
     }
     
-    if(dataPromise) {
+    if(!dataPromise) return getLatestData(request.clone());
 
-      return dataPromise.then(data => {  
-      
-        // if data found in indexed db return them
-        if(JSON.stringify(data) !== JSON.stringify([]) && data !== undefined)  { 
+    return dataPromise.then(data => {  
 
-          console.log('Found cached');
-          return new Response(JSON.stringify(data)); 
-        }
+      var networkFetch = getLatestData(request.clone());
 
-        console.log('Fetch from network');
-        // if data not cached then fetch from network 
-        return fetchFromNetworkAndCacheRestaurantsInIndexedDB(request);
-        
-      });
-    }    
+      // if data found in indexed db return them
+      if(JSON.stringify(data) !== JSON.stringify([]) && data !== undefined)  { 
+
+        console.log('Found cached');
+        return new Response(JSON.stringify(data)); 
+      }
+
+      return networkFetch;
+    });
+  }).catch(() => {
+    return caches.match(offlinePage); 
   });
 }
+
+function getLatestReviews(request) {
+  
+  return fetch(request.clone()).then(networkResponse => {
+
+    if(networkResponse.status == 404) return;
+
+    networkResponse.clone().json().then(json => {
+
+      if(!reviewsDbPromise) return;
+
+      reviewsDbPromise.then(db => {
+            
+        if(!db) return;
+
+        var tx = db.transaction('restaurant-reviews', 'readwrite');
+        var store = tx.objectStore('restaurant-reviews');
+
+        json.forEach(review => {
+          store.put(review, review.id);
+        });
+      });
+    });
+
+    return networkResponse;
+
+  }).catch(() => {
+    return caches.match(offlinePage); 
+  });
+}
+
+function searchIDBForReviews(request) {
+
+  var pathSlices = request.clone().url.split("restaurant_id=");
+  var restaurantId = parseInt(pathSlices[pathSlices.length - 1]) || 0;
+
+  // if not indexed db functionality
+  if(!reviewsDbPromise) return getLatestReviews(request.clone());
+
+  return reviewsDbPromise.then(db => {
+    
+    if(!db) return getLatestReviews(request.clone());
+
+    var store = db.transaction('restaurant-reviews').objectStore('restaurant-reviews');
+    var index = store.index('by-restaurant');
+  
+    return index.getAll([restaurantId,`${restaurantId}`]).then(data => {  
+
+      var networkFetch = getLatestReviews(request.clone());
+
+      // if data found in indexed db return them
+      if(JSON.stringify(data) !== JSON.stringify([]) && data !== undefined)  { 
+
+        console.log('Found cached');
+        return new Response(JSON.stringify(data)); 
+      }
+
+      return networkFetch;
+    });
+
+  }).catch(() => {
+    return caches.match(offlinePage); 
+  });
+}
+
+function sendReviewToServer(request) {
+
+  return fetch(request)
+  .then(response => { return response;})
+  .catch(error => {
+    console.log(error)
+  });
+}
+
+function submitReview(request) {
+  
+  if(!reviewsDbPromise) return sendReviewToServer(request.clone());
+
+  reviewsDbPromise.then(db => {
+        
+    if(!db) return sendReviewToServer(request.clone());
+
+    var tx = db.transaction('restaurant-reviews', 'readwrite');
+    var store = tx.objectStore('restaurant-reviews');
+
+    json.forEach(review => {
+      store.put(review, review.id);
+    });
+  });
+
+}
+
 
 /**
  * Create an indexed db of keyval type named `restaurants`
  */
-function createDB () {
-  dbPromise = idb.open('restaurants', 1, upgradeDB => {
+function createDB() {
+  return idb.open('restaurants', 1, upgradeDB => {
     var store = upgradeDB.createObjectStore('restaurants', {
       keypath: 'id'
     });
   });
 }
 
+function createReviewDB() {
+  return idb.open('restaurant-reviews', 1, upgradeDB => {
+    var store = upgradeDB.createObjectStore('restaurant-reviews', {
+      keypath: 'id'
+    });
+
+    store.createIndex('by-restaurant', 'restaurant_id');
+    store.createIndex('by-date', 'createdAt');
+  });
+}
 /** 
  * Open caches on install of sw 
  */
 self.addEventListener('install', event => {
   // Open cache for static content and cache 404 page
-  event.waitUntil(
-    caches.open(CACHE_STATIC).then(cache => {
+
+    var openStaticCachePromise = caches.open(CACHE_STATIC).then(cache => {
       cache.addAll([offlinePage]);
-	    console.log(`Cache ${CACHE_STATIC} opened`);
-	  })
-  );
-   // Open cache for images content
-  event.waitUntil(
-    caches.open(CACHE_IMAGES).then(cache => {
-	    console.log(`Cache ${CACHE_IMAGES} opened`);
-	  })
-  );
-  //create indexed db
-  event.waitUntil(
-    createDB()
-  );
+      // cache.put('start_url', fetch('/'));
+      console.log(`Cache ${CACHE_STATIC} opened`);
+    });
+
+    var openImageCachePromise = caches.open(CACHE_IMAGES).then(cache => {
+      console.log(`Cache ${CACHE_IMAGES} opened`);
+    })
+
+    dbPromise = createDB();
+
+    event.waitUntil(
+      Promise.all([openStaticCachePromise, openImageCachePromise])
+      .then(() => {
+        return self.skipWaiting()
+      })
+    );
+});
+
+
+/** 
+ * Open index db on activate
+ */
+self.addEventListener('activate', event => {
+
+  dbPromise = createDB();
+  reviewsDbPromise = createReviewDB();
+  event.waitUntil(dbPromise);
+  event.waitUntil(reviewsDbPromise);
+
 });
 
 /** 
@@ -194,16 +326,28 @@ self.addEventListener('install', event => {
  */
 self.addEventListener('fetch', event => {
   // handle request according to its type
+
+  if(event.request.method === 'POST') {
+    event.respondWith(submitReview(event.request));
+    return;
+  }
+
   if(event.request.url.endsWith('.jpg')) {
     event.respondWith(cacheImages(event.request));  
     return;
-  } else if (event.request.url.includes('restaurants')) {
-    event.respondWith(getData(event.request));
+  } else if (event.request.url.includes('reviews')) {
+    event.respondWith(searchIDBForReviews(event.request));
     return;
-  } 
-  else {
+  } else if (event.request.url.includes('restaurants')) {
+    event.respondWith(searchInIDB(event.request));
+    return;
+  } else {
     event.respondWith(cacheStaticContent(event.request));
     return;
   }
 });
 
+self.addEventListener('sync', event => {
+
+  
+});

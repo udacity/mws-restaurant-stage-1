@@ -17,4 +17,4 @@ function compile (name, output) { // eslint-disable-line no-unused-vars
   fs.writeFileSync(path.join(__dirname, output), HEADER + result.code, 'utf8')
 }
 
-console.log('Nothing to do right now!')
+compile('acorn-import-meta/inject', './lib/import-meta/index.js')

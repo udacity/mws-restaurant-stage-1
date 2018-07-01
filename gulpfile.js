@@ -63,7 +63,7 @@ gulp.task('js:browser', function () {
 });
 
 gulp.task('compress:js', function() {
-  gulp.src(['src/js/main.js','src/js/dbhelper.js'])
+  gulp.src(['src/js/jsHelper.js','src/js/main.js','src/js/dbhelper.js'])
     .pipe(concat('main.js'))
     .pipe(gulp.dest('./js'))
     .pipe(minify({
@@ -74,7 +74,7 @@ gulp.task('compress:js', function() {
     }))
     .pipe(gulp.dest('./js'));
 
-   gulp.src(['src/js/restaurant_info.js','src/js/dbhelper.js'])
+   gulp.src(['src/js/jsHelper.js','src/js/restaurant_info.js','src/js/dbhelper.js'])
     .pipe(concat('restaurant_info.js'))
     .pipe(gulp.dest('./js'))
     .pipe(minify({
@@ -87,7 +87,7 @@ gulp.task('compress:js', function() {
 });
 
 // gulp.task('compress:js', function() {
-//   gulp.src('src/js/*.js')
+//   gulp.src('src/js/*.js'),'src/js/jsHelper.js'
 //     .pipe(minify({
 //       noSource: true
 //     }))
@@ -112,7 +112,7 @@ gulp.task("copy", function() {
   gulp.src('src/restaurant.html').pipe(gulp.dest("./"));
   gulp.src('src/manifest.json').pipe(gulp.dest("./"));
   gulp.src('src/icons/*.png').pipe(gulp.dest("./icons"));
-  gulp.src('src/icons/*.gif').pipe(gulp.dest("./icons"));
+  gulp.src('src/icons/*.ico').pipe(gulp.dest("./icons"));
 });
 
 

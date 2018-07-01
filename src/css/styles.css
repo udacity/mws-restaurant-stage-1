@@ -61,6 +61,11 @@ figure {
   min-height: 100%;
   width: 100%;
 }
+#intro {
+  background-color: #ffffff;
+  font-weight: lighter;
+  padding: 2% 15%;
+}
 #footer {
   background-color: #242424;
   color: #B8B8B8;
@@ -77,6 +82,53 @@ figure {
 #footer a:focus {
   text-decoration: underline;
 }
+/* ====================== Review Form ===================== */
+.button {
+  color: white;
+  background-color: #252831;
+  padding: 1em 1.5em;
+  border-radius: 5px;
+  display: block;
+  margin: 1em auto;
+  font-size: 14pt;
+  border: none;
+}
+.form {
+  margin: 20px auto;
+  width: 50%;
+  text-align: center;
+  text-align: center;
+}
+.form-input {
+  min-height: 43px;
+  background-color: white;
+  font-size: 14pt;
+  display: block;
+  border: 1px solid #dcdcdc;
+  width: 100%;
+  margin: 1em 0;
+  text-indent: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 0 !important;
+}
+.form-label {
+  font-size: 16pt;
+  display: block;
+  color: #3f1b1b;
+  width:100%;
+  margin: 8px 0;
+}
+.form-container {
+  background-color: #ffe6ea;
+  padding: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  .form {
+    width: 99%;
+  }
+}
+
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
@@ -130,10 +182,12 @@ nav h1 a {
   height: 40vh;
   width: 100%;
   background-color: #ccc;
+  will-change: transform;
+  display: none;
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
-  background-color: #333;
+  background-color: #d40222;
   align-items: center;
   display: flex;
   flex-wrap: wrap;
@@ -281,6 +335,8 @@ nav h1 a {
   background-color: #ccc;
   height: 100%;
   width: 100%;
+  will-change: transform;
+  display: none;
 }
 #restaurant-name {
   color: #d40222;
@@ -463,10 +519,12 @@ nav h1 a {
   }
 }
 .lazy-loading img, 
-.lazy-loading source, 
-.inside .lazy-loading img, 
-.inside .lazy-loading source  {
-  width: 45% !important;
-  margin: auto auto !important;
-  padding-bottom: 30px;
+.lazy-loading source {
+  opacity: 1;
+  transition: opacity 0.3s;
+  will-change: transform;
+}
+.lazy-loading img[data-src], 
+.lazy-loading source[data-srcset] {
+  opacity: 0;
 }

@@ -9,14 +9,17 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 1337 // Change this to your server port
-    return `http://localhost:${port}/restaurants`;
+    return { 
+      restaurants:`http://localhost:${port}/restaurants`,
+      reviews: `http://localhost:${port}/reviews`,
+    };
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    return fetch(DBHelper.DATABASE_URL)
+    return fetch(DBHelper.DATABASE_URL.restaurants)
       .then(restaurants => {
         restaurants.json().then(json => {
           callback(null, json);
@@ -32,7 +35,7 @@ class DBHelper {
    */
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
-    return fetch(`${DBHelper.DATABASE_URL}/${id}`)
+    return fetch(`${DBHelper.DATABASE_URL.restaurants}/${id}`)
       .then(restaurant => {
         restaurant.json().then(json => {
           callback(null, json);
@@ -85,6 +88,7 @@ class DBHelper {
         callback(error, null);
       } else {
         let results = restaurants
+
         if (cuisine != 'all') { // filter by cuisine
           results = results.filter(r => r.cuisine_type == cuisine);
         }
@@ -107,6 +111,7 @@ class DBHelper {
       } else {
         // Get all neighborhoods from all restaurants
         const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+
         // Remove duplicates from neighborhoods
         const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
         callback(null, uniqueNeighborhoods);
@@ -123,8 +128,10 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
+
         // Get all cuisines from all restaurants
         const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
+
         // Remove duplicates from cuisines
         const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
         callback(null, uniqueCuisines);
@@ -158,53 +165,47 @@ class DBHelper {
       title: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant),
       map: map,
-      animation: google.maps.Animation.DROP}
-    );
+      animation: google.maps.Animation.DROP
+    });
     return marker;
   }
 
-  /**
-  * Register a service worker if browser has this option
-  */
-  static registerServiceWorker() {
-    
-    if (!navigator.serviceWorker) return;
-    
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-      .then(() => {console.log('Registration successfull');})
-      .catch(() => {console.log('SW Registration failed');});
-    
+  static fetchReviews(callback) {
+    return fetch(DBHelper.DATABASE_URL.reviews)
+      .then(reviews => {
+        reviews.json().then(json => {
+          callback(null, json);
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
-  /**
-   * Lazy loads pictures so app can be faster
-   */
-  static lazyLoadImages() {
+  static fetchReviewsByRestaurantId(restaurant_id,callback) {
+    return fetch(`${DBHelper.DATABASE_URL.reviews}/?restaurant_id=${restaurant_id}`)
+    .then(reviews => {
+      reviews.json().then(json => {
+        console.log(json);
+        callback(null, json);
+      })
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
 
-    document.requestAnimationFrame();
-
-      var pictures = Array.from(document.getElementsByTagName('picture'));
-
-      pictures.forEach(picture => {
-
-        var sources = Array.from(picture.getElementsByTagName('source'));
-
-        sources.forEach(source => {
-          source.setAttribute('srcset', source.getAttribute('data-srcset'));
-          source.removeAttribute('data-srcset');
-        });
-
-        var images = Array.from(picture.getElementsByTagName('img'));
-
-        images.forEach(img => {
-          img.setAttribute('src', img.getAttribute('data-src'));
-          img.removeAttribute('data-src');
-        });
-
-        picture.classList.remove("lazy-loading");
-
-      });
-
-    }, 200);
+  static postData(url, data, callback) {
+    // Default options are marked with *
+    return fetch(url, {
+      body: JSON.stringify(data), // must match 'Content-Type' header
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST' // *GET, POST, PUT, DELETE, etc.
+    })
+    .then(response => callback(response.json())) // parses response to JSON
   }
 }
+

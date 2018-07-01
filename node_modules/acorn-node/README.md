@@ -29,11 +29,12 @@ var acorn = require('acorn-node')
 
 The API is the same as [acorn](https://github.com/acornjs/acorn), but the following syntax features are enabled by default:
 
- - None right now.
+ - Dynamic `import()` (via [acorn-dynamic-import](https://github.com/kesne/acorn-dynamic-import))
+ - The `import.meta` property (via [acorn-import-meta](https://github.com/acornjs/acorn-import-meta))
 
 And the following options have different defaults from acorn, to match Node modules:
 
- - `ecmaVersion: 9`
+ - `ecmaVersion: 2019`
  - `allowHashBang: true`
  - `allowReturnOutsideFunction: true`
 

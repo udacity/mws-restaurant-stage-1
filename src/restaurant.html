@@ -6,11 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#d40222"/>
   <meta name="description" content="Restaurant reviews app"/>
-  
-  <!-- Normalize.css for better cross-browser consistency -->
+
+   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Main CSS file -->
-  <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="icon" href="icons/favicon.ico">
 
   <!-- Manifest file -->
   <link rel="manifest" href="manifest.json">
@@ -39,14 +41,7 @@
   <!-- Beginning main -->
   <main id="maincontent">
   
-    <!-- Skip content link -->
-	  <a href="#restaurant-container" class="visually-hidden skip-anchor">Skip to main content</a>
 	  <!-- End skip content link-->
-	
-    <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map" role="application" aria-label="Restaurant google map"></div>
-    </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
@@ -61,9 +56,39 @@
       <table id="restaurant-hours" aria-labelledby="table-description" tabindex="0"></table>
     </section>
     <!-- end restaurant -->
+    <!-- Start review form -->
+    <section tabindex="0" class="form-container">
+      <form id="review-form" role="form" method="POST" action="" class="form">
+        <input id="restaurant_id" name="restaurant_id" type="hidden" value="">
+        <h2>Submit your review</h2>
+        <label class="visually-hidden" for="name">Reviewer Name</label>
+        <input class="form-input" type="text" name="name" id="name" placeholder="Reviewer name">
+        <label class=" visually-hidden" for="rating">Rating</label>
+        <select class="form-input" id="rating" name="rating">
+          <option value="">Rating</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <label class="visually-hidden" for="comments">Your comments</label>
+        <textarea class="form-input" name="comments" id="comments" rows="6" placeholder="Here go your comments..."></textarea>
+        <button class="button" type="submit" id="submit-review">Submit review</button>
+      </form>
+    </section>
+    <!-- End review form -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
       <ul id="reviews-list" tabindex="0" aria-label="The list of reviews"></ul>
+    </section>
+
+    <!-- Skip content link -->
+	  <a href="#restaurant-container" class="visually-hidden skip-anchor">Skip to main content</a>
+
+    <!-- Beginning map -->
+    <section id="map-container">
+      <div id="map" role="application" aria-label="Restaurant google map"></div>
     </section>
     <!-- End reviews -->
   </main>

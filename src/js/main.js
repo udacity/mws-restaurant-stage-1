@@ -5,20 +5,31 @@ let restaurants,
 var map
 var markers = []
 
+window.addEventListener("scroll", () => {
+  jsHelper.lazyLoadImages();
+});
+
+window.addEventListener('load', function() {
+    
+  if (!navigator.serviceWorker) return;
+
+   navigator.serviceWorker.register('/sw.js', { scope: '/' })
+     .then((registration) => {console.log('Registration successfull');})
+     .then((registration) =>{
+      if ('sync' in registration) {
+        jsHelper.submitReviewEvent();
+      }
+     })
+     .catch(() => {console.log('SW Registration failed');});
+
+});
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
-  DBHelper.registerServiceWorker();
-});
-
-/**
- * Enables lazy loading of images when content is loaded
- */
-window.addEventListener('load', (event) => {
-  DBHelper.lazyLoadImages();
 });
 
 /**
@@ -27,7 +38,6 @@ window.addEventListener('load', (event) => {
 fetchNeighborhoods = () => {
   DBHelper.fetchNeighborhoods((error, neighborhoods) => {
     if (error) { // Got an error
-      console.error(error);
     } else {
       self.neighborhoods = neighborhoods;
       fillNeighborhoodsHTML();
@@ -95,7 +105,9 @@ window.initMap = () => {
   } catch(error) {
 	  console.log('Load google map failed');
   } 
-    
+ 
+  const map = document.getElementById('map');
+  map.style.display = 'block';
   updateRestaurants();
 }
 
@@ -117,7 +129,7 @@ updateRestaurants = () => {
       console.error(error);
     } else {
       resetRestaurants(restaurants);
-      fillRestaurantsHTML(self.restaurants, () => {DBHelper.lazyLoadImages()});
+      fillRestaurantsHTML(self.restaurants);
     }
   })
 }
@@ -146,12 +158,8 @@ fillRestaurantsHTML = (restaurants = self.restaurants, callback) => {
     ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
-  
-  if(!firstload){
-    callback();
-  }
 
-  firstload = false;
+  jsHelper.lazyLoadImages();
 }
 
 /**
@@ -174,26 +182,22 @@ createRestaurantHTML = (restaurant) => {
     const image_prefix = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg','');
 
     let source = document.createElement('source');
-    source.srcset = '/icons/loading.gif';
     source.setAttribute('data-srcset', `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`);
     source.media = "(max-width: 400px)";
     picture.appendChild(source);
     
     source = document.createElement('source');
-    source.srcset = '/icons/loading.gif';
     source.setAttribute('data-srcset', `${image_prefix}-400_small_1x.jpg 1x,${image_prefix}-400_small_2x.jpg 2x`);
     source.media = "(min-width: 601px)";
     picture.appendChild(source);
     
     source = document.createElement('source');
-    source.srcset = '/icons/loading.gif';
     source.setAttribute('data-srcset', `${image_prefix}-800_large_1x.jpg 1x,${image_prefix}-800_large_2x.jpg 2x`);
     source.media = "(max-width: 600px) and (min-width: 401px)";
     picture.appendChild(source);
    
     const image = document.createElement('img');
     image.alt = `${restaurant.name} Restaurant`;
-    image.src = '/icons/loading.gif';
     image.setAttribute('data-src', `${image_prefix}-400_small_1x.jpg`);
     picture.appendChild(image);
   

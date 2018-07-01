@@ -35,3 +35,7 @@ In order to run the project you must first run **npm install** and then **gulp**
 
 The project uses Jake Archibald's library _**IndexedDB Promised**_. That's why all the dependencies above are required.
 
+#### Service Worker
+
+The service worker is installed after initial html has been loaded and it starts working after that point. That means that when the site is visited for the first time no content is cached. The content will start to be cached at the second visit of the site.
+
