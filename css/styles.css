@@ -362,3 +362,10 @@ select:hover, select:focus {
   outline: 3px solid cyan;
   box-shadow: 3px solid cyan;
 }
+.skip-link {
+  position: absolute;
+  top: -100px;
+  }
+  .skip-link:focus {
+  top: 0;
+  }
