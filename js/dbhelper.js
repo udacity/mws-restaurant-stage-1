@@ -267,7 +267,8 @@ class DBHelper {
   static storeReview(review) {
     console.log('STORING REVIEW')
     localforage.getItem('reviewsToSend')
-    .then(reviews => {
+    .then(response => {
+      const reviews = response || []
       localforage.setItem('reviewsToSend', [...reviews, review])
     })
   }
