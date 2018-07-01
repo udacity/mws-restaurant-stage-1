@@ -285,6 +285,13 @@ nav h1 a {
 
 @media only screen and (min-width: 0px){
   #restaurant-list li{
-    max-width:100%
+    max-width:100%;
   }
 }
+
+@media only screen and (min-width: 780px){
+  #restaurant-list li{
+    max-width:47%;
+  }
+}
+
