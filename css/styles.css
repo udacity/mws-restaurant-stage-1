@@ -1,6 +1,11 @@
 @charset "utf-8";
 /* CSS Document */
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body,
 td,
 th,
@@ -88,6 +93,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 nav h1 a {
@@ -132,10 +138,36 @@ nav h1 a {
 }
 
 /* ====================== Map ====================== */
+#map-button-container {
+  position: absolute;
+  top: 60px;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+
+#map-open-button {
+  text-align: center;
+  color: white;
+  background: #1dc18d;
+  border: solid 2px white;
+  border-radius: 5px;
+  padding: 8px 10px;
+}
+
+#map-open-button:hover {
+  background: #2dd19d;
+}
+
 #map {
-  height: 400px;
+  transition: height 1s;
+  height: 0px;
   width: 100%;
   background-color: #ccc;
+}
+
+#map.open {
+  height: 400px;
 }
 
 /* ====================== Restaurant Filtering ====================== */
@@ -410,7 +442,7 @@ nav h1 a {
 
 #review-form {
   width: 50vw;
-  min-width: 400px;
+  min-width: 300px;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -419,6 +451,8 @@ nav h1 a {
   padding: 10px;
   margin: 0 auto;
   font-size: 1.2rem;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 #reviewer-name, #review-comments {

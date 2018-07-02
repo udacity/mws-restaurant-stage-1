@@ -3,7 +3,6 @@
 
 <head>
   <link rel="preload" href="css/styles.css" as="style">
-  <link rel="preload" href="//normalize-css.googlecode.com/svn/trunk/normalize.css" as="style">
   <link rel="preload" href="js/main.js" as="script">
   <link rel="preload" href="js/dbhelper.js" as="script">
   <link rel="preload" href="js/registerServiceWorker.js" as="script">
@@ -11,7 +10,6 @@
 
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.6.0/localforage.min.js" as="script">
 
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
   <title>Restaurant Reviews</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,6 +36,9 @@
   <header>
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
+      <div id="map-button-container">
+          <button id="map-open-button">SHOW MAP</button>
+      </div>
     </nav>
   </header>
 
@@ -78,11 +79,11 @@
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/registerServiceWorker.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkbztsWNDsTjRDgoH1Za6dYNR-GMwTkqY&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkbztsWNDsTjRDgoH1Za6dYNR-GMwTkqY&libraries=places"></script>
 
 
   <footer id="footer">
-    Copyright (c) 2017 <a href="/" aria-labelledby="footer"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    Copyright (c) 2018 <a href="/" aria-labelledby="footer"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
 
 </body>

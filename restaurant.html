@@ -3,19 +3,30 @@
 
 <head>
     <link rel="preload" href="css/styles.css" as="style">
-    <link rel="preload" href="//normalize-css.googlecode.com/svn/trunk/normalize.css" as="style">
     <link rel="preload" href="js/restaurant_info.js" as="script">
     <link rel="preload" href="js/dbhelper.js" as="script">
     <link rel="preload" href="js/registerServiceWorker.js" as="script">
 
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.6.0/localforage.min.js" as="script">
 
-  <!-- Normalize.css for better cross-browser consistency -->
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <link rel="manifest" href="manifest.json">
   <title>Restaurant Info</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Restaurant Reviews">
+  <meta name="apple-mobile-web-app-title" content="Restaurant Reviews">
+  <meta name="theme-color" content="#262830">
+  <meta name="msapplication-navbutton-color" content="#262830">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="msapplication-starturl" content="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="icon" type="image/png" sizes="192x192" href="./assets/logo_192.png">
+  <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="./assets/logo_192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="./assets/logo_512.png">
+  <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="./assets/logo_512.png">
 </head>
 
 <body class="inside">
@@ -45,7 +56,7 @@
     <section id="restaurant-container">
       <div id="restaurant-header">
         <h2 id="restaurant-name"></h2>
-        <button id="star-button"><img id="star-icon" /></button>
+        <button id="star-button" aria-label="toggle favourite"><img id="star-icon" alt=""/></button>
       </div>
       <section id="restaurant-display">
           <img id="restaurant-img">
@@ -65,7 +76,11 @@
     <!-- Beginning review-form -->
     <form id="review-form" aria-label="review form">
       <label>Have something to say about this restaurant?</label>
-      <input id="reviewer-name" placeholder="Name" />
+      <input
+        id="reviewer-name"
+        placeholder="Name"
+        aria-label="Enter your name here."
+      />
       <label>Rating:
         <select id="review-rating">
           <option value="1">1</option>
@@ -75,7 +90,12 @@
           <option value="5">5</option>
         </select>
       </label>
-      <textarea id="review-comments" placeholder="Enter your review here."></textarea>
+      <textarea
+        id="review-comments"
+        placeholder="Enter your review here."
+        alt="Enter your review here."
+      >
+      </textarea>
       <button id="review-submit-button">SUBMIT REVIEW</button>
     </form>
     <!-- End reviewform -->
