@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Main CSS file -->
@@ -18,32 +19,34 @@
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
-      <li><a href="/">Home</a></li>
-    </ul>
+    <nav aria-label="Breadcrumb">
+      <ul id="breadcrumb" >
+        <li><a href="/">Home</a></li>
+      </ul>
+  </nav>
     <!-- End breadcrumb -->
     <!-- End nav -->
   </header>
   <!-- End header -->
 
   <!-- Beginning main -->
-  <main id="maincontent">
+  <main id="maincontent" aria-labelledby="maincontent">
     <!-- Beginning map -->
-    <section id="map-container">
+    <section id="map-container" tabindex="0" aria-labelledby="map" role="application">
       <div id="map"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
-    <section id="restaurant-container">
+    <section id="restaurant-container" aria-labelledby="restaurant-name">
       <h2 id="restaurant-name"></h2>
       <img id="restaurant-img">
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
+      <p id="restaurant-cuisine" aria-labelledby="restaurant-cuisine"></p>
+      <p id="restaurant-address" aria-labelledby="restaurant-address"></p>
+      <table id="restaurant-hours" aria-labelledby="restaurant-hours"></table>
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
-    <section id="reviews-container">
+    <section id="reviews-container" aria-labelledby="reviews-list">
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
@@ -59,6 +62,7 @@
   <!-- Beginning scripts -->
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
+  <script type="text/javascript" src="js/register.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->

@@ -5,9 +5,18 @@ var CACHE_FILES = [
     'js/main.js',
     'js/dbhelper.js',
     'js/restaurant_info.js',
-    'css/syles.css',
+    'css/styles.css',
     '/restaurant.html',
-    '/images'
+    'images/1-1600_large_2x.jpg',
+    'images/2-1600_large_2x.jpg',
+    'images/3-1600_large_2x.jpg',
+    'images/4-1600_large_2x.jpg',
+    'images/5-1600_large_2x.jpg',
+    'images/6-1600_large_2x.jpg',
+    'images/7-1600_large_2x.jpg',
+    'images/8-1600_large_2x.jpg',
+    'images/9-1600_large_2x.jpg',
+    'images/10-1600_large_2x.jpg'
  ]
 
 self.addEventListener('install', function(event) {
