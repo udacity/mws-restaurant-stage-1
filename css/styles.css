@@ -158,7 +158,7 @@ nav h1 a {
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;
-  margin: 0;
+  margin-top: 10px;
   max-width: 100%;
   min-height: 248px;
   min-width: 100%;
