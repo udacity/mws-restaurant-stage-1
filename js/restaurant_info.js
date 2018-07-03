@@ -1,5 +1,5 @@
 let restaurant;
-let newMap;
+var newMap;
 
 /**
  * Initialize map as soon as the page is loaded.
@@ -74,7 +74,7 @@ fetchRestaurantFromURL = (callback) => {
       callback(null, restaurant)
     });
   }
-}
+};
 
 /**
  * Create restaurant HTML and add it to the webpage
