@@ -1,0 +1,1 @@
+var MAPBOX_KEY = '<your MAPBOX API KEY HERE>';
