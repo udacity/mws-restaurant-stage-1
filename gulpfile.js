@@ -78,7 +78,7 @@ gulp.task('html', ['css', 'js', 'sw'], () => {
       removeScriptTypeAttributes: true,
       removeStyleLinkTypeAttributes: true
     })))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('.tmp/'));
 });
 
 gulp.task('img', () => {
@@ -103,7 +103,7 @@ gulp.task('extras', () => {
     '!app/*.html'
   ], {
     dot: true
-  }).pipe(gulp.dest('dist'));
+  }).pipe(gulp.dest('.tmp/'));
 });
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));

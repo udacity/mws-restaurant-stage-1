@@ -24,5 +24,28 @@ In a terminal, check the version of Python you have: `python -V`. If you have Py
 
 Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
 
+## Project : Stage 2
 
+On Stage 2 of the MWS ND project we added IndexedDB and automization to our project.
 
+### How to run and test the App?
+
+1. Clone or Download REST server and nagivate to it (Terminal) : https://github.com/MohamedSayed008/mws-restaurant-stage-2
+###### Install project dependancies
+```Install project dependancies
+# npm i
+```
+###### Install Sails.js globally
+```Install sails global
+# npm i sails -g
+```
+###### Start the server
+```Start server
+# node server
+```
+### You should now have access to your API server environment
+debug: Environment : development
+debug: Port        : 1337
+
+2. Clone pr Download the App and nagivate to it (Terminal) : https://github.com/MohamedSayed008/mws-restaurant-stage-1
+3. Run `gulp serve`
