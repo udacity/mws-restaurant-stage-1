@@ -1,5 +1,5 @@
-let restaurant;
-let newMap;
+var restaurant;
+var newMap;
 
 /**
  * Initialize map as soon as the page is loaded.
@@ -59,7 +59,7 @@ fetchRestaurantFromURL = (callback) => {
         callback(null, self.restaurant);
         return;
     }
-    const id = getParameterByName('id');
+    const id = Number(getParameterByName('id'));
     if (!id) { // no id found in URL
         error = 'No restaurant id in URL';
         callback(error, null);
@@ -89,6 +89,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     const image = document.getElementById('restaurant-img');
     image.className = 'restaurant-img';
     image.src = DBHelper.imageUrlForRestaurant(restaurant);
+    image.alt = 'Photo of ' + restaurant.name;
+    image.srcset = DBHelper.imageUrlForRestaurantLow(restaurant) + ' 400w';
 
     const cuisine = document.getElementById('restaurant-cuisine');
     cuisine.innerHTML = restaurant.cuisine_type;

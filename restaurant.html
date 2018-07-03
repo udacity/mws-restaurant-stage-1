@@ -3,7 +3,7 @@
 
 <head>
   <!-- Normalize.css for better cross-browser consistency -->
-  <link rel="stylesheet" href="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link rel="stylesheet" href="/css/normalize.css" type="text/css" />
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
@@ -28,11 +28,6 @@
 
   <!-- Beginning main -->
   <main id="maincontent">
-    <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map"></div>
-    </section>
-    <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
       <h1 id="restaurant-name"></h1>
@@ -42,6 +37,11 @@
       <table id="restaurant-hours"></table>
     </section>
     <!-- end restaurant -->
+    <!-- Beginning map -->
+    <section id="map-container">
+      <div id="map"></div>
+    </section>
+    <!-- End map -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
       <ul id="reviews-list"></ul>
@@ -64,6 +64,7 @@
   <!-- Google Maps -->
  <!--  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap"></script> -->
   <!-- End scripts -->
+  <script type="application/javascript" charset="UTF-8" src="/sw-register.js"></script>
 
 </body>
 
