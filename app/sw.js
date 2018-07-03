@@ -1,6 +1,6 @@
 /* eslint-env worker */
 import idb from 'idb';
-const currentCacheName = 'restaurant-sw-cache-v1';
+const currentCacheName = 'restaurant-sw-cache-v3';
 
 const dbPromise = idb.open('udacity-restaurant', 1, upgradeDB => {
   switch (upgradeDB.oldVersion) {
@@ -15,6 +15,7 @@ self.addEventListener('install', (event) => {
     '/',
     '/js/dbhelper.js',
     '/js/main.js',
+    '/img/na.png',
     '/js/restaurant_info.js',
     '/index.html',
     '/restaurant.html',

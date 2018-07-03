@@ -20,7 +20,7 @@ class DBHelper {
     if (!id) {
       fetchURL = DBHelper.DATABASE_URL;
     } else {
-        fetchURL = DBHelper.DATABASE_URL+'/'+ id;
+        fetchURL = DBHelper.DATABASE_URL + '/' + id;
     }
     fetch(fetchURL,{method: 'GET'})
     .then(response => {
@@ -167,13 +167,12 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (`/img/${restaurant.photograph}.jpg`);
   }
 /* Restaurant image srcset URLs */
   static imageSrcsetForRestaurant(restaurant) {
     let photographs = restaurant.photograph;
-    let fixedUrl = photographs.substr(0, photographs.length - 4);
-    let srcsetUrls = [`/img/${fixedUrl}-sm_600.jpg 600w`, `/img/${fixedUrl}-md_800.jpg 800w`, `/img/${fixedUrl}-lg_1200.jpg 1200w`];
+    let srcsetUrls = [`/img/${photographs}-sm_600.jpg 600w`, `/img/${photographs}-md_800.jpg 800w`, `/img/${photographs}-lg_1200.jpg 1200w`];
     return srcsetUrls.join(', ');
   }
  
