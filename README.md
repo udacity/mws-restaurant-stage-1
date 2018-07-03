@@ -42,10 +42,6 @@ On Stage 2 of the MWS ND project we added IndexedDB and automization to our proj
 ###### Start the server
 ```Start server
 # node server
-```
-### You should now have access to your API server environment
-debug: Environment : development
-debug: Port        : 1337
 
 2. Clone pr Download the App and nagivate to it (Terminal) : https://github.com/MohamedSayed008/mws-restaurant-stage-1
 3. Run `gulp serve`
