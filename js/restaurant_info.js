@@ -162,6 +162,7 @@ createReviewHTML = (review) => {
   rating.className = 'review-rating';
   // rating.innerHTML = `<i class='fa fa-star'></i>Rating: ${review.rating}`;
   rating.innerHTML = '';
+  // Filled star for rating
   for (i=0; i<review.rating; i++) {
     let star = document.createElement('i');
     star.className = 'fa fa-star';
@@ -172,7 +173,6 @@ createReviewHTML = (review) => {
     star.className = 'far fa-star';
     rating.appendChild(star);
   }
-
   li.appendChild(rating);
 
   const comments = document.createElement('p');
