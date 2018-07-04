@@ -157,6 +157,7 @@ const createRestaurantHTML = (restaurant) => {
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.setAttribute('data-src', DBHelper.imageUrlForRestaurant(restaurant));
+  image.setAttribute('data-srcset', DBHelper.imageSrcsetForRestaurant(restaurant));
   image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
   image.sizes = '(max-width: 667px) 81vw, (max-width: 899px) 33vw, 1vw';
   image.alt = `${restaurant.name} ${restaurant.cuisine_type} Restaurant`;
@@ -210,7 +211,7 @@ function fetchImage(url) {
  * @param {object} image 
  */
 function preloadImage(image) {
-  const src = image.dataset.src;
+  const src = image.dataset.srcset;
   if (!src) {
     return;
   }
@@ -273,7 +274,7 @@ function onIntersection(entries) {
 function applyImage(img, src) {
   // Prevent this from being lazy loaded a second time.
   img.classList.add('restaurant-img--handled');
-  img.src = src;
+  img.srcset = src;
   img.classList.add('fade-in');
 }
 
