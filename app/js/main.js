@@ -211,7 +211,7 @@ function fetchImage(url) {
  * @param {object} image 
  */
 function preloadImage(image) {
-  const src = image.dataset.srcset;
+  const src = image.dataset.src;
   if (!src) {
     return;
   }
@@ -274,7 +274,7 @@ function onIntersection(entries) {
 function applyImage(img, src) {
   // Prevent this from being lazy loaded a second time.
   img.classList.add('restaurant-img--handled');
-  img.srcset = src;
+  img.src = src;
   img.classList.add('fade-in');
 }
 
