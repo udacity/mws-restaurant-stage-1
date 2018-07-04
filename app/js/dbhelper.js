@@ -31,22 +31,7 @@ class DBHelper {
     }).catch(error => {
       callback(`Request failed. Returned ${error}`, null);
     });
-    /*
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
-    */
-  }
+  };
 
   /**
    * Fetch a restaurant by its ID.
@@ -65,7 +50,7 @@ class DBHelper {
         }
       }
     });
-  }
+  };
 
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
@@ -81,7 +66,7 @@ class DBHelper {
         callback(null, results);
       }
     });
-  }
+  };
 
   /**
    * Fetch restaurants by a neighborhood with proper error handling.
@@ -97,7 +82,7 @@ class DBHelper {
         callback(null, results);
       }
     });
-  }
+  };
 
   /**
    * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
@@ -118,7 +103,7 @@ class DBHelper {
         callback(null, results);
       }
     });
-  }
+  };
 
   /**
    * Fetch all neighborhoods with proper error handling.
@@ -136,7 +121,7 @@ class DBHelper {
         callback(null, uniqueNeighborhoods);
       }
     });
-  }
+  };
 
   /**
    * Fetch all cuisines with proper error handling.
@@ -154,27 +139,27 @@ class DBHelper {
         callback(null, uniqueCuisines);
       }
     });
-  }
+  };
 
   /**
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {
     return (`./restaurant.html?id=${restaurant.id}`);
-  }
+  };
 
   /**
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
     return (`/img/${restaurant.photograph}.jpg`);
-  }
+  };
 /* Restaurant image srcset URLs */
   static imageSrcsetForRestaurant(restaurant) {
     let photographs = restaurant.photograph;
     let srcsetUrls = [`/img/${photographs}-sm_600.jpg 600w`, `/img/${photographs}-md_800.jpg 800w`, `/img/${photographs}-lg_1200.jpg 1200w`];
     return srcsetUrls.join(', ');
-  }
+  };
  
   /**
    * Map marker for a restaurant.
@@ -188,6 +173,6 @@ class DBHelper {
       animation: google.maps.Animation.DROP}
     );
     return marker;
-  }
+  };
 
 }
