@@ -145,9 +145,9 @@ resetRestaurants = (restaurants) => {
  * Create all restaurants HTML and add them to the webpage.
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
-    const ul = document.getElementById('restaurants-list');
+    const div = document.getElementById('restaurants-list');
     restaurants.forEach(restaurant => {
-        ul.append(createRestaurantHTML(restaurant));
+        div.append(createRestaurantHTML(restaurant));
     });
     addMarkersToMap();
 }
@@ -156,35 +156,38 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
-    const li = document.createElement('li');
-
-    const imageDiv = document.createElement('div');
+    const div = document.createElement('div');
 
     const image = document.createElement('img');
     image.className = 'restaurant-img';
-    image.src = DBHelper.imageUrlForRestaurant(restaurant);
-    image.setAttribute('alt', 'Restaurant picture');
-    imageDiv.appendChild(image);
-    li.append(imageDiv);
+    const imgUrlBase = DBHelper.imageUrlForRestaurant(restaurant);
+    const imgParts = imgUrlBase.split('.');
+    const imgUrl1x = imgParts[0] + '_1x.' + imgParts[1];
+    const imgUrl2x = imgParts[0] + '_2x.' + imgParts[1];
+    image.srcset = `${imgUrl1x} 400w, ${imgUrl2x} 800w`;
+    image.sizes = `(max-width: 800px) 80vw, 800px`;
+    image.src = imgUrl1x;
+    image.alt = restaurant.name + ' restaurant picture';
+    div.append(image);
 
     const name = document.createElement('h1');
     name.innerHTML = restaurant.name;
-    li.append(name);
+    div.append(name);
 
     const neighborhood = document.createElement('p');
     neighborhood.innerHTML = restaurant.neighborhood;
-    li.append(neighborhood);
+    div.append(neighborhood);
 
     const address = document.createElement('p');
     address.innerHTML = restaurant.address;
-    li.append(address);
+    div.append(address);
 
     const more = document.createElement('a');
     more.innerHTML = 'View Details';
     more.href = DBHelper.urlForRestaurant(restaurant);
-    li.append(more)
+    div.append(more)
 
-    return li
+    return div
 }
 
 /**
