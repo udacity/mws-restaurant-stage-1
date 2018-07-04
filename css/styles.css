@@ -259,7 +259,7 @@ nav h1 a {
     flex-grow: 1;
 }
 
-#restaurants-list div a {
+#restaurants-list div button {
     display: flex;
     align-items: center;
     justify-content: center;

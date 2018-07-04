@@ -182,9 +182,9 @@ createRestaurantHTML = (restaurant) => {
     address.innerHTML = restaurant.address;
     div.append(address);
 
-    const more = document.createElement('a');
+    const more = document.createElement('button');
     more.innerHTML = 'View Details';
-    more.href = DBHelper.urlForRestaurant(restaurant);
+    more.addEventListener('click', () => windows.location = DBHelper.urlForRestaurant(restaurant));
     div.append(more)
 
     return div
