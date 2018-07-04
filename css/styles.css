@@ -345,7 +345,7 @@ nav h1 a {
   }
   #maincontent section:nth-child(3) {
     flex-direction: column;
-  }
+  }  
   div.filter-options {
     width: 25%;
   }
