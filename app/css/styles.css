@@ -230,7 +230,21 @@ nav h1 a {
   /*min-width: 100%;*/
   align-self: flex-start; /* added flex item align*/
 }
-#restaurants-list li h1 {
+.fade-in {
+  animation-name: fadeIn;
+  animation-duration: 1.3s;
+  animation-timing-function: cubic-bezier(0, 0, 0.4, 1);
+  animation-fill-mode: forwards;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+#restaurants-list li h2 {
   color: #b56000;
   font-family: Arial,sans-serif;
   font-size: 14pt;
