@@ -159,14 +159,15 @@ createRestaurantHTML = (restaurant) => {
     const div = document.createElement('div');
 
     const image = document.createElement('img');
-    image.className = 'restaurant-img';
+    image.className = 'restaurant-img lazyload';
     const imgUrlBase = DBHelper.imageUrlForRestaurant(restaurant);
     const imgParts = imgUrlBase.split('.');
-    const imgUrl1x = imgParts[0] + '_1x.' + imgParts[1];
-    const imgUrl2x = imgParts[0] + '_2x.' + imgParts[1];
-    image.srcset = `${imgUrl1x} 400w, ${imgUrl2x} 800w`;
-    image.sizes = `(max-width: 800px) 80vw, 800px`;
-    image.src = imgUrl1x;
+    const imgUrl1x = imgParts[0] + '_1x.' + (imgParts[1] || 'jpg');
+    const imgUrl2x = imgParts[0] + '_2x.' + (imgParts[1] || 'jpg');
+    // Special attributes to allow lazy-loading of the images
+    image.setAttribute('data-srcset', `${imgUrl1x} 400w, ${imgUrl2x} 800w`);
+    image.setAttribute('data-sizes', `(max-width: 800px) 80vw, 800px`);
+    image.setAttribute('data-src', imgUrl1x);
     image.alt = restaurant.name + ' restaurant picture';
     div.append(image);
 
