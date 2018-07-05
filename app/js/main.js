@@ -172,111 +172,40 @@ const config = {
   threshold: 0.01
 };
 
-let imageCount = images.length;
 let observer;
-
-// If we don't have support for intersection observer, loads the images immediately
-if (!('IntersectionObserver' in window)) {
-  loadImagesImmediately(images);
-} else {
-  // It is supported, load the images
-  observer = new IntersectionObserver(onIntersection, config);
-
-  // foreach() is not supported in IE
-  for (let i = 0; i < images.length; i++) { 
-    let image = images[i];
-    if (image.classList.contains('restaurant-img--handled')) {
-      continue;
+  // Replace the data-src attribute with the value of the data-src attribute
+  let preloadImage = (image) => {
+    if(image.dataset && image.dataset.src) {
+    image.src = image.dataset.src;
     }
-
-    observer.observe(image);
-  }
-}
-
-/**
- * Fetchs the image for the given URL
- * @param {string} url 
- */
-function fetchImage(url) {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.src = url;
-    image.onload = resolve;
-    image.onerror = reject;
-  });
-}
-
-/**
- * Preloads the image
- * @param {object} image 
- */
-function preloadImage(image) {
-  const src = image.dataset.src;
-  if (!src) {
-    return;
-  }
-
-  return fetchImage(src).then(() => { applyImage(image, src); });
-}
-
-/**
- * Load all of the images immediately
- * @param {NodeListOf<Element>} images 
- */
-function loadImagesImmediately(images) {
-  // foreach() is not supported in IE
-  for (let i = 0; i < images.length; i++) { 
-    let image = images[i];
-    preloadImage(image);
-  }
-}
-
-/**
- * Disconnect the observer
- */
-function disconnect() {
-  if (!observer) {
-    return;
-  }
-
-  observer.disconnect();
-}
-
-/**
- * On intersection
- * @param {array} entries 
- */
-function onIntersection(entries) {
-  // Disconnect if we've already loaded all of the images
-  if (imageCount === 0) {
-    observer.disconnect();
-  }
-
-  // Loop through the entries
-  for (let i = 0; i < entries.length; i++) { 
-    let entry = entries[i];
-    // Are we in viewport?
+    if(image.dataset && image.dataset.srcset) {
+    image.srcset = image.dataset.srcset
+    }
+    };
+    let onIntersection = (entries) => {
+    entries.forEach(entry => {
     if (entry.intersectionRatio > 0) {
-      imageCount--;
-
       // Stop watching and load the image
       observer.unobserve(entry.target);
+      // call our method: preloadImage
       preloadImage(entry.target);
     }
-  }
-}
+    })
+    };
 
-/**
- * Apply the image
- * @param {object} img 
- * @param {string} src 
- */
-function applyImage(img, src) {
-  // Prevent this from being lazy loaded a second time.
-  img.classList.add('restaurant-img--handled');
-  img.src = src;
-  img.classList.add('fade-in');
-}
+if (!('IntersectionObserver' in window)) {
+    Array.from(images).forEach(image => preloadImage(image));
+  }
+  else {
+  // It is supported, load the images by calling our method: onIntersection
+    observer = new IntersectionObserver(onIntersection, config);
+    images.forEach(image => {
+    observer.observe(image);
+  });
+  }
+
+  
+
 
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
