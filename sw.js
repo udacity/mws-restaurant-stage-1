@@ -1,4 +1,4 @@
-const cacheName = 'mws-restautrant-cache-v1',
+const cacheName = 'mws-restautrant-cache-v3',
   filesToCache = [
     '/',
     '/index.html',
@@ -50,7 +50,7 @@ self.addEventListener('activate', event => {
       )
     })
   )
-  //return self.clients.claim();
+  return self.clients.claim();
 });
 
 
