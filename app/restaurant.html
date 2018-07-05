@@ -9,6 +9,205 @@
   <!-- PWA manifest file-->
   <meta name="theme-color" content="#252831">
   <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* ====================== Restaurant Details ====================== */
+.inside header {
+  position: sticky; /* changed to sticky position */
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.inside #map-container {
+  background: blue none repeat scroll 0 0;
+  height: 85.5vh; 
+  position: fixed;
+  right: 0;
+  top:126px;
+  width: 50%;
+}
+.inside #map {
+  background-color: #ccc;
+  height: 100%;
+  width: 100%;
+}
+.inside #footer {
+  /*bottom: 0;*/
+  position: absolute;
+  width: 100%;
+  box-sizing: border-box;
+}
+#restaurant-name {
+  color: #aa5a00;
+  font-family: Arial,sans-serif;
+  font-size: 20pt;
+  font-weight: 200;
+  letter-spacing: 0;
+  margin: 30px 0 30px;
+  text-transform: uppercase;
+  line-height: 1.1;
+  align-self: center;
+  text-align: center;
+}
+/* styled the img*/
+#restaurant-img {
+  width: 90%;
+  align-self: center;
+  border-radius: 20px 0 0;
+  height: auto;
+}
+#restaurant-address {
+  font-size: 12pt;
+  margin: 10px 0px;
+  align-self: center;
+}
+#restaurant-cuisine {
+  background-color: #333;
+  color: #ddd;
+  font-size: 12pt;
+  font-weight: 300;
+  letter-spacing: 10px;
+  margin: 0 0 20px;
+  padding: 2px 0;
+  text-align: center;
+  text-transform: uppercase;
+  width: 90%;
+  align-self: center;
+}
+/* added flex box styling to  review page containers */
+#restaurant-container, #reviews-container {
+  border-bottom: 1px solid #d9d9d9;
+  border-top: 1px solid #fff;
+  padding: 30px 0;
+  width: 50%;
+  display: flex;  
+  flex-flow: column wrap;
+  justify-content: center;
+}
+#reviews-container h3 {
+  color: #aa5a00;
+  font-size: 24pt;
+  font-weight: 300;
+  letter-spacing: -1px;
+  padding-bottom: 1pt;
+  align-self: center;
+}
+#reviews-list {
+  margin: 0;
+  padding: 0;
+  display: flex;  
+  flex-flow: wrap;
+  justify-content: center;
+}
+#reviews-list li {
+  background-color: #fff;
+  border: 2px solid #f3f3f3;
+  /*display: block;*/
+  list-style-type: none;
+  margin: 0 0 30px;
+  overflow: hidden;
+  /* padding: 0 20px 20px; */
+  /*position: relative;*/
+  width: 85%;
+  border-radius:20px 0; /* added border radius */
+}
+/* added styles for new created div */
+#reviews-list div {
+   width: 100%;
+   background-color: #333333;
+   display: flex;
+   justify-content: space-between;
+   padding: 10px;
+  margin-bottom: 10px;
+}
+#reviews-list li p {
+  margin: 0 0 10px;
+  padding: 0 20px;  /* adjusted padding for text */
+}
+/* added new styles for newly created class , for reviewer  name */
+#reviews-list .review-name {
+  color : white;
+  margin: 0;
+  align-self: flex-start;
+  font-weight: 500;
+  padding: 0 15px;
+  font-size: 2em;
+  vertical-align: middle;
+  line-height: 50px;
+}
+/*styles of the rating */
+#reviews-list .review-rating {
+  color: #fff;
+  border-radius: 6px;
+  background-color: #7d4f00;
+  text-align: center;
+  width: 22%;
+  margin-left: 20px;
+  padding: 5px 13px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+/* date styles */
+#reviews-list time {
+    align-self: flex-end;
+    color: #B7B7B7;
+    padding: 0 20px;
+    font-size: 1.4em;
+    vertical-align: middle;
+    line-height: 50px;
+}
+
+/* added styles for table */
+#restaurant-hours {
+  border-spacing: 0;
+  width: 45%;
+  border: 1px solid #333333;
+  border-radius: 15px;
+  align-self: center;
+}
+@media screen and (max-width:513px) {
+  #restaurant-hours {
+    width: 75%
+  }
+}
+tr:nth-child(even){background-color: #66666670}
+#restaurant-hours td {
+  /*color: #666;*/
+  padding: 10px 10px;
+}
+/* break points for mobile screen styling */
+@media screen and (max-width: 889px) {
+  .inside header {
+    box-sizing: border-box;
+  }
+  .inside #map-container {
+    height: 400px;
+    position: static;
+    width: 100%;
+    margin-top: 45px;
+  }
+  #restaurant-container, #reviews-container {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #restaurant-name {
+    margin: 0 0 20px;
+  }
+ 
+}
+@media screen and (max-width: 396px) {
+  nav h1 a {
+    line-height: 2em;
+  }
+  #reviews-list time {
+    line-height: 2.2em;
+    font-size: 1.3em;
+    padding-left: 0;
+  }
+
+
+}
+  </style>
   <title>Restaurant Info</title>
 </head>
 
@@ -61,14 +260,11 @@
   </footer>
   <!-- End footer -->
 
-  <link rel="stylesheet" href="css/styles.css">
   <!-- Beginning scripts -->
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
-  <!-- Normalize CSS-->
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPElvvdFv22vPYu4pZwBL9d7-FzjSF9ds&libraries=places&callback=initMap"></script>
   <!-- End scripts -->

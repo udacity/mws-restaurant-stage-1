@@ -144,6 +144,47 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
+      // Get all of the images that are marked up to lazy load
+const images = document.querySelectorAll('img');
+const config = {
+  // If the image gets within 50px in the Y axis, start the download.
+  rootMargin: '50px 0px',
+  threshold: 0.01
+};
+
+let observer;
+  // Replace the data-src attribute with the value of the data-src attribute
+  let preloadImage = (image) => {
+    if(image.dataset && image.dataset.src) {
+      image.src = image.dataset.src;
+      image.classList.add('fade-in');
+    }
+    if(image.dataset && image.dataset.srcset) {
+      image.srcset = image.dataset.srcset
+      image.classList.add('fade-in');
+    }
+  };
+  let onIntersection = (entries) => {
+    entries.forEach(entry => {
+      if (entry.intersectionRatio > 0) {
+        // Stop watching and load the image
+        observer.unobserve(entry.target);
+        // call our method: preloadImage
+        preloadImage(entry.target);
+      }
+    })
+  };
+
+if (!('IntersectionObserver' in window)) {
+    Array.from(images).forEach(image => preloadImage(image));
+  }
+  else {
+  // It is supported, load the images by calling our method: onIntersection
+    observer = new IntersectionObserver(onIntersection, config);
+    images.forEach(image => {
+    observer.observe(image);
+  });
+  }
   });
   addMarkersToMap();
 }
@@ -161,51 +202,6 @@ const createRestaurantHTML = (restaurant) => {
   image.alt = `${restaurant.name} ${restaurant.cuisine_type} Restaurant`;
   image.tabIndex = 0;
   li.append(image);
-
-  // Get all of the images that are marked up to lazy load
-const images = document.querySelectorAll('.restaurant-img');
-const config = {
-  // If the image gets within 50px in the Y axis, start the download.
-  rootMargin: '50px 0px',
-  threshold: 0.01
-};
-
-let observer;
-  // Replace the data-src attribute with the value of the data-src attribute
-  let preloadImage = (image) => {
-    if(image.dataset && image.dataset.src) {
-    image.src = image.dataset.src;
-    image.classList.add('fade-in');
-    }
-    if(image.dataset && image.dataset.srcset) {
-    image.srcset = image.dataset.srcset
-    image.classList.add('fade-in');
-    }
-    };
-    let onIntersection = (entries) => {
-    entries.forEach(entry => {
-    if (entry.intersectionRatio > 0) {
-      // Stop watching and load the image
-      observer.unobserve(entry.target);
-      // call our method: preloadImage
-      preloadImage(entry.target);
-    }
-    })
-    };
-
-if (!('IntersectionObserver' in window)) {
-    Array.from(images).forEach(image => preloadImage(image));
-  }
-  else {
-  // It is supported, load the images by calling our method: onIntersection
-    observer = new IntersectionObserver(onIntersection, config);
-    images.forEach(image => {
-    observer.observe(image);
-  });
-  }
-
-  
-
 
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
