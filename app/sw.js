@@ -1,6 +1,6 @@
 /* eslint-env worker */
 import idb from 'idb';
-const currentCacheName = 'restaurant-sw-cache-v3';
+const currentCacheName = 'restaurant-sw-cache-v5';
 
 const dbPromise = idb.open('udacity-restaurant', 1, upgradeDB => {
   switch (upgradeDB.oldVersion) {

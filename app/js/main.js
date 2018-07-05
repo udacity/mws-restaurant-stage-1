@@ -155,10 +155,8 @@ const createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.setAttribute('data-src', DBHelper.imageUrlForRestaurant(restaurant));
   image.setAttribute('data-srcset', DBHelper.imageSrcsetForRestaurant(restaurant));
-  image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
   image.sizes = '(max-width: 667px) 81vw, (max-width: 899px) 33vw, 1vw';
   image.alt = `${restaurant.name} ${restaurant.cuisine_type} Restaurant`;
   image.tabIndex = 0;
@@ -177,9 +175,11 @@ let observer;
   let preloadImage = (image) => {
     if(image.dataset && image.dataset.src) {
     image.src = image.dataset.src;
+    image.classList.add('fade-in');
     }
     if(image.dataset && image.dataset.srcset) {
     image.srcset = image.dataset.srcset
+    image.classList.add('fade-in');
     }
     };
     let onIntersection = (entries) => {
