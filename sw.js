@@ -1,5 +1,4 @@
-// Script for service worker
-
+// Define name of static cache
 const staticCache = 'rest-rating-v5';
 
 // On installing SW
@@ -34,14 +33,13 @@ self.addEventListener('install', event => {
     );
 });
 
-
 // Delete the old caches
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.filter(cacheName => {
-                    return cacheName.startsWith('rest-') && 
+                    return cacheName.startsWith('rest-') &&
                         cacheName != staticCache;
                 }).map(cacheName => {
                     return caches.delete(cacheName);
@@ -50,7 +48,6 @@ self.addEventListener('activate', event => {
         })
     );
 });
-
 
 // Hijack requests
 self.addEventListener('fetch', (event) => {
@@ -70,8 +67,6 @@ self.addEventListener('fetch', (event) => {
                 return new Response('Some error occured');
             })
         })
-        
+
     );
-
-
 });
