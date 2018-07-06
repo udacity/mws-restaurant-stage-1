@@ -132,35 +132,47 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   addMarkersToMap();
 }
 
+
+
+
 /**
- * Create restaurant HTML.
+ * Create restaurant HTML. Updated 06.07.18
  */
 createRestaurantHTML = (restaurant) => {
-  const li = document.createElement('li');
+
+  /** Create div element for restaurant info: */
+  const divElement = document.createElement('div');
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  divElement.append(image);
 
-  const name = document.createElement('h1');
+  /** Append restaurant's name as h2 to div element: */
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
-  li.append(name);
+  divElement.append(name);
 
+  /** Append neighborhood as p to div element: */
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
+  divElement.append(neighborhood);
 
+  /** Append addtess as p to div element: */
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
-  li.append(address);
+  divElement.append(address);
 
-  const more = document.createElement('a');
-  more.innerHTML = 'View Details';
-  more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  /** Create Button with more details: */
+  const moreButton = document.createElement('button');
+  moreButton.innerHTML = 'View Details';
+  moreButton.onclick = function () {
+      const url = DBHelper.urlForRestaurant(restaurant);
+      window.location = url;
+  }
+  divElement.append(moreButton)
 
-  return li
+  return divElement
 }
 
 /**

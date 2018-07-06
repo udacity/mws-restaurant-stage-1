@@ -20,6 +20,7 @@ window.initMap = () => {
   });
 }
 
+
 /**
  * Get current restaurant from page URL.
  */
