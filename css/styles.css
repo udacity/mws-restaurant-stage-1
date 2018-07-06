@@ -213,15 +213,26 @@ nav {
     }
 
 /* ====================== Restaurant Details ====================== */
-.inside #map-container {
-    background: blue none repeat scroll 0 0;
-    height: 30%;
-    position:fixed;
-    width: 100%;
-    right: 30;
+.inside #maincontent {
+    display: flex;
+    flex-direction: column;
+    background-color: #f3f3f3;
+    min-height: 100%;
 }
 
+/*
+.inside #map-container {
+    background: blue;
+    height: 30%;
+    position:fixed;
+    width: 50%;
+    top: 20%;
+    right: 0;
+}
+*/
+
 .inside #map {
+    overflow: visible;
     background-color: #ccc;
     height: 100%;
     width: 100%;
@@ -265,7 +276,7 @@ nav {
     border-bottom: 1px solid #d9d9d9;
     border-top: 1px solid #fff;
     padding: 140px 40px 30px;
-    width: 50%;
+    width: 100%;
 }
 
 #reviews-container {
