@@ -34,3 +34,12 @@ self.addEventListener('fetch', function(event) {
       console.log('Cache matched');
       }))
  });
+
+ /**
+ * Removing old caches
+ */
+ self.addEventListener('activate', function(event) {
+  event.waitUntil(
+  caches.delete('restaurant-review-v1')
+   );
+ });
