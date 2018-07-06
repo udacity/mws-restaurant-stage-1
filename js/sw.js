@@ -1,1 +1,0 @@
-// Script for service worker

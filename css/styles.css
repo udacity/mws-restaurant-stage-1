@@ -134,7 +134,8 @@ nav h1 a {
   /* color: #aaa; */
 }
 .filter-options select option{
-  background-color: #ddd;
+  background-color: #fff;
+  color: #444;
 }
 .filter-options select:hover, .filter-options select:focus {
   border-color: #fff;
