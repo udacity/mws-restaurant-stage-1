@@ -15,38 +15,52 @@ class DBHelper {
   }
 
   static fetchRestaurantsFromCache() {
-    if (!_db) return;
-
-    var store = _db.transaction('restaurants').objectStore('restaurants');
-    
-    return store.getAll().then(function(restaurants) {
-      return restaurants;
-    });
+    if (_db) {
+      var restaurantsStore = _db.transaction('restaurants', 'readwrite').objectStore('restaurants');
+      return restaurantsStore.getAll();
+    }
+    return new Promise(function(resolve, reject) {});
   }
+
+  static fetchRestaurantsFromServer() {
+    return fetch(DBHelper.DATABASE_URL).then(function(response) {        
+      return response.json().then(function(restaurantsFromServer) {
+
+        //Cache the results
+        if (_db) {
+          var restaurantsStore = _db.transaction('restaurants', 'readwrite').objectStore('restaurants');        
+          restaurantsFromServer.forEach(function (restaurant) {
+            restaurantsStore.put(restaurant);
+          });
+          console.log('Restaurants were cached');
+        }
+        return restaurantsFromServer;
+      })
+    }).catch(function(errorResponse){
+      const error = (`Request failed. Returned status of ${errorResponse}`);
+      callback(error, null);
+    });    
+  }
+
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        //const restaurants = json.restaurants;
-        const restaurants = json;
+    
+    //First check if there are restaurants in the cache
+    let restaurants = DBHelper.fetchRestaurantsFromCache().then(function(restaurantesFromCache){
 
-        var restaurantsStore = _db.transaction('restaurants', 'readwrite').objectStore('restaurants');        
-        restaurants.forEach(function (restaurant) {
-          restaurantsStore.put(restaurant);
-        });
-
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
+      //If nothing was found in the cache, fetch from server
+      if (restaurantesFromCache.length > 0) {
+        console.log('Retrieving restaurants from cache');
+        callback(null, restaurantesFromCache);
+      } else {
+        console.log('Retrieving restaurants from server');        
+        DBHelper.fetchRestaurantsFromServer().then(function(restaurantsFromServer){
+          callback(null, restaurantsFromServer);
+        })
       }
-    };
-    xhr.send();
+    });
   }
 
   /**
