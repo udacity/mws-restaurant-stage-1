@@ -6,8 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="UTF-8">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <!-- Main CSS file -->
-  <link rel="stylesheet" href="styles/styles.css" type="text/css">
+  <!-- build:css css/main.css -->
+  <link rel="stylesheet" href="styles.css" type="text/css">
+  <!-- endbuild -->
   <title>Restaurant Info</title>
 </head>
 
@@ -59,9 +60,10 @@
 
   <!-- Beginning scripts -->
   <!-- Database helpers -->
-  <script type="text/javascript" src="scripts/dbhelper.js"></script>
-  <!-- Main javascript file -->
-  <script type="text/javascript" src="scripts/restaurant_info.js"></script>
+  <!-- build:js scripts/all_restaurant.js -->
+  <script type="text/javascript" src="dbhelper.js"></script>
+  <script type="text/javascript" src="restaurant_info.js"></script>
+  <!-- endbuild -->
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoE0ChrfjbjaqBZ9Vz-4SWZXgdt7oawOA&libraries=places&callback=initMap"></script>
   <!-- End scripts -->

@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="UTF-8">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <link rel="stylesheet" href="styles/styles.css">
+  <!-- build:css css/main.css -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- endbuild -->
   <title>Restaurant Reviews</title>
 </head>
 
@@ -38,8 +40,10 @@
     </section>
   </main>
 
-  <script type="application/javascript" charset="utf-8" src="scripts/dbhelper.js"></script>
-  <script type="application/javascript" charset="utf-8" src="scripts/main.js"></script>
+  <!-- build:js scripts/all_main.js -->
+  <script type="application/javascript" charset="utf-8" src="dbhelper.js"></script>
+  <script type="application/javascript" charset="utf-8" src="main.js"></script>
+  <!-- endbuild -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoE0ChrfjbjaqBZ9Vz-4SWZXgdt7oawOA&libraries=places&callback=initMap"></script>
 
 
