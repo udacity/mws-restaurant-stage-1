@@ -2,7 +2,6 @@
  * Common database helper functions.
  */
 class DBHelper {
-
     /**
      * Database URL.
      * Change this to restaurants.json file location on your server.
@@ -16,9 +15,16 @@ class DBHelper {
      * Fetch all restaurants.
      */
     static async fetchRestaurants(callback) {
-        fetch(DBHelper.DATABASE_URL)
+        let dbRestaurants = await IDBHelper.getRestaurants();
+        if (dbRestaurants.length > 0) { // If there is something in the database, return it now
+            callback(null, dbRestaurants);
+        }
+        fetch(DBHelper.DATABASE_URL) // but always go for data to the network and update database
             .then(async response => {
-                callback(null, await response.json());
+                if (dbRestaurants.length <= 0) {
+                    callback(null, await response.clone().json());
+                }
+                IDBHelper.addRestaurants(await response.json());
             })
             .catch(error => {
                 callback(`Fetch error: ${error}`, null);
@@ -173,4 +179,3 @@ class DBHelper {
     } */
 
 }
-

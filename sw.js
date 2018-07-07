@@ -1,4 +1,4 @@
-let cacheName = 'mws-pro1-static-v1';
+let cacheName = 'mws-pro1-static-v2';
 
 self.addEventListener('install', event => {
     event.waitUntil(
@@ -10,10 +10,14 @@ self.addEventListener('install', event => {
                 '/css/styles.css',
                 '/data/restaurants.json',
                 '/js/',
+                '/js/private.js',
+                '/js/idb.js',
+                '/js/idbhelper.js',
                 '/js/dbhelper.js',
                 '/js/main.js',
                 '/js/restaurant_info.js',
                 '/js/register.js',
+                '/js/lazysizes.min.js'
             ]);
         })
     );
