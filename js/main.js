@@ -152,8 +152,8 @@ createRestaurantHTML = (restaurant) => {
     const imgUrl_2x = imgParts[0] + '_2x.jpg';
 
     image.src = imgUrl_1x;
-    image.srcset = `${imgUrl_1x} 300w, ${imgUrl_2x} 600w`;
-    image.alt = 'image of' + restaurant.name;
+    image.srcset = `${imgUrl_1x} 1x, ${imgUrl_2x} 2x`;
+    image.alt = 'Image of ' + restaurant.name;
 
     divElement.append(image);
 
