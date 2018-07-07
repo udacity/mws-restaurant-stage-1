@@ -3,13 +3,11 @@ const PHOTO_CACHE = 'mws-content-imgs';
 
 var urlsToCache = [
     '/',
-    'js/dbhelper.js',
-    'js/main.js',
-    'js/restaurant_info.js',
-    'css/styles.css',
-    'index.html',
-    'restaurant.html',
-    'data/restaurants.json' 
+    'scripts/dbhelper.js',
+    'scripts/main.js',
+    'scripts/restaurant_info.js',
+    'styles/styles.css',
+    'restaurant.html'
   ];
 
 self.addEventListener('install', event => {
@@ -23,7 +21,7 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
   var requestUrl = new URL(event.request.url);
 
-  if (requestUrl.pathname.startsWith('/img')){
+  if (requestUrl.pathname.startsWith('/images')){
     event.respondWith(servePhoto(event.request));
     return;
   }
@@ -35,7 +33,9 @@ self.addEventListener('fetch', event => {
       }
 
       return fetch(event.request).then(networkResponse => {
-        cache.put(event.request, networkResponse.clone());
+        if(event.request.method !== 'POST'){
+           cache.put(event.request, networkResponse.clone());
+        }
         return networkResponse;
       });
     });
