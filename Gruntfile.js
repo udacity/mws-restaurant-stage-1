@@ -56,17 +56,7 @@ module.exports = function(grunt) {
           create: ['images']
         },
       },
-    },
-
-    copy: {
-      main: {
-        expand: true,
-        flatten: true,
-        src: 'img/*',
-        dest: 'images/',
-      },
     }
-
   });
 
   grunt.loadNpmTasks('grunt-responsive-images');
