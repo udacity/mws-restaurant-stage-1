@@ -150,7 +150,18 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    // return (`/img/${restaurant.photograph}`);
+    const [filename, extension] = restaurant.photograph.split('.');
+    // return `/images/${filename}-800_full.${extension}`;
+    return `/images/${filename}-270_thumbnail.${extension}`;
+  }
+
+  /**
+   * Restaurant image srcset URLs.
+   */
+  static imageSrcsetForRestaurant(restaurant) {
+    const [filename, extension] = restaurant.photograph.split('.');
+    return (`/images/${filename}-270_thumbnail.${extension} 270w, /images/${filename}-500_medium.${extension} 500w, /images/${filename}-800_full.${extension} 800w`);
   }
 
   /**

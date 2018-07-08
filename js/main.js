@@ -141,6 +141,9 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
+  // image.sizes = '(min-width: 40em) 80vw, 100vw';
+  image.alt = restaurant.name;
   li.append(image);
 
   const name = document.createElement('h1');

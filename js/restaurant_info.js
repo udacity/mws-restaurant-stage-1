@@ -58,6 +58,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.srcset = DBHelper.imageSrcsetForRestaurant(restaurant);
+  image.alt = restaurant.name;
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -138,7 +140,7 @@ createReviewHTML = (review) => {
   const rating = document.createElement('span');
   rating.innerHTML = `Rating: ${review.rating}`;
 
-  // Add property rating to change the background color
+  // Add rating property to change the background color
   rating.classList.add(`rating-${review.rating}`);
 
   div.appendChild(rating);

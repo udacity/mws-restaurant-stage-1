@@ -383,6 +383,7 @@ nav h1 a {
   font-weight: bold;
   text-transform: uppercase;
   padding: 5px 10px;
+  border-radius: 3px;
 }
 
 .rating-1 {
@@ -417,17 +418,17 @@ nav h1 a {
 
 /* ====================== Responsive ====================== */
 
-@media screen and (min-width: 650px) {
+@media screen and (min-width: 757px) {
   #restaurants-list li {
-    width: 33%;
+    width: 270px;
   }
 }
 
-@media screen and (min-width: 1200px) {
+/* @media screen and (min-width: 1200px) {
   #restaurants-list li {
     width: 25%;
   }
-}
+} */
 
 @media screen and (max-width: 650px) {
   .restaurant-container,
