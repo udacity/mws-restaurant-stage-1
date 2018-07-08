@@ -3,10 +3,6 @@ const PHOTO_CACHE = 'mws-content-imgs';
 
 var urlsToCache = [
     '/',
-    'scripts/dbhelper.js',
-    'scripts/main.js',
-    'scripts/restaurant_info.js',
-    'styles/styles.css',
     'restaurant.html'
   ];
 
