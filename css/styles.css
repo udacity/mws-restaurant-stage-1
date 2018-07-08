@@ -200,7 +200,7 @@ nav h1 a {
   min-height: 380px;
   padding: 0 30px 25px;
   text-align: left;
-  width: 270px;
+  /* width: 270px; */
 }
 
 #restaurants-list .restaurant-img {
@@ -382,9 +382,32 @@ nav h1 a {
 .comment-rating span {
   font-weight: bold;
   text-transform: uppercase;
+  padding: 5px 10px;
+}
+
+.rating-1 {
+  color: #fff;
+  background: #128c87;
+}
+
+.rating-2 {
+  color: #fff;
+  background: #fedd55;
+}
+
+.rating-3 {
   color: #fff;
   background: #ffa500;
-  padding: 5px 10px;
+}
+
+.rating-4 {
+  color: #fff;
+  background: #f53a33;
+}
+
+.rating-5 {
+  color: #fff;
+  background: #3b0030;
 }
 
 .comment-body {
@@ -394,9 +417,17 @@ nav h1 a {
 
 /* ====================== Responsive ====================== */
 
-/* @media screen and (min-width: 650px) {
+@media screen and (min-width: 650px) {
+  #restaurants-list li {
+    width: 33%;
+  }
+}
 
-} */
+@media screen and (min-width: 1200px) {
+  #restaurants-list li {
+    width: 25%;
+  }
+}
 
 @media screen and (max-width: 650px) {
   .restaurant-container,

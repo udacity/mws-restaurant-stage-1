@@ -137,6 +137,10 @@ createReviewHTML = (review) => {
   div.classList.add('comment-rating');
   const rating = document.createElement('span');
   rating.innerHTML = `Rating: ${review.rating}`;
+
+  // Add property rating to change the background color
+  rating.classList.add(`rating-${review.rating}`);
+
   div.appendChild(rating);
   li.appendChild(div);
 
