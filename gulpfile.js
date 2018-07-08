@@ -20,6 +20,7 @@ gulp.task('css', () => {
     .pipe($.if(dev, $.sourcemaps.init()))
     .pipe($.autoprefixer({browsers: ['> 1%', 'last 2 versions', 'Firefox ESR']}))
     .pipe($.if(dev, $.sourcemaps.write()))
+    .pipe($.cssnano())
     .pipe(gulp.dest('.tmp/css'))
     .pipe(reload({stream: true}));
 });
@@ -30,6 +31,7 @@ gulp.task('js', () => {
     .pipe($.if(dev, $.sourcemaps.init()))
     .pipe($.babel())
     .pipe($.if(dev, $.sourcemaps.write('.')))
+    .pipe($.uglify())
     .pipe(gulp.dest('.tmp/js'))
     .pipe(reload({stream: true}));
 });
@@ -56,7 +58,7 @@ function lint(files) {
 
 gulp.task('lint', () => {
   return lint('app/js/**/*.js')
-    .pipe(gulp.dest('app/js'));
+    .pipe(gulp.dest('.tmp/js'));
 });
 gulp.task('lint:test', () => {
   return lint('test/spec/**/*.js')
@@ -109,7 +111,7 @@ gulp.task('extras', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 gulp.task('serve', () => {
-  runSequence(['clean', 'wiredep'], ['css', 'js', 'sw', 'fonts','img'], () => {
+  runSequence(['clean', 'wiredep'], ['css', 'js', 'sw', 'fonts', 'html', 'img'], () => {
     browserSync.init({
       notify: false,
       port: 8000,
@@ -132,6 +134,7 @@ gulp.task('serve', () => {
     gulp.watch('app/js/**/*.js', ['js']);
     gulp.watch('app/sw.js', ['sw']);
     gulp.watch('app/fonts/**/*', ['fonts']);
+    gulp.watch('app/*.html', ['html']);
     gulp.watch('bower.json', ['wiredep', 'fonts']);
   });
 });
@@ -175,7 +178,7 @@ gulp.task('wiredep', () => {
 });
 
 gulp.task('build', ['lint', 'html', 'img', 'fonts', 'extras'], () => {
-  return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
+  return gulp.src('.tmp/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
 gulp.task('default', () => {
