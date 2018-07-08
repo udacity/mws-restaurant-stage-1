@@ -144,7 +144,8 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
-      // Get all of the images that are marked up to lazy load
+  });
+// Get all of the images that are marked up to lazy load
 const images = document.querySelectorAll('img');
 const config = {
   // If the image gets within 50px in the Y axis, start the download.
@@ -185,7 +186,6 @@ if (!('IntersectionObserver' in window)) {
     observer.observe(image);
   });
   }
-  });
   addMarkersToMap();
 }
 
