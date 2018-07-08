@@ -1,11 +1,17 @@
 @charset "utf-8";
 /* CSS Document */
+html {
+  font-size: 62.5%;
+}
 *, *:before, *:after {
   box-sizing: border-box;
 }
 
-html {
-  font-size: 62.5%;
+body {
+	background-color: var(--white);
+	margin: 0;
+  position:relative;
+  min-height: 100vh;
 }
 
 body,td,th,p{
@@ -13,27 +19,26 @@ body,td,th,p{
 	color: var(--dark-grey);
 	line-height: 1.5;
 }
-body {
-	background-color: var(--white);
-	margin: 0;
-  position:relative;
-  min-height: 100vh;
-}
+
 ul, li {
 	font-family: var(--font-family-primary);
 	color: var(--dark-grey);
 }
+
 a {
 	color: var(--orange);
 	text-decoration: none;
 }
+
 a:hover, a:focus {
-	color: #3397db;
+	color: var(--filter-color);
 	text-decoration: none;
 }
+
 a img{
 	border: none 0px #fff;
 }
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family-primary);
   margin: 0 0 20px;
@@ -53,12 +58,11 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   color: #aaa;
   font-size: 1.6rem;
   letter-spacing: 0.1rem;
-  padding: 25px;
+  padding: 0 25px;
   text-align: center;
   text-transform: uppercase;
   min-width: 100%;
   height: 100px;
-  padding: 0 25px;
   position: absolute;
   left: 0;
   bottom: 0;
@@ -81,6 +85,7 @@ nav {
   background-color: var(--dark-blue);
   text-align: center;
 }
+
 nav h1 {
   margin: auto;
   max-width: 80%;
@@ -91,6 +96,7 @@ nav h1 a {
   font-weight: 200;
   letter-spacing: 0.8rem;
   text-transform: uppercase;
+  transition: all 0.5s;
 }
 
 .accessibility-skip-link {
@@ -109,7 +115,7 @@ nav h1 a {
   width: calc(50% - 80px);
 }
 
-ul.breadcrumb { /* Display list items side by side */
+ul#breadcrumb { /* Display list items side by side */
   min-width: 100%;
   box-shadow: 0 0 10px var(--create-shadow);
   display: flex;
@@ -144,9 +150,9 @@ ul.breadcrumb { /* Display list items side by side */
 }
 
 /* ====================== Map ====================== */
-#map {
-  height: 800px;
-  width: 100%;
+.map {
+  height: 400px;
+  min-width: 100%;
   background-color: var(--background-color);
 }
 
@@ -193,9 +199,10 @@ ul.breadcrumb { /* Display list items side by side */
   text-align: center;
   display: grid;
   flex-wrap: wrap;
-  grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
+
 #restaurants-list li {
   background-color: var(--white);
   /* border: 5px solid var(--dark-blue); */
@@ -203,6 +210,7 @@ ul.breadcrumb { /* Display list items side by side */
   transition: all 0.6s;
   text-align: center;
 }
+
 #restaurants-list .restaurant-img {
   background-color: var(--restaurant-list-img-color);
   display: block;
@@ -242,7 +250,7 @@ ul.breadcrumb { /* Display list items side by side */
 #restaurants-list .restaurant-info {
   display: grid;
   grid-gap: 10px;
-  grid-template-rows: auto auto auto 48px;
+  grid-template-rows: auto auto 1fr 48px;
   align-items: center;
   padding: 10px 20px;
   height: 215px;
@@ -262,7 +270,7 @@ ul.breadcrumb { /* Display list items side by side */
   box-shadow: 5px 5px 10px var(--create-shadow);
 }
 .inside #map {
-  background-color: #ccc;
+  background-color: var(--dark-grey);
   height: 100%;
   width: 100%;
 }
@@ -272,6 +280,14 @@ ul.breadcrumb { /* Display list items side by side */
   width: 50%;
 }
 
+.inside #maincontent {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+}
+
+.inside #add-space-container {
+  height: 150px;
+}
 /* =============== Restaurant Info =============== */
 #restaurant-name {
   color: var(--orange);
@@ -280,7 +296,8 @@ ul.breadcrumb { /* Display list items side by side */
   font-weight: 200;
   letter-spacing: 0;
   margin: 15px 0 30px;
-  text-transform: uppercase;
+  text-transform: capitalize;
+  box-shadow: var(--create-shadow);
   line-height: 1.1;
 }
 
@@ -292,22 +309,28 @@ ul.breadcrumb { /* Display list items side by side */
   margin: 10px 0px;
 }
 #restaurant-cuisine {
-  background-color: var(--dark-grey);
+  background-color: var(--filter-color);
   color: var(--white);
-  font-size: 12pt;
+  font-size: 1.6rem;
   font-weight: 300;
   letter-spacing: 10px;
   margin: 0 0 20px;
   padding: 2px 0;
   text-align: center;
-  text-transform: uppercase;
+  text-transform: capitalize;
 	width: 90%;
 }
+
+#restaurant-container {
+  order: -1;
+}
+
 #restaurant-container, #reviews-container {
-  border-bottom: 1px solid #d9d9d9;
-  border-top: 1px solid #fff;
+  border-bottom: 1px solid var(--mid-grey); 
+  border-top: 1px solid var(--white);
   padding: 140px 40px 30px;
-  width: 50%;
+  /* padding: 60px; */
+  max-width: 100%;
 }
 
 /* =============== Reviews =============== */
@@ -316,7 +339,7 @@ ul.breadcrumb { /* Display list items side by side */
 }
 #reviews-container h2 {
   color: #f58500;
-  font-size: 24pt;
+  font-size: 2rem;
   font-weight: 300;
   letter-spacing: -1px;
   padding-bottom: 1pt;
@@ -326,21 +349,20 @@ ul.breadcrumb { /* Display list items side by side */
   padding: 0;
 }
 #reviews-list li {
-  background-color: #fff;
-    border: 2px solid #f3f3f3;
+  background-color: var(--white);
+  border: 1px solid var(--orange);
   display: block;
   list-style-type: none;
   margin: 0 0 30px;
-  overflow: hidden;
-  padding: 0 20px 20px;
-  position: relative;
-  width: 85%;
+  padding: 20px;
+  width: 95%;
 }
 #reviews-list li p {
   margin: 0 0 10px;
+  font-size: 1.4rem;
 }
 #restaurant-hours td {
-  color: #666;
+  color: var(--dark-grey);
 }
 
 /* ==================== HELPER CSS ==================== */
@@ -354,29 +376,29 @@ ul.breadcrumb { /* Display list items side by side */
 /* ==================== Media Queries ==================== */
 @media screen and (min-width: 650px) {
   nav h1 a {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 }
 
-@media screen and (max-width: 800px) {
-  .inside .maincontent {
+@media screen and (max-width: 799px) {
+  .inside #maincontent {
     grid-template-columns: 1fr;
     grid-template-rows: 250px auto auto;
   }
 
-  .restaurant-container {
+  #restaurant-container {
     order: 0;
   }
 
-  .reviews-list li {
+  #reviews-list li {
     width: 100%;
   }
 
-  .restaurant-img {
+  .inside #restaurant-img {
     min-width: 100%;
   }
 
-  .restaurant-cuisine {
+  .inside #restaurant-cuisine {
     width: 100%;
   }
 }
@@ -391,7 +413,7 @@ ul.breadcrumb { /* Display list items side by side */
 }
 
 @media screen and (min-width: 1100px) {
-  .inside .maincontent {
+  .inside #maincontent {
     grid-template-columns: 1fr 1fr;
     max-width: 1100px;
     margin: 0 auto; 
@@ -426,6 +448,7 @@ ul.breadcrumb { /* Display list items side by side */
   --dark-grey: rgb(51, 51, 51);
   --background-color: #fdfdfd;
   --filter-color:  #3397DB;
+  --mid-grey: #d9d9d9;
   --restaurant-list-color:  #f3f3f3;
   --restaurant-list-img-color:  #ccc;
   --create-shadow: rgba(0, 0, 0, .3);

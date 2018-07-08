@@ -1,11 +1,19 @@
 let restaurant;
 var newMap;
 
+// Accessibility focusing
+const skipToRestaurantLink = document.getElementById('accessibility-skip-link');
+skipToRestaurantLink.addEventListener('click', (event) => {
+  console.log('Accessibility link has been clicked');
+  document.getElementById('restaurant-name').focus();
+});
+
 /**
  * Initialize map as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {  
   initMap();
+  console.log('Dom loaded');
 });
 
 /**
@@ -34,22 +42,6 @@ initMap = () => {
     }
   });
 }  
- 
-/* window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-  });
-} */
 
 /**
  * Get current restaurant from page URL.
@@ -87,7 +79,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  image.className = 'restaurant-img';
+  image.srcset = `/img/${restaurant.photo400} 400w, /img/${restaurant.photo800} 800w`;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
@@ -173,6 +166,8 @@ createReviewHTML = (review) => {
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
+  li.setAttribute('aria-current', 'page');
+  li.setAttribute('aria-label', `${restaurant.name}`);
   li.innerHTML = restaurant.name;
   breadcrumb.appendChild(li);
 }

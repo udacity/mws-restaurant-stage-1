@@ -4,6 +4,23 @@ let restaurants,
 var newMap
 var markers = []
 
+function registerServiceWorker() {
+  if(!navigator.serviceWorker) return;
+  console.log('Registering Service Worker 9.');
+  navigator.serviceWorker.register('./sw.js')
+    .then((reg) => console.log(reg))
+    .catch((err) => console.log('Error: ', err));
+}
+
+registerServiceWorker();
+
+
+// Accessibility skip links
+const skipToMaincontent = document.getElementById('accessibility-skip-link');
+skipToMaincontent.addEventListener('click', (event) => {
+  document.getElementById('heading-filter-results').focus();
+});
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -161,8 +178,8 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.setAttribute('alt', restaurant.name);
-  // image.srcset = `/img/${restaurant.photo400} 400w, /img/${restaurant.photo800} 800w`;
+  image.setAttribute('alt', restaurant.altText);
+  image.srcset = `/img/${restaurant.photo400} 400w, /img/${restaurant.photo800} 800w`;
   li.append(image);
 
   const info = document.createElement('div');
