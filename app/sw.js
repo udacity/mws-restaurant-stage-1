@@ -99,7 +99,7 @@ self.addEventListener('fetch', (event) => {
                     return fetchResponse;
                   });
             }).catch(error => {
-              if (event.request.url.indexOf('.jpg') > -1) {
+              if (event.request.url.indexOf('.webp') > -1) {
                 return caches.match('/img/na.png');
               }
               return new Response (

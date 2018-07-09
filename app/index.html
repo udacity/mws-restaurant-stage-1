@@ -7,21 +7,28 @@
   <!-- viewport meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
    <!-- Main CSS file -->
-  <link rel="preload" href="css/styles.css" as="style">
+   <link rel="preload" href="css/styles.css" as="style">
   <link href="css/styles.css" rel="stylesheet">
   <style>
-    /* ====================== Restaurant Filtering ====================== */
+
+  #map-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
+/* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  height: 50px;
   background-color: #252831;
   align-items: center;
   display: flex; /* changed display to flex */
+  justify-content: center;
+  padding-top: 30px;
 }
 /* changed options container flow to wrap for all screens below 479px */
 @media screen and (max-width:478px) {
   .filter-options {
-    height: auto;
     flex-flow: wrap;
   }
 }
@@ -30,13 +37,23 @@
   font-size: 1rem;
   font-weight: normal;
   line-height: 1;
-  margin: 0 20px;
+  margin: 0 10px;
 }
 /* added width 100% and top margin 10px to options header for all screens below 479px*/
 @media screen and (max-width:478px) {
   .filter-options h2 {
-    margin-top: 10px;
+    margin: 10px 0 0 13px;
     width: 100%;
+  }
+}
+@media screen and (min-width:465px) and (max-width:478px) {
+  .filter-options h2 {
+    margin: 10px 0 0 30px;
+  }
+}
+@media screen and (min-width:446px) and (max-width:464px) {
+  .filter-options h2 {
+    margin: 10px 0 0 20px;
   }
 }
 .filter-options select {
@@ -164,6 +181,15 @@
   align-self: flex-end; /* added flex item align*/
 }
   </style>
+  <script>
+    function showMap() {
+      let getMap = document.getElementById('map');
+        getMap.style.height = "400px";
+      let hideButton = document.getElementById('mapButton');
+        hideButton.tabIndex = -1;
+        hideButton.setAttribute('aria-hidden', 'true')
+    }
+  </script>
   <!-- Manifest for PWA-->
   <meta name="theme-color" content="#252831">
   <link rel="manifest" href="/manifest.json">
@@ -188,6 +214,7 @@
   <main id="maincontent">
     <!-- Beginning map -->
     <section id="map-container">
+      <button id="mapButton" type="button" onclick="showMap()" aria-label="Show Google Maps">Show Maps</button>
       <div id="map" role="application" aria-label="Google Map"></div>
     </section>
     <!-- End map -->
@@ -220,7 +247,7 @@
   <!-- Main javascript file -->
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
   <!-- Google Maps -->
-  <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPElvvdFv22vPYu4pZwBL9d7-FzjSF9ds&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPElvvdFv22vPYu4pZwBL9d7-FzjSF9ds&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
 
 </body>

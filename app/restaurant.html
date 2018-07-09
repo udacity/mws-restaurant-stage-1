@@ -12,26 +12,24 @@
   <link rel="stylesheet" href="css/styles.css">
   <style>
     /* ====================== Restaurant Details ====================== */
-.inside header {
+header {
   position: sticky; /* changed to sticky position */
   top: 0;
   width: 100%;
   z-index: 1000;
 }
-.inside #map-container {
-  background: blue none repeat scroll 0 0;
+#map-container {
+  background: #ccc no-repeat fixed center;
   height: 85.5vh; 
   position: fixed;
   right: 0;
   top:126px;
   width: 50%;
 }
-.inside #map {
-  background-color: #ccc;
+#map {
   height: 100%;
-  width: 100%;
 }
-.inside #footer {
+#footer {
   /*bottom: 0;*/
   position: absolute;
   width: 100%;
@@ -184,7 +182,6 @@ tr:nth-child(even){background-color: #66666670}
     height: 400px;
     position: static;
     width: 100%;
-    margin-top: 45px;
   }
   #restaurant-container, #reviews-container {
     width: 100%;
@@ -261,10 +258,8 @@ tr:nth-child(even){background-color: #66666670}
   <!-- End footer -->
 
   <!-- Beginning scripts -->
-  <!-- Database helpers -->
-  <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
-  <script type="text/javascript" src="js/restaurant_info.js"></script>
+  <script type="text/javascript" src="js/restaurant.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPElvvdFv22vPYu4pZwBL9d7-FzjSF9ds&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
