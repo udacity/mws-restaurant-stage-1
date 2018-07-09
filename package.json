@@ -1,0 +1,23 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "description": "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
+  "main": "sw.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awaemmanuel/mws-restaurant-stage-1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/awaemmanuel/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/awaemmanuel/mws-restaurant-stage-1#readme",
+  "devDependencies": {
+    "grunt-responsive-images": "^1.10.1"
+  }
+}

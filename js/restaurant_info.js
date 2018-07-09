@@ -1,11 +1,19 @@
 let restaurant;
 var newMap;
 
+// Accessibility focusing
+const skipToRestaurantLink = document.getElementById('accessibility-skip-link');
+skipToRestaurantLink.addEventListener('click', (event) => {
+  console.log('Accessibility link has been clicked');
+  document.getElementById('restaurant-name').focus();
+});
+
 /**
  * Initialize map as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {  
   initMap();
+  console.log('Dom loaded');
 });
 
 /**
@@ -22,7 +30,7 @@ initMap = () => {
         scrollWheelZoom: false
       });
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-        mapboxToken: '<your MAPBOX API KEY HERE>',
+        mapboxToken: 'pk.eyJ1IjoiYWNlb25ld29ybGQiLCJhIjoiY2pqM21idDVtMWZvZjNxbGY3YXpmZzd0biJ9.YiVmvPeX3OiJxe-zfipNdQ',
         maxZoom: 18,
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
           '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -34,22 +42,6 @@ initMap = () => {
     }
   });
 }  
- 
-/* window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-  });
-} */
 
 /**
  * Get current restaurant from page URL.
@@ -87,7 +79,9 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  image.className = 'restaurant-img';
+  image.setAttribute('alt', restaurant.altString); 
+  image.srcset = `/img/${restaurant.resized400w} 400w, /img/${restaurant.original800w} 800w`;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
@@ -173,6 +167,8 @@ createReviewHTML = (review) => {
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
+  li.setAttribute('aria-current', 'page');
+  li.setAttribute('aria-label', `${restaurant.name}`);
   li.innerHTML = restaurant.name;
   breadcrumb.appendChild(li);
 }
