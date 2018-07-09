@@ -14,16 +14,16 @@
 
 <body class="inside">
     <!-- Accessibility -->
-    <a href="#restaurant-name" id="accessibility-skip-link" class="accessibility-skip-link">Skip to Main Restaurants Info</a>
+    <a tabindex="2" href="#restaurant-name" id="accessibility-skip-link" class="accessibility-skip-link">Skip to Main Restaurants Info</a>
   <!-- Beginning header -->
   <header>
     <!-- Beginning nav -->
     <nav class="flex-item-center">
-      <h1><a href="/" aria-label="Restaurant Reviews">Restaurant Reviews</a></h1>
+      <h1><a tabindex="1" href="/" role="link" aria-label="Restaurant Reviews">Restaurant Reviews</a></h1>
     </nav>
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" aria-label="breadcrumb">
-      <li><a href="/">Home</a></li>
+    <ul id="breadcrumb" aria-label="breadcrumb" role="menu">
+      <li><a tabindex="3" href="/">Home</a></li>
     </ul>
     <!-- End breadcrumb -->
     <!-- End nav -->
@@ -35,14 +35,14 @@
   <!-- Beginning main -->
   <main id="maincontent">
     <!-- Beginning map -->
-    <section id="map-container" aria-label="Map">
-      <div id="map"></div>
+    <section id="map-container" aria-label="Map" role="application">
+      <div tabindex="4" id="map"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
-      <h1 id="restaurant-name" class="restaurant-name"></h1>
-      <img id="restaurant-img" class="restaurant-img">
+      <h2 tabindex="5" id="restaurant-name" class="restaurant-name"></h2>
+      <img  tabindex="6" id="restaurant-img" class="restaurant-img">
       <p id="restaurant-cuisine" class="restaurant-cuisine"></p>
       <p id="restaurant-address" class="restaurant-address"></p>
       <table id="restaurant-hours" class="restaurant-hours"></table>

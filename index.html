@@ -11,28 +11,28 @@
 </head>
 
 <body>
-    <a href="#filter-options" id="accessibility-skip-link" class="accessibility-skip-link">Skip to Filtered Restaurant Results</a>
+    <a tabindex="2" href="#filter-options" id="accessibility-skip-link" class="accessibility-skip-link">Skip to Filtered Restaurant Results</a>
   <header>
     <nav class="flex-item-center">
-      <h1><a href="/">Restaurant Reviews</a></h1>
+      <h1><a tabindex="1" href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
 
   <main id="maincontent" class="maincontent">
-    <section id="map-container" aria-label="Map">
-      <div id="map" class="map"></div>
+    <section id="map-container" role="application" aria-label="Map">
+      <div tabindex="3" id="map" class="map"></div>
     </section>
     <section id="results">
-      <div id="filter-options" class="filter-options">
+      <div tabindex="4" id="filter-options" class="filter-options">
         <h2 class="heading-filter-results">Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" aria-label="Select Neighborhood" onchange="updateRestaurants()">
+        <select id="neighborhoods-select" name="neighborhoods" role="menu" aria-label="Select Neighborhood" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
         <select id="cuisines-select" name="cuisines" aria-label="Select Cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
       </div>
-      <ul id="restaurants-list" class="restaurants-list"></ul>
+      <ul tabindex="5" id="restaurants-list" class="restaurants-list"></ul>
     </section>
   </main>
   <script charset="utf-8" src="js/app.js" type="application/javascript"></script>
@@ -40,7 +40,7 @@
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
   
-  <footer id="footer" class="flex-item-center">
+  <footerid="footer" class="flex-item-center">
     &copy; 2018 &nbsp;<a href="/"><strong>Restaurant Reviews</strong></a> &nbsp; All Rights Reserved.
   </footer>
 
