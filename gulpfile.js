@@ -26,12 +26,24 @@ gulp.task('css', () => {
 });
 
 gulp.task('js', () => {
-  return gulp.src('app/js/**/*.js')
+  return gulp.src(['app/js/**/*.js','!app/js/**/*.js.map','!app/js/**/restaurant*.js'])
     .pipe($.plumber())
     .pipe($.if(dev, $.sourcemaps.init()))
+    .pipe(concat('main.js'))
     .pipe($.babel())
-    .pipe($.if(dev, $.sourcemaps.write('.')))
     .pipe($.uglify())
+    .pipe($.if(dev, $.sourcemaps.write('.')))
+    .pipe(gulp.dest('.tmp/js'))
+    .pipe(reload({stream: true}));
+});
+gulp.task('restaurant', () => {
+  return gulp.src(['app/js/**/*.js','!app/js/**/*.js.map','!app/js/**/main*.js'])
+    .pipe($.plumber())
+    .pipe($.if(dev, $.sourcemaps.init()))
+    .pipe(concat('restaurant.js'))
+    .pipe($.babel())
+    .pipe($.uglify())
+    .pipe($.if(dev, $.sourcemaps.write('.')))
     .pipe(gulp.dest('.tmp/js'))
     .pipe(reload({stream: true}));
 });
@@ -111,7 +123,7 @@ gulp.task('extras', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 gulp.task('serve', () => {
-  runSequence(['clean', 'wiredep'], ['css', 'js', 'sw', 'fonts', 'html', 'img'], () => {
+  runSequence(['clean', 'wiredep'], ['css', 'js', 'restaurant', 'sw', 'fonts', 'html', 'img'], () => {
     browserSync.init({
       notify: false,
       port: 8000,
