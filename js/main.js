@@ -4,17 +4,6 @@ let restaurants,
 var newMap
 var markers = []
 
-function registerServiceWorker() {
-  if(!navigator.serviceWorker) return;
-  console.log('Registering Service Worker 9.');
-  navigator.serviceWorker.register('./sw.js')
-    .then((reg) => console.log(reg))
-    .catch((err) => console.log('Error: ', err));
-}
-
-registerServiceWorker();
-
-
 // Accessibility skip links
 const skipToMaincontent = document.getElementById('accessibility-skip-link');
 skipToMaincontent.addEventListener('click', (event) => {
@@ -105,18 +94,6 @@ initMap = () => {
 
   updateRestaurants();
 }
-/* window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  updateRestaurants();
-} */
 
 /**
  * Update page and map for current restaurants.
@@ -178,8 +155,8 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.setAttribute('alt', restaurant.altText);
-  image.srcset = `/img/${restaurant.photo400} 400w, /img/${restaurant.photo800} 800w`;
+  image.setAttribute('alt', restaurant.altString);
+  image.srcset = `/img/${restaurant.resized400w} 400w, /img/${restaurant.original800w} 800w`;
   li.append(image);
 
   const info = document.createElement('div');
@@ -222,14 +199,4 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 
 } 
-/* addMarkersToMap = (restaurants = self.restaurants) => {
-  restaurants.forEach(restaurant => {
-    // Add marker to the map
-    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
-    google.maps.event.addListener(marker, 'click', () => {
-      window.location.href = marker.url
-    });
-    self.markers.push(marker);
-  });
-} */
 

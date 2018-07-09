@@ -1,5 +1,7 @@
-const PRECACHE = 'restaurant-reviews-v3';
-const RUNTIME = 'runtime-v3';
+const PRECACHE = 'restaurant-reviews-v1';
+const RUNTIME = 'runtime-v1';
+
+// Links to cache
 const PRECACHE_URLS = [
   '/',
   'index.html',
@@ -12,37 +14,14 @@ const PRECACHE_URLS = [
   '/sw.js',
   '/js/app.js',
 ];
-// Update dynamic links
+// Cache images
 for(let i = 1; i <= 10; i++) {
   PRECACHE_URLS.push(`/restaurant.html?id=${i}`);
-  PRECACHE_URLS.push(`/img/${i}-800.jpg`);
-  PRECACHE_URLS.push(`/img/${i}-400.jpg`);
+  PRECACHE_URLS.push(`/img/${i}_800w.jpg`);
+  PRECACHE_URLS.push(`/img/${i}_400w.jpg`);
 }
 
-// /**
-//  * Create of Open the IDB Database
-//  */
-// function createOrOpenDatabase() {
-//   if ('serviceWorker' in navigator) {
-//     return idb.open('restaurants-reviews-db', (db) => {
-//       const store = db.createObjectStore('restaurant-reviews', {
-//         keyPath: "id"
-//       });
-//       store.createIndex('dateId', 'time');
-//     });
-//   } else {
-//     return Promise.resolve();
-//   }
-// }
-
-// self.addEventListener('install', (event) => {
-//   event.waitUntil(
-//     caches.open(PRECACHE)
-//       .then((cache) => cache.addAll(PRECACHE_URLS))
-//       .then(self.skipWaiting())
-//   );
-// });
-
+// Service worker install handler
 self.addEventListener("install", event => {
   console.log("Installing service worker...");
   event.waitUntil(
@@ -62,15 +41,6 @@ self.addEventListener("install", event => {
       })
   );
 });
-
-// self.addEventListener('fetch', (event) => {
-//   event.respondWith(
-//     caches.match(event.request)
-//       .then((response) => {
-//         return response || fetch(event.request);
-//       })
-//   );
-// });
 
 /**
  * fetch handles responses for same-origin resources from a cache.
