@@ -120,8 +120,8 @@ nav h1 a {
   height: 0px;
   width: 100%;
   background-color: #ccc;
-  -webkit-transition: height 2s;
-  transition: height 2s;
+  -webkit-transition: height 1.5s;
+  transition: height 1.5s;
 }
 #mapButton {
   position: absolute;
