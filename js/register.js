@@ -2,9 +2,9 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker
         .register("/js/sw.js")
         .then(reg => {
-        console.log("Service Worker was registered sucessfully!");
+        console.log("SW registered!");
     })
     .catch(error => {
-        console.log("Registration failed!" + error);
+        console.log("SW Registration failed!" + error);
     });
 }
