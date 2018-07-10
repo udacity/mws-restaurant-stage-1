@@ -343,7 +343,7 @@ nav h1 a {
 
 #reviews-list li {
   background-color: #fff;
-  border: 2px solid #f3f3f3;
+  /* border: 2px solid #f3f3f3; */
   border-radius: 25px 0;
   display: block;
   list-style-type: none;
@@ -352,6 +352,7 @@ nav h1 a {
   /* padding: 0 20px 20px; */
   position: relative;
   /* width: 85%; */
+  box-shadow: 3px 3px 20px 0px rgba(0,0,0,0.15);
 }
 
 #reviews-list li p {
