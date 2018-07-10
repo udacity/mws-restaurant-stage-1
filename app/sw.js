@@ -1,15 +1,19 @@
-const GLOBAL_CACHE = 'mws-restaurant-v1';
+const STATIC_CACHE = 'mws-restaurant-v1';
+const GLOBAL_CACHE = 'mws-contents';
 const PHOTO_CACHE = 'mws-content-imgs';
 
-var urlsToCache = [
+const staticUrls = [
     '/',
     'restaurant.html'
+    'scripts/all_restaurant.js',
+    'scripts/all_main.js',
+    'styles/main.css'
   ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(GLOBAL_CACHE).then(cache => {
-      return cache.addAll(urlsToCache);
+    caches.open(STATIC_CACHE).then(cache => {
+      return cache.addAll(staticUrls);
     }));
 });
 
@@ -22,21 +26,24 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  event.respondWith(caches.open(GLOBAL_CACHE).then(cache => {
-    return cache.match(event.request).then(response => {
-      if(response !== undefined){
-        return response;
-      }
-
-      return fetch(event.request).then(networkResponse => {
-        if(event.request.method !== 'POST'){
-           cache.put(event.request, networkResponse.clone());
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        if(response !== undefined){
+          return response;
         }
-        return networkResponse;
-      });
-    });
-  }));
 
+        return fetch(event.request).then(networkResponse => {
+
+          if(event.request.method !== 'POST'){
+            let cachedResponse = networkResponse.clone();
+            caches.open(GLOBAL_CACHE).then(cache => 
+              cache.put(event.request, cachedResponse));
+          }
+          return networkResponse;
+        });
+    })
+  );
 
 });
 
