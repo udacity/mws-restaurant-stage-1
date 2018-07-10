@@ -4,7 +4,7 @@ const PHOTO_CACHE = 'mws-content-imgs';
 
 const staticUrls = [
     '/',
-    'restaurant.html'
+    'restaurant.html',
     'scripts/all_restaurant.js',
     'scripts/all_main.js',
     'styles/main.css'
