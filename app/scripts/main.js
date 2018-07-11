@@ -8,8 +8,7 @@ var markers = []
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  fetchNeighborhoods();
-  fetchCuisines();
+  initialize();
   loadSw();
 });
 
@@ -21,20 +20,27 @@ const loadSw = () => {
     }).catch(function() {
       console.log('Registration failed!');
     });
-  }
+}
 
-/**
- * Fetch all neighborhoods and set their HTML.
- */
-const fetchNeighborhoods = () => {
-  DBHelper.fetchNeighborhoods((error, neighborhoods) => {
-    if (error) { // Got an error
+const initialize = () => {
+  DBHelper.fetchRestaurants((error, results) => {
+    if (error) {
       console.error(error);
-    } else {
-      self.neighborhoods = neighborhoods;
-      fillNeighborhoodsHTML();
+    }
+    else{
+      fetchNeighborhoods(results);
+      fetchCuisines(results);
     }
   });
+}
+/**
+ * Handle neighborhoods
+ */
+const fetchNeighborhoods = (restaurants) => {
+  const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+  const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
+  self.neighborhoods = uniqueNeighborhoods;
+  fillNeighborhoodsHTML();
 }
 
 /**
@@ -53,15 +59,11 @@ const fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
 /**
  * Fetch all cuisines and set their HTML.
  */
-const fetchCuisines = () => {
-  DBHelper.fetchCuisines((error, cuisines) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.cuisines = cuisines;
-      fillCuisinesHTML();
-    }
-  });
+const fetchCuisines = (restaurants) => {
+  const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
+  const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)  
+  self.cuisines = uniqueCuisines;
+  fillCuisinesHTML();
 }
 
 /**
