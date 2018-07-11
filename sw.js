@@ -2,9 +2,9 @@
  * Service Worker configurations
  */
 
-const APP_VERSION = 'v2';
+const APP_VERSION = 'v3';
 var staticCacheName = `mws-static-${APP_VERSION}`;
-var mapCacheName = `msw-map-${APP_VERSION}`;
+var mapCacheName = `mws-map-${APP_VERSION}`;
 
 const GOOGLE_MAPS_URL = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCpOS0fLi4JISp3kekVBcJGvzkXvgM1KZw&libraries=places&callback=initMap';
 const GOOGLE_MAPS_COMMON_URL = 'https://maps.googleapis.com/maps-api-v3/api/js/33/6a/common.js';
@@ -28,10 +28,7 @@ var allCaches = [staticCacheName, mapCacheName];
           'dist/js/restaurant_info.js',
           'dist/js/vendor/idb.js',
           'css/breakpoints.css',
-          'css/styles.css',
-          
-          '',
-          ''
+          'css/styles.css'
         ])/* .then(function(){
           return caches.open('OpaqueCache').then(function(opaqueCache) {
             fetch(GOOGLE_MAPS_URL, {mode:'no-cors'}).then(function(response) {
@@ -69,8 +66,7 @@ var allCaches = [staticCacheName, mapCacheName];
 
 self.addEventListener('fetch', function(event) {
     var requestUrl = new URL(event.request.url);
-  
-    if (requestUrl.origin === location.origin) {
+    if (requestUrl.origin === location.origin || requestUrl.host === 'fonts.gstatic.com') {
       if (requestUrl.pathname === '/') {
         event.respondWith(caches.match('index.html'));
         return;
@@ -80,12 +76,28 @@ self.addEventListener('fetch', function(event) {
         event.respondWith(caches.match('restaurant.html'));
         return;
       } 
+      event.respondWith(
+        caches.match(requestUrl).then(function(response) {
+          return response || fetch(requestUrl);
+        })
+      );
+    } else {
+      if (requestUrl.host === 'maps.googleapis.com' || requestUrl.host === 'maps.gstatic.com') {
+        event.respondWith(
+          caches.match(requestUrl).then(function(response) {
+            if (response) return response;
+            return caches.open(mapCacheName).then(function(opaqueCache) {
+              return fetch(requestUrl, {mode:'no-cors'}).then(function(response) {
+                let clonedResponse = response.clone();
+                opaqueCache.put(requestUrl, clonedResponse);
+                return response;
+              });
+          })
+        }).catch(function(response) {
+          console.log('no cache', response);
+        }));
+        return;   
+      }
     }
-  
-    event.respondWith(
-      caches.match(event.request).then(function(response) {
-        return response || fetch(event.request);
-      })
-    );
   });
   
