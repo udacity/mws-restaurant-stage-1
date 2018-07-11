@@ -4,15 +4,15 @@
 
 const APP_VERSION = 'v2';
 var staticCacheName = `mws-static-${APP_VERSION}`;
-var mapCacheName = `mws-map-${APP_VERSION}`;
-var fontsCacheName = `mws-map-fonts-${APP_VERSION}`;
+var externalCacheName = `mws-external-${APP_VERSION}`;
+var imagesCacheName = `mws-images-${APP_VERSION}`;
 
 const GOOGLE_MAPS_URL = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCpOS0fLi4JISp3kekVBcJGvzkXvgM1KZw&libraries=places&callback=initMap';
 const GOOGLE_MAPS_COMMON_URL = 'https://maps.googleapis.com/maps-api-v3/api/js/33/6a/common.js';
 const GOOGLE_MAPS_UTIL_URL = 'https://maps.googleapis.com/maps-api-v3/api/js/33/6a/util.js';
 const GOOGLE_MAPS_MAP_URL = 'https://maps.googleapis.com/maps-api-v3/api/js/33/6a/map.js';
 
-var allCaches = [staticCacheName, mapCacheName, fontsCacheName];
+var allCaches = [staticCacheName, externalCacheName, imagesCacheName];
 
 
   self.addEventListener('install', function(event) {
@@ -54,7 +54,7 @@ self.addEventListener('fetch', function(event) {
     var requestUrl = new URL(event.request.url);
 
     //Always serve local content from cache
-    if (requestUrl.origin === location.origin) {
+    if (requestUrl.origin === location.origin) {      
       if (requestUrl.pathname === '/') {
         event.respondWith(caches.match('index.html'));
         return;
@@ -62,7 +62,26 @@ self.addEventListener('fetch', function(event) {
       if (requestUrl.pathname.includes('restaurant.html')) {
         event.respondWith(caches.match('restaurant.html'));
         return;
-      }      
+      }
+      if (requestUrl.pathname.includes('.jpg') || requestUrl.pathname.includes('.png')) {
+        //for images, first check the cache
+        caches.match(requestUrl).then(function(response) {
+          if (response) {
+            console.log('retrieving image from cache', requestUrl.pathname);
+            return response;
+          }
+          else {
+            return fetch(requestUrl).then(function(response) {
+              console.log('fetching image from server', requestUrl.pathname);
+              return caches.open(imagesCacheName).then(function(cache) {                
+                let clonedResponse = response.clone();
+                cache.put(requestUrl, clonedResponse);                
+                return response;
+              });
+            });
+          }
+        })        
+      }
       event.respondWith(
         caches.match(requestUrl).then(function(response) {
           return response || fetch(requestUrl);
@@ -79,7 +98,7 @@ self.addEventListener('fetch', function(event) {
         //Try to serve external content from the web, if it fails, try the cache
         fetch(requestUrl, requestHeader).then(function(response) {
           //if successful fetch, save a copy in the cache
-          return caches.open(fontsCacheName).then(function(cache) {
+          return caches.open(externalCacheName).then(function(cache) {
               let clonedResponse = response.clone();
               cache.put(requestUrl, clonedResponse);                
               return response;
