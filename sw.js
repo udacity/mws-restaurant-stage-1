@@ -2,7 +2,7 @@
  * Service Worker configurations
  */
 
-const APP_VERSION = 'v3';
+const APP_VERSION = 'v1';
 var staticCacheName = `mws-static-${APP_VERSION}`;
 var externalCacheName = `mws-external-${APP_VERSION}`;
 var imagesCacheName = `mws-images-${APP_VERSION}`;
@@ -18,7 +18,6 @@ var allCaches = [staticCacheName, externalCacheName, imagesCacheName];
   self.addEventListener('install', function(event) {
     event.waitUntil(
       caches.open(staticCacheName).then(function(cache) {
-
         return cache.addAll([
           'sw.js',
           'index.html',
@@ -28,8 +27,8 @@ var allCaches = [staticCacheName, externalCacheName, imagesCacheName];
           'dist/js/main.js',
           'dist/js/restaurant_info.js',
           'dist/js/vendor/idb.js',
-          'css/breakpoints.css',
-          'css/styles.css'
+          'dist/css/breakpoints.css',
+          'dist/css/styles.css'
         ])
       })
     );

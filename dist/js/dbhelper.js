@@ -32,7 +32,6 @@ class DBHelper {
           restaurantsFromServer.forEach(function (restaurant) {
             restaurantsStore.put(restaurant);
           });
-          console.log('Restaurants were cached');
         }
         return restaurantsFromServer;
       })
@@ -46,7 +45,6 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-
     //First try to retrieve from the server
     DBHelper.fetchRestaurantsFromServer().then(function(restaurantsFromServer){
       callback(null, restaurantsFromServer);
