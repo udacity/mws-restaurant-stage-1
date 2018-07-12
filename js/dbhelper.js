@@ -46,22 +46,18 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    
-    //First check if there are restaurants in the cache
-    let restaurants = DBHelper.fetchRestaurantsFromCache().then(function(restaurantesFromCache){
 
-      //If nothing was found in the cache, fetch from server
-      if (restaurantesFromCache.length > 0) {
-        console.log('Retrieving restaurants from cache');
-        callback(null, restaurantesFromCache);
-      } else {
-        console.log('Retrieving restaurants from server');        
-        DBHelper.fetchRestaurantsFromServer().then(function(restaurantsFromServer){
-          callback(null, restaurantsFromServer);
-        })
-      }
-    });
-  }
+    //First try to retrieve from the server
+    DBHelper.fetchRestaurantsFromServer().then(function(restaurantsFromServer){
+      callback(null, restaurantsFromServer);
+    }).catch(function(response){
+        //If the server was not reachable, check the cache
+        DBHelper.fetchRestaurantsFromCache().then(function(restaurantesFromCache){
+          callback(null, restaurantesFromCache);
+        }
+      )}
+    );
+  }      
 
   /**
    * Fetch a restaurant by its ID.

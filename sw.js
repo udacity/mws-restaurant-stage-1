@@ -2,7 +2,7 @@
  * Service Worker configurations
  */
 
-const APP_VERSION = 'v2';
+const APP_VERSION = 'v3';
 var staticCacheName = `mws-static-${APP_VERSION}`;
 var externalCacheName = `mws-external-${APP_VERSION}`;
 var imagesCacheName = `mws-images-${APP_VERSION}`;
@@ -67,12 +67,10 @@ self.addEventListener('fetch', function(event) {
         //for images, first check the cache
         caches.match(requestUrl).then(function(response) {
           if (response) {
-            console.log('retrieving image from cache', requestUrl.pathname);
             return response;
           }
           else {
             return fetch(requestUrl).then(function(response) {
-              console.log('fetching image from server', requestUrl.pathname);
               return caches.open(imagesCacheName).then(function(cache) {                
                 let clonedResponse = response.clone();
                 cache.put(requestUrl, clonedResponse);                
