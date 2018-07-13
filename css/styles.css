@@ -117,6 +117,11 @@ nav {
     background-color: #ccc;
 }
 /* ====================== Restaurant Filtering ====================== */
+.filter-label{
+    visibility: hidden;
+    width: 0%;
+}
+
 .filter-options {
     width: 100%;
     background-color: #3397DB;
@@ -290,7 +295,7 @@ nav {
     width: 100%;
 }
 
-    #reviews-container h2 {
+    #reviews-container h3 {
         color: #f58500;
         font-size: 24pt;
         font-weight: 300;

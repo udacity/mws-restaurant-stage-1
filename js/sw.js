@@ -24,11 +24,13 @@ self.addEventListener("install", event => {
 });
 
 self.addEventListener("fetch", event => {
+
     let cacheRequest = event.request;
     let cacheURLObj = new URL(event.request.url);
+
     event.respondWith(
         caches.match(cacheRequest).then(response => {
-            return { response ||
+            return (response ||
                 fetch(event.request)
                     .then(fetchResponse => {
                         return caches.open(cacheID).then(cache => {
@@ -36,13 +38,13 @@ self.addEventListener("fetch", event => {
                             return fetchResponse;
                         });
                     })
-                .catch(error => {
-                    let nCText = "Not connected to the internet";
-                    let nCResp = new Response(nCText);
-                    nCResp.status = 404;
-                    nCResp.statusText = nCText;
-            })
-            };
+                    .catch(error => {
+                        let nCText = "Not connected to the internet";
+                        let nCResp = new Response(nCText);
+                        nCResp.status = 404;
+                        nCResp.statusText = nCText;
+                    })
+            );
         })
     );
 });
