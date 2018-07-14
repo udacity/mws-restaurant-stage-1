@@ -164,9 +164,9 @@ createRestaurantHTML = (restaurant) => {
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   more.setAttribute('role', 'button');
-  li.append(more)
+  li.append(more);
 
-  return li
+  return li;
 }
 
 /**
@@ -175,22 +175,10 @@ createRestaurantHTML = (restaurant) => {
 addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
-    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
-    marker.on("click", onClick);
-    function onClick() {
-      window.location.href = marker.options.url;
-    }
-    self.markers.push(marker);
-  });
-
-}
-/* addMarkersToMap = (restaurants = self.restaurants) => {
-  restaurants.forEach(restaurant => {
-    // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
-    google.maps.event.addListener(marker, 'click', () => {
+    google.maps.event.addListener(marker, 'click', _ =>
       window.location.href = marker.url
-    });
+    );
     self.markers.push(marker);
   });
 }
