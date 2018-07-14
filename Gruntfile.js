@@ -1,13 +1,4 @@
-/*
- After you have changed the settings under responsive_images
- run this with one of these options:
-  "grunt" alone creates a new, completed images directory
-  "grunt clean" removes the images directory
-  "grunt responsive_images" re-processes images without removing the old ones
-*/
-
 module.exports = function(grunt) {
-
   grunt.initConfig({
     responsive_images: {
       dev: {
@@ -16,19 +7,19 @@ module.exports = function(grunt) {
           engine: 'gm',
           sizes: [{
             width: 800,
-            suffix: '_full',
+            suffix: '_large',
             quality: 80
           }, {
-            width: 400,
-            suffix: '_small',
+            width: 640,
+            suffix: '_medium',
             quality: 60
+          }, {
+            width: 320,
+            suffix: '_small',
+            quality: 40
           }]
         },
 
-        /*
-        You don't need to change this part if you don't change
-        the directory structure.
-        */
         files: [{
           expand: true,
           src: ['*.jpg'],

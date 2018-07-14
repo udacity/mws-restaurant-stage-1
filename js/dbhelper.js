@@ -151,7 +151,7 @@ class DBHelper {
    */
   static imageUrlForRestaurant(restaurant) {
     const [filename, extension] = restaurant.photograph.split('.');
-    return `/images/${filename}-400_small.${extension}`;
+    return `/images/${filename}-320_small.${extension}`;
   }
 
   /**
@@ -159,9 +159,16 @@ class DBHelper {
    */
   static imageSrcsetForRestaurant(restaurant) {
     const [filename, extension] = restaurant.photograph.split('.');
-    // return (`/images/${filename}-320_thumbnail.${extension} 320w, /images/${filename}-640_medium.${extension} 640w, /images/${filename}-800_full.${extension} 800w`);
-    return (`/images/${filename}-400_small.${extension} 1x, /images/${filename}-800_full.${extension} 2x`);
+    return (`/images/${filename}-320_small.${extension} 320w, /images/${filename}-640_medium.${extension} 640w, /images/${filename}-800_large.${extension} 800w`);
   }
+
+  /**
+   * Restaurant image sizes.
+   */
+  static imageSizesForRestaurant() {
+    return '(min-width: 650px) calc(50vw - 60px), calc(100vw - 20px)';
+  }
+
 
   /**
    * Map marker for a restaurant.
