@@ -1,5 +1,5 @@
 let restaurant;
-var map;
+let map;
 
 /**
  * Initialize Google map, called from HTML.
