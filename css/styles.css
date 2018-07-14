@@ -1,5 +1,4 @@
-﻿@charset "utf-8";
-/* CSS Document */
+﻿/* CSS Document */
 
 body, td, th, p {
     font-family: Arial, Helvetica, sans-serif;
@@ -31,7 +30,7 @@ a {
     }
 
     a img {
-        border: none 0px #fff;
+        border: none 0 #fff;
     }
 
 h1, h2, h3, h4, h5, h6 {
@@ -116,10 +115,17 @@ nav {
     width: 100%;
     background-color: #ccc;
 }
-/* ====================== Restaurant Filtering ====================== */
-.filter-label{
+
+.map-aria-description {
     visibility: hidden;
-    width: 0%;
+    width: 0;
+    height: 0;
+}
+
+/* ====================== Restaurant Filtering ====================== */
+.filter-label {
+    visibility: hidden;
+    width: 0;
 }
 
 .filter-options {
@@ -179,7 +185,7 @@ nav {
     }
 
 #restaurants-list .restaurant-img {
-    margin: 0% 0% 0% 0%;
+    margin: 0 0 0 0;
     width: 100%;
 }
 
@@ -222,23 +228,11 @@ nav {
     min-height: 100%;
 }
 
-/*
-.inside #map-container {
-    background: blue;
-    height: 30%;
-    position:fixed;
-    width: 50%;
-    top: 20%;
-    right: 0;
-}
-*/
-
 .inside #map {
     background-color: #ccc;
     height: 100px;
-    width: 100%;
+    width: 80%;
 }
-
 
 #restaurant-name {
     color: #f18200;
@@ -248,18 +242,18 @@ nav {
     letter-spacing: 0;
     text-transform: uppercase;
     line-height: 1.1;
-    padding: 15%, 0%, 15%, 0%;
+    padding: 15%, 0, 15%, 0;
     text-align: center;
 }
 
 #restaurant-img {
-    width: 100%;
-    margin: 0%, 0%, 10%, 0%;
+    width: 80%;
+    margin: 0, 0, 10%, 0;
 }
 
 #restaurant-address {
     font-size: 12pt;
-    margin: 10px 0px;
+    margin: 10px 0;
 }
 
 #restaurant-cuisine {
@@ -281,7 +275,7 @@ nav {
     align-items: center;
     border-bottom: 1px solid #d9d9d9;
     border-top: 1px solid #fff;
-    padding: 5%, 0%, 0%, 0%;
+    padding: 5%, 0, 0, 0;
     width: 100%;
 }
 
@@ -291,7 +285,7 @@ nav {
 #reviews-container {
     border-bottom: 1px solid #d9d9d9;
     border-top: 1px solid #fff;
-    padding: 5%, 0%, 0%, 0%;
+    padding: 5%, 0, 0, 0;
     width: 100%;
 }
 
@@ -318,7 +312,6 @@ nav {
         border: 2px solid #f3f3f3;
         display: block;
         list-style-type: none;
-        margin: 0;
         overflow: hidden;
         margin: 1%;
         padding: 3%;
