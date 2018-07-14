@@ -1,5 +1,5 @@
 const staticCacheName = 'restaurant-reviews-static-v9';
-const restaurantReviewsImgs = 'restaurant-reviews-imgs-v1';
+const restaurantReviewsImgs = 'restaurant-reviews-imgs-v2';
 const allCaches = [
   staticCacheName,
   restaurantReviewsImgs
@@ -39,7 +39,6 @@ self.addEventListener('activate', event =>
 
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
-  console.log('requestUrl', requestUrl);
 
   if (requestUrl.origin === location.origin) {
     if (requestUrl.pathname === '/') {

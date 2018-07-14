@@ -19,13 +19,9 @@ module.exports = function(grunt) {
             suffix: '_full',
             quality: 80
           }, {
-            width: 500,
-            suffix: '_medium',
-            quality: 50
-          }, {
-            width: 270,
-            suffix: '_thumbnail',
-            quality: 40
+            width: 400,
+            suffix: '_small',
+            quality: 60
           }]
         },
 
@@ -64,5 +60,4 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-mkdir');
   grunt.registerTask('default', ['clean', 'mkdir', 'responsive_images']);
-
 };

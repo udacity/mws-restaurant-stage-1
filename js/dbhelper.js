@@ -150,10 +150,8 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    // return (`/img/${restaurant.photograph}`);
     const [filename, extension] = restaurant.photograph.split('.');
-    // return `/images/${filename}-800_full.${extension}`;
-    return `/images/${filename}-270_thumbnail.${extension}`;
+    return `/images/${filename}-400_small.${extension}`;
   }
 
   /**
@@ -161,7 +159,8 @@ class DBHelper {
    */
   static imageSrcsetForRestaurant(restaurant) {
     const [filename, extension] = restaurant.photograph.split('.');
-    return (`/images/${filename}-270_thumbnail.${extension} 270w, /images/${filename}-500_medium.${extension} 500w, /images/${filename}-800_full.${extension} 800w`);
+    // return (`/images/${filename}-320_thumbnail.${extension} 320w, /images/${filename}-640_medium.${extension} 640w, /images/${filename}-800_full.${extension} 800w`);
+    return (`/images/${filename}-400_small.${extension} 1x, /images/${filename}-800_full.${extension} 2x`);
   }
 
   /**
@@ -177,5 +176,4 @@ class DBHelper {
     );
     return marker;
   }
-
 }
