@@ -12,7 +12,7 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
-static openDB() {// call this before every idb transaction
+  static openDB() {// call this before every idb transaction
     return idb.open('mwsDb', 1, upgradeDB => {
       const reviews = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
     });
@@ -38,6 +38,7 @@ static openDB() {// call this before every idb transaction
         const transaction = db.transaction('reviews');
         const reviewsObjStore = transaction.objectStore('reviews');
 
+        //Parse int because the keys are actually int...not string
         reviewsObjStore.get(parseInt(id))
           .then(val => {
             if(val){
@@ -68,10 +69,10 @@ static openDB() {// call this before every idb transaction
       callback(error, null);
     } else {
       const restaurant = restaurants.find(r => r.id == id);
-      if (restaurant) { // Got the restaurant
+      if (restaurant) { 
         DBHelper.addRestaurantInfoToIndexDb(restaurant);
         callback(null, restaurant);
-      } else { // Restaurant does not exist in the database
+      } else { 
         callback('Restaurant does not exist', null);
       }
     }
