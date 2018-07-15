@@ -186,7 +186,6 @@ class DBHelper {
     return fetch(`${DBHelper.DATABASE_URL.reviews}/?restaurant_id=${restaurant_id}`)
     .then(reviews => {
       reviews.json().then(json => {
-        console.log(json);
         callback(null, json);
       })
     })
@@ -195,17 +194,56 @@ class DBHelper {
     })
   }
 
-  static postData(url, data, callback) {
-    // Default options are marked with *
-    return fetch(url, {
-      body: JSON.stringify(data), // must match 'Content-Type' header
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+  
+  static submitReview(callback) {
+
+    return fetch(DBHelper.DATABASE_URL.reviews, {
       headers: {
-        'content-type': 'application/json'
+
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+        "Connection": "keep-alive",
+        "Content-Length": `${jsHelper.serializeObject(jsHelper.getFormValues()).length}`,
+        "Content-Type": "application/x-www-form-urlencoded"
       },
-      method: 'POST' // *GET, POST, PUT, DELETE, etc.
-    })
-    .then(response => callback(response.json())) // parses response to JSON
+      method: 'post',
+      body: jsHelper.serializeObject(jsHelper.getFormValues())
+
+    }).then(function(response) {
+
+      console.log(response);
+      return response.json();
+    }).then(function(data) {
+
+      console.log(data);
+      callback(data);
+    }).catch(error => {
+
+      if('SyncManager' in window) {
+
+        navigator.serviceWorker.ready.then(swr=>{
+          console.log('Sw ready');
+          return swr.pushManager.getSubscription();
+        })
+        .then(subscription =>{
+    
+          navigator.serviceWorker.controller.postMessage({
+            url: DBHelper.DATABASE_URL.reviews,
+            formData: jsHelper.getFormValues(),
+            type: 'new-review',
+            method: 'POST'
+          });
+  
+        })
+        .catch(error => {
+          console.log(error); 
+          return;
+        })
+    
+      } else {
+        console.log(error); 
+        return;
+      }
+    });
   }
 }
 

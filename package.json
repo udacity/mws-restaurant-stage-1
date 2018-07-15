@@ -49,6 +49,7 @@
   },
   "author": "Vickie Chantzis",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "gulp-minify": "^2.1.0"
   }
 }

@@ -13,14 +13,11 @@ window.addEventListener('load', function() {
     
   if (!navigator.serviceWorker) return;
 
-   navigator.serviceWorker.register('/sw.js', { scope: '/' })
-     .then((registration) => {console.log('Registration successfull');})
-     .then((registration) =>{
-      if ('sync' in registration) {
-        jsHelper.submitReviewEvent();
-      }
-     })
-     .catch(() => {console.log('SW Registration failed');});
+  navigator.serviceWorker.register('/sw.js', { scope: '/' })
+  .then(() =>{
+    console.log('Registration successfull');
+  })
+  .catch(() => {console.log('SW Registration failed');});
 
 });
 

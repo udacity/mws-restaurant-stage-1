@@ -51,30 +51,37 @@ class jsHelper {
     );
   };
 
-  static toJSONString( form ) {
-		var obj = {};
-		var elements = form.querySelectorAll( "input, select, textarea" );
-		for( var i = 0; i < elements.length; ++i ) {
-			var element = elements[i];
-			var name = element.name;
-			var value = element.value;
-
-			if( name ) {
-				obj[ name ] = value;
-			}
-		}
-
-		return JSON.stringify( obj );
+  /**
+   * Get a parameter by name from page URL.
+   */
+  static getParameterByName (name, url) {
+    if (!url)
+      url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`),
+      results = regex.exec(url);
+    if (!results)
+      return null;
+    if (!results[2])
+      return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
   }
-  
-  static submitReviewEvent() {
 
-    document.getElementById('submit-review').addEventListener('click', event => {
+  /**
+   * Returns the review form values to be posted
+   */
+  static getFormValues() {
 
-      event.preventDefault();
-      const form =  document.getElementById('review-form');
-  
-    
-    });
+    return {
+      name: document.getElementById('name').value, 
+      rating: document.getElementById('rating').value, 
+      comments: document.getElementById('comments').value, 
+      restaurant_id: this.getParameterByName('id')
+    };
+  }
+
+  static serializeObject(params) {
+
+    return Object.keys(params).map(key => key + '=' + params[key]).join('&');
   }
 }

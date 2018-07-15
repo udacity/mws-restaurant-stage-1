@@ -1,20 +1,25 @@
 let restaurant, reviews;
 var map;
 
+
 window.addEventListener('load', function() {
     
   if (!navigator.serviceWorker) return;
 
-   navigator.serviceWorker.register('/sw.js', { scope: '/' })
-     .then((registration) => {console.log('Registration successfull');})
-     .then((registration) =>{
-      if ('sync' in registration) {
-        submitReviewEvent();
-      }
+  navigator.serviceWorker.register('/sw.js', { scope: '/' })
+  .then(() =>{
+    console.log('Registration successfull');
+  })
+  .catch(() => {console.log('SW Registration failed');});
 
-     })
-     .catch(() => {console.log('SW Registration failed');});
+});
 
+document.addEventListener('DOMContentLoaded', ()=>{
+
+  document.getElementById('submit-review').addEventListener('click', event => {
+    event.preventDefault();
+    DBHelper.submitReview(() => {});
+  });
 });
 
 
@@ -54,7 +59,7 @@ fetchRestaurantFromURL = (callback) => {
     callback(null, self.restaurant)
     return;
   }
-  const id = getParameterByName('id');
+  const id = jsHelper.getParameterByName('id');
   if (!id) { // no id found in URL
     error = 'No restaurant id in URL'
     callback(error, null);
@@ -130,7 +135,10 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   cuisine.innerHTML = restaurant.cuisine_type;
 
   const restaurant_id_input = document.getElementById('restaurant_id');
-  restaurant_id_input.setAttribute('value',getParameterByName('id'));
+  restaurant_id_input.setAttribute('value',jsHelper.getParameterByName('id'));
+
+  const restaurant_review_form = document.getElementById('review-form');
+  restaurant_review_form.setAttribute('action', DBHelper.DATABASE_URL.reviews);
 
   // fill operating hours
   if (restaurant.operating_hours) {
@@ -238,24 +246,8 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
   breadcrumb.appendChild(li);
 }
 
-/**
- * Get a parameter by name from page URL.
- */
-getParameterByName = (name, url) => {
-  if (!url)
-    url = window.location.href;
-  name = name.replace(/[\[\]]/g, '\\$&');
-  const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`),
-    results = regex.exec(url);
-  if (!results)
-    return null;
-  if (!results[2])
-    return '';
-  return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
-
 fetchReviews = () => {
-  const restaurant_id = getParameterByName('id');
+  const restaurant_id = jsHelper.getParameterByName('id');
   if (!restaurant_id) { // no id found in URL
     error = 'No restaurant id in URL'
     callback(error, null);

@@ -8,6 +8,9 @@ var CACHE_IMAGES = 'restaurant-reviews-images-v1';
 const offlinePage = './404.html';
 var dbPromise;
 var reviewsDbPromise;
+var reviewsDbTempPromise;
+var reviewFormData;
+
 
 /** 
  * Fetch and cache image request 
@@ -17,7 +20,6 @@ function cacheImages(request) {
   // Remove size-related info from image name 
   var urlToFetch = request.url.slice(0, request.url.indexOf('-'));
    
-  
   return caches.open(CACHE_IMAGES).then(cache => {  
     return cache.match(urlToFetch).then(response => {
   
@@ -87,7 +89,7 @@ function cacheImages(request) {
 }
 
 /**
- * Search in indexed DB and if no result fetch from network  ///TODO recheck!!!
+ * Fetches from network and puts in indexed db latest data
  */
 function getLatestData(request) {
 
@@ -128,6 +130,9 @@ function getLatestData(request) {
   });
 }
 
+/**
+ * Searches the indexed db for data and if nothing found tries the nework
+ */
 function searchInIDB(request) {
 
   var pathSlices = request.clone().url.split("/");
@@ -169,6 +174,9 @@ function searchInIDB(request) {
   });
 }
 
+/**
+ * Fetches from network and puts in indexed db the latest reviews
+ */
 function getLatestReviews(request) {
   
   return fetch(request.clone()).then(networkResponse => {
@@ -199,6 +207,9 @@ function getLatestReviews(request) {
   });
 }
 
+/**
+ * Searches the indexed db for reviews and if nothing found tries the nework
+ */
 function searchIDBForReviews(request) {
 
   var pathSlices = request.clone().url.split("restaurant_id=");
@@ -233,32 +244,79 @@ function searchIDBForReviews(request) {
   });
 }
 
-function sendReviewToServer(request) {
 
-  return fetch(request)
-  .then(response => { return response;})
-  .catch(error => {
-    console.log(error)
-  });
-}
+function findTempReview(review_id) {
 
-function submitReview(request) {
+  return new Promise((resolve, reject) => {
+
+    if(!reviewsDbTempPromise) return;
+
+    return reviewsDbTempPromise.then(db => {
+              
+      if(!db) return;
   
-  if(!reviewsDbPromise) return sendReviewToServer(request.clone());
-
-  reviewsDbPromise.then(db => {
+      var tx = db.transaction('restaurant-reviews-temp', 'readwrite');
+      var store = tx.objectStore('restaurant-reviews-temp');
+  
+      return store.get(review_id).then(tempReview => {
         
-    if(!db) return sendReviewToServer(request.clone());
-
-    var tx = db.transaction('restaurant-reviews', 'readwrite');
-    var store = tx.objectStore('restaurant-reviews');
-
-    json.forEach(review => {
-      store.put(review, review.id);
+        return sendToServer(tempReview)
+        .then((networkResponse) => {
+          console.log(networkResponse);
+          
+          store.delete(data.createdAt);
+      
+          resolve();
+      
+          return networkResponse;
+      
+        }).catch(error => {
+          console.log('No connection!');
+        });
+      });
     });
   });
-
+  
 }
+
+function sendToServer(data) {
+
+  return fetch(data.url, {
+    headers: {
+
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+      "Connection": "keep-alive",
+      "Content-Length": `${serializeObject(data.formData).length}`,
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    method: data.method,
+    body: serializeObject(data.formData),
+
+  });
+}
+
+function saveReviewInTempDB(data) {
+  
+  if(!reviewsDbTempPromise) return;
+
+  return reviewsDbTempPromise.then(db => {
+            
+    if(!db) return;
+
+    var tx = db.transaction('restaurant-reviews-temp', 'readwrite');
+    var store = tx.objectStore('restaurant-reviews-temp');
+
+    store.put(data, data.createdAt);
+
+    return data;
+
+  });
+}
+
+function markFavorite(restaurant_id) {
+    
+}
+
 
 
 /**
@@ -272,6 +330,9 @@ function createDB() {
   });
 }
 
+/**
+ * Create an indexed db of keyval type named `restaurant-reviews`
+ */
 function createReviewDB() {
   return idb.open('restaurant-reviews', 1, upgradeDB => {
     var store = upgradeDB.createObjectStore('restaurant-reviews', {
@@ -282,6 +343,20 @@ function createReviewDB() {
     store.createIndex('by-date', 'createdAt');
   });
 }
+
+/**
+ * Create an indexed db of keyval type named `restaurant-reviews`
+ */
+function createTempReviewDB() {
+  return idb.open('restaurant-reviews-temp', 1, upgradeDB => {
+    var store = upgradeDB.createObjectStore('restaurant-reviews-temp', {
+      keypath: 'createdAt'
+    });
+  });
+}
+
+//============================================================ EVENTS
+
 /** 
  * Open caches on install of sw 
  */
@@ -290,7 +365,6 @@ self.addEventListener('install', event => {
 
     var openStaticCachePromise = caches.open(CACHE_STATIC).then(cache => {
       cache.addAll([offlinePage]);
-      // cache.put('start_url', fetch('/'));
       console.log(`Cache ${CACHE_STATIC} opened`);
     });
 
@@ -308,7 +382,6 @@ self.addEventListener('install', event => {
     );
 });
 
-
 /** 
  * Open index db on activate
  */
@@ -316,38 +389,70 @@ self.addEventListener('activate', event => {
 
   dbPromise = createDB();
   reviewsDbPromise = createReviewDB();
+  reviewsDbTempPromise = createTempReviewDB();
   event.waitUntil(dbPromise);
   event.waitUntil(reviewsDbPromise);
+  event.waitUntil(reviewsDbTempPromise);
 
 });
 
 /** 
- * Handle fetch 
+ * Handle fetch event
  */
 self.addEventListener('fetch', event => {
+
   // handle request according to its type
 
-  if(event.request.method === 'POST') {
-    event.respondWith(submitReview(event.request));
-    return;
+  if(event.request.method === 'GET') {
+
+    if(event.request.url.endsWith('.jpg')) {
+      event.respondWith(cacheImages(event.request));  
+      return;
+    } else if (event.request.url.includes('reviews')) {
+      event.respondWith(searchIDBForReviews(event.request));
+      return;
+    } else if (event.request.url.includes('restaurants')) {
+      event.respondWith(searchInIDB(event.request));
+      return;
+    } else {
+      event.respondWith(cacheStaticContent(event.request));
+      return;
+    }
+  }  
+});
+
+self.addEventListener('message', event => {
+
+  if(event.data.type === 'new-review') {
+
+    event.data.createdAt = Date.parse(new Date());
+
+    return saveReviewInTempDB(event.data).then((jsonSaved)=>{
+
+      reviewFormData = jsonSaved;
+      self.registration.sync.register('submit-review-'+ event.data.createdAt);
+    });
   }
 
-  if(event.request.url.endsWith('.jpg')) {
-    event.respondWith(cacheImages(event.request));  
-    return;
-  } else if (event.request.url.includes('reviews')) {
-    event.respondWith(searchIDBForReviews(event.request));
-    return;
-  } else if (event.request.url.includes('restaurants')) {
-    event.respondWith(searchInIDB(event.request));
-    return;
-  } else {
-    event.respondWith(cacheStaticContent(event.request));
-    return;
-  }
+  
 });
 
 self.addEventListener('sync', event => {
 
+  if (event.tag.startsWith('submit-review')) {
+
+    var taglices = event.tag.split("submit-review-");
+    var review_id = parseInt(taglices[taglices.length - 1]) || 0;
+    event.waitUntil(findTempReview(review_id));
+  }
+
+  if (event.tag == 'mark-favorite') {
+    event.waitUntil(markFavorite(restaurant_id));
+  }
   
 });
+
+function serializeObject(params) {
+
+  return Object.keys(params).map(key => key + '=' + params[key]).join('&');
+}
