@@ -14,7 +14,7 @@ class DBHelper {
 
   static openDB() {// call this before every idb transaction
     return idb.open('mwsDb', 1, upgradeDB => {
-      const reviews = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
+      upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
     });
   }
 
@@ -25,7 +25,10 @@ class DBHelper {
 
     fetch(DBHelper.DATABASE_URL)
         .then(response => response.json())
-        .then(json => callback(null, json))
+        .then(json => {
+          DBHelper.persistRestaurantsInfoToIndexDb(json);
+          callback(null, json);
+        })
         .catch(err => callback(err, null));
   }
 
@@ -35,8 +38,8 @@ class DBHelper {
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
     DBHelper.openDB().then(db => {
-        const transaction = db.transaction('reviews');
-        const reviewsObjStore = transaction.objectStore('reviews');
+        const transaction = db.transaction('restaurants');
+        const reviewsObjStore = transaction.objectStore('restaurants');
 
         //Parse int because the keys are actually int...not string
         reviewsObjStore.get(parseInt(id))
@@ -55,12 +58,20 @@ class DBHelper {
 
 //Note to self: this is utilizing in-line key 'id', don't put a second arg otherwise it's consider an out-of-line key
 //which means you are specifying the id rather than extracting it "in-line"
- static addRestaurantInfoToIndexDb(value){
+ static persistRestaurantInfoToIndexDb(value){
   DBHelper.openDB().then(db => {
-    const transaction = db.transaction('reviews', 'readwrite');
-    const reviewsObjStore = transaction.objectStore('reviews');
+    const transaction = db.transaction('restaurants', 'readwrite');
+    const reviewsObjStore = transaction.objectStore('restaurants');
     reviewsObjStore.put(value);
   });
+ }
+
+ static persistRestaurantsInfoToIndexDb(restaurantArr){
+    DBHelper.openDB().then(db => {
+      const tx = db.transaction('restaurants', 'readwrite');
+      const objStore = tx.objectStore('restaurants');
+      restaurantArr.map(restaurant => objStore.put(restaurant));
+    });
  }
 
  static fetchRestaurantByIdFromDataServer(id, callback){
@@ -70,7 +81,7 @@ class DBHelper {
     } else {
       const restaurant = restaurants.find(r => r.id == id);
       if (restaurant) { 
-        DBHelper.addRestaurantInfoToIndexDb(restaurant);
+        DBHelper.persistRestaurantInfoToIndexDb(restaurant);
         callback(null, restaurant);
       } else { 
         callback('Restaurant does not exist', null);
