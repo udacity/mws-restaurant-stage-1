@@ -12,6 +12,12 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
+static openDB() {// call this before every idb transaction
+    return idb.open('mwsDb', 1, upgradeDB => {
+      const reviews = upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
+    });
+  }
+
   /**
    * Fetch all restaurants.
    */
@@ -28,19 +34,49 @@ class DBHelper {
    */
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) { // Got the restaurant
-          callback(null, restaurant);
-        } else { // Restaurant does not exist in the database
-          callback('Restaurant does not exist', null);
-        }
-      }
-    });
+    DBHelper.openDB().then(db => {
+        const transaction = db.transaction('reviews');
+        const reviewsObjStore = transaction.objectStore('reviews');
+
+        reviewsObjStore.get(parseInt(id))
+          .then(val => {
+            if(val){
+              callback(null, val);
+            }
+            else{
+              DBHelper.fetchRestaurantByIdFromDataServer(id, callback);
+            }
+        });
+      })
+    //If db fails, then always retrieve from server
+    .catch(err => DBHelper.fetchRestaurantByIdFromDataServer(id, callback));
   }
+
+//Note to self: this is utilizing in-line key 'id', don't put a second arg otherwise it's consider an out-of-line key
+//which means you are specifying the id rather than extracting it "in-line"
+ static addRestaurantInfoToIndexDb(value){
+  DBHelper.openDB().then(db => {
+    const transaction = db.transaction('reviews', 'readwrite');
+    const reviewsObjStore = transaction.objectStore('reviews');
+    reviewsObjStore.put(value);
+  });
+ }
+
+ static fetchRestaurantByIdFromDataServer(id, callback){
+    DBHelper.fetchRestaurants((error, restaurants) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      const restaurant = restaurants.find(r => r.id == id);
+      if (restaurant) { // Got the restaurant
+        DBHelper.addRestaurantInfoToIndexDb(restaurant);
+        callback(null, restaurant);
+      } else { // Restaurant does not exist in the database
+        callback('Restaurant does not exist', null);
+      }
+    }
+  });
+ }
 
   /**
    * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
