@@ -72,6 +72,12 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('icons', () => {
+  return gulp.src('app/icons/**/*')
+    .pipe($.cache($.imagemin({progressive:true, use: [imageminPngquant()]})))
+    .pipe(gulp.dest('dist/icons'));
+});
+
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
     .pipe($.cache($.imagemin({progressive:true, use: [imageminPngquant()]})))
@@ -111,6 +117,7 @@ gulp.task('serve', () => {
     gulp.watch([
       'app/*.html',
       'app/images/**/*',
+      'app/icons/**/*',
       '.tmp/fonts/**/*'
     ]).on('change', reload);
 
@@ -168,7 +175,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'icons', 'images', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
