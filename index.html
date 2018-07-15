@@ -1,54 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Normalize.css for better cross-browser consistency -->
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <!-- Main CSS file -->
-  <link rel="stylesheet" href="css/styles.css">
-  <title>Restaurant Reviews</title>
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Normalize.css for better cross-browser consistency -->
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+    <!-- Main CSS file -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Add Roboto font -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <title>Restaurant Reviews</title>
+  </head>
 
-<body>
-  <header>
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
-    </nav>
-  </header>
+  <body>
+    <header>
+      <nav>
+        <h1><a href="/">Restaurant Reviews</a></h1>
+      </nav>
+    </header>
 
-  <main id="maincontent">
-    <section id="map-container">
-      <div id="map"></div>
-    </section>
-    <section id="filter">
-      <div class="filter-options">
-        <h2>Filter Results</h2>
-        <div class="select-group">
-          <label for="neighborhoods-select">Choose your favorite neighborhoods</label>
-          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-            <option value="all">All Neighborhoods</option>
-          </select>
+    <main>
+      <section id="map-container">
+        <div id="map"></div>
+      </section>
+      <section id="filter">
+        <div class="filter-options">
+          <h2>Filter Results</h2>
+          <div class="select-group">
+            <label for="neighborhoods-select">Choose your favorite neighborhoods</label>
+            <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+              <option value="all">All Neighborhoods</option>
+            </select>
+          </div>
+          <div class="select-group">
+            <label for="cuisines-select">Choose your favorite cuisines type</label>
+            <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+              <option value="all">All Cuisines</option>
+            </select>
+          </div>
         </div>
-        <div class="select-group">
-          <label for="cuisines-select">Choose your favorite cuisines type</label>
-          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
-            <option value="all">All Cuisines</option>
-          </select>
-        </div>
-      </div>
-      <ul id="restaurants-list"></ul>
-    </section>
-  </main>
+        <ul id="restaurants-list"></ul>
+      </section>
+    </main>
 
-  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
-  <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxgA4ORynngregy413hL73sS8UHiny9IM&libraries=places&callback=initMap"></script>
+    <footer>
+      Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    </footer>
 
-  <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-  </footer>
+    <!-- Beginning scripts -->
+    <script charset="utf-8" src="js/dbhelper.js"></script>
+    <script charset="utf-8" src="js/main.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxgA4ORynngregy413hL73sS8UHiny9IM&libraries=places&callback=initMap"></script>
+    <!-- End scripts -->
 
-</body>
-
+  </body>
 </html>
