@@ -32,6 +32,7 @@ const initialize = () => {
       fetchCuisines(results);
     }
   });
+
 }
 /**
  * Handle neighborhoods
@@ -81,20 +82,33 @@ const fillCuisinesHTML = (cuisines = self.cuisines) => {
 }
 
 /**
- * Initialize Google map, called from HTML.
+ * Initialize Google map once when user first clicks on it. Helps improve performance.
  */
-window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  updateRestaurants();
+const genMap = () => {
+  if(!document.querySelectorAll('#map')[0].hasChildNodes()){
+    //first add map app from google
+    const map = document.createElement('script');
+    map.type = 'application/javascript';
+    map.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBoE0ChrfjbjaqBZ9Vz-4SWZXgdt7oawOA&libraries=places&callback=initMap';
+    document.getElementsByTagName('head')[0].appendChild(map);
+
+    //initiate the map and then populate
+    window.initMap = () => {
+      let loc = {
+        lat: 40.722216,
+        lng: -73.987501
+      };
+      self.map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: loc,
+        scrollwheel: false
+      });
+      updateRestaurants();
+    }
+  }
 }
+
+
 
 /**
  * Update page and map for current restaurants.
