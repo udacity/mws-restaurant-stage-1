@@ -16,23 +16,23 @@ module.exports = function(grunt) {
           sizes: [
             {
               name: "large_2x",            
-              width: '1000px',
-              quality: 100
+              width: '600px',
+              quality: 90
             },
             {
               name: "large_1x",            
-              width: '1000px',
-              quality: 50
+              width: '600px',
+              quality: 75
             },
             {
               name: "medium_2x",            
-              width: '500px',
-              quality: 100
+              width: '300px',
+              quality: 80
             },
             {
               name: "medium_1x",            
-              width: '500px',
-              quality: 50
+              width: '300px',
+              quality: 40
             },
             {
               name: "small",            
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
     /* Clear out the images directory if it exists */
     clean: {
       dev: {
-        src: ['img'],
+        src: ['app/images'],
       },
     },
 

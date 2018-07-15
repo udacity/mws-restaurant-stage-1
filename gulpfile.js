@@ -5,6 +5,7 @@ const browserSync = require('browser-sync').create();
 const del = require('del');
 const wiredep = require('wiredep').stream;
 const runSequence = require('run-sequence');
+const imageminPngquant = require('imagemin-pngquant');
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -73,7 +74,7 @@ gulp.task('html', ['styles', 'scripts'], () => {
 
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
-    .pipe($.cache($.imagemin()))
+    .pipe($.cache($.imagemin({progressive:true, use: [imageminPngquant()]})))
     .pipe(gulp.dest('dist/images'));
 });
 
