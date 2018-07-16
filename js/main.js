@@ -162,6 +162,7 @@ createRestaurantHTML = (restaurant) => {
     image.className = 'restaurant-img';
     image.src = DBHelper.imageUrlForRestaurant(restaurant);
     image.alt = restaurant.name + ' Restaurant Image';
+    image['aria-enable'] = true;
     li.append(image);
 
     const details = document.createElement('div');
@@ -214,3 +215,9 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } */
+
+
+/* Manage focus and tabindex on filter options */
+
+
+

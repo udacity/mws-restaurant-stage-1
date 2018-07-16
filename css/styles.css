@@ -35,6 +35,20 @@ h1, h2, h3, h4, h5, h6 {
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
     display: block;
 }
+.skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+
+}
+.skip-link:focus{
+    left: 0;
+    background: #3397db;
+    color: #fff;
+    padding: 1em 1.2em;
+    font-size: 1.2em;
+    z-index: 10000;
+}
 #maincontent {
     background-color: #f3f3f3;
     min-height: 100%;
@@ -207,6 +221,9 @@ nav h1 a {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+}
+#restaurants-list li a:hover {
+    border-color: #aaa;
 }
 .rest-address {
     color: #777;

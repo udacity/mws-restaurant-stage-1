@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <script type="application/javascript" charset="utf-8" src="js/indexController.js"></script>
   <title>Restaurant Info</title>
 </head>
 
@@ -16,11 +17,12 @@
 <!-- Beginning header -->
 <header>
   <!-- Beginning nav -->
+  <a href="#restaurant-container" class="skip-link">Skip to main content</a>
   <nav>
     <h1><a href="/">Restaurant Reviews</a></h1>
   </nav>
   <!-- Beginning breadcrumb -->
-  <ul id="breadcrumb" >
+  <ul id="breadcrumb" role="navigation">
     <li><a href="/">Home</a></li>
   </ul>
   <!-- End breadcrumb -->
@@ -32,13 +34,13 @@
 <main id="maincontent">
   <!-- Beginning map -->
   <section id="map-container">
-    <div id="map"></div>
+    <div id="map" role="region"></div>
   </section>
   <!-- End map -->
   <!-- Beginning restaurant -->
   <section id="restaurant-container">
     <h1 id="restaurant-name"></h1>
-    <img id="restaurant-img">
+    <img id="restaurant-img" aria-enabled="true">
     <p id="restaurant-cuisine"></p>
     <p id="restaurant-address"></p>
     <table id="restaurant-hours"></table>
@@ -46,6 +48,7 @@
   <!-- end restaurant -->
   <!-- Beginning reviews -->
   <section id="reviews-container">
+    <h2>Reviews</h2>
     <ul id="reviews-list"></ul>
   </section>
   <!-- End reviews -->
