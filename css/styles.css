@@ -309,7 +309,7 @@ nav h1 a {
 #reviews-container h2 {
   color: #d47200;
   font-size: 2.4rem;
-  font-weight: 300;
+  font-weight: normal;
   letter-spacing: -1px;
   padding-bottom: 1pt;
 }
