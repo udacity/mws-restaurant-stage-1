@@ -122,6 +122,7 @@ nav h1 a {
   background-color: #ccc;
   -webkit-transition: height 1.5s;
   transition: height 1.5s;
+  z-index: 50;
 }
 #mapButton {
   position: absolute;

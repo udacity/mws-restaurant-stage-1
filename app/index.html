@@ -180,15 +180,6 @@
   align-self: flex-end; /* added flex item align*/
 }
   </style>
-  <script>
-    function showMap() {
-      let getMap = document.getElementById('map');
-        getMap.style.height = "400px";
-      let hideButton = document.getElementById('mapButton');
-        hideButton.tabIndex = -1;
-        hideButton.setAttribute('aria-hidden', 'true')
-    }
-  </script>
   <!-- Manifest for PWA-->
   <meta name="theme-color" content="#252831">
   <link rel="manifest" href="/manifest.json">
@@ -247,6 +238,15 @@
   <!-- Main javascript file -->
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
   <!-- Google Maps -->
+  <script>
+      function showMap() {
+        let getMap = document.getElementById('map');
+          getMap.style.height = "400px";
+        let hideButton = document.getElementById('mapButton');
+          hideButton.tabIndex = -1;
+          hideButton.setAttribute('aria-hidden', 'true');
+      }
+    </script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPElvvdFv22vPYu4pZwBL9d7-FzjSF9ds&libraries=places&callback=initMap"></script>
   <!-- End scripts -->
 </body>
