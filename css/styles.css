@@ -357,6 +357,11 @@ nav h1 a {
     padding-bottom: 1pt;
 }
 
+#reviews-container p.no-reviews {
+    text-align: center;
+    width: 100%;
+}
+
 #reviews-list {
     margin: 0;
     padding: 0;

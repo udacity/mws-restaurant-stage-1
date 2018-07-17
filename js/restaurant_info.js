@@ -35,22 +35,6 @@ initMap = () => {
     });
 }
 
-/* window.initMap = () => {
-  fetchRestaurantFromURL((error, restaurant) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false
-      });
-      fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    }
-  });
-} */
-
 /**
  * Get current restaurant from page URL.
  */
@@ -64,14 +48,22 @@ fetchRestaurantFromURL = (callback) => {
         error = 'No restaurant id in URL'
         callback(error, null);
     } else {
-        DBHelper.fetchRestaurantById(id, (error, restaurant) => {
+        DBHelper.fetchRestaurantById(id, async (error, restaurant) => {
             self.restaurant = restaurant;
-            if (!restaurant) {
+            if (!self.restaurant) {
                 console.error(error);
                 return;
             }
-            fillRestaurantHTML();
-            callback(null, restaurant)
+            DBHelper.fetchReviewsByRestaurantId(self.restaurant.id, (error, reviews) => {
+                if (error) {
+                    console.error(error);
+                }
+                else {
+                    self.restaurant.reviews = reviews;
+                }
+                fillRestaurantHTML();
+                callback(null, self.restaurant)
+            })
         });
     }
 }
@@ -141,6 +133,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     if (!reviews) {
         const noReviews = document.createElement('p');
         noReviews.innerHTML = 'No reviews yet!';
+        noReviews.classList.add('no-reviews');
         container.appendChild(noReviews);
         return;
     }
@@ -163,7 +156,7 @@ createReviewHTML = (review) => {
 
     const date = document.createElement('p');
     date.classList.add('review-date');
-    date.innerHTML = review.date;
+    date.innerHTML = getFormattedDate(review.createdAt);
     li.appendChild(date);
 
     const rating = document.createElement('p');
@@ -202,4 +195,13 @@ getParameterByName = (name, url) => {
     if (!results[2])
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+/**
+ * Parse Date string
+ */
+getFormattedDate = (date) => {
+    return (new Date(date)).toLocaleDateString('en-US', {
+        month: 'long', day: 'numeric', year: 'numeric'
+    });
 }

@@ -6,9 +6,14 @@ class DBHelper {
      * Database URL.
      * Change this to restaurants.json file location on your server.
      */
-    static get DATABASE_URL() {
+    static get RESTAURANTS_URL() {
         const port = 1337 // Change this to your server port
         return `http://localhost:${port}/restaurants`;
+    }
+
+    static get REVIEWS_URL() {
+        const port = 1337;
+        return `http://localhost:${port}/reviews`;
     }
 
     /**
@@ -16,10 +21,10 @@ class DBHelper {
      */
     static async fetchRestaurants(callback) {
         let dbRestaurants = await IDBHelper.getRestaurants();
-        if (dbRestaurants.length > 0) { // If there is something in the database, return it now
+        if (dbRestaurants && dbRestaurants.length > 0) { // If there is something in the database, return it now
             callback(null, dbRestaurants);
         }
-        fetch(DBHelper.DATABASE_URL) // but always go for data to the network and update database
+        fetch(DBHelper.RESTAURANTS_URL) // but always go for data to the network and update database
             .then(async response => {
                 if (dbRestaurants.length <= 0) {
                     callback(null, await response.clone().json());
@@ -27,7 +32,9 @@ class DBHelper {
                 IDBHelper.addRestaurants(await response.json());
             })
             .catch(error => {
-                callback(`Fetch error: ${error}`, null);
+                if (dbRestaurants.length <= 0) {
+                    callback(`Fetch error: ${error}`, null);
+                }
             });
     }
 
@@ -99,6 +106,66 @@ class DBHelper {
                     results = results.filter(r => r.neighborhood == neighborhood);
                 }
                 callback(null, results);
+            }
+        });
+    }
+
+    /**
+     * Fetch all reviews.
+     */
+    static async fetchReviews(callback) {
+        let dbReviews = await IDBHelper.getReviews();
+        if (dbReviews && dbReviews.length > 0) { // If there is something in the database, return it now
+            callback(null, dbReviews);
+        }
+        fetch(DBHelper.REVIEWS_URL) // but always go for data to the network and update database
+            .then(async response => {
+                if (dbReviews.length <= 0) {
+                    callback(null, await response.clone().json());
+                }
+                IDBHelper.addReviews(await response.json());
+            })
+            .catch(error => {
+                if (dbReviews.length <= 0) {
+                    callback(`Fetch error: ${error}`, null);
+                }
+            });
+    }
+
+    /**
+     * Fetch a review by its ID.
+     */
+    static fetchReviewById(id, callback) {
+        // fetch all reviews with proper error handling.
+        DBHelper.fetchReviews((error, reviews) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                const review = reviews.find(r => r.id == id);
+                if (review) { // Got the review
+                    callback(null, review);
+                } else { // Review does not exist in the database
+                    callback('Review does not exist', null);
+                }
+            }
+        });
+    }
+
+    /**
+     * Fetch a review by ID of a restaurant.
+     */
+    static fetchReviewsByRestaurantId(id, callback) {
+        // fetch all reviews with proper error handling.
+        DBHelper.fetchReviews((error, reviews) => {
+            if (error) {
+                callback(error, null);
+            } else {
+                const review = reviews.filter(r => r.restaurant_id == id);
+                if (review) { // Got the reviews
+                    callback(null, review);
+                } else { // Reviews do not exist in the database
+                    callback('Review does not exist', null);
+                }
             }
         });
     }
