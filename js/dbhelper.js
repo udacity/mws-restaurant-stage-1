@@ -24,37 +24,37 @@ class DBHelper {
         if (dbRestaurants && dbRestaurants.length > 0) { // If there is something in the database, return it now
             callback(null, dbRestaurants);
         }
-        fetch(DBHelper.RESTAURANTS_URL) // but always go for data to the network and update database
-            .then(async response => {
-                if (dbRestaurants.length <= 0) {
-                    callback(null, await response.clone().json());
-                }
-                IDBHelper.addRestaurants(await response.json());
-            })
-            .catch(error => {
-                if (dbRestaurants.length <= 0) {
-                    callback(`Fetch error: ${error}`, null);
-                }
-            });
+        try {
+            let response = await fetch(DBHelper.RESTAURANTS_URL);
+            callback(null, await response.clone().json());
+            IDBHelper.addRestaurants(await response.json());
+        }
+        catch (error) {
+            if (dbRestaurants.length <= 0) {
+                callback(`Fetch error: ${error}`, null);
+            }
+        }
     }
 
     /**
      * Fetch a restaurant by its ID.
      */
-    static fetchRestaurantById(id, callback) {
-        // fetch all restaurants with proper error handling.
-        DBHelper.fetchRestaurants((error, restaurants) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                const restaurant = restaurants.find(r => r.id == id);
-                if (restaurant) { // Got the restaurant
-                    callback(null, restaurant);
-                } else { // Restaurant does not exist in the database
-                    callback('Restaurant does not exist', null);
-                }
+    static async fetchRestaurantById(id, callback) {
+        let localData = await IDBHelper.getRestaurant(id);
+        try {
+            let networkData = await fetch(DBHelper.RESTAURANTS_URL + `/${id}`);
+            if (networkData) {
+                IDBHelper.addRestaurant(await networkData.clone().json());
             }
-        });
+            callback(null, localData || networkData.json());
+        }
+        catch (error) {
+            if (localData) {
+                callback(null, localData);
+                return;
+            }
+            callback(error, null);
+        }
     }
 
     /**
@@ -114,60 +114,61 @@ class DBHelper {
      * Fetch all reviews.
      */
     static async fetchReviews(callback) {
-        let dbReviews = await IDBHelper.getReviews();
-        if (dbReviews && dbReviews.length > 0) { // If there is something in the database, return it now
-            callback(null, dbReviews);
+        let localData = await IDBHelper.getReviews();
+        if (localData && localData.length > 0) { // If there is something in the database, return it now
+            callback(null, localData);
         }
-        fetch(DBHelper.REVIEWS_URL) // but always go for data to the network and update database
-            .then(async response => {
-                if (dbReviews.length <= 0) {
-                    callback(null, await response.clone().json());
-                }
-                IDBHelper.addReviews(await response.json());
-            })
-            .catch(error => {
-                if (dbReviews.length <= 0) {
-                    callback(`Fetch error: ${error}`, null);
-                }
-            });
+        try {
+            let networkData = await fetch(DBHelper.REVIEWS_URL);
+            callback(null, await networkData.clone().json());
+            IDBHelper.addReviews(await networkData.json());
+        }
+        catch (error) {
+            if (localData.length <= 0) {
+                callback(`Fetch error: ${error}`, null);
+            }
+        }
     }
 
     /**
      * Fetch a review by its ID.
      */
-    static fetchReviewById(id, callback) {
-        // fetch all reviews with proper error handling.
-        DBHelper.fetchReviews((error, reviews) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                const review = reviews.find(r => r.id == id);
-                if (review) { // Got the review
-                    callback(null, review);
-                } else { // Review does not exist in the database
-                    callback('Review does not exist', null);
-                }
+    static async fetchReviewById(id, callback) {
+        let localData = await IDBHelper.getReview(id);
+        try {
+            let networkData = await fetch(DBHelper.REVIEWS_URL + `/${id}`);
+            if (networkData) {
+                IDBHelper.addReview(await networkData.clone().json());
             }
-        });
+            callback(null, localData || networkData.json());
+        }
+        catch (error) {
+            if (localData) {
+                callback(null, localData);
+                return;
+            }
+            callback(error, null);
+        }
     }
 
     /**
      * Fetch a review by ID of a restaurant.
      */
-    static fetchReviewsByRestaurantId(id, callback) {
-        // fetch all reviews with proper error handling.
-        DBHelper.fetchReviews((error, reviews) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                const review = reviews.filter(r => r.restaurant_id == id);
-                if (review) { // Got the reviews
-                    callback(null, review);
-                } else { // Reviews do not exist in the database
-                    callback('Review does not exist', null);
-                }
+    static async fetchReviewsByRestaurantId(id, callback) {
+        let localData = await IDBHelper.getReviewsOfRestaurant(id);
+        if (localData && localData.length > 0) { // If there is something in the database, return it now
+            callback(null, localData);
+        }
+        try {
+            let response = await fetch(DBHelper.REVIEWS_URL + `/?restaurant_id=${id}`);
+            callback(null, await response.clone().json());
+            IDBHelper.addReviews(await response.json());
+        }
+        catch (error) {
+            if (localData.length <= 0) {
+                callback(`Fetch error: ${error}`, null);
             }
-        });
+        }
     }
 
     /**

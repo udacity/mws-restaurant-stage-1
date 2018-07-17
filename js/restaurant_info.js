@@ -38,7 +38,7 @@ initMap = () => {
 /**
  * Get current restaurant from page URL.
  */
-fetchRestaurantFromURL = (callback) => {
+fetchRestaurantFromURL = async (callback) => {
     if (self.restaurant) { // restaurant already fetched!
         callback(null, self.restaurant)
         return;
@@ -49,12 +49,12 @@ fetchRestaurantFromURL = (callback) => {
         callback(error, null);
     } else {
         DBHelper.fetchRestaurantById(id, async (error, restaurant) => {
-            self.restaurant = restaurant;
+            self.restaurant = await restaurant;
             if (!self.restaurant) {
                 console.error(error);
                 return;
             }
-            DBHelper.fetchReviewsByRestaurantId(self.restaurant.id, (error, reviews) => {
+            await DBHelper.fetchReviewsByRestaurantId(self.restaurant.id, (error, reviews) => {
                 if (error) {
                     console.error(error);
                 }

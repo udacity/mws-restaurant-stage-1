@@ -7,7 +7,8 @@ class IDBHelper {
                     upgradeDb.createObjectStore('restaurants', { keyPath: 'id' });
                     console.log('created db v1');
                 case 1:
-                    upgradeDb.createObjectStore('reviews', { keyPath: 'id' });
+                    let reviewsStore = upgradeDb.createObjectStore('reviews', { keyPath: 'id' });
+                    reviewsStore.createIndex('restaurant_id', 'restaurant_id', { unique: false });
                     console.log('created db v2');
             }
         });
@@ -20,9 +21,19 @@ class IDBHelper {
         }
     }
 
+    static async addRestaurant(restaurant) {
+        let store = (await this.dbPromise).transaction('restaurants', 'readwrite').objectStore('restaurants');
+        store.put(restaurant);
+    }
+
     static async getRestaurants() {
         let store = (await this.dbPromise).transaction('restaurants', 'readwrite').objectStore('restaurants');
-        return store.getAll();
+        return await store.getAll();
+    }
+
+    static async getRestaurant(id) {
+        let store = (await this.dbPromise).transaction('restaurants', 'readwrite').objectStore('restaurants');
+        return await store.get(parseInt(id));
     }
 
     static async addReviews(reviews) {
@@ -32,9 +43,24 @@ class IDBHelper {
         }
     }
 
+    static async addReview(review) {
+        let store = (await this.dbPromise).transaction('reviews', 'readwrite').objectStore('reviews');
+        store.put(review);
+    }
+
     static async getReviews() {
         let store = (await this.dbPromise).transaction('reviews', 'readwrite').objectStore('reviews');
-        return store.getAll();
+        return await store.getAll();
+    }
+
+    static async getReview(id) {
+        let store = (await this.dbPromise).transaction('reviews', 'readwrite').objectStore('reviews');
+        return await store.get(parseInt(id));
+    }
+
+    static async getReviewsOfRestaurant(restaurantId) {
+        let store = (await this.dbPromise).transaction('reviews', 'readwrite').objectStore('reviews');
+        return await store.index('restaurant_id').getAll(parseInt(restaurantId));
     }
 }
 
