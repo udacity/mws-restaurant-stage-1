@@ -127,13 +127,15 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     const container = document.getElementById('reviews-container');
-    // const title = document.createElement('h2');
-    // title.innerHTML = 'Reviews';
-    // container.appendChild(title);
+    const title = document.createElement('h2');
+    title.innerHTML = 'Reviews';
+    title.setAttribute('tabindex', 0);
+    container.appendChild(title);
 
     if (!reviews) {
         const noReviews = document.createElement('p');
         noReviews.innerHTML = 'No reviews yet!';
+        noReviews.setAttribute('tabindex', 0);
         container.appendChild(noReviews);
         return;
     }
@@ -149,20 +151,26 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
     const li = document.createElement('li');
+    li.setAttribute('tabindex', 0);
     const name = document.createElement('p');
     name.className = 'review-user';
     name.innerHTML = `<i class='fa fa-user'></i>` + review.name;
+    name.setAttribute('tabindex', 0);
     li.appendChild(name);
 
     const date = document.createElement('p');
     date.className = 'review-date';
     date.innerHTML = `<i class='fa fa-calendar'></i>` + review.date;
+    date.setAttribute('tabindex', 0);
     li.appendChild(date);
 
     const rating = document.createElement('p');
     rating.className = 'review-rating';
     // rating.innerHTML = `<i class='fa fa-star'></i>Rating: ${review.rating}`;
     rating.innerHTML = '';
+    rating.setAttribute('tabindex', 0);
+    rating.setAttribute('aria-label', `Rating: ${review.rating} out of 5 stars`);
+
     // Filled star for rating
     for (i=0; i<review.rating; i++) {
         let star = document.createElement('i');
@@ -179,6 +187,7 @@ createReviewHTML = (review) => {
     const comments = document.createElement('p');
     comments.className = 'review-comments';
     comments.innerHTML = review.comments;
+    comments.setAttribute('tabindex', 0);
     li.appendChild(comments);
 
     return li;

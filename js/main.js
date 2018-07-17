@@ -102,7 +102,7 @@ initMap = () => {
 } */
 
 /**
- * Update page and map for current restaurants.
+ * Update page and map for current restalisturants.
  */
 updateRestaurants = () => {
     const cSelect = document.getElementById('cuisines-select');
@@ -157,34 +157,39 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
     const li = document.createElement('li');
+    li.setAttribute('tabindex', 0);
 
     const image = document.createElement('img');
     image.className = 'restaurant-img';
     image.src = DBHelper.imageUrlForRestaurant(restaurant);
-    image.alt = restaurant.name + ' Restaurant Image';
-    image['aria-enable'] = true;
+    image.alt = 'Restaurant Image';
+    image.setAttribute('tabindex', 0);
     li.append(image);
 
     const details = document.createElement('div');
     details.className = 'restaurant-details';
     li.append(details);
 
-    const name = document.createElement('h1');
+    const name = document.createElement('h2');
     name.innerHTML = restaurant.name;
+    name.setAttribute('tabindex', 0);
     details.append(name);
 
     const neighborhood = document.createElement('p');
     neighborhood.innerHTML = restaurant.neighborhood;
+    neighborhood.setAttribute('tabindex', 0);
     details.append(neighborhood);
 
     const address = document.createElement('p');
     address.className = 'rest-address';
     address.innerHTML = `<i class='fa fa-map-marker'></i>` + restaurant.address;
+    address.setAttribute('tabindex', 0);
     details.append(address);
 
     const more = document.createElement('a');
     more.innerHTML = 'View Details';
     more.href = DBHelper.urlForRestaurant(restaurant);
+    more.setAttribute('aria-label', `View details of ${restaurant.name}`)
     details.append(more)
 
     return li

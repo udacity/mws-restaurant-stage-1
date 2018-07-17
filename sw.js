@@ -1,5 +1,5 @@
 // Define name of static cache
-const staticCache = 'rest-rating-v8';
+const staticCache = 'rest-rating-v9';
 
 // On installing SW
 self.addEventListener('install', event => {
