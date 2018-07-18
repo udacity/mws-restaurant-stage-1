@@ -14,11 +14,13 @@ class IDBHelper {
         });
     }
 
-    static async putRestaurants(restaurants) {
+    static async putRestaurants(restaurants, create = false) {
         try {
             let store = (await this.dbPromise).transaction('restaurants', 'readwrite').objectStore('restaurants');
             let response = [];
             for (const restaurant of restaurants) {
+                restaurant.updatedAt = Date.now();
+                if (create) restaurant.createdAt = restaurant.updatedAt;
                 response.push(await store.put(restaurant));
             }
 
@@ -30,9 +32,11 @@ class IDBHelper {
         }
     }
 
-    static async putRestaurant(restaurant) {
+    static async putRestaurant(restaurant, create = false) {
         try {
             let store = (await this.dbPromise).transaction('restaurants', 'readwrite').objectStore('restaurants');
+            restaurant.updatedAt = Date.now();
+            if (create) restaurant.createdAt = restaurant.updatedAt;
             return await store.put(restaurant);
         }
         catch (error) {
@@ -63,11 +67,13 @@ class IDBHelper {
         }
     }
 
-    static async putReviews(reviews) {
+    static async putReviews(reviews, create = false) {
         try {
             let store = (await this.dbPromise).transaction('reviews', 'readwrite').objectStore('reviews');
             let response = [];
             for (const review of reviews) {
+                review.updatedAt = Date.now();
+                if (create) review.createdAt = review.updatedAt;
                 response.push(await store.put(review));
             }
 
@@ -79,9 +85,11 @@ class IDBHelper {
         }
     }
 
-    static async putReview(review) {
+    static async putReview(review, create = false) {
         try {
             let store = (await this.dbPromise).transaction('reviews', 'readwrite').objectStore('reviews');
+            review.updatedAt = Date.now();
+            if (create) review.createdAt = review.updatedAt;
             return await store.put(review);
         }
         catch (error) {
