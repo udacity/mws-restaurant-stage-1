@@ -27,7 +27,7 @@ class DBHelper {
         try {
             let response = await fetch(DBHelper.RESTAURANTS_URL);
             callback(null, await response.clone().json());
-            IDBHelper.addRestaurants(await response.json());
+            IDBHelper.putRestaurants(await response.json());
         }
         catch (error) {
             if (dbRestaurants.length <= 0) {
@@ -44,7 +44,7 @@ class DBHelper {
         try {
             let networkData = await fetch(DBHelper.RESTAURANTS_URL + `/${id}`);
             if (networkData) {
-                IDBHelper.addRestaurant(await networkData.clone().json());
+                IDBHelper.putRestaurant(await networkData.clone().json());
             }
             callback(null, localData || networkData.json());
         }
@@ -111,6 +111,23 @@ class DBHelper {
     }
 
     /**
+     * Update restaurant by its ID
+     */
+    static async updateRestaurant(restaurant, callback) {
+        try {
+            // Firstly update in IDB, then network
+            let localData = await IDBHelper.putRestaurant(restaurant);
+            let networkData = await fetch(`http://localhost:1337/restaurants/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`,
+                {
+                    method: 'PUT'
+                });
+            callback(null, localData || networkData.json());
+        } catch (error) {
+            callback(error, null);
+        }
+    }
+
+    /**
      * Fetch all reviews.
      */
     static async fetchReviews(callback) {
@@ -121,7 +138,7 @@ class DBHelper {
         try {
             let networkData = await fetch(DBHelper.REVIEWS_URL);
             callback(null, await networkData.clone().json());
-            IDBHelper.addReviews(await networkData.json());
+            IDBHelper.putReviews(await networkData.json());
         }
         catch (error) {
             if (localData.length <= 0) {
@@ -138,7 +155,7 @@ class DBHelper {
         try {
             let networkData = await fetch(DBHelper.REVIEWS_URL + `/${id}`);
             if (networkData) {
-                IDBHelper.addReview(await networkData.clone().json());
+                IDBHelper.putReview(await networkData.clone().json());
             }
             callback(null, localData || networkData.json());
         }
@@ -162,7 +179,7 @@ class DBHelper {
         try {
             let response = await fetch(DBHelper.REVIEWS_URL + `/?restaurant_id=${id}`);
             callback(null, await response.clone().json());
-            IDBHelper.addReviews(await response.json());
+            IDBHelper.putReviews(await response.json());
         }
         catch (error) {
             if (localData.length <= 0) {

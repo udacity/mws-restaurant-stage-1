@@ -191,19 +191,24 @@ createRestaurantHTML = (restaurant) => {
     div.append(more)
 
     const favorite = document.createElement('button');
-    favorite.innerHTML = (restaurant.is_favorite ? 'un' : '') + 'set favorite';
+    favorite.innerHTML = (restaurant.is_favorite == 'true' ? 'un' : '') + 'set favorite';
+    console.log(restaurant.name, restaurant.is_favorite, favorite.innerHTML);
     favorite.classList.add('favorite');
     favorite.setAttribute('role', 'switch');
-    favorite.setAttribute('aria-selected', restaurant.is_favorite)
+    favorite.setAttribute('aria-selected', restaurant.is_favorite);
 
     favorite.onclick = () => {
-        restaurant.is_favorite = !restaurant.is_favorite;
-        favorite.setAttribute('aria-selected', restaurant.is_favorite);
-        favorite.innerHTML = (restaurant.is_favorite ? 'un' : '') + 'set favorite';
+        toggleFavorite(restaurant, favorite);
+        DBHelper.updateRestaurant(restaurant, (error, response) => {
+            if (error) {
+                console.error("Could not update nor local neither network database: ", error);
+                toggleFavorite(restaurant, favorite);
+            }
+        });
     };
-    div.append(favorite)
+    div.append(favorite);
 
-    return div
+    return div;
 }
 
 /**
@@ -219,6 +224,14 @@ addMarkersToMap = (restaurants = self.restaurants) => {
         }
         self.markers.push(marker);
     });
+}
 
+/**
+ * Change favorite status of the restaurant (only for main page!)
+ */
+toggleFavorite = (restaurant, button) => {
+    restaurant.is_favorite = !restaurant.is_favorite;
+    button.setAttribute('aria-selected', restaurant.is_favorite);
+    button.innerHTML = (restaurant.is_favorite ? 'un' : '') + 'set favorite';
 }
 
