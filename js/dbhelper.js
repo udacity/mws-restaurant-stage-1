@@ -114,15 +114,23 @@ class DBHelper {
      * Update restaurant by its ID
      */
     static async updateRestaurant(restaurant, callback) {
+        let localData;
         try {
+            localData = await IDBHelper.putRestaurant(restaurant);
             // Firstly update in IDB, then network
-            let localData = await IDBHelper.putRestaurant(restaurant);
             let networkData = await fetch(`http://localhost:1337/restaurants/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`,
                 {
                     method: 'PUT'
                 });
-            callback(null, localData || networkData.json());
+            callback(null, localData || networkData.json().id);
         } catch (error) {
+            console.log('caught');
+            if (localData) {
+                console.log('local');
+                callback(null, localData);
+                return;
+            }
+            console.log('fatal');
             callback(error, null);
         }
     }
