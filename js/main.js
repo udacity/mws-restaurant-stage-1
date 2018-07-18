@@ -191,7 +191,7 @@ createRestaurantHTML = (restaurant) => {
     div.append(more)
 
     const favorite = document.createElement('button');
-    let isFavorite = restaurant.is_favorite == 'true' ? true : false;
+    let isFavorite = (restaurant.is_favorite == 'true' || restaurant.is_favorite == true) ? true : false;
     favorite.innerHTML = (isFavorite ? 'un' : '') + 'set favorite';
     favorite.classList.add('favorite');
     favorite.setAttribute('role', 'switch');
@@ -201,7 +201,7 @@ createRestaurantHTML = (restaurant) => {
         toggleFavorite(restaurant, favorite);
         DBHelper.updateRestaurant(restaurant, (error, response) => {
             if (error) {
-                console.error("Could not update nor local neither network database: ", error);
+                console.error("Could not update neither local nor network database: ", error);
                 toggleFavorite(restaurant, favorite);
             }
         });
@@ -230,7 +230,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
  * Change favorite status of the restaurant (only for main page!)
  */
 toggleFavorite = (restaurant, button) => {
-    restaurant.is_favorite = restaurant.is_favorite ? false : true;
+    restaurant.is_favorite = (restaurant.is_favorite == 'true' || restaurant.is_favorite == true) ? false : true;
     button.setAttribute('aria-selected', restaurant.is_favorite);
     button.innerHTML = (restaurant.is_favorite ? 'un' : '') + 'set favorite';
 }
