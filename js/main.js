@@ -191,11 +191,11 @@ createRestaurantHTML = (restaurant) => {
     div.append(more)
 
     const favorite = document.createElement('button');
-    favorite.innerHTML = (restaurant.is_favorite == 'true' ? 'un' : '') + 'set favorite';
-    console.log(restaurant.name, restaurant.is_favorite, favorite.innerHTML);
+    let isFavorite = restaurant.is_favorite == 'true' ? true : false;
+    favorite.innerHTML = (isFavorite ? 'un' : '') + 'set favorite';
     favorite.classList.add('favorite');
     favorite.setAttribute('role', 'switch');
-    favorite.setAttribute('aria-selected', restaurant.is_favorite);
+    favorite.setAttribute('aria-selected', isFavorite);
 
     favorite.onclick = () => {
         toggleFavorite(restaurant, favorite);
@@ -230,7 +230,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
  * Change favorite status of the restaurant (only for main page!)
  */
 toggleFavorite = (restaurant, button) => {
-    restaurant.is_favorite = !restaurant.is_favorite;
+    restaurant.is_favorite = restaurant.is_favorite ? false : true;
     button.setAttribute('aria-selected', restaurant.is_favorite);
     button.innerHTML = (restaurant.is_favorite ? 'un' : '') + 'set favorite';
 }
