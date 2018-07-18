@@ -20,19 +20,25 @@ class DBHelper {
      * Fetch all restaurants.
      */
     static async fetchRestaurants(callback) {
-        let dbRestaurants = await IDBHelper.getRestaurants();
-        if (dbRestaurants && dbRestaurants.length > 0) { // If there is something in the database, return it now
-            callback(null, dbRestaurants);
-        }
+        let localData;
         try {
-            let response = await fetch(DBHelper.RESTAURANTS_URL);
-            callback(null, await response.clone().json());
-            IDBHelper.putRestaurants(await response.json());
+            localData = await IDBHelper.getRestaurants();
+            let networkData = await fetch(DBHelper.RESTAURANTS_URL);
+            let newest = DBHelper.pickMostRecentObjects(await networkData.clone().json(), localData);
+            callback(null, newest);
+            newest.forEach(e => {
+                DBHelper.updateRestaurant(e, (error, response) => {
+                    if (error) {
+                        console.error(error);
+                    }
+                });
+            });
         }
         catch (error) {
-            if (dbRestaurants.length <= 0) {
-                callback(`Fetch error: ${error}`, null);
+            if (localData && localData.length > 0) {
+                callback(null, localData);
             }
+            callback(`Fetch error: ${error}`, null);
         }
     }
 
@@ -40,13 +46,17 @@ class DBHelper {
      * Fetch a restaurant by its ID.
      */
     static async fetchRestaurantById(id, callback) {
-        let localData = await IDBHelper.getRestaurant(id);
+        let localData;
         try {
+            localData = await IDBHelper.getRestaurant(id);
             let networkData = await fetch(DBHelper.RESTAURANTS_URL + `/${id}`);
-            if (networkData) {
-                IDBHelper.putRestaurant(await networkData.clone().json());
-            }
-            callback(null, localData || networkData.json());
+            let newest = DBHelper.pickMostRecentObject(await networkData.clone().json(), localData);
+            callback(null, newest);
+            DBHelper.updateRestaurant(newest, (error, response) => {
+                if (error) {
+                    console.error(error);
+                }
+            });
         }
         catch (error) {
             if (localData) {
@@ -111,26 +121,22 @@ class DBHelper {
     }
 
     /**
-     * Update restaurant by its ID
+     * Update restaurant
      */
     static async updateRestaurant(restaurant, callback) {
         let localData;
         try {
             localData = await IDBHelper.putRestaurant(restaurant);
-            // Firstly update in IDB, then network
-            let networkData = await fetch(`http://localhost:1337/restaurants/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`,
+            let networkData = await fetch(`${DBHelper.RESTAURANTS_URL}/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`,
                 {
                     method: 'PUT'
                 });
             callback(null, localData || networkData.json().id);
         } catch (error) {
-            console.log('caught');
             if (localData) {
-                console.log('local');
                 callback(null, localData);
                 return;
             }
-            console.log('fatal');
             callback(error, null);
         }
     }
@@ -139,19 +145,25 @@ class DBHelper {
      * Fetch all reviews.
      */
     static async fetchReviews(callback) {
-        let localData = await IDBHelper.getReviews();
-        if (localData && localData.length > 0) { // If there is something in the database, return it now
-            callback(null, localData);
-        }
+        let localData;
         try {
+            localData = await IDBHelper.getReviews();
             let networkData = await fetch(DBHelper.REVIEWS_URL);
-            callback(null, await networkData.clone().json());
-            IDBHelper.putReviews(await networkData.json());
+            let newest = DBHelper.pickMostRecentReviews(await networkData.clone().json(), localData);
+            callback(null, newest);
+            newest.forEach(e => {
+                DBHelper.updateReview(e, (error, response) => {
+                    if (error) {
+                        console.error(error);
+                    }
+                });
+            });
         }
         catch (error) {
-            if (localData.length <= 0) {
-                callback(`Fetch error: ${error}`, null);
+            if (localData && localData.length > 0) {
+                callback(null, localData);
             }
+            callback(`Fetch error: ${error}`, null);
         }
     }
 
@@ -159,8 +171,9 @@ class DBHelper {
      * Fetch a review by its ID.
      */
     static async fetchReviewById(id, callback) {
-        let localData = await IDBHelper.getReview(id);
+        let localData;
         try {
+            localData = await IDBHelper.getReview(id);
             let networkData = await fetch(DBHelper.REVIEWS_URL + `/${id}`);
             if (networkData) {
                 IDBHelper.putReview(await networkData.clone().json());
@@ -180,19 +193,46 @@ class DBHelper {
      * Fetch a review by ID of a restaurant.
      */
     static async fetchReviewsByRestaurantId(id, callback) {
-        let localData = await IDBHelper.getReviewsOfRestaurant(id);
-        if (localData && localData.length > 0) { // If there is something in the database, return it now
-            callback(null, localData);
-        }
+        let localData;
         try {
-            let response = await fetch(DBHelper.REVIEWS_URL + `/?restaurant_id=${id}`);
-            callback(null, await response.clone().json());
-            IDBHelper.putReviews(await response.json());
+            localData = await IDBHelper.getReviews();
+            let networkData = await fetch(DBHelper.REVIEWS_URL + `/?restaurant_id=${id}`);
+            let newest = DBHelper.pickMostRecentObjects(await networkData.clone().json(), localData);
+            callback(null, newest);
+            newest.forEach(e => {
+                DBHelper.updateReview(e, (error, response) => {
+                    if (error) {
+                        console.error(error);
+                    }
+                });
+            });
         }
         catch (error) {
-            if (localData.length <= 0) {
-                callback(`Fetch error: ${error}`, null);
+            if (localData && localData.length > 0) {
+                callback(null, localData);
             }
+            callback(`Fetch error: ${error}`, null);
+        }
+    }
+
+    /**
+     * Update review
+     */
+    static async updateReview(review, callback) {
+        let localData;
+        try {
+            localData = await IDBHelper.putReview(review);
+            let networkData = await fetch(`${DBHelper.REVIEWS_URL}/${review.id}`,
+                {
+                    method: 'PUT'
+                });
+            callback(null, localData || networkData.json().id);
+        } catch (error) {
+            if (localData) {
+                callback(null, localData);
+                return;
+            }
+            callback(error, null);
         }
     }
 
@@ -260,15 +300,35 @@ class DBHelper {
         marker.addTo(newMap);
         return marker;
     }
-    /* static mapMarkerForRestaurant(restaurant, map) {
-      const marker = new google.maps.Marker({
-        position: restaurant.latlng,
-        title: restaurant.name,
-        url: DBHelper.urlForRestaurant(restaurant),
-        map: map,
-        animation: google.maps.Animation.DROP}
-      );
-      return marker;
-    } */
 
+    /**
+     * Picks most recent objects from arrays. If something goes wrong, returns always networkData
+     */
+    static pickMostRecentObjects(networkData, localData) {
+        if (networkData.length != localData.length) {
+            return networkData;
+        }
+        let output = [];
+        for (const res1 of networkData) {
+            let res2 = localData.find(x => x.id == res1.id);
+            if (res2) {
+                output.push(Date.parse(res1.updatedAt) > res2.updatedAt ? res1 : res2);
+            } else {
+                return networkData;
+            }
+        }
+
+        return output;
+    }
+
+    /**
+     * Picks most recent object. If something goes wrong, returns always networkData
+     */
+    static pickMostRecentObject(networkData, localData) {
+        if (networkData.id != localData.id) {
+            return networkData;
+        }
+
+        return Date.parse(res1.updatedAt) > res2.updatedAt ? res1 : res2;
+    }
 }
