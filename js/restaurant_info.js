@@ -69,9 +69,28 @@ fetchRestaurantFromURL = async (callback) => {
 }
 
 /**
+ * Clear restaurant HTML
+ */
+clearRestaurantHTML = () => {
+    const name = document.getElementById('restaurant-name');
+    const address = document.getElementById('restaurant-address');
+    const image = document.getElementById('restaurant-img');
+    const cuisine = document.getElementById('restaurant-cuisine');
+    const hours = document.getElementById('restaurant-hours');
+    const container = document.getElementById('reviews-container');
+    name.innerHTML = '';
+    address.innerHTML = '';
+    image.innerHTML = '';
+    cuisine.innerHTML = '';
+    hours.innerHTML = '';
+    container.innerHTML = '';
+}
+
+/**
  * Create restaurant HTML and add it to the webpage
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
+    clearRestaurantHTML();
     const name = document.getElementById('restaurant-name');
     name.innerHTML = restaurant.name;
 
@@ -137,7 +156,8 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
         container.appendChild(noReviews);
         return;
     }
-    const ul = document.getElementById('reviews-list');
+    const ul = document.createElement('ul');
+    ul.id = 'reviews-list';
     reviews.forEach(review => {
         ul.appendChild(createReviewHTML(review));
     });
