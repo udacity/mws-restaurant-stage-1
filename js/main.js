@@ -196,7 +196,6 @@ createRestaurantHTML = (restaurant) => {
     favorite.classList.add('favorite');
     favorite.setAttribute('role', 'switch');
     favorite.setAttribute('aria-selected', isFavorite);
-
     favorite.onclick = () => {
         toggleFavorite(restaurant, favorite);
         DBHelper.updateRestaurant(restaurant, (error, response) => {
@@ -227,7 +226,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 }
 
 /**
- * Change favorite status of the restaurant (only for main page!)
+ * Change favorite status of the restaurant
  */
 toggleFavorite = (restaurant, button) => {
     restaurant.is_favorite = (restaurant.is_favorite == 'true' || restaurant.is_favorite == true) ? false : true;

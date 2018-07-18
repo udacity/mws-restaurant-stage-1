@@ -333,6 +333,19 @@ nav h1 a {
     width: 100%;
 }
 
+#restaurant-container .favorite {
+    background-color: #A76905;
+    border-bottom: 3px solid #eee;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    min-width: 33%;
+}
+
+#restaurant-container .favorite[aria-selected="true"] {
+    background-color: orange;
+}
+
 #restaurant-container, #reviews-container {
     border-bottom: 1px solid #d9d9d9;
     border-top: 1px solid #fff;

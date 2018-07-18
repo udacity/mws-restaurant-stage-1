@@ -94,6 +94,21 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     const name = document.getElementById('restaurant-name');
     name.innerHTML = restaurant.name;
 
+    //TODO - Add clearing!
+    const favorite = document.getElementById('restaurant-favorite');
+    let isFavorite = (restaurant.is_favorite == 'true' || restaurant.is_favorite == true) ? true : false;
+    favorite.innerHTML = (isFavorite ? 'un' : '') + 'set favorite';
+    favorite.setAttribute('aria-selected', isFavorite);
+    favorite.onclick = () => {
+        toggleFavorite(restaurant, favorite);
+        DBHelper.updateRestaurant(restaurant, (error, response) => {
+            if (error) {
+                console.error("Could not update neither local nor network database: ", error);
+                toggleFavorite(restaurant, favorite);
+            }
+        });
+    };
+
     const address = document.getElementById('restaurant-address');
     address.innerHTML = restaurant.address;
 
@@ -224,4 +239,13 @@ getFormattedDate = (date) => {
     return (new Date(date)).toLocaleDateString('en-US', {
         month: 'long', day: 'numeric', year: 'numeric'
     });
+}
+
+/**
+ * Change favorite status of the restaurant
+ */
+toggleFavorite = (restaurant, button) => {
+    restaurant.is_favorite = (restaurant.is_favorite == 'true' || restaurant.is_favorite == true) ? false : true;
+    button.setAttribute('aria-selected', restaurant.is_favorite);
+    button.innerHTML = (restaurant.is_favorite ? 'un' : '') + 'set favorite';
 }
