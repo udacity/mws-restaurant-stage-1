@@ -15,6 +15,19 @@
 </head>
 
 <body>
+    <div id="network-offline" class="network offline hidden">
+        <p>
+            You are offline!
+        </p>
+        <button onclick="document.getElementById('network-offline').classList.toggle('hidden')">Dismiss</button>
+    </div>
+    <div id="network-online" class="network online hidden">
+        <p>
+            Reconnected! Refresh the page?
+        </p>
+        <button onclick="location.reload()">Refresh</button>
+        <button onclick="document.getElementById('network-online').classList.toggle('hidden')">Dismiss</button>
+    </div>
     <header>
         <nav>
             <h1>

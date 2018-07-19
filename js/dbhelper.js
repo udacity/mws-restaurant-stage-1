@@ -3,6 +3,28 @@
  */
 class DBHelper {
     /**
+     * Static constructor. Do not call it manually!
+     */
+    static setup() {
+        DBHelper.synchronizeAll();
+        let networkOffline = document.getElementById('network-offline');
+        let networkOnline = document.getElementById('network-online');
+
+        if (!navigator.onLine) {
+            networkOffline.classList.toggle('hidden');
+        }
+
+        window.addEventListener('online', () => {
+            DBHelper.synchronizeAll();
+            networkOffline.classList.toggle('hidden');
+            networkOnline.classList.toggle('hidden');
+        });
+        window.addEventListener('offline', () => {
+            networkOffline.classList.toggle('hidden');
+        });
+    }
+
+    /**
      * Database URL.
      * Change this to restaurants.json file location on your server.
      */
@@ -107,7 +129,8 @@ class DBHelper {
     static async fetchReviewsByRestaurantId(id, callback) {
         let info = DBHelper.getInfoForType('review');
         try {
-            let synced = await DBHelper.synchronizeObjects(info, `/?restaurant_id=${id}`);
+            await DBHelper.synchronizeObjects(info, `/?restaurant_id=${id}`);
+            let synced = await IDBHelper.getReviewsOfRestaurant(id);
             callback(null, synced);
         }
         catch (error) {
@@ -165,6 +188,14 @@ class DBHelper {
 
             throw error;
         }
+    }
+
+    /**
+     * Synchronizes all data
+     */
+    static synchronizeAll() {
+        DBHelper.synchronizeObjects(DBHelper.getInfoForType('restaurant'));
+        DBHelper.synchronizeObjects(DBHelper.getInfoForType('review'));
     }
 
     /**
@@ -253,7 +284,11 @@ class DBHelper {
      * Picks most recent object. If something goes wrong, returns always networkData
      */
     static pickMostRecentObject(networkData, localData) {
-        return Date.parse(networkData.updatedAt) > localData.updatedAt ? networkData : localData;
+        if (localData && networkData) {
+            return Date.parse(networkData.updatedAt) > localData.updatedAt ? networkData : localData;
+        }
+        return networkData || localData;
+
     }
 
     /**
@@ -283,3 +318,5 @@ class DBHelper {
         }
     }
 }
+
+DBHelper.setup();

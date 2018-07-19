@@ -92,6 +92,36 @@ label {
     order: 9999;
 }
 
+.hidden {
+    display: none !important;
+}
+
+/* ====================== Network information ====================== */
+
+.network {
+    display: flex;
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    background-color: #252831;
+    z-index: 9999;
+}
+
+.network p {
+    font-size: 1.2rem;
+    padding: 5px 20px;
+    flex-grow: 1;
+    color: white;
+}
+
+.network button {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: none;
+    font-size: 1.2rem;
+    width: 20%;
+    color: white;
+}
+
 /* ====================== Navigation ====================== */
 
 nav {

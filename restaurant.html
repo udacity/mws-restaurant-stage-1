@@ -17,6 +17,19 @@
 </head>
 
 <body class="inside">
+    <div id="network-offline" class="network offline hidden">
+        <p>
+            You are offline!
+        </p>
+        <button onclick="document.getElementById('network-offline').classList.toggle('hidden')">Dismiss</button>
+    </div>
+    <div id="network-online" class="network online hidden">
+        <p>
+            Reconnected! Refresh the page?
+        </p>
+        <button onclick="location.reload()">Refresh</button>
+        <button onclick="document.getElementById('network-online').classList.toggle('hidden')">Dismiss</button>
+    </div>
     <!-- Beginning header -->
     <header>
         <!-- Beginning nav -->
@@ -86,7 +99,7 @@
     <script type="application/javascript" charset="utf-8" src="js/private.js"></script>
     <script type="application/javascript" charset="utf-8" src="js/idbhelper.js"></script>
     <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
-    <script type="text/javascript" src="js/restaurant_info.js"></script>
+    <script type="application/javascript" charset="utf-8" src="js/restaurant_info.js"></script>
     <script type="application/javascript" charset="utf-8" src="js/register.js"></script>
     <!-- End scripts -->
 
