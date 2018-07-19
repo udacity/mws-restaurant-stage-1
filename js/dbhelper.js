@@ -17,48 +17,33 @@ class DBHelper {
     }
 
     /**
-     * Fetch all restaurants.
+     * Fetch all objects.
      */
-    static async fetchRestaurants(callback) {
-        let localData;
+    static async fetchObjects(type, callback) {
+        let info = this.getInfoForType(type);
         try {
-            localData = await IDBHelper.getRestaurants();
-            let networkData = await fetch(DBHelper.RESTAURANTS_URL);
-            let newest = DBHelper.pickMostRecentObjects(await networkData.clone().json(), localData);
-            callback(null, newest);
-            newest.forEach(e => {
-                DBHelper.updateRestaurant(e, (error, response) => {
-                    if (error) {
-                        console.error(error);
-                    }
-                });
-            });
+            let synced = await DBHelper.synchronizeObjects(info);
+            callback(null, synced);
         }
         catch (error) {
-            if (localData && localData.length > 0) {
-                callback(null, localData);
-            }
             callback(`Fetch error: ${error}`, null);
         }
     }
 
     /**
-     * Fetch a restaurant by its ID.
+     * Update object
      */
-    static async fetchRestaurantById(id, callback) {
+    static async updateObject(object, type, callback) {
+        let info = DBHelper.getInfoForType(type, object);
         let localData;
         try {
-            localData = await IDBHelper.getRestaurant(id);
-            let networkData = await fetch(DBHelper.RESTAURANTS_URL + `/${id}`);
-            let newest = DBHelper.pickMostRecentObject(await networkData.clone().json(), localData);
-            callback(null, newest);
-            DBHelper.updateRestaurant(newest, (error, response) => {
-                if (error) {
-                    console.error(error);
-                }
-            });
-        }
-        catch (error) {
+            localData = await IDBHelper.putObject(object, info.storeName);
+            let networkData = await fetch(info.updateUrl,
+                {
+                    method: 'PUT'
+                });
+            callback(null, localData || (await networkData.json()).id);
+        } catch (error) {
             if (localData) {
                 callback(null, localData);
                 return;
@@ -68,11 +53,25 @@ class DBHelper {
     }
 
     /**
+     * Fetch an object by its ID.
+     */
+    static async fetchObjectById(id, type, callback) {
+        let info = DBHelper.getInfoForType(type);
+        try {
+            let synced = await DBHelper.synchronizeObjectById(id, info);
+            callback(null, synced);
+        }
+        catch (error) {
+            callback(error, null);
+        }
+    }
+
+    /**
      * Fetch restaurants by a cuisine type with proper error handling.
      */
     static fetchRestaurantByCuisine(cuisine, callback) {
         // Fetch all restaurants  with proper error handling
-        DBHelper.fetchRestaurants((error, restaurants) => {
+        DBHelper.fetchObjects('restaurant', (error, restaurants) => {
             if (error) {
                 callback(error, null);
             } else {
@@ -88,7 +87,7 @@ class DBHelper {
      */
     static fetchRestaurantByNeighborhood(neighborhood, callback) {
         // Fetch all restaurants
-        DBHelper.fetchRestaurants((error, restaurants) => {
+        DBHelper.fetchObjects('restaurant', (error, restaurants) => {
             if (error) {
                 callback(error, null);
             } else {
@@ -104,7 +103,7 @@ class DBHelper {
      */
     static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
         // Fetch all restaurants
-        DBHelper.fetchRestaurants((error, restaurants) => {
+        DBHelper.fetchObjects('restaurant', (error, restaurants) => {
             if (error) {
                 callback(error, null);
             } else {
@@ -121,118 +120,68 @@ class DBHelper {
     }
 
     /**
-     * Update restaurant
-     */
-    static async updateRestaurant(restaurant, callback) {
-        let localData;
-        try {
-            localData = await IDBHelper.putRestaurant(restaurant);
-            let networkData = await fetch(`${DBHelper.RESTAURANTS_URL}/${restaurant.id}/?is_favorite=${restaurant.is_favorite}`,
-                {
-                    method: 'PUT'
-                });
-            callback(null, localData || networkData.json().id);
-        } catch (error) {
-            if (localData) {
-                callback(null, localData);
-                return;
-            }
-            callback(error, null);
-        }
-    }
-
-    /**
-     * Fetch all reviews.
-     */
-    static async fetchReviews(callback) {
-        let localData;
-        try {
-            localData = await IDBHelper.getReviews();
-            let networkData = await fetch(DBHelper.REVIEWS_URL);
-            let newest = DBHelper.pickMostRecentReviews(await networkData.clone().json(), localData);
-            callback(null, newest);
-            newest.forEach(e => {
-                DBHelper.updateReview(e, (error, response) => {
-                    if (error) {
-                        console.error(error);
-                    }
-                });
-            });
-        }
-        catch (error) {
-            if (localData && localData.length > 0) {
-                callback(null, localData);
-            }
-            callback(`Fetch error: ${error}`, null);
-        }
-    }
-
-    /**
-     * Fetch a review by its ID.
-     */
-    static async fetchReviewById(id, callback) {
-        let localData;
-        try {
-            localData = await IDBHelper.getReview(id);
-            let networkData = await fetch(DBHelper.REVIEWS_URL + `/${id}`);
-            if (networkData) {
-                IDBHelper.putReview(await networkData.clone().json());
-            }
-            callback(null, localData || networkData.json());
-        }
-        catch (error) {
-            if (localData) {
-                callback(null, localData);
-                return;
-            }
-            callback(error, null);
-        }
-    }
-
-    /**
      * Fetch a review by ID of a restaurant.
      */
     static async fetchReviewsByRestaurantId(id, callback) {
-        let localData;
+        let info = DBHelper.getInfoForType('review');
         try {
-            localData = await IDBHelper.getReviews();
-            let networkData = await fetch(DBHelper.REVIEWS_URL + `/?restaurant_id=${id}`);
-            let newest = DBHelper.pickMostRecentObjects(await networkData.clone().json(), localData);
-            callback(null, newest);
-            newest.forEach(e => {
-                DBHelper.updateReview(e, (error, response) => {
-                    if (error) {
-                        console.error(error);
-                    }
-                });
-            });
+            let synced = await DBHelper.synchronizeObjects(info, `/?restaurant_id=${id}`);
+            callback(null, synced);
         }
         catch (error) {
-            if (localData && localData.length > 0) {
-                callback(null, localData);
-            }
             callback(`Fetch error: ${error}`, null);
         }
     }
 
     /**
-     * Update review
+     * Updates IDB and network with most recent data
      */
-    static async updateReview(review, callback) {
+    static async synchronizeObjects(info, extendPath = '') {
         let localData;
         try {
-            localData = await IDBHelper.putReview(review);
-            let networkData = await fetch(`${DBHelper.REVIEWS_URL}/${review.id}`,
-                {
-                    method: 'PUT'
+            localData = await IDBHelper.getObjects(info.storeName);
+            let networkData = await fetch(info.generalUrl + extendPath);
+            let newest = DBHelper.pickMostRecentObjects(await networkData.json(), localData);
+            newest.forEach(o => {
+                DBHelper.updateObject(o, info.typeName, (error, response) => {
+                    if (error) {
+                        console.error(error);
+                    }
                 });
-            callback(null, localData || networkData.json().id);
+            });
+
+            return newest;
+        } catch (error) {
+            if (localData && localData.length > 0) {
+                return localData;
+            }
+
+            throw error;
+        }
+    }
+
+    /**
+     * Updates IDB and network with most recent data
+     */
+    static async synchronizeObjectById(id, info) {
+        let localData;
+        try {
+            localData = await IDBHelper.getObject(id, info.storeName);
+            let networkData = await fetch(info.generalUrl + `/${id}`);
+            let newest = DBHelper.pickMostRecentObject(await networkData.json(), localData);
+            DBHelper.updateObject(newest, info.typeName, (error, response) => {
+                if (error) {
+                    console.error(error);
+                }
+            });
+
+            return newest;
         } catch (error) {
             if (localData) {
-                callback(null, localData);
-                return;
+                return localData;
             }
-            callback(error, null);
+
+            throw error;
         }
     }
 
@@ -241,7 +190,7 @@ class DBHelper {
      */
     static fetchNeighborhoods(callback) {
         // Fetch all restaurants
-        DBHelper.fetchRestaurants((error, restaurants) => {
+        DBHelper.fetchObjects('restaurant', (error, restaurants) => {
             if (error) {
                 callback(error, null);
             } else {
@@ -259,7 +208,7 @@ class DBHelper {
      */
     static fetchCuisines(callback) {
         // Fetch all restaurants
-        DBHelper.fetchRestaurants((error, restaurants) => {
+        DBHelper.fetchObjects('restaurant', (error, restaurants) => {
             if (error) {
                 callback(error, null);
             } else {
@@ -305,7 +254,7 @@ class DBHelper {
      * Picks most recent objects from arrays. If something goes wrong, returns always networkData
      */
     static pickMostRecentObjects(networkData, localData) {
-        if (networkData.length != localData.length) {
+        if (!localData || networkData.length != localData.length) {
             return networkData;
         }
         let output = [];
@@ -325,10 +274,37 @@ class DBHelper {
      * Picks most recent object. If something goes wrong, returns always networkData
      */
     static pickMostRecentObject(networkData, localData) {
-        if (networkData.id != localData.id) {
+        if (!localData || networkData.id != localData.id) {
             return networkData;
         }
 
         return Date.parse(res1.updatedAt) > res2.updatedAt ? res1 : res2;
+    }
+
+    /**
+     * Get information about object with a given type
+     */
+    static getInfoForType(objectType, object = null) {
+        switch (objectType) {
+            case 'restaurant':
+                return {
+                    typeName: 'restaurant',
+                    storeName: 'restaurants',
+                    generalUrl: DBHelper.RESTAURANTS_URL,
+                    updateUrl: object ? `${DBHelper.RESTAURANTS_URL}/${object.id}/?is_favorite=${object.is_favorite}` : ''
+                };
+            case 'review':
+                return {
+                    typeName: 'review',
+                    storeName: 'reviews',
+                    generalUrl: DBHelper.REVIEWS_URL,
+                    updateUrl: object ? `${DBHelper.REVIEWS_URL}/${object.id}` : ''
+                };
+            default:
+                return {
+                    storeName: null,
+                    updateUrl: null
+                };
+        }
     }
 }

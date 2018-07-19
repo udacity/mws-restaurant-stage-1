@@ -198,7 +198,7 @@ createRestaurantHTML = (restaurant) => {
     favorite.setAttribute('aria-selected', isFavorite);
     favorite.onclick = () => {
         toggleFavorite(restaurant, favorite);
-        DBHelper.updateRestaurant(restaurant, (error, response) => {
+        DBHelper.updateObject(restaurant, 'restaurant', (error, response) => {
             if (error) {
                 console.error("Could not update neither local nor network database: ", error);
                 toggleFavorite(restaurant, favorite);

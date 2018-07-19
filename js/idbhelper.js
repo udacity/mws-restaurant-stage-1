@@ -14,14 +14,14 @@ class IDBHelper {
         });
     }
 
-    static async putRestaurants(restaurants, create = false) {
+    static async putObjects(objects, storeName, create = false) {
         try {
-            let store = (await this.dbPromise).transaction('restaurants', 'readwrite').objectStore('restaurants');
+            let store = (await this.dbPromise).transaction(storeName, 'readwrite').objectStore(storeName);
             let response = [];
-            for (const restaurant of restaurants) {
-                restaurant.updatedAt = Date.now();
-                if (create) restaurant.createdAt = restaurant.updatedAt;
-                response.push(await store.put(restaurant));
+            for (const object of objects) {
+                object.updatedAt = Date.now();
+                if (create) object.createdAt = object.updatedAt;
+                response.push(await store.put(object));
             }
 
             return response;
@@ -32,12 +32,12 @@ class IDBHelper {
         }
     }
 
-    static async putRestaurant(restaurant, create = false) {
+    static async putObject(object, storeName, create = false) {
         try {
-            let store = (await this.dbPromise).transaction('restaurants', 'readwrite').objectStore('restaurants');
-            restaurant.updatedAt = Date.now();
-            if (create) restaurant.createdAt = restaurant.updatedAt;
-            return await store.put(restaurant);
+            let store = (await this.dbPromise).transaction(storeName, 'readwrite').objectStore(storeName);
+            object.updatedAt = Date.now();
+            if (create) object.createdAt = object.updatedAt;
+            return await store.put(object);
         }
         catch (error) {
             console.error(error);
@@ -45,9 +45,9 @@ class IDBHelper {
         }
     }
 
-    static async getRestaurants() {
+    static async getObjects(storeName) {
         try {
-            let store = (await this.dbPromise).transaction('restaurants', 'readwrite').objectStore('restaurants');
+            let store = (await this.dbPromise).transaction(storeName, 'readwrite').objectStore(storeName);
             return await store.getAll();
         }
         catch (error) {
@@ -56,62 +56,9 @@ class IDBHelper {
         }
     }
 
-    static async getRestaurant(id) {
+    static async getObject(id, storeName) {
         try {
-            let store = (await this.dbPromise).transaction('restaurants', 'readwrite').objectStore('restaurants');
-            return await store.get(parseInt(id));
-        }
-        catch (error) {
-            console.error(error);
-            return null;
-        }
-    }
-
-    static async putReviews(reviews, create = false) {
-        try {
-            let store = (await this.dbPromise).transaction('reviews', 'readwrite').objectStore('reviews');
-            let response = [];
-            for (const review of reviews) {
-                review.updatedAt = Date.now();
-                if (create) review.createdAt = review.updatedAt;
-                response.push(await store.put(review));
-            }
-
-            return response;
-        }
-        catch (error) {
-            console.error(error);
-            return null;
-        }
-    }
-
-    static async putReview(review, create = false) {
-        try {
-            let store = (await this.dbPromise).transaction('reviews', 'readwrite').objectStore('reviews');
-            review.updatedAt = Date.now();
-            if (create) review.createdAt = review.updatedAt;
-            return await store.put(review);
-        }
-        catch (error) {
-            console.error(error);
-            return null;
-        }
-    }
-
-    static async getReviews() {
-        try {
-            let store = (await this.dbPromise).transaction('reviews', 'readwrite').objectStore('reviews');
-            return await store.getAll();
-        }
-        catch (error) {
-            console.error(error);
-            return null;
-        }
-    }
-
-    static async getReview(id) {
-        try {
-            let store = (await this.dbPromise).transaction('reviews', 'readwrite').objectStore('reviews');
+            let store = (await this.dbPromise).transaction(storeName, 'readwrite').objectStore('restaurants');
             return await store.get(parseInt(id));
         }
         catch (error) {

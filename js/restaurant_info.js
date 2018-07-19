@@ -48,8 +48,8 @@ fetchRestaurantFromURL = async (callback) => {
         error = 'No restaurant id in URL'
         callback(error, null);
     } else {
-        DBHelper.fetchRestaurantById(id, async (error, restaurant) => {
-            self.restaurant = await restaurant;
+        DBHelper.fetchObjectById(id, 'restaurant', async (error, restaurant) => {
+            self.restaurant = restaurant;
             if (!self.restaurant) {
                 console.error(error);
                 return;
@@ -101,7 +101,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     favorite.setAttribute('aria-selected', isFavorite);
     favorite.onclick = () => {
         toggleFavorite(restaurant, favorite);
-        DBHelper.updateRestaurant(restaurant, (error, response) => {
+        DBHelper.updateObject(restaurant, 'restaurant', (error, response) => {
             if (error) {
                 console.error("Could not update neither local nor network database: ", error);
                 toggleFavorite(restaurant, favorite);
