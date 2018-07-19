@@ -70,32 +70,14 @@ class DBHelper {
      * Fetch restaurants by a cuisine type with proper error handling.
      */
     static fetchRestaurantByCuisine(cuisine, callback) {
-        // Fetch all restaurants  with proper error handling
-        DBHelper.fetchObjects('restaurant', (error, restaurants) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                // Filter restaurants to have only given cuisine type
-                const results = restaurants.filter(r => r.cuisine_type == cuisine);
-                callback(null, results);
-            }
-        });
+        DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, 'all', callback);
     }
 
     /**
      * Fetch restaurants by a neighborhood with proper error handling.
      */
     static fetchRestaurantByNeighborhood(neighborhood, callback) {
-        // Fetch all restaurants
-        DBHelper.fetchObjects('restaurant', (error, restaurants) => {
-            if (error) {
-                callback(error, null);
-            } else {
-                // Filter restaurants to have only given neighborhood
-                const results = restaurants.filter(r => r.neighborhood == neighborhood);
-                callback(null, results);
-            }
-        });
+        DBHelper.fetchRestaurantByCuisineAndNeighborhood('all', neighborhood, callback);
     }
 
     /**
@@ -254,16 +236,13 @@ class DBHelper {
      * Picks most recent objects from arrays. If something goes wrong, returns always networkData
      */
     static pickMostRecentObjects(networkData, localData) {
-        if (!localData || networkData.length != localData.length) {
-            return networkData;
-        }
         let output = [];
-        for (const res1 of networkData) {
-            let res2 = localData.find(x => x.id == res1.id);
-            if (res2) {
-                output.push(Date.parse(res1.updatedAt) > res2.updatedAt ? res1 : res2);
+        for (const netObj of networkData) {
+            let locObj = localData.find(x => x.id == netObj.id);
+            if (locObj) {
+                output.push(DBHelper.pickMostRecentObject(netObj, locObj));
             } else {
-                return networkData;
+                return networkData || localData;
             }
         }
 
@@ -274,11 +253,7 @@ class DBHelper {
      * Picks most recent object. If something goes wrong, returns always networkData
      */
     static pickMostRecentObject(networkData, localData) {
-        if (!localData || networkData.id != localData.id) {
-            return networkData;
-        }
-
-        return Date.parse(res1.updatedAt) > res2.updatedAt ? res1 : res2;
+        return Date.parse(networkData.updatedAt) > localData.updatedAt ? networkData : localData;
     }
 
     /**
