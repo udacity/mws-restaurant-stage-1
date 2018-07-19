@@ -240,14 +240,31 @@
   <!-- Google Maps -->
   <script>
       function showMap() {
+        initMap();
+        addMarkersToMap();
         let getMap = document.getElementById('map');
           getMap.style.height = "400px";
         let hideButton = document.getElementById('mapButton');
           hideButton.tabIndex = -1;
           hideButton.setAttribute('aria-hidden', 'true');
       }
+      /**
+        * Initialize Google map, called from HTML.
+        */
+      window.initMap = () => {
+      let loc = {
+        lat: 40.722216,
+        lng: -73.987501
+        };
+      self.map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: loc,
+      scrollwheel: false
+      });
+  // updateRestaurants();
+    };
     </script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPElvvdFv22vPYu4pZwBL9d7-FzjSF9ds&libraries=places&callback=initMap"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPElvvdFv22vPYu4pZwBL9d7-FzjSF9ds&libraries=places&callback=updateRestaurants"></script>
   <!-- End scripts -->
 </body>
 
