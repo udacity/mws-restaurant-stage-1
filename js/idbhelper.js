@@ -20,7 +20,10 @@ class IDBHelper {
             let response = [];
             for (const object of objects) {
                 object.updatedAt = Date.now();
-                if (create) object.createdAt = object.updatedAt;
+                if (create) {
+                    object.id = IDBHelper.getMaxIndex(store) + 1;
+                    object.createdAt = object.updatedAt;
+                }
                 response.push(await store.put(object));
             }
 
@@ -35,11 +38,16 @@ class IDBHelper {
     static async putObject(object, storeName, create = false) {
         try {
             let store = (await this.dbPromise).transaction(storeName, 'readwrite').objectStore(storeName);
-            object.updatedAt = Date.now();
-            if (create) object.createdAt = object.updatedAt;
+            let now = Date.now();
+            object.updatedAt = (new Date(now)).toJSON();
+            if (create) {
+                object.id = await IDBHelper.getMaxIndex(store) + 1;
+                object.createdAt = now;
+            }
             return await store.put(object);
         }
         catch (error) {
+            console.log(object);
             console.error(error);
             return null;
         }
@@ -76,6 +84,10 @@ class IDBHelper {
             console.error(error);
             return null;
         }
+    }
+
+    static async getMaxIndex(store) {
+        return Math.max(...await store.getAllKeys());
     }
 }
 

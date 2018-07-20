@@ -1,11 +1,17 @@
 let restaurant;
 var newMap;
+let form;
 
 /**
  * Initialize map as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
     initMap();
+    form = document.getElementById('new-review-form');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        submitData();
+    })
 });
 
 /**
@@ -78,12 +84,13 @@ clearRestaurantHTML = () => {
     const cuisine = document.getElementById('restaurant-cuisine');
     const hours = document.getElementById('restaurant-hours');
     const container = document.getElementById('reviews-container');
+    const list = document.getElementById('reviews-list');
     name.innerHTML = '';
     address.innerHTML = '';
     image.innerHTML = '';
     cuisine.innerHTML = '';
     hours.innerHTML = '';
-    container.innerHTML = '';
+    list.innerHTML = '';
 }
 
 /**
@@ -94,7 +101,6 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     const name = document.getElementById('restaurant-name');
     name.innerHTML = restaurant.name;
 
-    //TODO - Add clearing!
     const favorite = document.getElementById('restaurant-favorite');
     let isFavorite = (restaurant.is_favorite == 'true' || restaurant.is_favorite == true) ? true : false;
     favorite.innerHTML = (isFavorite ? 'un' : '') + 'set favorite';
@@ -160,9 +166,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     const container = document.getElementById('reviews-container');
-    const title = document.createElement('h2');
-    title.innerHTML = 'Reviews';
-    container.appendChild(title);
 
     if (!reviews) {
         const noReviews = document.createElement('p');
@@ -171,12 +174,11 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
         container.appendChild(noReviews);
         return;
     }
-    const ul = document.createElement('ul');
-    ul.id = 'reviews-list';
+    const ul = document.getElementById('reviews-list');
+    ul.innerHTML = '';
     reviews.forEach(review => {
         ul.appendChild(createReviewHTML(review));
     });
-    container.appendChild(ul);
 }
 
 /**
@@ -248,4 +250,31 @@ toggleFavorite = (restaurant, button) => {
     restaurant.is_favorite = (restaurant.is_favorite == 'true' || restaurant.is_favorite == true) ? false : true;
     button.setAttribute('aria-selected', restaurant.is_favorite);
     button.innerHTML = (restaurant.is_favorite ? 'un' : '') + 'set favorite';
+}
+
+/**
+ * Handle form submission
+ */
+submitData = () => {
+    const restaurant_id = self.restaurant.id;
+    const name = document.getElementById('name').value;
+    const rating = document.getElementById('rating').value;
+    const comments = document.getElementById('comments').value;
+    const review = {
+        restaurant_id,
+        name,
+        rating,
+        comments
+    }
+    DBHelper.addObject(review, 'review', (error, response) => {
+        if (error) {
+            console.error(error);
+        } else {
+            name.innerHTML = '';
+            rating.innerHTML = '';
+            comments.innerHTML = '';
+            self.restaurant.reviews.push(review);
+            fillReviewsHTML();
+        }
+    })
 }

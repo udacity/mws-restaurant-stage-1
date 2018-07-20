@@ -6,7 +6,9 @@ class DBHelper {
      * Static constructor. Do not call it manually!
      */
     static setup() {
-        DBHelper.synchronizeAll();
+        if (navigator.onLine) {
+            DBHelper.synchronizeAll();
+        }
         let networkOffline = document.getElementById('network-offline');
         let networkOnline = document.getElementById('network-online');
 
@@ -135,6 +137,25 @@ class DBHelper {
         }
         catch (error) {
             callback(`Fetch error: ${error}`, null);
+        }
+    }
+
+    static async addObject(object, type, callback) {
+        let info = DBHelper.getInfoForType(type);
+        let localData;
+        try {
+            localData = await IDBHelper.putObject(object, info.storeName, true);
+            let networkData = await fetch(info.generalUrl, {
+                method: 'POST',
+                body: JSON.stringify(object)
+            });
+            callback(null, localData || (await networkData.json().id));
+        } catch (error) {
+            if (localData) {
+                callback(null, localData);
+                return;
+            }
+            callback(error, null);
         }
     }
 
@@ -271,9 +292,14 @@ class DBHelper {
         for (const netObj of networkData) {
             let locObj = localData.find(x => x.id == netObj.id);
             if (locObj) {
-                output.push(DBHelper.pickMostRecentObject(netObj, locObj));
+                let picked = DBHelper.pickMostRecentObject(netObj, locObj);
+                if (Array.isArray(picked)) {
+                    output.push(...picked);
+                } else {
+                    output.push(picked);
+                }
             } else {
-                return networkData || localData;
+                output.push(netObj);
             }
         }
 
@@ -285,10 +311,15 @@ class DBHelper {
      */
     static pickMostRecentObject(networkData, localData) {
         if (localData && networkData) {
-            return Date.parse(networkData.updatedAt) > localData.updatedAt ? networkData : localData;
+            if (networkData.createdAt == localData.createdAt) {
+                return Date.parse(networkData.updatedAt) > localData.updatedAt ? networkData : localData;
+            }
+            else {
+                return [networkData, localData]; // Duplicate IDs?
+            }
         }
-        return networkData || localData;
 
+        return networkData || localData;
     }
 
     /**

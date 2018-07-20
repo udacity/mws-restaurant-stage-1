@@ -78,7 +78,25 @@
         <!-- end restaurant -->
         <!-- Beginning reviews -->
         <section id="reviews-container">
+            <h2>Reviews</h2>
             <ul id="reviews-list"></ul>
+
+            <form id="new-review-form" method="post" class="new-review">
+                <div>
+                    <h3>Add review</h3>
+                </div>
+
+                <input type="text" placeholder="Your name" name="name" id="name" class="new-review reviewer" required>
+                <label for="name">Your name</label>
+
+                <input type="number" min="1" max="5" placeholder="Rating" name="rating" id="rating" class="new-review rating" required>
+                <label for="rating">Rating</label>
+
+                <textarea rows="5" placeholder="Comments" name="comments" id="comments" class="new-review comments" required></textarea>
+                <label for="comments">Comments</label>
+
+                <button type="submit" class="new-review submit">Add review</button>
+            </form>
         </section>
         <!-- End reviews -->
     </main>
