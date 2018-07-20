@@ -257,9 +257,9 @@ toggleFavorite = (restaurant, button) => {
  */
 submitData = () => {
     const restaurant_id = self.restaurant.id;
-    const name = document.getElementById('name').value;
-    const rating = document.getElementById('rating').value;
-    const comments = document.getElementById('comments').value;
+    const name = escapeHtml(document.getElementById('name').value);
+    const rating = parseInt(escapeHtml(document.getElementById('rating').value));
+    const comments = escapeHtml(document.getElementById('comments').value);
     const review = {
         restaurant_id,
         name,
@@ -270,11 +270,20 @@ submitData = () => {
         if (error) {
             console.error(error);
         } else {
-            name.innerHTML = '';
-            rating.innerHTML = '';
-            comments.innerHTML = '';
+            document.getElementById('name').value = '';
+            document.getElementById('rating').value = '';
+            document.getElementById('comments').value = '';
             self.restaurant.reviews.push(review);
             fillReviewsHTML();
         }
     })
 }
+
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+ }

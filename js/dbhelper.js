@@ -165,15 +165,32 @@ class DBHelper {
     static async synchronizeObjects(info, extendPath = '') {
         let localData;
         try {
-            localData = await IDBHelper.getObjects(info.storeName);
-            let networkData = await fetch(info.generalUrl + extendPath);
-            let newest = DBHelper.pickMostRecentObjects(await networkData.json(), localData);
-            newest.forEach(o => {
-                DBHelper.updateObject(o, info.typeName, (error, response) => {
-                    if (error) {
-                        console.error(error);
-                    }
-                });
+            if (extendPath.startsWith('/?restaurant_id=')) {
+                localData = await IDBHelper.getReviewsOfRestaurant(parseInt(extendPath.substring(16)));
+            }
+            else {
+                localData = await IDBHelper.getObjects(info.storeName);
+            }
+            let networkData = await (await fetch(info.generalUrl + extendPath)).json();
+            let newest = DBHelper.pickMostRecentObjects(networkData, localData);
+            newest.forEach(async o => {
+                if (networkData.find(n => o.id == n.id) == null) {
+                    await fetch(info.generalUrl, {
+                        method: 'POST',
+                        body: JSON.stringify(o)
+                    });
+                } else if (networkData.find(n => o.id == n.id && o.createdAt != n.createdAt)) {
+                    await fetch(info.generalUrl, {
+                        method: 'POST',
+                        body: JSON.stringify(o)
+                    });
+                } else {
+                    DBHelper.updateObject(o, info.typeName, (error, response) => {
+                        if (error) {
+                            console.error(error);
+                        }
+                    });
+                }
             });
 
             return newest;
@@ -301,6 +318,12 @@ class DBHelper {
             } else {
                 output.push(netObj);
             }
+        }
+
+        for (const locObj of localData) {
+            let netObj = networkData.find(x => x.id == locObj.id);
+            if (netObj) continue;
+            output.push(locObj);
         }
 
         return output;
