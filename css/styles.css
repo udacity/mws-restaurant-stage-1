@@ -301,8 +301,8 @@ nav h1 a {
     text-transform: uppercase;
 }
 
-#restaurants-list .favorite[aria-selected="true"] {
-    background-color: orange;
+#restaurants-list .favorite[aria-checked="true"] {
+    background-color: blue;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -372,8 +372,8 @@ nav h1 a {
     min-width: 33%;
 }
 
-#restaurant-container .favorite[aria-selected="true"] {
-    background-color: orange;
+#restaurant-container .favorite[aria-checked="true"] {
+    background-color: blue;
 }
 
 #restaurant-container, #reviews-container {

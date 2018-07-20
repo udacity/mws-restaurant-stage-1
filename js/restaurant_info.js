@@ -104,7 +104,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     const favorite = document.getElementById('restaurant-favorite');
     let isFavorite = (restaurant.is_favorite == 'true' || restaurant.is_favorite == true) ? true : false;
     favorite.innerHTML = (isFavorite ? 'un' : '') + 'set favorite';
-    favorite.setAttribute('aria-selected', isFavorite);
+    favorite.setAttribute('aria-checked', isFavorite);
     favorite.onclick = () => {
         toggleFavorite(restaurant, favorite);
         DBHelper.updateObject(restaurant, 'restaurant', (error, response) => {
@@ -248,7 +248,7 @@ getFormattedDate = (date) => {
  */
 toggleFavorite = (restaurant, button) => {
     restaurant.is_favorite = (restaurant.is_favorite == 'true' || restaurant.is_favorite == true) ? false : true;
-    button.setAttribute('aria-selected', restaurant.is_favorite);
+    button.setAttribute('aria-checked', restaurant.is_favorite);
     button.innerHTML = (restaurant.is_favorite ? 'un' : '') + 'set favorite';
 }
 
