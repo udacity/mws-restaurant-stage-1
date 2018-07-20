@@ -1,69 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <!-- Normalize.css for better cross-browser consistency -->
-  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
-  <!-- Main CSS file -->
-  <link rel="stylesheet" href="css/styles.css" type="text/css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
-  <title>Restaurant Info</title>
+    <!-- Normalize.css for better cross-browser consistency -->
+    <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+    <!-- Main CSS file -->
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+        crossorigin="" />
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#252831">
+    <link rel="icon" type="image/png" href="img/icon/icon-48_x_48.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Restaurant Info</title>
 </head>
 
 <body class="inside">
-  <!-- Beginning header -->
-  <header>
-    <!-- Beginning nav -->
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
-    </nav>
-    <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
-      <li><a href="/">Home</a></li>
-    </ul>
-    <!-- End breadcrumb -->
-    <!-- End nav -->
-  </header>
-  <!-- End header -->
+    <div id="network-offline" class="network offline hidden">
+        <p>
+            You are offline!
+        </p>
+        <button onclick="document.getElementById('network-offline').classList.toggle('hidden')">Dismiss</button>
+    </div>
+    <div id="network-online" class="network online hidden">
+        <p>
+            Reconnected! Refresh the page?
+        </p>
+        <button onclick="location.reload()">Refresh</button>
+        <button onclick="document.getElementById('network-online').classList.toggle('hidden')">Dismiss</button>
+    </div>
+    <!-- Beginning header -->
+    <header>
+        <!-- Beginning nav -->
+        <nav>
+            <h1>
+                <a href="/">Restaurant Reviews</a>
+            </h1>
+        </nav>
+        <!-- Beginning breadcrumb -->
+        <ul id="breadcrumb" role="navigation" aria-labelledby="breadcrumb-label">
+            <li>
+                <div>
+                    <a href="/">Home</a>
+                </div>
+            </li>
+        </ul>
+        <label id="breadcrumb-label" class="breadcrumb-label">Breadcrumb</label>
+        <!-- End breadcrumb -->
+        <!-- End nav -->
+    </header>
+    <!-- End header -->
 
-  <!-- Beginning main -->
-  <main id="maincontent">
-    <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map"></div>
-    </section>
-    <!-- End map -->
-    <!-- Beginning restaurant -->
-    <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
-      <img id="restaurant-img">
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
-    </section>
-    <!-- end restaurant -->
-    <!-- Beginning reviews -->
-    <section id="reviews-container">
-      <ul id="reviews-list"></ul>
-    </section>
-    <!-- End reviews -->
-  </main>
-  <!-- End main -->
+    <!-- Beginning main -->
+    <main id="maincontent">
 
-  <!-- Beginning footer -->
-  <footer id="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-  </footer>
-  <!-- End footer -->
-  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
-  <!-- Beginning scripts -->
-  <!-- Database helpers -->
-  <script type="text/javascript" src="js/dbhelper.js"></script>
-  <!-- Main javascript file -->
-  <script type="text/javascript" src="js/restaurant_info.js"></script>
-  <!-- Google Maps -->
- <!--  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap"></script> -->
-  <!-- End scripts -->
+        <!-- Beginning restaurant -->
+        <section id="restaurant-container">
+            <h1 id="restaurant-name"></h1>
+            <div>
+                <button id="restaurant-favorite" class="favorite" role="switch"></button>
+            </div>
+            <p id="restaurant-address" aria-labelledby="restaurant-address-label"></p>
+            <label id="restaurant-address-label">Address of the restaurant</label>
+            <!-- Beginning map -->
+            <section id="map-container">
+                <div id="map"></div>
+            </section>
+            <!-- End map -->
+            <div>
+                <img id="restaurant-img">
+            </div>
+            <p id="restaurant-cuisine"></p>
+            <table id="restaurant-hours" aria-labelledby="restaurant-hours-label"></table>
+            <label id="restaurant-hours-label">Opening hours of the restaurant</label>
+        </section>
+        <!-- end restaurant -->
+        <!-- Beginning reviews -->
+        <section id="reviews-container">
+            <h2>Reviews</h2>
+            <ul id="reviews-list"></ul>
+
+            <form id="new-review-form" method="post" class="new-review">
+                <div>
+                    <h3>Add review</h3>
+                </div>
+
+                <input type="text" placeholder="Your name" name="name" id="name" class="new-review reviewer" required>
+                <label for="name">Your name</label>
+
+                <input type="number" min="1" max="5" placeholder="Rating" name="rating" id="rating" class="new-review rating" required>
+                <label for="rating">Rating</label>
+
+                <textarea rows="5" placeholder="Comments" name="comments" id="comments" class="new-review comments" required></textarea>
+                <label for="comments">Comments</label>
+
+                <button type="submit" class="new-review submit">Add review</button>
+            </form>
+        </section>
+        <!-- End reviews -->
+    </main>
+    <!-- End main -->
+
+    <!-- Beginning footer -->
+    <footer id="footer">
+        Copyright (c) 2017
+        <a href="/">
+            <strong>Restaurant Reviews</strong>
+        </a> All Rights Reserved.
+    </footer>
+    <!-- End footer -->
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+        crossorigin=""></script>
+    <!-- Beginning scripts -->
+    <script type="application/javascript" charset="utf-8" src="js/idb.js"></script>
+    <script type="application/javascript" charset="utf-8" src="js/private.js"></script>
+    <script type="application/javascript" charset="utf-8" src="js/idbhelper.js"></script>
+    <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+    <script type="application/javascript" charset="utf-8" src="js/restaurant_info.js"></script>
+    <script type="application/javascript" charset="utf-8" src="js/register.js"></script>
+    <!-- End scripts -->
 
 </body>
 
