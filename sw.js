@@ -1,5 +1,11 @@
+const staticCacheName = "restaurant-review-v2";
+
+var dbPromise = idb.open("restaurant-db", 1, function(upgradeDb) {
+  var keyValStore = upgradeDb.createObjectStore("restaurants");
+  console.log("DB open");
+});
+
 self.addEventListener("install", function(event) {
-  const staticCacheName = "restaurant-review-v2";
   var urlsToCache = [
     "/index.html",
     "/manifest.json",
