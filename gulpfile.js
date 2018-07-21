@@ -1,5 +1,6 @@
 const gulp = require("gulp");
-var responsive = require("gulp-responsive");
+const responsive = require("gulp-responsive");
+const babel = require("gulp-babel");
 
 gulp.task("responsive", () =>
   gulp
@@ -19,4 +20,15 @@ gulp.task("responsive", () =>
       })
     )
     .pipe(gulp.dest("img"))
+);
+
+gulp.task("babel", () =>
+  gulp
+    .src("js/indexdb.js")
+    .pipe(
+      babel({
+        presets: ["env"]
+      })
+    )
+    .pipe(gulp.dest("dist"))
 );
