@@ -117,10 +117,6 @@ const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hour
  */
 const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
-  const title = document.createElement('h3');
-  title.innerHTML = 'Reviews';
-  title.tabIndex = 0;
-  container.appendChild(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -198,3 +194,34 @@ const getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 };
+
+const favButton = document.querySelector('#click');
+const starIcon = document.querySelector('span');
+const favText = document.querySelector('.info');
+      favButton.addEventListener('click',function() {
+          if (starIcon.classList.contains('fa-star')){
+            favButton.classList.remove('active');
+            setTimeout(() => {
+              favButton.classList.remove('active-2');
+            }, 30);
+            favButton.classList.remove('active-3');
+            setTimeout(() => {
+              starIcon.classList.remove('fa-star');
+              starIcon.classList.add('fa-star-o');
+            }, 15);
+          } else {
+            favButton.classList.add('active');
+            favButton.classList.add('active-2');
+            setTimeout(() => {
+              starIcon.classList.add('fa-star');
+              starIcon.classList.remove('fa-star-o');
+            },150)
+            setTimeout(() => {
+              favButton.classList.add('active-3');
+            }, 150);
+            favText.classList.add('info-tog');
+            setTimeout(() => {
+              favText.classList.remove('info-tog');
+            },1000)
+          }
+      })
