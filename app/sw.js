@@ -1,14 +1,16 @@
 /* eslint-env worker */
 import idb from 'idb';
-const currentCacheName = 'restaurant-sw-cache-v5';
+const currentCacheName = 'restaurant-sw-cache-v8';
 
-const dbPromise = idb.open('udacity-restaurant', 1, upgradeDB => {
-  switch (upgradeDB.oldVersion) {
-    case 0 :
-      upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
-  }
-});
- 
+  const dbPromise = idb.open('udacity-restaurant', 3, upgradeDB => {
+    switch (upgradeDB.oldVersion) {
+      case 0 :
+        upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+      case 1 :
+        upgradeDB.createObjectStore('reviews', {keyPath:'id'});
+    }
+  });
+
 /* === getting service worker ready with cache === */
 self.addEventListener('install', (event) => {
   const cachedUrls = [
