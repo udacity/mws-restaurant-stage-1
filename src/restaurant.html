@@ -46,6 +46,11 @@
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
       <h2 id="restaurant-name"></h2>
+      <form id="favorite-form" role="form" method="PUT" action="" class="form">
+          <input id="restaurant_id" name="restaurant_id" type="hidden" value="">
+          <label for="is_favorite">Mark as Favorite</label>
+          <input type="checkbox" name="is_favorite" id="is_favorite">
+        </form>
       <figure id="restaurant-img">
 	      <figcaption>
 	        <p id="restaurant-cuisine"></p>
@@ -80,6 +85,7 @@
     <!-- End review form -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
+      <h2>Reviews</h2>
       <ul id="reviews-list" tabindex="0" aria-label="The list of reviews"></ul>
     </section>
 

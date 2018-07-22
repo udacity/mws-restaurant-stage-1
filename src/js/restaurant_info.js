@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   document.getElementById('submit-review').addEventListener('click', event => {
     event.preventDefault();
-    DBHelper.submitReview(() => {});
+    DBHelper.submitReview(() => {fetchReviews()});
   });
 });
 
@@ -176,9 +176,8 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews) => {
   const container = document.getElementById('reviews-container');
-  const title = document.createElement('h2');
-  title.innerHTML = 'Reviews';
-  container.appendChild(title);
+  const ul = document.getElementById('reviews-list');
+  ul.innerHTML = ''; //Clear reviews
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -186,7 +185,7 @@ fillReviewsHTML = (reviews) => {
     container.appendChild(noReviews);
     return;
   }
-  const ul = document.getElementById('reviews-list');
+ 
   reviews.forEach(review => {
     ul.appendChild(createReviewHTML(review));
   });
@@ -211,10 +210,8 @@ createReviewHTML = (review) => {
   name.innerHTML = review.name;
   title.appendChild(name);
 
-  const dateObject = new Date(review.createdAt);;
-
   const date = document.createElement('p');
-  date.innerHTML = dateObject.getDay() + '-' + dateObject.getMonth() + '-' + dateObject.getFullYear();
+  date.innerHTML = (review.id) ? new Date(review.createdAt).toString() : 'Connection error! Trying to sync ...';
   title.appendChild(date);
   
   const clear = document.createElement('div');

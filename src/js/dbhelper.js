@@ -208,14 +208,9 @@ class DBHelper {
       method: 'post',
       body: jsHelper.serializeObject(jsHelper.getFormValues())
 
-    }).then(function(response) {
+    }).then(response => {
 
-      console.log(response);
-      return response.json();
-    }).then(function(data) {
-
-      console.log(data);
-      callback(data);
+      callback();
     }).catch(error => {
 
       if('SyncManager' in window) {
@@ -226,13 +221,15 @@ class DBHelper {
         })
         .then(subscription =>{
     
-          navigator.serviceWorker.controller.postMessage({
+          return navigator.serviceWorker.controller.postMessage({
             url: DBHelper.DATABASE_URL.reviews,
             formData: jsHelper.getFormValues(),
-            type: 'new-review',
+            type: 'create-review',
             method: 'POST'
           });
   
+        }).then(() => {
+          callback();
         })
         .catch(error => {
           console.log(error); 
