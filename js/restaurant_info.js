@@ -91,9 +91,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.className = 'restaurant-img'
 
   const imageBaseURL = DBHelper.imageUrlForRestaurant(restaurant);
-  const imageArray = imageBaseURL.split('.');
-  const image1x = imageArray[0] + "-1x." + imageArray[1];
-  const image2x = imageArray[0] + "-2x." + imageArray[1];
+  const image1x = imageBaseURL + "-1x.jpg";
+  const image2x = imageBaseURL + "-2x.jpg";
   image.src = image1x;
   image.srcset = `${image1x} 300w, ${image2x} 500w`;
 
