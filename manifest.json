@@ -1,0 +1,21 @@
+{
+    "dir": "ltr",
+    "lang": "en",
+    "name": "Restaurant Reviews App",
+    "scope": "/",
+    "display": "standalone",
+    "start_url": "http://localhost:8000",
+    "short_name": "RestaReview",
+    "theme_color": "transparent",
+    "description": "Google Udacity Nanodegree App",
+    "orientation": "portrait",
+    "background_color": "transparent",
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "/img/ico/icon.png",
+            "sizes": "16x16 32x32 192x192 512x512"
+        }
+    ]
+}
