@@ -14,22 +14,57 @@ class DBHelper {
   /**
    * Fetch all restaurants.
    */
+  // static fetchRestaurants(callback) {
+  //   let xhr = new XMLHttpRequest();
+  //   xhr.open("GET", DBHelper.DATABASE_URL);
+  //   xhr.onload = () => {
+  //     if (xhr.status === 200) {
+  //       // Got a success response from server!
+  //       const restaurants = JSON.parse(xhr.responseText);
+  //       // const restaurants = json.restaurants;
+  //       callback(null, restaurants);
+  //     } else {
+  //       // Oops!. Got an error from server.
+  //       const error = `Request failed. Returned status of ${xhr.status}`;
+  //       callback(error, null);
+  //     }
+  //   };
+  //   xhr.send();
+  // }
+
+  static createDB() {
+    return idb.open("restaurantDB", 1, upgradeDb => {
+      upgradeDb.createObjectStore("restaurantDB", {
+        keyPath: "id"
+      });
+      console.log("DB open");
+    });
+  }
+
+  static populateDB(restaurants) {
+    return DBHelper.createDB().then(db => {
+      if (!db) return;
+      let tx = db.transaction("restaurantDB", "readwrite");
+      let store = tx.objectStore("restaurantDB");
+      restaurants.forEach(function(restaurant) {
+        store.put(restaurant);
+      });
+      return tx.complete;
+    });
+  }
+
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) {
-        // Got a success response from server!
-        const restaurants = JSON.parse(xhr.responseText);
-        // const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else {
-        // Oops!. Got an error from server.
-        const error = `Request failed. Returned status of ${xhr.status}`;
-        callback(error, null);
-      }
-    };
-    xhr.send();
+    return fetch(DBHelper.DATABASE_URL)
+      .then(response => {
+        return response.json();
+      })
+      .then(restaurants => {
+        DBHelper.populateDB(restaurants);
+        return restaurants;
+      })
+      .catch(err => {
+        callback(err, null);
+      });
   }
 
   /**
