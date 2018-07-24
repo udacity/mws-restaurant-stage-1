@@ -1,3 +1,5 @@
+// "use strict";
+
 // import idb from "idb";
 // const idb = require("idb");
 
