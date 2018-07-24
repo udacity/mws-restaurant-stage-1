@@ -1,3 +1,4 @@
-﻿node_modules
-build
-tmp
+﻿# dependencies
+/node_modules
+/build
+/tmp
