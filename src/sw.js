@@ -125,8 +125,6 @@ function getLatestData(request) {
 
     return networkResponse;
 
-  }).catch(() => {
-    return caches.match(offlinePage); 
   });
 }
 
@@ -169,8 +167,33 @@ function searchInIDB(request) {
 
       return networkFetch;
     });
-  }).catch(() => {
-    return caches.match(offlinePage); 
+  });
+}
+
+function updateRestaurantIndexedDb(request){
+  
+  return fetch(request.clone()).then(networkResponse => {
+
+    if(networkResponse.status == 404) return;
+  
+    networkResponse.clone().json().then(json => {
+  
+      if(!dbPromise) return;
+  
+      dbPromise.then(db => {
+            
+        if(!db) return;
+  
+        var tx = db.transaction('restaurants', 'readwrite');
+        var store = tx.objectStore('restaurants');
+  
+        store.put(json, json.id);
+        
+      });
+    });
+  
+    return networkResponse;
+  
   });
 }
 
@@ -203,8 +226,6 @@ function getLatestReviews(request) {
 
     return networkResponse;
 
-  }).catch(() => {
-    return caches.match(offlinePage); 
   });
 }
 
@@ -240,8 +261,8 @@ function searchIDBForReviews(request) {
       return networkFetch;
     });
 
-  }).catch(() => {
-    return caches.match(offlinePage); 
+  }).catch(error => {
+    return new Response(JSON.stringify([])); 
   });
 }
 
@@ -249,10 +270,7 @@ function searchIDBForReviews(request) {
 /**
  * Searches the temp indexed db for reviews
  */
-function searchTempDBForReviews(request) {
-
-  var pathSlices = request.clone().url.split("restaurant_id=");
-  var restaurantId = parseInt(pathSlices[pathSlices.length - 1]) || 0;
+function searchTempDBForReviews() {
 
   if(!tempDBPromise) return;
 
@@ -466,12 +484,20 @@ self.addEventListener('fetch', event => {
 
   // handle request according to its type
 
+  if(event.request.method === 'PUT') {
+
+    updateRestaurantIndexedDb(event.request);
+  }
+
   if(event.request.method === 'GET') {
 
     if(event.request.url.endsWith('.jpg')) {
       event.respondWith(cacheImages(event.request));  
       return;
     } else if (event.request.url.includes('reviews')) {
+
+      var pathSlices = event.request.clone().url.split("restaurant_id=");
+      var restaurantId = parseInt(pathSlices[pathSlices.length - 1]) || 0;
       
       /**
        * Get data from stable indexed db or the network and if data exist in temp indexed db 
@@ -497,9 +523,9 @@ self.addEventListener('fetch', event => {
             
               json.forEach(obj => {
 
-                if(typeof(obj.formData) !== 'undefined') {
+                if(typeof(obj.formData) !== 'undefined' && obj.formData.restaurant_id == restaurantId) {                  
                   concatenatedResponse.push(obj.formData);
-                } else{
+                } else if(typeof(obj.formData) === 'undefined'){
                   concatenatedResponse.push(obj);
                 }
               });
@@ -555,3 +581,5 @@ function serializeObject(params) {
 
   return Object.keys(params).map(key => key + '=' + params[key]).join('&');
 }
+
+

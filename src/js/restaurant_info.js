@@ -20,6 +20,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     event.preventDefault();
     DBHelper.submitReview(() => {fetchReviews()});
   });
+
+  document.getElementById('is_favorite').addEventListener('change', event => {
+    event.preventDefault();
+    DBHelper.markAsFavorite();
+  });
 });
 
 
@@ -140,6 +145,10 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const restaurant_review_form = document.getElementById('review-form');
   restaurant_review_form.setAttribute('action', DBHelper.DATABASE_URL.reviews);
 
+  if(restaurant.is_favorite == 'true') {
+    document.getElementById('is_favorite').checked = true;
+  }
+
   // fill operating hours
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
@@ -257,3 +266,4 @@ fetchReviews = () => {
     });
   }
 }
+

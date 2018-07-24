@@ -242,5 +242,20 @@ class DBHelper {
       }
     });
   }
+
+  static markAsFavorite() {
+
+    let is_favorite = '/'+jsHelper.getParameterByName('id')+'/?is_favorite=false';
+    if(document.getElementById('is_favorite').checked) {
+      is_favorite = '/'+jsHelper.getParameterByName('id')+'/?is_favorite=true';
+    }
+
+    return fetch(DBHelper.DATABASE_URL.restaurants+is_favorite, {
+      method: 'put',
+    }).then(response => {
+
+    }).catch(error => {      
+    });
+  }
 }
 
