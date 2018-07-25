@@ -1,3 +1,4 @@
+'use strict';
 let restaurant;
 var newMap;
 
@@ -148,15 +149,20 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
-  const name = document.createElement('p');
+  const divName = document.createElement('div');
+  divName.classList.add('reviewName');
+  li.appendChild(divName);
+  const name = document.createElement('h3');
   name.innerHTML = review.name;
-  li.appendChild(name);
+  divName.appendChild(name);
 
-  const date = document.createElement('p');
+  const date = document.createElement('div');
+  date.classList.add('reviewDate');
   date.innerHTML = review.date;
-  li.appendChild(date);
+  divName.appendChild(date);
 
   const rating = document.createElement('p');
+  rating.classList.add('reviewRating');
   rating.innerHTML = `Rating: ${review.rating}`;
   li.appendChild(rating);
 
