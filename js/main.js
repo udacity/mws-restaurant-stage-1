@@ -198,13 +198,22 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 
 }
-/* addMarkersToMap = (restaurants = self.restaurants) => {
-  restaurants.forEach(restaurant => {
-    // Add marker to the map
-    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
-    google.maps.event.addListener(marker, 'click', () => {
-      window.location.href = marker.url
-    });
-    self.markers.push(marker);
-  });
-} */
+
+/*======== Service worker ===========*/
+// if browser supports sevice worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('js/sw.js').then(function(registration) {
+    // registration succeed
+        if (registration.installing) {
+            console.log('registration installing');
+        } if (registration.waiting) {
+            console.log('waiting');
+        } if (registration.active) {
+            console.log('active');
+        }
+        console.log('Registration succeed!')
+  // if not.... or something went wrong
+  }).catch (function (error) {
+        console.log('Something went wrong during registration!');
+      });
+}
