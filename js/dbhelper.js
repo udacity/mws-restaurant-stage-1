@@ -1,4 +1,3 @@
-'use strict';
 /**
  * Common database helper functions.
  */

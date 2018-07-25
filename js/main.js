@@ -1,4 +1,3 @@
-'use strict';
 let restaurants,
   neighborhoods,
   cuisines
