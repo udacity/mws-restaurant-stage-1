@@ -1,0 +1,19 @@
+{
+  "name": "Restaurant-reviews",
+  "version": "1.0.0",
+  "description": "Restaurant Review",
+  "main": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lienetunne/mws-restaurant-stage-1"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/babel index.js",
+    "build": "./node_modules/.bin/babel index.js --out-file build/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+     "babel-cli": "^6.0.0"
+  }
+}
