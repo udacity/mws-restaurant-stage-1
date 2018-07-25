@@ -4,7 +4,7 @@ var newMap;
 /**
  * Initialize map as soon as the page is loaded.
  */
-document.addEventListener('DOMContentLoaded', (event) => {  
+document.addEventListener('DOMContentLoaded', (event) => {
   initMap();
 });
 
@@ -15,26 +15,26 @@ initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
-    } else {      
+    } else {
       self.newMap = L.map('map', {
         center: [restaurant.latlng.lat, restaurant.latlng.lng],
         zoom: 16,
         scrollWheelZoom: false
       });
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-        mapboxToken: '<your MAPBOX API KEY HERE>',
+        mapboxToken: 'pk.eyJ1IjoibGlpbndvbmRlcmxhbmQiLCJhIjoiY2pqbXE1NWNkNzU4OTNrbGZpcXZoY3dvMiJ9.R08_5KbUt446fEd46jxtwA',
         maxZoom: 18,
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
           '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
           'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        id: 'mapbox.streets'    
+        id: 'mapbox.streets'
       }).addTo(newMap);
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
     }
   });
-}  
- 
+}
+
 /* window.initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
@@ -148,15 +148,20 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
-  const name = document.createElement('p');
+  const divName = document.createElement('div');
+  divName.classList.add('reviewName');
+  li.appendChild(divName);
+  const name = document.createElement('h3');
   name.innerHTML = review.name;
-  li.appendChild(name);
+  divName.appendChild(name);
 
-  const date = document.createElement('p');
+  const date = document.createElement('div');
+  date.classList.add('reviewDate');
   date.innerHTML = review.date;
-  li.appendChild(date);
+  divName.appendChild(date);
 
   const rating = document.createElement('p');
+  rating.classList.add('reviewRating');
   rating.innerHTML = `Rating: ${review.rating}`;
   li.appendChild(rating);
 

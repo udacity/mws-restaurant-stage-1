@@ -54,6 +54,8 @@ nav {
   height: 80px;
   background-color: #252831;
   text-align:center;
+	display: flex;
+	justify-content: center;
 }
 nav h1 {
   margin: auto;
@@ -106,9 +108,12 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  height: 50px;
+  height: auto;
   background-color: #3397DB;
   align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 .filter-options h2 {
   color: white;
@@ -136,13 +141,15 @@ nav h1 a {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 #restaurants-list li {
   background-color: #fff;
   border: 2px solid #ccc;
   font-family: Arial,sans-serif;
   margin: 15px;
-  min-height: 380px;
   padding: 0 30px 25px;
   text-align: left;
   width: 270px;
@@ -152,7 +159,6 @@ nav h1 a {
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
   min-width: 100%;
 }
 #restaurants-list li h1 {
@@ -181,8 +187,58 @@ nav h1 a {
   text-decoration: none;
   text-transform: uppercase;
 }
-
+.inside #reviews-list {
+  margin: 0;
+  padding: 0;
+}
+.inside #reviews-list li {
+  background-color: #fff;
+  border: 2px solid #f3f3f3;
+  display: block;
+  list-style-type: none;
+  margin: 0 0 30px;
+  overflow: hidden;
+  padding: 0 0 20px;
+  position: relative;
+  width: 85%;
+}
+.inside #reviews-list li p {
+  margin: 15px;
+}
+.inside #reviews-list p {
+  margin: 0 0 10px;
+}
+.inside #reviews-list .reviewName {
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+}
+.inside #reviews-list h3 {
+  margin: 0;
+  padding: 10px 10px 10px 20px;
+  width: 20%;
+}
+.inside #reviews-list .reviewDate {
+  padding: 10px;
+  text-align: right;
+  width: 60%;
+}
+.inside #reviews-list .reviewRating {
+  background-color: #ffa000;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  padding: 5px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 70px;
+}
 /* ====================== Restaurant Details ====================== */
+.inside {
+	display: flex;
+	flex-wrap: wrap;
+}
 .inside header {
   position: fixed;
   top: 0;
@@ -205,7 +261,7 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: calc(50% - 50px);
 }
 #restaurant-name {
   color: #f18200;
@@ -216,9 +272,6 @@ nav h1 a {
   margin: 15px 0 30px;
   text-transform: uppercase;
   line-height: 1.1;
-}
-#restaurant-img {
-	width: 90%;
 }
 #restaurant-address {
   font-size: 12pt;
@@ -234,16 +287,17 @@ nav h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+	width: 100%;
 }
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 140px 40px 30px;
-  width: 50%;
+	width: calc(50% - 80px);
 }
 #reviews-container {
   padding: 30px 40px 80px;
+	width: calc(50% - 40px);
 }
 #reviews-container h2 {
   color: #f58500;
@@ -252,19 +306,25 @@ nav h1 a {
   letter-spacing: -1px;
   padding-bottom: 1pt;
 }
+.inside #restaurant-container .restaurant-img-div{
+	width: 100%;
+}
+.inside #restaurant-container img{
+	width: 100%
+}
 #reviews-list {
   margin: 0;
   padding: 0;
 }
 #reviews-list li {
   background-color: #fff;
-    border: 2px solid #f3f3f3;
+  border: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
   margin: 0 0 30px;
   overflow: hidden;
-  padding: 0 20px 20px;
   position: relative;
+	border-radius: 15px 0px;
   width: 85%;
 }
 #reviews-list li p {
@@ -272,4 +332,137 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+/********************** RESPONSIVE DESIGN  *********************/
+/* Small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+	.inside header {
+		order: 0;
+	}
+	.inside #breadcrumb {
+		width: calc(100% - 80px);
+	}
+
+	/**========= Map container =========**/
+	.inside #map-container{
+		width: 100%;
+		order: 1;
+		position: unset;
+		height: 600px;
+		top: 0;
+	}
+	.inside #map-container .leaflet-top,
+	.inside #map-container .leaflet-bottom{
+			position: unset;
+	}
+	.inside #map-container .leaflet-top {
+    margin-top: 150px;
+	}
+	.inside #map-container .leaflet-control-attribution {
+    margin-top: 360px;
+	}
+/**========= Restaurant container =========**/
+		.inside #restaurant-container{
+		width: calc(100% - 40px);
+		order: 2;
+		padding: 20px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		}
+
+		.inside #restaurant-container table{
+			width: 70%;
+		}
+/*============ Restaurant reviews ==============*/
+
+	.inside #reviews-container{
+		width: calc(100% - 40px);
+		order: 3;
+		padding: 20px 20px 80px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.inside #reviews-list li{
+		width: calc(100% - 40px);
+	}
+	.inside #footer{
+		width: calc(100% - 50px);
+		order: 4;
+	}
+	.filter-options{
+		padding-top: 10px;
+	}
+	.filter-options select {
+		width: 80%;
+	}
+}
+/* Large devices (portrait tablets and large phones, 601px and up) */
+@media only screen and (min-width: 601px) and (max-width:750px) {
+	.inside header {
+		order: 0;
+	}
+	.inside #breadcrumb {
+		width: calc(100% - 80px);
+	}
+
+	/**========= Map container =========**/
+	.inside #map-container{
+		width: 100%;
+		order: 1;
+		position: unset;
+		height: 600px;
+		top: 0;
+	}
+	.inside #map-container .leaflet-top,
+	.inside #map-container .leaflet-bottom{
+			position: unset;
+	}
+	.inside #map-container .leaflet-top {
+    margin-top: 150px;
+	}
+	.inside #map-container .leaflet-control-attribution {
+    margin-top: 360px;
+	}
+/**========= Restaurant container =========**/
+		.inside #restaurant-container{
+		width: calc(100% - 40px);
+		order: 2;
+		padding: 20px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		}
+
+		.inside #restaurant-container table{
+			width: 70%;
+		}
+/*============ Restaurant reviews ==============*/
+
+	.inside #reviews-container{
+		width: calc(100% - 40px);
+		order: 3;
+		padding: 20px 20px 80px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.inside #reviews-list li{
+		width: calc(100% - 40px);
+	}
+	.inside #footer{
+		width: calc(100% - 50px);
+		order: 4;
+	}
+	.inside #reviews-container ul{
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		justify-content: center;
+	}
+	.inside #reviews-list li{
+		width: calc(80% - 80px);
+		margin: 10px;
+	}
 }
