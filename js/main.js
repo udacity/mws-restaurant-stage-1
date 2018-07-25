@@ -88,18 +88,6 @@ initMap = () => {
 
   updateRestaurants();
 }
-/* window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  updateRestaurants();
-} */
 
 /**
  * Update page and map for current restaurants.
@@ -202,7 +190,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 /*======== Service worker ===========*/
 // if browser supports sevice worker
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('js/sw.js').then(function(registration) {
+  navigator.serviceWorker.register('sw.js').then(function(registration) {
     // registration succeed
         if (registration.installing) {
             console.log('registration installing');

@@ -29,14 +29,14 @@ self.addEventListener('install', function(event) {
   );
 });
 //check for new caches and delete the old ones
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', function(event) {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
+    caches.keys().then(function(cacheNames) {
       return Promise.all(
-        cacheNames.filter(cacheName => {
+        cacheNames.filter(function(cacheName) {
           return cacheName.startsWith('restaurant-') &&
                  cacheName != restaurantCacheName;
-        }).map(cacheName => {
+        }).map(function(cacheName) {
           return caches.delete(cacheName);
         })
       );
@@ -44,21 +44,13 @@ self.addEventListener('activate', (event) => {
   );
 });
 // to get the stored cache
-self.addEventListener('fetch',(event)=>{
+self.addEventListener('fetch',function(event){
   event.respondWith(
-    caches.match(event.request).then(response => {
-      if(response) {
-        return response;
-      }
-      return fetch(event.request).then(netResponse => {
-        if(netResponse.status === 404){
-          // console.log(netResponse.status);
-          return new NetResponse('Woops');
-        }
-        return netResponse;
-      }).catch(err => {
-          console.log('Error:', err);
-          return;
+    caches.match(event.request).then(function(response){
+      if(response) return response;
+      return fetch(event.request);
+    }).catch(function(err){
+          console.log(err);
       })
   );
 });
