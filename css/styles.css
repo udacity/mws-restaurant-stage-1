@@ -334,8 +334,8 @@ nav h1 a {
   color: #666;
 }
 /********************** RESPONSIVE DESIGN  *********************/
-/*  For small till large devices (till 750px)*/
-@media only screen and (max-width: 750px) {
+/* Small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
 	.inside header {
 		order: 0;
 	}
@@ -391,9 +391,6 @@ nav h1 a {
 		width: calc(100% - 50px);
 		order: 4;
 	}
-}
-/* Small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
 	.filter-options{
 		padding-top: 10px;
 	}
@@ -403,6 +400,61 @@ nav h1 a {
 }
 /* Large devices (portrait tablets and large phones, 601px and up) */
 @media only screen and (min-width: 601px) and (max-width:750px) {
+	.inside header {
+		order: 0;
+	}
+	.inside #breadcrumb {
+		width: calc(100% - 80px);
+	}
+
+	/**========= Map container =========**/
+	.inside #map-container{
+		width: 100%;
+		order: 1;
+		position: unset;
+		height: 600px;
+		top: 0;
+	}
+	.inside #map-container .leaflet-top,
+	.inside #map-container .leaflet-bottom{
+			position: unset;
+	}
+	.inside #map-container .leaflet-top {
+    margin-top: 150px;
+	}
+	.inside #map-container .leaflet-control-attribution {
+    margin-top: 360px;
+	}
+/**========= Restaurant container =========**/
+		.inside #restaurant-container{
+		width: calc(100% - 40px);
+		order: 2;
+		padding: 20px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		}
+
+		.inside #restaurant-container table{
+			width: 70%;
+		}
+/*============ Restaurant reviews ==============*/
+
+	.inside #reviews-container{
+		width: calc(100% - 40px);
+		order: 3;
+		padding: 20px 20px 80px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.inside #reviews-list li{
+		width: calc(100% - 40px);
+	}
+	.inside #footer{
+		width: calc(100% - 50px);
+		order: 4;
+	}
 	.inside #reviews-container ul{
 		display: flex;
 		flex-wrap: wrap;
