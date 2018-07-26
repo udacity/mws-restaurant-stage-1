@@ -53,14 +53,53 @@ class DBHelper {
     });
   }
 
+  static getCachedDB() {
+    return DBHelper.createDB().then(function(db) {
+      if (!db) return;
+      let tx = db.transaction("restaurantDB");
+      let store = tx.objectStore("restaurantDB");
+      return store.getAll();
+    });
+  }
+
+  // static fetchRestaurants(callback) {
+  //   return DBHelper.getCachedDB()
+  //     .then(restaurants => {
+  //       console.log(restaurants);
+  //       if (restaurants.length > 0) {
+  //         callback(null, restaurants);
+  //       } else {
+  //         return fetch(DBHelper.DATABASE_URL)
+  //           .then(response => {
+  //             return response.json();
+  //           })
+  //           .then(restaurants => {
+  //             DBHelper.populateDB(restaurants);
+  //             return restaurants;
+  //           });
+  //       }
+  //     })
+  //     .catch(err => {
+  //       callback(err, null);
+  //     });
+  // }
+
   static fetchRestaurants(callback) {
-    return fetch(DBHelper.DATABASE_URL)
-      .then(response => {
-        return response.json();
-      })
+    return DBHelper.getCachedDB()
       .then(restaurants => {
-        DBHelper.populateDB(restaurants);
-        return restaurants;
+        console.log(restaurants);
+        if (restaurants.length < 1) {
+          return fetch(DBHelper.DATABASE_URL)
+            .then(response => {
+              return response.json();
+            })
+            .then(restaurants => {
+              DBHelper.populateDB(restaurants);
+              return restaurants;
+            });
+        } else {
+          callback(null, restaurants);
+        }
       })
       .catch(err => {
         callback(err, null);
