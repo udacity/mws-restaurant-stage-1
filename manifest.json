@@ -20,6 +20,10 @@
       {},
       {},
       {},
-      {}
+      {
+        "src": "image/restaurant_cutlery16.png",
+        "sizes": "16x16",
+        "type": "image/png"
+      }
 ]
 }
