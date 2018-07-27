@@ -1,8 +1,8 @@
 @charset "utf-8";
 /* CSS Document */
-/*TODO: media queries for mobile, tablet, desktop, move this after, responsive images*/
+/*TODO: */
 
-/*DONE: skipcontent to reviews*/
+/*DONE: skipcontent to reviews, media queries for mobile, tablet, desktop, move this after, responsive images*/
 
 /* reset webkits*/
 * {
@@ -186,7 +186,8 @@ nav h2 a {
 #restaurants-list li {
 	background-color: #fff;
 	border: 2px solid rgb(230, 224, 230);
-	border-radius: 15px 0px 15px 0px;
+	box-shadow: 2px 2px 20px #333;
+	border-radius: 0 0 15px 0;
 	font-family: Arial,sans-serif;
 	margin: 15px;
 	min-height: 380px;

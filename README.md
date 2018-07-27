@@ -1,14 +1,17 @@
-
 # Mobile Web Specialist Certification Course
 ---
+#### _Three Stage Course Material Project - Restaurant Reviews_
 
-## Changes Made --
-
+###Stage 1 changes
 Stage one of project I took a non responsive, non accessible web app and changed it to a mobile ready and accessible. Service worker was added to allow for an offline experience.
 
----
-Rubric:
-#### _Three Stage Course Material Project - Restaurant Reviews_
+###Stage 2 Changes
+
+Optimized images for faster loading
+Switched XHR requests to Fetch API and now pulls data from dev server
+Added Manifest
+Any data previously accessed is still available offline
+Maintains responsiveness & accessibility
 
 ## Project Overview: Stage 1
 

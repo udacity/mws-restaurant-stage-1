@@ -4,15 +4,36 @@ let restaurants,
 var newMap;
 var markers = [];
 
+
 /**
- * Fetch neighborhoods and cuisines as soon as the page is loaded.
+ * Fetch neighborhoods and cuisines as soon as the page is loaded. window.init added to init
  */
+
 document.addEventListener('DOMContentLoaded', (event) => {
 	initMap();
 	fetchNeighborhoods();
 	fetchCuisines();
 });
+/**
+ * Leaflet map, called from HTML window.init added to init
+*/
+initMap = () => {
+	self.newMap = L.map('map', {
+		center: [40.722216, -73.987501],
+		zoom: 12,
+		scrollWheelZoom: false
+	});
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
+		mapboxToken: 'pk.eyJ1IjoiYWxpZWNha2UiLCJhIjoiY2ppYW9pdzZxMGIweTNwbzdrbW82amJwYSJ9.t83apE-NLoi0dvupLaxFlg',
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+		'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox.streets'
+	}).addTo(newMap);
 
+	updateRestaurants();
+};
 /**
  * Fetch all neighborhoods and set their HTML.
  */
@@ -67,39 +88,6 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 		select.append(option);
 	});
 };
-/**
- * Leaflet map, called from HTML **/
-
-initMap = () => {
-	self.newMap = L.map('map', {
-		center: [40.722216, -73.987501],
-		zoom: 12,
-		scrollWheelZoom: false
-	});
-	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-		mapboxToken: 'pk.eyJ1IjoiYWxpZWNha2UiLCJhIjoiY2ppYW9pdzZxMGIweTNwbzdrbW82amJwYSJ9.t83apE-NLoi0dvupLaxFlg',
-		maxZoom: 18,
-		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-		'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-		'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-		id: 'mapbox.streets'
-	}).addTo(newMap);
-
-	updateRestaurants();
-};
-/*google map window.initMap = () => {
-	let loc = {
-		lat: 40.722216,
-		lng: -73.987501
-	};
-	self.map = new google.maps.Map(document.getElementById('map'), {
-		zoom: 12,
-		center: loc,
-		scrollwheel: false
-	});
-	updateRestaurants();
-};*/
-
 
 /**
  * Update page and map for current restaurants.
@@ -153,16 +141,32 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 /**
  * Create restaurant HTML.
  * Set alts for images
+ * added picture element.
+ * Created picture, source, imageurl to be used to srcsets
  */
 createRestaurantHTML = (restaurant) => {
 	const li = document.createElement('li');
 
+	const picture = document.createElement('picture');
 	const image = document.createElement('img');
-	image.className = 'restaurant-img';
+	const source1 = document.createElement('source');
+	const source2 = document.createElement('source');
+	let imageURL = DBHelper.imageUrlForRestaurant(restaurant).replace('.jpg', '');
+
+	source1.media = '(max-width: 800px)';
+	source2.media = '(min-width: 801px)';
+	source1.srcset = `${imageURL}_small.jpg`;
+	source2.srcset = `${imageURL}_large.jpg`;
+
 	image.src = DBHelper.imageUrlForRestaurant(restaurant);
+	image.className = 'restaurant-img';
 	image.alt = document.getElementById('restaurant-name');
 	image.alt = `Picture of ${restaurant.name} restaurant`;
-	li.append(image);
+
+	li.append(picture);
+	picture.appendChild(source1);
+	picture.appendChild(source2);
+	picture.appendChild(image);
 
 	const name = document.createElement('h1');
 	name.innerHTML = restaurant.name;
@@ -180,7 +184,6 @@ createRestaurantHTML = (restaurant) => {
 	more.innerHTML = 'View Details';
 	// Thank you to Doug Brown for idea to turn a link into button for accessibility https://youtu.be/92dtrNU1GQc - added class & id
 	more.className = 'button';
-	more.id = 'View Details';
 	more.onclick = (() => {
 		const url = DBHelper.urlForRestaurant(restaurant);
 		window.location.href = url;
@@ -191,8 +194,8 @@ createRestaurantHTML = (restaurant) => {
 };
 
 /**
- * Add markers for current restaurants to the map changed to Leaflet.**/
-
+ * Add markers for current restaurants to the map changed to Leaflet.
+ */
 addMarkersToMap = (restaurants = self.restaurants) => {
 	restaurants.forEach(restaurant => {
 	// Add marker to the map
@@ -203,13 +206,3 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 		}
 	});
 };
-/*google maps addMarkersToMap = (restaurants = self.restaurants) => {
-	restaurants.forEach(restaurant => {
-		// Add marker to the map
-		const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
-		google.maps.event.addListener(marker, 'click', () => {
-			window.location.href = marker.url;
-		});
-		self.markers.push(marker);
-	});
-}*/

@@ -1,28 +1,94 @@
+
 /**
  * Common database helper functions.
  */
-class DBHelper {
 
+// Change this to your server port
+const port = 1337;
+
+class DBHelper {
+	static openDB() {
+		if (!navigator.serviceWorker) {
+			return Promise.resolve();
+		}
+		return idb.open('restaurantR', 1, function(upgradeDb) {
+			var store = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+			store.createIndex('by-id', 'id');
+			store.createIndex('by-neighborhood', 'neighborhood');
+			store.createIndex('by-cuisine', 'cuisine_type');
+		});
+	}
 	/**
 	 * Database URL.
-	 * Change this to restaurants.json file location on your server.
+	 *
 	 */
 	static get DATABASE_URL() {
-		const port = 5500; // Change this to your server port
-		return `http://localhost:${port}/data/restaurants.json`;
+		return `http://localhost:${port}/restaurants`;
+	}
+	static get REVIEW_URL() {
+		return `http://localhost:${port}/restaurants/reviews/`;
 	}
 
 	/**
-	 * Fetch all restaurants.
+	 * Fetch all restaurants. Now populates with either legacy XHR or fetch
 	 */
+
 	static fetchRestaurants(callback) {
+		fetch(`${DBHelper.DATABASE_URL}`, {method: 'GET'})
+			.then(function(response){
+				//console.log('First then biatch', response);
+				return response.json();
+			})
+			.then(data => callback(null, data))
+			.catch(error => callback(`fetch request failed ${error.statusText}`, null));
+	}
+
+
+/*make fetchRestaurants or store... as fetch it stores in DB, as store it does not. Refractor into idb.js
+	static fetchRestaurants(callback) {
+		const dbPromise = DBHelper.openDatabase();
+		//retrieve json
+		fetch(`${DBHelper.DATABASE_URL}`, {method: 'GET'})
+			.then(response => {
+				console.log('1 Got the json for IDBIATCH', response);
+				return response.json();
+				//place json
+			}).then (restaurants => {
+				console.log('2 setup placement to IDBIATCH', restaurants);
+				dbPromise.then(function (db) {
+					if (!db) return;
+					var tx = db.transaction('restaurants', 'readwrite');
+					var store = tx.objectStore('restaurants');
+					//place each restaurant in DB
+					restaurants.forEach(restaurant => {
+						store.put(restaurant);
+						console.log('Successfully placed in IDBiatch', restaurant);
+					});
+					//retrieve restaurants
+					dbPromise.then(db => {
+						var tx = db.transaction('restaurants', 'readonly');
+						var store = tx.objectStore('restaurants');
+						return store.getAll();
+					})
+						.then(response => {
+							console.log('TAKEN out of IDBiatch', response);
+							return response;
+						}).then(data => callback(null, data))
+						.catch(error => callback(`fetch request failed ${error.statusText}`, null));
+
+				});
+			});
+	}
+	*/
+
+	/* old XHR
 		let xhr = new XMLHttpRequest();
 		xhr.open('GET', DBHelper.DATABASE_URL);
 		xhr.onload = () => {
 			if (xhr.status === 200) { // Got a success response from server!
 				const json = JSON.parse(xhr.responseText);
-				const restaurants = json.restaurants;
-				console.log('restaurants json', json);
+				const restaurants = json;//changed json.restaurants so XHR would work
+				console.log(json);
 				callback(null, restaurants);
 			} else { // Oops!. Got an error from server.
 				const error = (`Request failed. Returned status of ${xhr.status}`);
@@ -31,6 +97,7 @@ class DBHelper {
 		};
 		xhr.send();
 	}
+*/
 
 	/**
 	 * Fetch a restaurant by its ID.
@@ -150,13 +217,19 @@ class DBHelper {
 	/**
 	 * Restaurant image URL.
 	 */
+	//handle missing photo
 	static imageUrlForRestaurant(restaurant) {
-		return (`/img/${restaurant.photograph}`);
+		
+		if (restaurant.photograph) {
+			return (`/img/${restaurant.photograph}`);
+		} else {
+			return (`/img/${restaurant.id}.jpg`);
+		}
 	}
 
 	/**
-	 * Map marker for a restaurant. LEAFLET**/
-
+	 * Map marker for a restaurant.
+	 */
 	static mapMarkerForRestaurant(restaurant, map) {
 		const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng],
 			{title: restaurant.name,
@@ -166,16 +239,5 @@ class DBHelper {
 		marker.addTo(newMap);
 		return marker;
 	}
-}
-	/**google maps static mapMarkerForRestaurant(restaurant, map) {
-		const marker = new google.maps.Marker({
-			position: restaurant.latlng,
-			title: restaurant.name,
-			url: DBHelper.urlForRestaurant(restaurant),
-			map: map,
-			animation: google.maps.Animation.DROP}
-		);
-		return marker;
-	}
 
-}*/
+}
