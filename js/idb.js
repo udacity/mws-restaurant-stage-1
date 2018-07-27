@@ -1,14 +1,23 @@
-const dbPromise = DBHelper.openDB();
-
 //IDB open and create
-
+function openDB() {
+	if (!navigator.serviceWorker) {
+		return Promise.resolve();
+	}
+	return idb.open('restaurantR', 1, function(upgradeDb) {
+		var store = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+		store.createIndex('by-id', 'id');
+		store.createIndex('by-neighborhood', 'neighborhood');
+		store.createIndex('by-cuisine', 'cuisine_type');
+	});
+}
 //steps in order
-DBHelper.openDB()
+openDB()
 	.then(storeRestaurants())
 	.then(pullRestaurants())
 	.catch((err) => console.log(`IDB is unhappy and failed with ${err}`));
 
 function storeRestaurants() {
+	let dbPromise = openDB();
 	//retrieve json
 	fetch(`${DBHelper.DATABASE_URL}`, {method: 'GET'})
 		.then(response => {
@@ -31,6 +40,7 @@ function storeRestaurants() {
 		});
 }
 function pullRestaurants() {
+	let dbPromise = openDB();
 	//retrieve restaurants
 	dbPromise.then(db => {
 		let tx = db.transaction('restaurants', 'readonly');

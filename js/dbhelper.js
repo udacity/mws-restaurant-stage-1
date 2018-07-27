@@ -7,17 +7,6 @@
 const port = 1337;
 
 class DBHelper {
-	static openDB() {
-		if (!navigator.serviceWorker) {
-			return Promise.resolve();
-		}
-		return idb.open('restaurantR', 1, function(upgradeDb) {
-			var store = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
-			store.createIndex('by-id', 'id');
-			store.createIndex('by-neighborhood', 'neighborhood');
-			store.createIndex('by-cuisine', 'cuisine_type');
-		});
-	}
 	/**
 	 * Database URL.
 	 *
