@@ -31,45 +31,6 @@ class DBHelper {
 			.then(data => callback(null, data))
 			.catch(error => callback(`fetch request failed ${error.statusText}`, null));
 	}
-
-
-/*make fetchRestaurants or store... as fetch it stores in DB, as store it does not. Refractor into idb.js
-	static fetchRestaurants(callback) {
-		const dbPromise = DBHelper.openDatabase();
-		//retrieve json
-		fetch(`${DBHelper.DATABASE_URL}`, {method: 'GET'})
-			.then(response => {
-				console.log('1 Got the json for IDBIATCH', response);
-				return response.json();
-				//place json
-			}).then (restaurants => {
-				console.log('2 setup placement to IDBIATCH', restaurants);
-				dbPromise.then(function (db) {
-					if (!db) return;
-					var tx = db.transaction('restaurants', 'readwrite');
-					var store = tx.objectStore('restaurants');
-					//place each restaurant in DB
-					restaurants.forEach(restaurant => {
-						store.put(restaurant);
-						console.log('Successfully placed in IDBiatch', restaurant);
-					});
-					//retrieve restaurants
-					dbPromise.then(db => {
-						var tx = db.transaction('restaurants', 'readonly');
-						var store = tx.objectStore('restaurants');
-						return store.getAll();
-					})
-						.then(response => {
-							console.log('TAKEN out of IDBiatch', response);
-							return response;
-						}).then(data => callback(null, data))
-						.catch(error => callback(`fetch request failed ${error.statusText}`, null));
-
-				});
-			});
-	}
-	*/
-
 	/* old XHR
 		let xhr = new XMLHttpRequest();
 		xhr.open('GET', DBHelper.DATABASE_URL);
@@ -208,7 +169,7 @@ class DBHelper {
 	 */
 	//handle missing photo
 	static imageUrlForRestaurant(restaurant) {
-		
+
 		if (restaurant.photograph) {
 			return (`/img/${restaurant.photograph}`);
 		} else {
