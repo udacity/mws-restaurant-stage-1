@@ -1,8 +1,7 @@
 
-
 // Service Worker
 
-let projectCache = 'Vez3';
+let projectCache = 'version4';
 const cacheFiles = [
 	'./',
 	'./index.html',
@@ -12,7 +11,9 @@ const cacheFiles = [
 	'./js/main.js',
 	'./js/restaurant_info.js',
 	'./js/dbhelper.js',
-	'./manifest.json'
+	'./manifest.json',
+	'./sw.js',
+	'./js/idb-lib.js'
 ];
 
 // install the service worker
@@ -20,7 +21,7 @@ self.addEventListener('install', (event) => {
 	// install steps wait until version is opened and cache
 	event.waitUntil(
 		caches.open(projectCache).then((cache) => {
-			console.log('SW Cache is installing');
+			//console.log('SW Cache is installing');
 			//opened and use cache.addAll to add files
 			return cache.addAll(cacheFiles);
 		}).then((skip) => {
@@ -38,7 +39,6 @@ self.addEventListener('install', (event) => {
 // activate service worker
 self.addEventListener('activate', (event) => {
 	//success!
-	console.log('Activate Event');
 	event.waitUntil(
 		caches.keys().then((projectCaches) => {
 			return Promise.all(projectCaches.map((cache) => {
@@ -52,13 +52,11 @@ self.addEventListener('activate', (event) => {
 	);
 });
 
-// fetch service worker THIS IS FAILING to catch & fetch
+// fetch service worker
 self.addEventListener('fetch', (event) => {
 	// fetch steps
-	console.log('Fetch event');
-
 	let request = event.request;
-
+	//do not cache JSON in service worker
 	event.respondWith (
 		//match requests to cache, including pages on demand
 		caches.match(request, {ignoreSearch: true}).then((response) => {
@@ -66,7 +64,29 @@ self.addEventListener('fetch', (event) => {
 				//return cached files
 				console.log('[ServiceWorker] found in cache', event.request);
 				return response;
-			} else {
+			}
+			//clone request
+			let fetchRequest = request.clone();
+
+			return fetch(fetchRequest).then(
+				(response) => {
+					//check valid response basic means we do NOT cache 3rd party responses
+					if(!response || response.status !== 200 || response.type !== 'basic') {
+						return response;
+					}
+					let responseToCache = response.clone();
+
+					caches.open(projectCache)
+						.then((cache) => {
+							cache.put(request, responseToCache);
+						});
+					return response;
+				}
+			);
+		})
+	);
+});
+		/*	else {
 			//if request is not in cache, add it
 				return fetch(request).then((response) => {
 					let toCache = response.clone();
@@ -81,3 +101,14 @@ self.addEventListener('fetch', (event) => {
 		})
 	);
 });
+
+	if (caches.match(request, {ignoreSearch: true})) {
+		event.respondWith(fetch(request));
+		return;
+	}
+	if (request.url.includes('/restaurants/') || request.url.includes('/reviews/')) {
+		event.respondWith(fetch(request, {cache: 'no-store'}));
+		return;
+	}
+}
+*/
