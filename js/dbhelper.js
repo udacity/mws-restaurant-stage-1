@@ -7,6 +7,18 @@
 const port = 1337;
 
 class DBHelper {
+	//create and open a Database
+	static openDB() {
+		if (!navigator.serviceWorker) {
+			return Promise.resolve();
+		}
+		return idb.open('restaurantR', 1, function(upgradeDb) {
+			var store = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+			store.createIndex('by-id', 'id');
+			store.createIndex('by-neighborhood', 'neighborhood');
+			store.createIndex('by-cuisine', 'cuisine_type');
+		});
+	}
 	/**
 	 * Database URL.
 	 *
@@ -23,14 +35,20 @@ class DBHelper {
 	 */
 
 	static fetchRestaurants(callback) {
-		fetch(`${DBHelper.DATABASE_URL}`, {method: 'GET'})
-			.then(function(response){
-				//console.log('First then biatch', response);
-				return response.json();
-			})
-			.then(data => callback(null, data))
+		let dbPromise = DBHelper.openDB();
+		//fetch restaurants from IDB even when offline
+		dbPromise.then(db => {
+			var tx = db.transaction('restaurants', 'readonly');
+			var store = tx.objectStore('restaurants');
+			return store.getAll();
+		})
+			.then(response => {
+				console.log('TAKEN out of IDBiatch', response);
+				return response;
+			}).then(data => callback(null, data))
 			.catch(error => callback(`fetch request failed ${error.statusText}`, null));
 	}
+
 	/* old XHR
 		let xhr = new XMLHttpRequest();
 		xhr.open('GET', DBHelper.DATABASE_URL);
