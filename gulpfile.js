@@ -1,3 +1,5 @@
+//NOTE to reviewer: I have not implemented this yet, but plan to switch to gulp for importing IDB in project 3
+
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var babel = require('gulp-babel');
