@@ -7,9 +7,20 @@ class DBHelper {
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
+  static dbPromise() { 
+    return idb.open('udacity-restaurant', 2, upgradeDB => {
+    switch (upgradeDB.oldVersion) {
+      case 0 :
+        upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+      case 1 :
+        const reviewsStore = upgradeDB.createObjectStore('reviews', {keyPath:'id'});
+        reviewsStore.createIndex('restaurant', 'restaurant_id');
+    }
+  });
+  }
   static get DATABASE_URL() {
     const port = 1337; // Change this to your server port
-    return `http://localhost:${port}/restaurants`;
+    return [`http://localhost:${port}/restaurants`,`http://localhost:${port}/reviews`];
   }
 
   /**
@@ -18,9 +29,9 @@ class DBHelper {
   static fetchRestaurants(callback, id) {
     let fetchURL;
     if (!id) {
-      fetchURL = DBHelper.DATABASE_URL;
+      fetchURL = DBHelper.DATABASE_URL[0];
     } else {
-        fetchURL = DBHelper.DATABASE_URL + '/' + id;
+        fetchURL = DBHelper.DATABASE_URL[0] + '/' + id;
     }
     fetch(fetchURL,{method: 'GET'})
     .then(response => {
@@ -33,6 +44,36 @@ class DBHelper {
     });
   };
 
+  static fetchToStoreRestaurants() {
+    let fetchURL = DBHelper.DATABASE_URL[0];
+    fetch(fetchURL,{method: 'GET'})
+    .then(response => 
+        response.json()).then(restaurants => {
+          console.log('Restaurants JSON: ', restaurants);
+          return this.dbPromise().then(db => {
+            const tx = db.transaction('restaurants', 'readwrite');
+            const restaurantsStore = tx.objectStore('restaurants');
+            restaurants.forEach(restaurant => restaurantsStore.put(restaurant));
+            return tx.complete.then(() => Promise.resolve(restaurants));
+          });
+        });
+  };
+
+
+  static updateFavorite(id, isFavorite) {
+    let fetchURL = DBHelper.DATABASE_URL[0] +'/'+ id + '/?is_favorite='+ isFavorite;
+    fetch(fetchURL,{method: 'PUT'})
+    .then(() => {
+          this.dbPromise().then(db => {
+             const tx = db.transaction('restaurants', 'readwrite');
+             const restaurantsStore = tx.objectStore('restaurants');
+             restaurantsStore.get(id).then(restaurant => {
+               restaurant.is_favorite = isFavorite;
+               restaurantsStore.put(restaurant);
+             });
+          });
+        });
+  };
   /**
    * Fetch a restaurant by its ID.
    */

@@ -11,7 +11,6 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="preload" href="css/styles.css" as="style">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <style>
     /* ====================== Restaurant Details ====================== */
   header {
@@ -216,127 +215,44 @@
     border-color: #333;
     border-radius: 20px;
     width: 100%;
+    display: flex;
   }
-  textarea {
+  #comments {
     resize: none;
-    width: 95%;
     border-radius: 5px;
     border: none;
     font-size: 16px !important;
-    padding: 0 10px 0px 10px;
+    height: 100px;
+    max-height: 100px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
   }
   form #submitButton {
     background-color: #7d4f00;
     font-size: 16px;
     color:white;
     font-weight: 600;
-    height: 40px;
-    border-radius: 10px;
+    height: 35px;
+    border-radius: 5px;
     margin-top: 10px;
   }
   #username {
     margin-bottom: 20px;
     height: 25px;
-    width: 160px;
+    width: 250px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
   }
-
-
-.click {
-	font-size: 33px;
-	color: rgba(0,0,0,.5);
-	width: 38px;
-	height: 38px;
-	position: relative;
-  cursor: pointer;
-  align-self: center;
-  margin-top: 20px;
-  margin-bottom: 18px;
-  will-change: transform;
-}
-
-.click span {
-	margin-left: 4px;
-	margin-top: 3px;
-	z-index: 999;
-	position: absolute;
-}
-
-span:hover {
-	opacity: 0.8;
-}
-
-span:active {
-	transform: scale(0.93,0.93) translateY(2px)
-}
-
-.ring, .ring2 {
-	opacity: 0;
-	background: grey;
-	width: 1px;
-	height: 1px;
-	position: absolute;
-	top: 19px;
-	left: 18px;
-	border-radius: 50%;
-	cursor: pointer;
-}
-
-.active span, .active-2 span {
-	color: #F5CC27 !important;
-}
-
-.active-2 .ring {
-	width: 58px !important;
-	height: 58px !important;
-	top: -10px !important;
-	left: -10px !important;
-	position: absolute;
-	border-radius: 50%;
-	opacity: 1 !important;
-}
-
-.active-2 .ring {
-	background: #F5CC27 !important;
-}
-
-.active-2 .ring2 {
-	background: #f3f3f3 !important;
-}
-
-.active-3 .ring2 {
-	width: 60px !important;
-	height: 60px !important;
-	top: -11px !important;
-	left: -11px !important;
-	position: absolute;
-	border-radius: 50%;
-	opacity: 1 !important;
-}
-
-.info {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 12px;
-	font-weight: 600;
-	text-transform: uppercase;
-	white-space: nowrap;
-	color: grey;
-	position: relative;
-	top: 30px;
-	left: -46px;
-	opacity: 0;
-	transition: all 0.3s ease;
-}
-
-.info-tog {
-	color: #F5CC27;
-	position: relative;
-	top: 45px;
-	opacity: 1;
-}
-
-* {
-	transition: all .32s ease;
-}
+  #rating {
+      width: 250px;
+      background-color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      height: 30px;
+  }
   </style>
   <link rel="icon" type="image/png" href="/favicon.png"/>
   <title>Restaurant Info</title>
@@ -375,12 +291,6 @@ span:active {
       <p id="restaurant-cuisine" tabindex="-1"></p>
       <p id="restaurant-address" tabindex="0"></p>
       <table id="restaurant-hours" tabindex="0" aria-label="restaurant working hours"></table>
-      <div class="click" id="click">
-          <span class="fa fa-star-o"></span>
-          <div class="ring"></div>
-          <div class="ring2"></div>
-          <p class="info">Added to favourites!</p>
-        </div>
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
@@ -388,15 +298,19 @@ span:active {
       <h3 tabindex="0">Reviews</h3>
       <form action="http://localhost:1337/reviews" method="POST">
           <fieldset class="rating">
-            <legend>Your Review :</legend>
-            <label for="username">Name :</label>
+            <legend>Add Review :</legend>
+            <label for="username">Name:</label>
             <input type="text" name="name" id="username" placeholder="Enter Your Name">
-            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Very Poor">1 star</label>
-            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="Poor">2 stars</label>
-            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="Good">3 stars</label>
-            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="Very Good">4 stars</label>
-            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="Outstanding">5 stars</label>
-            <textarea name="comments" placeholder="Tell us your thoughts about this restaurant." cols="30" rows="6"></textarea>
+            <label for="rating">Rating:</label>
+            <select id="rating">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <label for="comments">Comments:</label>
+            <textarea name="comments" placeholder="Tell us your thoughts about this restaurant." cols="30" rows="6" id="comments"></textarea>
             <input type="submit" value="Submit Review" id="submitButton">
           </fieldset>
       </form>

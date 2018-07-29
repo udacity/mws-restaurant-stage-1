@@ -127,6 +127,7 @@ const resetRestaurants = (restaurants) => {
  */
 const fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
+  DBHelper.fetchToStoreRestaurants();
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
@@ -193,6 +194,34 @@ const createRestaurantHTML = (restaurant) => {
   name.tabIndex = 0;
   li.append(name);
 
+  const fav = document.createElement('button');
+  fav.innerHTML = '♥';
+  fav.id = 'favorite';
+  fav.onclick = function(){
+    const favCheck = restaurant.is_favorite === 'true' || restaurant.is_favorite === true ? true:false;
+    DBHelper.updateFavorite(restaurant.id, !favCheck);
+      restaurant.is_favorite = !favCheck;
+      if ( restaurant.is_favorite ){
+         fav.classList.add('isFavorite');
+         fav.classList.remove('isNotFavorite');
+         fav.setAttribute('aria-label', `${restaurant.name} added favorite`);
+      }else {
+        fav.classList.add('isNotFavorite');
+        fav.classList.remove('isFavorite');
+        fav.setAttribute('aria-label', `${restaurant.name} removed from favorite`);
+      }
+  }
+  if ( restaurant.is_favorite === 'true' || restaurant.is_favorite === true){
+    fav.classList.add('isFavorite');
+    fav.classList.remove('isNotFavorite');
+    fav.setAttribute('aria-label', `${restaurant.name} added favorite`);
+ }else {
+  fav.classList.add('isNotFavorite');
+  fav.classList.remove('isFavorite');
+   fav.setAttribute('aria-label', `add ${restaurant.name} to favorite`);
+ }
+  li.append(fav);
+
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   neighborhood.tabIndex = 0;
@@ -208,7 +237,7 @@ const createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  li.append(more);
 
   return li
 };
