@@ -7,20 +7,26 @@
         width: 80%;
         left: 10%;
     }
+
     #restaurants-list {
         position: relative;
         width: 80%;
         margin-left: 10%;
     }
+
     .inside #map-container {
         width: 50%;
+        max-height: 75vw;
     }
+
     #restaurant-container {
         width: 50%;
     }
+
     #reviews-container {
         width: 50%;
       }
+
 }
 
 @media screen and (min-width: 1281px) and (max-width: 1600px) {
@@ -38,6 +44,11 @@
         width: 90%;
         margin-right: 5%;
     }
+
+    .inside #map-container {
+        max-height: 85vw;
+    }
+
 }
 
 @media screen and (max-width: 487px) {
@@ -75,7 +86,7 @@
         position: static;
         left:0px;
         min-height: 400px;
-        order: 3;
+        margin-top: 120px;
  
       }
 
