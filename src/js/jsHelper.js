@@ -39,6 +39,22 @@ class jsHelper {
     });
   }
 
+  /**
+   * Lazy loads map
+   */
+  static lazyLoadMap() {
+
+    var map_container = document.getElementById('map-container');
+
+    if(this.isInViewport(map_container)) {
+      map_container.style.display = "block";
+    }
+  }
+
+  /**
+   * Calculates whether element is present in view port
+   * @param {*} elem 
+   */
   static isInViewport (elem) {
 
     var bounding = elem.getBoundingClientRect();
@@ -80,6 +96,11 @@ class jsHelper {
     };
   }
 
+  /**
+   * Serializes object
+   * 
+   * @param {*} params 
+   */
   static serializeObject(params) {
 
     return Object.keys(params).map(key => key + '=' + params[key]).join('&');

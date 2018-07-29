@@ -7,6 +7,7 @@ var markers = []
 
 window.addEventListener("scroll", () => {
   jsHelper.lazyLoadImages();
+  jsHelper.lazyLoadMap();
 });
 
 window.addEventListener('load', function() {
@@ -103,8 +104,6 @@ window.initMap = () => {
 	  console.log('Load google map failed');
   } 
  
-  const map = document.getElementById('map');
-  map.style.display = 'block';
   updateRestaurants();
 }
 

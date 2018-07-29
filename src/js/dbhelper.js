@@ -170,6 +170,10 @@ class DBHelper {
     return marker;
   }
 
+  /**
+   * Fetches reviews
+   * @param {*} callback 
+   */
   static fetchReviews(callback) {
     return fetch(DBHelper.DATABASE_URL.reviews)
       .then(reviews => {
@@ -182,6 +186,11 @@ class DBHelper {
       })
   }
 
+  /**
+   * Fetches reviews by restaurant id
+   * @param {*} restaurant_id 
+   * @param {*} callback 
+   */
   static fetchReviewsByRestaurantId(restaurant_id,callback) {
     return fetch(`${DBHelper.DATABASE_URL.reviews}/?restaurant_id=${restaurant_id}`)
     .then(reviews => {
@@ -194,7 +203,11 @@ class DBHelper {
     })
   }
 
-  
+  /**
+   * Submits new review
+   * 
+   * @param {*} callback 
+   */
   static submitReview(callback) {
 
     return fetch(DBHelper.DATABASE_URL.reviews, {
@@ -243,6 +256,9 @@ class DBHelper {
     });
   }
 
+  /**
+   * Marks restaurant as favorite
+   */
   static markAsFavorite() {
 
     let is_favorite = '/'+jsHelper.getParameterByName('id')+'/?is_favorite=false';

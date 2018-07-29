@@ -27,6 +27,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
 });
 
+window.addEventListener("scroll", () => {
+  jsHelper.lazyLoadMap();
+});
+
 
 /**
  * Initialize Google map, called from HTML.
@@ -48,8 +52,6 @@ window.initMap = () => {
         console.log('Load of google map failed');
       }
 
-      const map = document.getElementById('map');
-      map.style.display = 'block';
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
       }
