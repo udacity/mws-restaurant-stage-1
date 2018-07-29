@@ -1,0 +1,110 @@
+@media screen and (min-width: 1601px) {
+    #map-container,
+    .filter-options,
+    .inside #map
+    {
+        position: relative;
+        width: 80%;
+        left: 10%;
+    }
+    #restaurants-list {
+        position: relative;
+        width: 80%;
+        margin-left: 10%;
+    }
+    .inside #map-container {
+        width: 50%;
+    }
+    #restaurant-container {
+        width: 50%;
+    }
+    #reviews-container {
+        width: 50%;
+      }
+}
+
+@media screen and (min-width: 1281px) and (max-width: 1600px) {
+    #map-container,
+    .filter-options,
+    .inside #map
+    {
+        position: relative;
+        width: 90%;
+        left: 5%;
+    }
+
+    #restaurants-list {
+        position: relative;
+        width: 90%;
+        margin-right: 5%;
+    }
+}
+
+@media screen and (max-width: 487px) {
+    nav h1 a {
+      font-size: 10pt;
+      letter-spacing: 6px;
+      line-height: 1.0;
+      }
+}
+
+@media screen and (max-width: 377px) {
+    #restaurants-list {
+        position: relative;
+        width: 100%;
+    }
+}
+
+/* ====================== Restaurant Details Responsive ====================== */
+@media screen and (max-width: 800px) {
+
+
+    header {
+        display: flex;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+
+    .inside #map-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 87vw;
+        position: static;
+        left:0px;
+        min-height: 400px;
+        order: 3;
+ 
+      }
+
+    #reviews-container {
+        width: 100%;
+    }
+
+    #restaurant-container {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #d9d9d9;
+        border-top: 1px solid #fff;
+        padding: 140px 0px 30px;
+        width: 100%;
+    }
+
+    .inside #footer {
+        display: flex;
+        bottom: 0;
+        left: 0;
+        justify-content: center;
+        width: calc(100% - 58px);
+      }
+
+    #breadcrumb {
+        display: flex;
+        width: 100%;
+    }
+
+
+
+}
