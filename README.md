@@ -1,28 +1,75 @@
-# Mobile Web Specialist Certification Course
----
-#### _Three Stage Course Material Project - Restaurant Reviews_
+# Noize's Restaurant Review App
 
-## Project Overview: Stage 1
+Contents:
 
-For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.
 
-### Specification
+* [Project Description](#project-description)
+* [Extra Features](#extra-features)
+* [Local Usage](#local-usage)
+* [Dependencies](#dependencies)
 
-You have been provided the code for a restaurant reviews website. The code has a lot of issues. It’s barely usable on a desktop browser, much less a mobile device. It also doesn’t include any standard accessibility features, and it doesn’t work offline at all. Your job is to update the code to resolve these issues while still maintaining the included functionality. 
 
-### What do I do from here?
 
-1. In this folder, start up a simple HTTP server to serve up the site files on your local computer. Python has some simple tools to do this, and you don't even need to know Python. For most people, it's already installed on your computer. 
+## Project Description
+This is 6th project during the Udacity Front-End Web Developer Nanodegree Program.
+Students were given a [starter code from Udacity](https://github.com/udacity/mws-restaurant-stage-1) to convert a static webpage to a mobile-ready web application.
 
-In a terminal, check the version of Python you have: `python -V`. If you have Python 2.x, spin up the server with `python -m SimpleHTTPServer 8000` (or some other port, if port 8000 is already in use.) For Python 3.x, you can use `python3 -m http.server 8000`. If you don't have Python installed, navigate to Python's [website](https://www.python.org/) to download and install the software.
 
-2. With your server running, visit the site: `http://localhost:8000`, and look around for a bit to see what the current experience looks like.
-3. Explore the provided code, and make start making a plan to implement the required features in three areas: responsive design, accessibility and offline use.
-4. Write code to implement the updates to get this site on its way to being a mobile-ready website.
+
+
+
+##  Extra Features
+
+### Responsive Design:
+  - Responsive design for all kind of equipments
+
+### Accessiblity:
+  - Accessible images with alternate text
+  - Selected access for useful buttons and information
+  - ARIA labels, roles inserted 
+
+### Offline mode:
+  - Service worker created and initialized for this project.
+  - Path to Service Worker: mws-restaurant-stage-1\js\sw.js
+
+
+## Local usage
+
+  1. Use a simple HTTP server to serve up the site files on your local computer.
+  - Navigate to project folder in your terminal.
+  - Check the version of Python you have: `python -V`.
+  - If you have Python 2.x, spin up the server with `python -m SimpleHTTPServer 5050` 
+  - For Python 3.x, you can use `python -m http.server 5050`
+
+  2. With your server running, visit the site: `http://localhost:5050`.
+
+### The file structure
+
+1. In this folder **mws-restaurant-stage-1\js**, located the main.js , the dbhelper.js the restaurant_info.js and the sw.js.
+
+sw.js is the service worker handling file. Tested only with Chrome browser.
+If navigator does not support the service worker, the offline mode does not work.
+The status of sw log into the consol. In case of error an alert box describe the problem.
+
+2. In **mws-restaurant-stage-1\css** folder a responsive.css file support the different display appearance. The break points 377, 487, 1281 and 1601 pixels.
+
+3. The structure of **data** and **img** folder was not modified.
+
+4. The index.html and restaurant.html locate in root directory. The stucture of these two file was changed to better serve the project and the function of the page.
+
+### Audits
+
+- The code was tested by Audit function of Chrome browser. Qualification around 90%. 
+- CSS was validated by: `https://jigsaw.w3.org/css-validator/validator`
+
 
 ### Note about ES6
 
-Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
+Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code.
 
+## Dependencies
+
+`https://maps.googleapis.com/maps/api` Google Map API.
+Used fonts: Arial, Helvetica, sans-serif;
 
 
