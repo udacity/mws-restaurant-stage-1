@@ -84,7 +84,7 @@ window.initMap = () => {
         scrollwheel: false
     });
     updateRestaurants();
-};
+}
 
 /**
  * Update page and map for current restaurants.
@@ -106,7 +106,7 @@ updateRestaurants = () => {
             resetRestaurants(restaurants);
             fillRestaurantsHTML();
         }
-    });
+    })
 }
 
 /**
