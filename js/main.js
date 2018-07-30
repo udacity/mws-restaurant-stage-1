@@ -122,6 +122,7 @@ resetRestaurants = (restaurants) => {
     self.markers.forEach(m => m.setMap(null));
     self.markers = [];
     self.restaurants = restaurants;
+
 }
 
 /**
@@ -179,6 +180,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
             window.location.href = marker.url
         });
         self.markers.push(marker);
+
     });
 }
 

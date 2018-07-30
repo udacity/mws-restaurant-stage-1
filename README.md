@@ -1,5 +1,4 @@
 # Noize's Restaurant Review App
-
 Contents:
 
 
@@ -7,6 +6,8 @@ Contents:
 * [Extra Features](#extra-features)
 * [Local Usage](#local-usage)
 * [Dependencies](#dependencies)
+
+
 
 
 
@@ -62,6 +63,9 @@ The status of sw log into the consol. In case of error an alert box describe the
 - The code was tested by Audit function of Chrome browser. Qualification around 90%. 
 - CSS was validated by: `https://jigsaw.w3.org/css-validator/validator`
 
+
+
+ 
 
 ### Note about ES6
 
