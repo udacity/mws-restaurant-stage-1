@@ -1,10 +1,19 @@
+
+import idb from "idb";
+
+const dbPromise = idb.open("mws-restaurant-review", 1, upgradeDB => {
+  switch (upgradeDB.oldVersion) {
+    case 0:
+      upgradeDB.createObjectStore("restaurants", { keyPath: "id" });
+  }
+});
 const cacheName = 'mws-restautrant-cache-v3',
   filesToCache = [
     '/',
     '/index.html',
     '/restaurant.html',
     '/css/styles.css',
-   // '/data/restaurants.json',
+    // '/data/restaurants.json',
     '/img/1.jpg',
     '/img/2.jpg',
     '/img/3.jpg',
@@ -56,6 +65,64 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   console.log("Fetching cache ...", event);
+  let cacheRequest = event.request;
+  let cacheURLObj = new URL(event.request.url);
+  if (event.request.url.indexOf("restaurant.html") > -1) {
+    cacheReq = new Request("restaurant.html");
+  }
+
+
+  if (cacheURLObj.port === "1337") {
+    const UrlPart = cacheURLObj.pathname.split('/');
+    const id =
+    UrlPart[UrlPart.length - 1] === "restaurants"
+        ? "-1"
+        : UrlPart[UrlPart.length - 1];
+    handleAPIRequest(event, id);
+  }
+  else {
+    handleNonAPIRequest(event);
+  }
+});
+
+const handleAPIRequest = (event, id) => {
+  
+  event.respondWith(
+    dbPromise
+      .then(db => {
+        return db
+          .transaction("restaurants")
+          .objectStore("restaurants")
+          .get(id);
+      })
+      .then(data => {
+        return (
+          (data && data.data) ||
+          fetch(event.request)
+            .then(fetchResponse => fetchResponse.json())
+            .then(json => {
+              return dbPromise.then(db => {
+                const tx = db.transaction("restaurants", "readwrite");
+                tx.objectStore("restaurants").put({
+                  id: id,
+                  data: json
+                });
+                return json;
+              });
+            })
+        );
+      })
+      .then(finalResponse => {
+        return new Response(JSON.stringify(finalResponse));
+      })
+      .catch(error => {
+        return new Response("Error fetching data", { status: 500 });
+      })
+  );
+};
+
+
+const handleNonAPIRequest = (event) => {
   event.respondWith(
     caches.match(event.request).then(response => {
       if (response) return response;
@@ -74,5 +141,4 @@ self.addEventListener('fetch', event => {
         return;
       })
   )
-});
-
+}

@@ -1,7 +1,12 @@
 const gulp = require('gulp');
+const browserify = require("browserify");
+const babelify = require("babelify");
+const source = require("vinyl-source-stream");
 const gulpLoadPlugins = require("gulp-load-plugins");
 const browserSync = require("browser-sync").create();
-
+const del = require('del');
+const reload = browserSync.reload;
+const runSequence = require("run-sequence");
 const $ = gulpLoadPlugins();
 
 const folder = {
@@ -27,7 +32,8 @@ gulp.task("css", () => {
             $.autoprefixer({ browsers: ["> 1%", "last 2 versions", "Firefox ESR"] })
         )
         .pipe($.if(devBuild, $.sourcemaps.write()))
-        .pipe(gulp.dest(".tmp/css"))
+        .pipe($.cssnano({ safe: true, autoprefixer: false }))
+        .pipe(gulp.dest("build/css"))
         .pipe(browserSync.reload({ stream: true }));
 });
 
@@ -35,18 +41,33 @@ gulp.task("js", () => {
     return gulp
         .src("app/js/**/*.js")
         .pipe($.if(devBuild, $.sourcemaps.init()))
-        //.pipe($.babel())
-        .pipe($.if(devBuild, $.sourcemaps.write(".")))
-        .pipe(gulp.dest(".tmp/js"))
+        .pipe($.babel())
+        .pipe($.uglify({ compress: { drop_console: true } }))
+        //.pipe($.uglify({ compress: { drop_console: true } }))
+        .pipe(gulp.dest("build/js"))
         .pipe(browserSync.reload({ stream: true }));
 });
 
-gulp.task("html", gulp.series("css", "js", () => {
+gulp.task("sw", () => {
+    const b = browserify({
+        debug: true
+    });
+    return b
+        .transform(babelify.configure({
+            presets: ["es2015"]
+        }))
+        .require("app/sw.js", { entry: true })
+        .bundle()
+        .on('error', function (error) {
+            console.log(error)
+        })
+        .pipe(source("sw.js"))
+        .pipe(gulp.dest(folder.build))
+});
+
+gulp.task("html", gulp.series("css", "js", "sw", () => {
     return gulp
         .src("app/*.html")
-        .pipe($.useref({ searchPath: [".tmp", "app", "."] }))
-        .pipe($.if(/\.js$/, $.uglify({ compress: { drop_console: true } })))
-        .pipe($.if(/\.css$/, $.cssnano({ safe: true, autoprefixer: false })))
         .pipe(
             $.if(
                 /\.html$/,
@@ -64,3 +85,28 @@ gulp.task("html", gulp.series("css", "js", () => {
         )
         .pipe(gulp.dest(folder.build));
 }));
+
+
+
+gulp.task("clean", del.bind(null, "build"));
+
+const build_all = gulp.series("clean", "html", "images");
+
+gulp.task('watch', () => {
+    gulp.watch([folder.src], build_all)
+});
+
+gulp.task("serve", gulp.series("clean", "css", "js", "sw"), () => {   
+        browserSync.init({
+            notify: false,
+            port: 8000,
+            server: {
+                baseDir: [".tmp", "app"]               
+            }
+        });  
+});
+
+
+gulp.task('default', gulp.series(build_all, 'watch'), () => {
+    console.log('Development started');
+});
