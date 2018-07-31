@@ -43,7 +43,7 @@ class DBHelper {
       callback(`Request failed. Returned ${error}`, null);
     });
   };
-
+ /*  Fetch and Store all restaurants to idb*/
   static fetchToStoreRestaurants() {
     let fetchURL = DBHelper.DATABASE_URL[0];
     fetch(fetchURL,{method: 'GET'})
@@ -59,7 +59,7 @@ class DBHelper {
         });
   };
 
-
+  /** Update Favourite status of the restaurant */
   static updateFavorite(id, isFavorite) {
     let fetchURL = DBHelper.DATABASE_URL[0] +'/'+ id + '/?is_favorite='+ isFavorite;
     fetch(fetchURL,{method: 'PUT'})
@@ -74,6 +74,66 @@ class DBHelper {
           });
         });
   };
+ /* Fetch Reviews by Restaurant id */ 
+  static fetchReviewsByRestId(id, callback) {
+    let fetchURL = DBHelper.DATABASE_URL[1] + '/?restaurant_id=' + id;
+    fetch(fetchURL,{method: 'GET'})
+    .then(response => {
+        response.json().then(reviews => {
+          console.log('reviews JSON: ', reviews);
+          this.dbPromise().then(db => {
+            const tx = db.transaction('reviews', 'readwrite');
+            const reviewStore = tx.objectStore('reviews');
+            reviews.forEach(review => reviewStore.put(review));
+            return tx.complete.then(() => Promise.resolve(reviews));
+          })
+          callback(null, reviews);
+        });
+    }).catch(error => {
+      callback(`Request failed. Returned ${error}`, null);
+    });
+  };
+
+  static postReview (review) {
+    let fetchURL = DBHelper.DATABASE_URL[1];
+    let offlineObj = {
+      name : 'addReview',
+      data: review,
+      object_type:'review'
+    };
+    if (!navigator.onLine && (offlineObj.name === 'addReview')) {
+       DBHelper.sendDataToServer(offlineObj);
+       return;
+    }
+    let reviewData = {
+    'restaurant_id': parseInt(review.restaurant_id),
+    'name': review.name,
+    'rating': parseInt(review.rating),
+    'comments':review.comments
+    };
+    fetch(fetchURL, {
+      method : 'POST',
+      body : JSON.stringify(reviewData)
+    }).then(response => 
+      response.json()
+    ).catch( error => console.log('Error :'.error));
+  };
+
+  static sendDataToServer(offlineObj) {
+    console.log(offlineObj);
+    localStorage.setItem('data', JSON.stringify(offlineObj.data));
+    window.addEventListener('online' , (event) => {
+      let data = JSON.parse(localStorage.getItem('data'));
+      if (data !== null) {
+        if (offlineObj.name === 'addReview') {
+          DBHelper.postReview(offlineObj.data);
+        }
+
+        localStorage.removeItem('data');
+      }
+    });
+  }
+
   /**
    * Fetch a restaurant by its ID.
    */

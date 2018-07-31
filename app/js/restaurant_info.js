@@ -50,6 +50,13 @@ const fetchRestaurantFromURL = (callback) => {
         console.error(error);
         return;
       }
+    });
+    DBHelper.fetchReviewsByRestId(id, (error, reviews) => {
+      self.reviews = reviews;
+      if (!reviews) {
+        console.error(error);
+        return;
+      }
       fillRestaurantHTML();
       callback(null, restaurant)
     });
@@ -115,7 +122,7 @@ const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hour
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+const fillReviewsHTML = (reviews = self.reviews) => {
   const container = document.getElementById('reviews-container');
 
   if (!reviews) {
@@ -147,7 +154,9 @@ const createReviewHTML = (review) => {
   name.classList.add('review-name');  /* added class for reviewer  name  */
 
   const date = document.createElement('time'); /*added semantic meaning to date using time tag*/
-  date.innerHTML = review.date;
+  const createDate = new Date(review.createdAt);
+  const dateToString = createDate.toDateString();
+  date.innerHTML = dateToString;
   date.tabIndex = 0;
   nameContainer.appendChild(date); /* added date as child of div */
   
@@ -161,7 +170,15 @@ const createReviewHTML = (review) => {
   comments.innerHTML = review.comments;
   comments.tabIndex = 0 ;
   li.appendChild(comments);
-
+  const offlineText = document.createElement('p');
+  offlineText.id = 'offlineText';
+  offlineText.innerHTML = 'Offline';
+    if (!navigator.onLine) {
+       li.style.borderBottom = '5px solid red';
+       li.appendChild(offlineText);
+    }  else {
+      li.style.borderBottom = '5px solid #333';
+    }
   return li;
 };
 
@@ -175,8 +192,8 @@ const fillBreadcrumb = (restaurant=self.restaurant) => {
   a.innerHTML = restaurant.name;
   a.setAttribute('aria-current', 'page');
   a.href = DBHelper.urlForRestaurant(restaurant);
-  breadcrumb.appendChild(li);
   li.appendChild(a);
+  breadcrumb.appendChild(li);
 };
 
 /**
@@ -194,3 +211,50 @@ const getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 };
+
+const addReview = () => {
+  event.preventDefault();
+  let id = getParameterByName('id');
+  let name = document.getElementById('username').value;
+  let rating = document.querySelector('#rating-select option:checked').value;
+  let comments = document.getElementById('comments').value;
+
+  let nameValidate = /^[a-zA-Z]*$/;
+  let nameResult = nameValidate.test(name);
+  let commentValidate = /^[a-zA-Z0-9]*$/;
+  let commentResult = commentValidate.test(comments);
+
+  if (nameResult == false){
+    let nameAlert = document.getElementById('alert-name');
+    nameAlert.innerHTML = '✘ Please Enter a valid name !';
+    nameAlert.classList.add('alert-style');
+    return false;
+  } else {
+    let nameAlert = document.getElementById('alert-name');
+    nameAlert.innerHTML = '';
+    nameAlert.classList.remove('alert-style');
+  }
+  if (commentResult == false) {
+    let commentAlert = document.getElementById('alert-comment');
+    commentAlert.innerHTML = '✘ Please Enter a valid comment ! ';
+    commentAlert.classList.add('alert-style');
+    return false;
+  } else {
+    let commentAlert = document.getElementById('alert-comment');
+    commentAlert.innerHTML = '';
+    commentAlert.classList.remove('alert-style');
+  }
+
+  const reviewData = {
+    restaurant_id: parseInt(id),
+    name : name,
+    rating: parseInt(rating),
+    comments : comments,
+    createdAt : new Date()
+  };
+
+  DBHelper.postReview(reviewData);
+  fillReviewsHTML(reviewData);
+  document.getElementById('review-form').reset();
+  return true;
+}
