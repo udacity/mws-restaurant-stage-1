@@ -1,5 +1,5 @@
 /* eslint-env worker */
-const currentCacheName = 'restaurant-sw-cache-v7';
+const currentCacheName = 'restaurant-sw-cache-v25';
 
 /* === getting service worker ready with cache === */
 self.addEventListener('install', (event) => {
@@ -9,6 +9,7 @@ self.addEventListener('install', (event) => {
     '/js/main.js',
     '/img/na.png',
     '/js/restaurant_info.js',
+    '/js/idb.js',
     '/index.html',
     '/restaurant.html',
     '/css/styles.css'
@@ -39,14 +40,17 @@ self.addEventListener('activate', (event) => {
 /* === Fetching cached content ==== */
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return ( response || fetch(event.request).then(fetchResponse => {
-            return caches.open(currentCacheName)
-              .then(cache => {
-                cache.put(event.request, fetchResponse.clone());
-                return fetchResponse;
-              });
-        }).catch(error => {
+    caches.open(currentCacheName).then(cache => {
+        return cache.match(event.request).then(response => {
+          return response || fetch(event.request).then(response => {
+            if (event.request.method !== 'GET') {
+              return response;
+            }
+            cache.put(event.request, response.clone());
+            return response;
+          });
+        });
+    }).catch(error => {
           if (event.request.url.indexOf('.webp') > -1) {
             return caches.match('/img/na.png');
           }
@@ -57,11 +61,5 @@ self.addEventListener('fetch', (event) => {
             }
           );
         })
-      );
-    })
   );
-  }); 
-
-
-
-   
+}); 
