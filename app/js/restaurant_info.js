@@ -146,6 +146,7 @@ const createReviewHTML = (review) => {
   const li = document.createElement('li');
   const name = document.createElement('p');
   const nameContainer = document.createElement('div');  /*created a div for head comtainer*/
+  li.id = 'review-item';
   name.innerHTML = review.name;
   name.tabIndex = 0;
   name.setAttribute('aria-label', `reviewer name : ${review.name} `)
@@ -174,13 +175,21 @@ const createReviewHTML = (review) => {
   offlineText.id = 'offlineText';
   offlineText.innerHTML = 'Offline';
     if (!navigator.onLine) {
-       li.style.borderBottom = '5px solid red';
+       li.classList.add('offline-style');
        li.appendChild(offlineText);
-    }  else {
-      li.style.borderBottom = '5px solid #333';
-    }
+    } 
   return li;
 };
+window.addEventListener('online' , (event) => {
+  const li = document.querySelectorAll('#review-item');
+  const offlineLabel = document.getElementById('offlineText');
+  [...li].forEach(el => {
+  if (el.classList.contains('offline-style')) {
+    el.classList.remove('offline-style');
+    el.removeChild(offlineLabel);
+  }
+})
+});
 
 /**
  * Add restaurant name to the breadcrumb navigation menu
@@ -254,7 +263,8 @@ const addReview = () => {
   };
 
   DBHelper.postReview(reviewData);
-  fillReviewsHTML(reviewData);
+  const ul = document.getElementById('reviews-list');
+  ul.insertBefore(createReviewHTML(reviewData), ul.childNodes[0]);
   document.getElementById('review-form').reset();
   return true;
 }
