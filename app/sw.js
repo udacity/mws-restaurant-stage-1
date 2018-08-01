@@ -23,7 +23,7 @@ const cacheName = 'mws-restautrant-cache-v3',
     // '/img/7.jpg',
     // '/img/8.jpg',
     // '/img/9.jpg',
-    // '/img/10.jpg',
+    '/img/ImageN-A.png',
     '/js/dbhelper.js',
     '/js/register.js',
     '/js/main.js',
@@ -136,6 +136,9 @@ const handleNonAPIRequest = (event) => {
         })
     })
       .catch(error => {
+        if (event.request.url.indexOf(".jpg") > -1) {
+          return caches.match("/img/ImageN-A.png");
+        }
         console.log('Error in the fetch event: ', error);
         return;
       })
