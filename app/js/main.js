@@ -11,8 +11,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
   initMap(); // added 
   fetchNeighborhoods();
   fetchCuisines();
+  lazyLoadImages();
 });
 
+
+const lazyLoadImages = () =>
+{
+  var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));;
+
+  if ("IntersectionObserver" in window && "IntersectionObserverEntry" in window && "intersectionRatio" in window.IntersectionObserverEntry.prototype) {
+    let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target;
+          lazyImage.src = lazyImage.dataset.src;
+          lazyImage.srcset = lazyImage.dataset.srcset;
+          lazyImage.classList.remove("lazy");
+          lazyImageObserver.unobserve(lazyImage);
+        }
+      });
+    });
+
+    lazyImages.forEach(function (lazyImage) {
+      lazyImageObserver.observe(lazyImage);
+    });
+  }
+
+}
 /**
  * Fetch all neighborhoods and set their HTML.
  */
@@ -73,10 +98,10 @@ const fillCuisinesHTML = (cuisines = self.cuisines) => {
  */
 const initMap = () => {
   self.newMap = L.map('map', {
-        center: [40.722216, -73.987501],
-        zoom: 12,
-        scrollWheelZoom: false
-      });
+    center: [40.722216, -73.987501],
+    zoom: 12,
+    scrollWheelZoom: false
+  });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
     mapboxToken: 'pk.eyJ1Ijoia2h1c2J1Y2hhbmRyYSIsImEiOiJjamozMm9oeGUwdGlkM3BwNjBwcndoY3NsIn0.nBnmq4CLCWPlszD2pl5Yvg',
     maxZoom: 18,
@@ -157,10 +182,12 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 const createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-
+  const imageURL = DBHelper.imageUrlForRestaurant(restaurant);
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.className = 'restaurant-img lazy';
+  image.src = imageURL;
+  image["data-src"] = imageURL;
+  image["data-srcset"] = imageURL;
   image.setAttribute('alt', restaurant.name);
   li.append(image);
 
@@ -198,7 +225,7 @@ const addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 
-} 
+}
 /* addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
