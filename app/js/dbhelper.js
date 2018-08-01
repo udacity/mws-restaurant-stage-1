@@ -40,9 +40,18 @@ class DBHelper {
           callback(null, restaurants);
         });
     }).catch(error => {
+      DBHelper.getAllRestaurant();
       callback(`Request failed. Returned ${error}`, null);
     });
   };
+
+  static getAllRestaurant() {
+    return this.dbPromise().then(db => {
+      const tx = db.transaction('restaurants');
+      const restaurantsStore = tx.objectStore('restaurants');
+      return restaurantsStore.getAll();
+    });
+  }
  /*  Fetch and Store all restaurants to idb*/
   static fetchToStoreRestaurants() {
     let fetchURL = DBHelper.DATABASE_URL[0];
@@ -58,10 +67,13 @@ class DBHelper {
           });
         });
   };
-
   /** Update Favourite status of the restaurant */
   static updateFavorite(id, isFavorite) {
     let fetchURL = DBHelper.DATABASE_URL[0] +'/'+ id + '/?is_favorite='+ isFavorite;
+    if (!navigator.onLine) {
+          DBHelper.updateFavoriteOffline(id, isFavorite);
+          return;
+    }
     fetch(fetchURL,{method: 'PUT'})
     .then(() => {
           this.dbPromise().then(db => {
@@ -74,6 +86,20 @@ class DBHelper {
           });
         });
   };
+
+  static updateFavoriteOffline (id, isFavorite) {
+    this.dbPromise().then(db => {
+      const tx = db.transaction('restaurants', 'readwrite');
+      const restaurantsStore = tx.objectStore('restaurants');
+      restaurantsStore.get(id).then(restaurant => {
+        restaurant.is_favorite = isFavorite;
+        restaurantsStore.put(restaurant);
+      });
+   });
+   window.addEventListener('online' , (event) => {
+      DBHelper.updateFavorite(id, isFavorite);
+  });
+  }
  /* Fetch Reviews by Restaurant id */ 
   static fetchReviewsByRestId(id, callback) {
     let fetchURL = DBHelper.DATABASE_URL[1] + '/?restaurant_id=' + id;
@@ -90,9 +116,21 @@ class DBHelper {
           callback(null, reviews);
         });
     }).catch(error => {
+      DBHelper.getStoredReviewById('reviews' , 'restaurant' , id );
       callback(`Request failed. Returned ${error}`, null);
     });
   };
+
+  static getStoredReviewById(table , indx , id) {
+    return this.dbPromise().then(function(db) {
+    if (!db) return;
+    const store = db.transaction(table).objectStore(table);
+    const indexId = store.index(indx);
+    return indexId.getAll(id);
+  
+  });
+  
+  }
 
   static postReview (review) {
     let fetchURL = DBHelper.DATABASE_URL[1];
@@ -102,7 +140,7 @@ class DBHelper {
       object_type:'review'
     };
     if (!navigator.onLine && (offlineObj.name === 'addReview')) {
-       DBHelper.sendDataToServer(offlineObj);
+      DBHelper.sendDataToServer(offlineObj);
        return;
     }
     let reviewData = {
@@ -114,9 +152,24 @@ class DBHelper {
     fetch(fetchURL, {
       method : 'POST',
       body : JSON.stringify(reviewData)
-    }).then(response => 
-      response.json()
-    ).catch( error => console.log('Error :'.error));
+    }).then(response => {
+      response.json().then(review => {
+        console.log('reviews JSON: ', review);
+        this.dbPromise().then(db => {
+          const tx = db.transaction('reviews', 'readwrite');
+          const reviewStore = tx.objectStore('reviews');
+           reviewStore.put(review);
+           reviewStore.index('restaurant').openCursor(null, 'prev').then(cursor => {
+            return cursor.advance(30);
+          }).then(function deleteRest(cursor) {
+          if (!cursor) return;
+              cursor.delete();
+            return cursor.continue().then(deleteRest);
+          });
+          return tx.complete.then(() => Promise.resolve(reviews));
+        })
+      });
+    }).catch( error => console.log('Error :'+ error));
   };
 
   static sendDataToServer(offlineObj) {
@@ -127,11 +180,18 @@ class DBHelper {
       if (data !== null) {
         if (offlineObj.name === 'addReview') {
           DBHelper.postReview(offlineObj.data);
+          const li = document.querySelectorAll('#review-item');
+          const offlineText = document.getElementById('offlineText');
+          [...li].forEach(el => {
+            if (el.classList.contains('offline-style')) {
+              el.classList.remove('offline-style');
+              el.removeChild(offlineText);
+            }
+          })
         }
-
         localStorage.removeItem('data');
       }
-    });
+  });
   }
 
   /**
