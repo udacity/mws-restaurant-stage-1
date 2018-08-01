@@ -240,4 +240,28 @@ class DBHelper {
     return marker;
   }
 
+  /**
+   * update resturant status .
+   */
+
+  static changeFavoriteStatus (resturantId, newStatus) { 
+    fetch(`${DBHelper.DATABASE_URL}/${resturantId}/?is_favorite=${newStatus}`, {
+      method: 'PUT'
+    }).then(()=>{
+      const openIDB = openIndexedDB();
+      openIDB.onsuccess = (event)=> {
+        const idb= event.target.result;
+        const objectStore = idb.transaction('restaurant', 'readwrite').objectStore('restaurant');
+        const dbGetRequest = objectStore.get(resturantId);
+        dbGetRequest.onsuccess = event =>{
+           const restuarant = event.target.result;
+          console.log(restuarant);
+          restuarant.is_favorite = newStatus;
+          objectStore.put(restuarant);
+        }
+  
+      }
+    })
+  }
+
 }

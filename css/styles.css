@@ -360,6 +360,18 @@ select option {
   margin-left: 10px;
 }
 
+.fave-icon {
+  float: right;
+  font-size: 3rem;
+  margin: 0px 23px 3px 1px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.favorite {
+  color: #dd1f38;
+}
+
 
 
 
