@@ -14,16 +14,16 @@ const cacheName = 'mws-restautrant-cache-v3',
     '/restaurant.html',
     '/css/styles.css',
     // '/data/restaurants.json',
-    '/img/1.jpg',
-    '/img/2.jpg',
-    '/img/3.jpg',
-    '/img/4.jpg',
-    '/img/5.jpg',
-    '/img/6.jpg',
-    '/img/7.jpg',
-    '/img/8.jpg',
-    '/img/9.jpg',
-    '/img/10.jpg',
+    // '/img/1.jpg',
+    // '/img/2.jpg',
+    // '/img/3.jpg',
+    // '/img/4.jpg',
+    // '/img/5.jpg',
+    // '/img/6.jpg',
+    // '/img/7.jpg',
+    // '/img/8.jpg',
+    // '/img/9.jpg',
+    // '/img/10.jpg',
     '/js/dbhelper.js',
     '/js/register.js',
     '/js/main.js',
@@ -65,12 +65,11 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   console.log("Fetching cache ...", event);
-  let cacheRequest = event.request;
+  // let cacheRequest = event.request;
   let cacheURLObj = new URL(event.request.url);
-  if (event.request.url.indexOf("restaurant.html") > -1) {
-    cacheReq = new Request("restaurant.html");
-  }
-
+  // if (event.request.url.indexOf("restaurant.html") > -1) {
+  //   cacheRequest = new Request("restaurant.html");
+  // }
 
   if (cacheURLObj.port === "1337") {
     const UrlPart = cacheURLObj.pathname.split('/');

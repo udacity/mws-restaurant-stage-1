@@ -49,12 +49,12 @@ class DBHelper {
    */
   static fetchRestaurantById(id, callback) {
     // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants, id) => {
+    DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
-        //const restaurant = restaurants.find(r => r.id == id);
-        const restaurant = restaurants;
+        const restaurant = restaurants.find(r => r.id == id);
+        //const restaurant = restaurants;
         if (restaurant) { // Got the restaurant
           callback(null, restaurant);
         } else { // Restaurant does not exist in the database
