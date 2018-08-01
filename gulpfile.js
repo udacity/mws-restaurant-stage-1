@@ -87,10 +87,16 @@ gulp.task("html", gulp.series("css", "js", "sw", () => {
 }));
 
 
+gulp.task("copy_static",() => {
+    return gulp.src([
+        `${folder.src}/*.json`,
+    ],  {base: folder.src}) 
+    .pipe(gulp.dest(`${folder.build}`));
+});
 
 gulp.task("clean", del.bind(null, "build"));
 
-const build_all = gulp.series("clean", "html", "images");
+const build_all = gulp.series("clean", "html", "images","copy_static");
 
 gulp.task('watch', () => {
     gulp.watch([folder.src], build_all)
