@@ -25,7 +25,6 @@ window.initMap = () => {
         center: restaurant.latlng,
         scrollwheel: false
       });
-      fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
@@ -50,15 +49,14 @@ const fetchRestaurantFromURL = (callback) => {
         console.error(error);
         return;
       }
-    });
-    DBHelper.fetchReviewsByRestId(id, (error, reviews) => {
-      self.reviews = reviews;
-      if (!reviews) {
-        console.error(error);
-        return;
-      }
-      fillRestaurantHTML();
-      callback(null, restaurant)
+      fillBreadcrumb();
+      DBHelper.fetchReviewsByRestId(id, (error, reviews) => {
+        self.reviews = reviews;
+        if (!reviews) {
+          console.error(error);
+        }
+        fillRestaurantHTML();
+      });
     });
   }
 };
@@ -134,7 +132,7 @@ const fillReviewsHTML = (reviews = self.reviews) => {
   }
   const ul = document.getElementById('reviews-list');
   reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
+    ul.insertBefore(createReviewHTML(review),ul.childNodes[0]);
   });
   container.appendChild(ul);
 };
@@ -228,12 +226,10 @@ const addReview = () => {
   let rating = document.querySelector('#rating-select option:checked').value;
   let comments = document.getElementById('comments').value;
 
-  let nameValidate = /^[a-zA-Z]*$/;
+  let nameValidate = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
   let nameResult = nameValidate.test(name);
-  let commentValidate = /^[a-zA-Z0-9]*$/;
-  let commentResult = commentValidate.test(comments);
 
-  if (nameResult == false){
+  if (nameResult == false || name == ''){
     let nameAlert = document.getElementById('alert-name');
     nameAlert.innerHTML = '✘ Please Enter a valid name !';
     nameAlert.classList.add('alert-style');
@@ -243,7 +239,7 @@ const addReview = () => {
     nameAlert.innerHTML = '';
     nameAlert.classList.remove('alert-style');
   }
-  if (commentResult == false) {
+  if (comments == '') {
     let commentAlert = document.getElementById('alert-comment');
     commentAlert.innerHTML = '✘ Please Enter a valid comment ! ';
     commentAlert.classList.add('alert-style');
@@ -252,6 +248,15 @@ const addReview = () => {
     let commentAlert = document.getElementById('alert-comment');
     commentAlert.innerHTML = '';
     commentAlert.classList.remove('alert-style');
+  }
+  if (nameResult == true && name !=='' && comments !==''){
+    let successfulSubmit = document.getElementById('alert-success');
+    successfulSubmit.innerHTML = '✔ Review Added'
+    successfulSubmit.classList.add('alert-success');
+  } else {
+    let successfulSubmit = document.getElementById('alert-success');
+    successfulSubmit.innerHTML = ''
+    successfulSubmit.classList.remove('alert-success');
   }
 
   const reviewData = {
