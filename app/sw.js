@@ -49,11 +49,10 @@ self.addEventListener('fetch', (event) => {
             return response;
           }); 
     }).catch(() => {
-          return caches.match(event.request).then(()=> {
-            if (event.request.url.indexOf('.webp') > -1) {
-              return caches.match('/img/na.png');
-            }
-          })
+          return caches.match(event.request);
+          if (event.request.url.indexOf('.webp') > -1) {
+            return caches.match('/img/na.png');
+          }
           return new Response (
             'Application is not connected', {
               status: 404,
