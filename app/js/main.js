@@ -196,7 +196,6 @@ const createRestaurantHTML = (restaurant) => {
 
   const fav = document.createElement('button');
   fav.innerHTML = '♥';
-  fav.id = 'favorite';
   fav.onclick = function(){
     const favCheck = restaurant.is_favorite === 'true' || restaurant.is_favorite === true ? true:false;
     DBHelper.updateFavorite(restaurant.id, !favCheck);
