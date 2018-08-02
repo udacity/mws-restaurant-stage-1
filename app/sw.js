@@ -41,19 +41,19 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.open(currentCacheName).then(cache => {
-        return cache.match(event.request).then(response => {
-          return response || fetch(event.request).then(response => {
+          return fetch(event.request).then(response => {
             if (event.request.method !== 'GET') {
               return response;
             }
             cache.put(event.request, response.clone());
             return response;
-          });
-        });
-    }).catch(error => {
-          if (event.request.url.indexOf('.webp') > -1) {
-            return caches.match('/img/na.png');
-          }
+          }); 
+    }).catch(() => {
+          return caches.match(event.request).then(()=> {
+            if (event.request.url.indexOf('.webp') > -1) {
+              return caches.match('/img/na.png');
+            }
+          })
           return new Response (
             'Application is not connected', {
               status: 404,
