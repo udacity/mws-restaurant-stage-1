@@ -127,7 +127,6 @@ class DBHelper {
     const store = db.transaction(table).objectStore(table);
     const indexId = store.index(indx);
     return indexId.getAll(id);
-  
   });
   
   }
