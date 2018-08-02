@@ -12,7 +12,13 @@ Most of the code in this project has been written to the ES6 JavaScript specific
 
 ## Project : Stage 2
 
-On Stage 2 of the MWS ND project we added IndexedDB and automization to our project.
+### Application Data Source
+	
+The client application should pull restaurant data from the development server, parse the JSON response, and use the information to render the appropriate sections of the application UI.
+
+### Offline Use
+
+The client application works offline. JSON responses are cached using the IndexedDB API. Any data previously accessed while connected is reachable while offline.
 
 ### How to run and test the App?
 
@@ -36,13 +42,21 @@ On Stage 2 of the MWS ND project we added IndexedDB and automization to our proj
 
 On Stage 3 of the MWS ND project we added :
 
-###User Interface
+### User Interface
 	
 Users are able to mark a restaurant as a favorite, this toggle is visible in the application. A form is added to allow users to add their own reviews for a restaurant. Form submission works properly and adds a new review to the database.
 
-###Offline Use
+### Offline Use
 	
 The client application works offline. JSON responses are cached using the IndexedDB API. Any data previously accessed while connected is reachable while offline. User is able to add a review to a restaurant while offline and the review is sent to the server when connectivity is re-established.
+
+### Site Performance
+	
+Lighthouse targets for each category exceed:
+
+Progressive Web App: >90
+Performance: >70
+Accessibility: >90
 
 ### How to run and test the App?
 
