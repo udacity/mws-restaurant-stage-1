@@ -32,12 +32,15 @@ h1, h2, h3, h4, h5, h6 {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0 0 20px;
 }
-article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+/article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  box-shadow: 3px 3px 3px  #CECECE;
 }
 #footer {
   background-color: #444;
@@ -57,10 +60,12 @@ nav {
 }
 nav h1 {
   margin: auto;
+  font-family: monospace;
+  padding: 20px 0 15px;
 }
 nav h1 a {
   color: #fff;
-  font-size: 14pt;
+  font-size: 24pt;
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
@@ -100,8 +105,9 @@ nav h1 a {
 /* ====================== Map ====================== */
 #map {
   height: 400px;
-  width: 100%;
+  width: 100vw;
   background-color: #ccc;
+  overflow-x: hidden;
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
@@ -109,6 +115,9 @@ nav h1 a {
   height: 50px;
   background-color: #3397DB;
   align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
 }
 .filter-options h2 {
   color: white;
@@ -116,6 +125,7 @@ nav h1 a {
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+  text-align: center;
 }
 .filter-options select {
   background-color: white;
@@ -127,15 +137,15 @@ nav h1 a {
   margin: 10px;
   padding: 0 10px;
   width: 200px;
+
 }
 
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
   background-color: #f3f3f3;
   list-style: outside none none;
-  margin: 0;
-  padding: 30px 15px 60px;
-  text-align: center;
+  display: inline-block;
+
 }
 #restaurants-list li {
   background-color: #fff;
@@ -143,9 +153,10 @@ nav h1 a {
   font-family: Arial,sans-serif;
   margin: 15px;
   min-height: 380px;
-  padding: 0 30px 25px;
+  padding: 30px 30px 25px;
   text-align: left;
-  width: 270px;
+  width: 310px;
+  float: left;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -175,6 +186,7 @@ nav h1 a {
   color: #fff;
   display: inline-block;
   font-size: 10pt;
+  float: right;
   margin: 15px 0 0;
   padding: 8px 30px 10px;
   text-align: center;
@@ -205,7 +217,7 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: 100%;
 }
 #restaurant-name {
   color: #f18200;
