@@ -145,6 +145,7 @@ nav h1 a {
   background-color: #f3f3f3;
   list-style: outside none none;
   display: inline-block;
+
 }
 #restaurants-list li {
   background-color: #fff;
@@ -185,7 +186,8 @@ nav h1 a {
   color: #fff;
   display: inline-block;
   font-size: 10pt;
-  margin: 15px 0 0 75px;
+  float: right;
+  margin: 15px 0 0;
   padding: 8px 30px 10px;
   text-align: center;
   text-decoration: none;
@@ -215,7 +217,7 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: 100%;
 }
 #restaurant-name {
   color: #f18200;
