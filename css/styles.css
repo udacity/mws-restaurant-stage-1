@@ -38,8 +38,6 @@ h1, h2, h3, h4, h5, h6 {
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
-  display: flex;
-  flex-wrap: wrap;
   box-shadow: 3px 3px 3px  #CECECE;
 }
 #footer {
@@ -105,7 +103,7 @@ nav h1 a {
 /* ====================== Map ====================== */
 #map {
   height: 400px;
-  width: 100vw;
+  width: 100%;
   background-color: #ccc;
   overflow-x: hidden;
   

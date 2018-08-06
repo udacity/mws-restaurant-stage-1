@@ -1,17 +1,18 @@
 /* ====================== Make Responsive ====================== */
 @media screen and (max-width: 600px) {
  	nav h1 a{
- 		width: 100vw;
+ 		width: 100%;
 		font-size: 1.5em;
 	}
 	#restaurants-list {
 		flex-direction: column; 
     }
     .filter-options {
-    	width: 100vw;
+    	width: 100%;
     	display: block;
     	padding: 5px 0 5px;
-
+    	margin: 0 auto;
+    	justify-content: center;
     }
     .filter-options h2 {
     	font-size: 1.3em;
