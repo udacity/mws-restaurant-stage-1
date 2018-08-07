@@ -39,6 +39,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #f3f3f3;
   min-height: 100%;
   box-shadow: 3px 3px 3px  #CECECE;
+
 }
 #footer {
   background-color: #444;
@@ -259,6 +260,9 @@ nav h1 a {
   border-top: 1px solid #fff;
   padding: 140px 40px 30px;
   width: 50%;
+  overflow-x: hidden;
+  margin-left: auto;
+  margin-right: 0px;
 }
 #reviews-container {
   padding: 30px 40px 80px;
@@ -287,7 +291,6 @@ nav h1 a {
 }
 #reviews-list li p {
   margin: 10px 0 10px;
-  padding: 0 0 0 40px;
   float: left;
 }
 #restaurant-hours td {

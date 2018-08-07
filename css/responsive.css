@@ -1,4 +1,16 @@
 /* ====================== Make Responsive ====================== */
+@media screen and (max-width: 480px) {
+	nav {
+ 		height: 105px;
+	}
+	.filter-options {
+    	width: 100%;
+    	display: block;
+    	padding: 5px 0 5px;
+    	height: 130px;
+    }
+
+}
 @media screen and (max-width: 600px) {
  	nav h1 a{
  		width: 100%;
@@ -11,13 +23,40 @@
     	width: 100%;
     	display: block;
     	padding: 5px 0 5px;
-    	margin: 0 auto;
-    	justify-content: center;
+    	text-align: center;
     }
     .filter-options h2 {
     	font-size: 1.3em;
     }
 }
+@media screen and (max-width: 650px){
+	.inside #map-container {
+  		height: 400px;
+  		order: 1;
+  		width: 100%;
+  		position: relative;
+  		margin: auto;
+	}
+	.inside #map {
+  		width: 100%;
+	}
+	#restaurant-container, #reviews-container {
+	  	width: 100%;
+	}
+	#reviews-container {
+	 	padding: 30px 40px 80px;
+	}
+	#breadcrumb {
+	    padding: 10px 40px 16px;
+	    margin: 0;
+	    width: 100%;
+	}
+	#reviews-container h2, #restaurant-name {
+	  	text-align: center;
+	}
+
+}
+
 @media screen and (max-width: 992px) {
 	#restaurants-list li {
 		flex-basis: 50%;
