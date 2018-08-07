@@ -1,8 +1,29 @@
 @charset "utf-8";
 /* CSS Document */
+* {
+  margin: 0;
+  padding: 0;
+}
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
 
 html {
   font-size: 62.5%;
+}
+@media only screen and (max-width: 128em) {
+  html {
+    font-size: 60%;
+  }
+}
+
+@media only screen and (max-width: 68.75em) {
+  html {
+    font-size: 50%;
+  }
 }
 
 body,
@@ -78,7 +99,8 @@ nav {
   width: 100%;
   height: 8rem;
   background-color: #252831;
-  text-align: center;
+
+  display: flex;
 }
 nav h1 {
   margin: auto;
@@ -115,6 +137,11 @@ nav h1 a {
 #breadcrumb li a {
   color: #0275d8;
   text-decoration: none;
+}
+@media only screen and (max-width: 128em) {
+  #breadcrumb li {
+    font-size: 1.7rem;
+  }
 }
 
 /* Add a color on mouse-over */
@@ -208,6 +235,7 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Details ====================== */
+
 .inside header {
   position: fixed;
   top: 0;
@@ -227,11 +255,13 @@ nav h1 a {
   height: 100%;
   width: 100%;
 }
+
 .inside #footer {
   bottom: 0;
   position: absolute;
   width: 50%;
 }
+
 #restaurant-name {
   color: #f18200;
   font-family: Arial, sans-serif;
@@ -244,6 +274,8 @@ nav h1 a {
 }
 #restaurant-img {
   width: 90%;
+  border-top-left-radius: 2.5rem;
+  border-bottom-right-radius: 2.5rem;
 }
 #restaurant-address {
   font-size: 1.2rem;
@@ -260,6 +292,7 @@ nav h1 a {
   text-align: center;
   text-transform: uppercase;
   width: 90%;
+  border-radius: 2.5rem;
 }
 #restaurant-container,
 #reviews-container {
@@ -281,6 +314,7 @@ nav h1 a {
 #reviews-list {
   margin: 0;
   padding: 0;
+  width: 69rem;
 }
 #reviews-list li {
   background-color: #fff;
@@ -289,13 +323,133 @@ nav h1 a {
   list-style-type: none;
   margin: 0 0 3rem;
   overflow: hidden;
-  padding: 0 2rem 2rem;
   position: relative;
   width: 85%;
+  border-top-left-radius: 2.5rem;
+  border-bottom-right-radius: 2.5rem;
 }
-#reviews-list li p {
-  margin: 0 0 1rem;
-}
+
 #restaurant-hours td {
   color: #666;
+  font-size: 1.3rem;
+}
+
+.review__title {
+  background-color: #333;
+  margin: 0 0 1rem;
+  padding: 0 2rem;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.review__name {
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.review__date {
+  color: #ddd;
+  font-size: 1.6rem;
+  font-weight: 300;
+  align-self: center;
+}
+
+.review__description {
+  margin: 0 0 1rem;
+  padding: 0 2rem;
+}
+
+.review__rating {
+  width: 20%;
+  font-size: 1.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #f18200;
+  color: #fff;
+  border-radius: 0.2rem;
+  padding: 0.3rem 1.5rem;
+}
+.review__comments {
+  font-size: 1.5rem;
+}
+
+@media only screen and (max-width: 80em) {
+  .inside #footer {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 70em) {
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (min-width: 42.5em) and (max-width: 76.8em) {
+  /* section {
+    display: block;
+  } */
+  #breadcrumb {
+    font-size: 2rem;
+    width: 100%;
+  }
+  #maincontent {
+    display: flex;
+    flex-direction: column;
+  }
+  .insi #maincontent {
+  }
+  .inside #map-container {
+    height: 60rem;
+    position: absolute;
+    width: 100%;
+    padding-top: 5.6rem;
+  }
+  #restaurant-container,
+  #reviews-container {
+    width: 100%;
+  }
+  #restaurant-name {
+    font-size: 6rem;
+    padding: 2rem;
+  }
+  #restaurant-cuisine {
+    font-size: 1.6rem;
+  }
+  #restaurant-address {
+    font-size: 1.7rem;
+    text-align: center;
+  }
+  #restaurant-hours {
+    align-self: center;
+  }
+  #restaurant-hours {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  #restaurant-hours td {
+    font-size: 2.6rem;
+  }
+  #reviews-list {
+    width: 100%;
+  }
+  .review__title {
+    margin: 0 0 2rem;
+    padding: 2.5rem 4rem;
+  }
+
+  .review__name {
+    font-size: 3rem;
+  }
+  .review__date {
+    font-size: 3rem;
+  }
+
+  .review__rating {
+    font-size: 3rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    margin-bottom: 2rem;
+  }
 }
