@@ -384,7 +384,7 @@ nav h1 a {
 }
 
 /* Extra small devices (phones, 600px and down) */
-@media only screen and (min-width: 42.5em) and (max-width: 76.8em) {
+@media only screen and (max-width: 70em) {
   /* section {
     display: block;
   } */
