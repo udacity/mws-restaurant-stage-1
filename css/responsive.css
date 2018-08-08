@@ -9,6 +9,10 @@
     	padding: 5px 0 5px;
     	height: 130px;
     }
+    #restaurants-list  {
+    	padding: 0;
+    }
+    
 
 }
 @media screen and (max-width: 600px) {
@@ -16,9 +20,6 @@
  		width: 100%;
 		font-size: 1.5em;
 	}
-	#restaurants-list {
-		flex-direction: column; 
-    }
     .filter-options {
     	width: 100%;
     	display: block;
@@ -28,11 +29,12 @@
     .filter-options h2 {
     	font-size: 1.3em;
     }
+
 }
-@media screen and (max-width: 650px){
+/*@media screen and (max-width: 750px){
 	.inside #map-container {
   		height: 400px;
-  		order: 1;
+  		order: 0;
   		width: 100%;
   		position: relative;
   		margin: auto;
@@ -41,6 +43,7 @@
   		width: 100%;
 	}
 	#restaurant-container, #reviews-container {
+		order: 1;
 	  	width: 100%;
 	}
 	#reviews-container {
@@ -55,14 +58,76 @@
 	  	text-align: center;
 	}
 
+}*/
+
+@media screen and (min-width: 600px) {
+
+ /*#restaurants-list li {
+
+   width: calc((100% - 2 * (3em + 4px)) / 2);
+
+ }  .filter-options h2 {
+
+   text-align: right;
+
+ }  .filter-options select,
+
+ .filter-options h2 {
+
+   width: calc((100% - 3 * 40px) / 3);
+
+ }*/  
+#reviews-list li {
+	margin: 0.5em;
+	width: calc((100% - 2 * (2em + 4px) - 2em) / 2);
+
+ }  
+#maincontent {
+	justify-content: flex-start;
+	align-items: stretch;
+	align-content: stretch;
+
+ }  
+#restaurant-container, .inside #map-container {
+	width: calc((100% - 2em) / 2);
+
+}  
+.inside #map-container {
+	order: 1;
+	flex: 1 1 auto;
+	align-content: stretch;
+	height: auto;
+
+}  
+.inside #map {
+
+   justify-content: flex-start;
+
+   align-content: stretch;
+
+   align-items: stretch;
+
+ }  
+ #reviews-container {
+
+   order: 2;
+
+ }
+
+}
+@media screen and (min-width: 900px) {
+
+  #reviews-list li {
+    margin: 0.5em;
+    width: calc((100% - 3 * (2em + 4px) - 4em) / 3);
+  }
 }
 
-@media screen and (max-width: 992px) {
-	#restaurants-list li {
-		flex-basis: 50%;
-		margin-left: auto;
-		margin-right: auto;
-
-    }
-
+@media screen and (min-width: 1280px) {
+  #maincontent {
+    width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0px 0px 10px #444;
+  }
 }
