@@ -1,20 +1,29 @@
-//
+var cacheID = "mws-restaurant-v1";
 
-//if ('serviceWorker' in navigator) {
-//  navigator.serviceWorker.register('/my-blog/sw.js', {
-//    scope: '../../'
-//  }).then(function(sw) {
-//  }).catch(function() {
-//    // registration failed :(
-//  });
-//}
-//
-
-// Listen for install event, set callback
 self.addEventListener('install', function(event) {
-    // Perform some task
-});
+  event.waitUntil(
+    caches.open('mws-restaurant-v1').then(function(cache) {
+      return cache.addAll([
+      '/',
+      '/css/styles.css',
+      '/data/restaurants.json',
+      '/img',
+      'js/dbhelper.js',
+      'js/main.js',
+      'js/restaurant_info.js'
+     ]);
+    });
+  )
+}); 
 
-self.addEventListener('activate', function(event) {
-  // Perform some task
-});
+//
+//self.addEventListener('fetch', function(event) {
+  // TODO: respond with an entry from the cache if there is one.
+  // If there isn't, fetch from the network.
+//    event.respondWith(
+//    caches.match(event.request).then(function(response){
+//      if (response) return response;
+//      return fetch(event.request);
+//      }
+//  ));
+//});
