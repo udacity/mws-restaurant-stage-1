@@ -59,6 +59,15 @@
 
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZGgzuak_aj2ds1dsIGvVTGefRdDjhHy0&libraries=places&callback=initMap"></script>
+
+  <!-- source: https://developers.google.com/web/fundamentals/codelabs/offline/ -->
+  <script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker
+           .register('/sw.js')
+           .then(function() { console.log("Service Worker Registered"); });
+}
+</script>
   <!-- End scripts -->
 </body>
 </html>

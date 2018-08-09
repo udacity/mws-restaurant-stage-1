@@ -1,20 +1,41 @@
-var cacheID = "mws-restaurant-v1";
+// Start a cache
+
+var cacheName = 'mws-restaurant-v1';
+var urlsToCache = [
+      '/',
+      '/restaurant.html',
+      '/index.html',
+     ];
+
+// Open the cache & add urls     
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
-    caches.open('mws-restaurant-v1').then(function(cache) {
-      return cache.addAll([
-      '/',
-      '/css/styles.css',
-      '/data/restaurants.json',
-      '/img',
-      'js/dbhelper.js',
-      'js/main.js',
-      'js/restaurant_info.js'
-     ]);
-    });
-  )
+    caches.open('cacheName').then(function(cache) {
+      console.log('Opened Cache');
+
+      // Print all cached urls to the console - double check that its working!
+      console.log('urlsToCache');
+      return cache.addAll(urlsToCache);
+    })
+  );
 }); 
+
+// Intercept and return cached version of assets
+
+self.addEventListener('fetch', function(event) {
+ console.log(event.request.url);
+
+ // Look at incoming request, serve the cached verison (if it exists)
+
+ event.respondWith(
+   caches.match(event.request).then(function(response) {
+     return response || fetch(event.request);
+   })
+ );
+});
+
+// Source: https://developers.google.com/web/fundamentals/codelabs/offline/ >> VERY HELPFUL
 
 //
 //self.addEventListener('fetch', function(event) {
