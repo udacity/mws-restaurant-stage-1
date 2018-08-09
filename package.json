@@ -1,0 +1,25 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.1",
+  "description": "a restaurant review web app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chinfox/mws-restaurant-stage-1.git"
+  },
+  "author": "chinedum onyema",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chinfox/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/Chinfox/mws-restaurant-stage-1#readme",
+  "devDependencies": {
+    "grunt": "^1.0.2",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-responsive-images": "^1.10.1"
+  }
+}
