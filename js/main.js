@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
   initMap(); // added 
   fetchNeighborhoods();
   fetchCuisines();
+  navigator.serviceWorker.register('sw.js').then(function(reg){
+  console.log('registered service worker')
+});
 });
 
 /**
@@ -77,12 +80,13 @@ initMap = () => {
         zoom: 12,
         scrollWheelZoom: false
       });
+  newMap.zoomControl.setPosition('topright');
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: '<your MAPBOX API KEY HERE>',
+    mapboxToken: 'pk.eyJ1Ijoibm9yYWEwNSIsImEiOiJjamtrMGNmZHQwZzhmM2twOGdua2F5c3I3In0.g6v4Hiq6QCel8dyHqwyiQQ',
     maxZoom: 18,
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-      '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-      'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    attribution: 'Map data &copy; <a tabindex= "-1" href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+      '<a tabindex= "-1" href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      'Imagery © <a tabindex= "-1" href="https://www.mapbox.com/">Mapbox</a>',
     id: 'mapbox.streets'
   }).addTo(newMap);
 
@@ -157,10 +161,17 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  li.setAttribute("tabindex","0");
 
   const image = document.createElement('img');
+  image.srcset = DBHelper.imageUrlForRestaurant(restaurant,'aspect');
+  image.src =  DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = `Image of ${restaurant.name}`
+
+  //sourceSmall.media ='(max-width:1299)';
+  //image.size = ('')
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  //image.src = DBHelper.imageUrlForRestaurant(restaurant);
   li.append(image);
 
   const name = document.createElement('h1');
@@ -175,9 +186,12 @@ createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address;
   li.append(address);
 
+  const moreButton = document.createElement('button');
   const more = document.createElement('a');
-  more.innerHTML = 'View Details';
+  moreButton.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
+  more.setAttribute("tabindex","-1");
+  more.appendChild(moreButton);
   li.append(more)
 
   return li
@@ -198,6 +212,21 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 
 } 
+
+const menu = document.getElementById('menu');
+const selects = document.querySelector('#filter-selects');
+const main =  document.querySelector('main');
+menu.addEventListener('click',function(){ 
+  if(menu.style.transform)
+    menu.style.transform = null;
+  else
+  menu.style.transform = "rotate(90deg)"
+
+  selects.classList.toggle('open')
+});
+
+
+
 /* addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map

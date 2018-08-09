@@ -21,12 +21,14 @@ initMap = () => {
         zoom: 16,
         scrollWheelZoom: false
       });
+      newMap.zoomControl.setPosition('topright');
+
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-        mapboxToken: '<your MAPBOX API KEY HERE>',
+        mapboxToken: 'pk.eyJ1Ijoibm9yYWEwNSIsImEiOiJjamtrMGNmZHQwZzhmM2twOGdua2F5c3I3In0.g6v4Hiq6QCel8dyHqwyiQQ',
         maxZoom: 18,
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        attribution: 'Map data &copy; <a tabindex= "-1" href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a tabindex= "-1" href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a tabindex= "-1" href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox.streets'    
       }).addTo(newMap);
       fillBreadcrumb();
@@ -81,17 +83,23 @@ fetchRestaurantFromURL = (callback) => {
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
+  name.tabIndex="0";
   name.innerHTML = restaurant.name;
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
+  address.tabIndex = "0"
+  address.setAttribute("aria-label",`Address: ${restaurant.address}`);
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-
+  image.srcset = DBHelper.imageUrlForRestaurant(restaurant,'size');
+  image.sizes = '(max-width:700px) 400px, 800px';
+  image.alt = `Picture of ${restaurant.name}`;
+  image.tabIndex = '0'
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
+  cuisine.setAttribute("aria-label",`Cuisine: ${restaurant.cuisine_type}`)
 
   // fill operating hours
   if (restaurant.operating_hours) {
@@ -108,6 +116,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
   const hours = document.getElementById('restaurant-hours');
   for (let key in operatingHours) {
     const row = document.createElement('tr');
+    row.tabIndex = '0';
 
     const day = document.createElement('td');
     day.innerHTML = key;
@@ -148,15 +157,16 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
-  const name = document.createElement('p');
+  li.tabIndex = '0';
+  const name = document.createElement('h3');
   name.innerHTML = review.name;
   li.appendChild(name);
 
-  const date = document.createElement('p');
+  const date = document.createElement('h4');
   date.innerHTML = review.date;
   li.appendChild(date);
 
-  const rating = document.createElement('p');
+  const rating = document.createElement('h4');
   rating.innerHTML = `Rating: ${review.rating}`;
   li.appendChild(rating);
 
