@@ -54,18 +54,36 @@
       <p id="restaurant-cuisine"></p>
       <p id="restaurant-address"></p>
       <table id="restaurant-hours"></table>
-      <!-- <form id="restaurant-review">
-        <label for="review-rating">Rating</label>
-        <select id="review-rating">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-        <label for="review-commnet">Comment</label>
-        <textarea id="review-commnet"></textarea>
-      </form> -->
+
+      
+    <!-- Form to Submit A Review . -->
+    <section class="add-review-section">
+        <h2>Add New Review</h2>
+          <form id="restaurant-review">
+              <div class="element">
+                <label for="rewviewer">Name : </label> 
+                <input type="text" id="review-author" placeholder="please enter your name ">
+              </div>
+              <div class="element">
+                <label for="review-rating">Rating : </label>
+                <select id="review-rating">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <div class="element">
+                  <label for="review-commnet">Comment : </label>
+                  <textarea id="review-commnets"></textarea>
+              </div>
+              <div class="submit-btn">
+                <button type="button" onclick="addReview()">Submit</button>
+              </div>
+            </form>
+      </section>
+
     </section>
 
     <!-- end restaurant -->
@@ -82,9 +100,9 @@
 
 
   <!-- Database helpers -->
-  <script type="text/javascript" src="js/uglified/dbhelper.js"></script>
+  <script type="text/javascript" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
-  <script type="text/javascript" src="js/uglified/restaurant_info.js"></script>
+  <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDHwBlgglg7jBjVCFys-6432hpgZva7O1k&libraries=places&callback=initMap"></script>
   <!-- End scripts -->

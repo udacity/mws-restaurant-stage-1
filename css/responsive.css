@@ -100,9 +100,8 @@
   }
 }
 
-/* @media screen and (min-width: 1286px) { 
-  .inside #maincontent {
-    max-width: 1286px;
-    margin: 0 auto;
+@media screen and (min-width: 1000px) { 
+  .add-review-section { 
+    margin-left: 10px;
   }
-} */
+}

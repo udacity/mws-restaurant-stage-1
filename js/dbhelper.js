@@ -1,3 +1,5 @@
+// import swal from 'sweetalert';
+
 /**
  * Common database helper functions.
  */
@@ -28,10 +30,13 @@ function openIndexedDB (){
   if (!indexedDB) {
     console.error("Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
   }
-  const openRequst = indexedDB.open('restaurants', 1 );
+  const openRequst = indexedDB.open('restaurants', 2);
   openRequst.onupgradeneeded = function(event) {
     idb = event.target.result;
-    var store = idb.createObjectStore('restaurant', {
+    idb.createObjectStore('restaurant', {
+      keyPath: 'id'
+    });
+    idb.createObjectStore('reviews', {
       keyPath: 'id'
     });
   }
@@ -45,8 +50,17 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 1337 // Change this to your server port
-    return `http://localhost:${port}/restaurants`;
+    const port = 1337
+    const local = `http://localhost:${port}/restaurants`;
+    const remote = `https://reviews-server.tt34.com/restaurants`;
+    return local ;
+  }
+
+  static get DATABASE_FOR_REVIEWS () { 
+    const port = 1337
+    const local = `http://localhost:${port}/reviews`;
+    const remote = `https://reviews-server.tt34.com/reviews`;
+    return local ;
   }
 
   /**
@@ -263,5 +277,106 @@ class DBHelper {
       }
     })
   }
+
+  /**
+   * Fetch all reviews for a restuarant .
+   */
+
+   static featchRestuarantReviews (id){
+    return  fetch(`${DBHelper.DATABASE_FOR_REVIEWS}/?restaurant_id=${id}`)
+      .then(res => res.json()).then(reviews=>{
+        const openIDB = openIndexedDB();
+          openIDB.onsuccess = (event)=> {
+            const idb= event.target.result;
+            const store = idb.transaction('reviews', 'readwrite').objectStore('reviews');
+            if (Array.isArray(reviews)){
+              reviews.forEach(review=>{
+                store.put(review);
+              })
+            } else { 
+              store.put(reviews);
+            }
+          }
+          return reviews;
+     })
+   }
+
+   static getStoredbjectsById (table, iID, id) { 
+      openIDB.onsuccess = (event)=> {
+        const idb= event.target.result;
+        if (!idb ) return;
+
+        const store = idb.transaction(table).objectStore(table);
+        const indexedID = store.index(iID);
+        return indexedID.getAll(id);
+      }
+   }
+  
+   /**
+    * Check If user online to handle send review  . 
+    */
+   static addReview (review) { 
+     const offlineReview = {
+       name: 'addReview',
+       data: review,
+       object_type: 'review'
+     }
+     console.log(!navigator.onLine, 'online');
+     
+     if (!navigator.onLine) { 
+       DBHelper.sendReviewWhenOnline(offlineReview);
+       return Promise.reject(offlineReview);
+     }
+    return  DBHelper.sendReview(review)
+   }
+
+   /**
+    * Send Review To  Server .
+    */
+   static sendReview (review) { 
+      const reviewSend = { 
+        "name": review.name,
+        "rating": parseInt(review.rating),
+        "comments": review.comments,
+        "restaurant_id": parseInt(review.restaurant_id)
+      }
+      const  fetchOption = { 
+        method: 'POST',
+        body: JSON.stringify(reviewSend),
+        headers: new Headers({
+          'Content-type': 'application/json',
+          'mode' : 'no-cors',
+          'Access-Control-Allow-Credentials':true,
+          'Access-Control-Allow-Origin':true,
+          "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+        })
+      };
+
+     return fetch(`${DBHelper.DATABASE_FOR_REVIEWS}`, fetchOption)
+   }
+
+   /**
+    * Listin if user come back online and send the review to the server .
+    */
+   static sendReviewWhenOnline(offlineReview){ 
+     console.log('event Listin');
+     
+    localStorage.setItem('reviews', JSON.stringify(offlineReview.data));
+    window.addEventListener('online', (event)=>{
+      console.log('Now I am Online ...... ');
+      
+      const review = JSON.parse(localStorage.getItem('reviews'));
+      let  offlineReviewUI = document.querySelectorAll('.reviews-offline');
+      offlineReviewUI.forEach(el=>{
+        el.classList.remove("reviews-offline");
+        el.removeChild(document.getElementById('offline-lable'));
+      });
+      if (review) {
+        DBHelper.addReview(review);
+      }
+      localStorage.removeItem('reviews');
+    })
+   }
 
 }

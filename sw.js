@@ -1,25 +1,28 @@
 var staticCachName = 'restaurant-v3';
 
 self.addEventListener('fetch', function(event) {
-    if (event.request.url.endsWith('/restaurants')) return ; 
-    event.respondWith(
+    if (event.request.url.endsWith('/restaurants')) return ;
+    if (event.request.method !== 'GET') return ;
+    console.log(event.request);
+     
+        event.respondWith(
         caches.match(event.request).then(function(response) {
-        if (response) {
-            return response;
-        }
-
-        return fetch(event.request).then(function(response) {
-            var shouldCache = response.ok;
-            
-            if (shouldCache) {
-            return caches.open(staticCachName).then(function(cache) {
-                cache.put(event.request, response.clone());
+            if (response) {
                 return response;
+            } else return ;
+        }).then(res=>{
+            return fetch(event.request).then(function(response) {
+                var shouldCache = response.ok;
+                
+                if (shouldCache) {
+                return caches.open(staticCachName).then(function(cache) {
+                    cache.put(event.request, response.clone());
+                    return response;
+                });
+                } else {
+                 return response;
+                }
             });
-            } else {
-            return response;
-            }
-        });
         })
     );
 });

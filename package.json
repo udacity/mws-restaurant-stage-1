@@ -24,7 +24,8 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
     "gulp-uglify-es": "^1.0.4",
-    "pump": "^3.0.0"
+    "pump": "^3.0.0",
+    "sweetalert": "^2.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
