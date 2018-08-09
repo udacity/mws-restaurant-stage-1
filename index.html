@@ -25,7 +25,7 @@
   <main id="maincontent">
     <!-- Beginning map -->
     <section id="map-container">
-      <div id="map" aria-label="map" ></div>
+      <div id="map" aria-label="map" aria-role="application" ></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
@@ -33,11 +33,11 @@
       <div class="filter-options" role="group">
         <h2>Filter Results</h2>
         <label for="neighborhoods-select">Select a Neighborhood</label>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" role="select">
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" role="select" aria-label="index.html">
           <option value="all">All Neighborhoods</option>
         </select>
         <label for="cuisines-select">Select a Cuisines</label>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" role="select">
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" role="select" aria-label="index.html>
           <option value="all">All Cuisines</option>
         </select>
       </div>
