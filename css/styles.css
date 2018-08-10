@@ -48,6 +48,10 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   text-align: center;
   text-transform: uppercase;
 }
+
+img {
+  max-width: 100%;
+}
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
@@ -135,18 +139,23 @@ nav h1 a {
   list-style: outside none none;
   margin: 0;
   padding: 30px 15px 60px;
-  text-align: center;
 }
 #restaurants-list li {
   background-color: #fff;
   border: 2px solid #ccc;
   font-family: Arial,sans-serif;
-  margin: 15px;
+  margin: 0 15px 15px 0;
   min-height: 380px;
-  padding: 0 30px 25px;
+  /* padding: 0 30px 25px; */
   text-align: left;
-  width: 270px;
+  width: calc((100% - 45px)/3);
+  display: inline-block;
 }
+
+#restaurants-list li:nth-child(3n) {
+  margin-right: 0;
+}
+
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;
@@ -175,11 +184,17 @@ nav h1 a {
   color: #fff;
   display: inline-block;
   font-size: 10pt;
-  margin: 15px 0 0;
+  margin: 15px 0 .5rem;
   padding: 8px 30px 10px;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+#restaurants-list p,
+#restaurants-list li a,
+#restaurants-list li h1 {
+  margin-left: 0.4rem;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -258,7 +273,7 @@ nav h1 a {
 }
 #reviews-list li {
   background-color: #fff;
-    border: 2px solid #f3f3f3;
+  border: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
   margin: 0 0 30px;
