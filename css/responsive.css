@@ -65,13 +65,13 @@
     height: 100%;
 	width: 100%;
 
- }  
+}  
 
 
 #reviews-container {
 	order: 2;
 
- }
+}
 
 }
 @media screen and (min-width: 900px) {

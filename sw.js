@@ -4,14 +4,13 @@
 	const filesToCache = [
 		'./index.html',
 		'./restaurant.html',
-		'data/restaurants.json',
-		'js/main.js',
-		'./gulpfile.js',
-		'js/dbhelper.js',
-		'js/restaurant_info.js',
-		'css/styles.css',
-		'css/responsive.css',
-		'img/',
+		'./data/restaurants.json',
+		'./js/main.js',
+		'./js/dbhelper.js',
+		'./js/restaurant_info.js',
+		'./css/styles.css',
+		'./css/responsive.css',
+		'./img/',
 	];
 	
 	// cache assets
