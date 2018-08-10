@@ -1,3 +1,14 @@
+//Registering the Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').then(registration => {
+        //console.log('Service worker successfully registered on scope', registration.scope);
+      }).catch(error => {
+        //console.log('Service worker failed to register');
+      });
+    });
+  }
+
  let restaurants,
   neighborhoods,
   cuisines
@@ -162,6 +173,10 @@ createRestaurantHTML = (restaurant) => {
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   li.append(image);
+
+  /*const div = document.createElement('div');
+  div.innerHTML = "<picture><source srcset=''><img src='' alt='${restaurant.name}'> </picture>";
+  li.append(div);*/
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
