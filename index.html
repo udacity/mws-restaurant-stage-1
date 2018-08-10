@@ -16,11 +16,11 @@
   <header>
     <!-- beginning nav -->
     <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+      <h1><a title="home" href="/">Restaurant Reviews</a></h1>
     </nav>
     <!-- beginning breadcrumb -->
     <ul id-"breadcrumb" role="navigation" aria-label="Breadcrumb" >
-      <li><a href="/">Home</li>
+      <li><a title="home" href="/">Home</li>
     </ul>
     <!-- end breadcrumb -->
     <!-- end nav -->
@@ -34,7 +34,7 @@
       <div id="map" tabindex="0" aria-label="location" role="application"></div>
     </section>
     <section>
-      <div class="filter-options" aria-labelledby="h2" role="application">
+      <div class="filter-options" aria-labelledby="neighborhoods-select" role="application">
         <h2>Filter Results</h2>
         <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-labelledby="neighborhoods-select">
           <option value="all">All Neighborhoods</option>
