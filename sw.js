@@ -7,7 +7,7 @@
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  */
-const PRECACHE = 'cache-v18';
+const PRECACHE = 'restaurant-017';
 const RUNTIME = 'runtime';
 
 // A list of local resources we always want to be cached.
@@ -67,9 +67,3 @@ self.addEventListener('fetch', event => {
     );
   }
 });
-
-/*self.addEventListener('activate', function(event) {
-  event.waitUntil(
-    createDB()
-  );
-});*/
