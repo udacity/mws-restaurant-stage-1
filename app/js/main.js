@@ -87,6 +87,17 @@ window.initMap = () => {
 }
 
 /**
+ * Add a static map png and swap when the user click on it. To improve the site performance.
+ */
+
+const swap_map  = () => {
+  if (document.getElementById('map').style.display === 'none') {
+    document.getElementById('map').style.display = 'block';
+    document.getElementById('static_map').style.display = 'none';
+  }
+}
+
+/**
  * Update page and map for current restaurants.
  */
 updateRestaurants = () => {
@@ -164,7 +175,7 @@ createRestaurantHTML = (restaurant) => {
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
 
-  li.setAttribute("role", "restaurant-lists");
+  // li.setAttribute("role", "restaurant-lists");
 
   return li
 }
@@ -186,14 +197,14 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 /**
  * Register a serviceWorker.
  */
-// if ('serviceWorker' in navigator) {
-//   window.addEventListener('load', function() {
-//     navigator.serviceWorker.register('/sw.js').then(function(registration) {
-//       // Registration was successful
-//       console.log('ServiceWorker registration successful with scope: ', registration.scope);
-//     }, function(err) {
-//       // Registration failed :(
-//       console.log('ServiceWorker registration failed: ', err);
-//     });
-//   });
-// }
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+      // Registration was successful
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, function(err) {
+      // Registration failed :(
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  });
+}

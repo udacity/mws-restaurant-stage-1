@@ -144,15 +144,14 @@ gulp.task("mainhtmlserve", () => {
     .pipe(
       replace("<!-- Styles Placeholder -->", function(s) {
         var style =
-          fs.readFileSync("app/css/basestyles.css", "utf8") +
-          fs.readFileSync("app/css/mainstyles.css", "utf8");
+          fs.readFileSync("app/css/styles.css", "utf8") +
+          fs.readFileSync("app/css/customs.css", "utf8");
         return "<style>" + style + "</style>";
       })
     )
     .pipe(
       replace("<!-- JS Placeholder -->", function(s) {
         var script =
-          fs.readFileSync("app/js/register.js", "utf8") +
           fs.readFileSync("app/js/dbhelper.js", "utf8") +
           fs.readFileSync("app/js/main.js");
         return "<script>" + script + "</script>";
@@ -168,15 +167,14 @@ gulp.task("infohtmlserve", () => {
     .pipe(
       replace("<!-- Styles Placeholder -->", function(s) {
         var style =
-          fs.readFileSync("app/css/basestyles.css", "utf8") +
-          fs.readFileSync("app/css/detailsstyles.css", "utf8");
+          fs.readFileSync("app/css/styles.css", "utf8") +
+          fs.readFileSync("app/css/customs.css", "utf8");
         return "<style>" + style + "</style>";
       })
     )
     .pipe(
       replace("<!-- JS Placeholder -->", function(s) {
         var script =
-          fs.readFileSync("app/js/register.js", "utf8") +
           fs.readFileSync("app/js/dbhelper.js", "utf8") +
           fs.readFileSync("app/js/restaurant_info.js");
         return "<script>" + script + "</script>";
@@ -192,7 +190,7 @@ gulp.task("serve", () => {
     () => {
       browserSync.init({
         notify: false,
-        port: 8000,
+        port: 8888,
         server: {
           baseDir: [".tmp", "app"],
           routes: {

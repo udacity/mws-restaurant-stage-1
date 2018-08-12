@@ -10,7 +10,6 @@
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/customs.css">
-  <link rel="stylesheet" href="css/breakpoints.css">
   <title>Restaurant Reviews</title>
 </head>
 
@@ -22,8 +21,11 @@
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
-      <div id="map" role="application"></div>
+    <section id="map-container" aria-label="map-aria-description">
+      <div class="static_map">
+        <img id="static_map" onclick="swap_map()"  src="img/ssForMapOptimized.png"></img>
+      </div>
+      <div id="map" role="application" style="display: none"></div>
     </section>
     <section>
       <div class="filter-options">
@@ -38,7 +40,7 @@
       <ul id="restaurants-list"></ul>
     </section>
   </main>
-  
+
   <script type="application/javascript" charset="utf-8" src="js/idb.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
