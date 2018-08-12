@@ -19,5 +19,8 @@
   "homepage": "https://github.com/awaemmanuel/mws-restaurant-stage-1#readme",
   "devDependencies": {
     "grunt-responsive-images": "^1.10.1"
+  },
+  "dependencies": {
+    "idb": "^2.1.3"
   }
 }

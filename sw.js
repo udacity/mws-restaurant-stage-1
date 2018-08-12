@@ -1,11 +1,13 @@
-const PRECACHE = 'restaurant-reviews-v1';
-const RUNTIME = 'runtime-v1';
+const PRECACHE = 'restaurant-reviews-v3';
+const RUNTIME = 'runtime-v3';
 
 // Links to cache
 const PRECACHE_URLS = [
   '/',
   'index.html',
+  'manifest.json',
   'restaurant.html',
+  'robots.txt',
   '/data/restaurants.json',
   '/css/styles.css',
   '/js/dbhelper.js',
