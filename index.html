@@ -12,18 +12,18 @@
 
 <body>
   <header role="banner">
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+    <nav role="navigation">
+      <h1 role="heading"><a href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
 
   <main id="maincontent" role="main">
-    <section id="map-container">
-      <div id="map"></div>
+    <section id="map-container" role="region">
+      <div id="map" role="map"></div>
     </section>
-    <section>
-      <div class="filter-options">
-        <h2 hidden aria-hidden="true">Filter Results</h2>
+    <section role="region">
+      <div class="filter-options" role="menuitemcheckbox">
+        <h2 hidden role="heading" aria-hidden="true">Filter Results</h2>
         <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="neighborhoods">
           <option value="all">All Neighborhoods</option>
         </select>
@@ -31,7 +31,7 @@
           <option value="all">All Cuisines</option>
         </select>
       </div>
-      <ul id="restaurants-list"></ul>
+      <ul id="restaurants-list" role="list"></ul>
     </section>
   </main>
 
@@ -51,7 +51,7 @@
       .register('/sw.js', {
         scope: '/'
       })
-      .then(function() {
+      .then(function(register) {
         console.log('Service Worker Registered');
       })
       .catch(function(error) {

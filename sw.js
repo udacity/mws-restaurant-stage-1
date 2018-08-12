@@ -1,4 +1,13 @@
-const PRECACHE = 'precache-v17';
+/**
+ * Credits:
+ * This application uses Open Source components and is modified from original. 
+ * You can find the source code of their open source projects along with license information below. 
+ * I acknowledge and grateful to this developer for their contributions to open source.
+ * https://googlechrome.github.io/samples/service-worker/basic/
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+const PRECACHE = 'cache-v18';
 const RUNTIME = 'runtime';
 
 // A list of local resources we always want to be cached.
@@ -58,3 +67,9 @@ self.addEventListener('fetch', event => {
     );
   }
 });
+
+/*self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    createDB()
+  );
+});*/

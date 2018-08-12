@@ -4,6 +4,8 @@ let restaurants,
 var newMap
 var markers = []
 
+import idb from 'idb.js';
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -11,6 +13,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   initMap(); // added
   fetchNeighborhoods();
   fetchCuisines();
+  createIndexedDB();
 });
 
 /**
@@ -209,3 +212,12 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 }*/
+
+createIndexedDB = (event) => {
+  if (!('indexedDB' in window)) {return null;}
+  return idb.open('Restaurants', 1, function(upgradeDb) {
+    if (!upgradeDb.objectStoreNames.contains('restaurants')) {
+      const eventsOS = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+    }
+  });
+}

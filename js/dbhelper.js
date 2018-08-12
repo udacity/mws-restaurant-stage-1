@@ -8,27 +8,20 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    //const port = 8000 // Change this to your server port
+    const port = 1337
+    //return `http://localhost:${port}/data/restaurants.json`;
+    return `http://localhost:${port}/Restaurants`;
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+  fetch(DBHelper.DATABASE_URL)
+    .then(response => response.json())
+    .then(response => response.map(restaurants => restaurants))
+    .then(restaurants => callback(null, restaurants));   
   }
 
   /**
@@ -150,13 +143,20 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    if (`/img/undefined.jpg`)
+      return (`/img/10.jpg`);
+    else
+      return (`/img/${restaurant.photograph}.jpg`);
+      /** Had to modify return statement because Restaurant with id:10 was 
+       * missing `photograph property`, in the original json file.
+      */
+      /* return (`/img/${restaurant.id}.jpg`);*/
   }
 
   /**
    * Map marker for a restaurant.
    */
-  static mapMarkerForRestaurant(restaurant, map) {
+  static mapMarkerForRestaurant(restaurant) {
     // https://leafletjs.com/reference-1.3.0.html#marker
     const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng],
       {title: restaurant.name,
