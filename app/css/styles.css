@@ -18,7 +18,7 @@ ul, li {
 	color: #333;
 }
 a {
-	color: orange;
+	color: #fff;
 	text-decoration: none;
 }
 a:hover, a:focus {
@@ -41,12 +41,20 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 #footer {
   background-color: #444;
-  color: #aaa;
+  color: #fff;
   font-size: 8pt;
   letter-spacing: 1px;
   padding: 25px;
   text-align: center;
   text-transform: uppercase;
+}
+
+#footer a {
+  color: #ffae52;
+}
+
+#footer a:hover {
+  color: #3397DB;
 }
 /* ====================== Navigation ====================== */
 nav {
@@ -88,7 +96,7 @@ nav h1 a {
 
 /* Add a color to all links inside the list */
 #breadcrumb li a {
-    color: #0275d8;
+    color: #252831;
     text-decoration: none;
 }
 
@@ -107,7 +115,7 @@ nav h1 a {
 .filter-options {
   width: 100%;
   height: 50px;
-  background-color: #3397DB;
+  background-color: #252831;
   align-items: center;
 }
 .filter-options h2 {
@@ -131,7 +139,7 @@ nav h1 a {
 
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
-  background-color: #f3f3f3;
+  background-color: #252831;
   list-style: outside none none;
   margin: 0;
   padding: 30px 15px 60px;
@@ -146,6 +154,7 @@ nav h1 a {
   padding: 0 30px 25px;
   text-align: left;
   width: 270px;
+  border-radius: 1%;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -170,9 +179,8 @@ nav h1 a {
   font-size: 11pt;
 }
 #restaurants-list li a {
-  background-color: orange;
-  border-bottom: 3px solid #eee;
-  color: #fff;
+  background-color: #252831;
+  border: 1px solid #fff;
   display: inline-block;
   font-size: 10pt;
   margin: 15px 0 0;
@@ -180,6 +188,12 @@ nav h1 a {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+#restaurants-list li a:hover {
+  background-color: #fff;
+  color: #252831;
+  border: 1px solid #252831;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -208,7 +222,7 @@ nav h1 a {
   width: 50%;
 }
 #restaurant-name {
-  color: #f18200;
+  color: #252831;
   font-family: Arial,sans-serif;
   font-size: 20pt;
   font-weight: 200;
@@ -258,7 +272,7 @@ nav h1 a {
 }
 #reviews-list li {
   background-color: #fff;
-    border: 2px solid #f3f3f3;
+  border: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
   margin: 0 0 30px;

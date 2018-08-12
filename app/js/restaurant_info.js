@@ -134,7 +134,7 @@ createReviewHTML = (review) => {
   comments.innerHTML = review.comments;
   li.appendChild(comments);
 
-  li.setAttribute("role", "review-lists");
+  li.setAttribute("role", "listitem");
 
   return li;
 }

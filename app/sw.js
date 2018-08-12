@@ -3,18 +3,19 @@ var urlsToCache = [
   '/',
   'js/dbhelper.js',
   'js/main.js',
-  'js/restaurant_info.js',
+  'js/idb.js',
+  // 'js/restaurant_info.js',
   'css/styles.css',
-  'img/1.jpg',
-  'img/2.jpg',
-  'img/3.jpg',
-  'img/4.jpg',
-  'img/5.jpg',
-  'img/6.jpg',
-  'img/7.jpg',
-  'img/8.jpg',
-  'img/9.jpg',
-  'img/10.jpg'
+  'img/tiles/1_1x.jpg',
+  'img/tiles/2_1x.jpg',
+  'img/tiles/3_1x.jpg',
+  'img/tiles/4_1x.jpg',
+  'img/tiles/5_1x.jpg',
+  'img/tiles/6_1x.jpg',
+  'img/tiles/7_1x.jpg',
+  'img/tiles/8_1x.jpg',
+  'img/tiles/9_1x.jpg',
+  'img/tiles/10_1x.jpg'
 ];
 
 self.addEventListener('install', event => {
@@ -24,6 +25,8 @@ self.addEventListener('install', event => {
       .then(function(cache) {
         console.log('Opened cache');
         return cache.addAll(urlsToCache);
+      }).catch((error) => {
+        console.error('Failed to cache', error);
       })
   );
 });
