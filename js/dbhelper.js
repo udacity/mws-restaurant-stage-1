@@ -55,7 +55,7 @@ class DBHelper {
             callback(null, restaurants);
             return restaurants;
           })
-          .then((err, restaurants) => {
+          .then((restaurants) => {
             this.openOrCreateDB()
               .then((db) => {
                 if (!db) throw new Error('[DB ERROR] - No DB found.');
