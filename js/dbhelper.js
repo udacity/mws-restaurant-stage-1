@@ -2,21 +2,52 @@
  * Common database helper functions.
  */
 class DBHelper {
-
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
+  
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
   }
+
+  static openIDB(){
+    DBHelper.idb =  idb.open('restaurants',1, upgradeDb => {
+      let store = upgradeDb.createObjectStore('restaurants',{
+        keyPath:'id'
+      });
+    })
+  }
+  
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
+    DBHelper.idb.then((db) =>{
+      const store = db.transaction('restaurants','readwrite').objectStore('restaurants');
+      return store.getAll().then((restaurants) =>{
+        if(restaurants.length == 0) {
+          console.log("empty")
+          fetch(DBHelper.DATABASE_URL).then(response => response.json()
+          .then((data) =>{
+            //console.log('store',store)
+            data.forEach(item => {
+              db.transaction('restaurants','readwrite').objectStore('restaurants').put(item);
+            });
+            callback(null,data);
+          })
+          );
+        }
+      else
+        callback(null,restaurants)
+      })
+    });
+    
+    
+    
+    /*let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
@@ -29,6 +60,7 @@ class DBHelper {
       }
     };
     xhr.send();
+    */
   }
 
   /**
@@ -150,7 +182,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant,option) {
-    const root = restaurant.photograph.split('.')[0];
+    const root = restaurant.photograph;
     if(option == 'size')
       return (`/img/${root}-sm.jpg 400w, /img/${root}-lg.jpg 800w`);
     if(option == 'aspect')
