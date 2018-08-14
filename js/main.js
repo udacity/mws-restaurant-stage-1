@@ -12,8 +12,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
   initMap(); // added 
   fetchNeighborhoods();
   fetchCuisines();
+  DBHelper.offlineAlert();
 });
 
+/**
+ * Register the service worker
+ */
 registerServiceWorker = () => {
   if (!navigator.serviceWorker) return;
   navigator.serviceWorker.register('/serviceworker.js').then(reg => {

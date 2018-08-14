@@ -36,7 +36,7 @@ self.addEventListener('fetch', (event) => {
     }
 
     if (requestUrl.pathname === '/data/restaurants.json') {
-      event.respondWith(caches.match('data/restaurants.json '))
+      event.respondWith(serveRestaurantData(event.request));
       return;
     }
 
@@ -57,3 +57,18 @@ self.addEventListener('fetch', (event) => {
   //   }
   // }
 });
+
+const serveRestaurantData = (request) => {
+  const storageUrl = 'data/restaurants.json';
+  return caches.open(cacheName).then(cache => {
+    return cache.match(storageUrl).then(response => {
+      let networkFetch = fetch(request).then(networkResponse => {
+        cache.put(storageUrl, networkResponse.clone());
+        return networkResponse;
+        return networkResponse;
+      });
+
+      return response || networkFetch
+    });
+  });
+};

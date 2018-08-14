@@ -301,6 +301,16 @@ nav h1 a {
   color: #666;
 }
 
+.offline-alert {
+  color: white;
+  width: 100%;
+  margin: 0;
+  background: #ff9800;
+  padding: 0.3rem 0;
+  text-align: center;
+  display: none;
+}
+
 /* ====================== Mobile Styles ====================== */
 @media screen and (max-width: 768px) {
 
