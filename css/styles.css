@@ -279,7 +279,7 @@ select option {
   
 }
 #restaurant-name {
-  color: #f18200;
+  color: #000080;
   font-family: Arial,sans-serif;
   font-size: 20pt;
   font-weight: 200;
@@ -320,7 +320,7 @@ select option {
   margin: 50px auto 0;
 }
 #reviews-container h2 {
-  color: #f58500;
+  color: #000080;
   font-size: 24pt;
   font-weight: 300;
   letter-spacing: -1px;
@@ -374,7 +374,7 @@ select option {
 .add-review-section h2 { 
   font-family: cursive;
   margin-top: 10px;
-  color: #f58500;
+  color: #000080;
   margin-left: 7px;
   border-bottom: 1px solid #dd1f38;
   padding-bottom: 6px;
@@ -386,7 +386,7 @@ select option {
 
 #restaurant-review button { 
    height: 2rem;
-    background-color: #3397db;
+    background-color: #14598A;
     border-radius: 13px;
     cursor: pointer;
     width: 5rem;
