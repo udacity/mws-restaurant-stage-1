@@ -134,7 +134,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   }
   const ul = document.getElementById('reviews-list');
   
-  reviews.forEach(review => {
+  reviews.reverse().forEach(review => {
     ul.appendChild(createReviewHTML(review));
   });
   container.appendChild(ul);
@@ -220,8 +220,10 @@ addReview = () => {
   }
 
   DBHelper.addReview(review).then(()=>{
+    const container = document.getElementById('reviews-container');
     const ul = document.getElementById('reviews-list');
-    ul.appendChild(createReviewHTML(review));
+    ul.insertBefore(createReviewHTML(review), ul.firstChild);
+    container.appendChild(ul);
   }).catch((offlineReview)=>{ 
     console.log(offlineReview);
     const ul = document.getElementById('reviews-list');

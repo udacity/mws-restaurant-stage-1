@@ -138,13 +138,38 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.setAttribute('srcset', DBHelper.imgSetUrlForRestaurantSmall(restaurant));
   image.setAttribute('alt', `image from ${restaurant.name} restaurant`);
   image.setAttribute('tabindex', '0');
+
+  const  loadImage = image =>{
+    image.src = DBHelper.imageUrlForRestaurant(restaurant);
+    image.setAttribute('srcset', DBHelper.imgSetUrlForRestaurantSmall(restaurant));
+  }
+  observerConfig = { 
+    threshold: 0.1
+  }
+
+  if ('IntersectionObserver' in window) {
+    let observer = new IntersectionObserver(onChange, observerConfig);
+    observer.observe(image);
+  }else { 
+    loadImage(image);
+  }
+  
+  function onChange(changes, observer) {
+    changes.forEach(change => {
+      if (change.intersectionRatio > 0) {
+        loadImage(change.target);
+        observer.unobserve(change.target);
+      } else {
+        console.log('image isn\'t in the  view .');
+      }
+    });
+  }
+
+  
   li.append(image);
 
   const name = document.createElement('h2');
@@ -183,8 +208,8 @@ createRestaurantHTML = (restaurant) => {
  * change the class of favorite icon .
  */
 function changeFavIconClass (icon,  isFave) {
-  isFave = (isFave === 'true');
-  if (isFave) {
+  console.log(isFave);
+  if (isFave && isFave !== "false") {
     icon.classList.add('favorite');
     icon.setAttribute('aria-label', 'favorite this restaurant');
   } else { 

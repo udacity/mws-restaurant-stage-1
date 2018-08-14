@@ -22,8 +22,8 @@ gulp.task('scripts', function(cd){
 		// ,sourcemaps.write()
         ,gulp.dest('./js/uglified')
     ],cd)
-    gulp.src('./sw.js')
-        .pipe(gulp.dest('./dist'));
+    gulp.src('./*.js')
+        .pipe(gulp.dest('./js/uglified'));
 });
 
 gulp.task('gzip', function (){ 

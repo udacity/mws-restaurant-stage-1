@@ -343,14 +343,9 @@ class DBHelper {
       const  fetchOption = { 
         method: 'POST',
         body: JSON.stringify(reviewSend),
-        headers: new Headers({
-          'Content-type': 'application/json',
-          'mode' : 'no-cors',
-          'Access-Control-Allow-Credentials':true,
-          'Access-Control-Allow-Origin':true,
-          "Access-Control-Allow-Methods" : "GET,POST,PUT,DELETE,OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
-        })
+        // headers: new Headers({
+        //   'Content-type': 'application/json'
+        // })
       };
 
      return fetch(`${DBHelper.DATABASE_FOR_REVIEWS}`, fetchOption)
