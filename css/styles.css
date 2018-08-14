@@ -85,7 +85,8 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
+    /* width: calc(50% - 80px); */
+    width: 50%;
 }
 
 /* Display list items side by side */
@@ -337,69 +338,66 @@ nav h1 a {
 }
 
 /* ====================== Mobile Styles ====================== */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
 
-  #restaurants-list li {
-    width: calc((100vw - 102px)/2);
-  }
-
-  #restaurant-container, #reviews-container {
-    width: 100vw;
-    padding: 20px 40px 30px;
+  #restaurant-container,
+  #reviews-container {
+    width: 100%;
+    padding: 100px 40px 30px;
   }
 
   .inside #map-container {
     position: relative;
-    top: 0;
-    right: 0;
-    margin-top: 16vh;
-    height: 40vh;
-    width: 100vw;
-  }
-
-  #reviews-list li {
+    margin-top: 51px;
     width: 100%;
-  }
-
-  .inside #footer {
-    width: 100%;
+    height: 50vh;
   }
 
   #breadcrumb {
-    width: 100vw;
-  }
-}
-
-@media screen and (max-width: 580px) {
-  #restaurants-list li {
-    width: 100vw;
-  }
-  #restaurant-img,
-  #restaurant-cuisine {
     width: 100%;
   }
+
+  #restaurant-img,
+  #restaurant-cuisine,
+  #reviews-list li,
+  .inside #footer {
+    width: 100%;
+  }
+
+  #reviews-list li:last-of-type {
+    margin-bottom: 4rem;
+  }
 }
 
-@media screen and (min-width: 627px) and (max-width: 768px) {
-  #restaurant-container, #reviews-container {
-    width: 50%;
-    padding-top: 20vh;
-  }
+@media screen and (min-width: 600px) and (max-width: 768px) {
 
-  .inside #map-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    padding-top: 20px;
-    height: 80vh;
+  #breadcrumb {
     width: 50%;
   }
 
-  .inside #footer {
-    width: 50%;
-  }
-
+  #restaurant-img,
+  #restaurant-cuisine,
   #reviews-list li {
-    width: 90%;
+    width: 100%;
+  }
+
+  #reviews-list li:last-of-type {
+    margin-bottom: 6rem;
+  }
+
+  #restaurant-name {
+    font-size: 16pt;
+  }
+
+  #restaurant-container,
+  #reviews-container {
+    padding: 140px 15px 1px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+
+  #restaurants-list li {
+    width: calc((100vw - 102px)/2);
   }
 }

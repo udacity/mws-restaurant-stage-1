@@ -58,6 +58,7 @@ self.addEventListener('fetch', (event) => {
   // }
 });
 
+// possible refactor for general reuse
 const serveRestaurantData = (request) => {
   const storageUrl = 'data/restaurants.json';
   return caches.open(cacheName).then(cache => {
