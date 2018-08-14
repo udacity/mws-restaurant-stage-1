@@ -2,9 +2,9 @@
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('sw.js').then(registration => {
-        console.log('Service worker successfully registered on scope', registration.scope);
+        //console.log('Service worker successfully registered on scope', registration.scope);
       }).catch(error => {
-        console.log('Service worker failed to register');
+        //console.log('Service worker failed to register');
       });
     });
   }
@@ -43,8 +43,10 @@ fetchNeighborhoods = () => {
  */
 fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
+  select.setAttribute('aria-label', 'neighborhoods select options');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
+    option.setAttribute('aria-label', 'options');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
     select.append(option);
@@ -70,9 +72,10 @@ fetchCuisines = () => {
  */
 fillCuisinesHTML = (cuisines = self.cuisines) => {
   const select = document.getElementById('cuisines-select');
-
+  select.setAttribute('aria-label', 'Cuisine select options');
   cuisines.forEach(cuisine => {
     const option = document.createElement('option');
+    option.setAttribute('aria-label', 'options');
     option.innerHTML = cuisine;
     option.value = cuisine;
     select.append(option);
@@ -82,6 +85,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 /**
  * Initialize leaflet map, called from HTML.
  */
+
 initMap = () => {
   self.newMap = L.map('map', {
         center: [40.722216, -73.987501],
@@ -98,6 +102,7 @@ initMap = () => {
   }).addTo(newMap);
 
   updateRestaurants();
+  
 }
 /* window.initMap = () => {
   let loc = {
@@ -124,6 +129,7 @@ updateRestaurants = () => {
 
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
+  //cuisine.setAttribute('aria-label', '' + nSelect[cIndex].value);
 
   DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
     if (error) { // Got an error!
@@ -196,13 +202,16 @@ createRestaurantHTML = (restaurant) => {
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
+  neighborhood.setAttribute('aria-label', ''+ restaurant.neighborhood);
   li.append(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
+  address.setAttribute('aria-label', ''+ restaurant.address);
   li.append(address);
 
   const more = document.createElement('a');
+  more.setAttribute('aria-label', 'View Details of ' +  restaurant.name + ' Restaurant');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)

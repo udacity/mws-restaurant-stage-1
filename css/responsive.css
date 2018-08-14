@@ -1,4 +1,5 @@
 /* ====================== Make Responsive ====================== */
+/* make filter options responsive when screen is 480px width or lower */ 
 @media screen and (max-width: 480px) {
 	nav {
  		height: 105px;
@@ -15,6 +16,7 @@
     
 
 }
+/* make the nav heading smaller when screen is on 600px width or lower*/
 @media screen and (max-width: 600px) {
  	nav h1 a{
  		width: 100%;
@@ -32,6 +34,7 @@
 
 }
 
+/* make the review list and main content stretch and calculated the widths when the screen is 600px or higher */
 @media screen and (min-width: 600px) {
 
 #reviews-list li {
@@ -54,7 +57,7 @@
 	order: 1;
 	flex: 1 1 auto;
 	align-content: stretch;
-	height: 100%;
+	height: 400px;
 	width: 100%;
 
 }  
