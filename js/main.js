@@ -102,7 +102,7 @@ initMap = () => {
   }).addTo(newMap);
 
   updateRestaurants();
-  
+
 }
 /* window.initMap = () => {
   let loc = {
@@ -196,7 +196,7 @@ createRestaurantHTML = (restaurant) => {
 
   
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
   li.append(name);
 

@@ -1,3 +1,14 @@
+//Registering the Service Worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').then(registration => {
+        //console.log('Service worker successfully registered on scope', registration.scope);
+      }).catch(error => {
+        //console.log('Service worker failed to register');
+      });
+    });
+  }
+  
 let restaurant;
 var newMap;
 
@@ -88,26 +99,6 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
   address.setAttribute('aria-label', ''+ restaurant.address);
 
-  /* changes I made to the images */
-  /*const figure = document.getElementById('restaurant-img');
-  figure.removeAttribute('id');
-  const picture = figure.getElementsByTagName('picture')[0];
-
-  const imageSrc = DBHelper.imageUrlForRestaurant(restaurant);
-  const largeImageSrc = imageSrc.replace('.jpg', '-large_2x.jpg');
-  const normalImageSrc = imageSrc.replace('.jpg', '-normal_1x.jpg');
-  const smallImageSrc = imageSrc.replace('.jpg', '-small.jpg');
-
-  const source = document.createElement('source');
-  source.setAttribute('srcset', largeImageSrc + ' 2x,' + normalImageSrc + ' 1x');
-  picture.appendChild(source);
-
-  const image = document.createElement('img');
-  image.id = 'restaurant-img';
-  image.className = 'restaurant-img';
-  image.src = smallImageSrc;
-  image.setAttribute('alt', 'Image of ' + restaurant.name + ' Restaurant');
-  picture.appendChild(image);*/
 
   const image = document.getElementById('restaurant-img');
   image.setAttribute('alt', 'Image of ' + restaurant.name + ' Restaurant');
