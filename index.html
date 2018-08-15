@@ -34,12 +34,14 @@
           </select>
         </div>
         <div class="filter-option">
-          <label for="cuisines-select">Choose neighbourhood</label>
+          <label for="cuisines-select">Choose cuisine</label>
           <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
             <option value="all">All Cuisines</option>
           </select>
         </div>
       </div>
+
+      <h2 class="no-restaurant" aria-live="polite">No restaurant was found</h2>
       <ul id="restaurants-list"></ul>
     </section>
   </main>

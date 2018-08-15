@@ -337,6 +337,12 @@ nav h1 a {
   color: #064e8c;
 }
 
+.no-restaurant {
+  text-align: center;
+  margin: 3rem 0;
+  display: none;
+}
+
 /* ====================== Mobile Styles ====================== */
 @media screen and (max-width: 600px) {
 

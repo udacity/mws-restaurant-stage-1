@@ -144,6 +144,10 @@ updateRestaurants = () => {
  * Clear current restaurants, their HTML and remove their map markers.
  */
 resetRestaurants = (restaurants) => {
+  // Hide no restaurant text
+  const paragraph = document.querySelector('.no-restaurant');
+  paragraph.style.display = 'none';
+
   // Remove all restaurants
   self.restaurants = [];
   const ul = document.getElementById('restaurants-list');
@@ -162,6 +166,11 @@ resetRestaurants = (restaurants) => {
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
+  if (restaurants.length < 1) {
+    const paragraph = document.querySelector('.no-restaurant');
+    paragraph.style.display = 'block';
+    return;
+  }
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });

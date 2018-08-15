@@ -40,6 +40,16 @@ self.addEventListener('fetch', (event) => {
       return;
     }
 
+    if (requestUrl.pathname === '/js/main.js') {
+      event.respondWith(caches.match('js/main.js'));
+      return;
+    }
+
+    if (requestUrl.pathname === '/css/styles.css') {
+      event.respondWith(caches.match('css/styles.css'));
+      return;
+    }
+
     if (requestUrl.pathname === '/js/restaurant_info.js') {
       event.respondWith(caches.match('js/restaurant_info.js'));
       return;
