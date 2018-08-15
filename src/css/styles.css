@@ -2,8 +2,9 @@
 /* CSS Document */
 
 /* TODO: Remove unecessary Styles - DONE */
-/* TODO: Replace ID selectors with class selectors - DONE */
-/* TODO: Start a new line for each selector and declaration. - DONE*/
+/* TODO: Implement Udacity Style Guides - DONE */
+/* TODO: Implement Grid System - DONE */
+/* TODO: replace font-size's pt with px  */
 
 /*
   giving all elements a box-sizing:border-box
@@ -48,13 +49,14 @@ a {
 	color: orange;
 	text-decoration: none;
 }
+
 a:hover,
 a:focus {
 	color: #3397db;
 	text-decoration: none;
 }
 
-/*No such element exists in the page*/
+/* No such element exists in the page */
 /*
 a img{
 	border: none 0px #fff;
@@ -109,6 +111,7 @@ nav {
   height: 80px;
   background-color: #252831;
   text-align: center;
+  display: flex;
 }
 
 nav h1 {
@@ -117,7 +120,8 @@ nav h1 {
 
 nav h1 a {
   color: #fff;
-  font-size: 14pt;
+  /* font-size: 14pt; */
+  font-size: 1.25rem;
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
@@ -164,32 +168,55 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Filtering ====================== */
-.filter-options {
+.filter-wrapper {
   width: 100%;
-  height: 50px;
   background-color: #3397DB;
-  align-items: center;
+  padding: 8px 16px;
 }
 
 .filter-options h2 {
   color: #fff;
   font-size: 1rem;
   font-weight: normal;
+  margin: 0;
   line-height: 1;
-  margin: 0 20px;
 }
 
 .filter-options select {
   background-color: #fff;
   border: 1px solid #fff;
-  /* font-family: Arial,sans-serif;
-  font-size: 11pt; */
   font: 11pt Arial,sans-serif;
   height: 35px;
   letter-spacing: 0;
-  margin: 10px;
+  margin: 10px 0;
   padding: 0 10px;
-  width: 200px;
+  width: 100%;
+}
+
+@media screen and (min-width: 500px){
+  .filter-options select {
+    width: auto;
+    min-width: 200px;
+    margin: 0;
+  }
+
+  .filter-options h2,
+  .filter-options select:first-of-type {
+    display: inline-block;
+    margin-right: 18px;
+  }
+}
+
+
+@media screen and (min-width: 976px){
+  .filter-wrapper {
+    padding: 8px 0px;
+  }
+
+  .filter-options {
+    width: 960px;
+    margin: 0 auto;
+  }
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -197,19 +224,19 @@ nav h1 a {
   background-color: #f3f3f3;
   list-style: outside none none;
   margin: 0;
-  padding: 30px 15px 60px;
-  text-align: center;
+  padding: 20px 8px;
+  display: flex;
+  flex-flow: row wrap;
 }
 
 .restaurants-list li {
   background-color: #fff;
   border: 2px solid #ccc;
   font-family: Arial, sans-serif;
-  margin: 15px;
+  margin: 16px 0 0;
   min-height: 380px;
-  padding: 0 30px 25px;
-  text-align: left;
-  width: 270px;
+  padding: 16px;
+  width: 100%;
 }
 
 .restaurants-list .restaurant-img {
@@ -217,8 +244,8 @@ nav h1 a {
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
   min-width: 100%;
+  border-radius: 3px;
 }
 
 .restaurants-list li h1 {
@@ -248,6 +275,51 @@ nav h1 a {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+@media screen and (min-width: 500px){
+  /* 2 column grid with left over
+  space (8px) between every 2 cards
+  on the same line. */
+  .restaurants-list {
+    padding: 20px 8px;
+    justify-content: space-between;
+  }
+
+  .restaurants-list li {
+    width: calc((100% - 8px)/2);
+  }
+}
+
+@media screen and (min-width: 800px){
+  /* 3 column grid with left over
+  space (16px) between every 2 cards
+  on the same line. */
+
+  /* margins were used over "justify-content:
+  space-between" because if a the last row
+  only has 2 cards, then all remaining space will
+  go between the 2 cards. */
+  .restaurants-list {
+    justify-content: start;
+  }
+
+  .restaurants-list li {
+    width: calc((100% - 16px)/3);
+    margin-right: 8px;
+  }
+
+  .restaurants-list li:nth-child(3n) {
+    margin-right: 0;
+  }
+}
+
+@media screen and (min-width: 976px){
+  .restaurants-list {
+    margin: 0 auto;
+    padding: 20px 0;
+    width: 960px;
+  }
 }
 
 /* ====================== Restaurant Details ====================== */
