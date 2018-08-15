@@ -9,7 +9,7 @@ var markers = []
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   registerServiceWorker();
-  initMap(); // added 
+  initMap(); // added
   fetchNeighborhoods();
   fetchCuisines();
   DBHelper.offlineAlert();
