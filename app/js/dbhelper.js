@@ -222,3 +222,5 @@ class DBHelper {
   }
 
 }
+
+window.DBHelper = DBHelper;

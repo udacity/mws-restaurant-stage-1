@@ -4,8 +4,10 @@ var urlsToCache = [
   'js/dbhelper.js',
   'js/main.js',
   'js/idb.js',
-  // 'js/restaurant_info.js',
+  'js/restaurant_info.js',
   'css/styles.css',
+  'css/customs.css',
+  'index.html',
   'img/tiles/1_1x.jpg',
   'img/tiles/2_1x.jpg',
   'img/tiles/3_1x.jpg',
@@ -15,7 +17,8 @@ var urlsToCache = [
   'img/tiles/7_1x.jpg',
   'img/tiles/8_1x.jpg',
   'img/tiles/9_1x.jpg',
-  'img/tiles/10_1x.jpg'
+  'img/tiles/10_1x.jpg',
+  'img/ssForMapOptimized.png'
 ];
 
 self.addEventListener('install', event => {
@@ -35,8 +38,28 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(function(response) {
-        if (response) return response;
-        return fetch(event.request);
+        if (response) {
+          return response;
+        }
+
+        var fetchRequest = event.request.clone();
+
+        return fetch(fetchRequest).then(
+          function(response) {
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            var responseToCache = response.clone();
+
+            caches.open(CACHE_NAME)
+              .then(function(cache) {
+                cache.put(event.request, responseToCache);
+              });
+
+            return response;
+          }
+        );
       })
   );
 });
