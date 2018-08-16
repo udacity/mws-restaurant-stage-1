@@ -156,16 +156,41 @@ class DBHelper {
   /**
    * Map marker for a restaurant.
    */
-   static mapMarkerForRestaurant(restaurant, map) {
-    // https://leafletjs.com/reference-1.3.0.html#marker  
+  static mapMarkerForRestaurant(restaurant, map) {
+    // https://leafletjs.com/reference-1.3.0.html#marker
     const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng],
-      {title: restaurant.name,
-      alt: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant)
+      {
+        title: restaurant.name,
+        alt: restaurant.name,
+        url: DBHelper.urlForRestaurant(restaurant)
       })
-      marker.addTo(newMap);
+    marker.addTo(newMap);
     return marker;
-  } 
+  }
+
+  /**
+ * Display offline alert message
+ */
+  static offlineAlert() {
+    const alert = document.querySelector('.offline-alert');
+
+    // if (navigator.onLine) {
+    //   alert.style.display = "block";
+    // } else {
+    //   alert.style.display = "none";
+    // }
+
+    window.addEventListener('load', () => {
+      window.addEventListener('online', () => {
+        alert.style.display = "none";
+      });
+
+      window.addEventListener('offline', () => {
+        alert.style.display = "block";
+      });
+    });
+  }
+
   /* static mapMarkerForRestaurant(restaurant, map) {
     const marker = new google.maps.Marker({
       position: restaurant.latlng,
