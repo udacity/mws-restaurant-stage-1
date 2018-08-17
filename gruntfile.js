@@ -13,11 +13,10 @@ module.exports = function(grunt) {
           {
             name: 'normal',
             width: 400,
-            suffix: '_1x',
             quality: 30
           },
           {
-            name: 'large',
+            name: 'normal',
             width: 800,
             suffix: '_2x',
             quality: 30
