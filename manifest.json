@@ -13,11 +13,9 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "http://localhost:8000/",
+  "start_url": "/",
   "background_color": "#0277BD",
   "display": "standalone",
   "scope": "/",
   "theme_color": "#ffffff"
 }
-
-// reference: https://developers.google.com/web/fundamentals/web-app-manifest/
