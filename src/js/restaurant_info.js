@@ -91,7 +91,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.querySelector('.restaurant-img');
-  image.className = 'restaurant-img'
+  image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.querySelector('.restaurant-cuisine');
@@ -110,8 +110,13 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.querySelector('.restaurant-hours');
-  for (let key in operatingHours) {
 
+  for (let key in operatingHours) {
+    /*
+      wrapping the content of the for-in loop
+      in a conditional statement to prevent
+      it from from iterating over the prototype chain
+    */
     if (operatingHours.hasOwnProperty(key)) {
 
       const row = document.createElement('tr');
@@ -157,15 +162,18 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 createReviewHTML = (review) => {
   const li = document.createElement('li');
   const name = document.createElement('p');
+  name.className = 'review-name';
   name.innerHTML = review.name;
   li.appendChild(name);
 
   const date = document.createElement('p');
   date.innerHTML = review.date;
+  date.className = 'review-date';
   li.appendChild(date);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
+  rating.className = 'review-rating';
   li.appendChild(rating);
 
   const comments = document.createElement('p');
