@@ -1,0 +1,23 @@
+{
+  "short_name": "Reviews",
+  "name": "Restaurant Reviews App",
+  "icons": [
+    {
+      "src": "/img/icon-192.gif",
+      "type": "image/gif",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/icon-512.gif",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "http://localhost:8000/",
+  "background_color": "#0277BD",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#ffffff"
+}
+
+// reference: https://developers.google.com/web/fundamentals/web-app-manifest/
