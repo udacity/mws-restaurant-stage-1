@@ -210,7 +210,7 @@ nav h1 a {
 
 /* Add a color to all links inside the list */
 .breadcrumb li a {
-  color: #0275d8;
+  color: var(--primary-color);
   text-decoration: none;
 }
 
@@ -511,7 +511,7 @@ nav h1 a {
 
 
 .review-rating {
-  color: olive;
+  color: green;
 }
 
 .restaurant-hours {
