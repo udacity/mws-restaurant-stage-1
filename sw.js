@@ -48,20 +48,26 @@ self.addEventListener('activate', function(e) {
 });
 
 /*
-	If it's a MAP API asset request:
+	- If request if for an inside page respond with '/restaurant.html'
+	- If it's a MAP API asset request:
 		- if there is internet access:
 		 * fetch new data from the network.
 		 * update cache with new data.
 		- else:
 			* match the cache for a similar request and respond with it
-	else:
+	- else:
 		match other requests
 		- if request for an image respond with offline.png image
 */
 self.addEventListener('fetch', e => {
 	const mapAPIBaseUrl = 'https://api.tiles.mapbox.com/v4/';
+	const insideBaseUrl = `${location.origin}/restaurant.html?id=`;
 
-	if (e.request.url.includes(mapAPIBaseUrl)) {
+	if(e.request.url.includes(insideBaseUrl)){
+		e.respondWith(caches.match('/restaurant.html'));
+
+	} else if (e.request.url.includes(mapAPIBaseUrl)) {
+
 		e.respondWith(
 			fetch(e.request).then( res => {
 				console.log('Fetching from Network');
@@ -75,6 +81,7 @@ self.addEventListener('fetch', e => {
 				return caches.match(e.request);
 			})
 		);
+
 	} else {
 		e.respondWith(
 			caches.match(e.request).then(res => {
