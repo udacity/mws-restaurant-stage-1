@@ -158,12 +158,29 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
+  // create picture element
+  const picture = document.createElement('picture');
+  li.append(picture);
+
+  const myImage = DBHelper.imageUrlForRestaurant(restaurant);
+  const source = document.createElement('source');
+  source.media = '(min-width: 467px)';
+  source.srcset = myImage.normal + ' 1x,' + myImage.large + '2x';
+  picture.append(source);
+
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+  image.src = myImage.small;
+  /**
+  image.alt = ``;
+  image.title = ``;
+  **/
+  const altText = 'Image of ' + restaurant.name + ' restaurant in ' + restaurant.neighborhood;
+  image.title = altText;
+  image.alt = altText;
+  picture.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
 
@@ -175,9 +192,9 @@ createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address;
   li.append(address);
 
-  const more = document.createElement('a');
+  const more = document.createElement('button');
   more.innerHTML = 'View Details';
-  more.href = DBHelper.urlForRestaurant(restaurant);
+  more.addEventListener('click', () => { window.location.href = DBHelper.urlForRestaurant(restaurant); });
   li.append(more)
 
   return li
