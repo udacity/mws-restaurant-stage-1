@@ -162,9 +162,23 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
+  /* image sizes to use in srcset */
+  const imgSizes = ['300', '400', '600', '800'];
+  /* image size to use as fallback in src */
+  const defaultSize = '400';
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.src = DBHelper.imageUrlForRestaurant(
+    restaurant.photograph,
+    defaultSize
+  );
+  image.srcset = DBHelper.imageSrcsetForRestaurant(
+    restaurant.photograph,
+    imgSizes
+  );
+  image.sizes = `(min-width: 416px) and (max-width: 632px) 400px,
+                (min-width: 1248px) 400px,
+                300px`;
   image.setAttribute('alt', restaurant.name);
   li.append(image);
 
@@ -226,3 +240,19 @@ function handleRestoFocus(viewDetailsButton){
     console.log(e.target);
   });
 }
+
+/*
+  const imgSizes = ['300', '400', '500', '600', '800', '1000'];
+  const defaultSize = '500';
+
+  const image = document.createElement('img');
+  image.className = 'restaurant-img';
+  image.src = DBHelper.imageUrlForRestaurant(
+    restaurant.photograph,
+    defaultSize
+  );
+  image.srcset = DBHelper.imageSrcsetForRestaurant(
+    restaurant.photograph,
+    imgSizes
+  );
+  */

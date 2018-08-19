@@ -3,7 +3,10 @@
     "id": 1,
     "name": "Mission Chinese Food",
     "neighborhood": "Manhattan",
-    "photograph": "1.jpg",
+    "photograph": {
+      "name": "1",
+      "ext": "jpg"
+    },
     "address": "171 E Broadway, New York, NY 10002",
     "latlng": {
       "lat": 40.713829,
@@ -42,7 +45,10 @@
     "id": 2,
     "name": "Emily",
     "neighborhood": "Brooklyn",
-    "photograph": "2.jpg",
+    "photograph": {
+      "name": "2",
+      "ext": "jpg"
+    },
     "address": "919 Fulton St, Brooklyn, NY 11238",
     "latlng": {
       "lat": 40.683555,
@@ -81,7 +87,10 @@
     "id": 3,
     "name": "Kang Ho Dong Baekjeong",
     "neighborhood": "Manhattan",
-    "photograph": "3.jpg",
+    "photograph": {
+      "name": "3",
+      "ext": "jpg"
+    },
     "address": "1 E 32nd St, New York, NY 10016",
     "latlng": {
       "lat": 40.747143,
@@ -120,7 +129,10 @@
     "id": 4,
     "name": "Katz's Delicatessen",
     "neighborhood": "Manhattan",
-    "photograph": "4.jpg",
+    "photograph": {
+      "name": "4",
+      "ext": "jpg"
+    },
     "address": "205 E Houston St, New York, NY 10002",
     "latlng": {
       "lat": 40.722216,
@@ -159,7 +171,10 @@
     "id": 5,
     "name": "Roberta's Pizza",
     "neighborhood": "Brooklyn",
-    "photograph": "5.jpg",
+    "photograph": {
+      "name": "5",
+      "ext": "jpg"
+    },
     "address": "261 Moore St, Brooklyn, NY 11206",
     "latlng": {
       "lat": 40.705089,
@@ -198,7 +213,10 @@
     "id": 6,
     "name": "Hometown BBQ",
     "neighborhood": "Brooklyn",
-    "photograph": "6.jpg",
+    "photograph": {
+      "name": "6",
+      "ext": "jpg"
+    },
     "address": "454 Van Brunt St, Brooklyn, NY 11231",
     "latlng": {
       "lat": 40.674925,
@@ -237,7 +255,10 @@
     "id": 7,
     "name": "Superiority Burger",
     "neighborhood": "Manhattan",
-    "photograph": "7.jpg",
+    "photograph": {
+      "name": "7",
+      "ext": "jpg"
+    },
     "address": "430 E 9th St, New York, NY 10009",
     "latlng": {
       "lat": 40.727397,
@@ -276,7 +297,10 @@
     "id": 8,
     "name": "The Dutch",
     "neighborhood": "Manhattan",
-    "photograph": "8.jpg",
+    "photograph": {
+      "name": "8",
+      "ext": "jpg"
+    },
     "address": "131 Sullivan St, New York, NY 10012",
     "latlng": {
       "lat": 40.726584,
@@ -315,7 +339,10 @@
     "id": 9,
     "name": "Mu Ramen",
     "neighborhood": "Queens",
-    "photograph": "9.jpg",
+    "photograph": {
+      "name": "9",
+      "ext": "jpg"
+    },
     "address": "1209 Jackson Ave, Queens, NY 11101",
     "latlng": {
       "lat": 40.743797,
@@ -354,7 +381,10 @@
     "id": 10,
     "name": "Casa Enrique",
     "neighborhood": "Queens",
-    "photograph": "10.jpg",
+    "photograph": {
+      "name": "10",
+      "ext": "jpg"
+    },
     "address": "5-48 49th Ave, Queens, NY 11101",
     "latlng": {
       "lat": 40.743394,
@@ -390,5 +420,5 @@
       }
     ]
   }],
-  "MAPBOX_TOKEN": "pk.eyJ1Ijoic2FsYWhoYW16YSIsImEiOiJjamtyaHJubW4xbDJwM3FxbDV1cTlkb3c4In0.womB79P_M4exflxmpIX4_A" 
+  "MAPBOX_TOKEN": "pk.eyJ1Ijoic2FsYWhoYW16YSIsImEiOiJjamtyaHJubW4xbDJwM3FxbDV1cTlkb3c4In0.womB79P_M4exflxmpIX4_A"
 }

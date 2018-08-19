@@ -1,12 +1,57 @@
 module.exports = function(grunt) {
 
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
+    pkg: grunt.file.readJSON('package.json'),
+
+    responsive_images: {
+      dev: {
+        options: {
+          sizes: [{
+            width: 300,
+            suffix: 'w',
+            quality: 80
+          },{
+            width: 400,
+            suffix: 'w',
+            quality: 80
+          }, {
+            width: 500,
+            suffix: 'w',
+            quality: 80
+          }, {
+            width: 600,
+            suffix: 'w',
+            quality: 80
+          }, {
+            width: 800,
+            suffix: 'w',
+            quality: 80
+          }, {
+            width: 1000,
+            suffix: 'w',
+            quality: 60,
+            upscale: true
+          }, {
+            width: 1200,
+            suffix: 'w',
+            quality: 60,
+            upscale: true
+          }]
+        },
+
+        files: [{
+          expand: true,
+          src: ['img/*.{gif,jpg,png}'],
+          cwd: 'src',
+          dest: 'build'
+        }]
+      }
+    },
 
     /* Clear out the assets directory if it exists */
     clean: {
       dev: {
-        src: ['build', 'build'],
+        src: ['build'],
       },
     },
 
@@ -25,17 +70,17 @@ module.exports = function(grunt) {
         files: [{
 					expand: true,
 					cwd: 'src',
-					src: ['css/**', 'img/**', 'data/**', 'js/**'],
+					src: ['css/**', 'data/**', 'js/**'],
 					dest: 'build/'
         }]
 			}
     },
 	});
 
-	 grunt.loadNpmTasks('grunt-contrib-clean');
-	 grunt.loadNpmTasks('grunt-contrib-copy');
-	 grunt.loadNpmTasks('grunt-mkdir');
-	 grunt.registerTask('default', ['clean', 'mkdir', 'copy']);
-};
+  grunt.loadNpmTasks('grunt-responsive-images');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-mkdir');
 
-//MAPBOX_TOKEN=pk.eyJ1Ijoic2FsYWhoYW16YSIsImEiOiJjamtyaHJubW4xbDJwM3FxbDV1cTlkb3c4In0.womB79P_M4exflxmpIX4_A
+  grunt.registerTask('default', ['clean', 'mkdir', 'copy', 'responsive_images']);
+};

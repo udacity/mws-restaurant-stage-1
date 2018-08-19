@@ -162,8 +162,20 @@ class DBHelper {
   /**
    * Restaurant image URL.
    */
-  static imageUrlForRestaurant(restaurant) {
-    return (`build/img/${restaurant.photograph}`);
+  static imageUrlForRestaurant(photograph, size) {
+    return (
+      `build/img/${photograph.name}-${size}w.${photograph.ext}`
+    );
+  }
+
+  static imageSrcsetForRestaurant(photograph, sizes=[]){
+    const imgPaths = [];
+    sizes.forEach(size => {
+      imgPaths.push(
+        `build/img/${photograph.name}-${size}w.${photograph.ext} ${size}w`
+      );
+    });
+    return imgPaths.join(', ');
   }
 
   /**

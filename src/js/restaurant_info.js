@@ -90,9 +90,22 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const address = document.querySelector('.restaurant-address');
   address.innerHTML = restaurant.address;
 
+  /* image sizes to use in srcset */
+  const imgSizes = ['300', '400', '500', '600', '800', '1000', '1200'];
+  /* image size to use as fallback in src */
+  const defaultSize = '600';
+
   const image = document.querySelector('.restaurant-img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.src = DBHelper.imageUrlForRestaurant(
+    restaurant.photograph,
+    defaultSize
+  );
+  image.srcset = DBHelper.imageSrcsetForRestaurant(
+    restaurant.photograph,
+    imgSizes
+  );
+  image.sizes = '(min-width: 632px) 600px, 100vw';
 
   const cuisine = document.querySelector('.restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
