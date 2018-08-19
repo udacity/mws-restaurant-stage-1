@@ -58,6 +58,13 @@ self.addEventListener('activate', function(e) {
 	- else:
 		match other requests
 		- if request for an image respond with offline.png image
+
+NOTE: the offline image was inspired by james priest's
+https://james-priest.github.io/mws-restaurant-stage-1/stage1.html
+
+NOTE: overall handling of the service worker is self implemented due
+to extra learning from this article by Jake Archibald
+https://jakearchibald.com/2014/offline-cookbook/
 */
 self.addEventListener('fetch', e => {
 	const mapAPIBaseUrl = 'https://api.tiles.mapbox.com/v4/';
