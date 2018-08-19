@@ -106,6 +106,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     imgSizes
   );
   image.sizes = '(min-width: 632px) 600px, 100vw';
+  image.setAttribute('alt', restaurant.name);
 
   const cuisine = document.querySelector('.restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
