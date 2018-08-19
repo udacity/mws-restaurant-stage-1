@@ -240,19 +240,3 @@ function handleRestoFocus(viewDetailsButton){
     console.log(e.target);
   });
 }
-
-/*
-  const imgSizes = ['300', '400', '500', '600', '800', '1000'];
-  const defaultSize = '500';
-
-  const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(
-    restaurant.photograph,
-    defaultSize
-  );
-  image.srcset = DBHelper.imageSrcsetForRestaurant(
-    restaurant.photograph,
-    imgSizes
-  );
-  */
