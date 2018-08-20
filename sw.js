@@ -1,12 +1,13 @@
 // Start a cache
 
-var cacheName = 'mws-restaurant-v3';
+var cacheName = 'mws-restaurant-v4';
 var urlsToCache = [
       '/',
       '/restaurant.html',
       '/index.html',
       '/manifest.json',
-      '/certificates.js'
+      '/certificates.js',
+      '/css'
      ];
 
 // Open the cache & add urls     

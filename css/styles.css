@@ -33,8 +33,13 @@ li {
 }
 
 a {
-	color: #E65100;
+	color: #9E3500;
 	text-decoration: none;
+}
+
+footer a {
+  color: #ffffff;
+  text-decoration: underline;
 }
 
 a:hover,
@@ -220,7 +225,7 @@ nav h1 a {
 }
 
 select:focus {
-  outline: auto 5px #E65100;
+  outline: auto 5px #9E3500;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -278,7 +283,7 @@ select:focus {
 
 #restaurants-list li a,
 button {
-  background-color: #E65100;
+  background-color: #9E3500;
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
