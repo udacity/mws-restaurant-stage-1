@@ -1,4 +1,4 @@
-let cacheName = "restaurant-cache-v1";
+let CACHE_NAME = "restaurant-cache-v1";
 
 let filesToCache = [
     "./",
@@ -10,7 +10,17 @@ let filesToCache = [
     "./data/restaurants.json",
     "./css/styles.css",
     "https://unpkg.com/leaflet@1.3.1/dist/leaflet.css",
-    "https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+    "https://unpkg.com/leaflet@1.3.1/dist/leaflet.js",
+    "./img/1.jpg",
+    "./img/2.jpg",
+    "./img/3.jpg",
+    "./img/4.jpg",
+    "./img/5.jpg",
+    "./img/6.jpg",
+    "./img/7.jpg",
+    "./img/8.jpg",
+    "./img/9.jpg",
+    "./img/10.jpg"
 ];
 
 self.addEventListener("install", event => {
@@ -22,29 +32,29 @@ self.addEventListener("install", event => {
     );
 });
 
-/*
-* check for a response for request in cache
-* otherwise request resource over network and cache response
-*/
-self.addEventListener("fetch", event => {
-    let requestUrl = new URL(event.request.url);
-    console.log(requestUrl);
-    if (requestUrl.protocol.startsWith("https")) {
-        event.respondWith(
-            caches.open(cacheName).then(cache => {
-                return cache
-                    .match(e.request, { ignoreSearch: true })
-                    .then(response => {
-                        if (response) {
-                            return response;
-                        }
+self.addEventListener("activate", event => {
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames
+                    .filter(cacheName => {
+                        return (
+                            cacheName.startsWith("restaurant-cache-") &&
+                            cacheName != CACHE_NAME
+                        );
+                    })
+                    .map(cacheName => {
+                        return caches.delete(cacheName);
+                    })
+            );
+        })
+    );
+});
 
-                        return fetch(e.request).then(networkResponse => {
-                            cache.put(e.request, networkResponse.clone());
-                            return networkResponse;
-                        });
-                    });
-            })
-        );
-    }
+self.addEventListener("fetch", event => {
+    event.respondWith(
+        caches.match(event.request).then(response => {
+            return response || fetch(event.request);
+        })
+    );
 });
