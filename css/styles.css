@@ -12,9 +12,17 @@ body {
 	margin: 0;
   position:relative;
   /* mycode */
-  max-width: 1100px;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+}
+@media screen and (max-width: 480px) {
+  body {
+    max-width: none;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
@@ -58,6 +66,7 @@ nav {
   /* height: 80px; */
   background-color: #252831;
   text-align:center;
+  padding: 10px 0;
 }
 nav h1 {
   margin: auto;
@@ -76,7 +85,7 @@ nav h1 a {
     font-size: 17px;
     margin: 0;
     /* TODO: adjust to max-width: ; */
-    width: calc(50% - 80px);
+    max-width: 100%;
 }
 
 /* Display list items side by side */
@@ -110,7 +119,7 @@ nav h1 a {
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
-  width: 100%;
+  /* width: 100%; */
   /*TODO: remove height, use padding */
   /* height: 90px; */
   padding: 20px;
@@ -199,7 +208,7 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Details ====================== */
-/* TODO: remove all .inside */
+/* TODO: remove all .inside? This is confusing something*/
 .inside header {
   position: fixed;
   top: 0;
@@ -230,7 +239,7 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: 100%;
 }
 #restaurant-name {
   color: #f18200;
@@ -294,8 +303,8 @@ nav h1 a {
   list-style-type: none;
   margin: 0 0 30px;
   overflow: hidden;
-  padding: 0 20px 20px;
-  position: relative;
+  padding: 20px 20px;
+  /* position: relative; */
   width: 70%;
 }
 #reviews-list li p {
