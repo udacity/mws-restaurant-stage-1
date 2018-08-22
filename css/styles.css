@@ -6,7 +6,7 @@ td,
 th,
 p {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 10pt;
+    font-size: 0.9rem;
     color: #333;
     line-height: 1.5;
 }
@@ -17,12 +17,12 @@ body {
     position: relative;
     height: 100vh;
     width: 100%;
+    font-size: 10px;
 }
 
 ul,
 li {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 10pt;
     color: #333;
 }
 
@@ -74,7 +74,7 @@ section {
 #footer {
     background-color: #444;
     color: #aaa;
-    font-size: 8pt;
+    font-size: 0.5rem;
     letter-spacing: 1px;
     padding: 1rem;
     text-align: center;
@@ -95,7 +95,7 @@ nav h1 {
 
 nav h1 a {
     color: #fff;
-    font-size: 14pt;
+    font-size: 1.2rem;
     font-weight: 200;
     letter-spacing: 10px;
     text-transform: uppercase;
@@ -157,7 +157,7 @@ nav h1 a {
 
 .filter-options h2 {
     color: white;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: normal;
     line-height: 1;
     margin: 0 20px;
@@ -182,7 +182,7 @@ nav h1 a {
     background-color: #f3f3f3;
     list-style: outside none none;
     margin: 0;
-    padding: 2rem 1rem;
+    padding: 2rem 0;
     text-align: center;
 }
 
@@ -200,7 +200,6 @@ nav h1 a {
     display: block;
     margin: 0;
     width: 100%;
-    min-height: 248px;
 }
 
 #restaurants-list li h1 {
@@ -216,20 +215,19 @@ nav h1 a {
 
 #restaurants-list p {
     margin: 0;
-    font-size: 11pt;
 }
 
 #restaurants-list li a {
     background-color: orange;
-    border-bottom: 3px solid #eee;
+    border-bottom: 2px solid #eee;
     color: #fff;
     display: inline-block;
-    font-size: 10pt;
-    margin: 15px 0 0;
-    padding: 8px 30px 10px;
+    margin: 1rem 0 0;
+    padding: 0.5rem 1rem;
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+    font-size: 0.8rem;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -337,4 +335,16 @@ nav h1 a {
 
 #restaurant-hours td {
     color: #666;
+}
+
+@media (min-width: 1024px) {
+    #restaurants-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        padding: 2rem 1rem;
+    }
+    #restaurants-list li {
+        width: 16rem;
+    }
 }
