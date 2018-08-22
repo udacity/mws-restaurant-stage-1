@@ -10,7 +10,11 @@ body,td,th,p{
 body {
 	background-color: #fdfdfd;
 	margin: 0;
-	position:relative;
+  position:relative;
+  /* mycode */
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
@@ -51,7 +55,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
-  height: 80px;
+  /* height: 80px; */
   background-color: #252831;
   text-align:center;
 }
@@ -60,7 +64,7 @@ nav h1 {
 }
 nav h1 a {
   color: #fff;
-  font-size: 24pt;
+  font-size: 24px;
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
@@ -71,6 +75,7 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
+    /* TODO: adjust to max-width: ; */
     width: calc(50% - 80px);
 }
 
@@ -106,7 +111,10 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  height: 90px;
+  /*TODO: remove height, use padding */
+  /* height: 90px; */
+  padding: 20px;
+
   background-color: #3397DB;
   align-items: center;
 }
@@ -135,8 +143,12 @@ nav h1 a {
   background-color: #f3f3f3;
   list-style: outside none none;
   margin: 0;
+  /* MYCODE what is flex-direction */
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+
   padding: 30px 15px 60px;
   text-align: center;
 }
@@ -150,12 +162,13 @@ nav h1 a {
   text-align: left;
   width: 270px;
 }
+/* TODO: set max-width for 3 diff media query breakpoints */
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;
   margin: 25px 0;
   max-width: 100%;
-  min-height: 248px;
+  /* min-height: 248px; */
   min-width: 100%;
 }
 #restaurants-list li h1 {
@@ -186,6 +199,7 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Details ====================== */
+/* TODO: remove all .inside */
 .inside header {
   position: fixed;
   top: 0;
