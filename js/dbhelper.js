@@ -8,7 +8,7 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 1337 // Change this to your server port
+    const port = 1337; // Change this to your server port
     return `http://localhost:${port}/restaurants`;
   }
 
@@ -18,31 +18,32 @@ class DBHelper {
 
    // currently, this task any id in the URL, as a pass. Check against available in JSON
 
-  static fetchRestaurants (id) {
+/**
+  static fetchRestaurants (callback, id) {
     let fetchURL; // fetch URL is undefined
      // Find the ID
-      if (!!id) {
-        fetchURL = DBHelper.DATABASE_URL + '/' + id; 
+      if (!id) {
+        fetchURL = DBHelper.DATABASE_URL;
       // show the id at its URL
-        console.log('Success! We see the data');
+        
      } else {
      // If not, do something else or Show an error
-        fetchURL = DBHelper.DATABASE_URL
+        fetchURL = DBHelper.DATABASE_URL + '/' + id; 
         console.log('Opps. Restaurant ID not found') // not working. should false come
      }
 
    }
+**/
 
 
 
-
-  /**static fetchRestaurants(callback) {
+  static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
         const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
+        const restaurants = json;
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
@@ -50,7 +51,7 @@ class DBHelper {
       }
     };
     xhr.send();
-  }**/
+  }
 
   /**
    * Fetch a restaurant by its ID.
@@ -61,7 +62,8 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        const restaurant = restaurants.find(r => r.id == id);
+        // const restaurant = restaurants.find(r => r.id == id);
+        const restaurant = restaurants // new file is named restaurants
         if (restaurant) { // Got the restaurant
           callback(null, restaurant);
         } else { // Restaurant does not exist in the database
@@ -81,7 +83,8 @@ class DBHelper {
         callback(error, null);
       } else {
         // Filter restaurants to have only given cuisine type
-        const results = restaurants.filter(r => r.cuisine_type == cuisine);
+        const results = restaurants.filter(r => r.cuisine == cuisine); // Why does this work now when it wasn't needed before?
+        console.log(restaurant.cuisine_type);
         callback(null, results);
       }
     });
