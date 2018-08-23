@@ -1,4 +1,4 @@
-pw/**
+/**
  * Common database helper functions.
  */
 class DBHelper {
@@ -15,7 +15,28 @@ class DBHelper {
   /**
    * Fetch all restaurants.
    */
-  static fetchRestaurants(callback) {
+
+   // currently, this task any id in the URL, as a pass. Check against available in JSON
+
+  static fetchRestaurants (id) {
+    let fetchURL; // fetch URL is undefined
+     // Find the ID
+      if (!!id) {
+        fetchURL = DBHelper.DATABASE_URL + '/' + id; 
+      // show the id at its URL
+        console.log('Success! We see the data');
+     } else {
+     // If not, do something else or Show an error
+        fetchURL = DBHelper.DATABASE_URL
+        console.log('Opps. Restaurant ID not found') // not working. should false come
+     }
+
+   }
+
+
+
+
+  /**static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
     xhr.onload = () => {
@@ -29,7 +50,7 @@ class DBHelper {
       }
     };
     xhr.send();
-  }
+  }**/
 
   /**
    * Fetch a restaurant by its ID.
@@ -150,7 +171,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (`/img/${restaurant.photograph}.jpg`);
   }
 
   /**
