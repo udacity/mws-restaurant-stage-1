@@ -164,7 +164,7 @@ nav h1 a {
   background-color: #f3f3f3;
   list-style: outside none none;
   margin: 0;
-  /* MYCODE what is flex-direction */
+  /* MYCODE  */
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
