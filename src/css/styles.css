@@ -1,15 +1,38 @@
 @charset "utf-8";
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 /* CSS Document */
 
 /* TODO: Remove unecessary Styles - DONE */
 /* TODO: Implement Udacity Style Guides - DONE */
 /* TODO: Implement Grid System - DONE */
 /* TODO: Fix Color contrast - DONE*/
+/* TODO: Provide better commenting - NOT DONE*/
 
+
+/*
+  Gathering all theme colors in one place
+  So that it wouldn't be hard to change it
+  later, if I feel like it
+*/
 :root {
-  --primary-color: #252831;
+  /* primary Color and variants */
+  --primary-color: #252831 /* prime */;
+  --primary-color-dr: #32353c/* footer - Cuisine */;
+  --primary-color-lt: #51576b/* Headings */;
+  /* secondary color and variants*/
+  /* UI Components fallback and color */
   --secondary-color: #616678;
-  --light-dark-color: #bebfca;
+  --secondary-color-lt: #bebfca;
+  /* Teriary color */
+  /* UI compenents and colors */
+  /* --tertiary-color: #92731c; */
+  --tertiary-color: #8e7120;
+  --tertiary-color-lt: #dea810;
+  /* Text Color*/
+  --txt-color: #333;
+  /* background-color */
+  --bg-color: #fdfdfd;
+  /* Shadow */
   --card-shaddow: 0 0 2px rgba(0,0,0,0.12),
                   0 2px 4px rgba(0,0,0,0.24);
 }
@@ -33,25 +56,14 @@ body,
 td,
 th,
 p {
-	/* font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
-  line-height: 1.5; */
-	color: #333;
+  color: var(--txt-color);
   font: 10pt/1.5 Arial, Helvetica, sans-serif;
 }
 
 body {
-	background-color: #fdfdfd;
+	background-color: var(--bg-color);
 	margin: 0;
 	position: relative;
-}
-
-ul,
-li {
-	/* font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt; */
-  font: 10pt Arial, Helvetica, sans-serif;
-	color: #333;
 }
 
 a {
@@ -59,21 +71,14 @@ a {
   text-decoration: none;
 }
 
-
-/* No such element exists in the page */
-/*
-a img{
-	border: none 0px #fff;
-}
-*/
-
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Lato', Arial, Helvetica, sans-serif;
+  font-weight: 400;
   margin: 0 0 20px;
 }
 
@@ -99,13 +104,13 @@ img {
 
 /* replace #maincontent with main since it's unique */
 main {
-  background-color: #f3f3f3;
+  background-color: var(--bg-color);
   min-height: 100%;
 }
 
 /* replace #footer with footer since it's unique */
 footer {
-  background-color: #444;
+  background-color: var(--primary-color-dr);
   color: #fff;
   font-size: 8pt;
   letter-spacing: 1px;
@@ -115,7 +120,8 @@ footer {
 }
 
 footer a {
-  color: var(--light-dark-color);
+  color: var(--tertiary-color-lt);
+  transition: all 0.3s ease;
 }
 
 footer a:hover,
@@ -137,6 +143,10 @@ footer a:focus {
 
 
 /* ====================== Navigation ====================== */
+
+/****************
+     Header
+****************/
 nav {
   width: 100%;
   height: 80px;
@@ -145,24 +155,24 @@ nav {
   display: flex;
 }
 
-nav h1 {
+/* ".brand" previously selected as "nav h1" */
+.brand {
   margin: auto;
 }
 
-nav h1 a {
+.brand a {
   color: #fff;
   font-size: 14pt;
-  font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
 }
 
 @media screen and (min-width: 500px) {
-  nav h1 {
+  .brand {
     position: relative;
   }
 
-  nav h1:before {
+  .brand:before {
     content: "";
     position: absolute;
     width: 98%;
@@ -175,12 +185,15 @@ nav h1 a {
     transition: all 0.5s ease-in-out 0s;
   }
 
-  nav h1:hover:before {
+  .brand:hover:before {
     visibility: visible;
     transform: scaleX(1);
   }
 }
 
+/****************
+    Breadcrumb
+****************/
 .breadcrumb-wrapper {
   height: auto;
   text-align: left;
@@ -190,10 +203,20 @@ nav h1 a {
 .breadcrumb {
   padding: 16px;
   list-style: none;
-  background-color: #eee;
-  font-size: 17px;
+	background-color: var(--bg-color);
   margin: 0;
   width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+  .breadcrumb li:last-of-type {
+    display: none;
+  }
+
+  .breadcrumb li:first-of-type::before {
+    content: '<<';
+    margin-right: 6px;
+  }
 }
 
 /* Display list items side by side */
@@ -210,13 +233,13 @@ nav h1 a {
 
 /* Add a color to all links inside the list */
 .breadcrumb li a {
-  color: var(--primary-color);
+  color: var(--tertiary-color);
   text-decoration: none;
 }
 
 /* Add a color on mouse-over */
 .breadcrumb li a:hover {
-  color: #01447e;
+  color: var(--txt-color);
   text-decoration: underline;
 }
 
@@ -224,7 +247,7 @@ nav h1 a {
 .map {
   height: 400px;
   width: 100%;
-  background-color: #ccc;
+	background-color: var(--secondary-color-lt);
 }
 
 /* ====================== Restaurant Filtering ====================== */
@@ -236,7 +259,7 @@ nav h1 a {
 
 .filter-options select {
   background-color: #fff;
-  font: 11pt Arial,sans-serif;
+  font-size: 11pt;
   border-radius: 3px;
   min-height: 48px;
   letter-spacing: 0;
@@ -247,7 +270,7 @@ nav h1 a {
 
 .filter-options select:focus {
   outline: none;
-  border: 2px solid orange;
+  border: 2px solid var(--tertiary-color-lt);
 }
 
 @media screen and (min-width: 632px){
@@ -266,9 +289,7 @@ nav h1 a {
     margin: 0;
   }
 
-  .filter-options h2,
   .filter-options select:first-of-type {
-    display: inline-block;
     margin-right: 18px;
   }
 }
@@ -288,7 +309,7 @@ nav h1 a {
 
 /* ====================== Restaurant Listing ====================== */
 .restaurants-list {
-  background-color: #f3f3f3;
+  background-color: var(--bg-color);
   list-style: outside none none;
   margin: 0;
   padding: 20px 8px;
@@ -299,7 +320,7 @@ nav h1 a {
   margin: 0 auto;
 }
 
-.restaurants-list li {
+.restaurant-item {
   background-color: #fff;
   box-shadow: var(--card-shaddow);
   border-radius: 3px;
@@ -310,7 +331,7 @@ nav h1 a {
 }
 
 .restaurants-list .restaurant-img {
-  background-color: #ccc;
+	background-color: var(--secondary-color-lt);
   display: block;
   margin: 0;
   min-width: 100%;
@@ -321,12 +342,9 @@ nav h1 a {
   padding: 16px;
 }
 
-.restaurants-list li h1 {
-  /* color: #f18200; */
-  color: var(--secondary-color);
-  font-family: Arial,sans-serif;
+.restaurant-item h1 {
+  color: var(--primary-color-lt);
   font-size: 14pt;
-  font-weight: 200;
   letter-spacing: 0;
   line-height: 1.3;
   margin: 0 0 10px;
@@ -338,11 +356,11 @@ nav h1 a {
   font-size: 11pt;
 }
 
-.restaurants-list li a {
+.restaurant-item a {
   background-color: #fff;
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--tertiary-color);
   border-radius: 1px;
-  color: var(--primary-color);
+  color: var(--tertiary-color);
   display: inline-block;
   font-size: 10pt;
   margin: 15px 0 0;
@@ -353,9 +371,9 @@ nav h1 a {
   transition: color 0.3s ease, background 0.3s ease;
 }
 
-.restaurants-list li a:hover,
-.restaurants-list li a:focus {
-  background-color: var(--primary-color);
+.restaurant-item a:hover,
+.restaurant-item a:focus {
+  background-color: var(--tertiary-color);
   color: #fff;
 }
 
@@ -369,7 +387,7 @@ nav h1 a {
     max-width: 616px;
   }
 
-  .restaurants-list li {
+  .restaurant-item {
     width: calc((100% - 16px)/2);
   }
 }
@@ -388,12 +406,12 @@ nav h1 a {
     max-width: 932px;
   }
 
-  .restaurants-list li {
+  .restaurant-item {
     width: calc((100% - 36px)/3);
     margin-right: 16px;
   }
 
-  .restaurants-list li:nth-child(3n) {
+  .restaurant-item:nth-child(3n) {
     margin-right: 0;
   }
 }
@@ -414,9 +432,8 @@ nav h1 a {
 }
 
 .restaurant-name {
-  color: var(--secondary-color);
+  color: var(--primary-color-lt);
   font-size: 20pt;
-  font-weight: 200;
   letter-spacing: 0;
   margin: 15px 0 30px;
   text-transform: uppercase;
@@ -433,11 +450,12 @@ nav h1 a {
 }
 
 .restaurant-cuisine {
-  background-color: #333;
-  border-radius: 0 0 3px 3px;
-  color: #ddd;
+  font-family: 'Lato', Arial, Helvetica, sans-serif;
   font-size: 12pt;
-  font-weight: 300;
+  font-weight: 700;
+	background-color: var(--tertiary-color);
+  border-radius: 0 0 3px 3px;
+  color: #fff;
   letter-spacing: 10px;
   margin: 0 0 20px;
   padding: 2px 0;
@@ -467,9 +485,8 @@ nav h1 a {
 }
 
 .reviews-container h2 {
-  color: var(--secondary-color);
+  color: var(--primary-color-lt);
   font-size: 24pt;
-  font-weight: 300;
   letter-spacing: -1px;
   padding-bottom: 1pt;
 }
@@ -501,17 +518,19 @@ nav h1 a {
 }
 
 .review-name {
+  color: var(--secondary-color);
   display: inline-block;
   font-weight: 600;
 }
 
 .review-date {
+  color: var(--secondary-color);
   float: right;
 }
 
 
 .review-rating {
-  color: green;
+  color: var(--tertiary-color);
 }
 
 .restaurant-hours {
@@ -519,12 +538,9 @@ nav h1 a {
 }
 
 .restaurant-hours td {
-  color: #444;
   padding-bottom: 8px;
 }
 
 .restaurant-hours td:first-child {
   font-weight: 600;
 }
-
-

@@ -161,6 +161,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  li.className = 'restaurant-item';
 
   /* image sizes to use in srcset */
   const imgSizes = ['300', '400', '600', '800'];
@@ -179,7 +180,7 @@ createRestaurantHTML = (restaurant) => {
   image.sizes = `(min-width: 416px) and (max-width: 632px) 400px,
                 (min-width: 1248px) 400px,
                 300px`;
-  image.setAttribute('alt', restaurant.name);
+  image.alt = `This is an image of the ${restaurant.name} restaurant`;
   li.append(image);
 
   const info = document.createElement('div');

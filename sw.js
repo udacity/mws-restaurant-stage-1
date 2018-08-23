@@ -22,7 +22,9 @@ self.addEventListener('install', (e) => {
 				/* Caching map assets */
 				'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
 				'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
-				'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png'
+				'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png',
+				/* Cashing font face */
+				'https://fonts.googleapis.com/css?family=Lato:400,700'
 			]);
 		})
 	);
