@@ -153,6 +153,8 @@ createReviewHTML = (review) => {
   const name = document.createElement('p');
   name.innerHTML = review.name;
   li.appendChild(name);
+  //mycode
+  li.tabIndex = 0;
 
   const date = document.createElement('p');
   date.innerHTML = review.date;
