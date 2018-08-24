@@ -1,7 +1,6 @@
 let restaurant;
 var map;
 
-
 /**
  * Initialize map as soon as the page is loaded.
  */
@@ -134,6 +133,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     if (operatingHours.hasOwnProperty(key)) {
 
       const row = document.createElement('tr');
+      row.setAttribute('tabindex', '0');
 
       const day = document.createElement('td');
       day.innerHTML = key;
@@ -153,6 +153,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.querySelector('.reviews-container');
+
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
@@ -175,7 +176,9 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+
   const name = document.createElement('p');
+  name.setAttribute('tabindex', '0');
   name.className = 'review-name';
   name.innerHTML = review.name;
   li.appendChild(name);
@@ -195,22 +198,27 @@ createReviewHTML = (review) => {
   return li;
 };
 
+/**
+ * Create rating element as stars
+ */
 createRatingElement = (reviewRating) => {
   const $rating = document.createElement('p');
   $rating.className = 'review-rating';
+
   const hollowStars = 5 - reviewRating;
+
   for(let i=0; i<reviewRating; i++){
     const $star = document.createElement('span');
-    $star.className = 'rating-star';
     $star.innerHTML = '★';
     $rating.appendChild($star);
   }
+
   for(let i=0; i<hollowStars; i++){
     const $star = document.createElement('span');
-    $star.className = 'rating-star';
     $star.innerHTML = '☆';
     $rating.appendChild($star);
   }
+
   return $rating;
 }
 

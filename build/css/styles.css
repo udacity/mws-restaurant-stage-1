@@ -42,7 +42,8 @@
   to have more control over sizes
 */
 html {
-	box-sizing: border-box;
+  box-sizing: border-box;
+  height: 100%;
 }
 
 /* Inherting border-box from html */
@@ -423,12 +424,36 @@ nav {
 }
 
 /* ====================== Restaurant Details ====================== */
+
+.inside {
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+  padding: 132px 0 0;
+}
+
 .inside header {
   width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.inside main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .map-container {
   box-shadow: var(--card-shaddow);
+}
+
+.inside .map-container {
+  width: auto;
+  float: right;
+  position: relative;
 }
 
 .restaurant-name {
@@ -464,13 +489,27 @@ nav {
 	width: 100%;
 }
 
+.restaurant-container {
+  order: -1;
+}
+
+.inside .map-container,
+.restaurant-container,
+.reviews-container {
+  margin: 0 auto 0;
+  width: 100%;
+  max-width: 632px;
+}
+
 .restaurant-container,
 .reviews-container {
   border-top: 1px solid #fff;
   padding: 16px 8px;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 632px;
+}
+
+.restaurant-container {
+  background-color: #fff;
+  box-shadow: var(--card-shaddow);
 }
 
 @media screen and (min-width: 500px){
@@ -485,9 +524,32 @@ nav {
   }
 }
 
-.restaurant-container {
-  background-color: #fff;
-  box-shadow: var(--card-shaddow);
+@media screen and (min-width: 800px){
+  .inside main {
+    width: 100%;
+    display: block;
+  }
+
+  .restaurant-container,
+  .reviews-container {
+    margin: 0 0 0 8px;
+    width: 55%;
+  }
+  .inside .map-container {
+    width: calc(43% - 20px);
+    position: fixed;
+    right: 20px;
+  }
+}
+
+
+@media screen and (min-width: 1200px){
+  .restaurant-container,
+  .reviews-container {
+    /* assigning half of the left
+      over space as left margin*/
+    margin: 0 0 0 calc((55% - 632px)/2);
+  }
 }
 
 .reviews-container h2 {
