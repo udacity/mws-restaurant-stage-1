@@ -276,3 +276,9 @@ nav h1 a {
 #restaurant-hours td {
   color: #666;
 }
+
+
+/* Small screens */
+@media screen and (max-width: 550px) {
+
+}
