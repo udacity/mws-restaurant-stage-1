@@ -15,6 +15,11 @@ html, body {
   flex-direction: row;
 }
 
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
 .full-width {
   width: 100%;
 }
@@ -71,7 +76,7 @@ nav {
 nav h1 {
   margin: auto;
 }
-nav h1 a {
+#header-title {
   color: #fff;
   font-size: 14pt;
   font-weight: 200;
@@ -308,5 +313,5 @@ select {
 
 /* Small screens */
 @media screen and (max-width: 550px) {
-
+  
 }
