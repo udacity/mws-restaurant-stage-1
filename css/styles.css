@@ -15,6 +15,10 @@ html, body {
   flex-direction: row;
 }
 
+.full-width {
+  width: 100%;
+}
+
 body,td,th,p{
 	font-size: 10pt;
 	color: #333;
