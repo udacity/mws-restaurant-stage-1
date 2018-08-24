@@ -27,7 +27,7 @@
 
   <header>
     <nav tabindex="-1">
-      <h1>
+      <h1 aria-label="page title">
         <a href="/">Restaurant Reviews</a>
       </h1>
     </nav>
@@ -41,10 +41,10 @@
       <div class="filter-options" tabindex="0">
         <h2>Filter Results</h2>
         <div class="filter-buttons">
-          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+          <select id="neighborhoods-select" name="neighborhoods" aria-label="Select a Neighborhood" onchange="updateRestaurants()">
             <option value="all">All Neighborhoods</option>
           </select>
-          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+          <select id="cuisines-select" name="cuisines" aria-label="Select a Cuisine" onchange="updateRestaurants()">
             <option value="all">All Cuisines</option>
           </select>
         </div>
