@@ -185,9 +185,7 @@ createReviewHTML = (review) => {
   date.className = 'review-date';
   li.appendChild(date);
 
-  const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
-  rating.className = 'review-rating';
+  const rating = createRatingElement(review.rating);
   li.appendChild(rating);
 
   const comments = document.createElement('p');
@@ -196,6 +194,25 @@ createReviewHTML = (review) => {
 
   return li;
 };
+
+createRatingElement = (reviewRating) => {
+  const $rating = document.createElement('p');
+  $rating.className = 'review-rating';
+  const hollowStars = 5 - reviewRating;
+  for(let i=0; i<reviewRating; i++){
+    const $star = document.createElement('span');
+    $star.className = 'rating-star';
+    $star.innerHTML = '★';
+    $rating.appendChild($star);
+  }
+  for(let i=0; i<hollowStars; i++){
+    const $star = document.createElement('span');
+    $star.className = 'rating-star';
+    $star.innerHTML = '☆';
+    $rating.appendChild($star);
+  }
+  return $rating;
+}
 
 /**
  * Add restaurant name to the breadcrumb navigation menu

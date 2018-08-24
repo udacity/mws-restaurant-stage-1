@@ -467,10 +467,16 @@ nav {
 .restaurant-container,
 .reviews-container {
   border-top: 1px solid #fff;
-  padding: 16px;
+  padding: 16px 8px;
   margin: 0 auto;
   width: 100%;
   max-width: 632px;
+}
+
+@media screen and (min-width: 500px){
+  .restaurant-container {
+    padding: 16px;
+  }
 }
 
 @media screen and (min-width: 648px){
@@ -508,13 +514,8 @@ nav {
 }
 
 .reviews-list li p {
-  margin: 0 0 10px;
-}
-
-@media screen and (min-width: 450px) {
-  .reviews-list li p {
-    font-size: 12pt;
-  }
+  font-size: 12pt;
+  margin: 0;
 }
 
 .review-name {
@@ -528,17 +529,34 @@ nav {
   float: right;
 }
 
-
-.review-rating {
+/*
+taking advantage of specificity
+to avoid using "!important"
+*/
+.reviews-list .review-rating {
   color: var(--tertiary-color);
+  font-size: 16px;
+  margin: 0 0 10px;
 }
 
 .restaurant-hours {
   width: 100%;
 }
 
+.restaurant-hours tr:nth-of-type(2n-1) {
+  background-color: #eaeaea;
+}
+
 .restaurant-hours td {
-  padding-bottom: 8px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+@media screen and (min-width: 500px) {
+  .restaurant-hours td {
+    padding-left: 15%;
+    max-width: 50%;
+  }
 }
 
 .restaurant-hours td:first-child {
