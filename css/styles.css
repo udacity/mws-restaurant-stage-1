@@ -337,11 +337,11 @@ nav h1 a {
     color: #666;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 400px) {
     #restaurants-list {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-evenly;
+        justify-content: center;
         padding: 2rem 1rem;
     }
     #restaurants-list li {
