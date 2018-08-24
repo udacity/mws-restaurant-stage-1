@@ -73,4 +73,12 @@ const dbPromise = idb.open('keyval-store', 2, upgradeDB => {
   }
 });
 
+/* TODO
+Capture review
+Capture images
+Capture restaurant info
+Save it in indexDB
+When offline, serve cached "indexDB' version
+*/
+
 // Reference: https://github.com/jakearchibald/idb
