@@ -34,6 +34,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
+    option.setAttribute("role","menuitem");
     option.innerHTML = neighborhood;
     option.value = neighborhood;
     select.append(option);
@@ -62,6 +63,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
 
   cuisines.forEach(cuisine => {
     const option = document.createElement('option');
+    option.setAttribute("role","menuitem");
     option.innerHTML = cuisine;
     option.value = cuisine;
     select.append(option);
@@ -80,9 +82,9 @@ initMap = () => {
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
     mapboxToken: 'pk.eyJ1IjoicGluZ2VsZWFub3IiLCJhIjoiY2psM3Mxamx0MjRwbTNxcWhndXRuaXRsMiJ9.Vux4Ho_5MvAU1OK2tQv9zg',
     maxZoom: 18,
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-      '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-      'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    attribution: 'Map data &copy; <a role="link" href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+      '<a role="link" href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+      'Imagery © <a role="link" href="https://www.mapbox.com/">Mapbox</a>',
     id: 'mapbox.streets'
   }).addTo(newMap);
 
@@ -105,11 +107,22 @@ initMap = () => {
  * Update page and map for current restaurants.
  */
 updateRestaurants = () => {
+  
+    
+  
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
 
   const cIndex = cSelect.selectedIndex;
   const nIndex = nSelect.selectedIndex;
+  
+  let selectedItems = document.querySelectorAll("[aria-selected*='true']");
+  selectedItems.forEach(a=>a.removeAttribute("aria-selected","true"));
+
+  
+
+  cSelect[cIndex].setAttribute("aria-selected","true");
+  nSelect[nIndex].setAttribute("aria-selected","true");
 
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
@@ -146,6 +159,12 @@ resetRestaurants = (restaurants) => {
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
+  if(restaurants.length <= 0){
+    const para = document.createElement("li");
+    para.tabIndex = "0";
+    para.innerText = "No matched results"
+    ul.appendChild(para);
+  }
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
@@ -158,6 +177,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   li.classList.add("col-5");
+  li.tabIndex = 0;
   const picture = document.createElement('picture');
   const sourceSmall = document.createElement('source');
   sourceSmall.srcset = DBHelper.smallImageUrlForRestaurant(restaurant);
@@ -186,6 +206,7 @@ createRestaurantHTML = (restaurant) => {
   li.append(address);
 
   const more = document.createElement('a');
+  more.setAttribute("role","link");
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)

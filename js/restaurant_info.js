@@ -24,9 +24,9 @@ initMap = () => {
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
         mapboxToken: 'pk.eyJ1IjoicGluZ2VsZWFub3IiLCJhIjoiY2psM3Mxamx0MjRwbTNxcWhndXRuaXRsMiJ9.Vux4Ho_5MvAU1OK2tQv9zg',
         maxZoom: 18,
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        attribution: 'Map data &copy; <a role="link" href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a role="link" href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a role="link" href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox.streets'    
       }).addTo(newMap);
       fillBreadcrumb();
@@ -84,7 +84,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   name.innerHTML = restaurant.name;
 
   const address = document.getElementById('restaurant-address');
-  address.innerHTML = restaurant.address;
+  address.innerHTML ="Address:"+ restaurant.address;
 
   const pic = document.getElementById('restaurant-img');
   const sourceSmall = document.createElement('source');
@@ -138,6 +138,8 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
+  title.setAttribute("role","heading");
+  title.tabIndex = "0";
   container.appendChild(title);
 
   if (!reviews) {
@@ -158,6 +160,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+  li.tabIndex = "0";
   const name = document.createElement('p');
   name.innerHTML = review.name;
   li.appendChild(name);
