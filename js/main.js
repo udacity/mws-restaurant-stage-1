@@ -168,7 +168,7 @@ createRestaurantHTML = (restaurant) => {
 
   li.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
 
@@ -181,7 +181,6 @@ createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address.replace(',', ',<br/>');
   li.append(address);
 
-  //TODO: .createElement('button'), then create onClick function b/c href won't work
   //credit Doug Brown webinar https://www.youtube.com/watch?v=92dtrNU1GQc
   const more = document.createElement('button');
   more.innerHTML = 'View Details';
