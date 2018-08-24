@@ -136,6 +136,8 @@ nav h1 a {
   margin: 0;
   padding: 0;
   text-align: center;
+  overflow: auto;
+  white-space: nowrap;
 }
 #restaurants-list li {
   background-color: #fff;
@@ -146,6 +148,7 @@ nav h1 a {
   padding: 0 30px 25px;
   text-align: left;
   width: 270px;
+  display: inline-block;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
