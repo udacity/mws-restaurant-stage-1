@@ -182,9 +182,16 @@ createRestaurantHTML = (restaurant) => {
   li.append(address);
 
   //TODO: .createElement('button'), then create onClick function b/c href won't work
-  const more = document.createElement('a');
+  //credit Doug Brown webinar https://www.youtube.com/watch?v=92dtrNU1GQc
+  const more = document.createElement('button');
   more.innerHTML = 'View Details';
-  more.href = DBHelper.urlForRestaurant(restaurant);
+  more.onclick = function() {
+    const url = DBHelper.urlForRestaurant(restaurant);
+    window.location = url;
+  }
+  // const more = document.createElement('a');
+  // more.innerHTML = 'View Details';
+  // more.href = DBHelper.urlForRestaurant(restaurant);
 
   //mycode: not working
   // more.role = 'button';
