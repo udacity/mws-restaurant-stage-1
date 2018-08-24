@@ -16,8 +16,6 @@ body,td,th,p{
 }
 body {
 	background-color: #fdfdfd;
-	margin: 0;
-	position:relative;
 }
 ul, li {
 	font-size: 10pt;
