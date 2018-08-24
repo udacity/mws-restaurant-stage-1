@@ -177,7 +177,8 @@ createRestaurantHTML = (restaurant) => {
   li.append(neighborhood);
 
   const address = document.createElement('p');
-  address.innerHTML = restaurant.address;
+  //credit student @James_D_Bartlett_III: comma followed by new line
+  address.innerHTML = restaurant.address.replace(',', ',<br/>');
   li.append(address);
 
   //TODO: .createElement('button'), then create onClick function b/c href won't work
