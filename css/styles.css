@@ -9,6 +9,12 @@ html, body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
 body,td,th,p{
 	font-size: 10pt;
 	color: #333;
