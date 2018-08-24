@@ -321,4 +321,8 @@ select {
     font-size: 16px;
     letter-spacing: 5px
   }
+
+  #map {
+    height: 300px;
+  }
 }
