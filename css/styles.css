@@ -313,5 +313,12 @@ select {
 
 /* Small screens */
 @media screen and (max-width: 550px) {
-  
+  nav {
+    padding: 0.25em;
+  }
+
+  #header-title {
+    font-size: 16px;
+    letter-spacing: 5px
+  }
 }
