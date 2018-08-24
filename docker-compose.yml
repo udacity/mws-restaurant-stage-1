@@ -1,0 +1,8 @@
+version: "3"
+services:
+  python-server:
+    image: tlkamp/restreview:1.1
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
