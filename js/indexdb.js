@@ -1,7 +1,3 @@
-import idb from 'idb';
-
-await idb.open(...);
-
 const dbPromise = idb.open('keyval-store', 1, upgradeDB => {
   upgradeDB.createObjectStore('keyval');
 });
