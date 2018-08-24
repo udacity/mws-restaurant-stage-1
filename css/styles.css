@@ -131,7 +131,7 @@ nav h1 a {
   margin: 0 20px;
   display: inline-block;
 }
-.filter-options select {
+select {
   background-color: white;
   border: 1px solid #fff;
   font-family: Arial,sans-serif;
@@ -292,6 +292,19 @@ nav h1 a {
   color: #666;
 }
 
+.collapse-toggle {
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  color: white;
+  font-size: 14pt;
+  text-align: left;
+}
+
+.collapse {
+  display: none;
+  overflow: hidden;
+}
 
 /* Small screens */
 @media screen and (max-width: 550px) {

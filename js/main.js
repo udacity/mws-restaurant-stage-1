@@ -186,3 +186,8 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 
 } 
+
+document.getElementById('filter-button').addEventListener('click', function() {
+  const filterBox = document.getElementById('filter-box');
+  filterBox.style.display = filterBox.style.display === "block" ? "none" : "block";
+});
