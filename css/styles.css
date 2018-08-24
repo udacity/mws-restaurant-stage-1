@@ -221,6 +221,7 @@ nav h1 a {
 
 /* ====================== Restaurant Details ====================== */
 /* TODO: remove all .inside? This is confusing something*/
+/* position fixed adds 80px to width? */
 .inside header {
   position: fixed;
   top: 0;
@@ -237,10 +238,11 @@ nav h1 a {
 }
 @media screen and (max-width: 480px) {
   .inside #map-container {
-    right: none;
+    right: unset;
     height: 30%;
     width: 100%;
-    position: none;
+    /* position: none; */
+    top: 100px;
   }
 }
 .inside #map {
@@ -292,6 +294,7 @@ nav h1 a {
   #restaurant-container, #reviews-container {
     width: 100%;
     top: 50%;
+    padding: 380px 40px 30px;
   }
 }
 #reviews-container {
