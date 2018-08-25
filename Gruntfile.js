@@ -3,9 +3,23 @@ module.exports = function(grunt) {
 	grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    /*
+    Creating images for the to go with all
+    viewports they are displayed on
+    Note: source image size is only 800x600 that's
+          generated images with widths > 800
+          have an 'upscale=true'
+     */
     responsive_images: {
       dev: {
         options: {
+          /*
+          Using GraphicsMagick as graphics engine.
+          Although 'gm' is the default graphics engine
+          I specified it here for reading purposes.
+          */
+          engine: 'gm',
+          /* Specifying image sizes to generate */
           sizes: [{
             width: 300,
             suffix: 'w',
@@ -48,14 +62,14 @@ module.exports = function(grunt) {
       }
     },
 
-    /* Clear out the assets directory if it exists */
+    /* Clear out the 'build' directory if it exists */
     clean: {
       dev: {
         src: ['build'],
       },
     },
 
-    /* Generate the images directory if it is missing */
+    /* Generate the build directory if it is missing */
     mkdir: {
       dev: {
         options: {
