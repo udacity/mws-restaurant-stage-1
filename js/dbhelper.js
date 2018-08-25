@@ -50,27 +50,6 @@ class DBHelper {
    * Fetch all restaurants.
    */
 
-   // currently, this task any id in the URL, as a pass. Check against available in JSON
-
-/**
-  static fetchRestaurants (callback, id) {
-    let fetchURL; // fetch URL is undefined
-     // Find the ID
-      if (!id) {
-        fetchURL = DBHelper.DATABASE_URL;
-      // show the id at its URL
-        
-     } else {
-     // If not, do something else or Show an error
-        fetchURL = DBHelper.DATABASE_URL + '/' + id; 
-        console.log('Opps. Restaurant ID not found') // not working. should false come
-     }
-
-   }
-**/
-
-
-
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
@@ -212,14 +191,6 @@ class DBHelper {
     return (`/img/${restaurant.photograph}.jpg`);
   }
 
-  /**
-   * Restaurant image ALT.
-  
-  static imageAltForRestaurant(restaurant) {
-    return (`${restaurant.alt}`);
-  }  
- */
- 
   /**
    * Map marker for a restaurant.
    */
