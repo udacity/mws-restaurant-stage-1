@@ -1,10 +1,10 @@
 # MWS Restaurant Reviews
 
-One Paragraph of project description goes here
+Restaurant Reviews project is a capstone project in the Mobile Web Specialist program provided by Udacity.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development.
 
 ### Prerequisites
 
@@ -75,10 +75,9 @@ No tests available.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+No license.
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Thanks to ALC and Udacity for giving us the chance to learn new things
+* Thanks to instructors and reviewers for being helpful and patient with us
