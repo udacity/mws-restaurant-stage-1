@@ -93,7 +93,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const myImage = DBHelper.imageUrlForRestaurant(restaurant);
   
   const source = document.getElementById('source');
-  source.media = '(min-width: 467px)';
+  source.media = '(min-width: 367px)';
   source.srcset = myImage.normal + ' 1x,' + myImage.large + '2x';
 
   const image = document.getElementById('restaurant-img');
@@ -143,9 +143,12 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
+  const rev = document.createElement('div');
+  rev.className = "rev-header"
+  container.appendChild(rev);
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
-  container.appendChild(title);
+  rev.appendChild(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -165,21 +168,31 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+  li.setAttribute('aria-label', 'review by '+ review.name);
+
+  const div1 = document.createElement('div');
+  div1.className = "rev-head";
+
   const name = document.createElement('p');
+  name.classList.add('author');
   name.innerHTML = review.name;
-  li.appendChild(name);
+  div1.append(name);
 
   const date = document.createElement('p');
+  date.classList.add('date');
   date.innerHTML = review.date;
-  li.appendChild(date);
+  div1.append(date);
+  li.append(div1);
 
-  const rating = document.createElement('p');
+  const rating = document.createElement('div');
+  rating.classList.add('rating');
   rating.innerHTML = `Rating: ${review.rating}`;
-  li.appendChild(rating);
+  li.append(rating);
 
-  const comments = document.createElement('p');
+  const comments = document.createElement('div');
+  comments.classList.add('comment');
   comments.innerHTML = review.comments;
-  li.appendChild(comments);
+  li.append(comments);
 
   return li;
 }

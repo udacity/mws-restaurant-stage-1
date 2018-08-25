@@ -180,17 +180,21 @@ createRestaurantHTML = (restaurant) => {
   image.alt = altText;
   picture.append(image);
 
+  const div2 = document.createElement('div');
+  div2.className = 'restaurant-info';
+
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
-  li.append(name);
+  div2.append(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
+  div2.append(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
-  li.append(address);
+  div2.append(address);
+  li.append(div2);
 
   const more = document.createElement('button');
   more.innerHTML = 'View Details';
