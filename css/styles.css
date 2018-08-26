@@ -248,7 +248,7 @@ select {
   font-size: 12pt;
   font-weight: 300;
   letter-spacing: 10px;
-  margin: 0 0 20px;
+  margin: 0;
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
@@ -259,6 +259,16 @@ select {
   border-top: 1px solid #fff;
   padding: 1em;
   width: 100%;
+}
+
+#img-container {
+  position: relative;
+}
+
+.img-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 #reviews-container h2 {
