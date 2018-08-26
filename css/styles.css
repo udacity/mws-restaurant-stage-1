@@ -312,7 +312,7 @@ select {
     padding: 0.25em;
   }
 
-  #header-title {
+  #header-title, #restaurant-name {
     font-size: 16px;
     letter-spacing: 5px
   }
