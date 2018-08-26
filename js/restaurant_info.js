@@ -177,7 +177,8 @@ getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-const getDayOfWeek = (day) => {
+const getDayOfWeek = () => {
+  let day = new Date().getDay();
   switch(day) {
     case 0:
       return 'Sunday';
