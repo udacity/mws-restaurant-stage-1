@@ -36,12 +36,10 @@
 
   <!-- Beginning main -->
   <main class="maincontent">
-    <!-- Beginning map -->
-    <section role="application" aria-label="Map" class="map-container">
-      <div class="map" id="map"></div>
-    </section>
-    <!-- End map -->
-
+    <!--
+      Dom order has been changed so that focus
+      can flow the same as the visual order
+    -->
     <!-- Beginning restaurant -->
     <section class="restaurant-container">
       <h2 class="restaurant-name"></h2>
@@ -53,6 +51,12 @@
       </table>
     </section>
     <!-- end restaurant -->
+
+    <!-- Beginning map -->
+    <section role="application" aria-label="Map" class="map-container">
+      <div class="map" id="map"></div>
+    </section>
+    <!-- End map -->
 
     <!-- Beginning reviews -->
     <section class="reviews-container">

@@ -134,12 +134,12 @@ footer a:focus {
 /* placing content off canvas for
  screen reader users only */
 .sr-only {
-  position:absolute;
-  left:-9999px;
-  top:auto;
-  width:1px;
-  height:1px;
-  overflow:hidden;
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 
@@ -186,7 +186,8 @@ nav {
     transition: all 0.5s ease-in-out 0s;
   }
 
-  .brand:hover:before {
+  .brand:hover:before,
+  .brand:focus:before {
     visibility: visible;
     transform: scaleX(1);
   }
@@ -372,6 +373,10 @@ nav {
   transition: color 0.3s ease, background 0.3s ease;
 }
 
+.restaurant-item a:focus {
+  outline: 0;
+}
+
 .restaurant-item a:hover,
 .restaurant-item a:focus {
   background-color: var(--tertiary-color);
@@ -489,10 +494,6 @@ nav {
 	width: 100%;
 }
 
-.restaurant-container {
-  order: -1;
-}
-
 .inside .map-container,
 .restaurant-container,
 .reviews-container {
@@ -527,7 +528,6 @@ nav {
 @media screen and (min-width: 800px){
   .inside main {
     width: 100%;
-    display: block;
   }
 
   .restaurant-container,
@@ -538,6 +538,9 @@ nav {
   .inside .map-container {
     width: calc(43% - 20px);
     position: fixed;
+    /* positioning the map right under the header */
+    top: 134px;
+    /* giving space to the scroll bar */
     right: 20px;
   }
 }
