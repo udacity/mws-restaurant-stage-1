@@ -316,4 +316,8 @@ select {
   #map {
     height: 275px;
   }
+
+  #restaurant-img, #restaurant-cuisine {
+    width: 100%;
+  }
 }
