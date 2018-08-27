@@ -289,7 +289,7 @@ select {
   margin: 0 0 10px;
 }
 #restaurant-hours {
-  width: 50%;
+  width: 100%;
 }
 
 #restaurant-hours td {
@@ -314,6 +314,7 @@ select {
   width: 100%;
   background-color: #f58500;
   height: 50px;
+  display: none;
 }
 
 #reviews-button {
@@ -325,9 +326,14 @@ select {
   text-decoration: none;
   cursor: pointer;
   background-color: inherit;
+  display: none;
 }
 
-#restaurant-hours + #map-container {
+#info-container + #map-container {
+  width: 50%;
+}
+
+#info-container {
   width: 50%;
 }
 
@@ -337,6 +343,10 @@ select {
   #header-title, #restaurant-name {
     font-size: 16px;
     letter-spacing: 5px
+  }
+
+  #reviews-button, #details-button {
+    display: block;
   }
 
   #map {
@@ -351,7 +361,7 @@ select {
     width: 100%;
   }
   
-  #restaurant-container .collapse, #reviews-container .collapse {
+  #restaurant-container .collapse {
     display: none;
     overflow: hidden;
   }
