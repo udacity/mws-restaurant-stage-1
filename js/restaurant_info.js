@@ -194,3 +194,11 @@ const getDayOfWeek = () => {
       return undefined;
   }
 }
+
+document.querySelectorAll('.collapse-toggle').forEach(element => {
+  element.addEventListener('click', function() {
+    let next = this.nextElementSibling;
+    let currentDisplay = next.style.display;
+    next.style.display = currentDisplay === "block" ? "none" : "block";
+  });
+});
