@@ -308,6 +308,7 @@ select {
 #details-button, #reviews-button {
   width: 100%;
   background-color: #f58500;
+  height: 50px;
 }
 
 /* Small screens */
