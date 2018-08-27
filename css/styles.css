@@ -332,6 +332,10 @@ select {
 
 /* Small screens */
 @media screen and (max-width: 700px) {
+
+  .flex-container {
+    align-content: flex-start;
+  }
   
   #header-title, #restaurant-name {
     font-size: 16px;
