@@ -318,8 +318,6 @@ select {
   font-family: sans-serif;
   cursor: pointer;
   background-color: inherit;
-  -webkit-appearance: none;
-  -moz-appearance: none;
 }
 
 #restaurant-hours + #map-container {
