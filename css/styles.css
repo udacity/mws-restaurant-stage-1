@@ -122,12 +122,12 @@ nav h1 {
 }
 /* ====================== Map ====================== */
 #map {
-  height: 400px;
+  height: 325px;
   width: 100%;
   background-color: #ccc;
 }
 
-.flex-container #map {
+.flex-container > #map {
   height: 200px;
 }
 
