@@ -1,3 +1,6 @@
+/* Change this to your base url in local env that would be 'http://localhost:port' */
+const BASE_URL = 'https://salahhamza.github.io/mws-restaurant-stage-1/';
+
 /**
  * Common database helper functions.
  */
@@ -8,7 +11,7 @@ class DBHelper {
    * it in the script
    */
   static fetchMAPBOXToken() {
-    return fetch(`${location.origin}/build/data/restaurants.json`)
+    return fetch(DBHelper.DATABASE_URL)
     .then(res => res.json())
     .then(data => data.MAPBOX_TOKEN)
     .catch(err => {
@@ -21,8 +24,7 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/build/data/restaurants.json`;
+    return `${BASE_URL}/build/data/restaurants.json`;
   }
 
   /**
@@ -156,7 +158,7 @@ class DBHelper {
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {
-    return (`./restaurant.html?id=${restaurant.id}`);
+    return (`${BASE_URL}/restaurant.html?id=${restaurant.id}`);
   }
 
   /**
@@ -164,7 +166,7 @@ class DBHelper {
    */
   static imageUrlForRestaurant(photograph, size) {
     return (
-      `build/img/${photograph.name}-${size}w.${photograph.ext}`
+      `${BASE_URL}/build/img/${photograph.name}-${size}w.${photograph.ext}`
     );
   }
 
@@ -172,7 +174,7 @@ class DBHelper {
     const imgPaths = [];
     sizes.forEach(size => {
       imgPaths.push(
-        `build/img/${photograph.name}-${size}w.${photograph.ext} ${size}w`
+        `${BASE_URL}/build/img/${photograph.name}-${size}w.${photograph.ext} ${size}w`
       );
     });
     return imgPaths.join(', ');
@@ -212,7 +214,7 @@ if ('serviceWorker' in navigator) {
 
   window.addEventListener('load', function() {
 
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('./sw.js')
     .then(reg => {
       console.log('Registering service worker');
     })
