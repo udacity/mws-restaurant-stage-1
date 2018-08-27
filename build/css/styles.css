@@ -627,3 +627,19 @@ to avoid using "!important"
 .restaurant-hours td:first-child {
   font-weight: 600;
 }
+
+
+/* ====================== Restaurant Not found Message ====================== */
+.rst-not-found {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.rst-not-found h2 {
+  font-size: 3em;
+  text-transform: uppercase;
+}
+
+.rst-not-found p {
+  font-size: 1.5em;
+}

@@ -71,6 +71,7 @@ fetchRestaurantFromURL = (callback) => {
       self.restaurant = restaurant;
       if (!restaurant) {
         console.error(error);
+        handleRestaurantNotFound();
         return;
       }
       fillRestaurantHTML();
@@ -78,6 +79,29 @@ fetchRestaurantFromURL = (callback) => {
     });
   }
 };
+
+/**
+ * Shows a message when request restaurant 'id' is not found
+ */
+handleRestaurantNotFound = () => {
+  /* selecting all the elements that are not needed anymore */
+  const $uselessElems = document.querySelectorAll(
+    '.breadcrumb-wrapper, .restaurant-container, .map-container, .reviews-container'
+  );
+  /* removing all "useless" elements */
+  $uselessElems.forEach(elem => {
+    elem.remove();
+  });
+
+  const $main = document.querySelector('.maincontent');
+
+  const $container = document.createElement('div');
+  $container.className = 'rst-not-found';
+  $container.innerHTML = `<h2>Restaurant Not found</h2>
+  <p>This is not the restaurant you are looking for!</p>`;
+
+  $main.prepend($container);
+}
 
 /**
  * Create restaurant HTML and add it to the webpage
