@@ -336,6 +336,9 @@ select {
 #info-container {
   width: 50%;
 }
+#hours-n-location {
+  padding: 0.5em 0 0;
+}
 
 /* Small screens */
 @media screen and (max-width: 700px) {
