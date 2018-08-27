@@ -29,13 +29,19 @@
         <h1 id="restaurant-name"></h1>
         <img id="restaurant-img">
         <p id="restaurant-cuisine"></p>
-        <p id="restaurant-address"></p>
-        <table id="restaurant-hours"></table>
+        <button id="details-button" class="collapse-toggle">Hours and Location</button>
+        <div class="collapse">
+          <p id="restaurant-address"></p>
+          <table id="restaurant-hours"></table>
+        </div>
       </section>
 
       <section id="reviews-container">
-        <h2>Reviews</h2>
-        <ul id="reviews-list"></ul>
+        <button id="reviews-button" class="collapse-toggle">Reviews</button>
+        <div class="collapse">
+            <h2>Reviews</h2>
+            <ul id="reviews-list"></ul>
+        </div>
       </section>
     </main>
 

@@ -305,6 +305,11 @@ select {
   overflow: hidden;
 }
 
+#details-button, #reviews-button {
+  width: 100%;
+  background-color: #f58500;
+}
+
 /* Small screens */
 @media screen and (max-width: 550px) {
   
