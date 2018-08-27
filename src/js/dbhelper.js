@@ -1,5 +1,11 @@
 /* Change this to your base url in local env that would be 'http://localhost:port' */
-const BASE_URL = 'https://salahhamza.github.io/mws-restaurant-stage-1';
+
+const BASE_URL = (() => {
+  if(location.origin.includes('http://localhost:')){
+		return location.origin;
+	}
+	return `${location.origin}/mws-restaurant-stage-1`;
+})();
 
 /**
  * Common database helper functions.

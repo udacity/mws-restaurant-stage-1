@@ -5,6 +5,17 @@ const allCaches = [
 	mapCacheName
 ];
 
+/**
+ * this allows the website to work in
+ * both github pages and local env
+ */
+const BASE_URL = (() => {
+	if(location.origin.includes('http://localhost:')){
+		 return location.origin;
+	 }
+	 return `${location.origin}/mws-restaurant-stage-1`;
+ })();
+
 self.addEventListener('install', (e) => {
 	e.waitUntil(
 		caches.open(staticCacheName).then( (cache) => {
@@ -14,9 +25,9 @@ self.addEventListener('install', (e) => {
 				'./restaurant.html',
 				'./build/data/restaurants.json',
 				'./build/css/styles.css',
-				'/build/js/dbhelper.js',
-				'/build/js/main.js',
-				'/build/js/restaurant_info.js',
+				'./build/js/dbhelper.js',
+				'./build/js/main.js',
+				'./build/js/restaurant_info.js',
 				/* will work as replacement to images */
 				'./offline.png',
 				/* Caching map assets */
@@ -70,10 +81,10 @@ https://jakearchibald.com/2014/offline-cookbook/
 */
 self.addEventListener('fetch', e => {
 	const mapAPIBaseUrl = 'https://api.tiles.mapbox.com/v4/';
-	const insideBaseUrl = `${location.origin}/restaurant.html?id=`;
+	const insideBaseUrl = `${BASE_URL}/restaurant.html?id=`;
 
 	if(e.request.url.includes(insideBaseUrl)){
-		e.respondWith(caches.match('/restaurant.html'));
+		e.respondWith(caches.match('./restaurant.html'));
 
 	} else if (e.request.url.includes(mapAPIBaseUrl)) {
 
@@ -97,7 +108,7 @@ self.addEventListener('fetch', e => {
 				return res || fetch(e.request);
 			}).catch(error => {
 				if (e.request.url.includes('.jpg')) {
-					return caches.match('/offline.png');
+					return caches.match('./offline.png');
 				}
 				console.log('no cache entry for:', e.request.url);
 			})
