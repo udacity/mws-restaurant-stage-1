@@ -13,6 +13,7 @@ html, body {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  align-content: flex-start;
 }
 
 .flex-center {
@@ -333,10 +334,6 @@ select {
 /* Small screens */
 @media screen and (max-width: 700px) {
 
-  .flex-container {
-    align-content: flex-start;
-  }
-  
   #header-title, #restaurant-name {
     font-size: 16px;
     letter-spacing: 5px
