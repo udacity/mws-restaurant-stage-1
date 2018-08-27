@@ -125,6 +125,11 @@ nav h1 {
   width: 100%;
   background-color: #ccc;
 }
+
+.flex-container #map {
+  height: 200px;
+}
+
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
@@ -276,7 +281,7 @@ select {
   margin: 0 0 10px;
 }
 #restaurant-hours {
-  width: 30%;
+  width: 50%;
 }
 
 #restaurant-hours td {
@@ -316,6 +321,10 @@ select {
   background-color: inherit;
   -webkit-appearance: none;
   -moz-appearance: none;
+}
+
+#restaurant-hours + #map-container {
+  width: 50%;
 }
 
 /* Small screens */
