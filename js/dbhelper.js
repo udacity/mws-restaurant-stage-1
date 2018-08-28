@@ -9,7 +9,7 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 8000 // Change this to your server port
-    if(window.location.hostname === "localhost" || location.hostname === "127.0.0.1" || window.location.hostname.indexOf(myUrlPattern) >= 0){
+    if(window.location.hostname === "localhost" || location.hostname === "127.0.0.1"){
       return `http://localhost:${port}/data/restaurants.json`;
     }
     else{
