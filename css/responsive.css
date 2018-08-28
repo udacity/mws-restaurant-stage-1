@@ -1,0 +1,104 @@
+@media only screen and (max-width: 480px){
+    [class*="col-"] {
+       width: 100%;
+      }
+      
+      .filter-options .col-5{
+          width: 51%;
+          padding-top: 5px;
+          padding-bottom: 5px;
+      }
+      .filter-options{
+          height: 185px;
+      }
+      #restaurants-list p{
+          font-size: 9pt;
+      }
+      #restaurants-list li h1 {
+          font-size: 12pt;
+          margin-bottom: 2px;
+      }
+      #restaurants-list li a{
+        position: relative;
+        top: -13px;
+        font-size: 9pt;
+      }
+      nav h1{
+          padding-top: 10px;
+      }
+      .inside #map-container{
+          height: 40%;
+          width: 100%;
+          z-index: 100;
+          top: 133px;
+      }
+      #reviews-list{
+          z-index: -100;
+      }
+      #restaurant-container{
+          padding-top: 475px;
+      }
+}
+@media only screen and (min-width: 481px) and (max-width: 1112px){
+    
+    #restaurants-list li h1 {
+        font-size: 12pt;
+        margin-bottom: 2px;
+    }
+    #restaurants-list li a{
+        position: relative;
+        top: -13px;
+        font-size: 9pt;
+      }
+      .inside #map-container{
+          top: 130px;
+      }
+      #restaurants-list .col-5{
+          width: 42%;
+      }
+      .col-5{
+          width: 50.5%;
+      }
+      .filter-options .col-5{
+          width: 42%;
+          height: 40px;
+          padding: 0;
+          margin-right: 3%;
+      }
+      .filter-options .col-5>label{
+          margin-left: 10px;
+      }
+}
+@media only screen and (min-width: 559px) and (max-width: 755px){
+    .filter-options .col-5{
+        width: 30%;
+    }
+}
+/* @media only screen and (min-width: 767px) and (max-width: 1112px){
+    #restaurants-list li{
+        margin: 30px;
+    }
+} */
+@media only screen and (min-width: 1113px){
+    [class*="col-"] {
+        width: 50.1%;
+       }
+       #restaurants-list .col-5{
+           width: 47%;
+       }
+       .filter-options .col-5{
+           width: 47%;
+       }
+       #restaurants-list li h1 {
+        margin-bottom: 2px;
+        margin-top: 2px;
+    }
+    #restaurants-list .restaurant-img{
+        height: 350px;
+    }
+    #restaurants-list li a {
+        position: relative;
+        top: -50px;
+        right: -69%;
+        font-size: 9pt;
+}}
