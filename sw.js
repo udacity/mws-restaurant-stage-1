@@ -1,3 +1,6 @@
+let staticCacheName = 'restaurant-reviews-v3';
+
+//credit Traversy Media for inspiration https://www.youtube.com/watch?v=ksXwaWHCW6k
 self.addEventListener('install', function(event) {
     console.log('Service Worker: Installed');
 
@@ -23,9 +26,24 @@ self.addEventListener('install', function(event) {
     ];
 
     event.waitUntil(
-        caches.open('restaurant-reviews-v1').then(function (cache) {
+        caches.open(staticCacheName).then(function (cache) {
             console.log('Service Worker: Caching Files');
             return cache.addAll(urlsToCache);
         })
     );
+});
+
+self.addEventListener('activate', function(event) {
+    console.log('Service Worker: Activated');
+    //remove unwanted caches
+    event.waitUntil(
+        caches.keys().then( function(cacheNames) {
+            return Promise.all(
+                cacheNames.filter(function(cacheName) {
+                    return cacheName != staticCacheName;
+                }).map(function (cacheName) {
+                    return caches.delete(cacheName);
+                })
+           );
+    }));
 });
