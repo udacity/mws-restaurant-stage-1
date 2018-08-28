@@ -1,0 +1,1 @@
+console.log('Text in sw.js');
