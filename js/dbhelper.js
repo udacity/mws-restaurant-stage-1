@@ -158,8 +158,14 @@ class DBHelper {
   static imageUrlForRestaurant(restaurant) {
     return (`/img/${restaurant.photograph}`);
   }
+  static imageUrlForGitHub(restaurant){
+    return (`mws-restaurant-stage-1/img/${restaurant.photograph}`);
+  }
   static smallImageUrlForRestaurant(restaurant) {
     return (`/img/${restaurant.photograph_small}`);
+  }
+  static smallImageUrlForGitHub(restaurant){
+    return (`mws-restaurant-stage-1/img/${restaurant.photograph_small}`);
   }
   static nameForRestaurant(restaurant) {
     return (`${restaurant.name}`);
