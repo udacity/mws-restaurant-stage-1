@@ -180,14 +180,22 @@ createRestaurantHTML = (restaurant) => {
   li.tabIndex = 0;
   const picture = document.createElement('picture');
   const sourceSmall = document.createElement('source');
-  sourceSmall.srcset = DBHelper.smallImageUrlForRestaurant(restaurant);
   sourceSmall.media="(max-width: 480px)";
   const source = document.createElement('source');
-  source.srcset = DBHelper.imageUrlForRestaurant(restaurant);
+  
   const image = document.createElement("img");
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+ 
   image.alt = DBHelper.nameForRestaurant(restaurant);
+   if(window.location.hostname === "localhost" || location.hostname === "127.0.0.1"){
+    sourceSmall.srcset = DBHelper.smallImageUrlForRestaurant(restaurant);
+    source.srcset = DBHelper.imageUrlForRestaurant(restaurant);
+     image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  }else{
+     sourceSmall.srcset = DBHelper.smallImageUrlForGitHub(restaurant);
+    source.srcset = DBHelper.imageUrlForGitHub(restaurant);
+     image.src = DBHelper.imageUrlForGitHub(restaurant);
+  }
   picture.appendChild(sourceSmall);
   picture.appendChild(source);
   picture.appendChild(image);
