@@ -1,19 +1,39 @@
 @charset "utf-8";
 /* CSS Document */
 
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-content: flex-start;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
 body,td,th,p{
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	color: #333;
 	line-height: 1.5;
 }
 body {
 	background-color: #fdfdfd;
-	margin: 0;
-	position:relative;
 }
 ul, li {
-	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	color: #333;
 }
@@ -29,13 +49,12 @@ a img{
 	border: none 0px #fff;
 }
 h1, h2, h3, h4, h5, h6 {
-  font-family: Arial, Helvetica, sans-serif;
   margin: 0 0 20px;
 }
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-#maincontent {
+#main-content {
   background-color: #f3f3f3;
   min-height: 100%;
 }
@@ -58,7 +77,7 @@ nav {
 nav h1 {
   margin: auto;
 }
-nav h1 a {
+#header-title {
   color: #fff;
   font-size: 14pt;
   font-weight: 200;
@@ -66,22 +85,26 @@ nav h1 a {
   text-transform: uppercase;
 }
 #breadcrumb {
-    padding: 10px 40px 16px;
+    padding: 0;
     list-style: none;
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
+    line-height: 2.5em;
 }
 
 /* Display list items side by side */
 #breadcrumb li {
+    padding: 1em 0;
     display: inline;
+}
+
+#breadcrumb li:first-of-type {
+  padding-left: 1em;
 }
 
 /* Add a slash symbol (/) before/behind each list item */
 #breadcrumb li+li:before {
-    padding: 8px;
     color: black;
     content: "/\00a0";
 }
@@ -99,10 +122,15 @@ nav h1 a {
 }
 /* ====================== Map ====================== */
 #map {
-  height: 400px;
+  height: 325px;
   width: 100%;
   background-color: #ccc;
 }
+
+.flex-container > #map {
+  height: 200px;
+}
+
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
@@ -116,8 +144,9 @@ nav h1 a {
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+  display: inline-block;
 }
-.filter-options select {
+select {
   background-color: white;
   border: 1px solid #fff;
   font-family: Arial,sans-serif;
@@ -127,6 +156,7 @@ nav h1 a {
   margin: 10px;
   padding: 0 10px;
   width: 200px;
+  display: inline-block;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -134,8 +164,10 @@ nav h1 a {
   background-color: #f3f3f3;
   list-style: outside none none;
   margin: 0;
-  padding: 30px 15px 60px;
+  padding: 0;
   text-align: center;
+  overflow: auto;
+  white-space: nowrap;
 }
 #restaurants-list li {
   background-color: #fff;
@@ -143,9 +175,10 @@ nav h1 a {
   font-family: Arial,sans-serif;
   margin: 15px;
   min-height: 380px;
-  padding: 0 30px 25px;
+  padding: 1em;
   text-align: left;
   width: 270px;
+  display: inline-block;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -183,30 +216,7 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Details ====================== */
-.inside header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-}
-.inside #map-container {
-  background: blue none repeat scroll 0 0;
-  height: 87%;
-  position: fixed;
-  right: 0;
-  top: 80px;
-  width: 50%;
-}
-.inside #map {
-  background-color: #ccc;
-  height: 100%;
-  width: 100%;
-}
-.inside #footer {
-  bottom: 0;
-  position: absolute;
-  width: 50%;
-}
+
 #restaurant-name {
   color: #f18200;
   font-family: Arial,sans-serif;
@@ -216,9 +226,10 @@ nav h1 a {
   margin: 15px 0 30px;
   text-transform: uppercase;
   line-height: 1.1;
+  text-align: center;
 }
 #restaurant-img {
-	width: 90%;
+	width: 100%;
 }
 #restaurant-address {
   font-size: 12pt;
@@ -234,23 +245,30 @@ nav h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+	width: 100%;
 }
 #restaurant-container, #reviews-container {
+  box-sizing: border-box; 
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
-  width: 50%;
+  padding: 1em;
 }
+
+#restaurant-container {
+  width: 45%;
+}
+
 #reviews-container {
-  padding: 30px 40px 80px;
+  width: 55%;
 }
+
 #reviews-container h2 {
   color: #f58500;
   font-size: 24pt;
   font-weight: 300;
   letter-spacing: -1px;
   padding-bottom: 1pt;
+  margin: 0;
 }
 #reviews-list {
   margin: 0;
@@ -258,18 +276,96 @@ nav h1 a {
 }
 #reviews-list li {
   background-color: #fff;
-    border: 2px solid #f3f3f3;
+  border: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
   margin: 0 0 30px;
   overflow: hidden;
-  padding: 0 20px 20px;
+  padding: 1em;
   position: relative;
   width: 85%;
 }
 #reviews-list li p {
   margin: 0 0 10px;
 }
+#restaurant-hours {
+  width: 100%;
+}
+
 #restaurant-hours td {
   color: #666;
+}
+
+.collapse-toggle {
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  color: white;
+  font-size: 14pt;
+  text-align: left;
+}
+
+#filter-box.collapse {
+  display: none;
+  overflow: hidden;
+}
+
+#details-button {
+  width: 100%;
+  background-color: #f58500;
+  height: 50px;
+  display: none;
+}
+
+#reviews-button {
+  padding: 0;
+  display: inline-block;
+  border: none;
+  padding: 0 0 1em 0;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: inherit;
+  display: none;
+}
+
+#info-container + #map-container {
+  width: 50%;
+}
+
+#info-container {
+  width: 50%;
+}
+#hours-n-location {
+  padding: 0.5em 0 0;
+}
+
+/* Small screens */
+@media screen and (max-width: 700px) {
+
+  #header-title, #restaurant-name {
+    font-size: 16px;
+    letter-spacing: 5px
+  }
+
+  #reviews-button, #details-button {
+    display: block;
+  }
+
+  #map {
+    height: 275px;
+  }
+
+  #restaurant-container, #reviews-container {
+    width: 100%;
+  }
+
+  #restaurant-img, #restaurant-cuisine {
+    width: 100%;
+  }
+  
+  #restaurant-container .collapse {
+    display: none;
+    overflow: hidden;
+  }
 }
