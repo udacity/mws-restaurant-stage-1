@@ -166,8 +166,16 @@ nav h1 a {
 }
 
 @media only screen and (max-width: 450px) {
+    .filter-options {
+        display: block;
+        padding-top: 8px;
+    }
+    .filter-options h2 {
+        text-align: center;
+    }
     .filter-options select {
-        width: 200px;
+        width: 80%;
+        margin-left: 10%;
     }
 }
 
