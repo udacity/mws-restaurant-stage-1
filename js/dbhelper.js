@@ -151,7 +151,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    const url = `/images/${restaurant.photograph}`;
+    const url = `./images/${restaurant.photograph}`;
     const small = url.replace('.jpg', '-small.jpg');
     const normal = url.replace('.jpg', '-normal.jpg');
     const large = url.replace('.jpg', '-normal_2x.jpg');
