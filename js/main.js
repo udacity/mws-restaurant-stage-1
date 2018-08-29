@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   initMap(); // added 
   fetchNeighborhoods();
   fetchCuisines();
+  registerServiceWorker();
 });
 
 /**
@@ -230,3 +231,9 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 } */
 
+// Register service worker
+registerServiceWorker = () => {
+  if(!navigator.serviceWorker) return;
+  navigator.serviceWorker.register('./sw.js').then(() => console.log('Service Worker registered')).catch(() => console.log('Registration Failed')
+  );  
+}
