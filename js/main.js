@@ -37,7 +37,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
-    select.append(option);
+    select.appendChild(option);
   });
 }
 
@@ -65,7 +65,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
-    select.append(option);
+    select.appendChild(option);
   });
 }
 
@@ -148,7 +148,7 @@ resetRestaurants = (restaurants) => {
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
   restaurants.forEach(restaurant => {
-    ul.append(createRestaurantHTML(restaurant));
+    ul.appendChild(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
 }
@@ -161,13 +161,13 @@ createRestaurantHTML = (restaurant) => {
 
   // create picture element
   const picture = document.createElement('picture');
-  li.append(picture);
+  li.appendChild(picture);
 
   const myImage = DBHelper.imageUrlForRestaurant(restaurant);
   const source = document.createElement('source');
   source.media = '(min-width: 467px)';
   source.srcset = myImage.normal + ' 1x,' + myImage.large + '2x';
-  picture.append(source);
+  picture.appendChild(source);
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
@@ -179,28 +179,28 @@ createRestaurantHTML = (restaurant) => {
   const altText = 'Image of ' + restaurant.name + ' restaurant in ' + restaurant.neighborhood;
   image.title = altText;
   image.alt = altText;
-  picture.append(image);
+  picture.appendChild(image);
 
   const div2 = document.createElement('div');
   div2.className = 'restaurant-info';
 
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
-  div2.append(name);
+  div2.appendChild(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
-  div2.append(neighborhood);
+  div2.appendChild(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
-  div2.append(address);
-  li.append(div2);
+  div2.appendChild(address);
+  li.appendChild(div2);
 
   const more = document.createElement('button');
   more.innerHTML = 'View Details';
   more.addEventListener('click', () => { window.location.href = DBHelper.urlForRestaurant(restaurant); });
-  li.append(more)
+  li.appendChild(more)
 
   return li
 }
