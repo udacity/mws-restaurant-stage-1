@@ -1,6 +1,7 @@
-let staticCacheName = 'restaurant-reviews-v3';
+let staticCacheName = 'restaurant-reviews-v1';
 
 //credit Traversy Media for inspiration https://www.youtube.com/watch?v=ksXwaWHCW6k
+//Save content in cache
 self.addEventListener('install', function(event) {
     console.log('Service Worker: Installed');
 
@@ -33,6 +34,7 @@ self.addEventListener('install', function(event) {
     );
 });
 
+
 self.addEventListener('activate', function(event) {
     console.log('Service Worker: Activated');
     //remove unwanted caches
@@ -42,8 +44,27 @@ self.addEventListener('activate', function(event) {
                 cacheNames.filter(function(cacheName) {
                     return cacheName != staticCacheName;
                 }).map(function (cacheName) {
+                    console.log('Service Worker: Clearing Old Cache');
                     return caches.delete(cacheName);
                 })
            );
     }));
+});
+
+//Show offline via fetch
+self.addEventListener('fetch', function(event) {
+    //if event.response === offline {}
+    console.log('Service Worker: Fetching');
+    //Traversy code
+    event.respondWith(
+        //if site is offline, then event.request will fail and go to .catch
+        fetch(event.request).catch(function(){
+            console.log('Service Worker: You are offline');
+            staticCacheName.match(event.request);
+        })
+    );
+    //mycode
+    // caches.open(staticCacheName).then(function(cache) {
+    //     cache.match('request?');
+    // });
 });
