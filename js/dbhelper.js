@@ -52,15 +52,15 @@ class DBHelper {
   static get DATABASE_URL() {
     const port = 1337
     const local = `http://localhost:${port}/restaurants`;
-    const remote = `https://reviews-server.tt34.com/restaurants`;
-    return local ;
+    const remote = `https://mws-backend.herokuapp.com//restaurants`;
+    return remote ;
   }
 
   static get DATABASE_FOR_REVIEWS () { 
     const port = 1337
     const local = `http://localhost:${port}/reviews`;
-    const remote = `https://reviews-server.tt34.com/reviews`;
-    return local ;
+    const remote = `https://mws-backend.herokuapp.com/reviews`;
+    return remote ;
   }
 
   /**
