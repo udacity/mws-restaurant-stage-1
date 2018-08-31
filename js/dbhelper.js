@@ -42,9 +42,10 @@ class DBHelper {
             .then(database => {
                 if (!database) return;
                 const tx = database.transaction("restaurantDB", "readwrite");
-                const store = tx.objectStore("restaurantDb");
+                const store = tx.objectStore("restaurantDB");
                 restautantsData.forEach(restaurant => {
-                    store.put(restaurant);
+                    console.log(restaurant);
+                    store.put(restaurant, restaurant.id);
                 });
                 return tx.complete;
             })
@@ -58,7 +59,7 @@ class DBHelper {
             if (!database) return;
             let store = database
                 .transaction("restaurantDB")
-                .objectStore("restaurantDb");
+                .objectStore("restaurantDB");
 
             return store.getAll();
         });
@@ -224,7 +225,8 @@ class DBHelper {
      * Restaurant image URL.
      */
     static imageUrlForRestaurant(restaurant) {
-        return `/img/${restaurant.photograph}`;
+        console.log(restaurant);
+        return `/img/${restaurant.photograph || restaurant.id}.jpg`;
     }
 
     /**
