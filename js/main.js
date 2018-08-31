@@ -144,13 +144,14 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
+    const img_url_fragment = DBHelper.imageUrlForRestaurant(restaurant);
     const html = `
     <li>
-        <img class ="restaurant-img" src ="${DBHelper.imageUrlForRestaurant(restaurant)}">
+        <img class="restaurant-img" src="${img_url_fragment}-300.jpg" srcset="${img_url_fragment}-600.jpg 1000w, ${img_url_fragment}-1200.jpg 2000w">
         <h1>${restaurant.name}</h1>
         <p>${restaurant.neighborhood}</p>
         <p>${restaurant.address}</p>
-        <a href="${DBHelper.urlForRestaurant(restaurant)}">View Details</a>
+        <a href="${DBHelper.urlForRestaurant(restaurant)}" title="view ${restaurant.name} details">View Details</a>
     </li>`;
     return document.createRange().createContextualFragment(html);
 }
