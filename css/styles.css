@@ -3,14 +3,17 @@
 
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
+	font-size: 1.25em;
 	color: #333;
 	line-height: 1.5;
 }
 body {
 	background-color: #fdfdfd;
 	margin: 0;
-	position:relative;
+  position:relative;
+  max-width: 1100px;
+  margin-left: 10px;
+  margin-right: auto;
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
