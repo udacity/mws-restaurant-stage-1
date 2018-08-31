@@ -50,15 +50,15 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 1337
-    const local = `http://localhost:${port}/restaurants`;
-    const remote = `https://mws-backend.herokuapp.com//restaurants`;
+    // const port = 1337
+    // const local = `http://localhost:${port}/restaurants`;
+    const remote = `https://mws-backend.herokuapp.com/restaurants`;
     return remote ;
   }
 
   static get DATABASE_FOR_REVIEWS () { 
-    const port = 1337
-    const local = `http://localhost:${port}/reviews`;
+    // const port = 1337
+    // const local = `http://localhost:${port}/reviews`;
     const remote = `https://mws-backend.herokuapp.com/reviews`;
     return remote ;
   }
