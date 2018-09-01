@@ -191,6 +191,7 @@ createRestaurantHTML = (restaurant) => {
   //create buttons instead of <a href> links to aid accessibility and screen readers
   const more = document.createElement('button');
   more.innerHTML = 'View Details';
+  more.setAttribute('aria-label', 'View details of' + restaurant.name);
   more.onclick = function() {
     const url = DBHelper.urlForRestaurant(restaurant);
     window.location = url;
