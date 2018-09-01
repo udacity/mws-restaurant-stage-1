@@ -1,32 +1,34 @@
-# Mobile Web Specialist Certification Course
----
-#### _Three Stage Course Material Project - Restaurant Reviews_
+Restaurant Reviews, Phase 1: Udacity Front End Web Developer Nanodegree, Project 5
+======================================================================
 
-## Project Overview: Stage 1
+## Table of Contents
 
-For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.
-
-### Specification
-
-You have been provided the code for a restaurant reviews website. The code has a lot of issues. It’s barely usable on a desktop browser, much less a mobile device. It also doesn’t include any standard accessibility features, and it doesn’t work offline at all. Your job is to update the code to resolve these issues while still maintaining the included functionality. 
-
-### What do I do from here?
-
-1. In this folder, start up a simple HTTP server to serve up the site files on your local computer. Python has some simple tools to do this, and you don't even need to know Python. For most people, it's already installed on your computer. 
-
-In a terminal, check the version of Python you have: `python -V`. If you have Python 2.x, spin up the server with `python -m SimpleHTTPServer 8000` (or some other port, if port 8000 is already in use.) For Python 3.x, you can use `python3 -m http.server 8000`. If you don't have Python installed, navigate to Python's [website](https://www.python.org/) to download and install the software.
-
-2. With your server running, visit the site: `http://localhost:8000`, and look around for a bit to see what the current experience looks like.
-3. Explore the provided code, and start making a plan to implement the required features in three areas: responsive design, accessibility and offline use.
-4. Write code to implement the updates to get this site on its way to being a mobile-ready website.
-
-## Leaflet.js and Mapbox:
-
-This repository uses [leafletjs](https://leafletjs.com/) with [Mapbox](https://www.mapbox.com/). You need to replace `<your MAPBOX API KEY HERE>` with a token from [Mapbox](https://www.mapbox.com/). Mapbox is free to use, and does not require any payment information. 
-
-### Note about ES6
-
-Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
+* [Purpose](#purpose)
+* [How to Run](#how_to_run)
+* [Learning](#learning)
 
 
+Note: Due to the large volume of starter code provided, I have preceded all of my original code additions with //mycode
 
+## Purpose
+
+This fifth project of the Udacity Front-End Web Developer Nanodegree (FEND) instructed me to build adapt an existing restaurant reviews program to:
+1. Display content if internet connection is lost (utilizing a service worker)
+2. Be fully responsive on multiple screen sizes
+3. Respect current standards in accessibility
+
+
+## How_to_Run
+
+To run the program locally on your computer (requires Internet connection, JavaScript, HTML, CSS, local server)
+* Download the repository from GitHub
+* Open the folder within your code editor of choice (I use Visual Studio Code)
+* Initiate a live server with the appropriate extension (I use "Live Server" by Ritwick Dey)
+* Or, create a local Python server
+
+
+## Learning
+
+* CSS: I thought I had a grasp on CSS before this project, but having to understand, unwind and improve on existing code pushed me to learn a lot more. Particular learning was the topic of positioning elements and proper use of padding.
+* Accessibility: Utilizing a screen reader (Chrome Vox) helped me to understand how my content is experienced by the visually impaired. This also pushed me to go deeper in the concept of ARIA labeling.
+* Service Worker: This aspect of the project took me the least time, compared to the other two, but was more challenging, as it was so abstract and feedback was hard to decipher. I could see immediately if my CSS or ARIA labels did not work, but it was much harder to determine why my files were not caching, or not loading.
