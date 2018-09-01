@@ -139,9 +139,7 @@ nav h1 a {
 }
 /* ====================== Restaurant Filtering ====================== */
 #filter-options {
-  /* width: 100%; */
-  /*TODO: remove height, use padding */
-  /* height: 90px; */
+  /*mycode: remove height, use padding */
   padding: 20px;
 
   background-color: #3397DB;
@@ -191,13 +189,11 @@ nav h1 a {
   text-align: left;
   width: 270px;
 }
-/* TODO: set max-width for 3 diff media query breakpoints */
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;
   margin: 25px 0;
   max-width: 100%;
-  /* min-height: 248px; */
   min-width: 100%;
 }
 #restaurants-list li h2 {
@@ -228,7 +224,7 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Details ====================== */
-/* position fixed adds 80px to width? */
+/*todo: position fixed adds 80px to width? */
 .inside header {
   position: fixed;
   top: 0;
@@ -248,7 +244,6 @@ nav h1 a {
     right: unset;
     height: 30%;
     width: 100%;
-    /* position: none; */
     top: 140px;
   }
 }
