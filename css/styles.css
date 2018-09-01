@@ -64,6 +64,9 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 .skip-link:focus {
   top: 0;
 }
+.inside .skip-link:focus {
+  top: 100px;
+}
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
@@ -225,7 +228,6 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Details ====================== */
-/* TODO: remove all .inside? This is confusing something*/
 /* position fixed adds 80px to width? */
 .inside header {
   position: fixed;
