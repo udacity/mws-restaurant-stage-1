@@ -338,10 +338,9 @@ nav h1 a {
   font-weight: bold;
 }
 
-#restaurant-hours, td, th {
-  border: 1px solid #999;
-  border-collapse: collapse;
-} 
+#restaurant-hours {
+  width: 100%;
+}
 
 #restaurant-hours tr:nth-child(odd) {
   background-color: #ccc;
@@ -349,6 +348,7 @@ nav h1 a {
 
 #restaurant-hours td {
   color: #000;
+  width: 50%;
   padding: 0.5em;
 }
 

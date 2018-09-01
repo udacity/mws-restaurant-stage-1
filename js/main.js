@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
   fetchCuisines();
 });
 
-
 /*
  *  Register service worker 
  */
