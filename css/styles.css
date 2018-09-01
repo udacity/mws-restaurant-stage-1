@@ -240,7 +240,7 @@ nav h1 a {
   height: 87%;
   position: fixed;
   right: 0;
-  top: 80px;
+  top: 100px;
   width: 50%;
 }
 @media screen and (max-width: 480px) {
@@ -249,7 +249,7 @@ nav h1 a {
     height: 30%;
     width: 100%;
     /* position: none; */
-    top: 100px;
+    top: 140px;
   }
 }
 .inside #map {
