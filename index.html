@@ -23,7 +23,7 @@
 
 <body>
   <!-- mycode -->
-  <a href=".filter-options" class="skip-link">Skip to main content</a>
+  <a href="#filter-options" class="skip-link">Skip to main content</a>
 
   <header>
     <nav tabindex="-1">
@@ -38,7 +38,7 @@
       <div id="map" aria-hidden="true"></div>
     </section>
     <section>
-      <div class="filter-options" tabindex="0">
+      <div id="filter-options" tabindex="0">
         <h2>Filter Results</h2>
         <div class="filter-buttons">
           <select id="neighborhoods-select" name="neighborhoods" aria-label="Select a Neighborhood" onchange="updateRestaurants()">
@@ -57,6 +57,8 @@
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
   <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap"></script> -->
 
+  <!-- register serviceworker -->
+  <script type="application/javascript" charset="utf-8" src="/sw-registration.js"></script>
 
   <footer id="footer">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.

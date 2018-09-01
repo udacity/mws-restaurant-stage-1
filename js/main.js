@@ -4,6 +4,9 @@ let restaurants,
 var newMap
 var markers = []
 
+
+
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -85,6 +88,9 @@ initMap = () => {
       'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     id: 'mapbox.streets'
   }).addTo(newMap);
+
+  //mycode: set tabindex to skip map element
+  document.querySelector('#map').tabIndex = -1;
 
   updateRestaurants();
 }
@@ -182,8 +188,10 @@ createRestaurantHTML = (restaurant) => {
   li.append(address);
 
   //credit Doug Brown webinar https://www.youtube.com/watch?v=92dtrNU1GQc
+  //create buttons instead of <a href> links to aid accessibility and screen readers
   const more = document.createElement('button');
   more.innerHTML = 'View Details';
+  more.setAttribute('aria-label', 'View details of' + restaurant.name);
   more.onclick = function() {
     const url = DBHelper.urlForRestaurant(restaurant);
     window.location = url;
