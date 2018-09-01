@@ -89,6 +89,9 @@ initMap = () => {
     id: 'mapbox.streets'
   }).addTo(newMap);
 
+  //mycode: set tabindex to skip map element
+  document.querySelector('#map').tabIndex = -1;
+
   updateRestaurants();
 }
 /* window.initMap = () => {
@@ -185,6 +188,7 @@ createRestaurantHTML = (restaurant) => {
   li.append(address);
 
   //credit Doug Brown webinar https://www.youtube.com/watch?v=92dtrNU1GQc
+  //create buttons instead of <a href> links to aid accessibility and screen readers
   const more = document.createElement('button');
   more.innerHTML = 'View Details';
   more.onclick = function() {
