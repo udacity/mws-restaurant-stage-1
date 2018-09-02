@@ -71,7 +71,7 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
+    width: 100%;
 }
 
 /* Display list items side by side */
@@ -216,11 +216,11 @@ nav h1 a {
 /* ====================== Restaurant Details ====================== */
 .restaurant-container {
   display: flex;
-  flex: wrap;
+  /* flex: wrap; */
 }
 
 .details-container {
-  width: 50%;
+  width: 100%;
 }
 
 .inside header {
@@ -232,11 +232,8 @@ nav h1 a {
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 100%;
-  position: fixed;
-  right: 0;
-  top: 80px;
-  width: 50%;
+  height: 30%;
+  width: 100%;
 }
 .inside #map {
   background-color: #ccc;
@@ -246,8 +243,25 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 46%;
+  padding: 10px 40px 16px;
+  width: calc(50% - 80px);
 }
+
+@media screen and (min-width: 720px) {
+  .details-container {
+  width: 50%;
+  }
+  .inside #map-container {
+  height: 100%;
+  position: fixed;
+  right: 0;
+  width: 50%;
+}
+#breadcrumb {
+  width: calc(50% - 80px);
+}
+}
+
 #restaurant-name {
   color: #f18200;
   font-family: Arial,sans-serif;
