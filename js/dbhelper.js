@@ -179,3 +179,15 @@ class DBHelper {
 
 }
 
+createSW = () => {
+  if (!navigator.serviceWorker) return;
+
+  navigator.serviceWorker.register('/js/sw.js').then(function(reg) {
+    console.log('Service worker registraion succeeded: ', reg);
+  }, function(error) {
+    console.log('Service worker registraion failed: ', error)
+  });
+}
+
+window.addEventListener("load", createSW);
+
