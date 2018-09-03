@@ -215,8 +215,7 @@ nav h1 a {
 
 /* ====================== Restaurant Details ====================== */
 .restaurant-container {
-  display: flex;
-  /* flex: wrap; */
+  display: block;
 }
 
 .details-container {
@@ -232,12 +231,12 @@ nav h1 a {
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 30%;
+  /* height: 30%; */
   width: 100%;
 }
 .inside #map {
   background-color: #ccc;
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
 }
 .inside #footer {
@@ -248,6 +247,10 @@ nav h1 a {
 }
 
 @media screen and (min-width: 720px) {
+  .restaurant-container {
+    display: flex;
+    flex: wrap;
+  }
   .details-container {
   width: 50%;
   }
@@ -256,9 +259,18 @@ nav h1 a {
   position: fixed;
   right: 0;
   width: 50%;
-}
-#breadcrumb {
-  width: calc(50% - 80px);
+  }
+  .inside #map {
+    height: 100%;
+  }
+  #breadcrumb {
+    width: calc(50% - 80px);
+  }
+  #restaurant-container {
+    padding: 10rem 4rem 1rem;
+  }
+  #reviews-container {
+    padding: 2rem 4rem 0rem;
 }
 }
 
@@ -273,11 +285,12 @@ nav h1 a {
   line-height: 1.1;
 }
 #restaurant-img {
-	width: 90%;
+  width: 85%;
+  padding: 0px 20px;
 }
 #restaurant-address {
   font-size: 12pt;
-  margin: 10px 0px;
+  margin: 10px 20px;
 }
 #restaurant-cuisine {
   background-color: #333;
@@ -286,19 +299,23 @@ nav h1 a {
   font-weight: 300;
   letter-spacing: 10px;
   margin: 0 0 20px;
-  padding: 2px 0;
+  padding: 2px 20px;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+  width: 85%;
+  
 }
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
-  width: 100%;
+  /* padding: 10rem 0.5rem 0.5rem 0.5rem; */
+  /* width: 100%; */
+}
+#restaurant-container {
+  padding: 10rem 0.5rem 1rem;
 }
 #reviews-container {
-  padding: 30px 40px 80px;
+  padding: 2rem 0.5rem 0rem;
 }
 #reviews-container h2 {
   color: #f58500;
@@ -327,6 +344,8 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+  overflow-wrap: break-word;
+  padding: 0px 20px;
 }
 
 .review-name {
