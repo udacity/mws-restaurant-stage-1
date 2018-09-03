@@ -104,7 +104,6 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    /* TODO: adjust to max-width: ; */
     max-width: 100%;
 }
 
@@ -256,6 +255,12 @@ nav h1 a {
   bottom: 0;
   position: absolute;
   width: 100%;
+  /* TODO: padding: 0px; */
+}
+@media screen and (max-width: 480px) {
+  .inside #footer {
+    padding: 0;
+  }
 }
 #restaurant-name {
   color: #f18200;
@@ -268,7 +273,7 @@ nav h1 a {
   line-height: 1.1;
 }
 #restaurant-img {
-	width: 90%;
+	width: 100%;
 }
 #restaurant-address {
   font-size: 12pt;
@@ -284,24 +289,41 @@ nav h1 a {
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
-	width: 90%;
+	width: 100%;
 }
+/* TODO: fix mobile scaling: reviews LR padding to 0px,
+footer padding 0px
+separate mobile padding of rest from rev?
+j  */
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
   width: 50%;
+  box-sizing: border-box;
+}
+#restaurant-container {
+  padding: 140px 40px 30px;
+}
+#reviews-container {
+  padding: 30px 40px 80px;
 }
 @media screen and (max-width: 480px) {
   #restaurant-container, #reviews-container {
     width: 100%;
     top: 50%;
+    box-sizing: border-box;
+    /* TODO: this padding throws everything off: remove side padding
+    but then content is off-center
+    try box-sizing: border-box */
+  }
+  #restaurant-container {
     padding: 380px 40px 30px;
   }
+  #reviews-container {
+    padding: 30px 40px 80px;
+  }
 }
-#reviews-container {
-  padding: 30px 40px 80px;
-}
+
 #reviews-container h3 {
   color: #f58500;
   font-size: 24pt;
@@ -322,7 +344,6 @@ nav h1 a {
   overflow: hidden;
   padding: 20px 20px;
   /* position: relative; */
-  width: 70%;
 }
 #reviews-list li p {
   margin: 0 0 10px;
