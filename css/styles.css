@@ -259,7 +259,8 @@ nav h1 a {
 }
 @media screen and (max-width: 480px) {
   .inside #footer {
-    padding: 0;
+    padding: 10px;
+    box-sizing: border-box;
   }
 }
 #restaurant-name {
@@ -291,10 +292,7 @@ nav h1 a {
   text-transform: uppercase;
 	width: 100%;
 }
-/* TODO: fix mobile scaling: reviews LR padding to 0px,
-footer padding 0px
-separate mobile padding of rest from rev?
-j  */
+
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
@@ -312,9 +310,6 @@ j  */
     width: 100%;
     top: 50%;
     box-sizing: border-box;
-    /* TODO: this padding throws everything off: remove side padding
-    but then content is off-center
-    try box-sizing: border-box */
   }
   #restaurant-container {
     padding: 380px 40px 30px;
