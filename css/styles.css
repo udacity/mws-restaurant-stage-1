@@ -233,6 +233,7 @@ nav h1 a {
   background: blue none repeat scroll 0 0;
   /* height: 30%; */
   width: 100%;
+  position: relative;
 }
 .inside #map {
   background-color: #ccc;
@@ -240,38 +241,10 @@ nav h1 a {
   width: 100%;
 }
 .inside #footer {
-  bottom: 0;
+  bottom: -10;
   position: absolute;
-  padding: 10px 40px 16px;
-  width: calc(50% - 80px);
-}
-
-@media screen and (min-width: 720px) {
-  .restaurant-container {
-    display: flex;
-    flex: wrap;
-  }
-  .details-container {
-  width: 50%;
-  }
-  .inside #map-container {
-  height: 100%;
-  position: fixed;
-  right: 0;
-  width: 50%;
-  }
-  .inside #map {
-    height: 100%;
-  }
-  #breadcrumb {
-    width: calc(50% - 80px);
-  }
-  #restaurant-container {
-    padding: 10rem 4rem 1rem;
-  }
-  #reviews-container {
-    padding: 2rem 4rem 0rem;
-}
+  padding: 10px 0px 16px;
+  width: 100%;
 }
 
 #restaurant-name {
@@ -360,4 +333,39 @@ nav h1 a {
 
 .review-rating {
   font-weight: 550;
+}
+
+@media screen and (min-width: 720px) {
+  .restaurant-container {
+    display: flex;
+    flex: wrap;
+  }
+  .details-container {
+  width: 50%;
+  }
+  .inside #map-container {
+  height: 100%;
+  position: fixed;
+  right: 0;
+  width: 50%;
+  }
+  .inside #map {
+    height: 100%;
+  }
+  #breadcrumb {
+    width: calc(50% - 80px);
+  }
+  #restaurant-container {
+    padding: 10rem 4rem 1rem;
+  }
+  #reviews-container {
+    padding: 2rem 4rem 0rem;
+    margin-bottom: 2rem;
+  }
+  .inside #footer {
+    bottom: 0;
+    position: absolute;
+    padding: 10px 40px 16px;
+    width: calc(50% - 80px);
+  }
 }
