@@ -1,0 +1,44 @@
+
+
+@media screen and (min-width: 550px) {
+  .inside #maincontent {
+  display:flex;
+  flex-wrap: wrap;
+}
+  .inside #restaurant-container {
+    flex: auto;
+    order: 0;
+  
+}
+  .inside #map-container {
+    flex:auto;
+    order:1;
+  
+   }
+    #restaurants-list{
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      padding:10px;
+}
+
+   #restaurants-list li
+   {
+     width: 32%;
+     margin-bottom: 2%;
+   }
+   .inside #reviews-container {
+    order: 2;
+   
+
+
+}
+    
+}
+@media screen and (min-width: 850px) {
+    body, header, nav, footer {
+      max-width: 1150px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
