@@ -183,11 +183,11 @@ createRestaurantHTML = (restaurant) => {
   li.append(neighborhood);
 
   const address = document.createElement('p');
-  //credit student @James_D_Bartlett_III: comma followed by new line
+  //mycode: credit student @James_D_Bartlett_III: comma followed by new line
   address.innerHTML = restaurant.address.replace(',', ',<br/>');
   li.append(address);
 
-  //credit Doug Brown webinar https://www.youtube.com/watch?v=92dtrNU1GQc
+  //mycode: credit Doug Brown webinar https://www.youtube.com/watch?v=92dtrNU1GQc
   //create buttons instead of <a href> links to aid accessibility and screen readers
   const more = document.createElement('button');
   more.innerHTML = 'View Details';
@@ -196,12 +196,10 @@ createRestaurantHTML = (restaurant) => {
     const url = DBHelper.urlForRestaurant(restaurant);
     window.location = url;
   }
+  //original code:
   // const more = document.createElement('a');
   // more.innerHTML = 'View Details';
   // more.href = DBHelper.urlForRestaurant(restaurant);
-
-  //mycode: not working
-  // more.role = 'button';
 
   li.append(more)
 

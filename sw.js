@@ -1,6 +1,7 @@
-let staticCacheName = 'restaurant-reviews-v1';
+let staticCacheName = 'restaurant-reviews-v2';
 let urlsToCache = [
     '/',
+    //TODO: not need registration?
     './sw-registration.js',
     'index.html',
     'restaurant.html',
@@ -56,8 +57,17 @@ self.addEventListener('fetch', function(event) {
     console.log('Service Worker: Fetching');
     event.respondWith(
         //if site is offline, then event.request will fail and go to .catch
-        fetch(event.request).catch(() =>
-            caches.match(event.request)
-       )
+    //     fetch(event.request).catch(() =>
+    //         caches.match(event.request)
+    //    )
+        caches.match(event.request).then(function (response) {
+            if (response) {
+                console.log(`Found ${event.request} in cache`);
+                return response;
+            } else {
+                console.log(`Could not find ${event.request} in cache: fetching.`);
+                return fetch(event.request);
+            }
+        })
     );
 });
