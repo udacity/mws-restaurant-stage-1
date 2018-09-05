@@ -154,7 +154,7 @@ class DBHelper {
   }
 
   static imageAltForRestaurant(restaurant) {
-      return (`${restaurant.alt_text}`);
+      return (`${restaurant.name} promotional photo`);
   }
 
   /**
