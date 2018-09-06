@@ -1,3 +1,5 @@
+/*
+
 (function() {
   'use strict';
 
@@ -39,3 +41,5 @@ dbPromise(function(db) {
 
 
 // Reference: https://developers.google.com/web/ilt/pwa/working-with-indexeddb
+
+*/

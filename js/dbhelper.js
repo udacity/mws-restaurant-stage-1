@@ -14,11 +14,10 @@
 
   // Creates the database
 
-  console.log('We\'re about to create a database!');
+  console.log('We\'re about to create a database!'); // This shows in the console
 
   var dbPromise = idb.open('mws-restaurant-reviews', 6, function(upgradeDb) {
-    console.log('Creating the database');
-    console.log(version);
+    console.log('Creating the database'); // This does not :(
 
   // If there is not an objectstore named 'restaurants', create one, with a primary key of 'id'
 
@@ -28,7 +27,7 @@
       restaurantsOS.createIndex('neighborhood', 'neighborhood', {unique: false}) // Create index for neighborhoods
       restaurantsOS.createIndex('cuisine', 'cuisine', {unique: false}) // Create index for cuisines
 
-      console.log('Creating the restaurants objectstore');
+      console.log('Creating the restaurants objectstore'); // This does not either
     }
   });
 
@@ -64,12 +63,12 @@ class DBHelper {
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL); // Get data from the sails server
-    console.log('Got data from the server!');
+    console.log('Got data from the server!'); // This fires twice?
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
         const json = JSON.parse(xhr.responseText); // This is the actual data array
         const restaurants = json;
-        console.log(json);
+        console.log(json); // This fires twice too
 
         // dbTransaction.add(restaurants);
 
