@@ -14,7 +14,7 @@
 
   // Creates the database
 
-  var dbPromise = idb.open('mws-restaurant-reviews', 5, function(upgradeDb) {
+  var dbPromise = idb.open('mws-restaurant-reviews', 6, function(upgradeDb) {
     console.log('Creating the database');
 
   // If there is not an objectstore named 'restaurants', create one, with a primary key of 'id'
@@ -46,9 +46,13 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
+/*
   static dbTransaction(db) {
     let tx = dbPromise.transction('restaurants', 'readwrite');
     let store = tx.objectstore('restaurants');
+  }
+
+  */
 
   /**
    * Fetch all restaurants.
@@ -64,8 +68,11 @@ class DBHelper {
         const restaurants = json;
         console.log(json);
 
-        dbTransaction.add(restaurants);
+        // dbTransaction.add(restaurants);
 
+        let tx = dbPromise.transction('restaurants', 'readwrite');
+        let store = tx.objectstore('restaurants');
+        dbTransaction.add(restaurants);
 
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
