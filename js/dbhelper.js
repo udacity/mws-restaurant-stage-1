@@ -14,8 +14,11 @@
 
   // Creates the database
 
+  console.log('We\'re about to create a database!');
+
   var dbPromise = idb.open('mws-restaurant-reviews', 6, function(upgradeDb) {
     console.log('Creating the database');
+    console.log(version);
 
   // If there is not an objectstore named 'restaurants', create one, with a primary key of 'id'
 
