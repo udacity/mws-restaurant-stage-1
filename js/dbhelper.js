@@ -46,17 +46,27 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
+  static dbTransaction(db) {
+    let tx = dbPromise.transction('restaurants', 'readwrite');
+    let store = tx.objectstore('restaurants');
+
   /**
    * Fetch all restaurants.
    */
 
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
+    xhr.open('GET', DBHelper.DATABASE_URL); // Get data from the sails server
+    console.log('Got data from the server!');
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
+        const json = JSON.parse(xhr.responseText); // This is the actual data array
         const restaurants = json;
+        console.log(json);
+
+        dbTransaction.add(restaurants);
+
+
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
@@ -65,6 +75,18 @@ class DBHelper {
     };
     xhr.send();
   }
+
+  /*
+  // Function for adding JSON data to indexDB
+
+  dbPromise(function(db) {
+  var tx = dbPromise.transction('restaurants', 'readwrite');
+  var store = tx.objectstore('restaurants');
+
+  restaurants.add(DATABASE_URL); // ???
+
+});
+  */
 
   /**
    * Fetch a restaurant by its ID.
