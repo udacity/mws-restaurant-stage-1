@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 /*
- *  Register service worker 
+ *  TODO : Register service worker 
  */
 registerServiceWorker = () => {
   if(!navigator.serviceWorker) {
@@ -157,9 +157,6 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
-  let info = restaurant.name + ' restaurant in ' + restaurant.neighborhood;
-  li.setAttribute('aria-label', info);
-  li.tabIndex = 0;
 
   // create picture element
   const picture = document.createElement('picture');
@@ -174,15 +171,14 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = myImage.small;
-  const altText = 'Image of ' + restaurant.name + ' restaurant in ' + restaurant.neighborhood;
-  image.title = altText;
+  const altText = 'An image of ' + restaurant.name + ' Restaurant';
   image.alt = altText;
   picture.appendChild(image);
 
   const div2 = document.createElement('div');
   div2.className = 'restaurant-info';
 
-  const name = document.createElement('h2');
+  const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
   div2.appendChild(name);
 
@@ -197,6 +193,7 @@ createRestaurantHTML = (restaurant) => {
 
   const more = document.createElement('button');
   more.innerHTML = 'View Details';
+  more.setAttribute('aria-label', 'click to view details of ' + restaurant.name + ' Restaurant');
   //more.href = DBHelper.urlForRestaurant(restaurant);
   more.addEventListener('click', () => { window.location.href = DBHelper.urlForRestaurant(restaurant); });
   li.appendChild(more)

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 /*
- *  Register service worker 
+ *  TODO : Register service worker 
  */
 registerServiceWorker = () => {
   if(!navigator.serviceWorker) {
@@ -77,13 +77,11 @@ fetchRestaurantFromURL = (callback) => {
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
-  name.tabIndex = 0;
-  name.setAttribute('aria-label', 'restaurant name: ' + restaurant.name);
+  name.setAttribute('aria-label', 'Name: ' + restaurant.name);
   name.innerHTML = restaurant.name;
 
   const address = document.getElementById('restaurant-address');
-  address.tabIndex = 0;
-  address.setAttribute('aria-label', 'restaurant address: ' + restaurant.address);
+  address.setAttribute('aria-label', 'Address: ' + restaurant.address);
   address.innerHTML = restaurant.address;
 
   const myImage = DBHelper.imageUrlForRestaurant(restaurant);
@@ -93,16 +91,13 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   source.srcset = myImage.normal + ' 1x,' + myImage.large + '2x';
 
   const image = document.getElementById('restaurant-img');
-  image.tabIndex = 0;
   image.className = 'restaurant-img';
   image.src = myImage.small;
-  const altText = 'Image of ' + restaurant.name + ' restaurant in ' + restaurant.neighborhood;
-  image.title = altText;
+  const altText = 'An image of ' + restaurant.name + ' Restaurant';
   image.alt = altText;
 
   const cuisine = document.getElementById('restaurant-cuisine');
-  cuisine.tabIndex = 0;
-  cuisine.setAttribute('aria-label', 'restaurant cuisine: ' + restaurant.cuisine_type);
+  cuisine.setAttribute('aria-label', 'Cuisine: ' + restaurant.cuisine_type);
   cuisine.innerHTML = restaurant.cuisine_type;
 
   // fill operating hours
@@ -118,19 +113,16 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
-  hours.tabIndex = 0;
-  hours.setAttribute('aria-label', 'Operating Hours');
+  //hours.setAttribute('aria-label', 'Operating Hours');
   for (let key in operatingHours) {
     const row = document.createElement('tr');
-    //row.role = "row";
 
     const day = document.createElement('td');
-    //day.role = "cell";
+   // day.scope = "row";
     day.innerHTML = key;
     row.appendChild(day);
 
     const time = document.createElement('td');
-    //time.role = "cell";
     time.innerHTML = operatingHours[key];
     row.appendChild(time);
 
@@ -147,7 +139,6 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   rev.className = "reviews-header"
   container.appendChild(rev);
   const title = document.createElement('h2');
-  title.tabIndex = 0;
   title.innerHTML = 'Reviews';
   rev.appendChild(title);
 
@@ -169,7 +160,6 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
-  li.tabIndex = 0;
   li.setAttribute('aria-label', 'review by '+ review.name);
 
   const div1 = document.createElement('div');
@@ -177,26 +167,24 @@ createReviewHTML = (review) => {
 
   const name = document.createElement('p');
   name.classList.add('author');
+  //name.setAttribute('aria-label', 'Author: ');
   name.innerHTML = review.name;
   div1.appendChild(name);
 
   const date = document.createElement('p');
   date.classList.add('date');
-  date.setAttribute('aria-label', 'date reviewed, ' + review.date);
-  date.tabIndex = 0;
+ // date.setAttribute('aria-label', 'Date reviewed: ');
   date.innerHTML = review.date;
   div1.appendChild(date);
   li.appendChild(div1);
 
   const rating = document.createElement('div');
   rating.classList.add('rating');
-  rating.tabIndex = 0;
   rating.innerHTML = `Rating: ${review.rating}`;
   li.appendChild(rating);
 
   const comments = document.createElement('div');
   comments.classList.add('comment');
-  comments.tabIndex = 0;
   comments.innerHTML = review.comments;
   li.appendChild(comments);
 
@@ -210,7 +198,6 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.setAttribute('aria-current', 'page');
-  //li.tabIndex = 0;
   li.innerHTML = restaurant.name;
   breadcrumb.appendChild(li);
 }

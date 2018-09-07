@@ -31,24 +31,21 @@ body {
   position: absolute;
   top: -100px;
   left: 0;
-  z-index: 1000;
+  padding: 8px;
+  border-radius: 20px;
+  color: #fff;
+  border: 3px solid #fff;
+  background-color: #004;
+  z-index: 100;
 }
 
 .skip-main:focus {
-  color: #fff;
-  background-color: #004;
-  left: 0;
   top: 0;
-  width: auto;
-  height: auto;
-  overflow: auto;
-  padding: 5px;
-  border-radius: 20px;
-  border: 3px solid #fff;
-  z-index: 999;
+  text-decoration: underline;
 }
 
 :focus {
+  outline: 0;
   border: 0.5px solid #004;
   -webkit-box-shadow: 0 0 15px 10px #f71;
   -moz-box-shadow: 0 0 15px 10px #f71;
@@ -115,14 +112,12 @@ footer {
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
-  padding: 1em 0;
-  line-height: 1.4;
   background-color: #004;
   text-align: center;
 }
 
 nav h1 {
-  margin: auto;
+  margin: 1em 0;
   display: inline-block;
 }
 
@@ -141,7 +136,7 @@ nav h1 a {
   margin: 0;
   font-weight: 600;
   border: 1px solid #999;
-  width: 100%;
+  text-align: left;
 }
 
 /* Display list items side by side */
@@ -158,8 +153,8 @@ nav h1 a {
 
 /* Add a color to all links inside the list */
 #breadcrumb li a {
-  color: #fa0;
-  border-bottom: 2px dotted #fa0;
+  color: #600;
+  border-bottom: 2px dotted #600;
   text-decoration: none;
 }
 
@@ -184,9 +179,10 @@ nav h1 a {
   background-color: #ccc;
 }
 
-/* ============================ Change map attribution background============ */
+/* ============================ Map Attribution============ */
 .leaflet-container .leaflet-control-attribution {
   background: #fff!important;
+  display: none;
 }
 
 /* ====================== Restaurant Filtering ====================== */
@@ -210,6 +206,8 @@ nav h1 a {
   margin: 10px 10px 0;
 }
 
+/* TODO: Make label & caption visible only to Assitive technology*/
+caption,
 .filter-options label {
   width: 0;
   height: 0;
@@ -258,7 +256,7 @@ nav h1 a {
   min-width: 100%;
 }
 
-#restaurants-list li h2 {
+#restaurants-list li h3 {
   color: #004;
   font-family: Arial,sans-serif;
   font-size: 1.3em;
@@ -303,7 +301,6 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Details ====================== */
-.schedule,
 .name,
 .description, 
 .reviews-header,
@@ -342,18 +339,17 @@ nav h1 a {
   width: 100%;
 }
 
-#restaurant-hours tr:nth-child(odd) {
+#restaurant-hours tr:nth-child(even) {
   background-color: #ccc;
-}
-
-#restaurant-hours td {
-  color: #000;
-  width: 50%;
-  padding: 0.5em;
 }
 
 #restaurant-hours td:first-of-type {
   font-weight: bold;
+}
+
+#restaurant-hours td {
+  width: 50%;
+  padding: 0.5em;
 }
 
 #restaurant-container, 
@@ -472,14 +468,15 @@ nav h1 a {
   }
 
   #breadcrumb {
-    font-size: 1.5em;
+    font-size: 1.6em;
+    padding: 0.5em 1.5em;
   }
 
   .description {
     width: 40%;
   }
 
-  .schedule {
+  #restaurant-hours {
     width: 52%;
   }
 
@@ -499,7 +496,6 @@ nav h1 a {
     font-size: 1.2em;
   }
 
-  
   #restaurant-hours td {
     font-size: 1.1em;
   }
@@ -508,7 +504,7 @@ nav h1 a {
     width: 40%;
   }
   
-  .schedule{
+  #restaurant-hours {
     width: 54%;
   }
 
@@ -545,7 +541,7 @@ nav h1 a {
     width: 35.5%;
   }
 
-  .schedule{
+  #restaurant-hours {
     width: 61%;
   }
 
