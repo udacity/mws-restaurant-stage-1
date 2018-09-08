@@ -4,16 +4,15 @@ let restaurants,
 var newMap
 var markers = []
 
+// Register service worker
 
-// serviceWorker!
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('/sw.js')
-    .catch(function(error) {
-      console.log(error);
-    });
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.register('/sw.js').then(function() {
+    console.log("Registration Worked");
+  }).catch(function() {
+    console.log("Registration Failed!!");
+  });
 }
-
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -189,7 +188,6 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  more.tabindex = '3';
   li.append(more)
 
   return li
