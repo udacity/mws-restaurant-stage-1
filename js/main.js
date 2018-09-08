@@ -175,6 +175,7 @@ createRestaurantHTML = (restaurant) => {
   const favoriteDiv = document.createElement("div");
   favoriteDiv.className = "favorite-icon";
   const favorite = document.createElement("button");
+  // Icons made by Freepic and Pixel Perfect from www.flaticon.com
   favorite.style.background = `url('/icons/crown.svg')`
   favoriteDiv.append(favorite)
   div.append(favoriteDiv);
