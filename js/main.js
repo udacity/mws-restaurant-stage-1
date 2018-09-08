@@ -164,9 +164,20 @@ createRestaurantHTML = (restaurant) => {
   image.alt = restaurant.name + " restaurant promotional image";
   li.append(image);
 
+  const div = document.createElement("div");
+  div.className = "restaurant-text-area";
+  li.append(div);
+
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
+
+  const favoriteDiv = document.createElement("div");
+  favoriteDiv.className = "favorite-icon";
+  const favorite = document.createElement("button");
+  favorite.style.background = `url('/icons/crown.svg')`
+  favoriteDiv.append(favorite)
+  div.append(favoriteDiv);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;

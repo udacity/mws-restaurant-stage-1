@@ -164,6 +164,10 @@ nav h1 a {
   max-width: 100%;
   min-width: 100%;
 }
+
+#maincontent .favorite-icon {
+  top: 20px
+}
 #restaurants-list li h1 {
   color: #f18200;
   font-family: Arial,sans-serif;
