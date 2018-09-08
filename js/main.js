@@ -6,12 +6,18 @@ var markers = []
 
 // Register service worker
 
-if (navigator.serviceWorker) {
-  navigator.serviceWorker.register('/sw.js').then(function() {
-    console.log("Registration Worked");
-  }).catch(function() {
-    console.log("Registration Failed!!");
-  });
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then(reg => console.log("Registration Worked"))
+      .catch(error => console.log(`Registration Failed!! Error = ${error}`))
+  })
+  // navigator.serviceWorker.register('/sw.js').then(function() {
+  //   console.log("Registration Worked");
+  // }).catch(function() {
+  //   console.log("Registration Failed!!");
+  // });
 }
 
 /**
