@@ -131,7 +131,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   container.appendChild(title);
 
   const addReview = document.createElement('a');
-  addReview.href = `../review.html`;
+  addReview.href = `../review.html?id=${self.restaurant.id}`;
   addReview.innerHTML = "Add Your Review";
   container.appendChild(addReview);
 
