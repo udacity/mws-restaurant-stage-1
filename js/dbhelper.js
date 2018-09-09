@@ -181,5 +181,36 @@ class DBHelper {
     return marker;
   } */
 
+  // favorites
+
+  static updateFavorite(id, newState, callback) {
+    // Push the request into the waiting queue in IDB
+    const url = `${DBHelper.DATABASE_URL}/${id}/?is_favorite=${newState}`;
+    const method = "PUT";
+    DBHelper.updateCachedRestaurantData(id, {"is_favorite": newState});
+    DBHelper.addPendingRequestToQueue(url, method);
+
+    // Update the favorite data on the selected ID in the cached data
+
+    callback(null, {id, value: newState});
+  }
+  static handleFavoriteClick(id, newState) {
+    // Block any more clicks on this until the callback
+    const fav = document.getElementById("favorite-icon-" + id);
+    fav.onclick = null;
+
+    DBHelper.updateFavorite(id, newState, (error, resultObj) => {
+      if (error) {
+        console.log("Error updating favorite");
+        return;
+      }
+      // Update the button background for the specified favorite
+      const favorite = document.getElementById("favorite-icon-" + resultObj.id);
+      favorite.style.background = resultObj.value
+        ? `url("/icons/002-like.svg") no-repeat`
+        : `url("icons/001-like-1.svg") no-repeat`;
+    });
+  }
+
 }
 
