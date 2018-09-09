@@ -106,9 +106,10 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  height: 50px;
   background-color: #3397DB;
   align-items: center;
+  display: flex;
+  flex-wrap: wrap;
 }
 .filter-options h2 {
   color: white;
@@ -136,6 +137,8 @@ nav h1 a {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 300px))
 }
 #restaurants-list li {
   background-color: #fff;
@@ -145,16 +148,38 @@ nav h1 a {
   min-height: 380px;
   padding: 0 30px 25px;
   text-align: left;
-  width: 270px;
+  min-width: 270px;
+  max-width: 300px
 }
+
+@media screen and (min-width: 500px) {
+  #restaurants-list li {
+    max-width: 50%;
+  }
+} 
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
   min-width: 100%;
 }
+
+#maincontent .favorite-icon {
+  top: 20px
+}
+
+#restaurants-list li .favorite-icon button, #maincontent .favorite-icon button {
+  max-width: 25px;
+  max-height: 25px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  border: none;
+  float: right;
+  padding-right: 3em;
+}
+
 #restaurants-list li h1 {
   color: #f18200;
   font-family: Arial,sans-serif;
@@ -195,7 +220,7 @@ nav h1 a {
   position: fixed;
   right: 0;
   top: 80px;
-  width: 50%;
+  width: 10%;
 }
 .inside #map {
   background-color: #ccc;
@@ -240,7 +265,7 @@ nav h1 a {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 140px 40px 30px;
-  width: 50%;
+  max-width: 100%;
 }
 #reviews-container {
   padding: 30px 40px 80px;
@@ -272,4 +297,8 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+img {
+  max-width: 100%;
 }

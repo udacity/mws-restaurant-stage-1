@@ -8,8 +8,8 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
   }
 
   /**
@@ -21,7 +21,8 @@ class DBHelper {
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
         const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
+        // const restaurants = json.restaurants;
+        const restaurants = JSON.parse(xhr.responseText);
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
@@ -48,6 +49,21 @@ class DBHelper {
         }
       }
     });
+  }
+
+  static fetchRestaurantReviewsById(id, callback) {
+    // Fetch all reviews for the specific restaurant
+    const fetchURL = DBHelper.DATABASE_REVIEWS_URL + "/?restaurant_id=" + id;
+    fetch(fetchURL, {method: "GET"}).then(response => {
+      if (!response.clone().ok && !response.clone().redirected) {
+        throw "No reviews available";
+      }
+      response
+        .json()
+        .then(result => {
+          callback(null, result);
+        })
+    }).catch(error => callback(error, null));
   }
 
   /**
@@ -150,7 +166,10 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (`/images/${restaurant.id}-1600_large_2x.jpg`);
+  }
+  static smallimageUrlForRestaurant(restaurant) {
+    return (`/images/${restaurant.id}-800_small_1x.jpg`);
   }
 
   /**
@@ -176,6 +195,37 @@ class DBHelper {
     );
     return marker;
   } */
+
+  // favorites
+
+  static updateFavorite(id, newState, callback) {
+    // Push the request into the waiting queue in IDB
+    const url = `${DBHelper.DATABASE_URL}/${id}/?is_favorite=${newState}`;
+    const method = "PUT";
+    DBHelper.updateCachedRestaurantData(id, {"is_favorite": newState});
+    DBHelper.addPendingRequestToQueue(url, method);
+
+    // Update the favorite data on the selected ID in the cached data
+
+    callback(null, {id, value: newState});
+  }
+  static handleFavoriteClick(id, newState) {
+    // Block any more clicks on this until the callback
+    const fav = document.getElementById("favorite-icon-" + id);
+    fav.onclick = null;
+
+    DBHelper.updateFavorite(id, newState, (error, resultObj) => {
+      if (error) {
+        console.log("Error updating favorite");
+        return;
+      }
+      // Update the button background for the specified favorite
+      const favorite = document.getElementById("favorite-icon-" + resultObj.id);
+      favorite.style.background = resultObj.value
+        ? `url("/icons/002-like.svg") no-repeat`
+        : `url("icons/001-like-1.svg") no-repeat`;
+    });
+  }
 
 }
 

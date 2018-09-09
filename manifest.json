@@ -1,0 +1,21 @@
+{
+    "short_name": "Restaurant Reviews",
+    "name": "Udacity Resturant Reviews",
+    "icons": [
+      {
+        "src": "/images/1-1600_large_2x.jpg",
+        "type": "image/jpg",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/images/1-1600_large_2x.jpg",
+        "type": "image/jpg",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": "/index.html",
+    "background_color": "#252831",
+    "theme_color": "#252831",
+    "display": "standalone",
+    "scope": "/mws-restaurant-stage-1/"
+  }
