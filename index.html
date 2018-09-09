@@ -22,15 +22,15 @@
 
   <main id="maincontent">
     <section id="map-container">
-      <div id="map"></div>
+      <div id="map" role="link"></div>
     </section>
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select tabindex="2" role="tablist" id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <select tabindex="2" role="tablist" aria-haspopup="listbox" id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select tabindex="2" role="tablist" id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <select tabindex="2" role="tablist" aria-haspopup="listbox" id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
       </div>
