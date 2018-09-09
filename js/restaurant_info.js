@@ -98,7 +98,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  DBHelper.fetchRestaurantReviewsById(restaurant.id, fillReviewsHTML)
 }
 
 /**
@@ -197,3 +197,11 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+const handleFavoriteClick = (id, newState) => {
+  // Update properties of the restaurant data object
+  const favorite = document.getElementById("favorite-icon-" + id);
+  self.restaurant["is_favorite"] = newState;
+  favorite.onclick = event => handleFavoriteClick(restaurant.id, !self.restaurant["is_favorite"]);
+  DBHelper.handleFavoriteClick(id, newState);
+};

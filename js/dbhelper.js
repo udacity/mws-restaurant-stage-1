@@ -51,6 +51,21 @@ class DBHelper {
     });
   }
 
+  static fetchRestaurantReviewsById(id, callback) {
+    // Fetch all reviews for the specific restaurant
+    const fetchURL = DBHelper.DATABASE_REVIEWS_URL + "/?restaurant_id=" + id;
+    fetch(fetchURL, {method: "GET"}).then(response => {
+      if (!response.clone().ok && !response.clone().redirected) {
+        throw "No reviews available";
+      }
+      response
+        .json()
+        .then(result => {
+          callback(null, result);
+        })
+    }).catch(error => callback(error, null));
+  }
+
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
    */
