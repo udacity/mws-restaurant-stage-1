@@ -342,3 +342,11 @@ nav h1 a {
 #restaurant-hours td {
   color: #666;
 }
+
+.screenreader {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
