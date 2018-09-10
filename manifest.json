@@ -1,0 +1,21 @@
+{
+  "short_name": "MWS",
+  "name": "MWS Restaurant Reviews",
+  "icons": [
+    {
+      "src": "/img/review.svg",
+      "type": "image/svg",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/images/review.svg",
+      "type": "image/svg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#3367D6"
+}
