@@ -5,19 +5,23 @@ var newMap;
  * Initialize map as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {  
-  registerServiceWorker();
   initMap();
+  registerServiceWorker();
 });
 
 /*
  *  TODO : Register service worker 
  */
 registerServiceWorker = () => {
-  if(!navigator.serviceWorker) {
-    return console.log('service worker is not supported');
-  }
-  navigator.serviceWorker.register('./sw.js').then(() => console.log('Service Worker registered')).catch(() => console.log('Registration Failed')
-  );  
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.register('/sw.js')
+    .then(() => {
+        console.log('Service Worker registered')
+    })
+    .catch((error) => {
+        console.log('Registration Failed', error);
+    });
+  }    
 }
 
 /**

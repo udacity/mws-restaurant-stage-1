@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#000044">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
-  <link rel="icon" sizes="32x32" href="images/icons/icon-32x32.png">
+  <link rel="icon" sizes="32x32" href="/favicon.png">
   <title>Restaurant Reviews</title>
 </head>
 
@@ -29,11 +29,11 @@
     <section id="filter-container" class="filter-container" role="region" aria-labelledby="filter-label">
       <div class="filter-options">
         <h2 id="filter-label">Filter Results</h2>
-        <label for="neighborhoods-select">Select Neighborhood</label>
+        <label for="neighborhoods-select" class="sr-only">Select Neighborhood</label>
         <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <label for="cuisines-select">Select Cuisine</label>
+        <label for="cuisines-select" class="sr-only">Select Cuisine</label>
         <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
