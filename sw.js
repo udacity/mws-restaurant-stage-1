@@ -1,10 +1,10 @@
 var staticCacheName='mws-restaurant-v6';
 // Service worker install built upon code used for Wittr project
 self.addEventListener('install', function(event) {
-  console.log('install');
+  // console.log('install');
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
-      console.log('caching all');
+      // console.log('caching all');
       return cache.addAll([
         '/index.html',
         '/restaurant.html',
@@ -22,7 +22,7 @@ self.addEventListener('install', function(event) {
 self.addEventListener('fetch', function(event) {
   var requestUrl = new URL(event.request.url);
 // for now do simple cache of all requests 
-console.log('in fetch for ',requestUrl,'path',requestUrl.pathname);
+// console.log('in fetch for ',requestUrl,'path',requestUrl.pathname);
 
 if (requestUrl.origin === location.origin) {
   // for unspecified offline access redirect to cached index.html
@@ -50,7 +50,7 @@ event.respondWith(
     });
 
     }).catch(function(e) {
-      console.log('fetch promise failed for ',e);
+      // console.log('fetch promise failed for ',e);
     })
   );
 });
