@@ -1,3 +1,5 @@
+importScripts('serviceWorker-cache-polyfill.js');
+
 // Open a cache in local storage
 // Cache all the assets from the website
 
@@ -11,6 +13,7 @@ self.addEventListener("install", event => {
           "/",
           "/index.html",
           "/restaurant.html",
+          "/serviceWorker-cache-polyfill.js",
           "/css/styles.css",
           "/data/restaurants.json",
           "/js/",
@@ -27,7 +30,8 @@ self.addEventListener("install", event => {
           "/img/7.jpg",
           "/img/8.jpg",
           "/img/9.jpg",
-          "/img/10.jpg",                    
+          "/img/10.jpg",
+          "/img/notavailable.jpg",
           "/js/register.js"
         ])
         .catch(error => {
@@ -54,19 +58,20 @@ self.addEventListener("fetch", event => {
         response ||
         fetch(event.request)
           .then(fetchResponse => {
-            return caches.open(cacheID).then(cache => {
-              cache.put(event.request, fetchResponse.clone());
-              return fetchResponse;
-            });
+            return caches.open(cacheID)
+                        .then(cache => {
+                            cache.put(event.request, fetchResponse.clone());
+                            return fetchResponse;
+                        });
           })
           .catch(error => {
-            if (event.request.url.indexOf(".jpg") > -1) {
-              return caches.match("/img/na.png");
-            }
-            return new Response("Application is not connected to the internet", {
-              status: 404,
-              statusText: "Application is not connected to the internet"
-            });
+              if (event.request.url.indexOf(".jpg") > -1) {
+                  return caches.match("/img/notavailable.jpg");
+              }
+              return new Response("Restaurant Reviews is currently not connected to the Internet.  Please connect and try again.", {
+                  status: 404,
+                  statusText: "Restaurant Reviews is currently not connected to the Internet.  Please connect and try again."
+              });
           })
       );
     })

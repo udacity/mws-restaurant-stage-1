@@ -23,16 +23,18 @@
     <section id="map-container" class="map-container">
       <div id="map" class="map"></div>
     </section>
+    <label id="aria-map-description" class="aria-map-description">Mapbox App to view restaruant reviews</label>
     <section>
       <div class="filter-options">
-        <h2>Map Filters</h2>
         <div class="filter-selections">
-            <select id="neighborhoods-select" class="neighborhoods" name="neighborhoods" onchange="updateRestaurants()">
+            <select id="neighborhoods-select" class="neighborhoods" name="neighborhoods" onchange="updateRestaurants()" aria-labelledby="neighborhood-filter">
                 <option value="all">All Neighborhoods</option>
             </select>
-            <select id="cuisines-select" class="cuisines" name="cuisines" onchange="updateRestaurants()">
+            <label for="neighborhoods-select" class="filter-label">By Neighborhood</label>
+            <select id="cuisines-select" class="cuisines" name="cuisines" onchange="updateRestaurants()" aria-labelledby="cuisine-filter">
                 <option value="all">All Cuisines</option>
             </select>
+            <label for="cuisines-select" class="filter-label">By Cuisine</label>
         </div>
       </div>
       <ul id="restaurants-list" class="restaurants restaurants-list"></ul>
@@ -43,7 +45,7 @@
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
 
   <footer id="footer" class="footer">
-    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+    Copyright (c) 2018 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
 
 </body>
