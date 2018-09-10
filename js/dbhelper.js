@@ -3,6 +3,7 @@
  */
 //import idb from 'idb';
 class DBHelper {
+  //adapted from Wittr and Jake Archibald IDB examples
   static openDatabase() {
   // console.log('in open database');
     this.dbPromise = idb.open('mws', 2, upgradeDB => {
@@ -19,6 +20,7 @@ class DBHelper {
   
   }
 
+  //adapted from Wittr and Jake Archibald IDB examples
   static openDatabasePromise() {
     // console.log('in open database');
       this.dbPromise = idb.open('mws', 2, upgradeDB => {
@@ -36,6 +38,7 @@ class DBHelper {
     }
   
   // Given json list of restaurants data store in indexedDB
+  // read google promises primer then wrote this
   static SaveRestaurantsPromise () {
     return Promise.all([this.openDatabasePromise(),this.fetchRestaurantsPromise()]).then(values => {
 // console.log('promises resolved');
