@@ -1,14 +1,14 @@
-const staticCacheName = 'Restaurant-static-v8'; 
+const staticCacheName = 'Restaurant-static-v1'; 
 const filesToCache = [
-    '/',
-    '/index.html',
-    '/restaurant.html',
-    '/css/styles.css',
-    '/js/dbhelper.js',
-    '/js/main.js',
-    '/js/restaurant_info.js',
-    '/data/restaurants.json',
-    '/favicon.png',
+    './',
+    './index.html',
+    './restaurant.html',
+    './css/styles.css',
+    './js/dbhelper.js',
+    './js/main.js',
+    './js/restaurant_info.js',
+    './data/restaurants.json',
+    './favicon.png',
     //'https://fonts.googleapis.com/css?family=Lato',
     //'https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjx4wXiWtFCc.woff2',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
@@ -50,19 +50,19 @@ self.addEventListener('activate', event => {
 });
 
 /**  Activate Service Worker immediately  **/
-//self.skipWaiting();
+self.skipWaiting();
 
 /*   
  *   Fetch resources from cache or get from network if unavailable in cache then save a copy of response for future  
  */
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
-    if (requestUrl.pathname === '/') {
-        event.respondWith(caches.match('/index.html'));
+    if (requestUrl.pathname === './') {
+        event.respondWith(caches.match('./index.html'));
         return;
     } 
     if (requestUrl.pathname === '/restaurant.html') {
-      event.respondWith(caches.match('/restaurant.html'));
+      event.respondWith(caches.match('./restaurant.html'));
       return;
     }
     /** Otherwise, fetch from catch or network then save a copy of response **/
