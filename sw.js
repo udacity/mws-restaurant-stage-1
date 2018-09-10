@@ -1,4 +1,4 @@
-const staticCacheName = 'Restaurant-static-v1'; 
+const staticCacheName = 'Restaurant-static-v4'; 
 const filesToCache = [
     './',
     './index.html',
