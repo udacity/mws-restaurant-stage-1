@@ -8,11 +8,16 @@ var markers = []
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  DBHelper.openDatabase();
-  saveRestaurants();
-  initMap(); // added 
-  fetchNeighborhoods();
-  fetchCuisines();
+  // DBHelper.openDatabase().then(db => {
+  //   db.then( saveRestaurants();
+  //   )
+  // });
+//  saveRestaurants();
+  saveRestaurants().then(restaurants => {
+    initMap(); // added 
+    fetchNeighborhoods();
+    fetchCuisines();
+  });
 });
 
 /**
@@ -33,7 +38,7 @@ fetchNeighborhoods = () => {
   retrieve data from server then Save restaurants to IDB
 */
 saveRestaurants = () => {
-  DBHelper.SaveRestaurants();
+  return DBHelper.SaveRestaurantsPromise();
 }
 
 /**

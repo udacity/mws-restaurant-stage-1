@@ -5,15 +5,16 @@ var newMap;
  * Initialize map as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {  
-  DBHelper.openDatabase();
-  initMap();
+  DBHelper.openDatabasePromise().then(db=> {
+    initMap();
+  });
 });
 
 /**
  * Initialize leaflet map
  */
 initMap = () => {
-  console.log('in initmap');
+  // console.log('in initmap');
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
@@ -36,8 +37,6 @@ initMap = () => {
     }
   });
 }  
- 
-
 
 /**
  * Get current restaurant from page URL.

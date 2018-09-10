@@ -4,7 +4,7 @@
 //import idb from 'idb';
 class DBHelper {
   static openDatabase() {
-console.log('in open database');
+  // console.log('in open database');
     this.dbPromise = idb.open('mws', 2, upgradeDB => {
       // Note: we don't use 'break' in this switch statement,
       // the fall-through behaviour is what we want.
@@ -18,11 +18,49 @@ console.log('in open database');
     });
   
   }
+
+  static openDatabasePromise() {
+    // console.log('in open database');
+      this.dbPromise = idb.open('mws', 2, upgradeDB => {
+        // Note: we don't use 'break' in this switch statement,
+        // the fall-through behaviour is what we want.
+        switch (upgradeDB.oldVersion) {
+          case 0:
+            upgradeDB.createObjectStore('objs', {keyPath: 'id'});
+          case 1:
+            var objStore = upgradeDB.transaction.objectStore('objs');
+            objStore.createIndex('updateDate', 'updatedAt');
+        }
+      });
+      return this.dbPromise;
+    }
+  
   // Given json list of restaurants data store in indexedDB
+  static SaveRestaurantsPromise () {
+    return Promise.all([this.openDatabasePromise(),this.fetchRestaurantsPromise()]).then(values => {
+// console.log('promises resolved');
+      const db=values[0];
+      const restaurants=values[1];
+      if (!db) {return};
+      // console.log('starting transactions',restaurants);
+      var tx = db.transaction('objs', 'readwrite');
+      var store = tx.objectStore('objs');
+      restaurants.forEach(function(restaurant) {
+        store.put(restaurant);
+        // console.log('saved', restaurant);
+      });
+      // console.log('all saved');
+      return restaurants;
+    });
+  }
+
+
+
+    // Given json list of restaurants data store in indexedDB
   static SaveRestaurants () {
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
-        console.log('Save Error',error);
+        // console.log('Save Error',error);
         // callback(error, null);
       } else {
         // Filter restaurants to have only given cuisine type
@@ -68,27 +106,54 @@ console.log('in open database');
       const returnData=jsonData;
       callback(null,returnData);
     }).catch((error) =>{
-      console.log('fetch error',error);
+      // console.log('fetch error',error);
       callback(error,null);
     });
     
   }
 
   /**
+   * Fetch all restaurants.
+   */
+  static fetchRestaurantsPromise() {
+    // Implemented after consulting Adnan Usman to convert
+    // XHR to fetch 
+        return fetch(DBHelper.DATABASE_URL).then((response) =>{
+          if (!response.ok) {
+            throw new Error('Response data not retrieved');
+          }
+          // console.log('retrieved',response.json());
+          return response.json(); // return promise;
+        //  return JSON.parse(response.text);
+        })
+        // .then((jsonData)=> {
+        //   const returnData=jsonData;
+        //   callback(null,returnData);
+        // })
+        .catch((error) =>{
+          // console.log('fetch error',error);
+        });
+        
+      }
+    
+
+
+  /**
    * Fetch all restaurants from IndexedDB.
    */
   static fetchRestaurantsIdb(callback) {
     this.dbPromise.then(function(db) {
-      if (!db) { console.log('no db'); return};
+      if (!db) { return};
       return db.transaction('objs')
         .objectStore('objs').getAll();
 
     }).then((restaurants)=> {
-      console.log('data retrieved',restaurants);
+      // console.log('data retrieved',restaurants);
+      
       callback(null,restaurants);
     }).catch((error) =>{
 
-      console.log('fetch error',error);
+      // console.log('fetch error',error);
       callback(error,null);
     });
   }
@@ -123,13 +188,13 @@ console.log('in open database');
     this.dbPromise.then(db => {
       var results= db.transaction('objs')
         .objectStore('objs').get(id);
-        console.log('var is',results);
+        // console.log('var is',results);
         return results;
     }).then((restaurant)=> {
-      console.log('calling back with ',restaurant);
+      // console.log('calling back with ',restaurant);
       callback(null,restaurant);
     }).catch(error => {
-      console.log('fetch error',error);
+      // console.log('fetch error',error);
       callback(error,null);
     });
 
