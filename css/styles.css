@@ -171,7 +171,9 @@ nav h1 a {
 .restaurants {
   background-color: #f3f3f3;
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   list-style: outside none none;
   margin: 0;
   padding: 30px 15px 60px;
@@ -183,10 +185,29 @@ nav h1 a {
   border: 2px solid #ccc;
   font-family: Arial,sans-serif;
   margin: 15px;
+  max-width: 300px;
   min-height: 380px;
+  min-width: 270px;
   padding: 0 30px 25px;
   text-align: left;
-  width: 270px;
+}
+
+@media only screen and (min-width: 0) {
+    .restaurant li {
+        max-width: 100%;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .restaurant li {
+        max-width: 45%;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    .restaurant li {
+        max-width: 300px;
+    }
 }
 
 .restaurants .restaurant-img {
@@ -194,9 +215,20 @@ nav h1 a {
   display: block;
   margin: 0;
   max-width: 100%;
-  min-height: 248px;
   min-width: 100%;
+  overflow: hidden;
 }
+
+.restaurants-list .restaurant-text-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 10px;
+  max-height: 170px;
+  min-height: 170px;
+  padding: 0 25px;
+}
+
 
 .restaurants li h1 {
   color: #f18200;
