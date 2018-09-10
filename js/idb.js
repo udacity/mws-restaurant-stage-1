@@ -1,5 +1,5 @@
 'use strict';
-
+// obtained from Jake Archibald IndexedDB with promises  https://github.com/jakearchibald/idb
 (function() {
   function toArray(arr) {
     return Array.prototype.slice.call(arr);
