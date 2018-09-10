@@ -57,11 +57,12 @@ self.addEventListener('activate', event => {
  */
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
+  console.log(requestUrl);
     if (requestUrl.pathname === './') {
         event.respondWith(caches.match('./index.html'));
         return;
     } 
-    if (requestUrl.pathname === './restaurant.html') {
+    if (requestUrl.pathname === '/restaurant.html') {
       event.respondWith(caches.match('./restaurant.html'));
       return;
     }
