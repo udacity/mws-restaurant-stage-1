@@ -1,4 +1,4 @@
-const staticCacheName = 'Restaurant-static-v5'; 
+const staticCacheName = 'Restaurant-static-v3'; 
 const filesToCache = [
     './',
     './index.html',
@@ -49,7 +49,7 @@ self.addEventListener('activate', event => {
 });
 
 /**  Activate Service Worker immediately  **/
-//self.skipWaiting();
+self.skipWaiting();
 
 /*   
  *   Fetch resources from cache or get from network if unavailable in cache then save a copy of response for future  
