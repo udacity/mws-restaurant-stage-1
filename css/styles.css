@@ -169,7 +169,7 @@ nav h1 a {
 
 /* ====================== Map ====================== */
 #map-container {
-  height: 400px; 
+  height: 320px; 
   width: 100%;
 }
 
@@ -207,8 +207,7 @@ nav h1 a {
 }
 
 /* TODO: Make label & caption visible only to Assitive technology*/
-caption,
-.filter-options label {
+.sr-only {
   width: 0;
   height: 0;
   overflow: hidden;

@@ -1,5 +1,4 @@
-const staticCacheName = 'Restaurant-static-v2'; 
-
+const staticCacheName = 'Restaurant-static-v1'; 
 const filesToCache = [
     './',
     './index.html',
@@ -9,7 +8,7 @@ const filesToCache = [
     './js/main.js',
     './js/restaurant_info.js',
     './data/restaurants.json',
-    './images/icons/icon-32x32.png',
+    './favicon.png',
     //'https://fonts.googleapis.com/css?family=Lato',
     //'https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjx4wXiWtFCc.woff2',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
@@ -19,54 +18,63 @@ const filesToCache = [
     'https://unpkg.com/leaflet@1.3.1/dist/images/marker-shadow.png'
 ];
 
-/** Install service worker and cache essential files **/
+/*
+ *   Install service worker and cache essential files 
+ */
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(staticCacheName).then(cache => {
-            cache.addAll(filesToCache).then(() => 
-                self.skipWaiting());                //activate after installation 
-        }).catch(error => console.log('failed to cache files' + error))
-    );
-});
-
-/** Activate service worker and delete old cache **/
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(cachesNames => {
-      return Promise.all(
-        cacheNames.filter(cacheName => {
-          return cacheName.startsWith('Restaurant-static-') && !staticCacheName.includes(cacheName);
-                }).map(cacheName => {
-                    return caches.delete(cacheName);
-                    console.log('SW activated');
-                })
-            );
+          console.log('Service Worker caching essential files');
+          return cache.addAll(filesToCache); 
         })
     );
 });
 
-/*   Fetch resources from cache or get from network if unavailable in cache 
- *   then save a copy of response for future  
+/*
+ *   Activate service worker and delete old cache 
+ */
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.filter(cacheName => {
+          return cacheName.startsWith('Restaurant-static-') && cacheName !== staticCacheName;
+        }).map(cacheName => {
+            console.log('Service Worker Removed old cache:', cacheName);
+              return caches.delete(cacheName);
+          })
+      );
+    })
+  );
+});
+
+/**  Activate Service Worker immediately  **/
+//self.skipWaiting();
+
+/*   
+ *   Fetch resources from cache or get from network if unavailable in cache then save a copy of response for future  
  */
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
-
-  if (requestUrl.origin === location.origin) {
+  console.log(event.request);
     if (requestUrl.pathname === './') {
         event.respondWith(caches.match('./index.html'));
         return;
     }
-    if (requestUrl.pathname === '/restaurant.html') {
+    if (requestUrl.pathname.includes('/restaurant.html')) {
       event.respondWith(caches.match('./restaurant.html'));
       return;
     }
-  }
+    if (requestUrl.pathname.includes('/data/restaurants.json')) {
+      event.respondWith(caches.match('./data/restaurants.json'));
+      return;
+    }
 /** fetch from catch or network **/
   event.respondWith(
-    caches.match(event.request).then(response => {
+    caches.match(requestUrl).then(response => {
       return response || fetch(event.request).then(fetchResponse => { 
         return caches.open(staticCacheName).then(cache => {           
-          cache.put(event.request, fetchResponse.clone());            
+          cache.put(requestUrl, fetchResponse.clone());            
           return fetchResponse;                                       
         });                                                           
       });                                                             
