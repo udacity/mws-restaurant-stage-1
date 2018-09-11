@@ -16,22 +16,26 @@
             <h1><a href="/">Restaurant Reviews</a></h1>
         </nav>
     </header>
+    <a href="#neighborhoods-select" class="skip_link">Skip to filter restaurants</a>
 
     <main id="index-maincontent">
         <section id="map-container">
-            <div id="map"></div>
+            <div id="map" role="application"></div>
         </section>
         <section>
             <div class="filter-options">
                 <h2>Filter Results</h2>
+                <label for="neighborhoods-select">Neighborhood</label>
                 <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
                     <option value="all">All Neighborhoods</option>
                 </select>
+
+                <label for="cuisines-select">Cuisine</label>
                 <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
                     <option value="all">All Cuisines</option>
                 </select>
             </div>
-            <ul id="restaurants-list"></ul>
+            <div id="restaurants-list"></div>
         </section>
     </main>
 

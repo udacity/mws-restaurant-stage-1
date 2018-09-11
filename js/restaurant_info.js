@@ -1,16 +1,12 @@
 let restaurant;
 var newMap;
 
-/**
- * Initialize map as soon as the page is loaded.
- */
-document.addEventListener('DOMContentLoaded', (event) => {
+// Initialize map as soon as the page is loaded.
+document.addEventListener('DOMContentLoaded', event => {
     initMap();
 });
 
-/**
- * Initialize leaflet map
- */
+// Initialize leaflet map
 initMap = () => {
     fetchRestaurantFromURL((error, restaurant) => {
         if (error) { // Got an error!
@@ -35,10 +31,8 @@ initMap = () => {
     });
 }
 
-/**
- * Get current restaurant from page URL.
- */
-fetchRestaurantFromURL = (callback) => {
+// Get current restaurant from page URL.
+fetchRestaurantFromURL = callback => {
     if (self.restaurant) { // restaurant already fetched!
         callback(null, self.restaurant)
         return;
@@ -60,9 +54,7 @@ fetchRestaurantFromURL = (callback) => {
     }
 }
 
-/**
- * Create restaurant HTML and add it to the webpage
- */
+// Create restaurant HTML and add it to the webpage
 fillRestaurantHTML = (restaurant = self.restaurant) => {
     const name = document.getElementById('restaurant-name');
     name.innerHTML = restaurant.name;
@@ -87,9 +79,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillReviewsHTML();
 }
 
-/**
- * Create restaurant operating hours HTML table and add it to the webpage.
- */
+// Create restaurant operating hours HTML table and add it to the webpage.
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
     const hours = document.getElementById('restaurant-hours');
     for (let key in operatingHours) {
@@ -107,9 +97,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     }
 }
 
-/**
- * Create all reviews HTML and add them to the webpage.
- */
+// Create all reviews HTML and add them to the webpage.
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     const container = document.getElementById('reviews-container');
     const title = document.createElement('h2');
@@ -129,10 +117,8 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     container.appendChild(ul);
 }
 
-/**
- * Create review HTML and add it to the webpage.
- */
-createReviewHTML = (review) => {
+// Create review HTML and add it to the webpage.
+createReviewHTML = review => {
     const li = document.createElement('li');
     const name = document.createElement('p');
     name.innerHTML = review.name;
@@ -153,9 +139,7 @@ createReviewHTML = (review) => {
     return li;
 }
 
-/**
- * Add restaurant name to the breadcrumb navigation menu
- */
+// Add restaurant name to the breadcrumb navigation menu
 fillBreadcrumb = (restaurant = self.restaurant) => {
     const breadcrumb = document.getElementById('breadcrumb');
     const li = document.createElement('li');
@@ -163,9 +147,7 @@ fillBreadcrumb = (restaurant = self.restaurant) => {
     breadcrumb.appendChild(li);
 }
 
-/**
- * Get a parameter by name from page URL.
- */
+// Get a parameter by name from page URL.
 getParameterByName = (name, url) => {
     if (!url)
         url = window.location.href;
@@ -177,4 +159,8 @@ getParameterByName = (name, url) => {
     if (!results[2])
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
 }
