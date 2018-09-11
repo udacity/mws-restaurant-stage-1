@@ -3,27 +3,11 @@
  */
 //import idb from 'idb';
 class DBHelper {
-  //adapted from Wittr and Jake Archibald IDB examples
-  static openDatabase() {
-  // console.log('in open database');
-    this.dbPromise = idb.open('mws', 2, upgradeDB => {
-      // Note: we don't use 'break' in this switch statement,
-      // the fall-through behaviour is what we want.
-      switch (upgradeDB.oldVersion) {
-        case 0:
-          upgradeDB.createObjectStore('objs', {keyPath: 'id'});
-        case 1:
-          var objStore = upgradeDB.transaction.objectStore('objs');
-          objStore.createIndex('updateDate', 'updatedAt');
-      }
-    });
-  
-  }
 
   //adapted from Wittr and Jake Archibald IDB examples
-  static openDatabasePromise() {
+  static openDatabase() {
     // console.log('in open database');
-      this.dbPromise = idb.open('mws', 2, upgradeDB => {
+      this.dbPromise = idb.open('mws', 3, upgradeDB => {
         // Note: we don't use 'break' in this switch statement,
         // the fall-through behaviour is what we want.
         switch (upgradeDB.oldVersion) {
@@ -32,15 +16,21 @@ class DBHelper {
           case 1:
             var objStore = upgradeDB.transaction.objectStore('objs');
             objStore.createIndex('updateDate', 'updatedAt');
-        }
+          case 2:
+            upgradeDB.createObjectStore('revs', {keyPath: 'id'});
+            const revStore = upgradeDB.transaction.objectStore('revs');
+            revStore.createIndex('restId','restaurant_id');
+            revStore.createIndex('updateDate','updatedAt');
+            console.log('revs created');
+          }
       });
       return this.dbPromise;
     }
   
   // Given json list of restaurants data store in indexedDB
   // read google promises primer then wrote this
-  static SaveRestaurantsPromise () {
-    return Promise.all([this.openDatabasePromise(),this.fetchRestaurantsPromise()]).then(values => {
+  static SaveRestaurants () {
+    return Promise.all([this.openDatabase(),this.fetchRestaurants()]).then(values => {
 // console.log('promises resolved');
       const db=values[0];
       const restaurants=values[1];
@@ -57,29 +47,24 @@ class DBHelper {
     });
   }
 
-
-
-    // Given json list of restaurants data store in indexedDB
-  static SaveRestaurants () {
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        // console.log('Save Error',error);
-        // callback(error, null);
-      } else {
-        // Filter restaurants to have only given cuisine type
-        this.dbPromise.then(function(db) {
-          if (!db) return;
-      
-          var tx = db.transaction('objs', 'readwrite');
-          var store = tx.objectStore('objs');
-          restaurants.forEach(function(restaurant) {
-            store.put(restaurant);
-            // console.log('saved', restaurant);
-          });
-        });
-          }
+  // Given json list of restaurants data store in indexedDB
+  // read google promises primer then wrote this
+  static SaveReviews () {
+    return Promise.all([this.openDatabase(),this.fetchReviews()]).then(values => {
+// console.log('promises resolved');
+      const db=values[0];
+      const reviews=values[1];
+      if (!db) {return};
+      // console.log('starting transactions',restaurants);
+      var tx = db.transaction('revs', 'readwrite');
+      var store = tx.objectStore('revs');
+      reviews.forEach(function(review) {
+        store.put(review);
+        // console.log('saved', restaurant);
+      });
+      console.log('all reviews saved',reviews);
+      return reviews;
     });
-
   }
 
   /**
@@ -88,63 +73,51 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 1337 // Change this to your server port
-    return `http://localhost:${port}/restaurants`;
+    return `http://localhost:${port}`;
     // const port = 8080;
     // return `http://localhost:${port}/data/restaurants.json`; //old project 1 URL
   }
 
   /**
-   * Fetch all restaurants.
+   * Fetch all restaurants from the server.
    */
-  static fetchRestaurants(callback) {
-// Implemented after consulting Adnan Usman to convert
-// XHR to fetch 
-    fetch(DBHelper.DATABASE_URL).then((response) =>{
+  static fetchRestaurants() {
+    return fetch(DBHelper.DATABASE_URL + '/restaurants').then((response) =>{
       if (!response.ok) {
         throw new Error('Response data not retrieved');
       }
       return response.json(); // return promise;
-    //  return JSON.parse(response.text);
-    }).then((jsonData)=> {
-      const returnData=jsonData;
-      callback(null,returnData);
-    }).catch((error) =>{
+    })
+    .catch((error) =>{
       // console.log('fetch error',error);
-      callback(error,null);
+    });
+    
+  }
+    
+  /**
+   * Fetch all reviews from the server.
+   */
+  static fetchReviews() {
+    // Implemented after consulting Adnan Usman to convert to promise/fetch
+    return fetch(DBHelper.DATABASE_URL + '/reviews').then((response) =>{
+      if (!response.ok) {
+        throw new Error('Response data not retrieved');
+      }
+      // reviews=response.json();
+      // console.log('retrieved',reviews);
+      return response.json(); // return promise;
+    })
+    .catch((error) =>{
+      // console.log('fetch error',error);
     });
     
   }
 
-  /**
-   * Fetch all restaurants.
-   */
-  static fetchRestaurantsPromise() {
-    // Implemented after consulting Adnan Usman to convert
-    // XHR to fetch 
-        return fetch(DBHelper.DATABASE_URL).then((response) =>{
-          if (!response.ok) {
-            throw new Error('Response data not retrieved');
-          }
-          // console.log('retrieved',response.json());
-          return response.json(); // return promise;
-        //  return JSON.parse(response.text);
-        })
-        // .then((jsonData)=> {
-        //   const returnData=jsonData;
-        //   callback(null,returnData);
-        // })
-        .catch((error) =>{
-          // console.log('fetch error',error);
-        });
-        
-      }
-    
-
 
   /**
-   * Fetch all restaurants from IndexedDB.
+   * Read all restaurants from IndexedDB.
    */
-  static fetchRestaurantsIdb(callback) {
+  static readRestauraunts(callback) {
     this.dbPromise.then(function(db) {
       if (!db) { return};
       return db.transaction('objs')
@@ -161,14 +134,32 @@ class DBHelper {
     });
   }
 
+  /**
+   * Read all restaurants from IndexedDB.
+   */
+  static readReviews() {
+    
+  return this.openDatabase().then(db => {
+      if (!db) {console.log('no db'); return Promise.resolve()};
+      let reviews=db.transaction('revs')
+                    .objectStore('revs').getAll();
+      console.log('read',reviews);
+      return reviews;
+    }).catch((error) =>{
+
+      console.log('read reviews error',error);
+    });
+  }
+
+
   // /**
   //  * Fetch a restaurant by its ID.
   //  */
-  static fetchRestaurantByIdIdb(id, callback) {
+  static readRestaurauntsById(id, callback) {
     // fetch all restaurants with proper error handling.
     //attempted to retrieve single item but didn't get it to work
-    //performance adequate return all and then filter so let as is
-    DBHelper.fetchRestaurantsIdb((error, restaurants) => {
+    //performance adequate return all and then filter so left as is
+    DBHelper.readRestauraunts((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -182,10 +173,22 @@ class DBHelper {
     });
   }
 
+  // /**
+  //  * Fetch all reviews for a restaurant by its ID.
+  //  */
+  static readReviewsForRestaurant(restaurant_id) {
+    return this.readReviews().then(reviews => {
+      console.log('all reviews',reviews);
+      const restaurant_reviews = reviews.filter(r => r.restaurant_id == restaurant_id);
+      console.log('filtered reviews',restaurant_reviews);
+      return Promise.resolve(restaurant_reviews);
+    })
+  }
+
   /**
    * Fetch a restaurant by its ID.
    */
-  static fetchRestaurantByIdIdbSingle(id, callback) {
+  static readRestaurauntsByIdSingle(id, callback) {
 //This was early attempt to to retrieve single item from IndexedDB
 //didn't work so kept existing method
     this.dbPromise.then(db => {
@@ -206,10 +209,10 @@ class DBHelper {
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
    */
-  static fetchRestaurantByCuisine(cuisine, callback) {
+  static readRestaurauntsByCuisine(cuisine, callback) {
     // Fetch all restaurants  with proper error handling
     // console.log('rest by cuisine');
-    DBHelper.fetchRestaurantsIdb((error, restaurants) => {
+    DBHelper.readRestauraunts((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -226,7 +229,7 @@ class DBHelper {
   static fetchRestaurantByNeighborhood(neighborhood, callback) {
     // Fetch all restaurants
     // console.log('rest by neigh');
-    DBHelper.fetchRestaurantsIdb((error, restaurants) => {
+    DBHelper.readRestauraunts((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -240,11 +243,11 @@ class DBHelper {
   /**
    * Fetch restaurants by a cuisine and a neighborhood with proper error handling.
    */
-  static fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
+  static readRestaurauntsByCuisineAndNeighborhood(cuisine, neighborhood, callback) {
     // Fetch all restaurants
     // console.log('rest by cuis neigh');
     
-    DBHelper.fetchRestaurantsIdb((error, restaurants) => {
+    DBHelper.readRestauraunts((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -264,9 +267,9 @@ class DBHelper {
   /**
    * Fetch all neighborhoods with proper error handling.
    */
-  static fetchNeighborhoods(callback) {
+  static readNeighborhoods(callback) {
     // console.log('fetch neigh');
-    DBHelper.fetchRestaurantsIdb((error, restaurants) => {
+    DBHelper.readRestauraunts((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
@@ -282,10 +285,10 @@ class DBHelper {
   /**
    * Fetch all cuisines with proper error handling.
    */
-  static fetchCuisines(callback) {
+  static readCuisine(callback) {
     // Fetch all restaurants
     // console.log('fetch cuis');
-    DBHelper.fetchRestaurantsIdb((error, restaurants) => {
+    DBHelper.readRestauraunts((error, restaurants) => {
       if (error) {
         callback(error, null);
       } else {
