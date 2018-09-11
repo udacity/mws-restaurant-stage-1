@@ -8,23 +8,18 @@ var markers = []
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  // DBHelper.openDatabase().then(db => {
-  //   db.then( saveRestaurants();
-  //   )
-  // });
-//  saveRestaurants();
-  saveRestaurants().then(restaurants => {
-    initMap(); // added 
-    fetchNeighborhoods();
-    fetchCuisines();
+    saveRestaurants().then(() => {
+      initMap(); // added 
+      readNeighborhoods();
+      readCuisine();
   });
 });
 
 /**
  * Fetch all neighborhoods and set their HTML.
  */
-fetchNeighborhoods = () => {
-  DBHelper.fetchNeighborhoods((error, neighborhoods) => {
+readNeighborhoods = () => {
+  DBHelper.readNeighborhoods((error, neighborhoods) => {
     if (error) { // Got an error
       // console.log('error in main-fetch nieghborhoods',error);
     } else {
@@ -38,7 +33,7 @@ fetchNeighborhoods = () => {
   retrieve data from server then Save restaurants to IDB
 */
 saveRestaurants = () => {
-  return DBHelper.SaveRestaurantsPromise();
+  return DBHelper.SaveRestaurants();
 }
 
 /**
@@ -58,8 +53,8 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
 /**
  * Fetch all cuisines and set their HTML.
  */
-fetchCuisines = () => {
-  DBHelper.fetchCuisines((error, cuisines) => {
+readCuisine = () => {
+  DBHelper.readCuisine((error, cuisines) => {
     if (error) { // Got an error!
       console.error(error);
     } else {
@@ -117,7 +112,7 @@ updateRestaurants = () => {
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
+  DBHelper.readRestaurauntsByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
     if (error) { // Got an error!
       console.error(error);
     } else {
