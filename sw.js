@@ -1,4 +1,4 @@
-const staticCacheName = 'Restaurant-static-v3'; 
+const staticCacheName = 'Restaurant-static-v2'; 
 const filesToCache = [
     './',
     './index.html',
@@ -71,7 +71,7 @@ self.addEventListener('fetch', event => {
     }
 /** fetch from catch or network **/
   event.respondWith(
-    caches.match(event.request).then(response => {
+    caches.match(requestUrl).then(response => {
       return response || fetch(event.request).then(fetchResponse => { 
         return caches.open(staticCacheName).then(cache => {           
           cache.put(requestUrl, fetchResponse.clone());            
