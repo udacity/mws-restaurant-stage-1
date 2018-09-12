@@ -1,4 +1,5 @@
 /* globals DBHelper */
+// TODO: this would function better as a factory
 
 let restaurants;
 let neighborhoods;
@@ -7,7 +8,7 @@ var newMap; // ugh
 let markers = [];
 
 // Fetch neighborhoods and cuisines as soon as the page is loaded.
-document.addEventListener('DOMContentLoaded', event => {
+document.addEventListener('DOMContentLoaded', () => {
     initMap(); // added
     fetchNeighborhoods();
     fetchCuisines();
@@ -130,7 +131,7 @@ createRestaurantHTML = restaurant => {
     const img_url_fragment = DBHelper.imageUrlForRestaurant(restaurant);
     const html = `
     <div>
-        <img class="restaurant-img" src="${img_url_fragment}-300.jpg" srcset="${img_url_fragment}-600.jpg 1000w, ${img_url_fragment}-1200.jpg 2000w">
+        <img class="restaurant-img" alt="classy photo from ${restaurant.name}" src="${img_url_fragment}-300.jpg" srcset="${img_url_fragment}-600.jpg 1000w, ${img_url_fragment}-1200.jpg 2000w">
         <h1>${restaurant.name}</h1>
         <p>${restaurant.neighborhood}</p>
         <p>${restaurant.address}</p>

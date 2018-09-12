@@ -14,10 +14,10 @@
     <header>
         <nav>
             <h1><a href="/">Restaurant Reviews</a></h1>
+            <ul id="breadcrumb" role="navigation">
+                <li><a href="/">Home</a></li>
+            </ul>
         </nav>
-        <ul id="breadcrumb">
-            <li><a href="/">Home</a></li>
-        </ul>
     </header>
 
     <a href="#restaurant-container" class="skip_link">Skip to restaurant details</a>
@@ -27,14 +27,14 @@
             <div id="map" role="application"></div>
         </section>
         <section id="restaurant-container">
-            <h1 id="restaurant-name"></h1>
+            <h2 id="restaurant-name" tabindex="1"></h2>
             <img id="restaurant-img">
-            <p id="restaurant-cuisine"></p>
-            <p id="restaurant-address"></p>
-            <table id="restaurant-hours"></table>
+            <p id="restaurant-cuisine" tabindex="2"></p>
+            <p id="restaurant-address" tabindex="3"></p>
+            <table id="restaurant-hours" tabindex="4"></table>
         </section>
         <section id="reviews-container">
-            <ul id="reviews-list"></ul>
+            <ul id="reviews-list" tabindex="5"></ul>
         </section>
     </main>
 
