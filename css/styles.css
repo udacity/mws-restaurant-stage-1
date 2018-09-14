@@ -307,7 +307,8 @@ nav h1 a {
   width: 100%;
 }
 
-#restaurant-name {
+#restaurant-name,
+.reviews-header h2 {
   font-family: Arial,sans-serif;
   text-transform: uppercase;
 }
@@ -387,17 +388,15 @@ nav h1 a {
 .reviews-head {
   background-color: #002;
   border-radius: 2em 2em 0 0;
-  padding: 0 1.5em;
 }
 
-.reviews-head p {
+.date,
+.author {
   font-weight: bold;
   display: inline-block;
   color: #fff;
-}
-
-.date {
-  float: right;
+  font-size: 1.3em;
+  margin: 0.5em 1.5em;
 }
 
 .rating {
@@ -406,9 +405,9 @@ nav h1 a {
 
 .rating,
 .comment {
-  clear: both;
   display: inline-block;
-  padding: 0.3em 1.5em;
+  font-size: 1.2em;
+  padding: 0.5em 1.5em;
 }
 
 /* Set page breakpoints */
@@ -506,20 +505,6 @@ nav h1 a {
   #restaurant-hours {
     width: 54%;
   }
-
-  .reviews-head {
-    padding: 0 1em;
-  }
-
-  .reviews-head p {
-    font-size: 1.2rem;
-  }
-
-  .rating,
-  .comment {
-    padding: 0.5em 0.5em 1em;
-    font-size: 1.2em;
-  }
 }
 
 @media screen and (min-width: 950px){
@@ -550,15 +535,13 @@ nav h1 a {
   }
 
   #restaurant-name,  
-  #reviews-container h2 {
+  .reviews-header h2 {
     font-size: 2em;
   }
 
   #restaurant-cuisine,
   #restaurant-hours td,
-  #restaurant-address,
-  .rating,
-  .comment {
+  #restaurant-address {
     font-size: 1.3em;
   }
 }

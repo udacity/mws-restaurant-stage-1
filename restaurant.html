@@ -29,30 +29,29 @@
 
   <main id="maincontent" role="main">
 
-    <section id="map-container" role="application" aria-label="restaurant location map" tabindex="-1">
+    <section id="map-container" role="application" aria-label="restaurant location map">
       <div id="map"></div>
     </section>
  
     <section id="restaurant-container" role="region" aria-label="restaurant information">
       <div class="name">
-        <h2 id="restaurant-name"></h2>
+        <h2 id="restaurant-name" tabindex="0"></h2>
       </div>
 
       <div class="description">
         <picture>
           <source id="source"/>
-          <img id="restaurant-img">
+          <img id="restaurant-img" tabindex="0">
         </picture>
-        <p id="restaurant-cuisine"></p>
-        <p id="restaurant-address"></p>
+        <p id="restaurant-cuisine" tabindex="0"></p>
+        <p id="restaurant-address" tabindex="0"></p>
       </div>
 
-      <table id="restaurant-hours">
-        <caption class="sr-only">Operating Hours</caption>
+      <table id="restaurant-hours" tabindex="0" aria-label="operating hours">
       </table>   
     </section>
 
-    <section id="reviews-container" role="region" aria-label="Reviews">
+    <section id="reviews-container" role="region" tabindex="0" aria-label="reviews">
       <ul id="reviews-list"></ul>
     </section>
 

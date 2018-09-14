@@ -81,7 +81,7 @@ fetchRestaurantFromURL = (callback) => {
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
-  name.setAttribute('aria-label', 'Name: ' + restaurant.name);
+  name.setAttribute('aria-label', 'Restaurant name: ' + restaurant.name);
   name.innerHTML = restaurant.name;
 
   const address = document.getElementById('restaurant-address');
@@ -117,16 +117,17 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
  */
 fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
-  //hours.setAttribute('aria-label', 'Operating Hours');
+
   for (let key in operatingHours) {
     const row = document.createElement('tr');
-
+    row.setAttribute('tabindex', '0');        // Make table's rows tabbable 
     const day = document.createElement('td');
-   // day.scope = "row";
+    //day.setAttribute('tabindex', '0');
     day.innerHTML = key;
     row.appendChild(day);
 
     const time = document.createElement('td');
+    //time.setAttribute('tabindex', '0');
     time.innerHTML = operatingHours[key];
     row.appendChild(time);
 
@@ -164,26 +165,28 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
-  li.setAttribute('aria-label', 'review by '+ review.name);
+  li.setAttribute('tabindex', '0');
+  //li.setAttribute('aria-label', 'Review by: ' + review.name);
 
   const div1 = document.createElement('div');
   div1.className = "reviews-head";
 
-  const name = document.createElement('p');
+  const name = document.createElement('h3');
   name.classList.add('author');
-  //name.setAttribute('aria-label', 'Author: ');
+  name.setAttribute('aria-label', 'Author: ' + review.name + ".");
   name.innerHTML = review.name;
   div1.appendChild(name);
 
   const date = document.createElement('p');
   date.classList.add('date');
- // date.setAttribute('aria-label', 'Date reviewed: ');
+  date.setAttribute('aria-label', 'Date reviewed: ' + review.date + ".");
   date.innerHTML = review.date;
   div1.appendChild(date);
   li.appendChild(div1);
 
   const rating = document.createElement('div');
   rating.classList.add('rating');
+  rating.setAttribute('aria-label', 'Rating: ' + review.rating + ".");
   rating.innerHTML = `Rating: ${review.rating}`;
   li.appendChild(rating);
 
