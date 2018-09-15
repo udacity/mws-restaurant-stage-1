@@ -78,7 +78,7 @@ initMap = () => {
         scrollWheelZoom: false
       });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: '<your MAPBOX API KEY HERE>',
+    mapboxToken: 'pk.eyJ1Ijoic2FyZ2V0aGVib3NzIiwiYSI6ImNqa2dsc2t2bjBqZnkzcHBieWNpeXhjZ3IifQ.7jLkkpwne9aBCXRzAq6ObQ',
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -161,6 +161,18 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  // const imgUrl = image.src.location.href;
+  const imgUrl = image.src;
+  //get the name of the image eg, 1.jpg
+  //const imgName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1);
+  //split the name of the image so that I can be able to insert the suffix of the optimized images
+  var imgFilename = imgUrl.split('.');
+  var file = imgFilename[0];
+  var ext = imgFilename[1];
+  // added the srcset here but it's not working. 
+  //my optimized images looks like this - 1-large_32.jpg
+  image.srcset = `${file}-large_3x.${ext} 800w, ${file}-medium_2x.${ext} 480w, ${file}-small_1x.${ext} 320w`;
+  image.alt = `${restaurant.name} restaurant`;
   li.append(image);
 
   const name = document.createElement('h1');

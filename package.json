@@ -1,0 +1,36 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "description": "Project to work on the udacity mobile web specialist nanodegree",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-copy": "~0.8.0",
+    "grunt-contrib-imagemin": "^2.0.1",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-uglify": "~0.5.0",
+    "grunt-mkdir": "~0.1.2",
+    "grunt-responsive-images": "^0.1.9",
+    "gulp": "^3.9.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SirG97/mws-restaurant-stage-1.git"
+  },
+  "keywords": [
+    "restaurant",
+    "restaurant-reviews"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SirG97/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/SirG97/mws-restaurant-stage-1#readme"
+}
