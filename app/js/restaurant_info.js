@@ -98,7 +98,7 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  DBHelper.fetchReviewsById(restaurant.id, fillReviewsHTML)
 }
 
 /**
@@ -124,7 +124,11 @@ const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hour
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+const fillReviewsHTML = (error,reviews) => {
+  if (error) {
+    console.log("Retrieval of restaurant review failed: ", error);
+  }
+  self.restaurant.reviews = reviews;
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
@@ -152,8 +156,8 @@ const createReviewHTML = (review) => {
   name.innerHTML = review.name;
   li.appendChild(name);
 
-  const date = document.createElement('p');
-  date.innerHTML = review.date;
+  const date = document.createElement('p'); 
+  date.innerHTML = new Date(review.createdAt).toLocaleString();
   li.appendChild(date);
 
   const rating = document.createElement('p');
