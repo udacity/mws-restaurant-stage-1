@@ -6,6 +6,7 @@
 		'./restaurant.html',
 		'/data/restaurants.json',
 		'/js/main.js',
+		'./idb.js',
 		'/js/dbhelper.js',
 		'/js/restaurant_info.js',
 		'/css/styles.css',
