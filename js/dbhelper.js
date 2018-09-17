@@ -18,9 +18,16 @@ class DBHelper {
    * Fetch all restaurants.
   */
   static fetchRestaurants(callback) {
+    //check for support
+    if (!('indexedDB' in window)) {
+      console.log('This browser doesn\'t support IndexedDB');
+      return;
+    }
+
     const dbPromise = idb.open("foods", 1, upgradeDB => {
-      upgradeDB.createObjectStore("foods-store", {keypath: "id"});
+      upgradeDB.createObjectStore("foods-store", {autoIncrement:true});
     });
+
 
     if (!navigator.serviceWorker.controller) {
       dbPromise
@@ -43,7 +50,7 @@ class DBHelper {
         })
         .then(restaurants => {
           //const objKey = Object.keys(restaurants)[0];
-          console.log(restaurants);
+          //console.log(restaurants);
             dbPromise.then(dbObj => {
               const tx = dbObj.transaction("foods-store", "readwrite")
               .objectStore("foods-store");
@@ -53,7 +60,7 @@ class DBHelper {
               });
             });
             // callback(null, restaurants[objKey]);
-            console.log(restaurants);
+            //console.log(restaurants);
             callback(null, restaurants);
          })
         .catch(error => {
@@ -181,8 +188,14 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`img/${restaurant.photograph + '.jpg'}`);
-  }
+    let img = restaurant.photograph;
+    if (restaurant.photograph) {
+      return (`img/${restaurant.photograph + '.jpg'}`);
+    } else {
+      return (`img/${restaurant.id + '.jpg'}`);
+    }
+    
+ }
 
   /**
    * Map marker for a restaurant.

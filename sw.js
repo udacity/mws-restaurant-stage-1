@@ -4,7 +4,6 @@
 	const filesToCache = [
 		'./index.html',
 		'./restaurant.html',
-		'/data/restaurants.json',
 		'/js/main.js',
 		'./idb.js',
 		'/js/dbhelper.js',
