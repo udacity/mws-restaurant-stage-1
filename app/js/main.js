@@ -195,6 +195,26 @@ const createRestaurantHTML = (restaurant) => {
   name.innerHTML = restaurant.name;
   li.append(name);
 
+  const favoriteDiv = document.createElement("div");
+  const selectedFavouriteIcon = document.createElement("i");
+  selectedFavouriteIcon.id = "favorite-selected-icon-" + restaurant.id;
+  selectedFavouriteIcon.className ="fas fa-heart";
+  selectedFavouriteIcon.style.display = restaurant["is_favorite"] ? "block" : "none";
+  selectedFavouriteIcon.style.color = "red";
+  const unselectedFavouriteIcon = document.createElement("i");
+  unselectedFavouriteIcon.id = "favorite-unselected-icon-" + restaurant.id;
+  unselectedFavouriteIcon.className ="far fa-heart";
+  unselectedFavouriteIcon.style.display = restaurant["is_favorite"] ? "none" : "block";
+  const favoriteBtn = document.createElement("button");
+  favoriteBtn.className ="btn";
+  // favoriteBtn.innerHTML = restaurant["is_favorite"] ? restaurant.name + " is a favorite" : restaurant.name + " is not a favorite";
+  favoriteBtn.id = "favorite-icon-" + restaurant.id;
+  favoriteBtn.onclick = event => handleFavoriteSelection(restaurant.id, !restaurant["is_favorite"]);
+  favoriteBtn.append(selectedFavouriteIcon);
+  favoriteBtn.append(unselectedFavouriteIcon);
+  favoriteDiv.append(favoriteBtn);
+  li.append(favoriteDiv);
+
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   li.append(neighborhood);
@@ -211,6 +231,26 @@ const createRestaurantHTML = (restaurant) => {
   return li
 }
 
+const handleFavoriteSelection = (id, newState) => {
+  const fav = document.getElementById("favorite-icon-" + id);
+  fav.onclick = null;
+   DBHelper.updateFavoriteSelection(id, newState, (error, response) => {
+    if (error) {
+      console.log("Error updating favorite");
+      return;
+    }
+    // Update the button background for the specified favorite
+    const favoriteSelected = document.getElementById("favorite-selected-icon-" + response.id);
+    favoriteSelected.style.display = response.value ? "block" : "none";
+	const favoriteUnSelected = document.getElementById("favorite-unselected-icon-" + response.id);
+    favoriteUnSelected.style.display = response.value ? "none" : "block";
+    // Update properties of the restaurant data object
+    const restaurant = self.restaurants.filter(r => r.id === response.id)[0];
+    if (!restaurant) return;
+    restaurant["is_favorite"] = response.value;
+    fav.onclick = event => handleFavoriteSelection(restaurant.id, !restaurant["is_favorite"]);
+  });
+}
 /**
  * Add markers for current restaurants to the map.
  */

@@ -215,5 +215,17 @@ class DBHelper {
         })
     }).catch(error => callback(`Request failed. Error reponse: ${error}`, null));
   }
+
+  static updateFavoriteSelection(id, newState, callback) {
+    const url = `${DBHelper.DATABASE_URL}/${id}/?is_favorite=${newState}`;
+    const method = "PUT";
+
+    fetch(url, {method}).then(response => {
+     
+      callback(null, {id, value: newState});
+      
+    }).catch(error => callback(`Request failed. Error reponse: ${error}`, null));
+    
+  }
 }
 

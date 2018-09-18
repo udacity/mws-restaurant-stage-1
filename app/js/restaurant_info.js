@@ -60,6 +60,7 @@ const fetchRestaurantFromURL = (callback) => {
     return;
   }
   const id = getParameterByName('id');
+  let error;
   if (!id) { // no id found in URL
     error = 'No restaurant id in URL'
     callback(error, null);
@@ -80,6 +81,29 @@ const fetchRestaurantFromURL = (callback) => {
  * Create restaurant HTML and add it to the webpage
  */
 const fillRestaurantHTML = (restaurant = self.restaurant) => {
+ 
+  const div = document.getElementById("maincontent");
+
+  const favoriteDiv = document.createElement("section");
+  favoriteDiv.id = "favorite-section";
+  const selectedFavouriteIcon = document.createElement("i");
+  selectedFavouriteIcon.id = "favorite-selected-icon-" + restaurant.id;
+  selectedFavouriteIcon.className ="fas fa-heart";
+  selectedFavouriteIcon.style.display = restaurant["is_favorite"] ? "block" : "none";
+  selectedFavouriteIcon.style.color = "red";
+  const unselectedFavouriteIcon = document.createElement("i");
+  unselectedFavouriteIcon.id = "favorite-unselected-icon-" + restaurant.id;
+  unselectedFavouriteIcon.className ="far fa-heart";
+  unselectedFavouriteIcon.style.display = restaurant["is_favorite"] ? "none" : "block";
+  const favoriteBtn = document.createElement("button");
+  favoriteBtn.className ="btn";
+  favoriteBtn.id = "favorite-icon-" + restaurant.id;
+  favoriteBtn.onclick = event => handleFavoriteSelection(restaurant.id, !restaurant["is_favorite"]);
+  favoriteBtn.append(selectedFavouriteIcon);
+  favoriteBtn.append(unselectedFavouriteIcon);
+  favoriteDiv.append(favoriteBtn);
+  div.append(favoriteDiv);
+
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
@@ -101,6 +125,25 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
   DBHelper.fetchReviewsById(restaurant.id, fillReviewsHTML)
 }
 
+const handleFavoriteSelection = (id, newState) => {
+  const fav = document.getElementById("favorite-icon-" + id);
+  fav.onclick = null;
+   DBHelper.updateFavoriteSelection(id, newState, (error, response) => {
+    if (error) {
+      console.log("Error updating favorite");
+      return;
+    }
+    // Update the button background for the specified favorite
+    const favoriteSelected = document.getElementById("favorite-selected-icon-" + response.id);
+    favoriteSelected.style.display = response.value ? "block" : "none";
+	const favoriteUnSelected = document.getElementById("favorite-unselected-icon-" + response.id);
+    favoriteUnSelected.style.display = response.value ? "none" : "block";
+    // Update properties of the restaurant data object
+    const restaurant = self.restaurant;
+    restaurant["is_favorite"] = response.value;
+    fav.onclick = event => handleFavoriteSelection(restaurant.id, !restaurant["is_favorite"]);
+  });
+}
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
  */
