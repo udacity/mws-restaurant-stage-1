@@ -1,0 +1,21 @@
+{
+  "short_name": "RRA",
+  "name": "Restarants Review Web App",
+  "icons": [
+    {
+      "src": "./img/icon.png",
+      "type": "image/png",
+      "sizes": "190x190"
+    },
+    {
+      "src": "./img/icon_512x512.jpg",
+      "type": "image/jpg",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "scope": "./index.html",
+  "theme_color": "#3367D6"
+}

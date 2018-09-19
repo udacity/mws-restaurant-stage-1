@@ -1,10 +1,12 @@
 // cache urls
+
 	const cacheName = 'cache-v1';
 
 	const filesToCache = [
 		'./index.html',
 		'./restaurant.html',
 		'/js/main.js',
+		'./.htaccess',
 		'./idb.js',
 		'/js/dbhelper.js',
 		'/js/restaurant_info.js',

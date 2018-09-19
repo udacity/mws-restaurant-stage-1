@@ -8,6 +8,8 @@
 
 module.exports = function(grunt) {
 
+    pkg: grunt.file.readJSON('package.json'),
+
     grunt.initConfig({
       responsive_images: {
         dev: {
@@ -69,12 +71,58 @@ module.exports = function(grunt) {
           }]
         },
       },
+
+
+      // Uglify JS
+      uglify: {
+          build: {
+              src: 'js/*.js',
+              dest: 'dest/js/script.min.js'
+          },
+
+          dev: {
+              options: {
+                  beautify: true,
+                  mangel: false,
+                  compress: false,
+                  preserveComments: 'all'
+              },
+              src: 'js/*.js',
+              dest: 'dest/js/script.min.js'
+          }
+      },
+
+
+      // Remove unused CSS across multiple files
+      // Minify CSS
+      cssmin: {
+          build: {
+              //options: {
+              //  banner: '/* Minified CSS */'
+              //},
+
+              files: {
+                  'dest/css/style.min.css' : ['css/**/*.css']
+              }   
+          }
+      },
+
+      uncss: {
+        dist: {
+            files: {
+                'dest/css/tidy.css': ['index.html', 'restaurant.html']
+            }
+        }
+      },
     });
     
     grunt.loadNpmTasks('grunt-responsive-images');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-mkdir');
-    grunt.registerTask('default', ['clean', 'mkdir', 'copy', 'responsive_images']);
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-uncss');
+    grunt.registerTask('default', ['clean', 'uncss', 'mkdir', 'copy', 'cssmin', 'uglify', 'responsive_images']);
   
 };

@@ -68,8 +68,8 @@ section {
 
 }
 #footer {
-  background-color: #444;
-  color: #aaa;
+  background-color: #000000;
+  color: #FFFFFF;
   font-size: 8pt;
   letter-spacing: 1px;
   padding: 25px;
@@ -132,7 +132,7 @@ nav h1 a {
 #map {
   height: 400px;
   width: 100%;
-  background-color: #ccc;
+  background-color: #FFFFFF;
   overflow-x: hidden;
   
 }
@@ -147,7 +147,7 @@ nav h1 a {
   flex-wrap: wrap;
 }
 .filter-options h2 {
-  color: white;
+  color: #FFFFFF;
   font-size: 1.4rem;
   font-weight: normal;
   line-height: 1;
@@ -155,8 +155,8 @@ nav h1 a {
   text-align: center;
 }
 .filter-options select {
-  background-color: white;
-  border: 1px solid #fff;
+  background-color: #FFFFFF;
+  border: 1px solid #FFFFFF;
   font-family: Arial,sans-serif;
   font-size: 11pt;
   height: 35px;

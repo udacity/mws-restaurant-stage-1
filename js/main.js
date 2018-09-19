@@ -43,10 +43,12 @@ fetchNeighborhoods = () => {
  */
 fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   const select = document.getElementById('neighborhoods-select');
+  //select.setAttribute('role', 'combobox');
   select.setAttribute('aria-label', 'neighborhoods select options');
   neighborhoods.forEach(neighborhood => {
     const option = document.createElement('option');
-    option.setAttribute('aria-label', 'options');
+    //option.setAttribute('role', 'list');
+    option.setAttribute('aria-label', 'options for neighborhood select');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
     select.append(option);
@@ -72,10 +74,12 @@ fetchCuisines = () => {
  */
 fillCuisinesHTML = (cuisines = self.cuisines) => {
   const select = document.getElementById('cuisines-select');
+ // select.setAttribute('role', 'combobox');
   select.setAttribute('aria-label', 'Cuisine select options');
   cuisines.forEach(cuisine => {
     const option = document.createElement('option');
-    option.setAttribute('aria-label', 'options');
+    //option.setAttribute('role', 'list');
+    option.setAttribute('aria-label', 'options for cuisines');
     option.innerHTML = cuisine;
     option.value = cuisine;
     select.append(option);
@@ -163,6 +167,8 @@ resetRestaurants = (restaurants) => {
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
+  //ul.setAttribute('role', 'list');
+  ul.setAttribute('aria-label', 'restaurants list')
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
@@ -186,11 +192,13 @@ createRestaurantHTML = (restaurant) => {
 
   const source = document.createElement('source');
   source.setAttribute('srcset', largeImageSrc + ' 2x,' + normalImageSrc + ' 1x');
+  source.setAttribute('data-srcset', largeImageSrc + ' 2x,' + normalImageSrc + ' 1x');
   picture.appendChild(source);
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = smallImageSrc;
+  image.setAttribute('data-src', smallImageSrc); 
   image.setAttribute('alt', 'Image of ' + restaurant.name + ' Restaurant');
   picture.appendChild(image);
 
@@ -244,4 +252,40 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } */
+
+// lazyLoad functionality
+document.addEventListener("DOMContentLoaded", () => {
+  let lazyImages = [].slice.call(document.querySelectorAll("img.restaurant-img"));
+  let active = false;
+
+  const lazyLoad = () => {
+    if (active === false) {
+      active = true;
+
+      setTimeout(() => {
+        lazyImages.forEach(lazyImage => {
+          if ((lazyImage.getBoundingClientRect().top <= window.innerHeight && lazyImage.getBoundingClientRect().bottom >= 0) && getComputedStyle(lazyImage).display !== "none") {
+            lazyImage.src = lazyImage.dataset.src;
+            lazyImage.srcset = lazyImage.dataset.srcset;
+            lazyImage.classList.remove("restaurant-img");
+
+            lazyImages = lazyImages.filter(image => image !== lazyImage);
+
+            if (lazyImages.length === 0) {
+              document.removeEventListener("scroll", lazyLoad);
+              window.removeEventListener("resize", lazyLoad);
+              window.removeEventListener("orientationchange", lazyLoad);
+            }
+          }
+        });
+
+        active = false;
+      }, 200);
+    }
+  };
+
+  document.addEventListener("scroll", lazyLoad);
+  window.addEventListener("resize", lazyLoad);
+  window.addEventListener("orientationchange", lazyLoad);
+});
 
