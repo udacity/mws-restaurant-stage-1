@@ -3,7 +3,7 @@
 
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
+	font-size: 1em;
 	color: #333;
 	line-height: 1.5;
 }
@@ -14,7 +14,7 @@ body {
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 10pt;
+	font-size: 1em;
 	color: #333;
 }
 a {
@@ -210,11 +210,11 @@ nav h1 a {
   height: 100%;
   width: 100%;
 }
-.inside #footer {
+/* .inside #footer {
   bottom: 0;
   position: absolute;
   width: 50%;
-}
+} */
 #restaurant-name {
   color: #f18200;
   font-family: Arial,sans-serif;
@@ -262,8 +262,9 @@ nav h1 a {
   padding-bottom: 1pt;
 }
 #reviews-list {
-  margin: 0;
+  margin: auto;
   padding: 0;
+  width: 90%;
 }
 #reviews-list li {
   background-color: #fff;
@@ -281,6 +282,7 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+  font-size: 1em;
 }
 
 @media screen and (min-width: 320px){
@@ -324,23 +326,87 @@ nav h1 a {
     background-color: #ccc;
   }
 
-  .inside #footer {
+  /* .inside #footer {
     bottom: 0;
     position: static;
     width: 100%;
-  }
+  } */
 
   #breadcrumb{
     width: 100%;
     background-color: #fff;
   }
   #restaurant-container, #reviews-container{
-    
+    padding: 0;
+    margin: 50px 0 0;
+    width: 100%;
+  }
+
+  .inside #map-container{
+    position: relative;
+    height: 50vh;
+    width: 100%;
   }
 
   .filter-options select{
     width: 45%;
   }
+
+  #restaurant-name{
+    margin-top: 90px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  #restaurant-cuisine{
+    margin: auto;
+  }
+
+
+  #restaurant-address{
+    margin: 5px 10px;
+  }
+
+  #restaurant-hours{
+    margin: auto;
+    width: 90%;
+    color: black;
+    background-color: white;
+    border-radius: 15px;
+    
+    padding: 10px 15px;
+  }
+
+  #restaurant-hours tr td{
+    font-size: 1em;
+  }
+
+  #reviews-list{
+    width: 95%;
+  }
+
+  #reviews-list li{
+    margin: auto;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    padding: 10px 15px;
+  }
+
+  .reviews-container h2{
+    margin-bottom: 0px;
+  }
+
+  .img-wrapper{
+    width: 100%;
+    margin: auto;
+  }
+  
+  #restaurant-img{
+    display: flex;
+    margin: auto;
+  }
+
 }
 
 @media screen and (min-width: 480px){
@@ -361,6 +427,22 @@ nav h1 a {
     width: 45%;
   }
 
+}
+
+@media screen and (min-width: 768px){
+  .inside #map-container {
+    position: fixed;
+    height: 65vh;
+    width: 45%;
+    margin-top: 9vh;
+  }
+  #restaurant-container, #reviews-container {
+    width: 55%;
+  }
+
+  #footer{
+    padding: 15px 
+  }
 }
 
 @media screen and (min-width: 900px){
