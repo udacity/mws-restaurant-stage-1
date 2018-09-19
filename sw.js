@@ -3,16 +3,16 @@
 	const cacheName = 'cache-v1';
 
 	const filesToCache = [
-		'../index.html',
-		'../restaurant.html',
-		'./js/main.js',
-		'../.htaccess',
-		'../idb.js',
-		'./js/dbhelper.js',
+		'./index.html',
+		'./restaurant.html',
+		'/js/main.js',
+		'./.htaccess',
+		'./idb.js',
+		'../js/dbhelper.js',
 		'./js/restaurant_info.js',
-		'./css/styles.css',
-		'./css/responsive.css',
-		'./img/',
+		'/css/styles.css',
+		'/css/responsive.css',
+		'/img/',
 	];
 	
 	// cache assets

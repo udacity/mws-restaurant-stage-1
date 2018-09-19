@@ -254,38 +254,32 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 } */
 
 // lazyLoad functionality
-document.addEventListener("DOMContentLoaded", () => {
-  let lazyImages = [].slice.call(document.querySelectorAll("img.restaurant-img"));
-  let active = false;
-
-  const lazyLoad = () => {
-    if (active === false) {
-      active = true;
-
-      setTimeout(() => {
-        lazyImages.forEach(lazyImage => {
-          if ((lazyImage.getBoundingClientRect().top <= window.innerHeight && lazyImage.getBoundingClientRect().bottom >= 0) && getComputedStyle(lazyImage).display !== "none") {
-            lazyImage.src = lazyImage.dataset.src;
-            lazyImage.srcset = lazyImage.dataset.srcset;
-            lazyImage.classList.remove("restaurant-img");
-
-            lazyImages = lazyImages.filter(image => image !== lazyImage);
-
-            if (lazyImages.length === 0) {
-              document.removeEventListener("scroll", lazyLoad);
-              window.removeEventListener("resize", lazyLoad);
-              window.removeEventListener("orientationchange", lazyLoad);
-            }
-          }
-        });
-
-        active = false;
-      }, 200);
-    }
+var imagesToLoad = document.querySelectorAll('img[data-src]');
+var loadImages = function(image) {
+  image.setAttribute('src', image.getAttribute('data-src'));
+  image.onload = function() {
+    image.removeAttribute('data-src');
   };
+};
 
-  document.addEventListener("scroll", lazyLoad);
-  window.addEventListener("resize", lazyLoad);
-  window.addEventListener("orientationchange", lazyLoad);
+imagesToLoad.forEach(function(img) {
+  loadImages(img);
 });
 
+if('IntersectionObserver' in window) {
+  var observer = new IntersectionObserver(function(items, observer) {
+    items.forEach(function(item) {
+      if(item.isIntersecting) {
+        loadImages(item.target);
+        observer.unobserve(item.target);
+      }
+    });
+  });
+  imagesToLoad.forEach(function(img) {
+    observer.observe(img);
+  });
+} else {
+  imagesToLoad.forEach(function(img) {
+    loadImages(img);
+  });
+}

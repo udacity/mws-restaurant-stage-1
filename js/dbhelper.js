@@ -43,7 +43,7 @@ class DBHelper {
             callback(null, restaurants);
           });
     } else {
-        let DATABASE_URL = "https://github.com/Amjos4web/mws-restaurant-stage-2.git/restaurants";
+        let DATABASE_URL = "http://localhost:1337/restaurants";
         let restaurants;
         fetch(DATABASE_URL)
         .then(response => {
