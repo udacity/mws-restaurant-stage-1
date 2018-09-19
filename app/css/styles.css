@@ -315,3 +315,37 @@ nav h1 a {
   position: absolute;
 }
 
+#reviews-form {
+  width: 85%;
+  height: auto;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 20px 20px;
+}
+
+#review-entry {
+  border-top: 1px solid #d9d9d9;
+  margin: 0 0 30px;
+  padding: 20px 0;
+}
+
+#review-reviewer {
+  width: calc(70% - 20px) ;
+  padding: 0 10px;
+}
+#review-rating {
+  width: calc(30% - 20px) ;
+  padding: 0 10px;
+}
+.review-fullwidth, #review-submit {
+  width: calc(100% - 20px) ;
+  padding: 0 10px;
+}
+#review-submit {
+  background-color: whitesmoke;
+}
+
+input, textarea, select {
+  width: 100%;
+}

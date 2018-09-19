@@ -177,6 +177,11 @@ const fillReviewsHTML = (error,reviews) => {
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
+  const createNewReviewLink = document.createElement("a");
+  createNewReviewLink.href = `/add_review.html?id=${self.restaurant.id}`;
+  createNewReviewLink.innerHTML = "Add Review";
+  container.appendChild(createNewReviewLink);
+
   if (!reviews) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';

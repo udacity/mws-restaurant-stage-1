@@ -17,6 +17,8 @@ class DBHelper {
     const port = 1337; // Change this to your server port
     return `http://localhost:${port}/reviews`;
   }
+
+  
   /**
    * Fetch all restaurants.
    */
@@ -216,13 +218,20 @@ class DBHelper {
     }).catch(error => callback(`Request failed. Error reponse: ${error}`, null));
   }
 
-  static updateFavoriteSelection(id, newState, callback) {
-    const url = `${DBHelper.DATABASE_URL}/${id}/?is_favorite=${newState}`;
-    const method = "PUT";
+  static updateFavoriteSelection(id, name, rating, comment, callback) {
+    const body = {
+      id,
+      name,
+      rating,
+      comment,
+      createdAt: Date.now()
+    }
+    const url = `${DBHelper.DATABASE_REVIEWS_URL}`;
+    const method = "POST";
 
     fetch(url, {method}).then(response => {
      
-      callback(null, {id, value: newState});
+      callback(null, result);
       
     }).catch(error => callback(`Request failed. Error reponse: ${error}`, null));
     

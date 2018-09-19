@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta name="theme-color" content="#3367D6"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Normalize.css for better cross-browser consistency -->
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!-- Main CSS file -->
+  <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin="" />
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+      
+  <title>Add review</title>
+</head>
+
+<body class="inside">
+  <!-- Beginning header -->
+  <header>
+    <!-- Beginning nav -->
+    <nav>
+      <h1>
+        <a href="/">Restaurant Reviews</a>
+      </h1>
+    </nav>
+    <!-- Beginning breadcrumb -->
+    <nav aria-label="Breadcrumb">
+      <ul id="breadcrumb">
+        <li>
+          <a href="/">Home</a>
+        </li>
+      </ul>
+    </nav>
+    <!-- End breadcrumb -->
+    <!-- End nav -->
+  </header>
+  <!-- End header -->
+
+ <!-- Beginning main -->
+ <main id="maincontent">
+    <!-- Beginning map -->
+   
+    <!-- End map -->
+    <!-- Beginning restaurant -->
+    <section id="restaurant-container">
+      <h2 id="restaurant-name"></h2>
+      <img id="restaurant-img" alt="restaurant image">
+     
+    </section>
+   
+    <!-- end restaurant -->
+    <!-- Beginning reviews -->
+    <section id="review-entry">
+        <h2>Add a Review</h2>
+     <form id="reviews-form">
+       <div id="review-reviewer">
+<label for="reviewer">Your Name:</label>
+<br>
+<input name="reviewer" type="text" id="reviewer">
+</div>
+
+       <div id="review-rating">
+<label for="rating">Rating:</label>
+                        <br>
+                        <select name="rating" id="rating">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+          <div class="review-fullwidth">
+                        <label for="comments">Comments:</label>
+                        <br>
+                        <textarea id="comments" name="comments" rows="10" column="100"></textarea>
+                    </div>
+                    <div class="review-fullwidth" style="display: flex; justify-content: space-around">
+                        <button type="submit" value="Submit" onclick="addReview()" id="review-submit">Send Comment</button>
+                         </div>
+                         </form>
+      </section>
+    <!-- End reviews -->
+  </main>
+  <!-- End main -->
+
+  <!-- Beginning footer -->
+  <footer id="footer">
+    Copyright (c) 2017
+    <a href="/">
+      <strong>Restaurant Reviews</strong>
+    </a> All Rights Reserved.
+  </footer>
+  <!-- End footer -->
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+    crossorigin=""></script>
+  <!-- Beginning scripts -->
+  <!-- Database helpers -->
+  <script type="text/javascript" src="js/dbhelper.js"></script>
+  <!-- Main javascript file -->
+  <script src="/js/add_review.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/register.js"></script>
+  <script>
+    (function() {
+      documentReady();
+    })();
+  </script>
+  <!-- Google Maps -->
+  <!--  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_tKbW6A5pQ-eupxI56myUnHLqYCzOjKo&libraries=places&callback=initMap"></script> -->
+  <!-- End scripts -->
+
+</body>
+
+</html>
