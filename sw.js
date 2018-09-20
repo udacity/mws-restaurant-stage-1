@@ -3,14 +3,16 @@
 	const cacheName = 'cache-v1';
 
 	const filesToCache = [
+		'./manifest.json',
 		'./index.html',
 		'./restaurant.html',
 		'/js/main.js',
 		'./.htaccess',
 		'./idb.js',
-		'../js/dbhelper.js',
+		'./js/dbhelper.js',
 		'./js/restaurant_info.js',
 		'/css/styles.css',
+		'/dest/css/style.min.css',
 		'/css/responsive.css',
 		'/img/',
 	];
