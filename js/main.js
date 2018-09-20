@@ -166,12 +166,13 @@ createRestaurantHTML = (restaurant) => {
   //get the name of the image eg, 1.jpg
   //const imgName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1);
   //split the name of the image so that I can be able to insert the suffix of the optimized images
-  var imgFilename = imgUrl.split('.');
-  var file = imgFilename[0];
-  var ext = imgFilename[1];
+  imgName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1);
+  imgName = imgName.split('.');
+  var ext = imgName.pop();
+  var file = imgName.join('.')
   // added the srcset here but it's not working. 
   //my optimized images looks like this - 1-large_32.jpg
-  image.srcset = `${file}-large_3x 800w, ${file}-medium_2x 480w, ${file}-small_1x 320w`;
+  image.srcset = `img/${file}-large_3x.${ext} 800w, ${file}-medium_2x.${ext} 480w, ${file}-small_1x.${ext} 320w`;
   image.alt = `${restaurant.name} restaurant`;
   li.append(image);
 
