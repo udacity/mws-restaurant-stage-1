@@ -40,8 +40,8 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   min-height: 100%;
 }
 #footer {
-  background-color: #444;
-  color: #aaa;
+  background-color: #252831;
+  color: white;
   font-size: 8pt;
   letter-spacing: 1px;
   padding: 25px;
@@ -255,11 +255,13 @@ nav h1 a {
   padding: 30px 40px 80px;
 }
 #reviews-container h2 {
-  color: #f58500;
+  color: #000;
   font-size: 24pt;
   font-weight: 300;
   letter-spacing: -1px;
   padding-bottom: 1pt;
+  width: 85%;
+  margin: auto;
 }
 #reviews-list {
   margin: auto;
@@ -268,7 +270,7 @@ nav h1 a {
 }
 #reviews-list li {
   background-color: #fff;
-    border: 2px solid #f3f3f3;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
   display: block;
   list-style-type: none;
   margin: 0 0 30px;
@@ -291,6 +293,8 @@ nav h1 a {
     flex-wrap: wrap;
     width: 100%;
   }
+
+
 
   #restaurants-list{
     display: flex;
@@ -325,6 +329,11 @@ nav h1 a {
     width: 100%;
     background-color: #ccc;
   }
+ 
+  .leaflet-container a{
+    color: black;
+    text-decoration: underline;
+  }
 
   /* .inside #footer {
     bottom: 0;
@@ -356,6 +365,7 @@ nav h1 a {
     margin-top: 90px;
     margin-bottom: 10px;
     font-size: 20px;
+    color: #000;
     text-align: center;
   }
 
@@ -365,7 +375,8 @@ nav h1 a {
 
 
   #restaurant-address{
-    margin: 5px 10px;
+    margin: auto;
+    width: 90%;
   }
 
   #restaurant-hours{
@@ -395,6 +406,9 @@ nav h1 a {
 
   .reviews-container h2{
     margin-bottom: 0px;
+    width: 85%;
+    margin: auto;
+    color: #000;
   }
 
   .img-wrapper{
