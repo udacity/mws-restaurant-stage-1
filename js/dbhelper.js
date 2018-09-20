@@ -8,8 +8,8 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 1337 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 8000 // Change this to your server port
+    return `./data/restaurants.json`;
   }
 
   /**
@@ -18,8 +18,6 @@ class DBHelper {
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.setRequestHeader("Access-Control-Allow-Origin: *");
-    xhr.setRequestHeader("content-type: application/json");
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
         const json = JSON.parse(xhr.responseText);
