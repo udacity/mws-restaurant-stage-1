@@ -1,3 +1,19 @@
+import idb from 'idb';
+
+let dbPromise = idb.open("mws-restaurant-review", 3, upgradeDB => {
+  switch (upgradeDB.oldVersion) {
+    case 0:
+      upgradeDB.createObjectStore("restaurants", { keyPath: "id" });
+    case 1:
+    {
+      const reviewsStore = upgradeDB.createObjectStore("reviews", { keyPath: "id" });
+      reviewsStore.createIndex("restaurant_id", "restaurant_id");
+    }
+    case 2:
+    upgradeDB.createObjectStore("queuedData", {keyPath: "id", autoIncrement: true});
+  }
+});
+
 /**
  * Common database helper functions.
  */
@@ -218,23 +234,203 @@ class DBHelper {
     }).catch(error => callback(`Request failed. Error reponse: ${error}`, null));
   }
 
-  static updateFavoriteSelection(id, name, rating, comment, callback) {
-    const body = {
-      id,
-      name,
-      rating,
-      comment,
-      createdAt: Date.now()
-    }
-    const url = `${DBHelper.DATABASE_REVIEWS_URL}`;
-    const method = "POST";
-
-    fetch(url, {method}).then(response => {
+  static updateFavoriteSelection(id, newState, callback) {
+   
+    const url =  `${DBHelper.DATABASE_URL}/${id}/?is_favorite=${newState}`;
+    const method = "PUT";
+    DBHelper.storeLatestFavouriteRestaurant(id, {"is_favorite": newState});
+    DBHelper.addRequestToQueuedData(url, method);   
+    callback(null, {id, value: newState});
+    // fetch(url, {method}).then(response => {
      
-      callback(null, result);
+    //   callback(null, response);
       
-    }).catch(error => callback(`Request failed. Error reponse: ${error}`, null));
+    // }).catch(error => callback(`Request failed. Error reponse: ${error}`, null));
     
   }
+
+  static saveReview(id, name, rating, comment, callback) {
+    // Create the POST body
+    const request = {
+      restaurant_id: id,
+      name: name,
+      rating: rating,
+      comments: comment
+    }  
+	
+	const url = `${DBHelper.DATABASE_REVIEWS_URL}`;
+    const method = "POST";
+    DBHelper.storeLatestReview(id,request);
+    DBHelper.addRequestToQueuedData(url,method, request);
+    callback(null,id);
+    // fetch(url, {method, body: request}).then(response => {
+     
+    //   callback(null, response);
+      
+    // }).catch(error => callback(`Request failed. Error reponse: ${error}`, null));
+	
+  }
+
+  static storeLatestFavouriteRestaurant(id, latestObj) {
+    if(!dbPromise) dbPromise = idb.open("mws-restaurant-review");
+    dbPromise.then(db => {
+      console.log("Getting db transaction");
+      const tx = db.transaction("restaurants", "readwrite");
+      const value = tx
+        .objectStore("restaurants")
+        .get("-1")
+        .then(value => {
+          if (!value) return;
+          
+          const data = value.data;
+          const restaurant = data.filter(r => r.id === id)[0];
+          if (!restaurant)
+            return;
+          const keys = Object.keys(latestObj);
+          keys.forEach(k => {
+            restaurant[k] = latestObj[k];
+          })
+
+          dbPromise.then(db => {
+            const tx = db.transaction("restaurants", "readwrite");
+            tx
+              .objectStore("restaurants")
+              .put({id: "-1", data: data});
+            return tx.complete;
+          })
+        })
+    })
+
+    dbPromise.then(db => {
+      console.log("Getting db transaction");
+      const tx = db.transaction("restaurants", "readwrite");
+      const value = tx
+        .objectStore("restaurants")
+        .get(id + "")
+        .then(value => {
+          if (!value) return;
+          const restaurantObj = value.data;
+          console.log("Specific restaurant obj: ", restaurantObj);
+          if (!restaurantObj)
+            return;
+          const keys = Object.keys(latestObj);
+          keys.forEach(k => {
+            restaurantObj[k] = latestObj[k];
+          })
+
+          dbPromise.then(db => {
+            const tx = db.transaction("restaurants", "readwrite");
+            tx
+              .objectStore("restaurants")
+              .put({
+                id: id + "",
+                data: restaurantObj
+              });
+            return tx.complete;
+          })
+        })
+    })
+  }
+
+  static storeLatestReview(id, bodyObj) {
+    dbPromise.then(db => {
+       const tx = db.transaction("reviews", "readwrite");
+       const store = tx.objectStore("reviews");
+       store.put({
+         id: Date.now(),
+         "restaurant_id": id,
+         data: bodyObj
+       });
+       return tx.complete;
+     })
+   }
+
+   static addRequestToQueuedData(url, method, body) {
+    const dbPromise = idb.open("mws-restaurant-review");
+    dbPromise.then(db => {
+      const tx = db.transaction("queuedData", "readwrite");
+      tx
+        .objectStore("queuedData")
+        .put({
+          data: {
+            url,
+            method,
+            body
+          }
+        })
+    })
+      .catch(error => {})
+      .then(DBHelper.pendingQueuedData());
+  }
+  
+  
+   static pendingQueuedData() {
+    DBHelper.saveQueuedData(DBHelper.pendingQueuedData);
+  }
+
+  static saveQueuedData(callback) {
+    let url;
+    let method;
+    let body;
+    if(!dbPromise) dbPromise = idb.open("mws-restaurant-review");
+    dbPromise.then(db => {
+      if (!db.objectStoreNames.length) {
+        db.close();
+        return;
+      }
+
+      const tx = db.transaction("queuedData", "readwrite");
+      tx
+        .objectStore("queuedData")
+        .openCursor()
+        .then(cursor => {
+          if (!cursor) {
+            return;
+          }
+          const value = cursor.value;
+          url = cursor.value.data.url;
+          method = cursor.value.data.method;
+          body = cursor.value.data.body;
+
+          if ((!url || !method) || (method === "POST" && !body)) {
+            cursor
+              .delete()
+              .then(callback());
+            return;
+          };
+
+          const properties = {
+            body: JSON.stringify(body),
+            method: method
+          }
+          console.log("sending post from queue: ", properties);
+          fetch(url, properties).then(response => {
+            if (!response.ok && !response.redirected) {
+              return;
+            }
+          })
+            .then(() => {
+              const deltx = db.transaction("queuedData", "readwrite");
+              deltx
+                .objectStore("queuedData")
+                .openCursor()
+                .then(cursor => {
+                  cursor
+                    .delete()
+                    .then(() => {
+                      callback();
+                    })
+                })
+              console.log("deleted pending item from queue");
+            })
+        })
+        .catch(error => {
+          console.log(error);
+          return;
+        })
+    })
+  }
+
 }
 
+window.DBHelper = DBHelper;

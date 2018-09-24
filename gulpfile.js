@@ -48,6 +48,8 @@ gulp.task("js", () => {
         .pipe(browserSync.reload({ stream: true }));
 });
 
+
+
 gulp.task("sw", () => {
     const b = browserify({
         debug: true
@@ -65,7 +67,24 @@ gulp.task("sw", () => {
         .pipe(gulp.dest(folder.build))
 });
 
-gulp.task("html", gulp.series("css", "js", "sw", () => {
+gulp.task("dbhelper", () => {
+    const b = browserify({
+      debug: true
+    });
+     return b
+     .transform(babelify.configure({
+        presets: ["es2015"]
+    }))
+      .require("app/js/dbhelper.js", { entry: true })
+      .bundle()
+      .on('error', function (error) {
+        console.log(error)
+    })
+      .pipe(source("dbhelper.js"))
+      .pipe(gulp.dest("build/js/"));
+  });
+
+gulp.task("html", gulp.series("css", "js","dbhelper", "sw", () => {
     return gulp
         .src("app/*.html")
         .pipe(
@@ -74,7 +93,7 @@ gulp.task("html", gulp.series("css", "js", "sw", () => {
                 $.htmlmin({
                     collapseWhitespace: true,
                     minifyCSS: true,
-                    minifyJS: { compress: { drop_console: true } },
+                    minifyJS: { compress: { } },
                     processConditionalComments: true,
                     removeComments: true,
                     removeEmptyAttributes: true,
@@ -102,7 +121,7 @@ gulp.task('watch', () => {
     gulp.watch([folder.src], build_all)
 });
 
-gulp.task("serve", gulp.series("clean", "css", "js", "sw"), () => {   
+gulp.task("serve", gulp.series("clean", "css",  "js","dbhelper", "sw"), () => {   
         browserSync.init({
             notify: false,
             port: 8000,

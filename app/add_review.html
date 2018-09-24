@@ -54,7 +54,7 @@
     <!-- Beginning reviews -->
     <section id="review-entry">
         <h2>Add a Review</h2>
-     <form id="reviews-form">
+     <div id="reviews-form">
        <div id="review-reviewer">
 <label for="reviewer">Your Name:</label>
 <br>
@@ -79,9 +79,9 @@
                         <textarea id="comments" name="comments" rows="10" column="100"></textarea>
                     </div>
                     <div class="review-fullwidth" style="display: flex; justify-content: space-around">
-                        <button type="submit" value="Submit" onclick="addReview()" id="review-submit">Send Comment</button>
+                        <button onclick="addReview()" id="review-submit">Send Comment</button>
                          </div>
-                         </form>
+                        </div>
       </section>
     <!-- End reviews -->
   </main>

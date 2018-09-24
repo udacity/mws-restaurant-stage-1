@@ -1,12 +1,17 @@
 
 import idb from "idb";
 
-const dbPromise = idb.open("mws-restaurant-review", 2, upgradeDB => {
+const dbPromise = idb.open("mws-restaurant-review", 3, upgradeDB => {
   switch (upgradeDB.oldVersion) {
     case 0:
       upgradeDB.createObjectStore("restaurants", { keyPath: "id" });
     case 1:
-      upgradeDB.createObjectStore("reviews", { keyPath: "id" });
+    {
+      const reviewsStore = upgradeDB.createObjectStore("reviews", { keyPath: "id" });
+      reviewsStore.createIndex("restaurant_id", "restaurant_id");
+    }
+    case 2:
+    upgradeDB.createObjectStore("queuedData", {keyPath: "id", autoIncrement: true});
   }
 });
 const cacheName = 'mws-restautrant-cache-v3',
@@ -87,7 +92,47 @@ self.addEventListener('fetch', event => {
 });
 
 const handleAPIRequest = (event, id) => {
-  
+  if (event.request.method !== "GET") {
+    return fetch(event.request)
+      .then(response => response.json())
+      .then(json => {return json});
+  }
+ 
+  if (event.request.url.indexOf("reviews") > -1) {
+    event.respondWith(dbPromise.then(db => {
+    return db
+      .transaction("reviews")
+      .objectStore("reviews")
+      .index("restaurant_id")
+      .getAll(id);
+  }).then(data => {
+    return (data.length && data) || fetch(event.request)
+      .then(fetchResponse => fetchResponse.json())
+      .then(data => {
+        return dbPromise.then(idb => {
+          const trnx = idb.transaction("reviews", "readwrite");
+          const store = trnx.objectStore("reviews");
+          data.forEach(review => {
+            store.put({id: review.id, "restaurant_id": review["restaurant_id"], data: review});
+          })
+          return data;
+        })
+      })
+  }).then(response => {
+    if (response[0].data) {
+      const mapResponse = response.map(review => review.data);
+      return new Response(JSON.stringify(mapResponse));
+    }
+    return new Response(JSON.stringify(response));
+  }).catch(error => {
+    return new Response("Error fetching data", {status: 500})
+  }))
+  } else {
+    handleRestaurantAPIRequest(event, id);
+  }
+}
+
+const handleRestaurantAPIRequest = (event, id) => {
   event.respondWith(
     dbPromise
       .then(db => {

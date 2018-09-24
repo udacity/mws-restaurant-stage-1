@@ -91,10 +91,12 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
   selectedFavouriteIcon.className ="fas fa-heart";
   selectedFavouriteIcon.style.display = restaurant["is_favorite"] ? "block" : "none";
   selectedFavouriteIcon.style.color = "red";
+  selectedFavouriteIcon.setAttribute('aria-label', 'is favourite selected');
   const unselectedFavouriteIcon = document.createElement("i");
   unselectedFavouriteIcon.id = "favorite-unselected-icon-" + restaurant.id;
   unselectedFavouriteIcon.className ="far fa-heart";
   unselectedFavouriteIcon.style.display = restaurant["is_favorite"] ? "none" : "block";
+  unselectedFavouriteIcon.setAttribute('aria-label', 'is favourite not selected');
   const favoriteBtn = document.createElement("button");
   favoriteBtn.className ="btn";
   favoriteBtn.id = "favorite-icon-" + restaurant.id;
