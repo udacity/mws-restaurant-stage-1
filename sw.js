@@ -43,7 +43,7 @@ self.addEventListener('install', (e) => {
 
 
 
-self.addEventListener('activate', function(e) {
+self.addEventListener('activate', (e) => {
 	e.waitUntil(
 		caches.keys().then( (keyList) => {
 			return Promise.all(
@@ -85,22 +85,12 @@ self.addEventListener('fetch', e => {
 
 	if(e.request.url.includes(insideBaseUrl)){
 		e.respondWith(caches.match('./restaurant.html'));
+		return;
 
 	} else if (e.request.url.includes(mapAPIBaseUrl)) {
 
-		e.respondWith(
-			fetch(e.request).then( res => {
-				console.log('Fetching from Network');
-				const resClone = res.clone();
-				caches.open(mapCacheName).then( (cache) => {
-					cache.put(e.request, resClone);
-				});
-				return res;
-			}).catch(function() {
-				console.log('Fetching from Cache');
-				return caches.match(e.request);
-			})
-		);
+		e.respondWith(fetchAndCacheThenRespond(e.request, mapCacheName));
+		return;
 
 	} else {
 		e.respondWith(
@@ -108,13 +98,37 @@ self.addEventListener('fetch', e => {
 				return res || fetch(e.request);
 			}).catch(error => {
 				if (e.request.url.includes('.jpg')) {
+					/* If no cache match for the image,
+						return offline image */
 					return caches.match('./offline.png');
 				}
-				console.log('no cache entry for:', e.request.url);
 			})
 		);
 	}
 });
 
 
-
+/**
+ * checks if online, fetch data from network,
+ * updates cache and repond with data
+ * if offline responds with cached data
+ * @param {Object} request - The Request the browser intends to make
+ * @param {string} cacheName - Cache name to cache data in
+ * @returns {Object.<Response>} response object for the given request
+ */
+function fetchAndCacheThenRespond(request, cacheName) {
+	/* Trying to fetch from network */
+	return caches.open(cacheName).then( cache => {
+		return cache.match(request).then( response => {
+			/* fetching resources from network */
+			const fetchPromise = fetch(request).then( networkResponse => {
+				console.log(networkResponse.clone());
+				cache.put(request, networkResponse.clone());
+				return networkResponse;
+			});
+			/* retrun network response if it exists
+				else return cached response */
+			return fetchPromise || response;
+		})
+	});
+}

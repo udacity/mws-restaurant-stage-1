@@ -1,5 +1,8 @@
-/* Change this to your base url in local env that would be 'http://localhost:port' */
 
+// fetchRestaurantById, mapMarkerForRestaurant, imageUrlForRestaurant, imageSrcsetForRestaurant, fetchMAPBOXToken
+
+
+/* Change this to your base url in local env that would be 'http://localhost:port' */
 const BASE_URL = (() => {
   if(location.origin.includes('http://localhost:')){
 		return location.origin;
@@ -197,19 +200,9 @@ class DBHelper {
         alt: restaurant.name,
         url: DBHelper.urlForRestaurant(restaurant)
       });
-    marker.addTo(newMap);
+    marker.addTo(map);
     return marker;
   }
-  /* static mapMarkerForRestaurant(restaurant, map) {
-    const marker = new google.maps.Marker({
-      position: restaurant.latlng,
-      title: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant),
-      map: map,
-      animation: google.maps.Animation.DROP}
-    );
-    return marker;
-  } */
 
 }
 
@@ -217,18 +210,17 @@ class DBHelper {
 /*  ============== Service Worker Registration ============== */
 
 /* making sure browser supports service worker */
-if ('serviceWorker' in navigator) {
+// if ('serviceWorker' in navigator) {
 
-  window.addEventListener('load', function() {
+//   window.addEventListener('load', function() {
 
-    navigator.serviceWorker.register('./sw.js')
-    .then(reg => {
-      console.log('Registering service worker');
-    })
-    .catch(err => {
-      console.log('Service Worker registration failed');
-    })
+//     navigator.serviceWorker.register('./sw.js')
+//     .then(reg => {
+//       console.log('Registering service worker');
+//     })
+//     .catch(err => {
+//       console.log('Service Worker registration failed');
+//     })
 
-  });
-
-}
+//   });
+// }
