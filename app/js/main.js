@@ -112,6 +112,7 @@ const initMap = () => {
   }).addTo(newMap);
 
   updateRestaurants();
+  DBHelper.pendingQueuedData();
 }
 /* window.initMap = () => {
   let loc = {
@@ -188,7 +189,7 @@ const createRestaurantHTML = (restaurant) => {
   image.src = imageURL;
   image["data-src"] = imageURL;
   image["data-srcset"] = imageURL;
-  image.setAttribute('alt', restaurant.name);
+  image.setAttribute('alt', restaurant.name +  + " restaurant promotional image");
   li.append(image);
 
   const name = document.createElement('h1');

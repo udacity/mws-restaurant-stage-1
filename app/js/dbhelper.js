@@ -52,19 +52,7 @@ class DBHelper {
     .catch((error) => {
       callback(`Request failed. Error reponse: ${error}`, null);
     });
-    // let xhr = new XMLHttpRequest();
-    // xhr.open('GET', DBHelper.DATABASE_URL);
-    // xhr.onload = () => {
-    //   if (xhr.status === 200) { // Got a success response from server!
-    //     const json = JSON.parse(xhr.responseText);
-    //     const restaurants = json.restaurants;
-    //     callback(null, restaurants);
-    //   } else { // Oops!. Got an error from server.
-    //     const error = (`Request failed. Returned status of ${xhr.status}`);
-    //     callback(error, null);
-    //   }
-    // };
-    // xhr.send();
+   
   }
 
   /**
@@ -241,12 +229,7 @@ class DBHelper {
     DBHelper.storeLatestFavouriteRestaurant(id, {"is_favorite": newState});
     DBHelper.addRequestToQueuedData(url, method);   
     callback(null, {id, value: newState});
-    // fetch(url, {method}).then(response => {
-     
-    //   callback(null, response);
-      
-    // }).catch(error => callback(`Request failed. Error reponse: ${error}`, null));
-    
+   
   }
 
   static saveReview(id, name, rating, comment, callback) {
