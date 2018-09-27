@@ -175,7 +175,7 @@ createRestaurantHTML = (restaurant) => {
   var file = imgName.join('.')
   // added the srcset here but it's not working. 
   //my optimized images looks like this - 1-large_32.jpg
-  image.srcset = `img/${file}-large_3x.${ext} 800w, ${file}-medium_2x.${ext} 480w, ${file}-small_1x.${ext} 320w`;
+  image.srcset = `img/${file}-large_3x.${ext} 800w, img/${file}-medium_2x.${ext} 480w, img/${file}-small_1x.${ext} 320w`;
   image.alt = `${restaurant.name} restaurant`;
   li.append(image);
 
