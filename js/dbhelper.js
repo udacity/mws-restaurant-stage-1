@@ -15,35 +15,39 @@ class DBHelper {
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
+    const dbPromise = idb.open('restaureview', 1, upgradeDB => {
+      upgradeDB.createObjectStore('restaureview-store', {keyPath: "id"});
+    });
+
+    if(!navigator.serviceWorker.controller) {
     fetch(DBHelper.DATABASE_URL).then(response =>{
       if(response.status !== 200){
         console.log("something is wrong with the request"+ response.status);
         return;
       }
       response.json().then(restaurants =>{
-
+        restaurants.map(restaurant =>{
+          dbPromise.then(db => {
+            const tx = db.transaction("restaureview-store", "readwrite");
+            const restaureviewStore = tx.objectStore("restaureview-store");
+            restaureviewStore.put(restaurant);
+          });
+        });
         callback(null, restaurants);
 
       });
     }).catch(err =>{
       console.log(err);
     });
-    // let xhr = new XMLHttpRequest();
-    // xhr.open('GET', DBHelper.DATABASE_URL);
-    // xhr.onload = () => {
-    //   if (xhr.status === 200) { // Got a success response from server!
-    //     const json = JSON.parse(xhr.responseText);
-    //     console.log(json);
-    //     const restaurants = json.restaurants;
-    //     console.log(json.restaurant);
-  
-    //     callback(null, restaurants);
-    //   } else { // Oops!. Got an error from server.
-    //     const error = (`Request failed. Returned status of ${xhr.status}`);
-    //     callback(error, null);
-    //   }
-    // };
-    // xhr.send();
+    }else{
+        dbPromise.then(db => {
+          return db.transaction("restaureview-store")
+                   .objectStore("restaureview-store")
+                   .getAll();
+        }).then(restaurants =>{
+          callback(null, restaurants);
+        });
+    }
   }
 
   /**

@@ -13,10 +13,12 @@ self.addEventListener("install", event => {
                 "./css/styles.css",
                 "./js/dbhelper.js",
                 "./js/main.js",
+                "./js/idb.js",
                 "./js/restaurant_info.js",
                 "https://unpkg.com/leaflet@1.3.1/dist/leaflet.js",
                 "https://unpkg.com/leaflet@1.3.1/dist/leaflet.css",
-                "https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon-2x.png"
+                "https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon-2x.png",
+                "https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png",
             ]);
         })
     );

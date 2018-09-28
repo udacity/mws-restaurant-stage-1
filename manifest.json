@@ -1,0 +1,20 @@
+{
+    "name": "Restaurant Reviews",
+    "short_name": "Restaureview",
+    "theme_color": "#333",
+    "background_color": "#333",
+    "start_url": "./",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "./img/restareview-198.png",
+            "type": "image/png",
+            "sizes": "128x128"
+        },
+        {
+            "src": "./img/restareview-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
