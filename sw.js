@@ -1,16 +1,14 @@
-const staticCacheName = 'Restaurant-static-v5'; 
+const staticCacheName = 'Restaurant-static-v2'; 
 const filesToCache = [
     './',
     './index.html',
     './restaurant.html',
     './css/styles.css',
+    './js/idb.js',
     './js/dbhelper.js',
     './js/main.js',
     './js/restaurant_info.js',
-    './data/restaurants.json',
     './favicon.png',
-    //'https://fonts.googleapis.com/css?family=Lato',
-    //'https://fonts.gstatic.com/s/lato/v14/S6uyw4BMUTPHjx4wXiWtFCc.woff2',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
     'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png',
@@ -56,7 +54,7 @@ self.skipWaiting();
  */
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
-  
+
     if (requestUrl.pathname === './') {
         event.respondWith(caches.match('./index.html'));
         return;
@@ -65,19 +63,16 @@ self.addEventListener('fetch', event => {
       event.respondWith(caches.match('./restaurant.html'));
       return;
     }
-    if (requestUrl.pathname.includes('/data/restaurants.json')) {
-      event.respondWith(caches.match('./data/restaurants.json'));
-      return;
-    }
+
 /** fetch from catch or network **/
-  event.respondWith(
-    caches.match(requestUrl).then(response => {
-      return response || fetch(event.request).then(fetchResponse => { 
-        return caches.open(staticCacheName).then(cache => {           
-          cache.put(requestUrl, fetchResponse.clone());            
-          return fetchResponse;                                       
-        });                                                           
-      });                                                             
-    })
-  );
+    event.respondWith(
+      caches.match(requestUrl).then(response => {
+        return response || fetch(event.request).then(fetchResponse => { 
+          return caches.open(staticCacheName).then(cache => {           
+            cache.put(requestUrl, fetchResponse.clone());            
+            return fetchResponse;                                       
+          });                                                           
+        });                                                             
+      })
+    );
 });

@@ -1,3 +1,11 @@
+/**   Create Indexed Database for data    **/ 
+const dbPromise = idb.open('restaurants-DB', 1, upgradeDB => {
+  switch (upgradeDB.oldVersion) {
+    case 0:
+      upgradeDB.createObjectStore('restaurants');
+  }
+});
+
 /**
  * Common database helper functions.
  */
@@ -8,28 +16,47 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    //const port = 5500 // Change this to your server port
-    //return `http://localhost:${port}/data/restaurants.json`;
-    return `https://chinfox.github.io/mws-restaurant-stage-1/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
+    //return `https://chinfox.github.io/mws-restaurant-stage-1/data/restaurants.json`;
+  }
+
+  /**   Fetch data from IDB   **/
+  static getFromIDB(callback){
+    dbPromise.then(db => {
+      let tx = db.transaction('restaurants');
+      let store = tx.objectStore('restaurants');
+      return store.getAll();
+    }).then(function(restaurants) {
+      callback(null, restaurants);
+    });
+  }
+
+  /**   Fetch data from Server and store a copy of response in IDB    **/
+  static getFromServer(callback){
+    fetch(DBHelper.DATABASE_URL)
+    .then(response => response.json()).then(restaurants => {
+      restaurants.map(restaurant => {
+        dbPromise.then(db => {
+          let tx = db.transaction('restaurants', 'readwrite')
+          let store = tx.objectStore('restaurants');
+          store.put(restaurant, restaurant.id);
+        });         
+      });
+      callback(null, restaurants); 
+    });
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+    //  check if Service Worker controls page
+    if (navigator.serviceWorker.controller) {
+      DBHelper.getFromIDB(callback);
+      return;
+    }
+    DBHelper.getFromServer(callback);
   }
 
   /**
@@ -151,10 +178,14 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    const url = `./images/${restaurant.photograph}`;
-    const small = url.replace('.jpg', '-small.jpg');
-    const normal = url.replace('.jpg', '-normal.jpg');
-    const large = url.replace('.jpg', '-normal_2x.jpg');
+    //const url = `./images/${restaurant.photograph}`;
+    const url = `./images/${restaurant.id}`;
+    const small = `${url}-small.jpg`;
+    const normal = `${url}-normal.jpg`;
+    const large = `${url}-normal_2x.jpg`;
+    //const small = url.replace('.jpg', '-small.jpg');
+    //const normal = url.replace('.jpg', '-normal.jpg');
+    //const large = url.replace('.jpg', '-normal_2x.jpg');
     return {small: small, normal: normal, large: large};
   }
 
@@ -170,15 +201,5 @@ class DBHelper {
       })
       marker.addTo(newMap);
     return marker;
-  } 
-  /* static mapMarkerForRestaurant(restaurant, map) {
-    const marker = new google.maps.Marker({
-      position: restaurant.latlng,
-      title: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant),
-      map: map,
-      animation: google.maps.Animation.DROP}
-    );
-    return marker;
-  } */
+  }
 }

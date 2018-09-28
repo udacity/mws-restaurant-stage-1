@@ -9,9 +9,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   initMap();
 });
 
-/*
- *  TODO : Register service worker 
- */
+/**  TODO : Register service worker  **/
 registerServiceWorker = () => {
   if (navigator.serviceWorker) {
     navigator.serviceWorker.register('./sw.js')
@@ -142,10 +140,11 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const rev = document.createElement('div');
   rev.className = "reviews-header"
-  container.appendChild(rev);
+  
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
   rev.appendChild(title);
+  container.appendChild(rev);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
