@@ -6,12 +6,15 @@ var newMap;
  */
 document.addEventListener('DOMContentLoaded', (event) => {  
   console.log('DOM loaded');
-  saveReviews().then(reviews => {
-    console.log('calling initmap');
-    initMap();
-  }).catch(error => {
-    console.log('loaded error',error);
-  });
+  console.log('calling initmap');
+  initMap();
+
+  // saveReviews().then(reviews => {
+  //   console.log('calling initmap');
+  //   initMap();
+  // }).catch(error => {
+  //   console.log('loaded error',error);
+  // });
 });
 
 /*
@@ -82,6 +85,9 @@ fetchRestaurantFromURL = (callback) => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
+  
+  const favorite = document.getElementById('restaurant-favorite');
+  favorite.checked = restaurant.is_favorite;
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
@@ -93,7 +99,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.alt = restaurant.name;
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
-
+ 
   // fill operating hours
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
@@ -125,27 +131,33 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = () => {
   
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
-
-  DBHelper.readReviewsForRestaurant(restaurant_id=self.restaurant.id).then(reviews => {
-    console.log('review html',reviews);
-    if (!reviews) {
-      const noReviews = document.createElement('p');
-      noReviews.innerHTML = 'No reviews yet!';
-      container.appendChild(noReviews);
-      return;
-    }
-    const ul = document.getElementById('reviews-list');
-    reviews.forEach(review => {
-      ul.appendChild(createReviewHTML(review));
-    });
-    container.appendChild(ul);
-  })
+  const action=document.createElement('a');
+  action.href=`/review.html?restaurant_id=${self.restaurant.id}`;
+  action.innerHTML="Add Review";
+  container.appendChild(action);
+  //now fetch reviews from server into indexedDB then retrieve from indexedDB
+  DBHelper.SaveRestaurantReviews (self.restaurant.id).then(() =>{
+    DBHelper.readReviewsForRestaurant(restaurant_id=self.restaurant.id).then(reviews => {
+      console.log('review html',reviews);
+      if (!reviews) {
+        const noReviews = document.createElement('p');
+        noReviews.innerHTML = 'No reviews yet!';
+        container.appendChild(noReviews);
+        return;
+      }
+      const ul = document.getElementById('reviews-list');
+      reviews.forEach(review => {
+        ul.appendChild(createReviewHTML(review));
+      });
+      container.appendChild(ul);
+    })
+  });
 }
 
 /**
@@ -197,4 +209,10 @@ getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+// built upon example from w3schools.com for checkbox code
+updateFavorite=() => {
+  const chkFavorite = document.getElementById('restaurant-favorite');
+  DBHelper.updateFavoriteForRestaurant(self.restaurant, chkFavorite.checked);
+
 }
