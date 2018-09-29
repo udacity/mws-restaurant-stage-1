@@ -13,6 +13,7 @@ self.addEventListener('install', function(event) {
         'js/main.js',
         'js/register.js',
         'js/restaurant_info.js',
+        '/review.html',
         'css/styles.css'
       ]);
     })
