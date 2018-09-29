@@ -1,0 +1,79 @@
+<!DOCTYPE <!DOCTYPE html>
+<html lang="en">
+<!-- add link to manifest for PWA -->
+<link rel="manifest" href="/manifest.json">
+<!-- add view port so doesn't scale text -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<head>
+  <meta name="theme-color" content="#317EFB"/>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Restaurant Review</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Normalize.css for better cross-browser consistency -->
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!-- main css -->
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/styles.css" />
+  <!-- <script src="main.js"></script> -->
+</head>
+<body>
+  <main id="reviewDetails">
+    <div>
+      <label for="fullName">Name</label>
+      <input type="text" id="fullName">
+    </div>
+    <!-- <br> -->
+    <!-- Star rating obtained from https://codepen.io/neilpomerleau/pen/wzxzQr
+      a code Pen by Neil Pomerleau
+    -->
+    <label for="stars" class="ratinglabel">Rating</label>
+    <div id="rating">
+      <label class="lblStars">
+        <input type="radio" name="stars" value="1" />
+        <span class="icon">★</span>
+      </label>
+      <label class="lblStars">
+        <input type="radio" name="stars" value="2" />
+        <span class="icon">★</span>
+        <span class="icon">★</span>
+      </label>
+      <label class="lblStars">
+        <input type="radio" name="stars" value="3" />
+        <span class="icon">★</span>
+        <span class="icon">★</span>
+        <span class="icon">★</span>   
+      </label>
+      <label class="lblStars">
+        <input type="radio" name="stars" value="4" />
+        <span class="icon">★</span>
+        <span class="icon">★</span>
+        <span class="icon">★</span>
+        <span class="icon">★</span>
+      </label>
+      <label class="lblStars">
+        <input type="radio" name="stars" value="5" />
+        <span class="icon">★</span>
+        <span class="icon">★</span>
+        <span class="icon">★</span>
+        <span class="icon">★</span>
+        <span class="icon">★</span>
+      </label>
+    </div>
+    <div>
+      <!-- <br> -->
+      <label for="comments">Comments</label>
+      <textarea id="comments"  maxlength="1500" cols="25" rows="6"></textarea>
+    </div>
+    <div class="button">
+      <button id="btnSave" onclick="saveReview()" >Submit review</button>
+    </div>
+  </main>
+</body>
+  <!-- Beginning scripts -->
+  <script type="application/javascript" charset="utf-8" src="js/idb.js"></script>
+  <!-- Database helpers -->
+  <script type="text/javascript" src="js/dbhelper.js"></script>
+  <!-- Main javascript file -->
+  <script type="text/javascript" src="js/review.js"></script>
+
+</html>
