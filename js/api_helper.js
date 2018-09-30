@@ -1,16 +1,58 @@
-/* globals newMap, L */
+/* globals newMap, L, idb */
+
+const eatDB = idb.open('UdacityEats', '1', upgradeDb => {
+    const restaurants = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+    restaurants.createIndex('id', 'id');
+});
+
+const storeLocal = restaurants => {
+    eatDB.then(db => {
+        const transaction = db.transaction('restaurants', 'readwrite');
+        const store       = transaction.objectStore('restaurants');
+
+        restaurants.forEach(restaurant => {
+            store.put(restaurant);
+        });
+
+        return transaction.complete;
+    });
+}
 
 const ApiHelper = {
     DATABASE_URL: `http://localhost:1337/restaurants`,
 
     fetchRestaurants() {
         return fetch(this.DATABASE_URL)
-            .then(response => response.json());
+            .then(response => response.json())
+            .then(restaurants => {
+                storeLocal(restaurants);
+
+                return restaurants;
+            })
+            .catch(() => {
+                return eatDB.then(db  => {
+                    const index = db.transaction('restaurants').objectStore('restaurants').index('id');
+
+                    return index.getAll().then(json_data => json_data);
+                })
+                .catch(err => {
+                    throw err;
+                })
+            })
     },
 
     fetchRestaurantById(id) {
         return fetch(`${this.DATABASE_URL}/${id}`)
-            .then(response => response.json());
+            .then(response => response.json())
+            .catch(() => {
+                return eatDB.then(db  => {
+                    console.log('here', db.transaction('restaurants').objectStore('restaurants').get(id))
+                    return db.transaction('restaurants').objectStore('restaurants').get(id);
+                })
+                .catch(err => {
+                    throw err;
+                })
+            });
     },
 
     fetchRestaurantByCuisine(cuisine) {
@@ -62,7 +104,7 @@ const ApiHelper = {
     },
 
     imageUrlForRestaurant(restaurant) {
-        return (`/img/${restaurant.photograph}`);
+        return (`/img/${restaurant.photograph || restaurant.id}`); // NB: Casa Enrique is missing the photograph param in the api
     },
 
     mapMarkerForRestaurant(restaurant, map) {

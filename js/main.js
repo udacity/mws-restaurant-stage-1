@@ -8,9 +8,9 @@ const UdacityYelp = {
     markers       : [],
 
     init () {
-        this.initMap();
-        this.setNeighborhoods()
-        this.setCuisines()
+        this.initMap()
+            .setNeighborhoods()
+            .setCuisines();
     },
 
     setNeighborhoods () {
@@ -20,6 +20,7 @@ const UdacityYelp = {
             .catch(error => {
                 throw error;
             });
+        return this;
     },
 
     fillNeighborhoodsHTML () {
@@ -40,6 +41,7 @@ const UdacityYelp = {
             .catch(error => {
                 throw error;
             });
+        return this;
     },
 
     fillCuisinesHTML () {
@@ -70,7 +72,7 @@ const UdacityYelp = {
             id: 'mapbox.streets'
         }).addTo(newMap);
 
-        this.updateRestaurants();
+        return this.updateRestaurants();
     },
 
     // Update page and map for current restaurants.
@@ -93,14 +95,7 @@ const UdacityYelp = {
                 throw error;
             });
 
-        // ApiHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
-        //     if (error) { // Got an error!
-        //         throw error;
-        //     } else {
-        //         this.resetRestaurants(restaurants);
-        //         this.fillRestaurantsHTML();
-        //     }
-        // })
+        return this;
     },
 
     // Clear current restaurants, their HTML and remove their map markers.

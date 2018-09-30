@@ -162,7 +162,7 @@ nav h1 a {
     width: calc(100% - 1rem);
 }
 
-.filter-options h2 {
+.filter-options h3 {
     color: white;
     font-size: 0.9rem;
     font-weight: normal;
@@ -309,7 +309,7 @@ nav h1 a {
     padding: 1rem;
 }
 
-#reviews-container h2 {
+#reviews-container h3 {
     color: #f58500;
     font-size: 24pt;
     font-weight: 300;
