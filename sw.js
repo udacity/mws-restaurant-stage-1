@@ -1,4 +1,4 @@
-var staticCacheName='mws-restaurant-v6';
+var staticCacheName='mws-restaurant-v7';
 // Service worker install built upon code used for Wittr project
 self.addEventListener('install', function(event) {
   // console.log('install');
@@ -8,12 +8,13 @@ self.addEventListener('install', function(event) {
       return cache.addAll([
         '/index.html',
         '/restaurant.html',
+        '/review.html',
         'js/dbhelper.js',
         'js/idb.js',
         'js/main.js',
         'js/register.js',
         'js/restaurant_info.js',
-        '/review.html',
+        'js/review.js',
         'css/styles.css'
       ]);
     })
@@ -23,7 +24,7 @@ self.addEventListener('install', function(event) {
 self.addEventListener('fetch', function(event) {
   var requestUrl = new URL(event.request.url);
 // for now do simple cache of all requests 
-// console.log('in fetch for ',requestUrl,'path',requestUrl.pathname);
+console.log('in fetch for ',requestUrl,'path',requestUrl.pathname);
 
 if (requestUrl.origin === location.origin) {
   // for unspecified offline access redirect to cached index.html
@@ -46,12 +47,18 @@ if (requestUrl.origin === location.origin) {
 //any other pages check cache & fetch if needed
 event.respondWith(
   caches.open(staticCacheName).then(function(cache) {
-    return cache.match(event.request).then(function (response) {
-      return response || fetch(event.request)
+    //ignore search so we match to base page regardless of restaurant viewing (such as review.html?restaurant_id=3)
+    return cache.match(event.request,{ignoreSearch: true}).then(function (response) {
+      if (response) {
+        console.log('found match returning',event.request);
+        return response;
+      }
+      console.log('no match doing a fetch',event.request);
+      return fetch(event.request);
     });
 
     }).catch(function(e) {
-      // console.log('fetch promise failed for ',e);
+       console.log('fetch promise failed for ',e);
     })
   );
 });
@@ -77,8 +84,10 @@ function servePhoto(request) {
 // copied/adapted from my wittr project code
 function serveDetails(request) {
   // console.log('main detail url',request.url);
+
   return caches.open(staticCacheName).then(function(cache) {
-    return cache.match(request.url).then(function(response) {
+    //ignore search so we match to base page regardless of restaurant viewing
+    return cache.match(request.url, {ignoreSearch: true}).then(function(response) {
       if (response) return response;
 
       return fetch(request).then(function(networkResponse) {
