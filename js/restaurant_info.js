@@ -5,9 +5,9 @@ var newMap;
  * Initialize map as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {  
-  console.log('DOM loaded');
+  // console.log('DOM loaded');
   DBHelper.sendWaitingReviews();
-  console.log('calling initmap');
+  // console.log('calling initmap');
   initMap();
 
   // saveReviews().then(reviews => {
@@ -29,7 +29,7 @@ saveReviews = () => {
  * Initialize leaflet map
  */
 initMap = () => {
-  console.log('in initmap');
+  // console.log('in initmap');
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
@@ -68,9 +68,9 @@ fetchRestaurantFromURL = (callback) => {
   } else {
     DBHelper.readRestaurauntsById(id, (error, restaurant) => {
       self.restaurant = restaurant;
-      console.log('return',restaurant);
+      // console.log('return',restaurant);
       if (!restaurant) {
-        console.log('error',error);
+        // console.log('error',error);
         return;
       }
       // console.log('idb get',id);
@@ -146,7 +146,7 @@ fillReviewsHTML = () => {
   //now fetch reviews from server into indexedDB then retrieve from indexedDB
   DBHelper.SaveRestaurantReviews (self.restaurant.id).then(() =>{
     DBHelper.readReviewsForRestaurant(restaurant_id=self.restaurant.id).then(reviews => {
-      console.log('review html',reviews);
+      // console.log('review html',reviews);
       if (!reviews) {
         const noReviews = document.createElement('p');
         noReviews.innerHTML = 'No reviews yet!';

@@ -26,7 +26,7 @@ self.addEventListener('install', function(event) {
 self.addEventListener('fetch', function(event) {
   var requestUrl = new URL(event.request.url);
 // for now do simple cache of all requests 
-console.log('in fetch for ',requestUrl,'path',requestUrl.pathname);
+// console.log('in fetch for ',requestUrl,'path',requestUrl.pathname);
 
 if (requestUrl.origin === location.origin) {
   // for unspecified offline access redirect to cached index.html
@@ -52,10 +52,10 @@ event.respondWith(
     //ignore search so we match to base page regardless of restaurant viewing (such as review.html?restaurant_id=3)
     return cache.match(event.request,{ignoreSearch: true}).then(function (response) {
       if (response) {
-        console.log('found match returning',event.request);
+        // console.log('found match returning',event.request);
         return response;
       }
-      console.log('no match doing a fetch',event.request);
+      // console.log('no match doing a fetch',event.request);
       return fetch(event.request);
     });
 
