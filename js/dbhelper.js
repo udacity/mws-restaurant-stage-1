@@ -448,9 +448,12 @@ class DBHelper {
         // }).catch(()=>{
         //   console.log('restaurant will update when connected');
         // });
+    }).catch(error => {
+      console.log('error sending favorite',error);
     });
     });
   }
+
   static addReview(restaurantId,name,rating,comments){
     console.log('in add review', restaurantId,name,comments);
     return this.openDatabase().then(db =>{
@@ -552,6 +555,8 @@ class DBHelper {
       } else {
         console.log('did not post');
       }
+    }).catch(error => {
+      console.log('favorite update failed',error);
     });
     // var xhr = new XMLHttpRequest();
     // xhr.open('PUT',DBHelper.DATABASE_RESTAURANTS_URL + '/' + restaurant_id + '/?is_favorite=' + is_favorite);
