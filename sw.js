@@ -15,7 +15,9 @@ self.addEventListener('install', function(event) {
         'js/register.js',
         'js/restaurant_info.js',
         'js/review.js',
-        'css/styles.css'
+        'css/styles.css',
+        'img/normal-heart.svg',
+        'img/favorite-heart.svg'
       ]);
     })
   );
