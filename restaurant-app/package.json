@@ -5,7 +5,7 @@
   "main": "index.html",
   "dependencies": {
     "browser-sync": "^2.24.7",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-eslint": "^5.0.0",
     "gulp-jasmine-phantom": "^3.0.0",

@@ -1,82 +1,72 @@
-import 'idb' from 'idb';
+let cacheName = "main-cache";
+let cacheFiles = [
+    './',
+    './index.html',
+    './css/styles.css',
+    './img/1.jpg',
+    './img/2.jpg',
+    './img/3.jpg',
+    './img/4.jpg',
+    './img/5.jpg',
+    './img/6.jpg',
+    './img/7.jpg',
+    './img/8.jpg',
+    './img/9.jpg',
+    './img/10.jpg',
+    './img/favicon.png',
+    './js/dbhelper.js',
+    './js/idb.js',
+    './js/indexController.js',
+    './js/main.js',
+    './js/restaurantInfo.js'
+];
 
-// Define name of static cache
-const staticCache = 'rest-rating-v10';
-
-//Define IndexDB
-const dbPromise = idb.open('rest-rating', 1, upgradeDB => {
-    switch(upgradeDB.oldVersion) {
-        case 0:
-            upgradeDB.createObjectStore('restaurants', {keyPath: id});
-    }
-});
-
-
-// On installing SW
-self.addEventListener('install', event => {
-    event.waitUntil(
-
-        // Add to cache
-        caches.open(staticCache).then(cache => {
-            return cache.addAll([
-                '/',
-                'css/styles.css',
-                'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
-                'https://use.fontawesome.com/releases/v5.1.0/css/all.css',
-                'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
-                'js/dbhelper.js',
-                'js/indexController.js',
-                'js/main.js',
-                'js/restaurant_info.js',
-                'img/1.jpg',
-                'img/2.jpg',
-                'img/3.jpg',
-                'img/4.jpg',
-                'img/5.jpg',
-                'img/6.jpg',
-                'img/7.jpg',
-                'img/8.jpg',
-                'img/9.jpg',
-                'img/10.jpg',
-            ]);
+self.addEventListener('install',function (e) {
+    console.log("[ Service Worker Installed ]");
+    e.waitUntil(
+        caches.open(cacheName).then(function (cache) {
+            console.log("Service Worker caching cache files");
+            return cache.addAll(cacheFiles);
         })
-    );
+    )
 });
 
-// Delete the old caches
-self.addEventListener('activate', event => {
-    event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.filter(cacheName => {
-                    return cacheName.startsWith('rest-') &&
-                        cacheName != staticCache;
-                }).map(cacheName => {
-                    return caches.delete(cacheName);
-                })
-            )
-        })
-    );
-});
-
-// Hijack requests
-self.addEventListener('fetch', (event) => {
-    // Do caching here
-    event.respondWith(
-        caches.match(event.request).then(res => {
-            return res || fetch(event.request).then(response => {
-                if (response.status == 404) {
-                    // Return a 404 page
-                    return new Response('Wooops, page not found!!');
-                } else {
-                    return response;
+self.addEventListener('activate',function (e) {
+    console.log("[ Service Worker Activated ]");
+    e.waitUntil(
+        caches.keys().then(function (cacheNames) {
+            return Promise.all(cacheNames.map(function (thisCacheName) {
+                if(thisCacheName != cacheName){
+                    console.log("Service worker removing cached files from ", thisCacheName);
+                    return caches.delete(thisCacheName);
                 }
-            }).catch(err => {
-                // Don't let the application crash
-                console.log(err);
-                return new Response('Some error occured');
-            })
+            }))
         })
-
-    );
+    )
 });
+
+self.addEventListener('fetch', function(event) {
+    console.log('The service worker is serving the asset.');
+    event.respondWith(fromNetwork(event.request, 400).catch(function () {
+        return fromCache(event.request);
+    }));
+});
+
+function fromNetwork(request, timeout) {
+    return new Promise(function (fulfill, reject) {
+        let timeoutId = setTimeout(reject, timeout);
+        fetch(request).then(function (response) {
+            clearTimeout(timeoutId);
+            fulfill(response);
+        }, reject);
+    });
+}
+
+function fromCache(request) {
+    return caches.open(cacheName).then(function (cache) {
+        return cache.match(request).then(function (matching) {
+            console.log("[Following found in cache] "+request.url);
+            return matching || Promise.reject('no-match');
+        });
+    });
+}

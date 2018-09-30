@@ -33,7 +33,7 @@ Let's start with running commands in your terminal, known as command line interf
 
 ###### Install project dependancies
 ```Install project dependancies
-# npm ihttp://localhost:1337/
+# npm i
 ```
 ###### Install Sails.js globally
 ```Install sails global
