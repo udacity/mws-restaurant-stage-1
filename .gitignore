@@ -1,4 +1,6 @@
 .idea
 .idea/*
 .directory
+node_modules
+node_modules/
 

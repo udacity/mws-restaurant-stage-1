@@ -16,7 +16,7 @@ class DBHelper {
      * Fetch all restaurants.
      */
     static fetchRestaurants(callback) {
-        let xhr = new XMLHttpRequest();
+        /*let xhr = new XMLHttpRequest();
         xhr.open('GET', DBHelper.DATABASE_URL);
         xhr.onload = () => {
             if (xhr.status === 200) { // Got a success response from server!
@@ -28,7 +28,21 @@ class DBHelper {
                 callback(error, null);
             }
         };
-        xhr.send();
+        xhr.send();*/
+
+        // Using Fetch instead of XHR
+        let fetchURL = DBHelper.DATABASE_URL;
+        fetch(fetchURL, {
+            method: 'get'
+        }).then(response => {
+            return response.json();
+        }).then(restaurants => {
+            // console.log(restaurants);
+            callback(null, restaurants);
+        }).catch(error => {
+            console.log(error);
+            callback(`Request failed, Returned ${error}`, null);
+        })
     }
 
     /**
@@ -36,7 +50,7 @@ class DBHelper {
      */
     static fetchRestaurantById(id, callback) {
         // fetch all restaurants with proper error handling.
-        DBHelper.fetchRestaurants((error, restaurants) => {
+        /*DBHelper.fetchRestaurants((error, restaurants) => {
             if (error) {
                 callback(error, null);
             } else {
@@ -47,7 +61,21 @@ class DBHelper {
                     callback('Restaurant does not exist', null);
                 }
             }
-        });
+        });*/
+
+        // Using Fetch instead of XHR
+        let fetchURL = DBHelper.DATABASE_URL + '/' + id;
+        fetch(fetchURL, {
+            method: 'get'
+        }).then(response => {
+            return response.json();
+        }).then(restaurants => {
+            console.log(restaurants);
+            callback(null, restaurants);
+        }).catch(error => {
+            // console.log(error);
+            callback(`Request failed, Returned ${error}`, null);
+        })
     }
 
     /**

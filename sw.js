@@ -1,5 +1,16 @@
+import 'idb' from 'idb';
+
 // Define name of static cache
-const staticCache = 'rest-rating-v9';
+const staticCache = 'rest-rating-v10';
+
+//Define IndexDB
+const dbPromise = idb.open('rest-rating', 1, upgradeDB => {
+    switch(upgradeDB.oldVersion) {
+        case 0:
+            upgradeDB.createObjectStore('restaurants', {keyPath: id});
+    }
+});
+
 
 // On installing SW
 self.addEventListener('install', event => {
@@ -12,7 +23,6 @@ self.addEventListener('install', event => {
                 'css/styles.css',
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
                 'https://use.fontawesome.com/releases/v5.1.0/css/all.css',
-                'data/restaurants.json',
                 'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
                 'js/dbhelper.js',
                 'js/indexController.js',

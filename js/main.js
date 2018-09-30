@@ -162,8 +162,8 @@ createRestaurantHTML = (restaurant) => {
     const image = document.createElement('img');
     image.src = DBHelper.imageUrlForRestaurant(restaurant);
     image.className = 'restaurant-img';
-    console.log(image.src);
     if (image.src == `http://localhost:8080/no-image`) {
+        image.src = '';
         image.classList.add('fallback-image-icon');
     }
     image.alt = `${restaurant.name} restaurant image`;
