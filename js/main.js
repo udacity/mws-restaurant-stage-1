@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
       initMap(); // added 
       readNeighborhoods();
       readCuisine();
+      DBHelper.sendWaitingReviews();
+
   });
 });
 

@@ -206,21 +206,14 @@ class DBHelper {
       return Promise.all([
         db.transaction('revs')
                     .objectStore('revs').getAll()
-                    // ,
-                    // db.transaction('localrevs')
-                    // .objectStore('localrevs').getAll()           
+                    ,
+                    db.transaction('localrevs')
+                    .objectStore('localrevs').getAll()           
       ]).then(values => {
         console.log('both rev db read',values);
-        return values[0];
-        // return values[0].concat(values[1]);
+        // return values[0];
+        return values[0].concat(values[1]);
       })
-      // let reviews=db.transaction('revs')
-      //               .objectStore('revs').getAll();
-      // let localReviews=db.transaction('localrevs')
-      //               .objectStore('localrevs').getAll();
-
-      // console.log('read',reviews,localReviews);
-      // return reviews.concat(localReviews);
     }).catch((error) =>{
 
       console.log('read reviews error',error);
@@ -524,6 +517,7 @@ class DBHelper {
     })
   }
 
+  //send review to server
   static sendNewReview(review) {
     console.log('in send review');
     
@@ -535,13 +529,72 @@ class DBHelper {
     }`;
     console.log('review body',msgBody);
 
-    fetch(DBHelper.DATABASE_REVIEWS_URL + '/',{
+    return fetch(DBHelper.DATABASE_REVIEWS_URL + '/',{
       method: "POST",
       body: msgBody
     }).then(response => {
       const cpyResponse=response.clone();
       console.log('response',cpyResponse);
+      return response;
     })
+  }
+
+  //send pending reviews to server
+  //watched Doug Brown's walkthrough.  Liked the idea of the saved queue
+  //implemented this after watching
+  static sendWaitingReviews() {
+    console.log('in send waiting review');
+    
+    this.openDatabase().then(db => {
+      if (!db) {
+        console.log('send waiting rev no db');
+        return;
+      }
+      const tx = db.transaction('localrevs', 'readonly');
+      const store = tx.objectStore('localrevs');
+      store.openCursor().then(function cursorIterate(cursor) {
+        if (!cursor) {
+          console.log('no cursor');
+          return;
+        }
+        console.log('send waiting value is ',cursor.value,' entry ', cursor.key);
+        let curKey=cursor.key;
+        DBHelper.sendNewReview(cursor.value).then(response => {
+          if (!response){
+            console.log('no send new review response');
+            return;
+          }
+          if (response.ok) {
+            console.log('continuing');
+            DBHelper.deletePendingReview(curKey);
+          }
+        })
+      }).catch(error =>{
+        console.log('error in cursor',error);
+      });
+      tx.complete.then(()=> console.log('rev cursor done'));
+    });
+  }
+
+  static deletePendingReview(key) {
+    this.openDatabase().then(db => {
+      if (!db) {
+        console.log('send waiting rev no db');
+        return;
+      }
+      const tx = db.transaction('localrevs', 'readwrite');
+      const store = tx.objectStore('localrevs');
+      
+      store.delete(key).then((response)=>{
+        console.log('delete successful');
+      }).catch(error =>{
+        console.log('error in delete',error);
+      });
+      tx.complete.then(()=> console.log('delete done'));
+    }).catch(error => {
+      console.log('error opening delete db',error);
+    });
+
   }
   static sendFavoriteUpdate(restaurant_id,is_favorite) {
     

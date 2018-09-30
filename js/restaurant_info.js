@@ -6,6 +6,7 @@ var newMap;
  */
 document.addEventListener('DOMContentLoaded', (event) => {  
   console.log('DOM loaded');
+  DBHelper.sendWaitingReviews();
   console.log('calling initmap');
   initMap();
 
