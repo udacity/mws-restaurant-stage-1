@@ -266,7 +266,12 @@ nav h1 a {
     line-height: 1.1;
 }
 #restaurant-img {
-    width: 90%;
+    background-color: #ccc;
+    display: block;
+    margin: 0;
+    max-width: 90%;
+    min-height: 248px;
+    min-width: 90%;
 }
 #restaurant-address {
     font-size: 12pt;
@@ -418,7 +423,8 @@ i {
         margin: 25px 0;
     }
     #restaurant-img {
-        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
     }
     #restaurant-address, #restaurant-hours {
         margin: 20px 40px;
@@ -438,4 +444,9 @@ i {
     .inside #footer {
         position: inherit;
     }
+}
+
+.fallback-image-icon {
+    font-size: 2em;
+    text-align: center;
 }

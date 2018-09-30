@@ -160,9 +160,13 @@ createRestaurantHTML = (restaurant) => {
     li.setAttribute('tabindex', 0);
 
     const image = document.createElement('img');
-    image.className = 'restaurant-img';
     image.src = DBHelper.imageUrlForRestaurant(restaurant);
-    image.alt = 'Restaurant Image';
+    image.className = 'restaurant-img';
+    console.log(image.src);
+    if (image.src == `http://localhost:8080/no-image`) {
+        image.classList.add('fallback-image-icon');
+    }
+    image.alt = `${restaurant.name} restaurant image`;
     image.setAttribute('tabindex', 0);
     li.append(image);
 
