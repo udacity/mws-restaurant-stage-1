@@ -7,7 +7,7 @@ class DBHelper {
   //adapted from Wittr and Jake Archibald IDB examples
   static openDatabase() {
     // console.log('in open database');
-      this.dbPromise = idb.open('mws', 4, upgradeDB => {
+      this.dbPromise = idb.open('mws', 5, upgradeDB => {
         // Note: we don't use 'break' in this switch statement,
         // the fall-through behaviour is what we want.
         switch (upgradeDB.oldVersion) {
@@ -25,6 +25,8 @@ class DBHelper {
           case 3:
             upgradeDB.createObjectStore('localrevs', {keyPath: 'id', autoIncrement: true});
             // console.log('localrev created');
+          case 4:
+            upgradeDB.createObjectStore('favQueue',{keyPath: 'id', autoIncrement: true});
           }
       });
       return this.dbPromise;
@@ -435,18 +437,19 @@ class DBHelper {
         console.log('no database');
         return;
       }
-      var tx = db.transaction('objs', 'readwrite');
-      var store = tx.objectStore('objs');
+      var tx = db.transaction(['objs','favQueue'], 'readwrite');
+      var objstore = tx.objectStore('objs');
+      var qStore = tx.objectStore('favQueue')
       console.log('updating',restaurant);
-      store.put(restaurant); 
+      objstore.put(restaurant); 
+      qStore.put({
+        restaurant_id:restaurant.id,
+        is_favorite: restaurant.is_favorite
+      });
       tx.complete.then(() => {
         // console.log('updated favorite',DBHelper.DATABASE_RESTAURANTS_URL + '/' + restaurant.id + '/?is_favorite=' + restaurant.is_favorite);
-        this.sendFavoriteUpdate(restaurant.id,restaurant.is_favorite);
-       // return put(DBHelper.DATABASE_RESTAURANTS_URL + '/' + restaurant.id + '/?is_favorite=' + restaurant.is_favorite).then(() => {
-        //   console.log('put was succesful');
-        // }).catch(()=>{
-        //   console.log('restaurant will update when connected');
-        // });
+        // this.sendFavoriteUpdate(restaurant.id,restaurant.is_favorite);
+        this.sendWaitingFavorites();
     }).catch(error => {
       console.log('error sending favorite',error);
     });
@@ -482,39 +485,6 @@ class DBHelper {
         return Promise.resolve('put failed');
       }); 
 
-      // store.getAllKeys().then(keys => {
-      //   keys.reverse();
-      //   console.log('db keys',keys);
-      //   return keys;
-      // })
-      // .then(myKeys => {
-      //   let newId=myKeys[0] + 1;
-      //   let review={
-      //     id: 0,
-      //     restaurant_id: restaurantId,
-      //     name: name,
-      //     rating: rating,
-      //     comments: comments,
-      //     createdAt:  new Date().toString(),
-      //     updatedAt:  new Date().toString()
-      //   };
-      //   console.log('updating review',review);
-      //   return store.put(review); 
-      //   return tx.complete;
-      // }).then(request =>{
-      //   console.log('review is updated', request);
-      //   const review=request.data;
-      //   this.sendNewReview(review);
-      // })
-      // .catch(error => {
-      //   console.log('getallkeys failed',error);
-      // });
-      
-      // return put(DBHelper.DATABASE_RESTAURANTS_URL + '/' + restaurant.id + '/?is_favorite=' + restaurant.is_favorite).then(() => {
-        //   console.log('put was succesful');
-        // }).catch(()=>{
-        //   console.log('restaurant will update when connected');
-        // });
     })
 
     .catch(error => {
@@ -586,6 +556,7 @@ class DBHelper {
     });
   }
 
+  // delete queued review after successfully posting to server
   static deletePendingReview(key) {
     return this.openDatabase().then(db => {
       if (!db) {
@@ -608,10 +579,77 @@ class DBHelper {
     });
 
   }
-  static sendFavoriteUpdate(restaurant_id,is_favorite) {
+
+   //send pending reviews to server
+  //watched Doug Brown's walkthrough.  Liked the idea of the saved queue
+  //implemented this after watching
+  static sendWaitingFavorites() {
+    // console.log('in send waiting review');
+    
+    this.openDatabase().then(db => {
+      if (!db) {
+        // console.log('send waiting rev no db');
+        return;
+      }
+      const tx = db.transaction('favQueue', 'readonly');
+      const store = tx.objectStore('favQueue');
+      store.openCursor().then(function cursorIterate(cursor) {
+        if (!cursor) {
+          // console.log('no cursor');
+          return;
+        }
+        // console.log('send waiting value is ',cursor.value,' entry ', cursor.key);
+        let curKey=cursor.key;
+        DBHelper.sendFavoriteUpdate(cursor.value).then(response => {
+          if (!response){
+            console.log('no send new review response');
+            return;
+          }
+          if (response.ok) {
+            // console.log('continuing');
+            DBHelper.deletePendingFavorite(curKey).then(()=>{
+              DBHelper.sendWaitingFavorites();
+            })
+          }
+        })
+      }).catch(error =>{
+        console.log('error in cursor',error);
+      });
+      tx.complete.then(()=> {
+        // console.log('rev cursor done');
+      });
+    });
+  }
+
+  // delete queued favorite update after successfully posting to server
+  static deletePendingFavorite(key) {
+    return this.openDatabase().then(db => {
+      if (!db) {
+        // console.log('send waiting rev no db');
+        return;
+      }
+      const tx = db.transaction('favQueue', 'readwrite');
+      const store = tx.objectStore('favQueue');
+      
+      store.delete(key).then((response)=>{
+        // console.log('delete successful');
+      }).catch(error =>{
+        console.log('error in delete',error);
+      });
+      tx.complete.then(()=> console.log('delete done'));
+      return Promise.resolve('fav deleted');
+    }).catch(error => {
+      console.log('error opening fav db',error);
+      return Promise.reject();
+    });
+
+  }
+
+
+  static sendFavoriteUpdate(favData) {
     
     // can use fetch API
-    fetch(DBHelper.DATABASE_RESTAURANTS_URL + '/' + restaurant_id + '/?is_favorite=' + is_favorite, 
+    return fetch(DBHelper.DATABASE_RESTAURANTS_URL + '/' + favData.restaurant_id + '/?is_favorite=' + favData.is_favorite, 
     {
       method: "PUT"
     }).then(response => {
@@ -620,8 +658,10 @@ class DBHelper {
       } else {
         console.log('did not post');
       }
+      return response;
     }).catch(error => {
       console.log('favorite update failed',error);
+      return Promise.reject('no fav update');
     });
   }
 }

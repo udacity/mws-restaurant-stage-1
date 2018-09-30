@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       readNeighborhoods();
       readCuisine();
       DBHelper.sendWaitingReviews();
+      DBHelper.sendWaitingFavorites();
 
   });
 });
