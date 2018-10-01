@@ -1,13 +1,14 @@
+/*eslint no-unused-vars: ["error", { "varsIgnorePattern": "DBHelper" }]*/
 
-// fetchRestaurantById, mapMarkerForRestaurant, imageUrlForRestaurant, imageSrcsetForRestaurant, fetchMAPBOXToken
-
-
-/* Change this to your base url in local env that would be 'http://localhost:port' */
+/*
+ Change this to your base url in local env
+ that would be 'http://localhost:port'
+*/
 const BASE_URL = (() => {
-  if(location.origin.includes('http://localhost:')){
-		return location.origin;
-	}
-	return `${location.origin}/mws-restaurant-stage-1`;
+  if(location.origin.includes('http://localhost:')) {
+    return location.origin;
+  }
+  return `${location.origin}/mws-restaurant-stage-1`;
 })();
 
 /**
@@ -21,11 +22,11 @@ class DBHelper {
    */
   static fetchMAPBOXToken() {
     return fetch(DBHelper.DATABASE_URL)
-    .then(res => res.json())
-    .then(data => data.MAPBOX_TOKEN)
-    .catch(err => {
-      console.log(err);
-    });
+      .then(res => res.json())
+      .then(data => data.MAPBOX_TOKEN)
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   /**
@@ -115,7 +116,7 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        let results = restaurants
+        let results = restaurants;
         if (cuisine != 'all') { // filter by cuisine
           results = results.filter(r => r.cuisine_type == cuisine);
         }
@@ -137,9 +138,9 @@ class DBHelper {
         callback(error, null);
       } else {
         // Get all neighborhoods from all restaurants
-        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood)
+        const neighborhoods = restaurants.map((v, i) => restaurants[i].neighborhood);
         // Remove duplicates from neighborhoods
-        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i)
+        const uniqueNeighborhoods = neighborhoods.filter((v, i) => neighborhoods.indexOf(v) == i);
         callback(null, uniqueNeighborhoods);
       }
     });
@@ -155,9 +156,9 @@ class DBHelper {
         callback(error, null);
       } else {
         // Get all cuisines from all restaurants
-        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type)
+        const cuisines = restaurants.map((v, i) => restaurants[i].cuisine_type);
         // Remove duplicates from cuisines
-        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i)
+        const uniqueCuisines = cuisines.filter((v, i) => cuisines.indexOf(v) == i);
         callback(null, uniqueCuisines);
       }
     });
@@ -175,7 +176,7 @@ class DBHelper {
    */
   static imageUrlForRestaurant(photograph, size) {
     return (
-      `${BASE_URL}/build/img/${photograph.name}-${size}w.${photograph.ext}`
+      `${BASE_URL}/build/img/${photograph}-${size}w.jpg`
     );
   }
 
@@ -183,7 +184,7 @@ class DBHelper {
     const imgPaths = [];
     sizes.forEach(size => {
       imgPaths.push(
-        `${BASE_URL}/build/img/${photograph.name}-${size}w.${photograph.ext} ${size}w`
+        `${BASE_URL}/build/img/${photograph}-${size}w.jpg ${size}w`
       );
     });
     return imgPaths.join(', ');
@@ -192,7 +193,7 @@ class DBHelper {
   /**
    * Map marker for a restaurant.
    */
-   static mapMarkerForRestaurant(restaurant, map) {
+  static mapMarkerForRestaurant(restaurant, map) {
     // https://leafletjs.com/reference-1.3.0.html#marker
     const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng],
       {
@@ -204,23 +205,22 @@ class DBHelper {
     return marker;
   }
 
+  /*  ============== Service Worker Registration ============== */
+  static registerServiceWorker() {
+
+    /* making sure browser supports service worker */
+    if ('serviceWorker' in navigator) {
+
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(() => {
+            console.log('Registering service worker');
+          })
+          .catch(() => {
+            console.log('Service Worker registration failed');
+          });
+      });
+    }
+  }
+
 }
-
-
-/*  ============== Service Worker Registration ============== */
-
-/* making sure browser supports service worker */
-// if ('serviceWorker' in navigator) {
-
-//   window.addEventListener('load', function() {
-
-//     navigator.serviceWorker.register('./sw.js')
-//     .then(reg => {
-//       console.log('Registering service worker');
-//     })
-//     .catch(err => {
-//       console.log('Service Worker registration failed');
-//     })
-
-//   });
-// }

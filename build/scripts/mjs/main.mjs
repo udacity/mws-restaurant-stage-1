@@ -1,10 +1,10 @@
+import DBHelper from './dbhelper.mjs';
+
 class MainPage {
   constructor() {
     this.neighborhoods = [];
     this.cuisines = [];
     this.markers = [];
-
-    this.init();
   }
 
   /**********************
@@ -23,7 +23,7 @@ class MainPage {
         this.fillNeighborhoodsHTML();
       }
     });
-  };
+  }
 
   /**
    * Fetch all cuisines and set their HTML.
@@ -37,7 +37,7 @@ class MainPage {
         this.fillCuisinesHTML();
       }
     });
-  };
+  }
 
   /**********************
         Data in UI
@@ -54,7 +54,7 @@ class MainPage {
       option.value = neighborhood;
       select.append(option);
     });
-  };
+  }
 
   /**
    * Set cuisines HTML.
@@ -68,7 +68,7 @@ class MainPage {
       option.value = cuisine;
       select.append(option);
     });
-  };
+  }
 
 
   /**
@@ -91,8 +91,8 @@ class MainPage {
         this.resetRestaurants(restaurants);
         this.fillRestaurantsHTML();
       }
-    })
-  };
+    });
+  }
 
 
   /**
@@ -110,7 +110,7 @@ class MainPage {
     }
     this.markers = [];
     this.restaurants = restaurants;
-  };
+  }
 
 
   /**
@@ -123,7 +123,7 @@ class MainPage {
       ul.append(this.createRestaurantHTML(restaurant));
     });
     this.addMarkersToMap();
-  };
+  }
 
   /**
    * Create restaurant HTML.
@@ -172,10 +172,10 @@ class MainPage {
     more.innerHTML = 'View Details';
     more.href = DBHelper.urlForRestaurant(restaurant);
     more.setAttribute('aria-label', restaurant.name);
-    info.append(more)
+    info.append(more);
 
-    return li
-  };
+    return li;
+  }
 
   /**********************
           MAP
@@ -185,10 +185,10 @@ class MainPage {
    */
   initMap(mapboxToken) {
     this.newMap = L.map('map', {
-          center: [40.722216, -73.987501],
-          zoom: 12,
-          scrollWheelZoom: false
-        });
+      center: [40.722216, -73.987501],
+      zoom: 12,
+      scrollWheelZoom: false
+    });
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
       mapboxToken,
       maxZoom: 18,
@@ -199,7 +199,7 @@ class MainPage {
     }).addTo(this.newMap);
 
     this.updateRestaurants();
-  };
+  }
 
 
   /**
@@ -209,13 +209,13 @@ class MainPage {
     this.restaurants.forEach(restaurant => {
       // Add marker to the map
       const marker = DBHelper.mapMarkerForRestaurant(restaurant, this.newMap);
-      marker.on("click", onClick);
+      marker.on('click', onClick);
       function onClick() {
         window.location.href = marker.options.url;
       }
       this.markers.push(marker);
     });
-  };
+  }
 
 
   /**********************
@@ -227,7 +227,7 @@ class MainPage {
     /**
      * Fetch neighborhoods and cuisines as soon as the page is loaded.
      */
-    document.addEventListener('DOMContentLoaded', (event) => {
+    document.addEventListener('DOMContentLoaded', () => {
       DBHelper.fetchMAPBOXToken().then(mapboxToken => {
         this.initMap(mapboxToken); // added
       });
@@ -235,7 +235,7 @@ class MainPage {
       this.fetchCuisines();
 
       /* listen for select elements and update Restaurants */
-      document.addEventListener('change',(e) => {
+      document.querySelector('.filter-options').addEventListener('change',(e) => {
         if(e.target.id.includes('-select')) {
           this.updateRestaurants();
           e.stopPropagation();
@@ -246,12 +246,15 @@ class MainPage {
   }
 }
 
-new MainPage();
+(() => {
+  const main = new MainPage();
+  main.init();
+})();
 
 /*==================Focus==================*/
 
-function handleRestoFocus(viewDetailsButton){
-  viewDetailsButton.addEventListener('focus', function(e){
-    console.log(e.target);
-  });
-}
+// function handleRestoFocus(viewDetailsButton){
+//   viewDetailsButton.addEventListener('focus', function(e){
+//     console.log(e.target);
+//   });
+// }

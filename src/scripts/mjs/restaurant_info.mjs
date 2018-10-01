@@ -1,9 +1,6 @@
+import DBHelper from './dbhelper.mjs';
 
 class RestaurantInfo {
-  constructor() {
-
-    this.init();
-  }
 
   /**
    * Initialize leaflet map
@@ -32,7 +29,7 @@ class RestaurantInfo {
         DBHelper.mapMarkerForRestaurant(this.restaurant, this.newMap);
       }
     });
-  };
+  }
 
 
   /**
@@ -40,12 +37,12 @@ class RestaurantInfo {
    */
   fetchRestaurantFromURL(callback) {
     if (this.restaurant) { // restaurant already fetched!
-      callback(null, this.restaurant)
+      callback(null, this.restaurant);
       return;
     }
     const id = this.getParameterByName('id');
     if (!id) { // no id found in URL
-      error = 'No restaurant id in URL'
+      const error = 'No restaurant id in URL';
       callback(error, null);
     } else {
       DBHelper.fetchRestaurantById(id, (error, restaurant) => {
@@ -56,10 +53,10 @@ class RestaurantInfo {
           return;
         }
         this.fillRestaurantHTML();
-        callback(null, restaurant)
+        callback(null, restaurant);
       });
     }
-  };
+  }
 
 
   /**
@@ -122,7 +119,7 @@ class RestaurantInfo {
     }
     // fill reviews
     this.fillReviewsHTML();
-  };
+  }
 
 
 
@@ -155,7 +152,7 @@ class RestaurantInfo {
         hours.appendChild(row);
       }
     }
-  };
+  }
 
   /**
    * Create all reviews HTML and add them to the webpage.
@@ -178,7 +175,7 @@ class RestaurantInfo {
       ul.appendChild(this.createReviewHTML(review));
     });
     container.appendChild(ul);
-  };
+  }
 
   /**
    * Create review HTML and add it to the webpage.
@@ -205,43 +202,43 @@ class RestaurantInfo {
     li.appendChild(comments);
 
     return li;
-  };
-
-
-
-/**
- * Create rating element as stars
- */
-createRatingElement(reviewRating) {
-  const $rating = document.createElement('p');
-  $rating.className = 'review-rating';
-
-  const hollowStars = 5 - reviewRating;
-
-  for(let i=0; i<reviewRating; i++){
-    const $star = document.createElement('span');
-    $star.innerHTML = '★';
-    $rating.appendChild($star);
   }
 
-  for(let i=0; i<hollowStars; i++){
-    const $star = document.createElement('span');
-    $star.innerHTML = '☆';
-    $rating.appendChild($star);
+
+
+  /**
+   * Create rating element as stars
+   */
+  createRatingElement(reviewRating) {
+    const $rating = document.createElement('p');
+    $rating.className = 'review-rating';
+
+    const hollowStars = 5 - reviewRating;
+
+    for(let i=0; i<reviewRating; i++){
+      const $star = document.createElement('span');
+      $star.innerHTML = '★';
+      $rating.appendChild($star);
+    }
+
+    for(let i=0; i<hollowStars; i++){
+      const $star = document.createElement('span');
+      $star.innerHTML = '☆';
+      $rating.appendChild($star);
+    }
+
+    return $rating;
   }
 
-  return $rating;
-}
-
-/**
- * Add restaurant name to the breadcrumb navigation menu
- */
-fillBreadcrumb() {
-  const breadcrumb = document.querySelector('.breadcrumb');
-  const li = document.createElement('li');
-  li.innerHTML = this.restaurant.name;
-  breadcrumb.appendChild(li);
-};
+  /**
+   * Add restaurant name to the breadcrumb navigation menu
+   */
+  fillBreadcrumb() {
+    const breadcrumb = document.querySelector('.breadcrumb');
+    const li = document.createElement('li');
+    li.innerHTML = this.restaurant.name;
+    breadcrumb.appendChild(li);
+  }
 
   /**
    * Get a parameter by name from page URL.
@@ -250,28 +247,31 @@ fillBreadcrumb() {
     if (!url){
       url = window.location.href;
     }
-    name = name.replace(/[\[\]]/g, '\\$&');
-    const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`),
-      results = regex.exec(url);
+    const sanitizePattern = new RegExp('[\\[\\]]', 'g');
+    // name = name.replace(/[\[\]]/g, '\\$&');
+    name = name.replace(sanitizePattern, '\\$&');
+    const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`);
+    const results = regex.exec(url);
     if (!results)
       return null;
     if (!results[2])
       return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
-  };
+  }
 
   init() {
     /**
      * Initialize map as soon as the page is loaded.
      */
-    document.addEventListener('DOMContentLoaded', (event) => {
+    document.addEventListener('DOMContentLoaded', () => {
       DBHelper.fetchMAPBOXToken().then( mapboxToken => {
         this.initMap(mapboxToken); // added
-      })
+      });
     });
   }
 }
 
 
 
-new RestaurantInfo();
+const inside = new RestaurantInfo();
+inside.init();
