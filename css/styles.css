@@ -349,7 +349,19 @@ nav h1 a {
         grid-template-columns: 1fr 20rem;
     }
 
+    #reviews-container {
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+
     #restaurant-maincontent #map {
         height: 100%;
+    }
+}
+
+@media (min-width: 850px) {
+    #reviews-container {
+        grid-column-start: 1;
+        grid-column-end: 2;
     }
 }
