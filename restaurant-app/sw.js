@@ -18,7 +18,11 @@ let cacheFiles = [
     './js/idb.js',
     './js/indexController.js',
     './js/main.js',
-    './js/restaurantInfo.js'
+    './js/restaurantInfo.js',
+    'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
+    'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
+    'https://use.fontawesome.com/releases/v5.1.0/css/all.css',
+
 ];
 
 self.addEventListener('install',function (e) {
@@ -62,11 +66,9 @@ function fromNetwork(request, timeout) {
     });
 }
 
-function fromCache(request) {
-    return caches.open(cacheName).then(function (cache) {
-        return cache.match(request).then(function (matching) {
-            console.log("[Following found in cache] "+request.url);
-            return matching || Promise.reject('no-match');
-        });
-    });
-}
+fromCache = request => caches.open(cacheName)
+            .then(cache => cache.match(request)
+            .then(matching => {
+                console.log("[Following found in cache] "+request.url);
+                return matching || Promise.reject('no-match');
+            }));
