@@ -87,7 +87,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  image.className = 'restaurant-img';
+  image.setAttribute("alt", restaurant.name);
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
@@ -127,6 +128,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
+  title.setAttribute("tabindex", "-1");
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
@@ -148,21 +150,36 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
-  const name = document.createElement('p');
-  name.innerHTML = review.name;
-  li.appendChild(name);
+  li.className = "review";
 
-  const date = document.createElement('p');
+  const header = document.createElement('h3');
+  header.className = "review-header";
+
+  // const name = document.createElement('span');
+  // name.className = "review-name";
+  header.innerHTML = review.name;
+  // header.appendChild(name);
+
+  const date = document.createElement('span');
+  date.className = "review-date";
   date.innerHTML = review.date;
-  li.appendChild(date);
+  header.appendChild(date);
+  
+  li.appendChild(header);
 
-  const rating = document.createElement('p');
+  const body = document.createElement('div');
+  body.className = "review-body";
+
+  const rating = document.createElement('h4');
+  rating.className = "review-rating";
   rating.innerHTML = `Rating: ${review.rating}`;
-  li.appendChild(rating);
+  body.appendChild(rating);
 
   const comments = document.createElement('p');
+  comments.className = "review-comments";
   comments.innerHTML = review.comments;
-  li.appendChild(comments);
+  body.appendChild(comments);
+  li.appendChild(body);
 
   return li;
 }

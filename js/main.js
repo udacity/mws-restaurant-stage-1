@@ -161,6 +161,7 @@ createRestaurantHTML = (restaurant) => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.setAttribute("alt", restaurant.name);
   li.append(image);
 
   const div =  document.createElement('div');
@@ -169,6 +170,7 @@ createRestaurantHTML = (restaurant) => {
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
+  name.setAttribute("tabindex", "-1");
   div.append(name);
 
   const neighborhood = document.createElement('p');
@@ -182,9 +184,10 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
+  more.setAttribute("arial-label", "View " + restaurant.name);
   div.append(more)
 
-  return li
+  return li;
 }
 
 /**
