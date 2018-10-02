@@ -11,11 +11,20 @@ const autoprefixer = require('gulp-autoprefixer');
 const browserSync = require('browser-sync').create();
 
 
+/*
+============= TODOS =============
+- Add gzip compression to text based files
+- Add lazy loading
+- create a HTTP/2 server to serve content
+- fallback HTTP/1 server
+*/
+
 /**
  * abstracting away file paths for every task
  * so that we don't have to change every occurence
  * of that path
  */
+
 const paths = {
   styles: {
     src: 'src/css/**/*.css',
@@ -51,7 +60,20 @@ const paths = {
   },
   imgs: {
     src: 'src/img/**',
-    dest: 'build/img'
+    dest: 'build/img',
+    // widths to generate images
+    // if src_image_width > generated_img_width
+    // set object with value as width value
+    // and enlarge property to true
+    widths: [
+      300,
+      400,
+      500,
+      600,
+      800,
+      {value: 1000, enlarge: true},
+      {value: 1200, enlarge: true}
+    ]
   },
   data: {
     src: 'src/data/**/*.json',
@@ -65,6 +87,20 @@ const paths = {
 
 function stylesTask() {
   return gulp.src(paths.styles.src)
+    .pipe(
+      autoprefixer({
+        browsers: ['last 2 versions']
+      })
+    )
+    .pipe(gulp.dest(paths.styles.dest))
+    .pipe(browserSync.stream());
+}
+
+
+exports.styles = stylesTask;
+
+function stylesProdTask() {
+  return gulp.src(paths.styles.src)
     .pipe(sourcemaps.init())
     // auto prefexing
     .pipe(
@@ -77,11 +113,11 @@ function stylesTask() {
       console.log(`${details.name}: ${details.stats.minifiedSize}`);
     }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(paths.styles.dest))
-    .pipe(browserSync.stream());
+    .pipe(gulp.dest(paths.styles.dest));
 }
 
-exports.styles = stylesTask;
+exports['styles-prod'] = stylesProdTask;
+
 
 /******************
     Linting tasks
@@ -109,10 +145,10 @@ exports.lint = lintTask;
 /*======= bundled scripts =======*/
 
 /**
- * Helper function to concat scripts
+ * concat scripts
  */
 function concatScript(details) {
-  return gulp.src(details.src)
+  gulp.src(details.src)
     .pipe(sourcemaps.init())
     .pipe(babel({
       presets: ['@babel/preset-env']
@@ -131,10 +167,10 @@ function jsScriptsTask(done){
 exports['js-scripts'] = jsScriptsTask;
 
 /**
- * Helper function to concat and uglify scripts
+ * concat and uglify scripts
  */
 function concatAndUglifyScript(details) {
-  return gulp.src(details.src)
+  gulp.src(details.src)
     .pipe(sourcemaps.init())
     .pipe(babel({
       presets: ['@babel/preset-env']
@@ -185,55 +221,46 @@ exports['scripts-prod'] = gulp.parallel(jsScriptsProdTask, mjsScriptsProdTask);
     images tasks
 ******************/
 
+/**
+ * generate gulp-responsive configuration object
+ * @param {Array} widths - image widths to genrate.
+ *  if element is an object, must provide 'width'
+ *  property && (optional) 'enlarge' which is the opposite of
+ * 'withoutEnlargement' option, defaults to 'false'.
+ * check: http://sharp.dimens.io/en/stable/api-resize/#withoutenlargement
+ * @param {string} ext - extension to generate this for, defaults to 'jpg'
+ */
+function getResponsiveConfig(widths, ext = 'jpg') {
+  const arr = [];
+  for(const width of widths) {
+    let w, enlarge = false;
+    if(typeof width === 'number') {
+      w = width;
+    } else if (typeof width === 'object' &&
+              width.hasOwnProperty('value')) {
+      w = width.value;
+      enlarge = Boolean(width.enlarge);
+    }
+    arr.push({
+      width: w,
+      rename: {
+        suffix: `-${w}w`,
+      },
+      progressive: true,
+      withoutEnlargement: !enlarge
+    });
+  }
+  return {[`*.${ext}`]: arr};
+}
+
+/**
+ * generates images for given widths
+ */
 function optImgsTask() {
   return gulp.src(paths.imgs.src)
-    .pipe(responsive({
-      '*.jpg': [{
-        width: 300,
-        rename: {
-          suffix: '-300w'
-        },
-        progressive: true
-      },{
-        width: 400,
-        rename: {
-          suffix: '-400w'
-        },
-        progressive: true
-      }, {
-        width: 500,
-        rename: {
-          suffix: '-500w'
-        },
-        progressive: true
-      }, {
-        width: 600,
-        rename: {
-          suffix: '-600w'
-        },
-        progressive: true
-      }, {
-        width: 800,
-        rename: {
-          suffix: '-800w'
-        },
-        progressive: true
-      }, {
-        width: 1000,
-        rename: {
-          suffix: '-1000w'
-        },
-        progressive: true,
-        withoutEnlargement: false
-      }, {
-        width: 1200,
-        rename: {
-          suffix: '-1200w'
-        },
-        progressive: true,
-        withoutEnlargement: false
-      }]
-    }))
+    .pipe(responsive(
+      getResponsiveConfig(paths.imgs.widths)
+    ))
     .pipe(gulp.dest(paths.imgs.dest));
 }
 
@@ -285,12 +312,19 @@ exports.dev = devTask;
     prod task
 ******************/
 
-exports.build = gulp.series(
+/**
+ * running all tasks in parallel
+ * for the exception of the linting task
+ * that runs before the scripts task
+ */
+exports.build = gulp.parallel(
   optImgsTask,
-  stylesTask,
+  stylesProdTask,
   copyDataTask,
-  lintTask,
-  gulp.parallel(jsScriptsProdTask, mjsScriptsProdTask)
+  gulp.series(
+    lintTask,
+    gulp.parallel(jsScriptsProdTask, mjsScriptsProdTask)
+  )
 );
 
 /******************
@@ -298,9 +332,14 @@ exports.build = gulp.series(
 ******************/
 
 exports.default = gulp.series(
-  optImgsTask,
-  stylesTask,
-  lintTask,
-  copyDataTask,
+  gulp.parallel(
+    optImgsTask,
+    stylesTask,
+    copyDataTask,
+    gulp.series(
+      lintTask,
+      gulp.parallel(jsScriptsTask, mjsScriptsTask)
+    )
+  ),
   devTask
 );
