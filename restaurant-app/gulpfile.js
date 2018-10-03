@@ -7,9 +7,10 @@ var browserSync = require('browser-sync').create();
 var eslint = require('gulp-eslint');
 var jasmine = require('gulp-jasmine-phantom');
 var cleanCSS = require('gulp-clean-css');
-let sourcemaps = require('gulp-sourcemaps');
+var sourcemaps = require('gulp-sourcemaps');
 var concatCss = require('gulp-concat-css');
 var concat = require('gulp-concat');
+var minify = require('gulp-minify');
 
 
 gulp.task('css', function() {
@@ -33,7 +34,8 @@ gulp.task('js', function() {
         // To have the process exit with an error code (1) on
         // lint error, return the stream and pipe to failOnError last.
         // .pipe(eslint.failOnError())
-        .pipe(concat('app.min.js'))
+        .pipe(concat('app.js'))
+        // .pipe(minify())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('build/js'))
 });
@@ -42,9 +44,9 @@ gulp.task('default', gulp.series('css', 'js', function(done) {
     gulp.watch('css/*.css', gulp.parallel('css'));
     gulp.watch('js/ *.js', gulp.parallel('js'));
 
-    browserSync.init({
-        server: './'
-    });
+    // browserSync.init({
+    //     server: './'
+    // });
     done();
 }));
 

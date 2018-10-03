@@ -18,6 +18,7 @@
     "gulp-clean-css": "^3.10.0",
     "gulp-concat": "^2.6.1",
     "gulp-concat-css": "^3.1.0",
+    "gulp-minify": "^3.1.0",
     "gulp-sourcemaps": "^2.6.4"
   },
   "scripts": {

@@ -1,11 +1,7 @@
-'use strict';
-
 const API_URL = 'http://localhost:1337/restaurants';
 let fetchStatus = 0;
 
-/*
- * Helper Functions for various IDb Operations
- */
+// Helper Functions for various IDb Operations
 class IDbOperationsHelper {
     static checkForIDbSupport() {
         if (!('indexedDB' in window)) {
