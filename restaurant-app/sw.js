@@ -19,10 +19,11 @@ let cacheFiles = [
     './js/indexController.js',
     './js/main.js',
     './js/restaurantInfo.js',
+    './build/css/app.min.css',
+    './build/js/app.min.js',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
-    'https://use.fontawesome.com/releases/v5.1.0/css/all.css',
-
+    'https://use.fontawesome.com/releases/v5.1.0/css/all.css'
 ];
 
 self.addEventListener('install',function (e) {
