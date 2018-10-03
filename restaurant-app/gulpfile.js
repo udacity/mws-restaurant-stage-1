@@ -12,7 +12,6 @@ var concatCss = require('gulp-concat-css');
 var concat = require('gulp-concat');
 var minify = require('gulp-minify');
 
-
 gulp.task('css', function() {
     return gulp.src('css/*.css')
         .pipe(sourcemaps.init())

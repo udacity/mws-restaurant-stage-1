@@ -34,7 +34,7 @@ class IDbOperationsHelper {
             .transaction(transactionName)
             .objectStore(objectStoreName)
             .getAll()
-            );
+        );
         responseArrayPromise.then(arry => {
             IDbOperationsHelper.setRestaurantsData(arry);
         });
@@ -42,29 +42,29 @@ class IDbOperationsHelper {
 
     static getRestaurantsFromServer(dbPromise, objectStoreName, permision, callback) {
         fetch(API_URL)
-        .then(response => response.json())
-        .then(responseJson => {
-            responseJson.forEach(restaurant => {
-                restaurant = IDbOperationsHelper.addMissingData(restaurant)
-            });
-
-            if (fetchStatus != 1) {
-                fetchStatus = 1;
-                responseJson.forEach(restaurantData => {
-
-                    //Add every single restaurant data to IDb
-                    IDbOperationsHelper.addToDb(
-                        dbPromise,
-                        objectStoreName,
-                        permision,
-                        restaurantData
-                    );
+            .then(response => response.json())
+            .then(responseJson => {
+                responseJson.forEach(restaurant => {
+                    restaurant = IDbOperationsHelper.addMissingData(restaurant)
                 });
-            }
 
-            console.log(responseJson);
-            callback (null, responseJson);
-        }).catch(error => {
+                if (fetchStatus != 1) {
+                    fetchStatus = 1;
+                    responseJson.forEach(restaurantData => {
+
+                        //Add every single restaurant data to IDb
+                        IDbOperationsHelper.addToDb(
+                            dbPromise,
+                            objectStoreName,
+                            permision,
+                            restaurantData
+                        );
+                    });
+                }
+
+                console.log(responseJson);
+                callback (null, responseJson);
+            }).catch(error => {
             console.log(`Unable to fetch restaurants, Error: ${error}`);
             callback (error, null);
         });
@@ -85,8 +85,8 @@ class IDbOperationsHelper {
 
         dbPromise.then(db =>
             db.transaction(transactionNameString)
-              .objectStore(objectStoreNameString)
-              .getAll()
+                .objectStore(objectStoreNameString)
+                .getAll()
         ).then(responseObejcts => {
             if (responseObejcts.length <= 0) {
                 IDbOperationsHelper.getRestaurantsFromServer(

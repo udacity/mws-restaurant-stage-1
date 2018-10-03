@@ -20,7 +20,7 @@ let cacheFiles = [
     './js/main.js',
     './js/restaurantInfo.js',
     './build/css/app.min.css',
-    './build/js/app.min.js',
+    './build/js/app-min.js',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
     'https://use.fontawesome.com/releases/v5.1.0/css/all.css'
@@ -68,8 +68,8 @@ function fromNetwork(request, timeout) {
 }
 
 fromCache = request => caches.open(cacheName)
-            .then(cache => cache.match(request)
-            .then(matching => {
-                console.log("[Following found in cache] "+request.url);
-                return matching || Promise.reject('no-match');
-            }));
+    .then(cache => cache.match(request)
+        .then(matching => {
+            console.log("[Following found in cache] "+request.url);
+            return matching || Promise.reject('no-match');
+        }));
