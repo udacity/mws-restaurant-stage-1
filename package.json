@@ -20,6 +20,7 @@
     "gulp-clean-css": "^3.10.0",
     "gulp-concat": "^2.6.1",
     "gulp-eslint": "^5.0.0",
+    "gulp-gzip": "^1.4.2",
     "gulp-rename": "^1.4.0",
     "gulp-responsive": "^2.11.0",
     "gulp-sourcemaps": "^2.6.4",

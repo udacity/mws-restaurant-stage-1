@@ -1,30 +1,31 @@
 const gulp = require('gulp');
+// used to compress files
+const gzip = require('gulp-gzip');
+// used to convert files to es5
 const babel = require('gulp-babel');
 // const rename = require("gulp-rename");
+// used to lint code for syntax errors
 const eslint = require('gulp-eslint');
+// used to combine a set of defined files into one big file
 const concat = require('gulp-concat');
+// used to minify css
 const cleanCSS = require('gulp-clean-css');
+// used to generate source map
 const sourcemaps = require('gulp-sourcemaps');
+// used to generate/optimize images
 const responsive = require('gulp-responsive');
+// used to minify .js files (compatible with es6)
 const uglify = require('gulp-uglify-es').default;
+// used to autoprefix css
 const autoprefixer = require('gulp-autoprefixer');
+// used to do live editing in the browser
 const browserSync = require('browser-sync').create();
-
-
-/*
-============= TODOS =============
-- Add gzip compression to text based files
-- Add lazy loading
-- create a HTTP/2 server to serve content
-- fallback HTTP/1 server
-*/
 
 /**
  * abstracting away file paths for every task
  * so that we don't have to change every occurence
  * of that path
  */
-
 const paths = {
   styles: {
     src: 'src/css/**/*.css',
@@ -63,8 +64,8 @@ const paths = {
     dest: 'build/img',
     // widths to generate images
     // if src_image_width > generated_img_width
-    // set object with value as width value
-    // and enlarge property to true
+    // set object with value=width
+    // and enlarge=true
     widths: [
       300,
       400,
@@ -145,7 +146,7 @@ exports.lint = lintTask;
 /*======= bundled scripts =======*/
 
 /**
- * concat scripts
+ * concat scripts and transpile to es5
  */
 function concatScript(details) {
   gulp.src(details.src)
@@ -167,7 +168,7 @@ function jsScriptsTask(done){
 exports['js-scripts'] = jsScriptsTask;
 
 /**
- * concat and uglify scripts
+ * concat, uglify and transpile (to es5) scripts
  */
 function concatAndUglifyScript(details) {
   gulp.src(details.src)
@@ -178,6 +179,10 @@ function concatAndUglifyScript(details) {
     .pipe(concat(details.fileName))
     .pipe(uglify())
     .pipe(sourcemaps.write())
+    // gzipping .js files, 'append' says
+    // to gzip to append '.gz' to the file
+    // defaults to 'true', added for reading purposes
+    .pipe(gzip({ append: true }))
     .pipe(gulp.dest(details.dest));
 }
 
@@ -204,6 +209,11 @@ function mjsScriptsProdTask() {
     .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(sourcemaps.write())
+    .pipe(gzip({
+      append: true,
+      // if compression increases file size, skip it
+      skipGrowingFiles : true
+    }))
     .pipe(gulp.dest(paths.mjs.dest));
 }
 
@@ -222,6 +232,10 @@ exports['scripts-prod'] = gulp.parallel(jsScriptsProdTask, mjsScriptsProdTask);
 ******************/
 
 /**
+ * PS. I can honestly say that I have wasted
+ * more time writing this helper than I have saved
+ * or will ever save
+ *
  * generate gulp-responsive configuration object
  * @param {Array} widths - image widths to genrate.
  *  if element is an object, must provide 'width'
@@ -289,10 +303,10 @@ exports['copy-data'] = copyDataTask;
     dev task
 ******************/
 
+
 function devTask(done) {
   gulp.watch(paths.styles.src, stylesTask);
   gulp.watch(paths.lint.src, lintTask);
-
   // listening for changes in the html file
   // and reloading browserSync on changes
   gulp.watch('./*.html')
@@ -301,7 +315,17 @@ function devTask(done) {
   browserSync.init({
     server: {
       baseDir: './'
-    }
+    },
+    middleware: [(req, res, next) => {
+      if (req._parsedUrl.pathname.endsWith('.mjs')) {
+
+        req.url += '.gz';
+
+        res.setHeader('Content-Type', 'application/javascript');
+        res.setHeader('Content-Encoding', 'gzip');
+      }
+      return next();
+    }]
   });
   done();
 }
