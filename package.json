@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node-sass -w scss/ -o /dist/css --recursive",
+    "start": "node-sass -w scss/ -o ./dist/css --recursive",
     "build-sass": "node-sass scss/ -o ./dist/css",
     "server": "cd server && node app.js"
   },
