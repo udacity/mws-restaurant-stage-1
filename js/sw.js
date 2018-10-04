@@ -1,3 +1,5 @@
+// sourced from https://developers.google.com/web/ilt/pwa/lab-caching-files-with-service-worker
+
 const filesToCache = [
   '/index.html',
   '/restaurant.html',
@@ -40,14 +42,6 @@ self.addEventListener('fetch', function(event) {
           return response;
         });
       });
-    })
-  );
-});
-
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    fetch(event.request).catch(function() {
-      return caches.match(event.request);
     })
   );
 });
