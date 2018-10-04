@@ -127,7 +127,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
-  const title = document.createElement('h2');
+  const title = document.createElement('h3');
   title.setAttribute("tabindex", "-1");
   title.innerHTML = 'Reviews';
   container.appendChild(title);
@@ -152,7 +152,7 @@ createReviewHTML = (review) => {
   const li = document.createElement('li');
   li.className = "review";
 
-  const header = document.createElement('h3');
+  const header = document.createElement('h4');
   header.className = "review-header";
 
   // const name = document.createElement('span');
@@ -188,7 +188,7 @@ createReviewHTML = (review) => {
  * Add restaurant name to the breadcrumb navigation menu
  */
 fillBreadcrumb = (restaurant=self.restaurant) => {
-  const breadcrumb = document.getElementById('breadcrumb');
+  const breadcrumb = document.getElementById('breadcrumb').getElementsByTagName("ul")[0];
   const li = document.createElement('li');
   li.innerHTML = restaurant.name;
   breadcrumb.appendChild(li);

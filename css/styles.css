@@ -67,26 +67,26 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   color: #fde3a7;
 }
 /* ====================== Navigation ====================== */
-nav {
+nav.main-nav {
   width: 100%;
   max-height: 80px;
   background-color: #252831;
   text-align: center;
   padding: 30px 0;
 }
-nav h1 {
+nav.main-nav h1 {
   margin: auto;
   line-height: 0;
   padding: 10px;
 }
-nav h1 a {
+nav.main-nav h1 a {
   color: #fff;
   font-size: 1.2rem;
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
 }
-#breadcrumb {
+#breadcrumb ul {
     padding: 10px 40px 16px;
     list-style: none;
     background-color: #eee;
@@ -95,26 +95,26 @@ nav h1 a {
 }
 
 /* Display list items side by side */
-#breadcrumb li {
+#breadcrumb ul li {
     display: inline;
     font-size: 1.0625rem;
 }
 
 /* Add a slash symbol (/) before/behind each list item */
-#breadcrumb li+li:before {
+#breadcrumb ul li+li:before {
     padding: 8px;
     color: black;
     content: "/\00a0";
 }
 
 /* Add a color to all links inside the list */
-#breadcrumb li a {
+#breadcrumb ul li a {
     color: #0F4880;
     text-decoration: none;
 }
 
 /* Add a color on mouse-over */
-#breadcrumb li a:hover {
+#breadcrumb ul li a:hover {
     color: #01447e;
     text-decoration: underline;
 }
@@ -279,7 +279,7 @@ nav h1 a {
 #reviews-container {
   padding: 30px 40px 80px;
 }
-#reviews-container h2 {
+#reviews-container h3 {
   color: #9F6108;
   font-size: 2rem;
   font-weight: 300;
@@ -364,7 +364,7 @@ nav h1 a {
     width: calc(50% - 35px);
     padding-bottom: 50px;
   }
-  #restaurant-container, #reviews-container, #breadcrumb {
+  #restaurant-container, #reviews-container, #breadcrumb ul {
     width: calc(100% - 80px);
     padding-top: 20px;
   }
@@ -382,9 +382,9 @@ nav h1 a {
 }
 
 @media (max-width: 530px) {
-  nav h1 a {
+  nav.main-nav h1 a {
     font-size: 1.125rem;
-    letter-spacing: .375rem;
+    letter-spacing: .25rem;
   }
   #restaurants-list li {
     width: calc(100% - 35px);
