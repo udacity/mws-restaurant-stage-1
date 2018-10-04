@@ -1,6 +1,3 @@
-@charset "utf-8";
-/* CSS Document */
-
 body,
 td,
 th,
@@ -56,11 +53,11 @@ nav,
 section {
   display: block;
 }
-#maincontent {
+main {
   background-color: #f3f3f3;
   min-height: 100%;
 }
-#footer {
+footer {
   background-color: #444;
   color: #aaa;
   font-size: 8pt;
@@ -86,6 +83,7 @@ nav h1 a {
   letter-spacing: 10px;
   text-transform: uppercase;
 }
+
 #breadcrumb {
   padding: 10px 40px 16px;
   list-style: none;
