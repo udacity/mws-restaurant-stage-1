@@ -2,12 +2,12 @@
   "name": "udacity_restaurant_app",
   "version": "1.0.0",
   "description": "Restaurant Reviews: Stage 1",
-  "main": "app.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node-sass -w scss/ -o /dist/css --recursive",
     "build-sass": "node-sass scss/ -o ./dist/css",
-    "server": "json-server -w ./data/restaurants.json"
+    "server": "cd server && node app.js"
   },
   "repository": {
     "type": "git",
@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/Josep1992/mws-restaurant-stage-1#readme",
   "dependencies": {
-    "json-server": "^0.14.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
     "mapbox-gl": "^0.49.0",
     "node-sass": "^4.9.3"
   },
