@@ -114,6 +114,7 @@ function stylesProdTask() {
       console.log(`${details.name}: ${details.stats.minifiedSize}`);
     }))
     .pipe(sourcemaps.write())
+    .pipe(gzip({append: false}))
     .pipe(gulp.dest(paths.styles.dest));
 }
 
@@ -182,7 +183,7 @@ function concatAndUglifyScript(details) {
     // gzipping .js files, 'append' says
     // to gzip to append '.gz' to the file
     // defaults to 'true', added for reading purposes
-    .pipe(gzip({ append: true }))
+    .pipe(gzip({ append: false }))
     .pipe(gulp.dest(details.dest));
 }
 
@@ -210,7 +211,7 @@ function mjsScriptsProdTask() {
     .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gzip({
-      append: true,
+      append: false,
       // if compression increases file size, skip it
       skipGrowingFiles : true
     }))
@@ -303,7 +304,6 @@ exports['copy-data'] = copyDataTask;
     dev task
 ******************/
 
-
 function devTask(done) {
   gulp.watch(paths.styles.src, stylesTask);
   gulp.watch(paths.lint.src, lintTask);
@@ -317,12 +317,17 @@ function devTask(done) {
       baseDir: './'
     },
     middleware: [(req, res, next) => {
-      if (req._parsedUrl.pathname.endsWith('.mjs')) {
+      // all requests that end with .js, .mjs or .css
+      const rgx = /^(.(.*\.mjs$|.*\.js|.*\.css))*$/g;
+      if (rgx.test(req._parsedUrl.pathname)) {
+        res.setHeader('Content-Encoding', 'gzip');
 
-        req.url += '.gz';
+        if(req._parsedUrl.pathname.endsWith('.css')) {
+          res.setHeader('Content-Type', 'text/css');
+          return next();
+        }
 
         res.setHeader('Content-Type', 'application/javascript');
-        res.setHeader('Content-Encoding', 'gzip');
       }
       return next();
     }]
