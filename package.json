@@ -4,9 +4,11 @@
   "description": "Restaurant Reviews: Stage 1",
   "main": "main.js",
   "scripts": {
-    "start": "node-sass -w scss/ -o ./dist/css --recursive",
+    "sass-watch": "node-sass -w scss/ -o ./dist/css --recursive ",
+    "open": "live-server --port=5500 --open=index.html",
     "build-sass": "node-sass scss/ -o ./dist/css",
-    "server": "cd server && node app.js"
+    "server": "cd server && node app.js ",
+    "start": "npm-run-all -p server open sass-watch"
   },
   "repository": {
     "type": "git",
@@ -30,5 +32,8 @@
     "mapbox-gl": "^0.49.0",
     "node-sass": "^4.9.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "live-server": "^1.2.0",
+    "npm-run-all": "^4.1.3"
+  }
 }
