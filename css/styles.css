@@ -10,14 +10,17 @@ body,td,th,p{
 body {
 	background-color: #fdfdfd;
 	margin: 0;
-	position:relative;
+  position:relative;
+  overflow-x: hidden;
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	color: #333;
 }
-a {
+a {Manhattan
+
+  430 E 9th St, New York, NY 10009
 	color: orange;
 	text-decoration: none;
 }
@@ -38,6 +41,8 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
+  display: grid;
+  grid-auto-flow: row;
 }
 #footer {
   background-color: #444;
@@ -51,27 +56,31 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 /* ====================== Navigation ====================== */
 nav {
   width: 100%;
-  height: 80px;
+  height: auto;
   background-color: #252831;
   text-align:center;
 }
+
 nav h1 {
   margin: auto;
+  width: 100%;
+  padding: 2%;
 }
 nav h1 a {
   color: #fff;
-  font-size: 14pt;
+  font-size: 22px;
   font-weight: 200;
   letter-spacing: 10px;
   text-transform: uppercase;
+  
 }
 #breadcrumb {
-    padding: 10px 40px 16px;
+    padding: 2%;
     list-style: none;
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
+    width: 100%;
 }
 
 /* Display list items side by side */
@@ -106,9 +115,21 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  height: 50px;
+  height: auto;
   background-color: #3397DB;
   align-items: center;
+  overflow: none;
+  
+}
+.select{
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-align-content: center;
+  align-content: center;
+  margin: auto;
+  width: 500px;
+  padding: 4%;
 }
 .filter-options h2 {
   color: white;
@@ -116,6 +137,8 @@ nav h1 a {
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+  text-align: center;
+  padding: 2%;
 }
 .filter-options select {
   background-color: white;
@@ -128,13 +151,27 @@ nav h1 a {
   padding: 0 10px;
   width: 200px;
 }
+.container {
+  display: grid;
+  grid-gap: 2px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-flow: row;
+  /*flex-flow: wrap;
+  grid-auto-flow: row; */
+  justify-items: center;
+  overflow: none;
+}
+.card{
+  width: auto;
+  margin: 4%;
+}
 
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
   background-color: #f3f3f3;
   list-style: outside none none;
   margin: 0;
-  padding: 30px 15px 60px;
+  padding: 5%;
   text-align: center;
 }
 #restaurants-list li {
@@ -143,7 +180,7 @@ nav h1 a {
   font-family: Arial,sans-serif;
   margin: 15px;
   min-height: 380px;
-  padding: 0 30px 25px;
+  padding: 5%;
   text-align: left;
   width: 270px;
 }
@@ -184,18 +221,17 @@ nav h1 a {
 
 /* ====================== Restaurant Details ====================== */
 .inside header {
-  position: fixed;
-  top: 0;
+  position: relative;
   width: 100%;
   z-index: 1000;
 }
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 87%;
-  position: fixed;
-  right: 0;
-  top: 80px;
-  width: 50%;
+  height: 450px;
+  position: relative;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .inside #map {
   background-color: #ccc;
@@ -203,9 +239,8 @@ nav h1 a {
   width: 100%;
 }
 .inside #footer {
-  bottom: 0;
-  position: absolute;
-  width: 50%;
+  position: relative;
+  width: 100%;
 }
 #restaurant-name {
   color: #f18200;
@@ -239,11 +274,11 @@ nav h1 a {
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
-  padding: 140px 40px 30px;
-  width: 50%;
+  padding: 5%;
+  width: 100%;
 }
 #reviews-container {
-  padding: 30px 40px 80px;
+  padding: 5%;
 }
 #reviews-container h2 {
   color: #f58500;
@@ -273,3 +308,66 @@ nav h1 a {
 #restaurant-hours td {
   color: #666;
 }
+
+/* ============= Responsive code ========= */
+
+@media only screen and (max-width: 1200px) {
+  body, html {
+    position:relative;
+    overflow-x: hidden;
+  }
+  .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: row;
+    /*flex-flow: wrap;
+    grid-auto-flow: row; */
+    justify-items: center;
+    overflow: none;
+  }
+  .inside #map-container {
+    height: 350px;
+    position: relative;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  body, html {
+    position:relative;
+    overflow-x: hidden;
+  }
+  nav h1 a {
+    font-size: 30px;
+  }
+  #map {
+    height: 300px !important;
+    width: 100%;
+    background-color: #ccc;
+    }
+  .select{
+    margin: auto;
+    width: 40%;
+    padding: 4%;
+  }
+  .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+    /*flex-flow: wrap;
+    grid-auto-flow: row; */
+    justify-items: center;
+    overflow: none;
+  }
+  .inside #map-container {
+    height: 350px;
+    position: relative;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+
