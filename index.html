@@ -19,17 +19,17 @@
 
   <main id="maincontent">
     <section id="map-container">
-      <div id="map"></div>
+      <div role="application" aria-label="location" id="map"></div>
     </section>
     <section class="grid-container">
       <div class="filter-options grid-item">
         <h2>Filter Results</h2>
         <div class="select">
           <select role="tablist" tabindex="2" id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-            <option value="all">All Neighborhoods</option>
+            <option role="option" value="all">All Neighborhoods</option>
           </select>
           <select role="tablist" tabindex="3" id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
-            <option value="all">All Cuisines</option>
+            <option role="option" value="all">All Cuisines</option>
           </select>
         </div>
       </div>
