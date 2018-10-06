@@ -1,16 +1,28 @@
 # Restaurant Review App
 
-Install Dependencies
+Install Dependencies:
 
 ```
 npm install
+or
+yarn install
 ```
 
-Serve: **To fetch the restaurant data you need to run the express server within the project** The following npm script will start the server
+To start the project you must first compile the sass to css run the following command:
 
 ```
-npm run server
+npm run build-sass
+or
+yarn build-sass
 ```
+
+after you can start the project by running:
+
+```
+npm start
+```
+
+It will start the express server on port 5050(You can change this) and it will open a tab on port 5500 with live server.
 
 <details>
 <summary>Udacity Rubric</summary>
