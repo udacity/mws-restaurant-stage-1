@@ -15,46 +15,29 @@
 </head>
 
 <body class="inside">
-  <!-- Beginning header -->
   <header>
-    <!-- Beginning nav -->
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+    <nav role="navigation">
+      <h1 tabindex="0"><a href="/">Restaurant Reviews</a></h1>
     </nav>
-    <!-- Beginning breadcrumb -->
     <ul id="breadcrumb">
       <li><a href="/">Home</a></li>
     </ul>
-    <!-- End breadcrumb -->
-    <!-- End nav -->
   </header>
-  <!-- End header -->
-
-  <!-- Beginning main -->
-  <main>
-    <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map"></div>
+  <main role="main">
+    <section id="map-container" role="region">
+      <div id="map" role="application" aria-label="map"></div>
     </section>
-    <!-- End map -->
-    <!-- Beginning restaurant -->
-    <section id="restaurant-container">
+    <section id="restaurant-container" role="region">
       <h1 id="restaurant-name"></h1>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
       <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
+      <table id="restaurant-hours" role="table"></table>
     </section>
-    <!-- end restaurant -->
-    <!-- Beginning reviews -->
-    <section id="reviews-container">
-      <ul id="reviews-list"></ul>
+    <section id="reviews-container" role="region">
+      <ul id="reviews-list" role="list"></ul>
     </section>
-    <!-- End reviews -->
   </main>
-  <!-- End main -->
-
-  <!-- Beginning footer -->
   <footer>
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
