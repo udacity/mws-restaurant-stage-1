@@ -1,6 +1,9 @@
 @charset "utf-8";
 /* CSS Document */
 
+html{
+  background-color: #f4f4f4;
+}
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
@@ -8,9 +11,10 @@ body,td,th,p{
   line-height: 1.5;
 }
 body {
-	background-color: #f3f3f3;
-	margin: 0;
-	position:relative;
+	background-color: #ffffff;
+	margin: auto;
+  position:relative;
+  max-width: 1050px;
 }
 ul, li {
 	font-family: Arial, Helvetica, sans-serif;
