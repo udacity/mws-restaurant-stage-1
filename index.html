@@ -15,26 +15,26 @@
 <body>
   <div class="container">
     <header>
-      <nav>
-        <h1><a href="/">Restaurant Reviews</a></h1>
+      <nav role="navigation">
+        <h1 tabindex="0"><a href="/">Restaurant Reviews</a></h1>
       </nav>
     </header>
-    <main>
-      <section id="map-container">
-        <div id="map"></div>
+    <main role="main">
+      <section id="map-container" role="region">
+        <div id="map" role="application" aria-label="map"></div>
       </section>
-      <section>
+      <section role="region">
         <div class="filter-options">
           <h2>Filter Results</h2>
-          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-            <option value="all">All Neighborhoods</option>
+          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" tabindex="0" role="tablist">
+            <option value="all" role="option">All Neighborhoods</option>
           </select>
-          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
-            <option value="all">All Cuisines</option>
+          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" tabindex="0" role="tablist">
+            <option value="all" role="option">All Cuisines</option>
           </select>
         </div>
         <div class="restaurant-list_container">
-          <ul id="restaurants-list"></ul>
+          <ul id="restaurants-list" role="list"></ul>
         </div>
       </section>
     </main>
