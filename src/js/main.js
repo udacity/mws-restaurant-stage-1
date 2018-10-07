@@ -1,4 +1,4 @@
-import DBHelper from './dbhelper.mjs';
+//<<-!->>import DBHelper from './dbhelper.mjs';
 
 class MainPage {
   constructor() {
@@ -250,11 +250,3 @@ class MainPage {
   const main = new MainPage();
   main.init();
 })();
-
-/*==================Focus==================*/
-
-// function handleRestoFocus(viewDetailsButton){
-//   viewDetailsButton.addEventListener('focus', function(e){
-//     console.log(e.target);
-//   });
-// }

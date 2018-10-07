@@ -1,13 +1,18 @@
 const gulp = require('gulp');
-// used to compress files
-const gzip = require('gulp-gzip');
+// used to delete folders and files
+const rimraf = require('rimraf');
+// config contains all file build paths, image sizes and all
+const config = require('./config');
 // used to convert files to es5
 const babel = require('gulp-babel');
-// const rename = require("gulp-rename");
 // used to lint code for syntax errors
 const eslint = require('gulp-eslint');
+// used to rename files
+const rename = require('gulp-rename');
 // used to combine a set of defined files into one big file
 const concat = require('gulp-concat');
+// used to replace string
+const replace = require('gulp-replace');
 // used to minify css
 const cleanCSS = require('gulp-clean-css');
 // used to generate source map
@@ -20,90 +25,14 @@ const uglify = require('gulp-uglify-es').default;
 const autoprefixer = require('gulp-autoprefixer');
 // used to do live editing in the browser
 const browserSync = require('browser-sync').create();
-
-/**
- * abstracting away file paths for every task
- * so that we don't have to change every occurence
- * of that path
- */
-const paths = {
-  styles: {
-    src: 'src/css/**/*.css',
-    dest: 'build/css'
-  },
-  js: {
-    main: {
-      src: [
-        'src/scripts/js/dbhelper.js',
-        'src/scripts/js/main.js',
-        '!node_modules/**'
-      ],
-      dest: 'build/scripts/js',
-      fileName: 'main.js'
-    },
-    inside: {
-      src: [
-        'src/scripts/js/dbhelper.js',
-        'src/scripts/js/restaurant_info.js',
-        '!node_modules/**'
-      ],
-      dest: 'build/scripts/js',
-      fileName: 'inside.js'
-    }
-  },
-  mjs: {
-    src: ['src/scripts/mjs/*.mjs','!node_modules/**'],
-    dest: 'build/scripts/mjs'
-  },
-  lint: {
-    // linting files with both .js and .mjs extensions
-    src: ['src/scripts/**/*.{mjs,js}','!node_modules/**']
-  },
-  imgs: {
-    src: 'src/img/**',
-    dest: 'build/img',
-    // widths to generate images
-    // if src_image_width > generated_img_width
-    // set object with value=width
-    // and enlarge=true
-    widths: [
-      300,
-      400,
-      500,
-      600,
-      800,
-      {value: 1000, enlarge: true},
-      {value: 1200, enlarge: true}
-    ]
-  },
-  data: {
-    src: 'src/data/**/*.json',
-    dest: 'build/data'
-  }
-};
+const compression = require('compression');
 
 /******************
     Styles tasks
 ******************/
 
 function stylesTask() {
-  return gulp.src(paths.styles.src)
-    .pipe(
-      autoprefixer({
-        browsers: ['last 2 versions']
-      })
-    )
-    .pipe(gulp.dest(paths.styles.dest))
-    .pipe(browserSync.stream());
-}
-
-
-exports.styles = stylesTask;
-
-function stylesProdTask() {
-  return gulp.src(paths.styles.src)
-    .pipe(sourcemaps.init())
-    // auto prefexing
+  return gulp.src(config.styles.src)
     .pipe(
       autoprefixer({
         browsers: ['last 2 versions']
@@ -113,12 +42,30 @@ function stylesProdTask() {
       console.log(`${details.name}: ${details.stats.originalSize}`);
       console.log(`${details.name}: ${details.stats.minifiedSize}`);
     }))
+    .pipe(gulp.dest(config.styles.dest))
     .pipe(sourcemaps.write())
-    .pipe(gzip({append: false}))
-    .pipe(gulp.dest(paths.styles.dest));
+    .pipe(browserSync.stream());
 }
 
-exports['styles-prod'] = stylesProdTask;
+exports.styles = stylesTask;
+
+function stylesProdTask() {
+  return gulp.src(config.styles.src)
+    .pipe(sourcemaps.init())
+    // auto prefexing
+    .pipe(
+      autoprefixer({
+        browsers: ['last 2 versions']
+      })
+    )
+    .pipe(cleanCSS())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(config.styles.dest));
+}
+
+exports['styles-prod'] = gulp.series(function(cb) {
+  rimraf(config.styles.dest, cb);
+}, stylesProdTask);
 
 
 /******************
@@ -126,7 +73,7 @@ exports['styles-prod'] = stylesProdTask;
 ******************/
 
 function lintTask() {
-  return gulp.src(paths.lint.src)
+  return gulp.src(config.lint.src)
     // eslint() attaches the lint output to the 'eslint' property
     // of the file object so it can be used by other modules.
     .pipe(eslint())
@@ -161,8 +108,8 @@ function concatScript(details) {
 }
 
 function jsScriptsTask(done){
-  concatScript(paths.js.main);
-  concatScript(paths.js.inside);
+  concatScript(config.js.main);
+  concatScript(config.js.inside);
   done();
 }
 
@@ -179,17 +126,13 @@ function concatAndUglifyScript(details) {
     }))
     .pipe(concat(details.fileName))
     .pipe(uglify())
-    .pipe(sourcemaps.write())
-    // gzipping .js files, 'append' says
-    // to gzip to append '.gz' to the file
-    // defaults to 'true', added for reading purposes
-    .pipe(gzip({ append: false }))
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(details.dest));
 }
 
 function jsScriptsProdTask(done) {
-  concatAndUglifyScript(paths.js.main);
-  concatAndUglifyScript(paths.js.inside);
+  concatAndUglifyScript(config.js.main);
+  concatAndUglifyScript(config.js.inside);
   done();
 }
 
@@ -199,27 +142,39 @@ exports['js-scripts-prod'] = jsScriptsProdTask;
 /*======= modules =======*/
 
 function mjsScriptsTask() {
-  return gulp.src(paths.mjs.src)
-    .pipe(gulp.dest(paths.mjs.dest));
+  return gulp.src(config.mjs.src)
+    .pipe(rename({
+      extname: '.mjs'
+    }))
+    .pipe(gulp.dest(config.mjs.dest));
 }
 
 exports['mjs-scripts'] = mjsScriptsTask;
 
 function mjsScriptsProdTask() {
-  return gulp.src(paths.mjs.src)
+  return gulp.src(config.mjs.src)
+    .pipe(replace('//<<-!->>', ''))
+    .pipe(replace('//<<-!->>', ''))
+    .pipe(rename({
+      extname: '.mjs'
+    }))
     .pipe(sourcemaps.init())
     .pipe(uglify())
-    .pipe(sourcemaps.write())
-    .pipe(gzip({
-      append: false,
-      // if compression increases file size, skip it
-      skipGrowingFiles : true
-    }))
-    .pipe(gulp.dest(paths.mjs.dest));
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(config.mjs.dest));
 }
 
 exports['mjs-scripts-prod'] = mjsScriptsProdTask;
 
+
+/*======= service worker =======*/
+
+function copySWTask() {
+  return gulp.src(config.sw.src)
+    .pipe(gulp.dest(config.sw.dest));
+}
+
+exports['sw-script'] = copySWTask;
 
 /*======= Both =======*/
 
@@ -272,11 +227,11 @@ function getResponsiveConfig(widths, ext = 'jpg') {
  * generates images for given widths
  */
 function optImgsTask() {
-  return gulp.src(paths.imgs.src)
+  return gulp.src(config.imgs.src)
     .pipe(responsive(
-      getResponsiveConfig(paths.imgs.widths)
+      getResponsiveConfig(config.imgs.widths)
     ))
-    .pipe(gulp.dest(paths.imgs.dest));
+    .pipe(gulp.dest(config.imgs.dest));
 }
 
 exports['optimize-images'] = optImgsTask;
@@ -286,15 +241,22 @@ exports['optimize-images'] = optImgsTask;
 ******************/
 
 function copyImgsTask() {
-  return gulp.src(paths.imgs.src)
-    .pipe(gulp.dest(paths.imgs.dest));
+  return gulp.src(config.imgs.src)
+    .pipe(gulp.dest(config.imgs.dest));
 }
 
 exports['copy-images'] = copyImgsTask;
 
+function copyHTMLTask() {
+  return gulp.src(config.html.src)
+    .pipe(gulp.dest(config.html.dest));
+}
+
+exports['copy-html'] = copyHTMLTask;
+
 function copyDataTask() {
-  return gulp.src(paths.data.src)
-    .pipe(gulp.dest(paths.data.dest));
+  return gulp.src(config.data.src)
+    .pipe(gulp.dest(config.data.dest));
 }
 
 exports['copy-data'] = copyDataTask;
@@ -305,32 +267,18 @@ exports['copy-data'] = copyDataTask;
 ******************/
 
 function devTask(done) {
-  gulp.watch(paths.styles.src, stylesTask);
-  gulp.watch(paths.lint.src, lintTask);
+  gulp.watch(config.styles.src, stylesTask);
+  gulp.watch(config.lint.src, lintTask);
   // listening for changes in the html file
   // and reloading browserSync on changes
-  gulp.watch('./*.html')
+  gulp.watch(config.html.src)
     .on('change', browserSync.reload);
 
   browserSync.init({
     server: {
-      baseDir: './'
+      baseDir: './app/'
     },
-    middleware: [(req, res, next) => {
-      // all requests that end with .js, .mjs or .css
-      const rgx = /^(.(.*\.mjs$|.*\.js|.*\.css))*$/g;
-      if (rgx.test(req._parsedUrl.pathname)) {
-        res.setHeader('Content-Encoding', 'gzip');
-
-        if(req._parsedUrl.pathname.endsWith('.css')) {
-          res.setHeader('Content-Type', 'text/css');
-          return next();
-        }
-
-        res.setHeader('Content-Type', 'application/javascript');
-      }
-      return next();
-    }]
+    middleware: [compression()]
   });
   done();
 }
@@ -346,13 +294,22 @@ exports.dev = devTask;
  * for the exception of the linting task
  * that runs before the scripts task
  */
-exports.build = gulp.parallel(
-  optImgsTask,
-  stylesProdTask,
-  copyDataTask,
-  gulp.series(
-    lintTask,
-    gulp.parallel(jsScriptsProdTask, mjsScriptsProdTask)
+exports.build = gulp.series(
+  function (cb) {
+    rimraf('./app', cb);
+  },
+  gulp.parallel(
+    optImgsTask,
+    stylesProdTask,
+    copyDataTask,
+    copyHTMLTask,
+    // the reason why these tasks are in series
+    // because we shouldn't do one before the other
+    // if we have a syntax error we want to be notified
+    gulp.series(
+      lintTask,
+      gulp.parallel(jsScriptsProdTask, mjsScriptsProdTask)
+    )
   )
 );
 
@@ -360,8 +317,12 @@ exports.build = gulp.parallel(
     default task
 ******************/
 
+
 exports.default = gulp.series(
   gulp.parallel(
+    function (cb) {
+      rimraf('./app', cb);
+    },
     optImgsTask,
     stylesTask,
     copyDataTask,

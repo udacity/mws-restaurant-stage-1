@@ -10,7 +10,7 @@ const allCaches = [
  * both github pages and local env
  */
 const BASE_URL = (() => {
-  if(location.origin.includes('http://localhost:')){
+  if(location.origin.includes('localhost:')){
     return location.origin;
   }
   return `${location.origin}/mws-restaurant-stage-1`;

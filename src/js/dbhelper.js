@@ -5,7 +5,7 @@
  that would be 'http://localhost:port'
 */
 const BASE_URL = (() => {
-  if(location.origin.includes('http://localhost:')) {
+  if(location.origin.includes('localhost:')) {
     return location.origin;
   }
   return `${location.origin}/mws-restaurant-stage-1`;
@@ -34,7 +34,7 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    return `${BASE_URL}/build/data/restaurants.json`;
+    return `${BASE_URL}/assets/data/restaurants.json`;
   }
 
   /**
@@ -176,7 +176,7 @@ class DBHelper {
    */
   static imageUrlForRestaurant(photograph, size) {
     return (
-      `${BASE_URL}/build/img/${photograph}-${size}w.jpg`
+      `${BASE_URL}/assets/img/${photograph}-${size}w.jpg`
     );
   }
 
@@ -184,7 +184,7 @@ class DBHelper {
     const imgPaths = [];
     sizes.forEach(size => {
       imgPaths.push(
-        `${BASE_URL}/build/img/${photograph}-${size}w.jpg ${size}w`
+        `${BASE_URL}/assets/img/${photograph}-${size}w.jpg ${size}w`
       );
     });
     return imgPaths.join(', ');
@@ -224,3 +224,5 @@ class DBHelper {
   }
 
 }
+
+//<<-!->>export default DBHelper;

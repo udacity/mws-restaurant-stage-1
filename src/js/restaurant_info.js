@@ -1,4 +1,4 @@
-import DBHelper from './dbhelper.mjs';
+//<<-!->>import DBHelper from './dbhelper.mjs';
 
 class RestaurantInfo {
 
@@ -271,7 +271,7 @@ class RestaurantInfo {
   }
 }
 
-
-
-const inside = new RestaurantInfo();
-inside.init();
+(() => {
+  const inside = new RestaurantInfo();
+  inside.init();
+})();
