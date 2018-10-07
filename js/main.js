@@ -1,13 +1,15 @@
-if (navigator.serviceWorker) {
-  console.log('Service worker is enabled');
+(function() {
+  if (navigator.serviceWorker) {
+    console.log('Service worker is enabled');
 
-  window.onload = () => {
-    navigator.serviceWorker
-      .register('/registerServiceWorker.js')
-      .then((reg) => console.log('Service worker is registered'))
-      .catch((error) => console.log({ error }));
-  };
-}
+    window.onload = () => {
+      navigator.serviceWorker
+        .register('/registerServiceWorker.js')
+        .then((reg) => console.log('Service worker is registered'))
+        .catch((error) => console.log({ error }));
+    };
+  }
+})();
 
 let restaurants, neighborhoods, cuisines;
 var newMap;
