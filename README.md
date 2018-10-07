@@ -8,27 +8,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-You first need a copy of the code in your local machine, you can do that by running this command:
+You first need a copy of the code in your local machine, make sure to fork and clone, you can clone by running this command:
 
 ```
-git clone https://github.com/SalahHamza/mws-restaurant-stage-1.git
+git clone -b gulp https://github.com/SalahHamza/mws-restaurant-stage-1.git
 ```
 
-You need to install a graphics engine, preferably GraphicsMagic, you can do that by running this command if you are on MAC:
-
-```
-brew install GraphicsMagick
-```
-
-Alternatively, you can try:
-
-```
-$ sudo add-apt-repository ppa:dhor/myway
-$ sudo apt-get update
-$ sudo apt-get install graphicsmagick
-```
-
-**Note**: If you chose to download another graphics engine (ImageMagick) make sure to change `options.engine` of the responsive images task in `Gruntfile.js`. [Read about that here](https://github.com/andismith/grunt-responsive-images).
+**Note**: as this is not the master branch the command above have the '-b' flag with the specific branch.
 
 ### Installing
 
@@ -40,23 +26,40 @@ npm install
 
 **Note**: Make sure you are inside the project directory.
 
-After that make sure to run Grunt in order to generate the needed assests. You can simply do that by running
+After that make sure to run Gulp in order to generate the needed assests.
+
+Run the build task to generate files for production
 
 ```
-grunt
+gulp build
 ```
 
-After that make sure to start up a simple HTTP server. Here are the steps to do so:
+Run the default task to generate files + live editing (with browser-sync):
 
-1. In this folder, start up a simple HTTP server to serve up the site files on your local computer. Python has some simple tools to do this, and you don't even need to know Python. For most people, it's already installed on your computer.
+```
+gulp
+```
 
-In a terminal, check the version of Python you have: `python -V`. If you have Python 2.x, spin up the server with `python -m SimpleHTTPServer 8000` (or some other port, if port 8000 is already in use.) For Python 3.x, you can use `python3 -m http.server 8000`. If you don't have Python installed, navigate to Python's [website](https://www.python.org/) to download and install the software.
+There is a specific production and development task for each kind of asset (not all). Production and development tasks have the same name, production have a trailing `-prod`:
 
-2. With your server running, visit the site: `http://localhost:8000`, and look around for a bit to see what the current experience looks like.
-3. Explore the provided code, and start making a plan to implement the required features in three areas: responsive design, accessibility and offline use.
-4. Write code to implement the updates to get this site on its way to being a mobile-ready website.
+* `gulp styles` & `gulp styles-prod`: for stylesheets.
+* `gulp scripts` & `gulp scripts-prod`: for stylesheets.
+* `gulp optimize-images`: for images. As the pages need different image for different viewport, images need to be optimized even in development.
+* `gulp copy-html`: for html files
+* `gulp copy-data`: for .json data file (temporary)
+* `gulp dev`: starts up the browser-sync dev server.
 
-Alternatively, If you are using chrome you can download [**Web server for chrome**](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb) extension, it's easy to use and works offline.
+After that make sure to start up the server:
+
+I. The easiest way to serve files is through browser-sync, run
+
+```
+gulp dev
+```
+
+II. The best way is to run the node http/2 server (server.js), you first need to have a SSL cert, but you can just make a self-signed SSL cert. Follow this link to know [how to make a self-signed cert](https://webapplog.com/http2-node/) and other details, or (unfortunately) the http/2 server won't work.
+
+**Note**: Make sure you run the tasks in the root directory.
 
 ## Running the tests
 
@@ -65,8 +68,8 @@ No tests available.
 ## Built With
 
 * [npm](https://npmjs.com) - Dependency Management
-* [https://gruntjs.com](Grunt) - Used task runner
-* [Graphics Magic](http://sourceforge.net/projects/graphicsmagick/files/graphicsmagick/) - Used to compress/generate images
+* [https://gulpjs.com/](Gulp) - Used task runner
+* [https://babeljs.io/](Babel) - Used to compile ES2015 to ES5
 
 ## Code Owners
 
