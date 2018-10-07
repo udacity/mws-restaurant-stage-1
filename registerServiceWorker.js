@@ -20,6 +20,7 @@ const assets = [
   '/img/10.jpg',
   'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
   'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
+  'http://localhost:5050/restaurants',
 ];
 
 (function() {
