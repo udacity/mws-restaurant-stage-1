@@ -2,7 +2,7 @@
   "name": "mws-restaurant-stage-1",
   "version": "1.0.0",
   "description": "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
-  "main": "index.js",
+  "main": "server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
