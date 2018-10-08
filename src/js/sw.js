@@ -1,5 +1,6 @@
-const staticCacheName  = 'reviews-app--static-v1';
-const mapCacheName = 'reviews-app--mapAPI-v1';
+const VERSION = '<<-!version->>';
+const staticCacheName  = `reviews-app--static-${VERSION}`;
+const mapCacheName = `reviews-app--mapAPI-${VERSION}`;
 const allCaches = [
   staticCacheName,
   mapCacheName
@@ -16,9 +17,9 @@ const BASE_URL = (() => {
   return `${location.origin}/mws-restaurant-stage-1`;
 })();
 
-self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(staticCacheName).then( (cache) => {
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(staticCacheName).then( cache => {
       return cache.addAll([
         './',
         './index.html',
@@ -41,10 +42,8 @@ self.addEventListener('install', (e) => {
   );
 });
 
-
-
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
+self.addEventListener('activate', event => {
+  event.waitUntil(
     caches.keys().then( (keyList) => {
       return Promise.all(
         keyList.filter( (key) => {
@@ -78,25 +77,25 @@ NOTE: overall handling of the service worker is self implemented due
 to extra learning from this article by Jake Archibald
 https://jakearchibald.com/2014/offline-cookbook/
 */
-self.addEventListener('fetch', e => {
+self.addEventListener('fetch', event => {
   const mapAPIBaseUrl = 'https://api.tiles.mapbox.com/v4/';
   const insideBaseUrl = `${BASE_URL}/restaurant.html?id=`;
 
-  if(e.request.url.includes(insideBaseUrl)){
-    e.respondWith(caches.match('./restaurant.html'));
+  if(event.request.url.includes(insideBaseUrl)){
+    event.respondWith(caches.match('./restaurant.html'));
     return;
 
-  } else if (e.request.url.includes(mapAPIBaseUrl)) {
+  } else if (event.request.url.includes(mapAPIBaseUrl)) {
 
-    e.respondWith(fetchAndCacheThenRespond(e.request, mapCacheName));
+    event.respondWith(fetchAndCacheThenRespond(event.request, mapCacheName));
     return;
 
   } else {
-    e.respondWith(
-      caches.match(e.request).then(res => {
-        return res || fetch(e.request);
+    event.respondWith(
+      caches.match(event.request).then(res => {
+        return res || fetch(event.request);
       }).catch( () => {
-        if (e.request.url.includes('.jpg')) {
+        if (event.request.url.includes('.jpg')) {
           /* If no cache match for the image,
             return offline image */
           return caches.match('./offline.png');
