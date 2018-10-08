@@ -1,3 +1,5 @@
+/*global __dirname process:true*/
+
 const spdy = require('spdy');
 const express = require('express');
 const compression = require('compression');
