@@ -65,12 +65,13 @@ class DBHelper {
               .then((db) => {
                 if (!db) throw new Error('[DB ERROR] - No DB found.');
                 let tx = db.transaction(['restaurants'], 'readwrite');
-                tx.oncomplete = () => console.log('transaction success');
-                tx.onerror = () => console.log('transaction error');
+                tx.oncomplete = () => console.log('restaurants transaction success');
+                tx.onerror = () => console.log('restaurants transaction error');
                 let objectStore = tx.objectStore('restaurants');
                 restaurants.forEach((restaurant) => {
+                  console.log('Putting restaurant: ', restaurant);
                   objectStore.put(restaurant);
-                  objectStore.onsuccess = () => console.log('success adding', restaurant);
+                  objectStore.onsuccess = () => console.log('restaurants success adding', restaurant);
                 });
               });
           })
@@ -115,29 +116,36 @@ class DBHelper {
       .then(data => {
         // If restaurant data exists return that 
         if (data.length > 0) {
+          console.log('Reviews exist data.length > 0');
           return callback(null, data);
         }
         // Fetch from network
+        console.log('Fetching reviews from network');
         return fetch(`${this.SERVER_REVIEWS_URL}`)
           .then(res => {
             if (res.ok) {
+              console.log('Reviews Res.json() okay.')
               return res.json()
             }
             throw new Error('[REVIEW FETCH ACTION] - Network error');
           })
           .then(reviews => {
-            callback(null, reviews);
+            console.log('Got reviews.', reviews);
+            // callback(null, reviews);
+            console.log('after callback. Got reviews.', reviews);
             return reviews;
           })
           .then((reviews) => {
+            console.log('Trying to put in the reviews: ', reviews);
             this.openOrCreateDB()
               .then((db) => {
                 if (!db) throw new Error('[DB ERROR] - No DB found.');
                 let tx = db.transaction(['reviews'], 'readwrite');
-                tx.oncomplete = () => console.log('transaction success');
-                tx.onerror = () => console.log('transaction error');
+                tx.oncomplete = () => console.log('reviews transaction success');
+                tx.onerror = () => console.log('reviews transaction error');
                 let objectStore = tx.objectStore('reviews');
                 reviews.forEach((review) => {
+                  console.log('Putting review: ', review);
                   objectStore.put(review);
                   objectStore.onsuccess = () => console.log('success adding', review);
                 });
@@ -162,15 +170,19 @@ class DBHelper {
    * @param {fn} callback 
    */
   static fetchRestaurantReviewsById(id, callback) {
+    console.log('Inside fetchRestaurantReviewsById');
     // fetch all restaurants with proper error handling.
     DBHelper.fetchRestaurantReviews((error, reviews) => {
       if (error) {
         callback(error, null);
       } else {
         const review = reviews.find(r => r.id == id);
+        console.log('review: ', reviews.length);
         if (review) { // Got the restaurant
+          console.log('Inside review');
           callback(null, review);
         } else { // Restaurant Review does not exist in the database
+          console.log('Outside review');
           callback('Restaurant Review does not exist', null);
         }
       }

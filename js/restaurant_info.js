@@ -93,6 +93,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   }
   // fill reviews
   // fillReviewsHTML();
+  console.log('About to call fetchRestaurantReviewsById');
   DBHelper.fetchRestaurantReviewsById(restaurant.id, fillReviewsHTML)
 }
 
@@ -119,7 +120,12 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (error, reviews) => {
+  self.restaurant.reviews = reviews;
+  if (error) {
+    console.log("Error retrieving restaurant review: ", error);
+  }
+
   const container = document.getElementById('reviews-container');
   const flex = document.createElement("div");
   flex.id = "reviews-heading";
@@ -127,7 +133,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
-  flex.appendChild(title);
+  container.appendChild(title);
 
   const addReviewLink = document.createElement("a");
   addReviewLink.href = `/review.html?id=${self.restaurant.id}`;
