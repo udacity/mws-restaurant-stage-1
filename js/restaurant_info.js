@@ -92,7 +92,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  // fillReviewsHTML();
+  DBHelper.fetchRestaurantReviewsById(restaurant.id, fillReviewsHTML)
 }
 
 /**
@@ -120,9 +121,18 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
+  const flex = document.createElement("div");
+  flex.id = "reviews-heading";
+  container.appendChild(flex);
+
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
-  container.appendChild(title);
+  flex.appendChild(title);
+
+  const addReviewLink = document.createElement("a");
+  addReviewLink.href = `/review.html?id=${self.restaurant.id}`;
+  addReviewLink.innerHTML = "Add Review";
+  flex.appendChild(addReviewLink);
 
   if (!reviews) {
     const noReviews = document.createElement('p');

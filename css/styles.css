@@ -250,10 +250,31 @@ ul#breadcrumb { /* Display list items side by side */
 #restaurants-list .restaurant-info {
   display: grid;
   grid-gap: 10px;
-  grid-template-rows: auto auto 1fr 48px;
+  grid-template-rows: auto auto auto 1fr 48px;
   align-items: center;
   padding: 10px 20px;
-  height: 215px;
+  /* height: 250px; */
+}
+
+#restaurants-list li .favorite-btn button, #maincontent .favorite-btn button {
+  max-width: 25px;
+  max-height: 25px;
+  /* position: absolute; */
+  top: 4px;
+  right: 20px;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  background-color: inherit;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: blue;
+  font-size: 2px;
+}
+
+#maincontent .favorite-btn button {
+  top: 20px;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -365,6 +386,17 @@ ul#breadcrumb { /* Display list items side by side */
   color: var(--dark-grey);
 }
 
+#reviews-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+}
+#reviews-heading a {
+  color: #333;
+  text-decoration-line: underline;
+  font-size: 14px;
+}
 /* ==================== HELPER CSS ==================== */
 .flex-item-center {
   display: flex;
