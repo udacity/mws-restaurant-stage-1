@@ -1,32 +1,86 @@
-# Mobile Web Specialist Certification Course
----
-#### _Three Stage Course Material Project - Restaurant Reviews_
+# MWS Restaurant Reviews
 
-## Project Overview: Stage 1
+Restaurant Reviews project is a capstone project in the Mobile Web Specialist program provided by Udacity.
 
-For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.
+## Getting Started
 
-### Specification
+These instructions will get you a copy of the project up and running on your local machine for development.
 
-You have been provided the code for a restaurant reviews website. The code has a lot of issues. It’s barely usable on a desktop browser, much less a mobile device. It also doesn’t include any standard accessibility features, and it doesn’t work offline at all. Your job is to update the code to resolve these issues while still maintaining the included functionality. 
+### Prerequisites
 
-### What do I do from here?
+You first need a copy of the code in your local machine, make sure to fork and clone, you can clone by running this command:
 
-1. In this folder, start up a simple HTTP server to serve up the site files on your local computer. Python has some simple tools to do this, and you don't even need to know Python. For most people, it's already installed on your computer. 
+```
+git clone -b gulp https://github.com/SalahHamza/mws-restaurant-stage-1.git
+```
 
-In a terminal, check the version of Python you have: `python -V`. If you have Python 2.x, spin up the server with `python -m SimpleHTTPServer 8000` (or some other port, if port 8000 is already in use.) For Python 3.x, you can use `python3 -m http.server 8000`. If you don't have Python installed, navigate to Python's [website](https://www.python.org/) to download and install the software.
+**Note**: as this is not the master branch the command above have the '-b' flag with the specific branch.
 
-2. With your server running, visit the site: `http://localhost:8000`, and look around for a bit to see what the current experience looks like.
-3. Explore the provided code, and start making a plan to implement the required features in three areas: responsive design, accessibility and offline use.
-4. Write code to implement the updates to get this site on its way to being a mobile-ready website.
+### Installing
 
-## Leaflet.js and Mapbox:
+To get up and running all you need to do is install the development dependencies. You can do that by running:
 
-This repository uses [leafletjs](https://leafletjs.com/) with [Mapbox](https://www.mapbox.com/). You need to replace `<your MAPBOX API KEY HERE>` with a token from [Mapbox](https://www.mapbox.com/). Mapbox is free to use, and does not require any payment information. 
+```
+npm install
+```
 
-### Note about ES6
+**Note**: Make sure you are inside the project directory.
 
-Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
+After that make sure to run Gulp in order to generate the needed assests.
 
+Run the build task to generate files for production
 
+```
+gulp build
+```
 
+Run the default task to generate files + live editing (with browser-sync):
+
+```
+gulp
+```
+
+There is a specific production and development task for each kind of asset (not all). Production and development tasks have the same name, production have a trailing `-prod`:
+
+* `gulp styles` & `gulp styles-prod`: for stylesheets.
+* `gulp scripts` & `gulp scripts-prod`: for stylesheets.
+* `gulp optimize-images`: for images. As the pages need different image for different viewport, images need to be optimized even in development.
+* `gulp copy-html`: for html files
+* `gulp copy-data`: for .json data file (temporary)
+* `gulp dev`: starts up the browser-sync dev server.
+
+After that make sure to start up the server:
+
+I. The easiest way to serve files is through browser-sync, run
+
+```
+gulp dev
+```
+
+II. The best way is to run the node http/2 server (server.js), you first need to have a SSL cert, but you can just make a self-signed SSL cert. Follow this link to know [how to make a self-signed cert](https://webapplog.com/http2-node/) and other details, or (unfortunately) the http/2 server won't work.
+
+**Note**: Make sure you run the tasks in the root directory.
+
+## Running the tests
+
+No tests available.
+
+## Built With
+
+* [npm](https://npmjs.com) - Dependency Management
+* [https://gulpjs.com/](Gulp) - Used task runner
+* [https://babeljs.io/](Babel) - Used to compile ES2015 to ES5
+
+## Code Owners
+
+* [@forbiddenvoid](https://github.com/udacity/mws-restaurant-stage-1/commits?author=forbiddenvoid)
+* @hbkwong
+
+## License
+
+No license.
+
+## Acknowledgments
+
+* Thanks to ALC and Udacity for giving us the chance to learn new things
+* Thanks to instructors and reviewers for being helpful and patient with us

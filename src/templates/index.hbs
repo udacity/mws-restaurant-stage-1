@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Use UTF-8 as character encoding -->
+  <meta charset="utf-8">
+  <!-- match the screen's width in DIP and set 1:1 relationship between DIP and css pixel -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Normalize.css for better cross-browser consistency -->
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!-- Main CSS file -->
+  {{!-- <link rel="stylesheet" href="assets/css/styles.css"> --}}
+  <link rel="stylesheet" href="assets/css/{{ assetPath "styles.css" }}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
+  <title>Restaurant Reviews</title>
+</head>
+
+<body>
+  <!-- Beginning header -->
+  <header>
+    <!-- Beginning nav -->
+    <nav>
+      <h1 class="brand"><a href="./">Restaurant Reviews</a></h1>
+    </nav>
+    <!-- End nav -->
+  </header>
+  <!-- End header -->
+
+  <!-- Beginning main -->
+  <main class="maincontent">
+    <!-- Beginning map -->
+    <section role="application" aria-label="Map" class="map-container">
+      <div class="map" id="map"></div>
+    </section>
+    <!-- End map -->
+
+    <section>
+      <div class="filter-wrapper">
+        <!-- Beginning filter options -->
+        <div class="filter-options">
+          <h2 class="sr-only">Filter Results</h2>
+          <!-- Beginning neighborhoods select -->
+          <select id="neighborhoods-select" aria-label="Filter neighborhoods" name="neighborhoods" >
+            <option value="all">All Neighborhoods</option>
+          </select>
+          <!-- End neighborhoods select -->
+          <!-- Beginning cuisines select -->
+          <select id="cuisines-select" aria-label="Filter by cuisines" name="cuisines" >
+            <option value="all">All Cuisines</option>
+          </select>
+          <!-- End cuisines select -->
+        </div>
+        <!-- End filter options -->
+      </div>
+
+      <!-- Beginning restaurants list -->
+      <ul class="restaurants-list" id="restaurants-list"></ul>
+      <!-- End restaurants list -->
+    </section>
+
+  </main>
+  <!-- End main -->
+
+  <!-- Beginning footer -->
+  <footer>
+      Copyright (c) 2017 <a href="./"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+  <!-- End footer -->
+
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+  <!-- Beginning scripts -->
+  <!-- Database helpers -->
+  <!-- Main javascript file -->
+
+  <!-- es module based -->
+  {{!-- <script type="module" charset="utf-8" src="assets/js/modules/main.mjs"></script> --}}
+  <script type="module" charset="utf-8" src="assets/js/modules/{{ assetPath "main.mjs" }}"></script>
+  <!-- fallback bundled script -->
+  <script nomodule src="assets/js/bundles/{{ assetPath "main.js" }}"></script>
+  {{!-- <script nomodule src="assets/bundles/main.js"></script> --}}
+  <!-- End scripts -->
+
+</body>
+
+</html>

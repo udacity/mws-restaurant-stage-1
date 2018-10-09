@@ -1,0 +1,10 @@
+/node_modules
+/app
+/.vscode
+TODOS.md
+.env
+
+## SSL cert
+server.crt
+server.csr
+server.key
