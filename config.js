@@ -4,6 +4,7 @@
  * of that path when we we need to
  */
 module.exports = {
+  destBase: './app',
   styles: {
     src: 'src/css/**/*.css',
     dest: 'app/assets/css'
@@ -36,8 +37,8 @@ module.exports = {
     src: 'src/js/sw.js',
     dest: 'app/'
   },
-  html: {
-    src: 'src/*.html',
+  hbs: {
+    src: 'src/templates/*.hbs',
     dest: 'app/'
   },
   lint: {
