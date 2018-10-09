@@ -21,6 +21,7 @@
     "gulp-clean-css": "^3.10.0",
     "gulp-compile-handlebars": "^0.6.1",
     "gulp-concat": "^2.6.1",
+    "gulp-each": "^0.5.0",
     "gulp-eslint": "^5.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
