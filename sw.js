@@ -1,5 +1,17 @@
-let version = 'restaurant-app-cache-v4';
-let toCache = ['/', '/img/1.jpg'];
+const appName = 'restaurant-app';
+const version = appName + '-v1';
+const imgVersion = appName + '-images';
+const allCaches = [version, imgVersion]
+const toCache = [
+    '/', 
+    '/restaurant.html',
+    '/css/styles.css',
+    '/js/dbhelper.js',
+    '/js/main.js',
+    '/js/restaurant_info.js',
+    '/js/register-sw.js',
+    '/data/restaurants.json'
+];
 
 self.addEventListener('install', function(event){
     event.waitUntil(
@@ -14,7 +26,7 @@ self.addEventListener('activate', function(event){
         caches.keys().then(function(cacheNames){
             return Promise.all(
                 cacheNames.filter(function(cacheName){
-                    return cacheName.startsWith('restaurant')
+                    return cacheName.startsWith(appName) && !allCaches.includes(cacheName)
                 }).map(function(cacheName){
                     return caches.delete(cacheName);
                 })
