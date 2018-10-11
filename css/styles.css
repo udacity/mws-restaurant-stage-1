@@ -71,7 +71,7 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: calc(50% - 80px);
+    width: 100%; /* calc(50% - 80px); */
 }
 
 /* Display list items side by side */
@@ -99,9 +99,10 @@ nav h1 a {
 }
 /* ====================== Map ====================== */
 #map {
-  height: 400px;
-  width: 100%;
+  height: 30vh;
+  max-width: 100%;
   background-color: #ccc;
+  display:flex;
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
@@ -127,7 +128,7 @@ nav h1 a {
   letter-spacing: 0;
   margin: 10px;
   padding: 0 10px;
-  width: 180px;
+  width: 145px;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -135,8 +136,11 @@ nav h1 a {
   background-color: #f3f3f3;
   list-style: outside none none;
   margin: 0;
-  padding: 30px 15px 60px;
+  padding: 30px 10px 60px;
   text-align: center;
+  display:flex;
+  flex-wrap: wrap;
+  width: calc(100% - 20px);
 }
 #restaurants-list li {
   background-color: #fff;
@@ -146,12 +150,15 @@ nav h1 a {
   min-height: 380px;
   padding: 0 30px 25px;
   text-align: left;
-  width: 270px;
+  min-width: 280px;
+  max-width: 325px;
+  margin-left: auto;
+  margin-right: auto;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
   display: block;
-  margin: 0;
+  margin: 5px;
   max-width: 100%;
   min-height: 248px;
   min-width: 100%;
@@ -190,23 +197,26 @@ nav h1 a {
   width: 100%;
   z-index: 1000;
 }
+#restaurant-inside-map {
+	width:100%
+}
 .inside #map-container {
   background: blue none repeat scroll 0 0;
-  height: 87%;
-  position: fixed;
+  height: 40vh;  /*80%*/
+  position: relative;
   right: 0;
-  top: 80px;
-  width: 50%;
+  top: 0px;
+  width: 90%;
 }
 .inside #map {
   background-color: #ccc;
-  height: 100%;
+  height: 40vh;
   width: 100%;
 }
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 50%;
+  width: 100%;
 }
 #restaurant-name {
   color: #f18200;
@@ -219,7 +229,9 @@ nav h1 a {
   line-height: 1.1;
 }
 #restaurant-img {
-	width: 90%;
+	width: 60%;
+	margin:auto;
+	display: flex;
 }
 #restaurant-address {
   font-size: 12pt;
@@ -241,7 +253,7 @@ nav h1 a {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 140px 40px 30px;
-  width: 50%;
+  width: 100%;
 }
 #reviews-container {
   padding: 30px 40px 80px;
@@ -274,3 +286,16 @@ nav h1 a {
 #restaurant-hours td {
   color: #666;
 }
+
+/* ====================== Media Queries ====================== */
+
+
+@media screen and (max-width:450px) {
+    .filter-options h2 {
+        display: block;
+    }
+    
+}
+
+
+.truncate { width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
