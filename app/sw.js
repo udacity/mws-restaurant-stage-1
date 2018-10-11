@@ -1,13 +1,17 @@
-const staticCacheName = 'Restaurant-static-v2'; 
+const staticCacheName = 'Restaurant-static-v3'; 
 const filesToCache = [
     './',
     './index.html',
     './restaurant.html',
-    './css/styles.css',
-    './js/idb.js',
-    './js/dbhelper.js',
-    './js/main.js',
-    './js/restaurant_info.js',
+    //'./css/styles.css',
+    //'./js/idb.js',
+    //'./js/dbhelper.js',
+    //'./js/main.js',
+    //'./js/restaurant_info.js',
+    './css/styles.min.css',
+    './js/db.min.js',
+    './js/index.min.js',
+    './js/restaurant.min.js',
     './favicon.png',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
