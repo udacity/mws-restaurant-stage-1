@@ -3,8 +3,8 @@
 #### _Three Stage Course Material Project - Restaurant Reviews_
 
 ---
-## README  UPDATE 
----
+### README  UPDATE 
+
 
 - **Get Data Server** [here](https://github.com/udacity/mws-restaurant-stage-3)
 
@@ -14,7 +14,7 @@
 
 -  **Serve optimized site:**
         
-    `gulp serve:dist`
+    `gulp serve`
         
 ---
 
