@@ -1,3 +1,5 @@
+/*Resubmission*/
+
 /**
  * Common database helper functions.
  */
@@ -7,29 +9,31 @@ class DBHelper {
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
-  static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
-  }
+   static get DATABASE_URL() {
+       const port = 1337
+       return `http://localhost:${port}/restaurants`;
+   }
 
   /**
    * Fetch all restaurants.
-   */
-  static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
+  */
+  static fetchRestaurants(callback,id){
+    let fetchURL;
+    if(!id){
+      fetchURL = DBHelper.DATABASE_URL;
+      } else {
+      fetchURL = DBHelper.DATABASE_URL + '/' + id;
       }
-    };
-    xhr.send();
-  }
+      fetch(fetchURL)
+      .then(response => {
+        response.json().then(restaurants => {
+        console.log("restaurants JSON: ",restaurants);
+        callback(null,restaurants);
+      }).catch(function(err) {
+        console.log('fetch error ', err);
+      });
+    })
+  };
 
   /**
    * Fetch a restaurant by its ID.
@@ -150,14 +154,14 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    return (`/img/${restaurant.photograph}.jpg`);
   }
 
   /**
    * Map marker for a restaurant.
    */
    static mapMarkerForRestaurant(restaurant, map) {
-    // https://leafletjs.com/reference-1.3.0.html#marker  
+    // https://leafletjs.com/reference-1.3.0.html#marker
     const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng],
       {title: restaurant.name,
       alt: restaurant.name,
@@ -165,7 +169,7 @@ class DBHelper {
       })
       marker.addTo(newMap);
     return marker;
-  } 
+  }
   /* static mapMarkerForRestaurant(restaurant, map) {
     const marker = new google.maps.Marker({
       position: restaurant.latlng,
@@ -173,9 +177,20 @@ class DBHelper {
       url: DBHelper.urlForRestaurant(restaurant),
       map: map,
       animation: google.maps.Animation.DROP}
-    );
+    );jjffjjfjfjfjksfjka
     return marker;
   } */
 
 }
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+      // Registration was successful
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, function(err) {
+      // registration failed :(
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  });
+}

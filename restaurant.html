@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<!--Resubmission-->
+<html lang="en">
 
 <head>
   <!-- Normalize.css for better cross-browser consistency -->
@@ -7,6 +8,7 @@
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Restaurant Info</title>
 </head>
 
@@ -16,7 +18,7 @@
     <!-- Beginning nav -->
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
-    </nav>
+    </nav id="breadcrumb" role="navigation" aria-label="Breadcrumb">
     <!-- Beginning breadcrumb -->
     <ul id="breadcrumb" >
       <li><a href="/">Home</a></li>
@@ -30,9 +32,10 @@
   <main id="maincontent">
     <!-- Beginning map -->
     <section id="map-container">
-      <div id="map"></div>
+      <div id="map" aria-label"location" role="application"></div>
     </section>
     <!-- End map -->
+
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
       <h1 id="restaurant-name"></h1>
@@ -42,13 +45,15 @@
       <table id="restaurant-hours"></table>
     </section>
     <!-- end restaurant -->
+
     <!-- Beginning reviews -->
     <section id="reviews-container">
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->
+
   </main>
-  <!-- End main -->
+    <!-- End main -->
 
   <!-- Beginning footer -->
   <footer id="footer">
