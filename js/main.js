@@ -1,14 +1,100 @@
+/*Resubmission*/
+
 let restaurants,
   neighborhoods,
   cuisines
 var newMap
 var markers = []
 
+
+/*
+function storeJSONLocal(){
+  fetch(DBHelper.DATABASE_URL)
+   .then(response => response.json())
+   .then(data =>{
+    //open indexDB database and add data in this then
+    idb.open('restaurant_info', 1, function(upgradeDB) {
+      var store = upgradeDB.createObjectStore('restaurants', {
+        keyPath: 'id'
+      });
+
+   for(i=0; i < data.length; i++){
+      store.put({id:data[i].id,name: data[i].name});
+      console.log(data[i].name); //test to see if this works
+    }
+  });
+  });
+}
+*/
+
+/*AP IDB BEGIN
+
+function storeJSONLocal(){
+  fetch(DBHelper.DATABASE_URL)
+  .then(response => response.json())
+  .then(data => {
+    idb.open('restaurant_info',1, function(upgradeDB){
+      var store = upgradeDB.createObjectStore('restaurants', {
+        keyPath: 'id'
+      });
+    for (i=0; i<data.length; i++){
+      store.put({id:data[i].id,name: data[i].name});
+      console.log(data[i].name);
+    }
+  });
+  });
+}
+*/
+/*  Save copy, this code creates an IDB database successfully*/
+var db;
+
+var openRequest = indexedDB.open('test_db', 1);
+
+openRequest.onupgradeneeded = function(e) {
+  var db = e.target.result;
+  console.log('running onupgradeneeded');
+  if (!db.objectStoreNames.contains('store')) {
+    var storeOS = db.createObjectStore('store',
+      {keyPath: 'name'});
+  }
+};
+openRequest.onsuccess = function(e) {
+  console.log('running onsuccess');
+  db = e.target.result;
+  addItem();
+};
+openRequest.onerror = function(e) {
+  console.log('onerror!');
+  console.dir(e);
+};
+
+function addItem() {
+  var transaction = db.transaction(['store'], 'readwrite');
+  var store = transaction.objectStore('store');
+  var item = {
+    name: 'banana',
+    price: '$2.99',
+    description: 'It is a purple banana!',
+    created: new Date().getTime()
+  };
+
+ var request = store.add(item);
+
+ request.onerror = function(e) {
+    console.log('Error', e.target.error.name);
+  };
+  request.onsuccess = function(e) {
+    console.log('Woot! Did it');
+  };
+}
+
+
+/*AP SW END*/
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  initMap(); // added 
+  initMap(); // added
   fetchNeighborhoods();
   fetchCuisines();
 });
@@ -78,7 +164,7 @@ initMap = () => {
         scrollWheelZoom: false
       });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: '<your MAPBOX API KEY HERE>',
+    mapboxToken: 'pk.eyJ1IjoiYXV0dW1ubWFyaW4iLCJhIjoiY2ptMTJ0dWpuMmJjZTNxbGk0Z2FqMWNociJ9.onyKYMUbw8KpvA10hPimow',
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -88,22 +174,7 @@ initMap = () => {
 
   updateRestaurants();
 }
-/* window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  updateRestaurants();
-} */
 
-/**
- * Update page and map for current restaurants.
- */
 updateRestaurants = () => {
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
@@ -160,12 +231,27 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
+
+  /* Commented out, decided to use coming soon image saved as undefined.jpg
+
+  if(image.class == 'restaurant-img') {
+      image.src = './img/${restaurant.phtogograph).jpg';
+    } else {
+      image.src = './img/placeholder.jpg';
+  }*/
+
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   li.append(image);
+
+
+
+  const alt = image.setAttribute('alt',restaurant.alt);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
   li.append(name);
+
+  /*const alt = DBHelper.imageUrlForRestaurant*/
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
@@ -197,7 +283,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 
-} 
+}
 /* addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
@@ -208,4 +294,3 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } */
-
