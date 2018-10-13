@@ -1,0 +1,17 @@
+{
+    "name": "restaurant-reviews-app",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "live-server -cors"
+    },
+    "devDependencies": {
+        "babel-preset-es2015": "^6.24.1",
+        "babel-register": "^6.26.0",
+        "del": "^3.0.0",
+        "gulp": "^3.9.1",
+        "gulp-responsive": "^2.11.0",
+        "run-sequence": "^2.2.1",
+        "sharp": "^0.21.0"
+    }
+}
