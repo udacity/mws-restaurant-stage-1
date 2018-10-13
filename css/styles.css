@@ -135,6 +135,9 @@ nav h1 a {
   padding: 1% 1%;
   width: 45%;
 }
+.filter-options select:focus {
+  box-shadow: 0 0 6pt 3pt #f3f3f3;   
+}
 
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
@@ -188,6 +191,10 @@ nav h1 a {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+#restaurants-list li a:hover, #restaurants-list li a:focus {
+  background-color: #3397db;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -284,4 +291,17 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+/* ====================== Skip Links ====================== */
+.skip-link {
+  display: block;
+  position: absolute;
+  top: 15px;
+  left: -1000px;
+  background-color: white;
+  padding: 5px 10px;
+}
+.skip-link:focus {
+  left: 15px;
 }

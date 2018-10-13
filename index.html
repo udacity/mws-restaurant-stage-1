@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
@@ -13,22 +13,23 @@
 
 <body>
   <header>
+    <a href="#jump-to-filter" class="skip-link">Skip to Main Content</a>
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
-      <div id="map"></div>
+    <section id="map-container" role="application" aria-label="Mapbox Map">
+      <div id="map" aria-labelledby="map-container"></div>
     </section>
-    <section>
-      <div class="filter-options">
+    <section role="contentinfo" aria-label="Restaurants Found in Your Area">
+      <div id="jump-to-filter" class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+        <select aria-label="Filter by neighborhood" id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <select aria-label="Filter by cusine type" id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
       </div>

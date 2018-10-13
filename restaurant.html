@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <!-- Normalize.css for better cross-browser consistency -->
@@ -16,12 +16,13 @@
 <body class="inside">
   <!-- Beginning header -->
   <header>
+      <a href="#jump-to-filter" class="skip-link">Skip to Main Content</a>
     <!-- Beginning nav -->
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
+    <ul id="breadcrumb" aria-label="breadcrumb">
       <li><a href="/">Home</a></li>
     </ul>
     <!-- End breadcrumb -->
@@ -32,14 +33,15 @@
   <!-- Beginning main -->
   <main id="maincontent">
     <!-- Beginning map -->
-    <section id="map-container">
-      <div id="map"></div>
+    <section id="map-container" role="application" aria-label="Mapbox map">
+      <div id="map" aria-labelledby="map-container"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="flex-container">
-    <section id="restaurant-container">
+    <section id="restaurant-container" role="contentinfo" aria-label="Restaurant info">
       <section id="restaurant-background">
+          <div id="jump-to-filter" ></div>
           <h1 id="restaurant-name"></h1>
           <img id="restaurant-img">
           <p id="restaurant-cuisine"></p>
@@ -49,7 +51,7 @@
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
-    <section id="reviews-container">
+    <section id="reviews-container" role="contentinfo" aria-label="Reviews">
       <ul id="reviews-list"></ul>
     </section>
   </section>

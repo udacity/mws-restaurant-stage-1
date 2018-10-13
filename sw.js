@@ -1,5 +1,5 @@
 const appName = 'restaurant-app';
-const version = appName + '-v1';
+const version = appName + '-v2';
 const imgVersion = appName + '-images';
 const allCaches = [version, imgVersion]
 const toCache = [
