@@ -135,6 +135,28 @@ fillReviewsHTML = (error, reviews) => {
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
+  const addReviewBtn = document.createElement("button");
+  // addReviewBtn.className = "favorite-Btn";
+  addReviewBtn.innerHTML = "Click to Give a Review";
+  flex.appendChild(addReviewBtn);
+
+  // Review Modal
+  const reviewModalContainer = document.createElement("div");
+  reviewModalContainer.id = "review-modal";
+  const reviewModalContent = document.createElement("div");
+  const 
+  flex.appendChild(reviewModalContainer);
+
+  <div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+
+</div>
+
   const addReviewLink = document.createElement("a");
   addReviewLink.href = `/review.html?id=${self.restaurant.id}`;
   addReviewLink.innerHTML = "Add Review";
@@ -163,7 +185,8 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  const created = review.createdAt;
+  date.innerHTML = new Date(created).toLocaleString();
   li.appendChild(date);
 
   const rating = document.createElement('p');

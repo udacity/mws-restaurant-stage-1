@@ -179,7 +179,7 @@ createRestaurantHTML = (restaurant) => {
     ? restaurant.name + " is a favorite"
     : restaurant.name + " is not a favorite";
   favoriteBtn.id = "favorite-btn-" + restaurant.id;
-  favoriteBtn.onclick = (event) => handleFavoriteClick(restaurant.id, !isFavorite);
+  favoriteBtn.onclick = (event) => handleFavoriteClick(restaurant, !isFavorite);
   favoriteBtn.setAttribute('aria-label', 'Favorite Restaurant');
   favoriteDiv.append(favoriteBtn);
   info.append(favoriteDiv);
@@ -223,13 +223,27 @@ addMarkersToMap = (restaurants = self.restaurants) => {
  */
 
 // Update properties of the restaurant data object
-const handleFavoriteClick = (id, updateState) => {
-  const favoriteBtn = document.getElementById("favorite-btn-" + id);
-  const restaurant = self.restaurants.filter(res => res.id === id)[0];
+const handleFavoriteClick2 = (restaurant, newState) => {
   if (!restaurant) return;
-  restaurant["is_favorite"] = updateState;
-  favoriteBtn.onclick = (event) => handleFavoriteClick(restaurant.id, !restaurant["is_favorite"]);
-  DBHelper.handleFavoriteClick(id, updateState);
+  const favoriteBtn = document.getElementById("favorite-btn-" + restaurant.id);
+  // const restaurant = self.restaurants.filter(res => res.id === id)[0];
+  restaurant["is_favorite"] = newState;
+  console.log('Trying to update favorite');
+  favoriteBtn.onclick = (event) => handleFavoriteClick(restaurant, !newState);
+  DBHelper.handleFavoriteClick(restaurant, newState);
+};
+
+const handleFavoriteClick = (restaurant, newState) => {
+  if (!restaurant) return;
+  const favoriteBtn = document.getElementById("favorite-btn-" + restaurant.id);
+  restaurant.is_favorite = newState;
+  console.log('Trying to update favorite');
+  favoriteBtn.onclick = (event) => handleFavoriteClick(restaurant, !newState);
+  DBHelper.toggleFavorite(restaurant, newState);
+  const favorite = document.getElementById("favorite-btn-" + restaurant.id);
+  favorite.style.background = restaurant.is_favorite
+    ? `url("/icons/love_2.svg") no-repeat`
+    : `url("icons/love_1.svg") no-repeat`;
 };
 
 

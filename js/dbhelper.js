@@ -1,3 +1,4 @@
+// import idb from 'idb';
 /**
  * Common database helper functions.
  */
@@ -26,6 +27,7 @@ class DBHelper {
       let idbOpenRequest = indexedDB.open('restaurants-db', 1);
       idbOpenRequest.onerror = (event) => console.log('Open IDB error');
       idbOpenRequest.onsuccess = (event) => {
+        console.log('Resolving to ', idbOpenRequest.result);
         resolve(idbOpenRequest.result);
       };
       idbOpenRequest.onupgradeneeded = (event) => {
@@ -33,7 +35,7 @@ class DBHelper {
         db.onerror = () => console.log('Error opening DB');
         db.createObjectStore('restaurants', { keyPath: 'id' });
         db.createObjectStore('reviews', { keyPath: 'id' });
-        db.createObjectStore('offline-reviews', { keyPath: 'id', autoIncrement: true });
+        db.createObjectStore('offline-actions', { keyPath: 'id', autoIncrement: true });
       };
     });
   }
@@ -111,58 +113,97 @@ class DBHelper {
   /**
    * Fetch all restaurants reviews.
    */
+  // static fetchRestaurantReviews(callback) {
+  //   this.openOrCreateDB()
+  //     .then(data => {
+  //       // If restaurant data exists return that 
+  //       if (data.length > 0) {
+  //         console.log('Reviews exist data.length > 0');
+  //         return callback(null, data);
+  //       }
+  //       // Fetch from network
+  //       console.log('Fetching reviews from network');
+  //       return fetch(`${this.SERVER_REVIEWS_URL}`)
+  //         .then(res => {
+  //           if (res.ok) {
+  //             console.log('Reviews Res.json() okay.')
+  //             return res.json()
+  //           }
+  //           throw new Error('[REVIEW FETCH ACTION] - Network error');
+  //         })
+  //         // .then(reviews => {
+  //         //   console.log('Got reviews.', reviews);
+  //         //   // callback(null, reviews);
+  //         //   console.log('after callback. Got reviews.', reviews);
+  //         //   return reviews;
+  //         // })
+  //         .then((reviews) => {
+  //           console.log('Trying to put in the reviews: ', reviews);
+  //           this.openOrCreateDB()
+  //             .then((db) => {
+  //               if (!db) throw new Error('[DB ERROR] - No DB found.');
+  //               let tx = db.transaction(['reviews'], 'readwrite');
+  //               tx.oncomplete = () => console.log('reviews transaction success');
+  //               tx.onerror = () => console.log('reviews transaction error');
+  //               let objectStore = tx.objectStore('reviews');
+  //               reviews.forEach((review) => {
+  //                 console.log('Putting review: ', review);
+  //                 objectStore.put(review);
+  //                 objectStore.onsuccess = () => console.log('success adding', review);
+  //               });
+  //             });
+  //           callback(null, reviews);
+  //         })
+  //         .catch(err => {
+  //           // this.openOrCreateDB()
+  //           //   .then((db) => {
+  //           //     let tx = db.transaction(['reviews']);
+  //           //     let objectStore = tx.objectStore('reviews');
+  //           //     let getAllRequest = objectStore.getAll();
+  //           //     getAllRequest.onsuccess = (event) => {
+  //           //       callback(null, event.target.result);
+  //           //     }
+  //           //   });
+  //           callback(err, null);
+  //         });
+  //     });
+  // }
   static fetchRestaurantReviews(callback) {
     this.openOrCreateDB()
-      .then(data => {
-        // If restaurant data exists return that 
-        if (data.length > 0) {
-          console.log('Reviews exist data.length > 0');
-          return callback(null, data);
-        }
-        // Fetch from network
-        console.log('Fetching reviews from network');
-        return fetch(`${this.SERVER_REVIEWS_URL}`)
-          .then(res => {
-            if (res.ok) {
-              console.log('Reviews Res.json() okay.')
-              return res.json()
-            }
-            throw new Error('[REVIEW FETCH ACTION] - Network error');
-          })
-          .then(reviews => {
-            console.log('Got reviews.', reviews);
-            // callback(null, reviews);
-            console.log('after callback. Got reviews.', reviews);
-            return reviews;
-          })
-          .then((reviews) => {
-            console.log('Trying to put in the reviews: ', reviews);
-            this.openOrCreateDB()
-              .then((db) => {
-                if (!db) throw new Error('[DB ERROR] - No DB found.');
-                let tx = db.transaction(['reviews'], 'readwrite');
-                tx.oncomplete = () => console.log('reviews transaction success');
-                tx.onerror = () => console.log('reviews transaction error');
-                let objectStore = tx.objectStore('reviews');
-                reviews.forEach((review) => {
-                  console.log('Putting review: ', review);
-                  objectStore.put(review);
-                  objectStore.onsuccess = () => console.log('success adding', review);
+      .then(db => {
+        if (!db) return;
+        // 1. Check if there are reviews in the IDB
+        const tx = db.transaction('reviews');
+        const store = tx.objectStore('reviews');
+        return store.getAll();
+      })
+      .then(reviews => {
+        if (reviews && reviews.length > 0) {
+          // Continue with reviews from IDB
+          callback(null, reviews);
+        } else {
+          // 2. If there are no reviews in the IDB, fetch reviews from the network
+          fetch(`${DBHelper.SERVER_REVIEWS_URL}`)
+            .then(res => res.json())
+            .then(reviews => {
+              this.openOrCreateDB()
+                .then(db => {
+                  if (!db) return;
+                  // 3. Put fetched reviews into IDB
+                  const tx = db.transaction('reviews', 'readwrite');
+                  const store = tx.objectStore('reviews');
+                  reviews.forEach(review => store.put(review))
                 });
-              });
-          })
-          .catch(err => {
-            this.openOrCreateDB()
-              .then((db) => {
-                let tx = db.transaction(['reviews']);
-                let objectStore = tx.objectStore('reviews');
-                let getAllRequest = objectStore.getAll();
-                getAllRequest.onsuccess = (event) => {
-                  callback(null, event.target.result);
-                }
-              });
-          });
-      });
+              // Continue with reviews from network
+              callback(null, reviews);
+            })
+            .catch(error => {
+              // Unable to fetch reviews from network
+              callback(error, null);
+            })
+        }
+      })
+      .catch((err) => callback(err, null));
   }
   /**
    * Fetch a restaurant review by its ID.
@@ -176,8 +217,8 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        const review = reviews.find(r => r.id == id);
-        console.log('review: ', reviews.length);
+        const review = reviews.filter(r => r.restaurant_id === id);
+        console.log('review: ', id, ' - ', review);
         if (review) { // Got the restaurant
           console.log('Inside review');
           callback(null, review);
@@ -188,6 +229,22 @@ class DBHelper {
       }
     });
   }
+
+  // static fetchRestaurantReviewsById(id, callback) {
+  //   const fetchURL = DBHelper.SERVER_REVIEWS_URL + "/?restaurant_id=" + id;
+  //   fetch(fetchURL, { method: "GET" })
+  //     .then(res => {
+  //       if (!res.clone().ok && !res.clone().redirected) {
+  //         throw "No reviews available";
+  //       }
+  //       res
+  //         .json()
+  //         .then(result => {
+  //           callback(null, result);
+  //         })
+  //     }).catch(error => callback(error, null));
+  // }
+
 
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
@@ -314,7 +371,7 @@ class DBHelper {
    */
   static handleFavoriteClick(id, newState) {
     const fav = document.getElementById("favorite-btn-" + id);
-    fav.onclick = null;
+    // fav.onclick = null;
 
     DBHelper.updateFavorite(id, newState, (error, resultObj) => {
       if (error) {
@@ -329,90 +386,141 @@ class DBHelper {
     });
   }
 
+  static toggleFavorite(restaurant, isFavorite) {
+    fetch(`${DBHelper.SERVER_URL}/${restaurant.id}/?is_favorite=${isFavorite}`, { method: 'PUT' })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.openOrCreateDB()
+          .then(db => {
+            if (!db) return;
+            const tx = db.transaction('restaurants', 'readwrite');
+            const store = tx.objectStore('restaurants');
+            store.put(data)
+          });
+        return data;
+      })
+      .catch(error => {
+        restaurant.is_favorite = isFavorite;
+        this.openOrCreateDB()
+          .then(db => {
+            if (!db) return;
+            const tx = db.transaction('restaurants', 'readwrite');
+            const store = tx.objectStore('restaurants');
+            store.put(restaurant);
+          }).catch(error => {
+            console.log(error);
+            return;
+          });
+      });
+  }
   /**
    * Update in the data for all restaurants 
    * @param {*} id 
    * @param {*} updateObj 
    */
-  static updateCachedRestaurantData(id, updateObj) {
-    this.openOrCreateDB()
-      .then(db => {
-        console.log("Getting db transaction");
-        const tx = db.transaction("restaurants", "readwrite");
-        const value = tx.objectStore("restaurants")
-          .get("-1")
-          .then(value => {
-            if (!value) {
-              console.log("No cached data found");
-              return;
-            }
-            const data = value.data;
-            const restaurantArr = data.filter(r => r.id === id);
-            const restaurantObj = restaurantArr[0];
-            // Update restaurantObj with updateObj details
-            if (!restaurantObj)
-              return;
-            const keys = Object.keys(updateObj);
-            keys.forEach(k => {
-              restaurantObj[k] = updateObj[k];
-            })
+  static toggleFavorite2(id, newState) {
+    // Update the restaurant information in idb
+    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
+      self.restaurant = restaurant;
+      if (!restaurant) {
+        console.error(error);
+        return;
+      }
+      restaurant.is_favorite = newState;
+      // Put the data back in IDB storage
+      this.openOrCreateDB()
+        .then(db => {
+          console.log('Putting restaurant: ', restaurant);
+          const tx = db.transaction("restaurants", "readwrite");
+          tx.objectStore("restaurants")
+            .put(restaurant);
+          tx.objectStore.onsuccess = () => console.log('restaurants success adding', restaurant);
+          return tx.complete;
+        })
+    });
+    // this.openOrCreateDB()
+    //   .then(db => {
+    //     console.log("Getting db transaction");
+    //     const tx = db.transaction("restaurants", "readwrite");
+    //     const value = tx.objectStore("restaurants")
+    //     console.log('Value: ', value.getAll('-1'));
+    //     return value.get("-1");
+    //   })
+    //   .then(value => {
+    //     if (!value) {
+    //       console.log("No cached data found");
+    //       return;
+    //     }
+    //     const data = value.data;
+    //     console.log('Data: ', data);
+    //     const restaurantArr = data.filter(r => r.id === id);
+    //     const restaurantObj = restaurantArr[0];
+    //     // Update restaurantObj with updateObj details
+    //     if (!restaurantObj)
+    //       return;
+    //     const keys = Object.keys(updateObj);
+    //     keys.forEach(k => {
+    //       restaurantObj[k] = updateObj[k];
+    //     })
 
-            // Put the data back in IDB storage
-            this.openOrCreateDB()
-              .then(db => {
-                const tx = db.transaction("restaurants", "readwrite");
-                tx
-                  .objectStore("restaurants")
-                  .put({ id: "-1", data: data });
-                return tx.complete;
-              })
-          })
-      })
+    //     // Put the data back in IDB storage
+    //     this.openOrCreateDB()
+    //       .then(db => {
+    //         const tx = db.transaction("restaurants", "readwrite");
+    //         tx.objectStore("restaurants")
+    //           .put({ id: "-1", data: data });
+    //         return tx.complete;
+    //       })
+    //   })
 
-    // Update the restaurant specific data
-    this.openOrCreateDB()
-      .then(db => {
-        console.log("Getting db transaction");
-        const tx = db.transaction("restaurants", "readwrite");
-        const value = tx
-          .objectStore("restaurants")
-          .get(id + "")
-          .then(value => {
-            if (!value) {
-              console.log("No cached data found");
-              return;
-            }
-            const restaurantObj = value.data;
-            console.log("Specific restaurant obj: ", restaurantObj);
-            // Update restaurantObj with updateObj details
-            if (!restaurantObj)
-              return;
-            const keys = Object.keys(updateObj);
-            keys.forEach(k => {
-              restaurantObj[k] = updateObj[k];
-            })
 
-            // Put the data back in IDB storage
-            this.openOrCreateDB()
-              .then(db => {
-                const tx = db.transaction("restaurants", "readwrite");
-                tx
-                  .objectStore("restaurants")
-                  .put({
-                    id: id + "",
-                    data: restaurantObj
-                  });
-                return tx.complete;
-              })
-          })
-      })
+    // // Update the restaurant specific data
+    // this.openOrCreateDB()
+    //   .then(db => {
+    //     console.log("Getting db transaction");
+    //     const tx = db.transaction("restaurants", "readwrite");
+    //     const value = tx
+    //       .objectStore("restaurants")
+    //       .get(id + "")
+    //       .then(value => {
+    //         if (!value) {
+    //           console.log("No cached data found");
+    //           return;
+    //         }
+    //         const restaurantObj = value.data;
+    //         console.log("Specific restaurant obj: ", restaurantObj);
+    //         // Update restaurantObj with updateObj details
+    //         if (!restaurantObj)
+    //           return;
+    //         const keys = Object.keys(updateObj);
+    //         keys.forEach(k => {
+    //           restaurantObj[k] = updateObj[k];
+    //         })
+
+    //         // Put the data back in IDB storage
+    //         this.openOrCreateDB()
+    //           .then(db => {
+    //             const tx = db.transaction("restaurants", "readwrite");
+    //             tx
+    //               .objectStore("restaurants")
+    //               .put({
+    //                 id: id + "",
+    //                 data: restaurantObj
+    //               });
+    //             return tx.complete;
+    //           })
+    //       })
+    //   })
   }
 
   static updateFavorite(id, newState, callback) {
     // Push the request into the waiting queue in IDB
-    const url = `${DBHelper.DATABASE_URL}/${id}/?is_favorite=${newState}`;
+    console.log('Inside updateFavorite');
+    const url = `${DBHelper.SERVER_URL}/${id}/?is_favorite=${newState}`;
     const method = "PUT";
-    DBHelper.updateCachedRestaurantData(id, { "is_favorite": newState });
+    DBHelper.toggleFavorite2(id, newState);
     DBHelper.addPendingRequestToQueue(url, method);
 
     // Update the favorite data on the selected ID in the cached data
@@ -451,6 +559,99 @@ class DBHelper {
     DBHelper.updateCachedRestaurantReview(id, bodyObj);
     DBHelper.addPendingRequestToQueue(url, method, bodyObj);
     callback(null, null);
+  }
+
+  static addPendingRequestToQueue(url, method, body) {
+    // Open the database and add the request details to the offline-actions db
+    this.openOrCreateDB()
+      .then(db => {
+        const tx = db.transaction("offline-actions", "readwrite");
+        tx
+          .objectStore("offline-actions")
+          .put({
+            data: {
+              url,
+              method,
+              body
+            }
+          })
+      })
+      .catch(error => { })
+      .then(DBHelper.nextPending());
+  }
+
+  static nextPending() {
+    DBHelper.attemptCommitPending(DBHelper.nextPending);
+  }
+  static attemptCommitPending(callback) {
+    // Iterate over the offline-actions items until there is a network failure
+    let url;
+    let method;
+    let body;
+    //const dbPromise = idb.open("fm-udacity-restaurant");
+    this.openOrCreateDB()
+      .then(db => {
+        if (!db.objectStoreNames.length) {
+          console.log("DB not available");
+          db.close();
+          return;
+        }
+
+        const tx = db.transaction("offline-actions", "readwrite");
+        tx
+          .objectStore("offline-actions")
+          .openCursor()
+          .then(cursor => {
+            if (!cursor) {
+              return;
+            }
+            const value = cursor.value;
+            url = cursor.value.data.url;
+            method = cursor.value.data.method;
+            body = cursor.value.data.body;
+
+            // If we don't have a parameter then we're on a bad record that should be tossed
+            // and then move on
+            if ((!url || !method) || (method === "POST" && !body)) {
+              cursor
+                .delete()
+                .then(callback());
+              return;
+            };
+
+            const properties = {
+              body: JSON.stringify(body),
+              method: method
+            }
+            console.log("sending post from queue: ", properties);
+            fetch(url, properties)
+              .then(response => {
+                // If we don't get a good response then assume we're offline
+                if (!response.ok && !response.redirected) {
+                  return;
+                }
+              })
+              .then(() => {
+                // Success! Delete the item from the offline-actions queue
+                const deltx = db.transaction("offline-actions", "readwrite");
+                deltx
+                  .objectStore("offline-actions")
+                  .openCursor()
+                  .then(cursor => {
+                    cursor
+                      .delete()
+                      .then(() => {
+                        callback();
+                      })
+                  })
+                console.log("deleted pending item from queue");
+              })
+          })
+          .catch(error => {
+            console.log("Error reading cursor");
+            return;
+          })
+      })
   }
 }
 

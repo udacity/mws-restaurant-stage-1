@@ -15,6 +15,9 @@ const PRECACHE_URLS = [
   '/js/restaurant_info.js',
   '/sw.js',
   '/js/app.js',
+  '/icons/love_1.svg',
+  '/icons/love_2.svg',
+  
 ];
 // Cache images
 for(let i = 1; i <= 10; i++) {
