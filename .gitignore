@@ -1,0 +1,8 @@
+src/js/secret.js
+dist/
+
+node_modules/
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

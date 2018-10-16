@@ -1,0 +1,44 @@
+#restaurants-list li {
+    width: 32%;
+    margin: .5%;
+}
+.inside #map-container {
+    position: relative;
+}
+.filter-options select {
+    font-size: 1.5em;
+}
+#flex-container {
+    display: flex;
+    flex-flow: row;
+    margin-bottom: 4%;
+}
+#reviews-container, #restaurant-container {
+    padding: 0;
+    width: 50%;
+}
+#restaurant-background {
+    background-color: unset;
+}
+#restaurant-name {
+    font-size: 3.5em;
+}
+#restaurant-hours {
+    width: 100%;
+}
+#restaurant-hours td {
+    font-size: 1.5em;
+}
+#reviews-container {
+    padding-top: 7%;
+}
+#reviews-container h2 {
+    background-color: unset;
+}
+#reviews-list p {
+    font-size: 1.5em;
+}
+#footer {
+    margin-top: 1%;
+    width: 100%;
+}
