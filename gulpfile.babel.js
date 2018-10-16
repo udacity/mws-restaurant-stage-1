@@ -1,5 +1,6 @@
 import gulp from 'gulp';
 import responsive from 'gulp-responsive';
+import uglify from 'gulp-uglify';
 import del from 'del';
 import newer from 'gulp-newer';
 import runSequence from 'run-sequence';
@@ -11,7 +12,6 @@ import source from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
 import log from 'fancy-log';
 import mergeStream from 'merge-stream';
-import sourcemaps from 'gulp-sourcemaps';
 import c from 'ansi-colors';
 
 const browserSync = require('browser-sync').create();
@@ -80,7 +80,7 @@ gulp.task('responsive:images', function(){
 gulp.task('js:bundle', function (done) {
     return mergeStream.apply(null,
       Object.keys(jsBundles).map(function(key) {
-        return bundle(jsBundles[key], key);
+        return bundle(jsBundles[key], key)
       })
     );
   });
@@ -159,12 +159,8 @@ function createBundle(src) {
         log(c.green(`${outputFile} bundle done`));
       })
       .pipe(source(outputFile))
-      // optional, remove if you don't need to buffer file contents
       .pipe(buffer())
-      // optional, remove if you dont want sourcemaps
-      .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-      // Add transformation tasks to the pipeline here.
-      .pipe(sourcemaps.write('./')) // writes .map file
+      .pipe(uglify())
       .pipe(gulp.dest(paths.js.dest + outputDir))
       .pipe(browserSync.stream()); // call browserSync.stream() to refresh browser when using sync task
   }

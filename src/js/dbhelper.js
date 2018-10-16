@@ -1,3 +1,4 @@
+import dbPromise from './dbpromise';
 /**
  * Common database helper functions.
  */
@@ -26,10 +27,17 @@ export default class DBHelper {
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
         const restaurants = JSON.parse(xhr.responseText);
+        dbPromise.putRestaurants(restaurants);
         callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
+      } else {
+         dbPromise.getRestaurants().then(restaurants =>{
+          if(restaurants.length > 0){
+            callback(null, restaurants);
+          } else {
+            const error = (`Request failed. Returned status of ${xhr.status}`);
+            callback(error, null);
+          }
+        }); 
       }
     };
     xhr.send();
@@ -39,18 +47,19 @@ export default class DBHelper {
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', `${DBHelper.API_URL}/restaurants/${id}`);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const restaurant = JSON.parse(xhr.responseText);
-        callback(null, restaurant);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+    fetch(`${DBHelper.API_URL}/restaurants/${id}`).then(response => {
+      if (!response.ok) return Promise.reject("Restaurant couldn't be fetched from network");
+      return response.json();
+    })
+    .then((restaurant)=> {
+      dbPromise.putRestaurants(restaurant)
+      return callback(null, restaurant);
+    }).catch((error) => {
+      console.log(error);
+      dbPromise.getRestaurants(id).then((restaurant)=>{
+        return callback(null, restaurant);
+      });
+    });
   }
 
   /**
