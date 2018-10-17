@@ -11,7 +11,7 @@ skipToRestaurantLink.addEventListener('click', (event) => {
 /**
  * Initialize map as soon as the page is loaded.
  */
-document.addEventListener('DOMContentLoaded', (event) => {  
+document.addEventListener('DOMContentLoaded', (event) => {
   initMap();
   console.log('Dom loaded');
 });
@@ -23,7 +23,7 @@ initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
-    } else {      
+    } else {
       self.newMap = L.map('map', {
         center: [restaurant.latlng.lat, restaurant.latlng.lng],
         zoom: 16,
@@ -35,13 +35,13 @@ initMap = () => {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
           '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
           'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        id: 'mapbox.streets'    
+        id: 'mapbox.streets'
       }).addTo(newMap);
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
     }
   });
-}  
+}
 
 /**
  * Get current restaurant from page URL.
@@ -80,7 +80,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img';
-  image.setAttribute('alt', restaurant.altString); 
+  image.setAttribute('alt', restaurant.altString);
   image.srcset = `/img/${restaurant.id}_400w.jpg 400w, /img/${restaurant.id}_800w.jpg 800w`;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
@@ -143,24 +143,85 @@ fillReviewsHTML = (error, reviews) => {
   // Review Modal
   const reviewModalContainer = document.createElement("div");
   reviewModalContainer.id = "review-modal";
+  reviewModalContainer.className = "modal";
+  const reviewModalHeader = document.createElement("div");
+  reviewModalHeader.className = "modal-header";
   const reviewModalContent = document.createElement("div");
-  const 
+  reviewModalContent.className = "modal-content";
+  const closeModal = document.createElement("span");
+  closeModal.className = "close";
+  closeModal.innerHTML = "&times;";
+  const heading = document.createElement("h2");
+  heading.innerHTML = "Add Your Review Below";
+  const reviewModalBody = document.createElement("div");
+  reviewModalBody.className = "modal-body";
+  const pModal = document.createElement("p");
+  pModal.innerText = "Some text in the modal";
+  const reviewModalfooter = document.createElement("div");
+  reviewModalfooter.className = "modal-footer";
+  const footerText = document.createElement("h3");
+  footerText.innerHTML = "Footer Text";
+
+  
+  
+
+  reviewModalHeader.appendChild(closeModal);
+  reviewModalHeader.appendChild(heading);
+  reviewModalBody.appendChild(pModal);
+  reviewModalfooter.appendChild(footerText);
+  reviewModalContent.appendChild(reviewModalHeader);
+  reviewModalContent.appendChild(reviewModalBody);
+  reviewModalContent.appendChild(reviewModalfooter);
+
+  reviewModalContainer.appendChild(reviewModalContent);
+
+//   <!-- Modal content -->
+// <div class="modal-content">
+//   <div class="modal-header">
+//     <span class="close">&times;</span>
+//     <h2>Modal Header</h2>
+//   </div>
+//   <div class="modal-body">
+//     <p>Some text in the Modal Body</p>
+//     <p>Some other text...</p>
+//   </div>
+//   <div class="modal-footer">
+//     <h3>Modal Footer</h3>
+//   </div>
+// </div>
+
   flex.appendChild(reviewModalContainer);
 
-  <div id="myModal" class="modal">
+  // When the user clicks on the button, open the modal 
+  addReviewBtn.onclick = function () {
+    reviewModalContainer.style.display = "block";
+  }
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Some text in the Modal..</p>
-  </div>
+  // When the user clicks on <span> (x), close the modal
+  closeModal.onclick = function () {
+    reviewModalContainer.style.display = "none";
+  }
 
-</div>
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == reviewModalContainer) {
+      reviewModalContainer.style.display = "none";
+    }
+  }
+  //   <div id="myModal" class="modal">
 
-  const addReviewLink = document.createElement("a");
-  addReviewLink.href = `/review.html?id=${self.restaurant.id}`;
-  addReviewLink.innerHTML = "Add Review";
-  flex.appendChild(addReviewLink);
+  //   <!-- Modal content -->
+  //   <div class="modal-content">
+  //     <span class="close">&times;</span>
+  //     <p>Some text in the Modal..</p>
+  //   </div>
+
+  // </div>
+
+  // const addReviewLink = document.createElement("a");
+  // addReviewLink.href = `/review.html?id=${self.restaurant.id}`;
+  // addReviewLink.innerHTML = "Add Review";
+  // flex.appendChild(addReviewLink);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -203,7 +264,7 @@ createReviewHTML = (review) => {
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-fillBreadcrumb = (restaurant=self.restaurant) => {
+fillBreadcrumb = (restaurant = self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.setAttribute('aria-current', 'page');
