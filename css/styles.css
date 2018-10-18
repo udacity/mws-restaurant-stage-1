@@ -295,6 +295,9 @@ nav h1 a {
         display: block;
     }
     
+	.html, .body{
+		 overflow-x: hidden;    /* to remove horizontal scrolling on mobile view */
+	}
 }
 
 
