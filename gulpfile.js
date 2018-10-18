@@ -10,6 +10,7 @@ const autoprefixer = require('gulp-autoprefixer');
 const htmlclean = require('gulp-htmlclean');
 const browserSync = require('browser-sync').create();
 const runSequence = require('run-sequence');
+const gzip = require('gulp-gzip');
 
 //var cssnano = require('gulp-cssnano');
 //var concat = require('gulp-concat');
@@ -130,5 +131,5 @@ gulp.task('build', (callback) => {
 
 // Build and serve optimized site
 gulp.task('serve', ['build'], (callback) => {
-  runSequence(['serve:dist', 'watch'], callback)
+  runSequence(['serve:dist'], callback)
 })

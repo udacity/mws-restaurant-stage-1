@@ -86,8 +86,34 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.setAttribute('aria-label', 'Address: ' + restaurant.address);
   address.innerHTML = restaurant.address;
 
+  const fav1 = document.getElementById('fav-button');
+  if (restaurant.is_favorite === 'true') {
+    fav1.classList.add('active');
+    fav1.setAttribute('aria-pressed', 'true');
+    fav1.setAttribute('aria-label', 'Unmark as favorite');
+    fav1.title = `Unmark as favorite`;
+  } else {
+    fav1.setAttribute('aria-pressed', 'false');
+    fav1.setAttribute('aria-label', 'Mark as favorite');
+    fav1.title = `Mark as favorite`;
+  }
+  fav1.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (fav1.classList.contains('active')) {
+      fav1.setAttribute('aria-pressed', 'false');
+      fav1.setAttribute('aria-label', 'Mark as favorite');
+      fav1.title = `Mark as favorite`;
+      DBHelper.removeFav(restaurant.id);
+    } else {
+      fav1.setAttribute('aria-pressed', 'true');
+      fav1.setAttribute('aria-label', 'Unmark as favorite');
+      fav1.title = `Unmark as favorite`;
+      DBHelper.addFav(restaurant.id);
+    }
+    fav1.classList.toggle('active');
+  });
+
   const myImage = DBHelper.imageUrlForRestaurant(restaurant);
-  
   const source = document.getElementById('source');
   source.media = '(min-width: 367px)';
   source.srcset = myImage.normal + ' 1x,' + myImage.large + '2x';

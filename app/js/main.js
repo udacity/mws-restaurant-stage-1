@@ -160,8 +160,12 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
   // create picture element
+  const imgDiv = document.createElement('div');
+  imgDiv.className = 'img-container';
+  li.appendChild(imgDiv);
+  
   const picture = document.createElement('picture');
-  li.appendChild(picture);
+  imgDiv.appendChild(picture);
 
   const myImage = DBHelper.imageUrlForRestaurant(restaurant);
   const source = document.createElement('source');
@@ -175,6 +179,36 @@ createRestaurantHTML = (restaurant) => {
   const altText = 'An image of ' + restaurant.name + ' Restaurant';
   image.alt = altText;
   picture.appendChild(image);
+
+  const fav = document.createElement('button');
+  fav.classList = 'fav-button';
+  fav.setAttribute('aria-label', 'favorite');
+  if (restaurant.is_favorite === 'true') {
+    fav.classList.add('active');
+    fav.setAttribute('aria-pressed', 'true');
+    fav.setAttribute('aria-label', 'Unmark as favorite');
+    fav.title = `Unmark as favorite`;
+  } else {
+    fav.setAttribute('aria-pressed', 'false');
+    fav.setAttribute('aria-label', 'Mark as favorite');
+    fav.title = `Mark as favorite`;
+  }
+  fav.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (fav.classList.contains('active')) {
+      fav.setAttribute('aria-pressed', 'false');
+      fav.setAttribute('aria-label', 'Mark as favorite');
+      fav.title = `Mark as favorite`;
+      DBHelper.removeFav(restaurant.id);
+    } else {
+      fav.setAttribute('aria-pressed', 'true');
+      fav.setAttribute('aria-label', 'Unmark as favorite');
+      fav.title = `Unmark as favorite`;
+      DBHelper.addFav(restaurant.id);
+    }
+    fav.classList.toggle('active');
+  });
+  imgDiv.appendChild(fav);
 
   const div2 = document.createElement('div');
   div2.className = 'restaurant-info';
@@ -190,10 +224,12 @@ createRestaurantHTML = (restaurant) => {
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
   div2.appendChild(address);
+  
   li.appendChild(div2);
 
   const more = document.createElement('button');
   more.innerHTML = 'View Details';
+  more.className = 'view-button';
   more.setAttribute('aria-label', 'click to view details of ' + restaurant.name + ' Restaurant');
   //more.href = DBHelper.urlForRestaurant(restaurant);
   more.addEventListener('click', () => { window.location.href = DBHelper.urlForRestaurant(restaurant); });

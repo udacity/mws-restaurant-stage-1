@@ -17,7 +17,7 @@ class DBHelper {
    */
   static get DATABASE_URL() {
     const port = 1337 // Change this to your server port
-    return `http://localhost:${port}/restaurants`;
+    return `http://localhost:${port}`;
     //return `https://chinfox.github.io/mws-restaurant-stage-1/data/restaurants.json`;
   }
 
@@ -34,7 +34,7 @@ class DBHelper {
 
   /**   Fetch data from Server and store a copy of response in IDB    **/
   static getFromServer(callback){
-    fetch(DBHelper.DATABASE_URL)
+    fetch(`${DBHelper.DATABASE_URL}/restaurants`)
     .then(response => response.json()).then(restaurants => {
       restaurants.map(restaurant => {
         dbPromise.then(db => {
@@ -46,6 +46,19 @@ class DBHelper {
       callback(null, restaurants); 
     });
   }
+
+  
+  static addFav(id) {
+    fetch(`${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=true`, {
+      method: 'PUT'
+    });
+  }
+  
+  static removeFav(id) {
+    fetch(`${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=false`, {
+      method: 'PUT'
+    });
+  }  
 
   /**
    * Fetch all restaurants.

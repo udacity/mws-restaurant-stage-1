@@ -42,10 +42,13 @@
       </div>
 
       <div class="description">
-        <picture>
-          <source id="source"/>
-          <img id="restaurant-img" tabindex="0">
-        </picture>
+        <div class="img-container">
+          <picture>
+            <source id="source"/>
+            <img id="restaurant-img" class="restaurant-img" tabindex="0">
+          </picture>
+          <button id="fav-button" class="fav-button" aria-label="favorite"></button>
+        </div>
         <p id="restaurant-cuisine" tabindex="0"></p>
         <p id="restaurant-address" tabindex="0"></p>
       </div>
