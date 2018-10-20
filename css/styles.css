@@ -488,22 +488,22 @@ ul#breadcrumb { /* Display list items side by side */
 }
 
 /* The Modal (background) */
-.modal {
+/* .modal {
   display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 300px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
+  /* position: fixed; /* Stay in place */
+  /* z-index: 1; Sit on top */
+  /* padding-top: 200px; Location of the box */
+  /* left: 0; */
+  /* top: 0; */
+  /* width: 100%; Full width */
+  /* height: 100%; Full height */
+  /* overflow: auto; Enable scroll if needed */
+  /* background-color: rgb(0,0,0); Fallback color */
+  /* background-color: rgba(0,0,0,0.4); Black w/ opacity */
+/* } */ 
 
 /* Modal Content */
-.modal-content {
+/* .modal-content {
   position: relative;
   background-color: #fefefe;
   margin: auto;
@@ -518,7 +518,8 @@ ul#breadcrumb { /* Display list items side by side */
 }
 
 /* Add Animation */
-@-webkit-keyframes animatetop {
+
+/* @-webkit-keyframes animatetop {
   from {top:-800px; opacity:0} 
   to {top:0; opacity:1}
 }
@@ -526,9 +527,10 @@ ul#breadcrumb { /* Display list items side by side */
 @keyframes animatetop {
   from {top:-800px; opacity:0}
   to {top:0; opacity:1}
-}
+} */
 
 /* The Close Button */
+/*
 .close {
   color: white;
   float: right;
@@ -557,3 +559,75 @@ ul#breadcrumb { /* Display list items side by side */
   color: white;
 }
 }
+
+#review-form {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  padding-bottom: 100px;
+}
+
+#review-form label span {
+  display: block;
+  font-size: 14px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#review-form label input {
+  width: calc(100% - 20px);
+  box-sizing: border-box;
+  font-size: 18px;
+  padding: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#review-form label select {
+  font-size: 18px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#review-form label textarea {
+  width: calc(100% - 20px);
+  box-sizing: border-box;
+  font-size: 18px;
+  padding: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#review-form div {
+  margin-bottom: 15px;
+}
+
+#review-form button {
+  background-color: #a85900;
+  border-bottom: 3px solid #eee;
+  color: #f0f0f0;
+  display: inline-block;
+  font-size: 14px;
+  margin: 15px 0 0;
+  padding: 8px 30px 10px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  /* position: absolute; */
+  /* bottom: 10px; */
+  /* right: 10px; */
+/* } 
+
+button#add-review {
+  background-color: var(--orange);
+  color: var(--white);
+  display: inline-block;
+  font-size: 1.6rem;
+  padding: 10px 30px 10px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: capitalize;
+} */

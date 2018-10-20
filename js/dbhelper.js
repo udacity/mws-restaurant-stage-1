@@ -34,8 +34,8 @@ class DBHelper {
         let db = event.target.result;
         db.onerror = () => console.log('Error opening DB');
         db.createObjectStore('restaurants', { keyPath: 'id' });
-        db.createObjectStore('reviews', { keyPath: 'id' });
-        db.createObjectStore('offline-actions', { keyPath: 'id', autoIncrement: true });
+        db.createObjectStore('reviews', { keyPath: 'id'});
+        db.createObjectStore('pending-reviews', { keyPath: 'updateTime', autoIncrement: true });
       };
     });
   }
@@ -211,16 +211,16 @@ class DBHelper {
    * @param {fn} callback 
    */
   static fetchRestaurantReviewsById(id, callback) {
-    console.log('Inside fetchRestaurantReviewsById');
+    console.log('Inside fetchRestaurantReviewsById', id);
     // fetch all restaurants with proper error handling.
     DBHelper.fetchRestaurantReviews((error, reviews) => {
       if (error) {
         callback(error, null);
       } else {
         const review = reviews.filter(r => r.restaurant_id === id);
-        console.log('review: ', id, ' - ', review);
+        console.log('review: ', id, ' - ', review.length);
         if (review) { // Got the restaurant
-          console.log('Inside review');
+          console.log('Inside review: ', review);
           callback(null, review);
         } else { // Restaurant Review does not exist in the database
           console.log('Outside review');
@@ -562,12 +562,12 @@ class DBHelper {
   }
 
   static addPendingRequestToQueue(url, method, body) {
-    // Open the database and add the request details to the offline-actions db
+    // Open the database and add the request details to the pending-reviews db
     this.openOrCreateDB()
       .then(db => {
-        const tx = db.transaction("offline-actions", "readwrite");
+        const tx = db.transaction("pending-reviews", "readwrite");
         tx
-          .objectStore("offline-actions")
+          .objectStore("pending-reviews")
           .put({
             data: {
               url,
@@ -584,7 +584,7 @@ class DBHelper {
     DBHelper.attemptCommitPending(DBHelper.nextPending);
   }
   static attemptCommitPending(callback) {
-    // Iterate over the offline-actions items until there is a network failure
+    // Iterate over the pending-reviews items until there is a network failure
     let url;
     let method;
     let body;
@@ -597,9 +597,9 @@ class DBHelper {
           return;
         }
 
-        const tx = db.transaction("offline-actions", "readwrite");
+        const tx = db.transaction("pending-reviews", "readwrite");
         tx
-          .objectStore("offline-actions")
+          .objectStore("pending-reviews")
           .openCursor()
           .then(cursor => {
             if (!cursor) {
@@ -632,10 +632,10 @@ class DBHelper {
                 }
               })
               .then(() => {
-                // Success! Delete the item from the offline-actions queue
-                const deltx = db.transaction("offline-actions", "readwrite");
+                // Success! Delete the item from the pending-reviews queue
+                const deltx = db.transaction("pending-reviews", "readwrite");
                 deltx
-                  .objectStore("offline-actions")
+                  .objectStore("pending-reviews")
                   .openCursor()
                   .then(cursor => {
                     cursor
@@ -652,6 +652,72 @@ class DBHelper {
             return;
           })
       })
+  }
+
+  static postReviewToServer(review) {
+    console.log('Calling postReviewToServer ', review);
+    return fetch(`${DBHelper.SERVER_REVIEWS_URL}`, {
+      body: JSON.stringify(review),
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, same-origin, *omit
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+      mode: 'cors', // no-cors, cors, *same-origin
+      redirect: 'follow', // *manual, follow, error
+      referrer: 'no-referrer', // *client, no-referrer
+    })
+      // .then(res => res.json())
+      .then(data => {
+        this.openOrCreateDB()
+          .then(db => {
+            if (!db) return;
+            // Put fetched reviews into IDB
+            console.log('Review before put: ', review);
+            const tx = db.transaction('reviews', 'readwrite');
+            const store = tx.objectStore('reviews');
+            store.put(review);
+          });
+        return review;
+      })
+      .catch(error => {
+        /**
+         * Network offline.
+         * Add a unique updateTime property to the review
+         * and store it in the IDB.
+         */
+        review['updateTime'] = new Date().getTime();
+        console.log('Updated review', review);
+
+        this.openOrCreateDB()
+          .then(db => {
+            if (!db) return;
+            // Put fetched reviews into IDB
+            const tx = db.transaction('pending-reviews', 'readwrite');
+            const store = tx.objectStore('pending-reviews');
+            store.put(review);
+            console.log('Review stored offline in IDB');
+          });
+        return;
+      });
+  }
+
+  static postOfflineReviewsToServer() {
+    console.log('Calling postOfflineReviewsToServer');
+    this.openOrCreateDB()
+      .then(db => {
+        if (!db) return;
+        const tx = db.transaction('pending-reviews');
+        const store = tx.objectStore('pending-reviews');
+        store.getAll().then(reviews => {
+          console.log(reviews);
+          for (const review of reviews) {
+            DBHelper.postReviewToServer(review);
+          }
+          store.clear();
+        });
+      });
   }
 }
 
