@@ -366,10 +366,11 @@ const saveReview = () => {
       // modal.style.display = "none";
       // modal.setAttribute('aria-hidden', true);
       $("#exampleModal").modal('hide');
+      console.log('Redirecting after ', review);
       // window.location.href = `/restaurant.html?id=${restaurant_id}`;
-      const ul = document.getElementById('reviews-list');
-      ul.appendChild(createReviewHTML(review));
-      // fillRestaurantHTML();
+      // const ul = document.getElementById('reviews-list');
+      // ul.appendChild(createReviewHTML(review));
+      fillRestaurantHTML();
     })
     .catch(error => console.error(error))
 };

@@ -3,8 +3,8 @@ function registerServiceWorker() {
     console.log('This browser does not support Service Workers');
     return false;
   }
-  console.log('Registering Service Worker 3.');
-  navigator.serviceWorker.register('sw.js')
+  console.log('Registering Service Worker 5.');
+  navigator.serviceWorker.register('./sw.js')
     .then((registration) => {
       console.log(`ServiceWorker successfully registered: ${registration.scope}`);
     })
@@ -25,9 +25,9 @@ window.addEventListener('load', () => {
 //   return swRegistration.sync.register('syncServiceWorker');
 // });
 
-window.addEventListener('offline', () => console.log('Webpage is offline'));
-window.addEventListener('online', () => { 
-  console.log('Webpage is now online. Will attempt to submit reviews to server.');
-  DBHelper.postOfflineReviewsToServer()
-    .then(() => console.log('Successfully submitted all offline reviews.'))
-});
+// window.addEventListener('offline', () => console.log('Webpage is offline'));
+// window.addEventListener('online', () => { 
+//   console.log('Webpage is now online. Will attempt to submit reviews to server.');
+//   DBHelper.postOfflineReviewsToServer()
+//     .then(() => console.log('Successfully submitted all offline reviews.'))
+// });

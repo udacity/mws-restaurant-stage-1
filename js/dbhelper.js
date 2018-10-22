@@ -1,4 +1,3 @@
-// import idb from 'idb';
 /**
  * Common database helper functions.
  */
@@ -24,7 +23,7 @@ class DBHelper {
    */
   static openOrCreateDB() {
     return new Promise((resolve) => {
-      let idbOpenRequest = indexedDB.open('restaurants-db', 1);
+      let idbOpenRequest = indexedDB.open('restaurants-db', 2);
       idbOpenRequest.onerror = (event) => console.log('Open IDB error');
       idbOpenRequest.onsuccess = (event) => {
         console.log('Resolving to ', idbOpenRequest.result);
@@ -34,7 +33,7 @@ class DBHelper {
         let db = event.target.result;
         db.onerror = () => console.log('Error opening DB');
         db.createObjectStore('restaurants', { keyPath: 'id' });
-        db.createObjectStore('reviews', { keyPath: 'id'});
+        db.createObjectStore('reviews', { keyPath: 'id', autoIncrement: true });
         db.createObjectStore('pending-reviews', { keyPath: 'updateTime', autoIncrement: true });
       };
     });
@@ -168,7 +167,7 @@ class DBHelper {
   //         });
   //     });
   // }
-  static fetchRestaurantReviews(callback) {
+  static fetchRestaurantReviewsById(id, callback) {
     this.openOrCreateDB()
       .then(db => {
         if (!db) return;
@@ -183,7 +182,7 @@ class DBHelper {
           callback(null, reviews);
         } else {
           // 2. If there are no reviews in the IDB, fetch reviews from the network
-          fetch(`${DBHelper.SERVER_REVIEWS_URL}`)
+          fetch(`${DBHelper.SERVER_REVIEWS_URL}/?restaurant_id=${id}`)
             .then(res => res.json())
             .then(reviews => {
               this.openOrCreateDB()
@@ -210,25 +209,25 @@ class DBHelper {
    * @param {Number} id 
    * @param {fn} callback 
    */
-  static fetchRestaurantReviewsById(id, callback) {
-    console.log('Inside fetchRestaurantReviewsById', id);
-    // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurantReviews((error, reviews) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const review = reviews.filter(r => r.restaurant_id === id);
-        console.log('review: ', id, ' - ', review.length);
-        if (review) { // Got the restaurant
-          console.log('Inside review: ', review);
-          callback(null, review);
-        } else { // Restaurant Review does not exist in the database
-          console.log('Outside review');
-          callback('Restaurant Review does not exist', null);
-        }
-      }
-    });
-  }
+  // static fetchRestaurantReviewsById(id, callback) {
+  //   console.log('Inside fetchRestaurantReviewsById', id);
+  //   // fetch all restaurants with proper error handling.
+  //   DBHelper.fetchRestaurantReviews((error, reviews) => {
+  //     if (error) {
+  //       callback(error, null);
+  //     } else {
+  //       const review = reviews.filter(r => r.restaurant_id === id);
+  //       console.log('review: ', id, ' - ', review.length);
+  //       if (review) { // Got the restaurant
+  //         console.log('Inside review: ', review);
+  //         callback(null, review);
+  //       } else { // Restaurant Review does not exist in the database
+  //         console.log('Outside review');
+  //         callback('Restaurant Review does not exist', null);
+  //       }
+  //     }
+  //   });
+  // }
 
   // static fetchRestaurantReviewsById(id, callback) {
   //   const fetchURL = DBHelper.SERVER_REVIEWS_URL + "/?restaurant_id=" + id;
@@ -668,27 +667,29 @@ class DBHelper {
       redirect: 'follow', // *manual, follow, error
       referrer: 'no-referrer', // *client, no-referrer
     })
-      // .then(res => res.json())
-      .then(data => {
-        this.openOrCreateDB()
-          .then(db => {
-            if (!db) return;
-            // Put fetched reviews into IDB
-            console.log('Review before put: ', review);
-            const tx = db.transaction('reviews', 'readwrite');
-            const store = tx.objectStore('reviews');
-            store.put(review);
-          });
-        return review;
+      .then(res => {
+        res.json()
+          .then(data => {
+            this.openOrCreateDB()
+              .then(db => {
+                if (!db) return;
+                // Put fetched reviews into IDB
+                console.log('Review before put: ', data);
+                const tx = db.transaction('reviews', 'readwrite');
+                const store = tx.objectStore('reviews');
+                store.put(data);
+              });
+            return data;
+          })
       })
-      .catch(error => {
+      .catch(() => {
         /**
          * Network offline.
          * Add a unique updateTime property to the review
          * and store it in the IDB.
          */
-        review['updateTime'] = new Date().getTime();
-        console.log('Updated review', review);
+        data['updateTime'] = new Date().getTime();
+        console.log('Updated review', data);
 
         this.openOrCreateDB()
           .then(db => {
@@ -696,7 +697,7 @@ class DBHelper {
             // Put fetched reviews into IDB
             const tx = db.transaction('pending-reviews', 'readwrite');
             const store = tx.objectStore('pending-reviews');
-            store.put(review);
+            store.put(data);
             console.log('Review stored offline in IDB');
           });
         return;
@@ -720,4 +721,5 @@ class DBHelper {
       });
   }
 }
+// window.DBHelper = DBHelper;
 
