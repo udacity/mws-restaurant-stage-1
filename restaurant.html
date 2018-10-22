@@ -82,44 +82,52 @@
             <input type="submit" value="Submit Review">
           </p>
         </form> -->
-    </section> 
+    </section>
     <section id="reviews-container" class="add-review-section">
       <div>
         <!-- https://getbootstrap.com/docs/4.1/components/modal/ -->
-          <button role="button" add-review" type="button" class="btn btn-online-success btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" data-whatever="">Add Review</button>
+        <button role="button" add-review" type="button" class="btn btn-online-success btn-lg btn-block" data-toggle="modal"
+          data-target="#exampleModal" data-whatever="">Add Review</button>
 
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">New Review</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <form>
-                    <div class="form-group">
-                      <label for="review-name" class="col-form-label">Name:</label>
-                      <input type="text" class="form-control" id="review-name">
-                    </div>
-                    <div class="form-group">
-                        <label for="review-rating">Rating (0 - 5)</label>
-          <input type="range" class="custom-range" min="0" max="5" id="review-rating">
-                    </div>
-                    <div class="form-group">
-                      <label for="review-comment" class="col-form-label">Comment:</label>
-                      <textarea class="form-control" id="review-comment"></textarea>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer">
-                  <button id="btnReviewClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button id="btnSaveReview" type="button" class="btn btn-primary" onclick="saveReview()">Save Review</button>
-                </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="review-name" class="col-form-label">Name:</label>
+                    <input type="text" class="form-control" id="review-name">
+                  </div>
+                  <div class="form-group">
+                    <label for="review-rating">Rating (1 - 5)</label>
+                    <select id="review-rating">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="review-comment" class="col-form-label">Comment:</label>
+                    <textarea class="form-control" id="review-comment"></textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button id="btnReviewClose" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnSaveReview" type="button" class="btn btn-primary" onclick="saveReview()">Save Review</button>
               </div>
             </div>
           </div>
+        </div>
       </div>
     </section>
     <!-- End reviews -->

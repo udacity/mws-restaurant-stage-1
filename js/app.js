@@ -20,14 +20,14 @@ window.addEventListener('load', () => {
 });
 
 
-// // Request a one-off sync:
-// navigator.serviceWorker.ready.then(function (swRegistration) {    
-//   return swRegistration.sync.register('syncServiceWorker');
-// });
+// Request a one-off sync:
+navigator.serviceWorker.ready.then(function (swRegistration) {    
+  return swRegistration.sync.register('syncSWForOfflineReviews');
+});
 
-// window.addEventListener('offline', () => console.log('Webpage is offline'));
-// window.addEventListener('online', () => { 
-//   console.log('Webpage is now online. Will attempt to submit reviews to server.');
-//   DBHelper.postOfflineReviewsToServer()
-//     .then(() => console.log('Successfully submitted all offline reviews.'))
-// });
+window.addEventListener('offline', () => console.log('Webpage is offline'));
+window.addEventListener('online', () => { 
+  console.log('Webpage is now online. Will attempt to submit reviews to server.');
+  DBHelper.postOfflineReviewsToServer()
+    .then(() => console.log('Successfully submitted all offline reviews.'))
+});

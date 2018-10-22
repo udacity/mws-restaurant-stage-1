@@ -688,8 +688,8 @@ class DBHelper {
          * Add a unique updateTime property to the review
          * and store it in the IDB.
          */
-        data['updateTime'] = new Date().getTime();
-        console.log('Updated review', data);
+        review['updateTime'] = new Date().getTime();
+        console.log('Updated review', review);
 
         this.openOrCreateDB()
           .then(db => {
@@ -697,7 +697,7 @@ class DBHelper {
             // Put fetched reviews into IDB
             const tx = db.transaction('pending-reviews', 'readwrite');
             const store = tx.objectStore('pending-reviews');
-            store.put(data);
+            store.put(review);
             console.log('Review stored offline in IDB');
           });
         return;
@@ -712,6 +712,10 @@ class DBHelper {
         const tx = db.transaction('pending-reviews');
         const store = tx.objectStore('pending-reviews');
         store.getAll().then(reviews => {
+          if (!reviews) {
+            console.log('No pending reviews to post to server');
+            return;
+          }
           console.log(reviews);
           for (const review of reviews) {
             DBHelper.postReviewToServer(review);
