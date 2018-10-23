@@ -711,19 +711,21 @@ class DBHelper {
         if (!db) return;
         const tx = db.transaction('pending-reviews');
         const store = tx.objectStore('pending-reviews');
-        store.getAll().then(reviews => {
-          if (!reviews) {
-            console.log('No pending reviews to post to server');
-            return;
-          }
-          console.log(reviews);
-          for (const review of reviews) {
-            DBHelper.postReviewToServer(review);
-          }
-          store.clear();
-        });
+        console.log('Pending reviews: ', store.getAll());
+        return store.getAll())
+      .then(reviews => {
+        if (!reviews) {
+          console.log('No pending reviews to post to server');
+          return;
+        }
+        console.log(reviews);
+        for (const review of reviews) {
+          DBHelper.postReviewToServer(review);
+        }
+        store.clear();
       });
-  }
+  });
+}
 }
 // window.DBHelper = DBHelper;
 
