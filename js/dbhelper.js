@@ -11,36 +11,26 @@ class DBHelper {
     //const port = 8000 // Change this to your server port
     const port = 1337
     //return `http://localhost:${port}/data/restaurants.json`;
-    return `http://localhost:${port}/Restaurants`;
+    return `http://localhost:${port}/restaurants`;
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-  fetch(DBHelper.DATABASE_URL)
-    .then(response => response.json())
-    .then(response => response.map(restaurants => restaurants))
-    .then(restaurants => callback(null, restaurants));   
+    fetch(DBHelper.DATABASE_URL)
+      .then(response => response.json())
+      .then(response => response.map(restaurants => restaurants))
+      .then(restaurants => callback(null, restaurants)); 
   }
-
+  
   /**
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
-    // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) { // Got the restaurant
-          callback(null, restaurant);
-        } else { // Restaurant does not exist in the database
-          callback('Restaurant does not exist', null);
-        }
-      }
-    });
+    fetch(`${DBHelper.DATABASE_URL}/${id}`)
+      .then(response => response.json())
+      .then(fetchedRestaurant => callback(null, fetchedRestaurant));
   }
 
   /**
@@ -143,14 +133,8 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    if (`/img/undefined.jpg`)
-      return (`/img/10.jpg`);
-    else
-      return (`/img/${restaurant.photograph}.jpg`);
-      /** Had to modify return statement because Restaurant with id:10 was 
-       * missing `photograph property`, in the original json file.
-      */
-      /* return (`/img/${restaurant.id}.jpg`);*/
+    return (`/img/${restaurant.id}.jpg`);
+    //return (`/img/${restaurant.photograph||restaurant.id}-medium.jpg`);
   }
 
   /**
