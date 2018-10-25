@@ -149,7 +149,6 @@ fillReviewsHTML = (error, reviews) => {
   heading.innerHTML = "Add Your Review Below";
   const reviewModalBody = document.createElement("div");
   reviewModalBody.className = "modal-body";
-  const pModal = document.createElement("p");
   const reviewModalfooter = document.createElement("div");
   reviewModalfooter.className = "modal-footer";
   const footerText = document.createElement("h3");
@@ -174,16 +173,6 @@ fillReviewsHTML = (error, reviews) => {
     ul.appendChild(createReviewHTML(review));
   });
   container.appendChild(ul);
-
-  const addReviewBtn = document.createElement("button");
-  addReviewBtn.id = "add-review";
-  addReviewBtn.innerHTML = "Add A Review";
-  // container.appendChild(addReviewBtn);
-
-  // When the user clicks on the button, open the modal 
-  addReviewBtn.onclick = () => {
-    reviewModalContainer.style.display = "block";
-  }
 
   // When the user clicks on <span> (x), close the modal
   closeModal.onclick = () => {
@@ -252,78 +241,6 @@ getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-// Reviews 
-writeReviewForm = () => {
-  // let reviewForm = "";
-  // reviewForm += "<section id=\"review-form\">";
-  // reviewForm += "            <div>";
-  // reviewForm += "              <label>";
-  // reviewForm += "                <span class=\"label-text\">Your Name<\/span>";
-  // reviewForm += "                <input type=\"text\" id=\"review-name\">";
-  // reviewForm += "              <\/label>";
-  // reviewForm += "            <\/div>";
-  // reviewForm += "    ";
-  // reviewForm += "            <div>";
-  // reviewForm += "              <label>";
-  // reviewForm += "                <span class=\"label-text\">Rating<\/span>";
-  // reviewForm += "                <select id=\"review-rating\">";
-  // reviewForm += "                  <option value=\"1\">1<\/option>";
-  // reviewForm += "                  <option value=\"2\">2<\/option>";
-  // reviewForm += "                  <option value=\"3\">3<\/option>";
-  // reviewForm += "                  <option value=\"4\">4<\/option>";
-  // reviewForm += "                  <option value=\"5\">5<\/option>";
-  // reviewForm += "                <\/select>";
-  // reviewForm += "              <\/label>";
-  // reviewForm += "            <\/div>";
-  // reviewForm += "    ";
-  // reviewForm += "            <div>";
-  // reviewForm += "              <label>";
-  // reviewForm += "                <span class=\"label-text\">Comments<\/span>";
-  // reviewForm += "                <textarea id=\"review-comment\" rows=\"4\" cols=\"30\"><\/textarea>";
-  // reviewForm += "              <\/label>";
-  // reviewForm += "            <\/div>";
-  // reviewForm += "    ";
-  // reviewForm += "            <div><button id=\"btnSaveReview\" onclick=\"saveReview()\">Save Review<\/button></div>";
-  // reviewForm += "          <\/section>";              
-  let reviewForm = "";
-  reviewForm += "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#exampleModal\" data-whatever=\"@getbootstrap\">Add Review<\/button>";
-  reviewForm += "";
-  reviewForm += "<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">";
-  reviewForm += "  <div class=\"modal-dialog\" role=\"document\">";
-  reviewForm += "    <div class=\"modal-content\">";
-  reviewForm += "      <div class=\"modal-header\">";
-  reviewForm += "        <h5 class=\"modal-title\" id=\"exampleModalLabel\">New Review<\/h5>";
-  reviewForm += "        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">";
-  reviewForm += "          <span aria-hidden=\"true\">&times;<\/span>";
-  reviewForm += "        <\/button>";
-  reviewForm += "      <\/div>";
-  reviewForm += "      <div class=\"modal-body\">";
-  reviewForm += "        <form>";
-  reviewForm += "          <div class=\"form-group\">";
-  reviewForm += "            <label for=\"review-name\" class=\"col-form-label\">Name:<\/label>";
-  reviewForm += "            <input type=\"text\" class=\"form-control\" id=\"review-name\">";
-  reviewForm += "          <\/div>";
-  reviewForm += "          <div class=\"form-group\">";
-  reviewForm += "              <label for=\"customRange\">Rating (0 - 5)<\/label>";
-  reviewForm += "<input type=\"range\" class=\"custom-range\" min=\"0\" max=\"5\" id=\"review-rating\">";
-  reviewForm += "          <\/div>";
-  reviewForm += "          <div class=\"form-group\">";
-  reviewForm += "            <label for=\"review-comments\" class=\"col-form-label\">Comment:<\/label>";
-  reviewForm += "            <textarea class=\"form-control\" id=\"review-comment\"><\/textarea>";
-  reviewForm += "          <\/div>";
-  reviewForm += "        <\/form>";
-  reviewForm += "      <\/div>";
-  reviewForm += "      <div class=\"modal-footer\">";
-  reviewForm += "        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close<\/button>";
-  reviewForm += "        <button type=\"button\" class=\"btn btn-primary\" onclick=\"saveReview()\">Save Review<\/button>";
-  reviewForm += "      <\/div>";
-  reviewForm += "    <\/div>";
-  reviewForm += "  <\/div>";
-  reviewForm += "<\/div>";
-
-  return reviewForm;
-}
-
 const saveReview = () => {
   // Collect form data from review form
   const name = document.getElementById("review-name").value;
@@ -349,18 +266,15 @@ const saveReview = () => {
         return saveReview();
       };
 
+      // reset form values
       const form = document.getElementById("review-form");
       form.reset()
 
       const modal = document.getElementById("exampleModal");
-      // modal.style.display = "none";
       modal.setAttribute('aria-hidden', true);
       $("#exampleModal").modal('hide');
-      console.log('Redirecting after ', review);
-      // window.location.href = `/restaurant.html?id=${restaurant_id}`;
       const ul = document.getElementById('reviews-list');
       ul.appendChild(createReviewHTML(review));
-      // fillRestaurantHTML();
     })
     .catch(error => console.error(error))
 };
