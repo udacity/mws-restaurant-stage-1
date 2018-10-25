@@ -92,7 +92,6 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  // fillReviewsHTML();
   console.log('About to call fetchRestaurantReviewsById');
   DBHelper.fetchRestaurantReviewsById(restaurant.id, fillReviewsHTML)
 }
@@ -151,30 +150,18 @@ fillReviewsHTML = (error, reviews) => {
   const reviewModalBody = document.createElement("div");
   reviewModalBody.className = "modal-body";
   const pModal = document.createElement("p");
-  // pModal.innerText = "Your review goes below";
   const reviewModalfooter = document.createElement("div");
   reviewModalfooter.className = "modal-footer";
   const footerText = document.createElement("h3");
   footerText.innerHTML = "MWS";
   const reviewForm = document.createElement("div");
-  // reviewForm.innerHTML = writeReviewForm();
 
   reviewModalHeader.appendChild(closeModal);
   reviewModalHeader.appendChild(heading);
-  // reviewModalBody.appendChild(pModal);
   reviewModalBody.appendChild(reviewForm);
-  // reviewModalBody.appendChild(reviewModalfooter);
-  // reviewModalfooter.appendChild(footerText);
-  // reviewModalContent.appendChild(reviewModalHeader);
   reviewModalContent.appendChild(reviewModalBody);
-  // reviewModalContent.appendChild(reviewModalfooter);
   reviewModalContainer.appendChild(reviewModalContent);
   flex.appendChild(reviewModalContainer);
-
-  // const addReviewLink = document.createElement("a");
-  // addReviewLink.href = `/review.html?id=${self.restaurant.id}`;
-  // addReviewLink.innerHTML = "Add Review";
-  // flex.appendChild(addReviewLink);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -362,15 +349,18 @@ const saveReview = () => {
         return saveReview();
       };
 
+      const form = document.getElementById("review-form");
+      form.reset()
+
       const modal = document.getElementById("exampleModal");
       // modal.style.display = "none";
-      // modal.setAttribute('aria-hidden', true);
+      modal.setAttribute('aria-hidden', true);
       $("#exampleModal").modal('hide');
       console.log('Redirecting after ', review);
       // window.location.href = `/restaurant.html?id=${restaurant_id}`;
-      // const ul = document.getElementById('reviews-list');
-      // ul.appendChild(createReviewHTML(review));
-      fillRestaurantHTML();
+      const ul = document.getElementById('reviews-list');
+      ul.appendChild(createReviewHTML(review));
+      // fillRestaurantHTML();
     })
     .catch(error => console.error(error))
 };

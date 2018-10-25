@@ -704,28 +704,79 @@ class DBHelper {
       });
   }
 
+  // static postOfflineReviewsToServer() {
+  //   console.log('Calling postOfflineReviewsToServer');
+  //   this.openOrCreateDB()
+  //     .then(db => {
+  //       if (!db) return;
+  //       const tx = db.transaction('pending-reviews');
+  //       const store = tx.objectStore('pending-reviews');
+  //       console.log('Pending reviews: ', store.getAll());
+  //       // return store.getAll();
+  //       let getAllRequest = store.getAll();
+  //       getAllRequest.onsuccess = (event) => {
+  //         return event.target.result;
+  //       }
+  //     })
+  //     .then(reviews => {
+  //       if (!reviews) {
+  //         console.log('No pending reviews to post to server');
+  //         return;
+  //       }
+  //       console.log(reviews);
+  //       for (const review of reviews) {
+  //         DBHelper.postReviewToServer(review);
+  //       }
+  //       const tx = db.transaction('pending-reviews');
+  //       const store = tx.objectStore('pending-reviews');
+  //       store.clear();
+  //     });
+  // }
+
+  // static postOfflineReviewsToServer() {
+  // 	this.openOrCreateDB().then(db => {
+  // 		if (!db) return;
+  // 		const tx = db.transaction('pending-reviews');
+  // 		const store = tx.objectStore('pending-reviews');
+  // 		store.getAll().then(offlineReviews => {
+  // 			console.log(offlineReviews);
+  // 			offlineReviews.forEach(review => {
+  // 				DBHelper.postReviewToServer(review);
+  // 			})
+  // 			DBHelper.clearOfflineReviews();
+  // 		})
+  // 	})
+  // }
   static postOfflineReviewsToServer() {
     console.log('Calling postOfflineReviewsToServer');
     this.openOrCreateDB()
       .then(db => {
         if (!db) return;
-        const tx = db.transaction('pending-reviews');
+        const tx = db.transaction('pending-reviews', 'readwrite');
         const store = tx.objectStore('pending-reviews');
         console.log('Pending reviews: ', store.getAll());
-        return store.getAll())
-      .then(reviews => {
-        if (!reviews) {
-          console.log('No pending reviews to post to server');
-          return;
+        let getAllRequest = store.getAll();
+        getAllRequest.onsuccess = (event) => {
+          console.log('Results: ', event.target.result);
+          const reviews =  event.target.result;
+          if (!reviews) {
+            console.log('No pending reviews to post to server');
+            return;
+          }
+          console.log('Found offline reviews: ',reviews);
+          for (const review of reviews) {
+            DBHelper.postReviewToServer(review);
+          }
+          const tx = db.transaction('pending-reviews', 'readwrite');
+          const store = tx.objectStore('pending-reviews');
+          store.clear();
         }
-        console.log(reviews);
-        for (const review of reviews) {
-          DBHelper.postReviewToServer(review);
-        }
-        store.clear();
+        // store.getAll()
+        //   .then(reviews => {
+            
+        //   });
       });
-  });
-}
+  }
 }
 // window.DBHelper = DBHelper;
 

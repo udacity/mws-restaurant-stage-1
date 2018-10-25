@@ -58,32 +58,8 @@
     <!-- Beginning reviews -->
     <section id="reviews-container">
       <ul id="reviews-list"></ul>
-      <!-- <form id="reviewForm">
-          <p>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" placeholder="Your Name" required/>
-          </p>
-          <p>&nbsp;</p>
-          <p>
-            <label for="rating">Rating</label>
-            <select name="rating">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3" selected>3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </p>
-          <p>
-            <label for="reviewText">Review text:</label>
-            <textarea rows="4" name="comments" placeholder="Write your review here" required></textarea>
-          </p>
-          <p>
-            <input type="submit" value="Submit Review">
-          </p>
-        </form> -->
     </section>
-    <section id="reviews-container" class="add-review-section">
+    <section style="padding: 30px 40px 80px;" class="add-review-section">
       <div>
         <!-- https://getbootstrap.com/docs/4.1/components/modal/ -->
         <button role="button" add-review" type="button" class="btn btn-online-success btn-lg btn-block" data-toggle="modal"
@@ -100,7 +76,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form>
+                <form id="review-form">
                   <div class="form-group">
                     <label for="review-name" class="col-form-label">Name:</label>
                     <input type="text" class="form-control" id="review-name">

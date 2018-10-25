@@ -28,6 +28,5 @@ navigator.serviceWorker.ready.then(function (swRegistration) {
 window.addEventListener('offline', () => console.log('Webpage is offline'));
 window.addEventListener('online', () => { 
   console.log('Webpage is now online. Will attempt to submit reviews to server.');
-  DBHelper.postOfflineReviewsToServer()
-    .then(() => console.log('Successfully submitted all offline reviews.'))
+  DBHelper.postOfflineReviewsToServer();
 });
