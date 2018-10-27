@@ -1,7 +1,7 @@
 /**
  * Common database helper functions.
  */
-class DBHelper {
+export default class DBHelper {
 
   /**
    * Database URL.
@@ -23,7 +23,7 @@ class DBHelper {
       .then(response => response.map(restaurants => restaurants))
       .then(restaurants => callback(null, restaurants)); 
   }
-  
+ 
   /**
    * Fetch a restaurant by its ID.
    */
@@ -32,7 +32,7 @@ class DBHelper {
       .then(response => response.json())
       .then(fetchedRestaurant => callback(null, fetchedRestaurant));
   }
-
+  
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
    */
@@ -140,25 +140,14 @@ class DBHelper {
   /**
    * Map marker for a restaurant.
    */
-  static mapMarkerForRestaurant(restaurant) {
+  static mapMarkerForRestaurant(restaurant, map) {
     // https://leafletjs.com/reference-1.3.0.html#marker
     const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng],
       {title: restaurant.name,
       alt: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant)
       })
-      marker.addTo(newMap);
+      marker.addTo(map);
     return marker;
   }
-  /*static mapMarkerForRestaurant(restaurant, map) {
-    const marker = new google.maps.Marker({
-      position: restaurant.latlng,
-      title: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant),
-      map: map,
-      animation: google.maps.Animation.DROP}
-    );
-    return marker;
-  }*/
-
-}
+};
