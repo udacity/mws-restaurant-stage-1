@@ -15,10 +15,18 @@ export default class DBHelper {
   }
 
   /**
+   * API URL
+   */
+  static get API_URL() {
+    const port = 1337; // port where sails server will listen.
+    return `http://localhost:${port}`;
+  }
+
+  /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL)
+    fetch(`${DBHelper.API_URL}/restaurants`)
       .then(response => response.json())
       .then(response => response.map(restaurants => restaurants))
       .then(restaurants => callback(null, restaurants)); 
@@ -28,7 +36,7 @@ export default class DBHelper {
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
-    fetch(`${DBHelper.DATABASE_URL}/${id}`)
+    fetch(`${DBHelper.API_URL}/restaurants/${id}`)
       .then(response => response.json())
       .then(fetchedRestaurant => callback(null, fetchedRestaurant));
   }
@@ -133,8 +141,19 @@ export default class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.id}.jpg`);
-    //return (`/img/${restaurant.photograph||restaurant.id}-medium.jpg`);
+    //return (`/img/${restaurant.id}.jpg`);
+    return (`/img/${restaurant.photograph||restaurant.id}-medium.jpg`);
+  }
+
+  /**
+   * Restaurant srcset attribute for browser to decide best resolution. It uses restaurant.photograph
+   * and fallbacks to restaurant.id if former is missing.
+   */
+  static imageSrcsetForRestaurant(restaurant) {
+    const imageSrc = `/img/${(restaurant.photograph||restaurant.id)}`;
+    return `${imageSrc}-small.jpg 300w,
+            ${imageSrc}-medium.jpg 600w,
+            ${imageSrc}-large.jpg 800w`;
   }
 
   /**

@@ -17,8 +17,7 @@ const PRECACHE_URLS = [
   '/restaurant.html',
   'css/styles.css',
   'js/main.js',
-  'js/restaurant_info.js',
-  'data/restaurants.json'
+  'js/restaurant_info.js'
 ];
 
 // The install handler takes care of precaching the resources we always need.
