@@ -1,3 +1,6 @@
+import dbPromise from './dbpromise';
+
+
 /**
  * Common database helper functions.
  */
@@ -27,18 +30,50 @@ export default class DBHelper {
    */
   static fetchRestaurants(callback) {
     fetch(`${DBHelper.API_URL}/restaurants`)
-      .then(response => response.json())
-      .then(response => response.map(restaurants => restaurants))
-      .then(restaurants => callback(null, restaurants)); 
+      .then(response => {
+        if (!response.ok)
+          return Promise.reject('Restaurants were unable to be fetched from network');
+        return response.json();
+      })
+      .then(fetchedRestaurants => {
+        dbPromise.putRestaurants(fetchedRestaurants);
+        callback(null, fetchedRestaurants);
+      })
+      .catch(networkError => {
+        console.log(`${networkError}, trying idb.`);
+        dbPromise.getRestaurants()
+          .then(idbRestaurants => {
+            if (!(idbRestaurants.length > 0))
+              return callback('No restaurants found in idb', null);
+            return callback(null, idbRestaurants);
+          });
+      });
   }
- 
+
+
   /**
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
     fetch(`${DBHelper.API_URL}/restaurants/${id}`)
-      .then(response => response.json())
-      .then(fetchedRestaurant => callback(null, fetchedRestaurant));
+      .then(response => {
+        if (!response.ok)
+          return Promise.reject('Restaurant unable to be fetched from network');
+        return response.json();
+      })
+      .then(fetchedRestaurant => {
+        dbPromise.putRestaurants(fetchedRestaurant);
+        return callback(null, fetchedRestaurant);
+      })
+      .catch(networkError => {
+        console.log(`${networkError}, trying idb.`);
+        dbPromise.getRestaurants(id)
+          .then(idbRestaurant => {
+            if (!idbRestaurant) 
+              return callback('Restaurant not found in idb either', null);
+            return callback(null, idbRestaurant);
+          });
+      });
   }
   
   /**

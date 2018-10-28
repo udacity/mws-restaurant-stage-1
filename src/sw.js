@@ -7,20 +7,19 @@
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  */
-//const PRECACHE = 'restaurant-023';
-//const RUNTIME = 'runtime';
-const cacheName = 'restaurant-004';
+
+ const cacheName = 'restaurant-220';
 
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
   '/',
   '/restaurant.html',
-  'css/styles.css',
   'js/main.js',
-  'js/restaurant_info.js'
+  //'js/dbhelper.js',
+  'js/restaurant_info.js',
+  'css/styles.css'
 ];
 
-// The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(cacheName)

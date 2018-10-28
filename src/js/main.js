@@ -1,28 +1,11 @@
 import DBHelper from './dbhelper';
+import './register-sw';
 
 let restaurants,
   neighborhoods,
   cuisines
 var newMap
 var markers = []
-
-/**
- * Register Service Worker
- */
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-  .register('/sw.js', {
-    scope: '/'
-  })
-  .then(function(register) {
-    console.log('Service Worker Registered');
-  })
-  .catch(function(error) {
-    console.error(error);
-  })
-} else {
-  console.log('Service Worker Not Registered');
-}
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -111,19 +94,6 @@ const initMap = () => {
   updateRestaurants();
 }
 
-/*window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  updateRestaurants();
-}*/
-
 /**
  * Update page and map for current restaurants.
  */
@@ -173,6 +143,8 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
     ul.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
+
+  //myLazyLoad.update();
 }
 
 /**
@@ -189,6 +161,7 @@ const createRestaurantHTML = (restaurant) => {
 
   const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
+  name.setAttribute('aria-label', restaurant.name);
   li.append(name);
 
   const neighborhood = document.createElement('p');
