@@ -57,17 +57,17 @@ gulp.task('responsive:images', function() {
       // we are resizing all jpg images to three different sizes: 300, 600 and 800 px wide.
 
       '**/*.jpg': [{
-        width: 800,
-        quality: 70,
-        rename: { suffix: '-large'}
+        //width: 800,
+        //quality: 70,
+        //rename: { suffix: '-lrg'}
       }, {
-        width: 600,
-        quality: 50,
-        rename: { suffix: '-medium'}
+        //width: 600,
+        //quality: 50,
+        //rename: { suffix: '-med'}
       }, {
-        width: 300,
-        quality: 40,
-        rename: { suffix: '-small'}
+        //width: 300,
+        //quality: 40,
+        //rename: { suffix: '-sm'}
       }]
     },))
     .pipe(gulp.dest(paths.responsive.dest));

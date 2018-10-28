@@ -1,6 +1,5 @@
 import dbPromise from './dbpromise';
 
-
 /**
  * Common database helper functions.
  */
@@ -177,19 +176,9 @@ export default class DBHelper {
    */
   static imageUrlForRestaurant(restaurant) {
     //return (`/img/${restaurant.id}.jpg`);
-    return (`/img/${restaurant.photograph||restaurant.id}-medium.jpg`);
+    return (`/img/${restaurant.photograph||restaurant.id}.jpg`);
   }
 
-  /**
-   * Restaurant srcset attribute for browser to decide best resolution. It uses restaurant.photograph
-   * and fallbacks to restaurant.id if former is missing.
-   */
-  static imageSrcsetForRestaurant(restaurant) {
-    const imageSrc = `/img/${(restaurant.photograph||restaurant.id)}`;
-    return `${imageSrc}-small.jpg 300w,
-            ${imageSrc}-medium.jpg 600w,
-            ${imageSrc}-large.jpg 800w`;
-  }
 
   /**
    * Map marker for a restaurant.
@@ -204,4 +193,14 @@ export default class DBHelper {
       marker.addTo(map);
     return marker;
   }
-};
+
+  /*static mapOffline() {
+    const map = document.getElementById('map');
+    map.className = "map-offline";
+    map.innerHTML = `<div class="warning-icon">!</div>
+    <div class="warning-message">We're having problems loading Maps</div>
+    <div class="warning-suggestion">Are you offline? If you need to see a map, please check back later.</div>`;
+  }*/
+
+
+}
