@@ -6,9 +6,17 @@
  * https://googlechrome.github.io/samples/service-worker/basic/
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Stage-2 Credits:
+ * This application/stage uses MWS Restaurant Reviews Project, A Walkthrough by
+ * Alexandro Perez; as a reference and guide. The 'Fetch' method in
+ * Perez's Service Worker file was used, although slightly modified from his original.
+ * I acknowledge and grateful to this developer for his contribution to providing a guide to
+ * follow for the more difficult sections.
+ * https://alexandroperez.github.io/mws-walkthrough/ 
  */
 
- const cacheName = 'v14';
+ const cacheName = 'v15';
 
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
