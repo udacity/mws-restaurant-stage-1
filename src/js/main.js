@@ -1,5 +1,6 @@
 import DBHelper from './dbhelper';
 import './register-sw';
+import './lazysizes';
 
 let restaurants,
   neighborhoods,
@@ -152,9 +153,10 @@ const createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
 
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
+  image.className = 'restaurant-img lazyload';
   image.alt = restaurant.alt;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.setAttribute('data-src', DBHelper.imageUrlForRestaurant(restaurant));
+  //image.src = DBHelper.imageUrlForRestaurant(restaurant);
   li.append(image);
 
   const name = document.createElement('h2');

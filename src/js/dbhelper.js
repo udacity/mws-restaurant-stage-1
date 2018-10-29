@@ -176,7 +176,7 @@ export default class DBHelper {
    */
   static imageUrlForRestaurant(restaurant) {
     //return (`/img/${restaurant.id}.jpg`);
-    return (`/img/${restaurant.photograph||restaurant.id}.jpg`);
+    return (`/img/${restaurant.photograph||restaurant.id}.webp`);
   }
 
 

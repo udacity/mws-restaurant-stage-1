@@ -1,5 +1,6 @@
 import DBHelper from './dbhelper';
 import './register-sw';
+import './lazysizes';
 
 let restaurant;
 var newMap;
@@ -78,9 +79,10 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.style.fontSize = "24pt";
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img';
+  image.className = 'restaurant-img lazyload';
   image.alt = restaurant.alt;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.setAttribute('data-src', DBHelper.imageUrlForRestaurant(restaurant));
+  //image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.tabIndex = '0';
 
   const cuisine = document.getElementById('restaurant-cuisine');

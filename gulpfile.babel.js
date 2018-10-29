@@ -19,7 +19,7 @@ const browserSync = require('browser-sync').create();
 // Add src and dest paths to files you will handle in tasks here. For js files, also add bundles to create
 const paths = {
   responsive: {
-    src: 'src/img/**/*.jpg',
+    src: 'src/img/**/*.webp',
     dest: 'dist/img/'
   },
   js: {
@@ -54,9 +54,9 @@ gulp.task('responsive:images', function() {
   return gulp.src(paths.responsive.src)
     .pipe(responsive({
       // Here is where you can change sizes and suffixes to fit your needs. Right now 
-      // we are resizing all jpg images to three different sizes: 300, 600 and 800 px wide.
+      // we are resizing all jpg/webp images to three different sizes: 300, 600 and 800 px wide.
 
-      '**/*.jpg': [{
+      '**/*.webp': [{
         //width: 800,
         //quality: 70,
         //rename: { suffix: '-lrg'}
