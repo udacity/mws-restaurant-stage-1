@@ -16,7 +16,7 @@
  * https://alexandroperez.github.io/mws-walkthrough/ 
  */
 
- const cacheName = 'v15';
+ const cacheName = 'v25';
 
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
@@ -34,8 +34,8 @@ const PRECACHE_URLS = [
   'img/icons/icon-192x192.png',
   'img/icons/icon-384x384.png',
   'img/icons/icon-512x512.png',
-  'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
-  'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css'
+  //'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
+  //'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css'
 ];
 
 /**

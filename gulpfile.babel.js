@@ -13,13 +13,17 @@ import log from 'fancy-log';
 import mergeStream from 'merge-stream';
 import sourcemaps from 'gulp-sourcemaps';
 import c from 'ansi-colors';
+//import inject from 'gulp-inject';
+//import uglify from 'gulp-uglify';
+//import concat from 'gulp-concat';
+//import imagemin from 'gulp-imagemin';
 
 const browserSync = require('browser-sync').create();
 
 // Add src and dest paths to files you will handle in tasks here. For js files, also add bundles to create
 const paths = {
   responsive: {
-    src: 'src/img/**/*.webp',
+    src: 'src/img/**/*.jpg',
     dest: 'dist/img/'
   },
   js: {
@@ -56,18 +60,12 @@ gulp.task('responsive:images', function() {
       // Here is where you can change sizes and suffixes to fit your needs. Right now 
       // we are resizing all jpg/webp images to three different sizes: 300, 600 and 800 px wide.
 
-      '**/*.webp': [{
-        //width: 800,
-        //quality: 70,
-        //rename: { suffix: '-lrg'}
+      '**/*.jpg': [{
+       
       }, {
-        //width: 600,
-        //quality: 50,
-        //rename: { suffix: '-med'}
+        
       }, {
-        //width: 300,
-        //quality: 40,
-        //rename: { suffix: '-sm'}
+       
       }]
     },))
     .pipe(gulp.dest(paths.responsive.dest));
@@ -171,3 +169,28 @@ gulp.task('js:bundle', function (done) {
     })
   );
 });
+
+// task to inject JS and CSS files into the HTML
+//gulp.task('index', function () {
+  //var target = gulp.src('./src/**/*.html');
+  // It's not necessary to read the files (will speed up things), we're only after their paths:
+  //var sources = gulp.src(['./src/**/*.js', './src/**/*.css'], {read: false});
+ 
+  /*return target.pipe(inject(sources))
+    .pipe(gulp.dest('./src'));
+});*/
+
+// task to shrink the size of the javascript files
+/*gulp.task('scripts-dist', function() {
+   gulp.src('js/
+    //.pipe(concat('all.js'))
+    //.pipe(uglify())   // <-- here
+    //.pipe(gulp.dest('dist/js'));
+//});
+
+// task to optimize the images in src/img
+/*gulp.task('default', () =>
+    gulp.src('src/img/*')
+        .pipe(imagemin())
+        .pipe(gulp.dest('dist/img'))
+);*/

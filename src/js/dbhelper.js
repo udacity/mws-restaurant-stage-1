@@ -176,7 +176,7 @@ export default class DBHelper {
    */
   static imageUrlForRestaurant(restaurant) {
     //return (`/img/${restaurant.id}.jpg`);
-    return (`/img/${restaurant.photograph||restaurant.id}.webp`);
+    return (`/img/${restaurant.photograph||restaurant.id}.jpg`);
   }
 
 
@@ -201,6 +201,4 @@ export default class DBHelper {
     <div class="warning-message">We're having problems loading Maps</div>
     <div class="warning-suggestion">Are you offline? If you need to see a map, please check back later.</div>`;
   }*/
-
-
 }
