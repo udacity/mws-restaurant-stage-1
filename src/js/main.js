@@ -90,8 +90,6 @@ const initMap = () => {
     id: 'mapbox.streets'
   }).addTo(newMap);
 
-  // document.querySelector("#map").innerHTML  = "<h1>Map is offline</h1>"
-
   updateRestaurants();
 }
 
@@ -194,6 +192,44 @@ const addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 }
+
+
+//******* lazy loading of offscreen images 
+
+// function to detect if element is visible (c) https://stackoverflow.com/a/12418814/961695
+function inViewport (el) {
+
+  var r, html;
+  if ( !el || 1 !== el.nodeType ) { return false; }
+  html = document.documentElement;
+  r = el.getBoundingClientRect();
+
+  return ( !!r 
+    && r.bottom >= 0 
+    && r.right >= 0 
+    && r.top <= html.clientHeight 
+    && r.left <= html.clientWidth 
+  );
+
+}
+
+function lazyLoad () {
+  
+  for (var pic of document.querySelectorAll('picture[data-srcset]')) {
+    if (inViewport(pic)) {
+
+      let img = pic.querySelector("img");
+      img.setAttribute('src',img.getAttribute('data-src'));
+      img.removeAttribute('data-src');
+    }
+  }
+
+};
+ 
+addEventListener('DOMContentLoaded', lazyLoad, false); 
+addEventListener('load', lazyLoad, false); 
+addEventListener('scroll', lazyLoad, false); 
+addEventListener('resize', lazyLoad, false); 
 
 // bypassing map in keyboard navigation
 /*document.querySelector("#home").addEventListener("keydown",function(event){
