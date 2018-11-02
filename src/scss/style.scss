@@ -1,0 +1,413 @@
+@charset "UTF-8";
+
+/* Old Document */
+
+// #image {
+// 	background: url('../img/wilderness.jpg');
+// 	height: 900px;
+// 	width: 900px;
+// }
+
+/* CSS Document */
+// @import url("~leaflet/dist/leaflet.css");
+
+body,td,th,p{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.8rem;
+	color: #333;
+	line-height: 1.5;
+}
+body {
+	background-color: #fdfdfd;
+	margin: 0;
+	position:relative;
+}
+ul, li {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.8rem;
+	color: #333;
+}
+a {
+	color: #9F6108;
+	text-decoration: none;
+}
+a:hover, a:focus {
+	color: #3397db;
+	text-decoration: none;
+}
+a img{
+	border: none 0px #fff;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0 0 20px;
+}
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+.home header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1500;
+  max-height: 80px;
+}
+.home #maincontent {
+  margin-top: 80px;
+}
+#maincontent {
+  background-color: #f3f3f3;
+  min-height: 100%;
+}
+#maincontent .container {
+  max-width: 1092px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#footer {
+  background-color: #333;
+  color: #FEFEFE;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  padding: 25px;
+  text-align: center;
+  text-transform: uppercase;
+}
+#footer strong {
+  color: #fde3a7;
+}
+/* ====================== Navigation ====================== */
+nav.main-nav {
+  width: 100%;
+  max-height: 80px;
+  background-color: #252831;
+  text-align: center;
+  padding: 30px 0;
+}
+nav.main-nav h1 {
+  margin: auto;
+  line-height: 0;
+  padding: 10px;
+}
+nav.main-nav h1 a {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 200;
+  letter-spacing: 10px;
+  text-transform: uppercase;
+}
+#breadcrumb ul {
+    padding: 10px 40px 16px;
+    list-style: none;
+    background-color: #eee;
+    margin: 0;
+    width: calc(50% - 80px);
+}
+
+/* Display list items side by side */
+#breadcrumb ul li {
+    display: inline;
+    font-size: 1.0625rem;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+#breadcrumb ul li+li:before {
+    padding: 8px;
+    color: black;
+    content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+#breadcrumb ul li a {
+    color: #0F4880;
+    text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+#breadcrumb ul li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+}
+/* ====================== Map ====================== */
+#map {
+  height: 400px;
+  width: 100%;
+  background-color: #ccc;
+}
+/* ====================== Restaurant Filtering ====================== */
+.filter-options {
+  width: 100%;
+  background-color: #0a3b5c;
+  align-items: center;
+  display: flex;
+  padding: 14px 0 10px;
+  text-align: center;
+}
+.filter-options h2 {
+  color: white;
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1;
+  margin: 10px;
+}
+.filter-options select {
+  background-color: white;
+  border: 1px solid #fff;
+  font-family: Arial,sans-serif;
+  font-size: 0.95rem;
+  height: 35px;
+  letter-spacing: 0;
+  margin: 10px;
+  padding: 0 10px;
+  width: 200px;
+}
+
+/* ====================== Restaurant Listing ====================== */
+#restaurants-list {
+  background-color: #f3f3f3;
+  list-style: outside none none;
+  /* margin: 0; */
+  padding: 30px 15px 60px;
+  text-align: center;
+}
+#restaurants-list li {
+  background-color: #fff;
+  border: 2px solid #ccc;
+  font-family: Arial,sans-serif;
+  margin: 15px;
+  min-height: 380px;
+  text-align: left;
+  position: relative;
+  padding-bottom: 40px;
+}
+#restaurants-list .restaurant-img {
+  background-color: #ccc;
+  display: block;
+  margin: 0;
+  max-width: 100%;
+  /* min-height: 248px; */
+  /* min-width: 100%; */
+}
+#restaurants-list .restaurant-detail {
+  padding: 0 30px 25px;
+}
+#restaurants-list li h1 {
+  color: #9F6108;
+  font-family: Arial,sans-serif;
+  font-size: 1.2rem;
+  font-weight: 200;
+  letter-spacing: 0;
+  line-height: 1.3;
+  margin: 20px 0 10px;
+  text-transform: uppercase;
+}
+#restaurants-list p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+#restaurants-list li a {
+  background-color: #9F6108;
+  /* border-bottom: 3px solid #eee; */
+  color: #fff;
+  /* display: inline-block; */
+  font-size: 0.8rem;
+  margin: 15px 0 0;
+  padding: 8px 30px 10px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: .325rem;
+  position: absolute;
+  bottom: 24px;
+  display: block;
+  width: calc(100% - 120px);
+}
+
+/* ====================== Restaurant Details ====================== */
+.inside header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1500;
+}
+.inside #map-container {
+  background: blue none repeat scroll 0 0;
+  height: calc(100% - 80px);
+  position: fixed;
+  right: 0;
+  top: 80px;
+  width: 50%;
+}
+
+.inside #map {
+  background-color: #ccc;
+  height: 100%;
+  width: 100%;
+}
+.inside #footer {
+  bottom: 0;
+  position: absolute;
+  /* width: 50%; */
+  width: calc(50% - 50px);
+}
+#restaurant-name {
+  color: #9F6108;
+  font-family: Arial,sans-serif;
+  font-size: 1.6rem;
+  font-weight: 200;
+  letter-spacing: 0;
+  margin: 15px 0 30px;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+#restaurant-img {
+	width: 100%;
+}
+#restaurant-address {
+  font-size: 1rem;
+  margin: 10px 0px;
+}
+#restaurant-cuisine {
+  background-color: #333;
+  color: #ddd;
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 10px;
+  line-height: 1rem;
+  margin: 0 0 20px;
+  padding: 0.625rem 0;
+  text-align: center;
+  text-transform: uppercase;
+	width: 100%;
+}
+#restaurant-container, #reviews-container {
+  border-bottom: 1px solid #d9d9d9;
+  border-top: 1px solid #fff;
+  padding: 140px 40px 30px;
+  width: calc(50% - 80px);
+}
+#reviews-container {
+  padding: 30px 40px 80px;
+}
+#reviews-container h3 {
+  color: #9F6108;
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: -1px;
+  padding-bottom: 1px;
+}
+#reviews-list {
+  margin: 0;
+  padding: 0;
+}
+#reviews-list li {
+  background-color: #fff;
+  border: 2px solid #f3f3f3;
+  display: block;
+  list-style-type: none;
+  margin: 0 0 30px;
+  overflow: hidden;
+  /* padding: 0 20px 20px; */
+  position: relative;
+  /* width: 85%; */
+}
+#reviews-list .review-header,
+#reviews-list .review-body {
+  padding: 1rem;
+  margin-bottom: 0.325rem;
+}
+#reviews-list .review-header {
+  background: #333;
+  color: #fff;
+  line-height: .625rem;
+}
+#reviews-list .review-header span {
+  display: block;
+  font-size: .75rem;
+  font-weight: normal;
+  float: right;
+}
+#reviews-list .review-rating {
+  display: inline-block;
+  background: #9F6108;
+  color: white;
+  padding: .3125rem .5rem;
+  border-radius: 0.3125em;
+}
+#reviews-list li p {
+  margin: 0 0 10px;
+}
+#restaurant-hours td {
+  color: #666;
+}
+
+
+/* ====================== Grid ====================== */
+.flex-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+@media (max-width: 400px) {
+  .flex-grid {
+    display: block;
+  }
+}
+
+/* ====================== Responsive Breakpoints ====================== */
+
+@media (min-width: 1024px) {
+  #restaurants-list li {
+    width: calc(25% - 35px);
+    padding-bottom: 20px;
+  }
+}
+
+@media (max-width: 1024px) {
+  #restaurants-list li {
+    width: calc(33% - 32px);
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  #restaurants-list li {
+    width: calc(50% - 35px);
+    padding-bottom: 50px;
+  }
+  #restaurant-container, #reviews-container, #breadcrumb ul {
+    width: calc(100% - 80px);
+    padding-top: 20px;
+  }
+  .inside #map-container {
+    background: transparent;
+    height: 280px;
+    position: static;
+    width: 100%;
+    margin-top: 140px;
+  }
+  .inside #footer {
+    width: calc(100% - 40px);
+    padding: 20px;
+  }
+}
+
+@media (max-width: 530px) {
+  nav.main-nav h1 a {
+    font-size: 1.125rem;
+    letter-spacing: .25rem;
+  }
+  #restaurants-list li {
+    width: calc(100% - 35px);
+  }
+}
+
+/* ====================== Accessibility Fixes ====================== */
+
+.leaflet-container .leaflet-control-attribution {
+  background: #fff !important;
+  /* background: rgba(255, 255, 255, 0.7); */
+  margin: 0;
+}
+.filter-options label {
+  color: #fff;
+}

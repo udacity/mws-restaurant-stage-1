@@ -1,7 +1,7 @@
 /**
  * Common database helper functions.
  */
-class DBHelper {
+export default class DBHelper {
 
   /**
    * Database URL.
@@ -12,16 +12,23 @@ class DBHelper {
     return `http://localhost:${port}/data/restaurants.json`;
   }
 
+    /**
+   * API URL
+   */
+  static get API_URL() {
+    const port = 1337; // port where sails server will listen.
+    return `http://localhost:${port}`;
+  }
+
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
+    xhr.open('GET', `${DBHelper.API_URL}/restaurants`);
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
+        const restaurants = JSON.parse(xhr.responseText);
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
@@ -34,21 +41,34 @@ class DBHelper {
   /**
    * Fetch a restaurant by its ID.
    */
+
   static fetchRestaurantById(id, callback) {
-    // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) { // Got the restaurant
-          callback(null, restaurant);
-        } else { // Restaurant does not exist in the database
-          callback('Restaurant does not exist', null);
-        }
-      }
+    fetch(`${DBHelper.API_URL}/restaurants/${id}`).then(response => {
+      if (!response.ok) return Promise.reject("Restaurant couldn't be fetched from network");
+      return response.json();
+    }).then(fetchedRestaurant => {
+      // if restaurant could be fetched from network:
+      return callback(null, fetchedRestaurant);
+    }).catch(networkError => {
+      // if restaurant couldn't be fetched from network:
+      return callback(networkError, null);
     });
   }
+  // static fetchRestaurantById(id, callback) {
+  //   // fetch all restaurants with proper error handling.
+  //   DBHelper.fetchRestaurants((error, restaurants) => {
+  //     if (error) {
+  //       callback(error, null);
+  //     } else {
+  //       const restaurant = restaurants.find(r => r.id == id);
+  //       if (restaurant) { // Got the restaurant
+  //         callback(null, restaurant);
+  //       } else { // Restaurant does not exist in the database
+  //         callback('Restaurant does not exist', null);
+  //       }
+  //     }
+  //   });
+  // }
 
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
@@ -149,23 +169,43 @@ class DBHelper {
   /**
    * Restaurant image URL.
    */
+  // static imageUrlForRestaurant(restaurant) {
+  //   return (`/img/${restaurant.photograph}`);
+  // }
+
+/**
+   * Restaurant image URL. It defaults to a medium sized image. It uses restaurant.photograph
+   * and fallbacks to restaurant.id if former is missing.
+   */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+    let url = `/img/${(restaurant.photograph||restaurant.id)}.jpg`;
+    return url;
+  }
+
+  /**
+   * Restaurant srcset attribute for browser to decide best resolution. It uses restaurant.photograph
+   * and fallbacks to restaurant.id if former is missing.
+   */
+  static imageSrcsetForRestaurant(restaurant) {
+    const imageSrc = `/img/${(restaurant.photograph||restaurant.id)}`;
+    return `${imageSrc}-small.jpg 300w,
+            ${imageSrc}-medium.jpg 600w,
+            ${imageSrc}-large.jpg 800w`;
   }
 
   /**
    * Map marker for a restaurant.
    */
    static mapMarkerForRestaurant(restaurant, map) {
-    // https://leafletjs.com/reference-1.3.0.html#marker  
+    // https://leafletjs.com/reference-1.3.0.html#marker
     const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng],
       {title: restaurant.name,
       alt: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant)
       })
-      marker.addTo(newMap);
+      marker.addTo(map);
     return marker;
-  } 
+  }
   /* static mapMarkerForRestaurant(restaurant, map) {
     const marker = new google.maps.Marker({
       position: restaurant.latlng,
