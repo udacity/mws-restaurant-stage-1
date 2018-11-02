@@ -1,4 +1,5 @@
 const path = require("path")
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -54,7 +55,23 @@ module.exports = {
 			  ]
 			}
 		]
-	}
+	},
+	plugins: [
+		new HtmlWebpackPlugin({
+			hash: true,
+			title: 'Restaurant Reviews',
+			myPageHeader: 'Restaurant Reviews',
+			template: './src/index.html',
+			filename: './index.html'
+		}),
+		new HtmlWebpackPlugin({
+			hash: true,
+			title: 'Restaurant Reviews - Detail',
+			myPageHeader: 'Restaurant Reviews - Detail',
+			template: './src/restaurant.html',
+			filename: './restaurant.html'
+		})
+	]
 }
 
 

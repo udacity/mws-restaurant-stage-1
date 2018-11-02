@@ -12,13 +12,13 @@
   <header>
     <!-- Beginning nav -->
     <nav class="main-nav">
-      <h1><a href="/">Restaurant Reviews</a></h1>
+      <h1><a href="/"><%= htmlWebpackPlugin.options.title %></a></h1>
     </nav>
     <!-- End nav -->
     <!-- Beginning breadcrumb -->
     <nav id="breadcrumb" role="navigation" aria-label="Breadcrumb">
       <ul>
-        <li><a href="/">Home</a></li>
+        <li><a href="/"><%= htmlWebpackPlugin.options.myPageHeader %></a></li>
       </ul>
     </nav>
     <!-- End breadcrumb -->
@@ -55,7 +55,6 @@
   </footer>
   <!-- End footer -->
 
-	<script src="./restaurant.bundle.js"></script>
 </body>
 
 </html>

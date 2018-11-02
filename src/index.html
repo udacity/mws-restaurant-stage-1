@@ -3,13 +3,13 @@
 <head>
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 	<meta name="Description" content="Restaurant review test application homepage">
-	<title>Restaurant Reviews</title>
+	<title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 
 <body class="home">
 	<header>
 	  <nav class="main-nav">
-		<h1 tabindex="-1"><a href="/">Restaurant Reviews</a></h1>
+		<h1 tabindex="-1"><a href="/"><%= htmlWebpackPlugin.options.myPageHeader %></a></h1>
 	  </nav>
 	</header>
 
@@ -37,6 +37,5 @@
 	  Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
 	</footer>
 
-	<script src="./index.bundle.js"></script>
   </body>
 </html>
