@@ -1,3 +1,4 @@
+// TODO: refactor to use workbox
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js')
     .then(function(reg) {

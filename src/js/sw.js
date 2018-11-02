@@ -1,4 +1,4 @@
-// think of this as a background server running  
+// think of this as a background server running
 var cacheID = 'mws-restaurant-v1';
 
 // install service worker caches
@@ -12,14 +12,9 @@ self.addEventListener('install', function(event) {
         return cache.addAll([
           '/',
           '/index.html',
+          '/index.bundle.js',
           '/restaurant.html',
-          '/css/styles.css',
-          '/js/',
-          '/js/dbhelper.js',
-          '/js/main.js',
-          '/js/register.js',
-          '/js/restaurant_info.js',
-          '/img/restaurant-default.jpg'
+          '/restaurant.bundle.js'
         ]);
       })
     );
@@ -34,7 +29,7 @@ self.addEventListener('fetch', function(event) {
           caches.open('mws-restaurant-v1').then(function(cache) {
             cache.put(event.request, responseClone);
           });
-  
+
           return response;
         });
       }).catch(function() {
