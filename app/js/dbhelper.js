@@ -34,41 +34,57 @@ class DBHelper {
 
   /**   Fetch data from Server and store a copy of response in IDB    **/
   static getFromServer(callback){
-    fetch(`${DBHelper.DATABASE_URL}/restaurants`)
+    let restaurant_URL = `${DBHelper.DATABASE_URL}/restaurants/`;
+    fetch(restaurant_URL)
     .then(response => response.json()).then(restaurants => {
       restaurants.map(restaurant => {
         dbPromise.then(db => {
           let tx = db.transaction('restaurants', 'readwrite')
           let store = tx.objectStore('restaurants');
           store.put(restaurant, restaurant.id);
-        });         
+        });
       });
-      callback(null, restaurants); 
-    });
+      callback(null, restaurants);
+    }).catch(error => callback(error, null));
   }
-
   
   static addFav(id) {
-    fetch(`${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=true`, {
+    let trueFav = `${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=true`;
+    fetch(trueFav, {
       method: 'PUT'
     });
   }
   
   static removeFav(id) {
-    fetch(`${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=false`, {
+    let falseFav = `${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=false`;
+    fetch(falseFav, {
       method: 'PUT'
     });
   }  
+
+  static getReviews(callback) {
+    let reviews_URL = `${DBHelper.DATABASE_URL}/reviews/`;
+    fetch(reviews_URL).then(response => response.json())
+    .then(reviews => callback(null, reviews))
+    .catch(error => callback(error, null));
+  }
+
+  static getReviewsById(id, callback) {
+    let reviews_URL = `${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${id}`;
+    fetch(reviews_URL).then(response => response.json())
+    .then(reviews => callback(null, reviews))
+    .catch(error => callback(error, null));
+  }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
     //  check if Service Worker controls page
-    if (navigator.serviceWorker.controller) {
+  /*  if (navigator.serviceWorker.controller) {
       DBHelper.getFromIDB(callback);
       return;
-    }
+    } */
     DBHelper.getFromServer(callback);
   }
 

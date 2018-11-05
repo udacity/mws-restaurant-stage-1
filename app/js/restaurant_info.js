@@ -1,4 +1,5 @@
 let restaurant;
+//let reviews;
 var newMap;
 
 /**
@@ -162,7 +163,8 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = self.restaurant.reviews) => {  
+  
   const container = document.getElementById('reviews-container');
   const rev = document.createElement('div');
   rev.className = "reviews-header"
@@ -172,17 +174,20 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   rev.appendChild(title);
   container.appendChild(rev);
 
-  if (!reviews) {
+  DBHelper.getReviewsById(self.restaurant.id, (error, reviews) => {
+    if (!reviews) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
     container.appendChild(noReviews);
     return;
-  }
-  const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
+    }
+    const ul = document.getElementById('reviews-list');
+    reviews.forEach(review => {
+      ul.appendChild(createReviewHTML(review));
+    });
+    container.appendChild(ul);
   });
-  container.appendChild(ul);
+  
 }
 
 /**
