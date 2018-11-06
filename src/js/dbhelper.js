@@ -75,6 +75,21 @@ export default class DBHelper {
     xhr.send();
   }
 
+  // static fetchRestaurants(callback) {
+  //   let xhr = new XMLHttpRequest();
+  //   xhr.open('GET', `${DBHelper.API_URL}/restaurants`);
+  //   xhr.onload = () => {
+  //     if (xhr.status === 200) { // Got a success response from server!
+  //       const restaurants = JSON.parse(xhr.responseText);
+  //       callback(null, restaurants);
+  //     } else { // Oops!. Got an error from server.
+  //       const error = (`Request failed. Returned status of ${xhr.status}`);
+  //       callback(error, null);
+  //     }
+  //   };
+  //   xhr.send();
+  // }
+
   /**
    * Fetch a restaurant by its ID.
    */
