@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "dev": "webpack-dev-server",
-    "watch": "webpack --w"
+    "dev": "webpack-dev-server"
   },
   "author": "Vince Golveo",
   "license": "ISC",
