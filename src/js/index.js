@@ -2,6 +2,7 @@ import DBHelper from './dbhelper'
 import './register'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css';
+
 /* This code is needed to properly load the images in the Leaflet CSS */
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -9,11 +10,6 @@ L.Icon.Default.mergeOptions({
   iconUrl: require('leaflet/dist/images/marker-icon.png'),
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
-
-// import 'leaflet/dist/leaflet.css';
-// import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
-// import * as L from 'leaflet';
-// import 'leaflet-defaulticon-compatibility';
 
 import '../scss/style.scss'
 
@@ -225,35 +221,3 @@ const addMarkersToMap = (restaurants = self.restaurants) => {
   });
 
 }
-/* addMarkersToMap = (restaurants = self.restaurants) => {
-  restaurants.forEach(restaurant => {
-    // Add marker to the map
-    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
-    google.maps.event.addListener(marker, 'click', () => {
-      window.location.href = marker.url
-    });
-    self.markers.push(marker);
-  });
-} */
-
-
-// class Image extends React.Component {
-// 	constructor(props) {
-// 		super()
-// 		this.state = {
-// 			title: "Gorgeous Mountains"
-// 		}
-// 	}
-// 	render() {
-// 		return (
-// 			<div>
-// 				<h1>{this.state.title}</h1>
-// 				<p>{this.props.caption}</p>
-// 				<div id="image"></div>
-// 			</div>
-// 		)
-// 	}
-// }
-
-// ReactDOM.render(<Image caption="Wilderness area in Lake Tahoe, California" />,
-// 				       document.getElementById('react-container'))

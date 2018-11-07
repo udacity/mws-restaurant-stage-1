@@ -1,5 +1,5 @@
 {
-  "name": "webpack-overview",
+  "name": "mws-restaurant-reviews",
   "version": "1.0.0",
   "description": "Restaurant Reviews PWS for GWG MWS",
   "main": "index.js",
@@ -14,8 +14,6 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.11",
