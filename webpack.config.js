@@ -76,6 +76,7 @@ module.exports = {
 		}),
         new CopyWebpackPlugin([
             {from:'./src/img',to:'img'},
+            {from:'./src/favicon.ico', to:'favicon.ico', toType:'file'},
             {from:'./src/js/sw.js', to:'sw.js', toType:'file'},
             {from:'./src/manifest.json', to:'manifest.json', toType:'file'}
         ])
