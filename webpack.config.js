@@ -1,5 +1,6 @@
 const path = require("path")
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
 	entry: {
@@ -72,7 +73,12 @@ module.exports = {
 			myPageHeader: 'Restaurant Reviews',
 			template: './src/restaurant.html',
 			filename: './restaurant.html'
-		})
+		}),
+        new CopyWebpackPlugin([
+            {from:'./src/img',to:'img'},
+            {from:'./src/js/sw.js', to:'sw.js', toType:'file'},
+            {from:'./src/manifest.json', to:'manifest.json', toType:'file'}
+        ])
 	]
 }
 
