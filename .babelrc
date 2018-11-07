@@ -4,5 +4,10 @@
         "modules": false
       }]
     ],
+    "env": {
+      "production": {
+        "presets": ["minify"]
+      }
+    },
     "plugins": ["syntax-dynamic-import"]
   }
