@@ -8,5 +8,6 @@
 - Read instructions to run server.
 - Then browse in terminal to the location of restaurant reviews code
 - Run: `$ npm install` to download and install node modules
+- Run: `$ npm run build` to build files into dist folder
 - Run: `$ npm run dev` to run dev server
 - Site should be serving at `http://localhost:8080/`
