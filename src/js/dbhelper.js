@@ -25,20 +25,7 @@ export default class DBHelper {
   /**
    * Fetch all restaurants.
    */
-  // static fetchRestaurants(callback) {
-  //   let xhr = new XMLHttpRequest();
-  //   xhr.open('GET', `${DBHelper.API_URL}/restaurants`);
-  //   xhr.onload = () => {
-  //     if (xhr.status === 200) { // Got a success response from server!
-  //       const restaurants = JSON.parse(xhr.responseText);
-  //       callback(null, restaurants);
-  //     } else { // Oops!. Got an error from server.
-  //       const error = (`Request failed. Returned status of ${xhr.status}`);
-  //       callback(error, null);
-  //     }
-  //   };
-  //   xhr.send();
-  // }
+
   static fetchRestaurants(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', `${DBHelper.API_URL}/restaurants`);
@@ -60,6 +47,7 @@ export default class DBHelper {
         });
       }
     };
+
     // XHR needs error handling for when server is down (doesn't respond or sends back codes)
     xhr.onerror = () => {
       console.log('Error while trying XHR, trying idb...');
@@ -74,38 +62,6 @@ export default class DBHelper {
     }
     xhr.send();
   }
-
-  // static fetchRestaurants(callback) {
-  //   let xhr = new XMLHttpRequest();
-  //   xhr.open('GET', `${DBHelper.API_URL}/restaurants`);
-  //   xhr.onload = () => {
-  //     if (xhr.status === 200) { // Got a success response from server!
-  //       const restaurants = JSON.parse(xhr.responseText);
-  //       callback(null, restaurants);
-  //     } else { // Oops!. Got an error from server.
-  //       const error = (`Request failed. Returned status of ${xhr.status}`);
-  //       callback(error, null);
-  //     }
-  //   };
-  //   xhr.send();
-  // }
-
-  /**
-   * Fetch a restaurant by its ID.
-   */
-
-  // static fetchRestaurantById(id, callback) {
-  //   fetch(`${DBHelper.API_URL}/restaurants/${id}`).then(response => {
-  //     if (!response.ok) return Promise.reject("Restaurant couldn't be fetched from network");
-  //     return response.json();
-  //   }).then(fetchedRestaurant => {
-  //     // if restaurant could be fetched from network:
-  //     return callback(null, fetchedRestaurant);
-  //   }).catch(networkError => {
-  //     // if restaurant couldn't be fetched from network:
-  //     return callback(networkError, null);
-  //   });
-  // }
 
   static fetchRestaurantById(id, callback) {
     fetch(`${DBHelper.API_URL}/restaurants/${id}`).then(response => {
@@ -124,22 +80,6 @@ export default class DBHelper {
       });
     });
   }
-
-  // static fetchRestaurantById(id, callback) {
-  //   // fetch all restaurants with proper error handling.
-  //   DBHelper.fetchRestaurants((error, restaurants) => {
-  //     if (error) {
-  //       callback(error, null);
-  //     } else {
-  //       const restaurant = restaurants.find(r => r.id == id);
-  //       if (restaurant) { // Got the restaurant
-  //         callback(null, restaurant);
-  //       } else { // Restaurant does not exist in the database
-  //         callback('Restaurant does not exist', null);
-  //       }
-  //     }
-  //   });
-  // }
 
   /**
    * Fetch restaurants by a cuisine type with proper error handling.
@@ -240,9 +180,6 @@ export default class DBHelper {
   /**
    * Restaurant image URL.
    */
-  // static imageUrlForRestaurant(restaurant) {
-  //   return (`/img/${restaurant.photograph}`);
-  // }
 
 /**
    * Restaurant image URL. It defaults to a medium sized image. It uses restaurant.photograph
@@ -277,16 +214,6 @@ export default class DBHelper {
       marker.addTo(map);
     return marker;
   }
-  /* static mapMarkerForRestaurant(restaurant, map) {
-    const marker = new google.maps.Marker({
-      position: restaurant.latlng,
-      title: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant),
-      map: map,
-      animation: google.maps.Animation.DROP}
-    );
-    return marker;
-  } */
 
 }
 
