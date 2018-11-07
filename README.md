@@ -11,7 +11,7 @@
 - Then browse in terminal to the location of restaurant reviews code
 
 #### _Clone, install and run restaurant reviews app_
-- Clone this repository [https://github.com/udacity/mws-restaurant-stage-2](https://github.com/udacity/mws-restaurant-stage-2)
+- Clone this repository [https://github.com/binzu/mws-restaurant-reviews/tree/phase-2](https://github.com/binzu/mws-restaurant-reviews/tree/phase-2)
 - Run: `$ npm install` to download and install node modules
 - Run: `$ npm run build` to build files into dist folder
 - Run: `$ npm run dev` to run dev server
