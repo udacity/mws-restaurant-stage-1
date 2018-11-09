@@ -46,10 +46,9 @@ body {
 
 :focus {
   outline: 0;
-  border: 0.5px solid #004;
-  -webkit-box-shadow: 0 0 10px 5px #f60;
-  -moz-box-shadow: 0 0 10px 5px #f60;
-  box-shadow: 0 0 10px 5px #f60;
+  -webkit-box-shadow: 0 0 7px 7px #db0;
+  -moz-box-shadow: 0 0 7px 7px #db0;
+  box-shadow: 0 0 7px 7px #db0;
 }
 
 a {
@@ -276,12 +275,11 @@ nav h1 a {
   bottom: 0;
   /*left: 3px;*/
   border: 2px solid #ccc;
-  background-image: url('../images/icons/favs.png');
-  position: absolute;
+  position: relative;
 }
 
 .fav-button.active {
-  background-color: #fa0;
+  background-color: #fd0;
 }
 
 .fav-button:hover {
@@ -329,7 +327,7 @@ nav h1 a {
 
 #restaurant-cuisine {
   background-color: #002;
-  color: #fff;
+  color: #fa0;
   letter-spacing: 10px;
   margin: 0;
   padding: 2px;
@@ -393,20 +391,36 @@ nav h1 a {
 
 .reviews-head {
   background-color: #002;
-  border-radius: 2em 2em 0 0;
+  padding: 1em 1.5em;
+  border-radius: 3em 3em 0 0;
 }
 
-.date,
 .author {
-  font-weight: bold;
   display: inline-block;
-  color: #fff;
-  font-size: 1.3em;
-  margin: 0.5em 1.5em;
+  color: #fa0;
+  letter-spacing: 2px;
+  font-size: 1.5em;
+}
+
+.date {
+  justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+}
+
+.date-created {
+  color: #bbb;
+  margin-right: 1em;
+}
+
+.date-updated {
+  color: #0b0;
 }
 
 .rating {
-  background-color: #dc3;
+  background-color: #fa0;
 }
 
 .rating,

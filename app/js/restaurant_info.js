@@ -206,17 +206,31 @@ createReviewHTML = (review) => {
   name.setAttribute('aria-label', 'Author: ' + review.name + ".");
   name.innerHTML = review.name;
   div1.appendChild(name);
+  //li.appendChild(div1);
 
-  const date = document.createElement('p');
-  date.classList.add('date');
-  date.setAttribute('aria-label', 'Date reviewed: ' + review.date + ".");
-  date.innerHTML = review.date;
+  const date = document.createElement('div');
+  date.className = "date";
+
+  const created = document.createElement('span');
+  const cDate = new Date(review.createdAt).toLocaleDateString();
+  created.classList.add('date-created');
+  //date.setAttribute('aria-label', 'Date reviewed: ' + review.date + ".");
+  created.innerHTML = `Created: <strong>${cDate}</strong>`;
+  date.appendChild(created);
+
+  const updated = document.createElement('span');
+  const uDate = new Date(review.updatedAt).toLocaleDateString();
+  updated.classList.add('date-updated');
+  //date.setAttribute('aria-label', 'Updated on: ' + review.date + ".");
+  updated.innerHTML = `Updated: <strong>${uDate}</strong>`;
+  date.appendChild(updated);
+  
   div1.appendChild(date);
   li.appendChild(div1);
 
   const rating = document.createElement('div');
   rating.classList.add('rating');
-  rating.setAttribute('aria-label', 'Rating: ' + review.rating + ".");
+  //rating.setAttribute('aria-label', 'Rating: ' + review.rating + ".");
   rating.innerHTML = `Rating: ${review.rating}`;
   li.appendChild(rating);
 
