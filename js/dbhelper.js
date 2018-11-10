@@ -8,28 +8,44 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8078 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
   }
 
   /**
    * Fetch all restaurants.
    */
-  static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+  static fetchRestaurants(callback) { 
+    console.log('fetch rests');
+     // openLocalDataBase();
+      //var restaurants = fetchRestaurantsFromLocalDatabase();
+      DBHelper.fetchRestaurantsFromLocalDatabase().then(restaurants => {
+          if( restaurants.length>0)
+              return callback(null, restaurants);
+          else
+              DBHelper.fetchRestaurantsFromServer(callback);
+      })
+    //  restaurants.then(function(restaurants){
+      //if (restaurants==undefined || restaurants.length==0)
+        
+     // else
+       // callback(null, Promise.resolve(restaurants));
+  //})
   }
+    
+  static fetchRestaurantsFromServer(callback) {
+     fetch(DBHelper.DATABASE_URL).then(function(response) {
+         //DBHelper.openLocalDataBase();
+         return response.json();
+        }).then(function(restaurants) {
+         console.log('got rests from server');
+            DBHelper.AddRestaurantsToLocalDatabase(restaurants);
+            callback(null, restaurants);
+        }).catch( (error) => {
+            console.log(`Request failed. ${error}`);
+            callback(error, null);
+        });
+    }
 
   /**
    * Fetch a restaurant by its ID.
@@ -150,7 +166,10 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+     if (restaurant.photograph!= undefined)
+      return (`/img/${restaurant.photograph}.jpg`);
+    else
+      return (`/img/undefined.jpg`);
   }
 
   /**
@@ -176,6 +195,56 @@ class DBHelper {
     );
     return marker;
   } */
+  //openLocalDataBase = () => {
+ static OpenLocalDatabase(callback) {
+ if (!navigator.serviceWorker) {
+    return Promise.resolve();
+  }
+    return idb.open('local-db', 1, function(upgradeDb) {
+      var keyValStore2 = upgradeDb.createObjectStore('restaurantList');
+    //keyValStore2.put("world", "hello");
+    console.log('opened db');
+   });
+  //return this._dbPromise;
+ }
+    
+static AddRestaurantsToLocalDatabase(restaurants) {
+  if (!navigator.serviceWorker) {
+    return Promise.resolve();
+  }
+  var dbPromise = DBHelper.OpenLocalDatabase();
+
+  return dbPromise.then(function(db) {
+   if (!db) return;
+
+     var tx = db.transaction('restaurantList', 'readwrite');
+     var store = tx.objectStore('restaurantList');
+     //store.put("restaurant", 'photograph')
+      restaurants.forEach(function(restaurant) {
+          //console.log(restaurant.photograph);
+          var tx = db.transaction('restaurantList', 'readwrite');
+          var store = tx.objectStore('restaurantList');
+          store.put(restaurant, restaurant.id);
+        });
+      return tx.complete;
+        //callback(null, results);
+    });
+ // });
+ }
+    
+static fetchRestaurantsFromLocalDatabase () {
+
+  var dbPromise = DBHelper.OpenLocalDatabase();
+  return dbPromise.then(function (db) {
+    if (!db) return;
+
+     var tx = db.transaction('restaurantList', 'readonly');
+     var store = tx.objectStore('restaurantList');
+     return store.getAll();
+     //callback(null, restaurants);
+     //return tx.complete;
+  });
+}
 
 }
 

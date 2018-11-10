@@ -17,10 +17,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
  * Fetch all neighborhoods and set their HTML.
  */
 fetchNeighborhoods = () => {
+    console.log('fetch neighbourhoods');
   DBHelper.fetchNeighborhoods((error, neighborhoods) => {
     if (error) { // Got an error
       console.error(error);
     } else {
+        console.log('got neighs');
       self.neighborhoods = neighborhoods;
       fillNeighborhoodsHTML();
     }
@@ -44,10 +46,12 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
  * Fetch all cuisines and set their HTML.
  */
 fetchCuisines = () => {
+        console.log('fetch cuisines');
   DBHelper.fetchCuisines((error, cuisines) => {
     if (error) { // Got an error!
       console.error(error);
     } else {
+        console.log('got cuis');
       self.cuisines = cuisines;
       fillCuisinesHTML();
     }
@@ -213,11 +217,12 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 //============ service worker ================//
 
 
-// if ('serviceWorker' in navigator) {
-    // console.log('sw!');
-  // navigator.serviceWorker.register('/sw.js').then(function(sw) {
-    // console.log('registration worked!');
-  // }).catch(function() {
-    // console.log('registration failed :(');
-  // });
-// }
+if ('serviceWorker' in navigator) {
+  console.log('sw!');
+navigator.serviceWorker.register('/sw.js').then(function(sw) {
+  console.log('registration worked!');
+}).catch(function() {
+  console.log('registration failed :(');
+});
+}
+

@@ -1,5 +1,5 @@
-var staticCacheName = 'restaurants-v10';
-var contentImgsCache = 'rest-imgs';
+var staticCacheName = 'restaurants-v14';
+var contentImgsCache = 'restaurants-imgs';
 var allCaches = [
   staticCacheName,
   contentImgsCache
@@ -13,35 +13,35 @@ self.addEventListener('install', function(event) {
 		'index.html',
 		'restaurant.html',
 		'./js/main.js',
+		'./js/idb.js',
+        './js/dbhelper.js',
+        './js/restaurant_info.js',
         './css/styles.css',
-		'./img/1.jpg',
-		'./img/2.jpg',
-		'./img/3.jpg',
-		'./img/4.jpg',
-		'./img/5.jpg',
-		'./img/6.jpg',
-		'./img/7.jpg',
-		'./img/8.jpg',
-		'./img/9.jpg'
+        'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
+        'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css'
       ]);
     })
   );
 });
 
 self.addEventListener('fetch', function(event) {
-//console.log(event.request.url);
   var requestUrl = new URL(event.request.url);
-  console.log(requestUrl.pathname);
+  console.log(requestUrl.pathname + " from sw");
   if (requestUrl.origin === location.origin) {
     if (requestUrl.pathname === '/') {
       event.respondWith(caches.match('/skeleton'));
        return;
     }
-    // if (requestUrl.pathname.startsWith('/restaurant.html')) {
-      // event.respondWith((event.request));
-      // return;
-    // }
+     if (requestUrl.pathname.startsWith('/img/')) {
+       event.respondWith(serveImages(event.request));
+       return;
+     }
   }
+    if(requestUrl.pathname.startsWith('/restaurant')){
+      // event.respondWith(fetchRestaurantsFromLocalDatabase());
+      event.respondWith(serveRestaurant(event.request));
+      return;
+    }
  
   event.respondWith(
     caches.match(event.request).then(function(response) {
@@ -51,7 +51,7 @@ self.addEventListener('fetch', function(event) {
 });
 
 self.addEventListener('activate', function(event) {
-	console.log('sw activates');
+  console.log('sw activates');
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
       return Promise.all(
@@ -65,3 +65,33 @@ self.addEventListener('activate', function(event) {
     })
   );
 });
+
+serveImages = (request) => {
+  const url = new URL(request.url);
+return caches.open(staticCacheName).then(cache => {
+  return cache.match(url).then(response => {
+    return (
+      response ||
+      fetch(url).then(networkResp => {
+        cache.put(url, networkResp.clone());
+        return networkResp;
+      })
+    );
+  });
+});
+};
+
+serveRestaurant = (request) => {
+    const url = new URL(request.url);
+ return caches.open(staticCacheName).then(cache => {
+  return cache.match(url.pathname).then(response => {
+    return (response
+//      response ||
+//      fetch(url).then(networkResp => {
+//        cache.put(url, networkResp.clone());
+//        return networkResp;
+//      })
+    );
+  });
+});
+};
