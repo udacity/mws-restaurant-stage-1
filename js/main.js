@@ -13,6 +13,52 @@ const UdacityYelp = {
             .setCuisines();
     },
 
+    addListeners () {
+        document.querySelectorAll('.index-heart')
+            .forEach(heart => heart.addEventListener('click', event => this.toggleFavorite(event)));
+        return this;
+    },
+
+    toggleFavorite (event) {
+        const heart_icon       = event.currentTarget;
+        const restaurant_id    = heart_icon.dataset.restaurantId;
+        const will_be_favorite = heart_icon.dataset.isFavorite === 'true' ? 'false' : 'true';
+        fetch(`http://localhost:1337/restaurants/${restaurant_id}/?is_favorite=${will_be_favorite}`, {
+                method: 'PUT'
+            })
+            .then(() => {
+                heart_icon.dataset.isFavorite = will_be_favorite;
+                if (will_be_favorite === 'true') {
+                    heart_icon.classList.add('favorite');
+                } else {
+                    heart_icon.classList.remove('favorite');
+                }
+            })
+            .catch(() => {
+                // defer submission
+            });
+    },
+
+    postReview (form) {
+        fetch('http://localhost:1337/reviews/', {
+                method : 'POST',
+                body   : JSON.stringify({
+                    restaurant_id : form.restaurant_id,
+                    name          : form.reviewer_name,
+                    rating        : form.rating,
+                    comments      : form.comment_text,
+                })
+                
+            })
+            .then(() => {
+                // add the review to the page
+            })
+            .catch(() => {
+                // add review to the page
+                // defer submission
+            }) 
+    },
+
     setNeighborhoods () {
         ApiHelper.fetchNeighborhoods()
             .then(neighborhoods => this.neighborhoods = neighborhoods)
@@ -122,16 +168,21 @@ const UdacityYelp = {
         restaurants.forEach(restaurant => {
             ul.append(this.createRestaurantHTML(restaurant));
         });
-        return this.addMarkersToMap();
+        return this.addMarkersToMap()
+            .addListeners();
     },
 
     // Create restaurant HTML.
     createRestaurantHTML (restaurant) {
         const img_url_fragment = ApiHelper.imageUrlForRestaurant(restaurant);
+        const is_favorite      = restaurant.is_favorite === 'true';
         const html = `
         <div>
             <img class="restaurant-img" alt="classy photo from ${restaurant.name}" src="${img_url_fragment}-300.jpg" srcset="${img_url_fragment}-600.jpg 1000w, ${img_url_fragment}-1200.jpg 2000w">
-            <h1>${restaurant.name}</h1>
+            <h1>
+                ${restaurant.name} 
+                <span class="index-heart ${is_favorite ? 'favorite' : ''}" data-is-favorite="${is_favorite ? 'true' : 'false'}" data-restaurant-id="${restaurant.id}" aria-label="Click to favorite ${restaurant.name}">&#9829;</span>
+            </h1>
             <p>${restaurant.neighborhood}</p>
             <p>${restaurant.address}</p>
             <a href="${ApiHelper.urlForRestaurant(restaurant)}" aria-label="${restaurant.name}. View details">View Details</a>
@@ -159,6 +210,7 @@ const UdacityYelp = {
 document.addEventListener('DOMContentLoaded', () => {
     UdacityYelp.init();
 });
+
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js');

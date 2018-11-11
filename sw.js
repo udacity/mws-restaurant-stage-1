@@ -1,4 +1,4 @@
-const staticCacheName = 'UdacityEats-v2';
+const staticCacheName = 'UdacityEats-v3';
 
 self.addEventListener('fetch', event => {
     event.respondWith(

@@ -5,7 +5,8 @@ const UdacityYelpRestaurant = {
     restaurant: undefined,
 
     init () {
-        this.initMap();
+        this.addListeners()
+            .initMap();
     },
 
     initMap() {
@@ -34,6 +35,29 @@ const UdacityYelpRestaurant = {
             });
     },
 
+    addListeners () {        
+        document.querySelector('#favorite-heart').addEventListener('click', () => this.toggleFavorite());
+        return this;
+    },
+
+    toggleFavorite () {
+        const will_be_favorite = this.restaurant.isFavorite === 'true' ? 'false' : 'true';
+        fetch(`http://localhost:1337/restaurants/${this.restaurant.id}/?is_favorite=${will_be_favorite}`, {
+                method: 'PUT'
+            })
+            .then(() => {
+                this.restaurant.isFavorite = will_be_favorite;
+                if (will_be_favorite === 'true') {
+                    document.querySelector('#favorite-heart').classList.add('favorite');
+                } else {
+                    document.querySelector('#favorite-heart').classList.remove('favorite');
+                }
+            })
+            .catch(() => {
+                // defer submission
+            });
+    },
+
     // Get current restaurant from page URL.
     fetchRestaurantFromURL() {
         if (this.restaurant) { // restaurant already fetched!
@@ -57,6 +81,10 @@ const UdacityYelpRestaurant = {
     fillRestaurantHTML() {
         const name = document.getElementById('restaurant-name');
         name.innerHTML = this.restaurant.name;
+
+        if (this.restaurant.is_favorite === 'true') {
+            document.getElementById('favorite-heart').classList.add('favorite');
+        }
 
         const address = document.getElementById('restaurant-address');
         address.innerHTML = this.restaurant.address;
@@ -100,12 +128,12 @@ const UdacityYelpRestaurant = {
     // Create all reviews HTML and add them to the webpage.
     fillReviewsHTML(reviews = this.restaurant.reviews) {
         const container = document.getElementById('reviews-container');
-        const title = document.createElement('h3');
+        const title     = document.createElement('h3');
         title.innerHTML = 'Reviews';
         container.appendChild(title);
 
         if (!reviews) {
-            const noReviews = document.createElement('p');
+            const noReviews     = document.createElement('p');
             noReviews.innerHTML = 'No reviews yet!';
             container.appendChild(noReviews);
             return;
@@ -142,8 +170,8 @@ const UdacityYelpRestaurant = {
     // Add restaurant name to the breadcrumb navigation menu
     fillBreadcrumb(restaurant = this.restaurant) {
         const breadcrumb = document.getElementById('breadcrumb');
-        const li = document.createElement('li');
-        li.innerHTML = restaurant.name;
+        const li         = document.createElement('li');
+        li.innerHTML     = restaurant.name;
         breadcrumb.appendChild(li);
     },
 

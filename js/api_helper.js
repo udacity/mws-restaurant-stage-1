@@ -1,6 +1,6 @@
 /* globals newMap, L, idb */
 
-const eatDB = idb.open('UdacityEats', '1', upgradeDb => {
+const eatDB = idb.open('UdacityEats', '2', upgradeDb => {
     const restaurants = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
     restaurants.createIndex('id', 'id');
 });
@@ -46,7 +46,6 @@ const ApiHelper = {
             .then(response => response.json())
             .catch(() => {
                 return eatDB.then(db  => {
-                    console.log('here', db.transaction('restaurants').objectStore('restaurants').get(id))
                     return db.transaction('restaurants').objectStore('restaurants').get(id);
                 })
                 .catch(err => {
