@@ -44,13 +44,13 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   color: #aaa;
   font-size: 8pt;
   letter-spacing: 1px;
-  padding: 25px;
+  padding: 25px 0px;
   text-align: center;
   text-transform: uppercase;
 }
 /* ====================== Navigation ====================== */
 nav {
-  width: 100%;
+  width: 100vw;
   height: 80px;
   background-color: #252831;
   text-align:center;
@@ -71,7 +71,7 @@ nav h1 a {
     background-color: #eee;
     font-size: 17px;
     margin: 0;
-    width: 100%; /* calc(50% - 80px); */
+/*    width: 100%;  calc(50% - 80px); */
 }
 
 /* Display list items side by side */
@@ -117,7 +117,7 @@ nav h1 a {
   font-size: 1rem;
   font-weight: normal;
   line-height: 1;
-  margin: 0 20px;
+  margin: 0 10px;
 }
 .filter-options select {
   background-color: white;
@@ -127,8 +127,8 @@ nav h1 a {
   height: 35px;
   letter-spacing: 0;
   margin: 10px;
-  padding: 0 10px;
-  width: 145px;
+  padding: 0 5px;
+  width: 143px;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -216,7 +216,7 @@ nav h1 a {
 .inside #footer {
   bottom: 0;
   position: absolute;
-  width: 100%;
+  width: 100vw;
 }
 #restaurant-name {
   color: #f18200;
@@ -253,10 +253,11 @@ nav h1 a {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 140px 40px 30px;
-  width: 100%;
+  overflow: hidden;
 }
 #reviews-container {
   padding: 30px 40px 80px;
+    overflow: hidden;
 }
 #reviews-container h2 {
   color: #f58500;
@@ -278,10 +279,10 @@ nav h1 a {
   overflow: hidden;
   padding: 0 20px 20px;
   position: relative;
-  width: 85%;
+  width: 75vw;
 }
 #reviews-list li p {
-  margin: 0 0 10px;
+  margin: 5px 0 5px;
 }
 #restaurant-hours td {
   color: #666;
@@ -298,6 +299,19 @@ nav h1 a {
 	.html, .body{
 		 overflow-x: hidden;    /* to remove horizontal scrolling on mobile view */
 	}
+    
+    #restaurant-container {
+    padding: 140px 15px 30px;
+    }
+    
+    #breadcrumb {
+    padding: 10px 16px 16px;
+    width: 90vw;
+    }
+    
+    #reviews-container {
+    padding: 30px 20px 80px;
+    }
 }
 
 
