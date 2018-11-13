@@ -228,7 +228,7 @@ nav h1 a {
 }
 
 #restaurants-list li h1 {
-  color: #f18200;
+  color: #c37b22;
   font: 400 1.4em/1.3 Arial,sans-serif;
   letter-spacing: 0;
   margin: 20px 0 10px;
@@ -248,7 +248,7 @@ nav h1 a {
 }
 
 #restaurants-list li button {
-  background-color: #f9a032;
+  background-color: #c37b22;
   border: none;
   color: #fff;
   display: inline-block;
@@ -258,6 +258,14 @@ nav h1 a {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+#restaurants-list li button a {
+  color: #fff;
+}
+
+#restaurants-list li button a:hover {
+  color: #333;
 }
 
 .restaurant-text {

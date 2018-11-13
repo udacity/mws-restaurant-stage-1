@@ -181,8 +181,10 @@ createRestaurantHTML = (restaurant) => {
   text.append(address);
 
   const button = document.createElement('button');
-  button.innerHTML = 'View Details';
-  button.href = DBHelper.urlForRestaurant(restaurant);
+  const link = document.createElement('a');
+  link.innerHTML = 'View Details';
+  link.href = DBHelper.urlForRestaurant(restaurant);
+  button.append(link);
   text.append(button)
 
   li.append(text);
