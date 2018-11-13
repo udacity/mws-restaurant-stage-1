@@ -396,3 +396,9 @@ nav h1 a {
   color: #6E4412;
   font-weight: 700;
 }
+
+
+/* ====================== Labels ====================== */
+.restaurant-info-label, .filter-label, .restaurant-map-label {
+  display: none;
+}

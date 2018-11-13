@@ -40,14 +40,17 @@
       <p id="restaurant-cuisine"></p>
     </section>
     <section id="restaurant-map-and-hours">
-      <p id="restaurant-address"></p>
+      <p id="restaurant-address" aria-labelledby="restaurant-address-label"></p>
+      <label id="restaurant-address-label" class="restaurant-info-label">address</label>
       <div class="restaurant-hours-container">
-        <table id="restaurant-hours"></table>
+        <table id="restaurant-hours" aria-labelledby="resturant-hours-label"></table>
+        <label id="restaurant-hours-label" class="restaurant-info-label">service hours</label>
       </div>
       <!-- Beginning map -->
-      <section id="map-container">
+      <section id="map-container" role="application" aria-labelledby="restaurant-map-label">
         <div id="map"></div>
       </section>
+      <label id="restaurant-map-label" class="restaurant-map-label">Mapbox interactive map application</label>
       <!-- End map -->
     </section>
     <!-- end restaurant -->

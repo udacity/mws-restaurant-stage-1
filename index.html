@@ -18,19 +18,22 @@
   </header>
 
   <main id="maincontent">
-    <section id="map-container">
+    <section id="map-container" role="application" aria-labelledby="restaurant-map-label">
       <div id="map"></div>
     </section>
+    <label id="restaurant-map-label" class="restaurant-map-label">Mapbox interactive map application</label>
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
         <div class="filter-selects">
-          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+          <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-labelledby="neighborhoods-label">
             <option value="all">All Neighborhoods</option>
           </select>
-          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+          <label id="neighborhoods-label" class="filter-label">By Neighborhoods</label>
+          <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-labelledby="cuisines-label">
             <option value="all">All Cuisines</option>
           </select>
+          <label id="cuisines-label" class="filter-label">By Cuisines</label>
         </div>
       </div>
       <ul id="restaurants-list"></ul>
