@@ -170,7 +170,7 @@ createRestaurantHTML = (restaurant) => {
   li.append(image);
 
   const text = document.createElement('div');
-  text.className = "restaurant-text";
+  text.className = 'restaurant-text';
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
@@ -178,21 +178,22 @@ createRestaurantHTML = (restaurant) => {
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
-  neighborhood.className = "restaurant-neighborhood";
+  neighborhood.className = 'restaurant-neighborhood';
   text.append(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
-  address.className = "restaurant-address";
+  address.className = 'restaurant-address';
   text.append(address);
 
   const button = document.createElement('button');
-  const link = document.createElement('a');
-  link.innerHTML = 'View Details';
-  link.href = DBHelper.urlForRestaurant(restaurant);
-  button.append(link);
-  text.append(button)
+  button.innerHTML = 'View Details';
+  button.onclick = function() {
+    const restaurantURL = DBHelper.urlForRestaurant(restaurant);
+    window.location = restaurantURL;
+  }
 
+  text.append(button);
   li.append(text);
 
   return li
@@ -205,7 +206,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
     const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.newMap);
-    marker.on("click", onClick);
+    marker.on('click', onClick);
     function onClick() {
       window.location.href = marker.options.url;
     }
