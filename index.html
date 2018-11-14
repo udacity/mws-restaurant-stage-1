@@ -18,12 +18,12 @@
   </header>
 
   <main id="maincontent">
-    <section id="map-container" role="application" aria-labelledby="restaurant-map-label">
+    <section id="map-container" role="application" aria-labelledby="restaurant-map-label" tabindex="-1">
       <div id="map"></div>
     </section>
     <label id="restaurant-map-label" class="restaurant-map-label">Mapbox interactive map application</label>
     <section>
-      <div class="filter-options">
+      <div class="filter-options" tabindex="0">
         <h2>Filter Results</h2>
         <div class="filter-selects">
           <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-labelledby="neighborhoods-label">
