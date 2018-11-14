@@ -41,23 +41,26 @@ self.addEventListener('activate', event => {
 });
 
 // Tell the cache what to respond with
-self.addEventListener('fetch', event => {
-  var requestUrl = new URL(event.request.url);
+self.addEventListener('fetch', function(event) {
+  let requestUrl = new URL(event.request.url);
 
   if (requestUrl.origin === location.origin) {
     if (requestUrl.pathname === '/') {
       event.respondWith(caches.match('/index.html'));
       return;
     }
+
     if (requestUrl.pathname.startsWith('/images/')) {
       event.respondWith(serveImage(event.request));
       return;
     }
   }
 
-  event.respondWith(caches.match(event.request).then(response => {
-    return response || fetch(event.request);
-  }));
+  event.respondWith(
+    caches.match(event.request).then(function (response) {
+      return response || fetch(event.request);
+    })
+  );
 });
 
 // Serve any cached requested images
