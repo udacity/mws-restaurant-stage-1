@@ -17,11 +17,17 @@ class DBHelper {
    */
 
   // Use Fetch instead of XHR.
-  static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL)
-    .then(response => { return response.json(); })
-    .then(data => callback(null, data))
-    .catch(error => callback(`The request failed with ${error}.`, null))
+  static fetchRestaurants(callback, id) {
+    let fetchUrl;
+    if (!id) {
+      fetchUrl = DBHelper.DATABASE_URL;
+    } else {
+      fetchUrl = DBHelper.DATABASE_URL + '/' + id;
+    }
+    fetch(fetchUrl)
+      .then(response => { return response.json(); })
+      .then(data => callback(null, data))
+      .catch(error => callback(`The request failed with ${error}.`, null))
   }
 
   /*
@@ -50,14 +56,14 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        const restaurant = restaurants.find(r => r.id == id);
+        const restaurant = restaurants;
         if (restaurant) { // Got the restaurant
           callback(null, restaurant);
         } else { // Restaurant does not exist in the database
           callback('Restaurant does not exist', null);
         }
       }
-    });
+    }, id);
   }
 
   /**
@@ -166,16 +172,17 @@ class DBHelper {
   /**
    * Map marker for a restaurant.
    */
-   static mapMarkerForRestaurant(restaurant, map) {
+  static mapMarkerForRestaurant(restaurant, map) {
     // https://leafletjs.com/reference-1.3.0.html#marker  
     const marker = new L.marker([restaurant.latlng.lat, restaurant.latlng.lng],
-      {title: restaurant.name,
-      alt: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant)
+      {
+        title: restaurant.name,
+        alt: restaurant.name,
+        url: DBHelper.urlForRestaurant(restaurant)
       })
-      marker.addTo(newMap);
+    marker.addTo(newMap);
     return marker;
-  } 
+  }
   /* static mapMarkerForRestaurant(restaurant, map) {
     const marker = new google.maps.Marker({
       position: restaurant.latlng,

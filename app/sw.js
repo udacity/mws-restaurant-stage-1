@@ -50,6 +50,7 @@ self.addEventListener('activate', event => {
 // Tell the cache what to respond with
 self.addEventListener('fetch', function (event) {
   let requestUrl = new URL(event.request.url);
+  let eventRequest = event.request;
 
   if (requestUrl.origin === location.origin) {
     if (requestUrl.pathname === '/') {
@@ -58,40 +59,55 @@ self.addEventListener('fetch', function (event) {
     }
 
     if (requestUrl.pathname.startsWith('/images/')) {
-      event.respondWith(serveImage(event.request));
+      event.respondWith(serveImage(eventRequest));
       return;
     }
   }
 
-  if (requestUrl.pathname.startsWith('/restaurant.html')) {
-    if (requestUrl.port === "1337") {
-      const urlPath = checkURL.pathname.split("/");
-      const restaurantID = 0;
-      if (urlPath[urlPath.length - 1] === 'restaurants') {
-        restaurantID = -1;
-      } else {
-        restaurantID = urlPath[urlPath.length - 1];
-      }
-      event.respondWith(dbPromise
-        .then(db => {
-          return db
-            .transaction('restaurants')
-            .objectStore('restaurants')
-            .get(id)
-        })
-        .then(restaurantData => {
-          console.log(restaurantData)
-        })
-      )
+  if (requestUrl.port === "1337") {
+    const urlPath = requestUrl.pathname.split("/");
+    console.log(event.request.url);
+    let restaurantID = 0;
+    if (urlPath[urlPath.length - 1] === 'restaurants') {
+      restaurantID = -1;
+    } else {
+      restaurantID = urlPath[urlPath.length - 1];
     }
+    console.log(restaurantID);
+    event.respondWith(dbPromise
+      .then(db => {
+        return db
+          .transaction('restaurants')
+          .objectStore('restaurants')
+          .get(restaurantID)
+      }).then(restaurantData => {
+        return ((restaurantData && restaurantData.data) || fetch(eventRequest)
+            .then(fetchResponse => fetchResponse.json())
+            .then(json => {
+              return dbPromise.then(db => {
+                const tx = db.transaction("restaurants", "readwrite");
+                tx.objectStore("restaurants").put({
+                  id: restaurantID,
+                  data: json
+                });
+                return json;
+              });
+            })
+        );
+      })
+      .then(finalResponse => {
+        return new Response(JSON.stringify(finalResponse));
+      })
+      .catch(error => {
+        return new Response(`Error fetching data: ${error}`);
+      })
+    );
+    return;
   }
 
   event.respondWith(
     caches.match(event.request).then(function (response) {
-      return response || fetch(event.request).then(networkResponse => {
-        cache.put(event.request, networkResponse.clone());
-        return networkResponse;
-      });
+      return response || fetch(event.request);
     })
   );
 });
