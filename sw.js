@@ -64,7 +64,7 @@ self.addEventListener('fetch', event => {
 function serveImage(request) {
   var storageUrl = request.url.replace(/-\d+px\.jpg$/, '');
 
-  return caches.open(contentImgsCache).then(cache => {
+  return caches.open(imagesCache).then(cache => {
     return cache.match(storageUrl).then(response => {
       if (response) return response;
 
