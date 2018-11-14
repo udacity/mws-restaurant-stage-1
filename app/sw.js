@@ -66,14 +66,12 @@ self.addEventListener('fetch', function (event) {
 
   if (requestUrl.port === "1337") {
     const urlPath = requestUrl.pathname.split("/");
-    console.log(event.request.url);
     let restaurantID = 0;
     if (urlPath[urlPath.length - 1] === 'restaurants') {
       restaurantID = -1;
     } else {
       restaurantID = urlPath[urlPath.length - 1];
     }
-    console.log(restaurantID);
     event.respondWith(dbPromise
       .then(db => {
         return db
