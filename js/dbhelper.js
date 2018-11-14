@@ -18,7 +18,10 @@ class DBHelper {
 
   // Use Fetch instead of XHR.
   static fetchRestaurants(callback) {
-    fetch
+    fetch(DBHelper.DATABASE_URL)
+    .then(response => { return response.json(); })
+    .then(data => callback(null, data))
+    .catch(error => callback(`The request failed with ${error}.`, null))
   }
 
   /*
@@ -157,7 +160,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant, type) {
-    return (`/images/${type}/${restaurant.photograph}`);
+    return (`/images/${type}/${restaurant.photograph}.jpg`);
   }
 
   /**
