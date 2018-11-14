@@ -11,7 +11,7 @@ let allCaches = [staticCacheName, imagesCache];
 const dbPromise = idb.open('mws-restaurants', 1, upgradeDB => {
   switch (upgradeDB.oldVersion) {
     case 0:
-      upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+      upgradeDB.createObjectStore('restaurants', { keyPath: 'id' });
   }
 });
 
@@ -19,21 +19,21 @@ const dbPromise = idb.open('mws-restaurants', 1, upgradeDB => {
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(staticCacheName)
-    .then(cache => {
-      return cache.addAll([
-        '/',
-        '/index.html',
-        '/restaurant.html',
-        '/css/styles.css',
-        '/js/dbhelper.js',
-        '/js/main.js',
-        '/js/restaurant_info.js',
-        '/js/register.js',
-      ])
-      .catch(error => {
-        console.log(`Cache failed to open ${error}.`);
-      });
-    }));
+      .then(cache => {
+        return cache.addAll([
+          '/',
+          '/index.html',
+          '/restaurant.html',
+          '/css/styles.css',
+          '/js/dbhelper.js',
+          '/js/main.js',
+          '/js/restaurant_info.js',
+          '/js/register.js',
+        ])
+          .catch(error => {
+            console.log(`Cache failed to open ${error}.`);
+          });
+      }));
 });
 
 // Delete old caches that aren't being used anymore
@@ -48,7 +48,7 @@ self.addEventListener('activate', event => {
 });
 
 // Tell the cache what to respond with
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function (event) {
   let requestUrl = new URL(event.request.url);
 
   if (requestUrl.origin === location.origin) {
@@ -63,9 +63,35 @@ self.addEventListener('fetch', function(event) {
     }
   }
 
+  if (requestUrl.pathname.startsWith('/restaurant.html')) {
+    if (requestUrl.port === "1337") {
+      const urlPath = checkURL.pathname.split("/");
+      const restaurantID = 0;
+      if (urlPath[urlPath.length - 1] === 'restaurants') {
+        restaurantID = -1;
+      } else {
+        restaurantID = urlPath[urlPath.length - 1];
+      }
+      event.respondWith(dbPromise
+        .then(db => {
+          return db
+            .transaction('restaurants')
+            .objectStore('restaurants')
+            .get(id)
+        })
+        .then(restaurantData => {
+          console.log(restaurantData)
+        })
+      )
+    }
+  }
+
   event.respondWith(
     caches.match(event.request).then(function (response) {
-      return response || fetch(event.request);
+      return response || fetch(event.request).then(networkResponse => {
+        cache.put(event.request, networkResponse.clone());
+        return networkResponse;
+      });
     })
   );
 });
@@ -85,3 +111,5 @@ function serveImage(request) {
     });
   });
 }
+
+
