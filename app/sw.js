@@ -1,3 +1,5 @@
+import idb from 'idb';
+
 /* Help from https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle
   on how to use a service worker's lifecycle to cache important content 
   and serve it when it's requested */
@@ -5,6 +7,13 @@
 let staticCacheName = 'restaurant-v1';
 let imagesCache = 'restaurant-content-imgs';
 let allCaches = [staticCacheName, imagesCache];
+
+const dbPromise = idb.open('mws-restaurants', 1, upgradeDB => {
+  switch (upgradeDB.oldVersion) {
+    case 0:
+      upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+  }
+});
 
 // Determine pages to cache
 self.addEventListener('install', event => {
@@ -15,7 +24,6 @@ self.addEventListener('install', event => {
         '/',
         '/index.html',
         '/restaurant.html',
-        '/data/restaurants.json',
         '/css/styles.css',
         '/js/dbhelper.js',
         '/js/main.js',
