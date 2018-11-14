@@ -1,7 +1,12 @@
-let staticCacheName = 'restaurant-v1';
-let contentImgsCache = 'restaurant-content-imgs';
-let allCaches = [staticCacheName, contentImgsCache];
+/* Help from https://developers.google.com/web/fundamentals/primers/service-workers/lifecycle
+  on how to use a service worker's lifecycle to cache important content 
+  and serve it when it's requested */
 
+let staticCacheName = 'restaurant-v1';
+let imagesCache = 'restaurant-content-imgs';
+let allCaches = [staticCacheName, imagesCache];
+
+// Determine pages to cache
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(staticCacheName)
@@ -24,6 +29,7 @@ self.addEventListener('install', event => {
     }));
 });
 
+// Delete old caches that aren't being used anymore
 self.addEventListener('activate', event => {
   event.waitUntil(caches.keys().then(cacheNames => {
     return Promise.all(cacheNames.filter(cacheName => {
@@ -34,6 +40,7 @@ self.addEventListener('activate', event => {
   }));
 });
 
+// Tell the cache what to respond with
 self.addEventListener('fetch', event => {
   var requestUrl = new URL(event.request.url);
 
@@ -53,6 +60,7 @@ self.addEventListener('fetch', event => {
   }));
 });
 
+// Serve any cached requested images
 function serveImage(request) {
   var storageUrl = request.url.replace(/-\d+px\.jpg$/, '');
 
