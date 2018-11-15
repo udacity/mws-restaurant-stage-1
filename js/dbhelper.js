@@ -12,6 +12,13 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
+  static get DATABASE_URL_REVIEWS() {
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/reviews`;
+  }
+
+  
+
   /**
    * Fetch all restaurants.
    */
@@ -245,6 +252,21 @@ static fetchRestaurantsFromLocalDatabase () {
      //return tx.complete;
   });
 }
+
+  /**
+   * Fetch reviews
+   */
+  static fetchReviewsByRestaurantId(restaurantID) {
+    // Fetch all restaurants
+    const DATABASE_URL_ALL_REVIEWS_FOR_RESTAURANT= DBHelper.DATABASE_URL_REVIEWS + '/?restaurant_id=' + restaurantID;
+
+    fetch(DATABASE_URL_ALL_REVIEWS_FOR_RESTAURANT).then((response) => {
+      return response.json();  
+     })
+    //  .then( (reviews) => {
+    //   return reviews;
+    // });
+  }
 
 }
 

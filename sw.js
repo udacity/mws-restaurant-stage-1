@@ -85,12 +85,11 @@ serveRestaurant = (request) => {
     const url = new URL(request.url);
  return caches.open(staticCacheName).then(cache => {
   return cache.match(url.pathname).then(response => {
-    return (response
-//      response ||
-//      fetch(url).then(networkResp => {
-//        cache.put(url, networkResp.clone());
-//        return networkResp;
-//      })
+    return (response ||
+     fetch(url).then(networkResp => {
+       cache.put(url, networkResp.clone());
+       return networkResp;
+     })
     );
   });
 });

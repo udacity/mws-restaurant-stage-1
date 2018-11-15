@@ -98,8 +98,10 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
   }
+
+  var fetchedReviews = DBHelper.fetchReviewsByRestaurantId(self.restaurant.id);  
   // fill reviews
-  fillReviewsHTML();
+  fillReviewsHTML(fetchedReviews);
 }
 
 /**
@@ -131,17 +133,22 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
-  if (!reviews) {
-    const noReviews = document.createElement('p');
-    noReviews.innerHTML = 'No reviews yet!';
-    container.appendChild(noReviews);
-    return;
-  }
-  const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
-  });
-  container.appendChild(ul);
+  //Fetch all reviews of a restaurant from server.
+  //fetchedReviews.then( (reviews) => {
+    console.log("rec reviews" + reviews);
+    //callback(null, reviews);
+    if (!reviews) {
+      const noReviews = document.createElement('p');
+      noReviews.innerHTML = 'No reviews yet!';
+      container.appendChild(noReviews);
+      return;
+    }
+    const ul = document.getElementById('reviews-list');
+    reviews.forEach(review => {
+      ul.appendChild(createReviewHTML(review));
+    });
+    container.appendChild(ul);
+ // });
 }
 
 /**
@@ -192,4 +199,11 @@ getParameterByName = (name, url) => {
   if (!results[2])
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+addNewReview = (review) => {
+  const container = document.getElementById('reviews-container');
+  const ul = document.getElementById('reviews-list');
+  ul.appendChild(createReviewHTML(review));
+  container.appendChild(ul);
 }
