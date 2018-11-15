@@ -207,6 +207,7 @@ nav h1 a {
   right: 0;
   top: 0px;
   width: 90%;
+  z-index: 0;
 }
 .inside #map {
   background-color: #ccc;
@@ -316,3 +317,84 @@ nav h1 a {
 
 
 .truncate { width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+
+
+/* ====================== Modal Section ====================== */
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 200px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  height: 60vh;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 20px;
+  width: 60vw;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ====================== New Features Section ====================== */
+
+
+.labelClass {
+  font-size: 14pt;
+  padding-top: 5px;
+  padding-bottom: 45px;
+  margin-right: 40px;
+}
+
+.commentsClass {
+  width: 75vw;
+  height: 30vh;
+}
+
+.favClass{
+  float: right;
+}
+
+
+/* ====================== Rating Section ====================== */
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+.rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
+}

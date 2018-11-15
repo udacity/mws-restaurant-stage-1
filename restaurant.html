@@ -17,27 +17,16 @@
 </head>
 
 <body class="inside">
-  <!-- Beginning header -->
   <header>
-    <!-- Beginning nav -->
     <nav>
       <h1 aria-label="Restaurant-Reviews"><a href="/">Restaurant Reviews</a></h1>
     </nav>
-    <!-- Beginning breadcrumb -->
     <ul id="breadcrumb" aria-role="navigation" aria-label="Navigate to restaurant">
       <li><a href="index.html">Home</a></li>
     </ul>
-    <!-- End breadcrumb -->
-    <!-- End nav -->
   </header>
-  <!-- End header -->
 
-  <!-- Beginning main -->
   <main id="maincontent">
-    <!-- Beginning map -->
-
-	
-    <!-- Beginning restaurant -->
 	
     <section id="restaurant-container" aria-label="Restaurant details">
       <h2 id="restaurant-name"></h2>
@@ -47,30 +36,70 @@
       <p id="restaurant-address"></p>
       <section id="map-container" aria-label="Restaurant map" class="restaurant-inside-map" role="application"> 
        <div id="map"></div>
+      </section>
+	    <table id="restaurant-hours">
+        <h1>Restaurant Hours</h1>
+      </table>
     </section>
-	  <table id="restaurant-hours"><h1>Restaurant Hours</h1></table>
-    </section>
-    <!-- end restaurant -->
 	
     <section id="reviews-container" aria-label="Restaurant reviews">
       <ul id="reviews-list"></ul>
+      <button id="new-review-button">Add new review</button>
+      <!-- <div>
+
+        <form id="new-review-form" class="formClass" aria-label="Add your restaurant review">
+          <!-- <input class="close" id="name" type="text">Name</input>
+          <input class="close" id="date" type="date">Date</input>
+          <input class="close" id="rating" type="number">Ratings</input>
+          <input class="close" id="comments" type="text">Comments</input>
+        </form>
+      </div> -->
     </section>
-	
+  
+    <!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div>
+        <label class="labelClass" for="name">Name</label>
+        <input class="close" id="name" type="text"></input>
+      </div>
+      <div>
+        <label class="labelClass" for="date">Date</label>
+        <input class="close" id="date" type="date"></input>
+      </div>
+      <div>
+        <label class="labelClass" for="rating">Rating</label>
+        <!-- <input class="close" id="rating" type="number" max="5" min="0"></input> -->
+        <div class="rating close" id="rating">
+          <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+        </div>
+      </div>
+      <div>
+        <label class="labelClass" for="comments">Comments</label>
+        <textarea class="commentsClass close" id="comments"></textarea>
+      </div>
+      <div>
+          <button id="btnSave">Save</button>
+      </div>
+    </div>
+  
+  </div>
+
   </main>
-  <!-- End main -->
   
 
-  <!-- Beginning footer -->
   <footer id="footer">
     Copyright (c) 2017 <a href="index.html" aria-label="Navigate to top" role="navigation"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
-  <!-- End footer -->
   <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
   <!-- Beginning scripts -->
   <!-- Database helpers -->
   <script type="text/javascript" src="js/dbhelper.js"></script>
-  <script type="text/javascript" src="registersw.js"></script>
+  <!-- <script type="text/javascript" src="registersw.js"></script> -->
   <script type="text/javascript" src="js/idb.js"></script>
+  <script type="text/javascript" src="js/newReviewModal.js"></script>
   <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
    <!-- End scripts -->
