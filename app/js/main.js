@@ -179,7 +179,7 @@ createRestaurantHTML = (restaurant) => {
   const altText = 'An image of ' + restaurant.name + ' Restaurant';
   image.alt = altText;
   picture.appendChild(image);
-
+  /** TODO: Add favorite toggle  **/
   const fav = document.createElement('button');
   fav.classList = 'fav-button';
   fav.setAttribute('aria-label', 'favorite');

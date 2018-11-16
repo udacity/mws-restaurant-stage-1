@@ -1,4 +1,4 @@
-const staticCacheName = 'Restaurant-static-v1s1'; 
+const staticCacheName = 'Restaurant-static-V521'; 
 const filesToCache = [
     './',
     './index.html',
@@ -24,7 +24,7 @@ const filesToCache = [
 /*
  *   Install service worker and cache essential files 
  */
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(staticCacheName).then(cache => {
           console.log('Service Worker caching essential files');

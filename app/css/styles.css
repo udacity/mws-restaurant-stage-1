@@ -36,7 +36,7 @@ body {
   color: #fff;
   border: 3px solid #fff;
   background-color: #004;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .skip-main:focus {
@@ -49,6 +49,7 @@ body {
   -webkit-box-shadow: 0 0 7px 7px #db0;
   -moz-box-shadow: 0 0 7px 7px #db0;
   box-shadow: 0 0 7px 7px #db0;
+  box-shadow: 0 0 5px 5px #f4a;
 }
 
 a {
@@ -128,7 +129,7 @@ nav h1 a {
 }
 
 #breadcrumb {
-  padding: 0.5em;
+  padding: 1em;
   list-style: none;
   background-color: #eee;
   margin: 0;
@@ -216,7 +217,7 @@ nav h1 a {
   font-family: Arial,sans-serif;
   font-size: 1.2em;
   height: 2em;
-  letter-spacing: 0;
+  /*letter-spacing: 0;*/
   margin: 10px;
   padding: 0 10px;
   width: 100%;
@@ -269,24 +270,6 @@ nav h1 a {
   line-height: 1.2;
 }
 
-.fav-button {
-  width: 50px;
-  height: 48px;
-  bottom: 0;
-  /*left: 3px;*/
-  border: 2px solid #ccc;
-  position: relative;
-}
-
-.fav-button.active {
-  background-color: #fd0;
-}
-
-.fav-button:hover {
-  background-color: #f30;
-  cursor: pointer;
-}
-
 .view-button {
   background-color: #004;
   width: 100%;
@@ -311,12 +294,39 @@ nav h1 a {
   color: #fff;
 }
 
+/* ====================== Favorite Toggle ====================== */
+
+.fav-button {
+  width: 50px;
+  height: 48px;
+  bottom: 0;
+  /*left: 3px;*/
+  border: 2px solid #ccc;
+  background-image: url('../images/icons/favs.png');
+  position: absolute;
+}
+
+.fav-button.active {
+  background-color: #fd0;
+}
+
+.fav-button:hover {
+  background-color: #f30;
+  cursor: pointer;
+}
+
 /* ====================== Restaurant Details ====================== */
 .name,
 .description, 
 .reviews-header,
 .rev-head {
   width: 100%;
+}
+
+.name {
+  padding: 0 1em;
+  color: #004;
+  text-align: center;
 }
 
 #restaurant-name,
@@ -335,9 +345,9 @@ nav h1 a {
   text-transform: uppercase;
 }
 
-#restaurant-address {
+/*#restaurant-address {
   font-weight: bold;
-}
+}*/
 
 #restaurant-hours {
   width: 100%;
@@ -347,9 +357,9 @@ nav h1 a {
   background-color: #ccc;
 }
 
-#restaurant-hours td:first-of-type {
+/*#restaurant-hours td:first-of-type {
   font-weight: bold;
-}
+}*/
 
 #restaurant-hours td {
   width: 50%;
@@ -367,6 +377,7 @@ nav h1 a {
   flex-wrap: wrap; 
 }
 
+/* ====================== Reviews Listing ====================== */
 #reviews-list {
   margin: 0;
   padding: 0;
@@ -382,11 +393,22 @@ nav h1 a {
   padding-bottom: 1em;
 }
 
-.reviews-header,
-.name {
+.reviews-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 0 1em;
   color: #004;
-  text-align: center;
+}
+
+.reviews-header h2 {
+  margin: 0;
+}
+
+.add-rev-button {
+  padding: 8px;
+  font-size: 2em;
+  cursor: pointer;
 }
 
 .reviews-head {
@@ -430,7 +452,103 @@ nav h1 a {
   padding: 0.5em 1.5em;
 }
 
-/* Set page breakpoints */
+/* ====================== Modal ====================== */
+.modal {
+  display: none;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  max-width: 500px;
+  width: 80%; 
+  position: fixed;
+  z-index: 1002;
+  border: 3px solid #fa0;
+  overflow: hidden;
+  border-radius: 2em;
+  transform: translate(-50%, -50%);
+  transition: all .2s;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-overlay {
+  width: 100%;
+  height: 100%;
+  z-index: 1000; 
+  background-color: #000;
+  opacity: 0.9;
+  transition: all .1s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-overlay.show {
+  display: block;
+}
+
+/* ====================== Review Form ====================== */
+.form-container {
+  padding: 0 1em 1em;
+  color: #fa0;
+}
+
+.form-container h2 {
+  margin: 0 0 0.5em;
+}
+
+.rev-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #223;
+  border-radius: 2em;
+  padding: 0 1em 1em;
+}
+
+.field {
+  margin: 5px 0;
+  font-size: 1.3em;
+}
+
+input, select, textarea {
+  border-radius: 1em;
+  max-width: 100%;
+  border: 1px solid #223;
+  font-size: 1.4em;
+  padding: 0.5em;
+}
+
+/* ====================== Review Buttons ====================== */
+.rev-button {
+  border: 2px solid #004;
+  min-height: 48px;
+  min-width: 48px;
+  border-radius: 1em;
+  cursor: pointer;
+  font-size: 1.4em;
+  font-size: 1.5em;
+  background-color: #fa0;
+}
+
+.hide-button {
+  align-self: flex-end;
+  margin: 0.5em 0.5em 0;
+}
+
+.submit-button {
+  padding: 0 0.5em;
+}
+
+.rev-button:hover {
+  background-color: #aaa;
+}
+
+/* ====================== Set page breakpoints ====================== */
 @media screen and (max-width: 467px) {
   nav h1 a {
     font-size: 16px;

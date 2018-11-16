@@ -1,6 +1,13 @@
 let restaurant;
 //let reviews;
 var newMap;
+var focusedElementBeforeModal;
+// Find the modal and its overlay
+var modal = document.getElementById('modal');
+var modalOverlay = document.getElementById('modal-overlay');
+
+//var modalToggle = document.querySelector('.modal-toggle');
+//modalToggle.addEventListener('click', openModal);
 
 /**
  * Initialize map as soon as the page is loaded.
@@ -85,8 +92,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const address = document.getElementById('restaurant-address');
   address.setAttribute('aria-label', 'Address: ' + restaurant.address);
-  address.innerHTML = restaurant.address;
-
+  address.innerHTML = `<strong>${restaurant.address}</strong>`;
+  /** TODO: Add favorite toggle  **/
   const fav1 = document.getElementById('fav-button');
   if (restaurant.is_favorite === 'true') {
     fav1.classList.add('active');
@@ -148,7 +155,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     row.setAttribute('tabindex', '0');        // Make table's rows tabbable 
     const day = document.createElement('td');
     //day.setAttribute('tabindex', '0');
-    day.innerHTML = key;
+    day.innerHTML = `<strong>${key}</strong>`;
     row.appendChild(day);
 
     const time = document.createElement('td');
@@ -172,6 +179,14 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
   rev.appendChild(title);
+
+  const writeReview = document.createElement('button');
+  writeReview.classList.add('rev-button');
+  writeReview.setAttribute('aria-label', 'write a review');
+  writeReview.title = 'Write a Review'
+  writeReview.innerHTML = '+';
+  writeReview.addEventListener('click', modalToggle);
+  rev.appendChild(writeReview);
   container.appendChild(rev);
 
   DBHelper.getReviewsById(self.restaurant.id, (error, reviews) => {
@@ -268,3 +283,83 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+
+/** TODO: Add modal toggle  **/
+const modalToggle = (event) => {
+  event.preventDefault();
+  modal.classList.toggle('show');
+  modalOverlay.classList.toggle('show');
+}
+
+
+//Note: The following code is an adaptation of UD891; Udacity's course on Modals and Keyboard Traps
+
+/** TODO: Determine what happens when modal is opened or closed **/
+
+/*
+const openModal = () => {
+  // Save current focus
+  focusedElementBeforeModal = document.activeElement;
+
+  // Close the modal if overlay is clicked
+  modalOverlay.addEventListener('click', closeModal);
+
+  // Listen for and trap the keyboard
+  modal.addEventListener('keydown', trapTabKey);
+  
+  var submitBtn = modal.querySelector('#submit-button');
+  submitBtn.addEventListener('click', submitRev);
+
+  // Find all focusable children
+  var focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
+  var focusableElements = modal.querySelectorAll(focusableElementsString);
+  // Convert NodeList to Array
+  focusableElements = Array.prototype.slice.call(focusableElements);
+
+  var firstTabStop = focusableElements[0];
+  var lastTabStop = focusableElements[focusableElements.length - 1];
+
+  // Show the modal and overlay
+  modal.style.display = 'block';
+  modalOverlay.style.display = 'block';
+
+  // Focus first child
+  firstTabStop.focus();
+
+  function trapTabKey(e) {
+    // Check for TAB key press
+    if (e.keyCode === 9) {
+
+      // SHIFT + TAB
+      if (e.shiftKey) {
+        if (document.activeElement === firstTabStop) {
+          e.preventDefault();
+          lastTabStop.focus();
+        }
+
+      // TAB
+      } else {
+        if (document.activeElement === lastTabStop) {
+          e.preventDefault();
+          firstTabStop.focus();
+        }
+      }
+    }
+
+    // ESCAPE
+    if (e.keyCode === 27) {
+      closeModal();
+    }
+  }
+}
+
+const closeModal = () => {
+  // Hide the modal and overlay
+  modal.style.display = 'none';
+  modalOverlay.style.display = 'none';
+  // Reset form
+  form.reset();
+  // Set focus back to element that had it before the modal was opened
+  focusedElementBeforeModal.focus();
+}*/

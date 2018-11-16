@@ -61,6 +61,41 @@
       <ul id="reviews-list"></ul>
     </section>
 
+    <div class="modal" id="modal">
+      <button class="hide-button rev-button" onclick="modalToggle(event)" aria-label="hide" title="hide"><strong>x</strong></button>
+      <div id="form-container" class="form-container">
+        <h2>Leave a review</h2>
+        <form class="rev-form">
+          
+          <div class="field">
+            <label for="review-author"><strong>Name</strong></label><br>
+            <input type="text" name="review-author" id="review-author" class="review-author" required><br>
+          </div>
+          
+          <div class="field">
+            <label for="review-rating"><strong>Rating</strong></label><br>
+            <select id="review-rating" class="review-rating">
+              <option value="1" >1</option>
+              <option value="2" >2</option>
+              <option value="3" >3</option>
+              <option value="4" >4</option>
+              <option value="5" >5</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="comments"><strong>Comments</strong></label><br>
+            <textarea name="comments" id="review-comments" class="review-comments" row="5" required></textarea>
+          </div>
+          
+          <div class="field">
+            <button id="submit-button" class="submit-button rev-button"><strong>Submit</strong></button>
+          </div>
+        
+        </form>
+      </div>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"></div>
   </main>
 
   <footer id="footer" role="contentinfo">
