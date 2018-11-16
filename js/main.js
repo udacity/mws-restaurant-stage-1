@@ -185,12 +185,18 @@ createRestaurantHTML = (restaurant) => {
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
 
-  const fav = document.createElement('div');
+  const fav = document.createElement('span');
   fav.className='favClass';
-  fav.innerHTML = restaurant.is_favorite;
+  fav.id=`star_${restaurant.id}`
+  fav.innerHTML = '&#9733;';
+  fav.onclick= function(){
+    favoriteFunction(restaurant.id);
+  };
+  if (restaurant.is_favorite)
+    fav.className +=' yellowStar';
   li.append(fav);
 
-  return li
+  return li;
 }
 
 /**
@@ -220,3 +226,21 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 } */
 
 //============ service worker ================//
+
+
+favoriteFunction = (restaurantId) => {
+  document.getElementById(`star_${restaurantId}`).classList.toggle('yellowStar');
+  DBHelper.fetchRestaurantById(restaurantId, (error, restaurant) => {
+    self.restaurant = restaurant;
+    if (!restaurant) {
+      console.error(error);
+      return;
+    }
+      
+    
+    DBHelper.markRestaurantAsFavorite(restaurant.id);
+    //callback(null, restaurant)
+  });
+
+  return false;
+}

@@ -151,7 +151,7 @@ nav h1 a {
   padding: 0 30px 25px;
   text-align: left;
   min-width: 280px;
-  max-width: 325px;
+  max-width: 350px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -232,7 +232,8 @@ nav h1 a {
 #restaurant-img {
 	width: 60%;
 	margin:auto;
-	display: flex;
+  display: flex;
+  max-width: 900px;
 }
 #restaurant-address {
   font-size: 12pt;
@@ -397,4 +398,20 @@ nav h1 a {
 .rating > span:hover ~ span:before {
    content: "\2605";
    position: absolute;
+}
+
+/* ====================== Favorite Section ====================== */
+
+.favClass {
+  font-size: 50px;    
+  color: white;
+  /* Some sort of border */
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  cursor:pointer;
+  line-height: 1;
+  margin-top: 8px;
+}
+
+.yellowStar {
+  color: gold;
 }

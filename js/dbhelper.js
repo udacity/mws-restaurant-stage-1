@@ -256,7 +256,7 @@ static fetchRestaurantsFromLocalDatabase () {
   /**
    * Fetch reviews
    */
-  static fetchReviewsByRestaurantId(restaurantID) {
+static fetchReviewsByRestaurantId(restaurantID) {
     // Fetch all restaurants
     const DATABASE_URL_ALL_REVIEWS_FOR_RESTAURANT= DBHelper.DATABASE_URL_REVIEWS + '/?restaurant_id=' + restaurantID;
 
@@ -268,5 +268,34 @@ static fetchRestaurantsFromLocalDatabase () {
     // });
   }
 
+static updateLocalDatabaseWithNewValues(restaurantID) {
+
+}
+
+static markRestaurantAsFavorite(restaurantID) {
+  var dbPromise = DBHelper.OpenLocalDatabase();
+  return dbPromise.then(function (db) {
+    if (!db) return;
+
+     var tx = db.transaction('restaurantList', 'readwrite');
+     var store = tx.objectStore('restaurantList');
+     var req = store.get(restaurantID).then( (restaurant) => {
+       //restaurant.is_favorite
+       console.log('Updating now');
+
+       if(restaurant.is_favorite)
+        restaurant.is_favorite=false;
+      else
+        restaurant.is_favorite=true;
+
+        var req2 = store.put(restaurant, restaurantID).then( function() {
+          console.log('Update successful');
+        });
+        return tx.complete;
+     });
+
+     //return store.getAll();
+  });
+ } 
 }
 

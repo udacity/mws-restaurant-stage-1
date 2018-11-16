@@ -10,10 +10,10 @@ self.addEventListener('install', function(event) {
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
         './',
-		'index.html',
-		'restaurant.html',
-		'./js/main.js',
-		'./js/idb.js',
+		    'index.html',
+		    'restaurant.html',
+	    	'./js/main.js',
+		    './js/idb.js',
         './js/dbhelper.js',
         './js/restaurant_info.js',
         './css/styles.css',
@@ -68,29 +68,29 @@ self.addEventListener('activate', function(event) {
 
 serveImages = (request) => {
   const url = new URL(request.url);
-return caches.open(staticCacheName).then(cache => {
-  return cache.match(url).then(response => {
-    return (
-      response ||
-      fetch(url).then(networkResp => {
-        cache.put(url, networkResp.clone());
-        return networkResp;
-      })
-    );
+  return caches.open(staticCacheName).then(cache => {
+    return cache.match(url).then(response => {
+      return (
+        response ||
+        fetch(url).then(networkResp => {
+          cache.put(url, networkResp.clone());
+          return networkResp;
+        })
+      );
+    });
   });
-});
 };
 
 serveRestaurant = (request) => {
     const url = new URL(request.url);
- return caches.open(staticCacheName).then(cache => {
-  return cache.match(url.pathname).then(response => {
-    return (response ||
-     fetch(url).then(networkResp => {
-       cache.put(url, networkResp.clone());
-       return networkResp;
-     })
-    );
+   return caches.open(staticCacheName).then(cache => {
+    return cache.match(url.pathname).then(response => {
+     return (response ||
+      fetch(url).then(networkResp => {
+        cache.put(url, networkResp.clone());
+        return networkResp;
+       })
+     );
+   });
   });
-});
 };
