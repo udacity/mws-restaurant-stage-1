@@ -1,4 +1,4 @@
-const staticCacheName = 'Restaurant-static-V521'; 
+const staticCacheName = 'Restaurant-static-V5'; 
 const filesToCache = [
     './',
     './index.html',
@@ -68,6 +68,17 @@ self.addEventListener('fetch', event => {
       event.respondWith(caches.match('./restaurant.html'));
       return;
     }
+    if (requestUrl.port === '1337') {
+      // 2. Only cache GET methods
+      if (event.request.method !== 'GET') {
+        console.log('filtering out non-GET method');
+        // return fetch(event.request)
+        //   .then(response => response.json())
+        //   .then(json => json);
+        return;
+      }
+    }
+
 
 /** fetch from catch or network **/
     event.respondWith(

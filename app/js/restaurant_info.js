@@ -2,9 +2,9 @@ let restaurant;
 //let reviews;
 var newMap;
 var focusedElementBeforeModal;
-// Find the modal and its overlay
 var modal = document.getElementById('modal');
 var modalOverlay = document.getElementById('modal-overlay');
+//var form = document.getElementById('rev-form');
 
 //var modalToggle = document.querySelector('.modal-toggle');
 //modalToggle.addEventListener('click', openModal);
@@ -185,7 +185,8 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   writeReview.setAttribute('aria-label', 'write a review');
   writeReview.title = 'Write a Review'
   writeReview.innerHTML = '+';
-  writeReview.addEventListener('click', modalToggle);
+  //writeReview.innerHTML = '&#43;';
+  writeReview.addEventListener('click', openModal);
   rev.appendChild(writeReview);
   container.appendChild(rev);
 
@@ -286,18 +287,17 @@ getParameterByName = (name, url) => {
 
 
 /** TODO: Add modal toggle  **/
+/*
 const modalToggle = (event) => {
   event.preventDefault();
   modal.classList.toggle('show');
   modalOverlay.classList.toggle('show');
-}
+}*/
 
 
-//Note: The following code is an adaptation of UD891; Udacity's course on Modals and Keyboard Traps
+//  Note: The following code is an adaptation of UD891; Udacity's course on Modals and Keyboard Traps
 
 /** TODO: Determine what happens when modal is opened or closed **/
-
-/*
 const openModal = () => {
   // Save current focus
   focusedElementBeforeModal = document.activeElement;
@@ -321,8 +321,10 @@ const openModal = () => {
   var lastTabStop = focusableElements[focusableElements.length - 1];
 
   // Show the modal and overlay
-  modal.style.display = 'block';
-  modalOverlay.style.display = 'block';
+  //modal.classList.add('show');
+  //modalOverlay.classList.add('show');
+  modal.style.display = "flex";
+  modalOverlay.style.display = "block";
 
   // Focus first child
   firstTabStop.focus();
@@ -355,11 +357,71 @@ const openModal = () => {
 }
 
 const closeModal = () => {
-  // Hide the modal and overlay
-  modal.style.display = 'none';
-  modalOverlay.style.display = 'none';
-  // Reset form
+  
+  //  Reset the form then Hide the modal and overlay
+  const form = document.getElementById('rev-form');
   form.reset();
+  //modal.classList.remove('show');
+  //modalOverlay.classList.remove('show');
+  modal.style.display = "none";
+  modalOverlay.style.display = "none";
+
   // Set focus back to element that had it before the modal was opened
   focusedElementBeforeModal.focus();
-}*/
+}
+
+const submitRev = (event) => {
+  event.preventDefault();
+	const ul = document.getElementById('reviews-list');
+  const id = self.restaurant.id;
+  const name = document.getElementById('review-author').value;
+  const rating = document.getElementById('review-rating').value;
+  const comments = document.getElementById('review-comments').value;
+	let url = `${DBHelper.DATABASE_URL}/reviews/`;
+	let textR,textF,textS;
+  let myReview = {
+    'restaurant_id': id,
+    'name': name,
+    'rating': rating,
+    'comments': comments
+  };
+	//console.log(myReview);
+	
+	//if (name === "") {
+	if ((name === "") || (comments === "")) {
+			textR = 'Fields marked * are required!';
+			//console.log(text);
+			postMessage(textR);
+		return;
+	} else {
+  		fetch(url, {
+    		method: 'POST',
+    		headers: {'content-type': 'application/json'},
+    		body: JSON.stringify(myReview)
+  		})
+  		.then(response => response.json())
+  		.then(myReview => {
+				textS = 'Your review was saved. Thanks for the review';
+    		ul.appendChild(createReviewHTML(myReview));
+    		closeModal();
+    		postMessage(textS);
+			}).catch(err => {
+          console.log(err);
+          closeModal();
+					textF = 'Offline: Your review will be sent when you are online';
+					postMessage(textF);
+			});
+		}
+}
+
+// Method for showing notification onscreen 
+const postMessage = (text) => {
+  const messageBox = document.getElementById('message-box'); 
+  messageBox.innerHTML = `<p>${text}<p>`;
+	messageBox.style.display = 'block';
+
+  setTimeout(() => {
+		messageBox.style.display = "none";
+		messageBox.innerHTML = "";
+  }, 5000);
+}

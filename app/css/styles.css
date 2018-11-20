@@ -299,8 +299,8 @@ nav h1 a {
 .fav-button {
   width: 50px;
   height: 48px;
-  bottom: 0;
-  /*left: 3px;*/
+  bottom: 5px;
+  left: 5px;
   border: 2px solid #ccc;
   background-image: url('../images/icons/favs.png');
   position: absolute;
@@ -390,6 +390,7 @@ nav h1 a {
   list-style-type: none;
   margin: 1em 0;
   border-radius: 3em;
+  overflow: hidden;
   padding-bottom: 1em;
 }
 
@@ -456,21 +457,20 @@ nav h1 a {
 .modal {
   display: none;
   flex-direction: column;
+  padding: 1em;
+  color: #fa0;
   top: 50%;
   left: 50%;
   max-width: 500px;
-  width: 80%; 
+  width: 90%; 
   position: fixed;
+  background-color: #223;
   z-index: 1002;
   border: 3px solid #fa0;
   overflow: hidden;
   border-radius: 2em;
   transform: translate(-50%, -50%);
   transition: all .2s;
-}
-
-.modal.show {
-  display: flex;
 }
 
 .modal-overlay {
@@ -484,43 +484,38 @@ nav h1 a {
   top: 0;
   left: 0;
   display: none;
-  margin: 0;
-  padding: 0;
+}
+/*
+.modal.show {
+  display: flex;
 }
 
 .modal-overlay.show {
   display: block;
-}
+}*/
 
 /* ====================== Review Form ====================== */
-.form-container {
-  padding: 0 1em 1em;
-  color: #fa0;
-}
-
-.form-container h2 {
-  margin: 0 0 0.5em;
-}
-
-.rev-form {
-  display: flex;
-  flex-direction: column;
-  background-color: #223;
-  border-radius: 2em;
-  padding: 0 1em 1em;
+.rev-form h2 {
+  margin: 0;
 }
 
 .field {
-  margin: 5px 0;
+  /*margin: 5px 0;*/
   font-size: 1.3em;
 }
 
-input, select, textarea {
-  border-radius: 1em;
+input[type=text], select, textarea {
+  border-radius: 10px;
   max-width: 100%;
   border: 1px solid #223;
   font-size: 1.4em;
-  padding: 0.5em;
+  padding: 12px;
+  margin: 6px 0;
+}
+
+.review-comments::first-letter {
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 /* ====================== Review Buttons ====================== */
@@ -530,14 +525,12 @@ input, select, textarea {
   min-width: 48px;
   border-radius: 1em;
   cursor: pointer;
-  font-size: 1.4em;
   font-size: 1.5em;
   background-color: #fa0;
 }
 
 .hide-button {
   align-self: flex-end;
-  margin: 0.5em 0.5em 0;
 }
 
 .submit-button {
@@ -546,6 +539,18 @@ input, select, textarea {
 
 .rev-button:hover {
   background-color: #aaa;
+}
+
+.message-box {
+  display: none;
+  position: fixed;
+  top: 0;
+  width: 80vw;
+  margin: calc((100% - 80vw)/2);
+  padding: 0 1em;
+  border-radius: 10px;
+  background-color: #fa0;
+  z-index: 1003;
 }
 
 /* ====================== Set page breakpoints ====================== */
