@@ -9,9 +9,12 @@ var markers = []
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   initMap(); // added 
+  //addReviewsToLocalDatabase();
+});
+window.addEventListener('load', (event)=> {
   fetchNeighborhoods();
   fetchCuisines();
-});
+})
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -243,4 +246,32 @@ favoriteFunction = (restaurantId) => {
   });
 
   return false;
+}
+
+addReviewsToLocalDatabase = () => {
+  DBHelper.fetchRestaurants((error, restaurants) => {
+      //const restaurant = restaurants.find(r => r.id == id);
+      restaurants.forEach(restaurant => {
+        DBHelper.fetchReviewsByRestaurantId(restaurant.id).then((fetchedReviews) => {
+          console.log("reviews" + fetchedReviews);
+          var dbPromise = DBHelper.OpenLocalDatabase();
+          return dbPromise.then(function (db) {
+            if (!db) return;
+            
+            var tx = db.transaction('restaurantList', 'readwrite');
+            var store = tx.objectStore('restaurantList');
+            var req = store.get(restaurant.id).then( (restaurant) => {
+              restaurant.reviews = fetchedReviews;
+                var req2 = store.put(restaurant, restaurant.id).then( function() {
+                  console.log('Update successful');
+                });
+              });
+              return tx.complete;
+            });
+        });
+      })
+      
+  });
+
+  
 }

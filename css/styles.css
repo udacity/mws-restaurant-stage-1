@@ -290,7 +290,7 @@ nav h1 a {
   color: #666;
 }
 
-/* ====================== Media Queries ====================== */
+/* ============================================ Media Queries ============================================ */
 
 
 @media screen and (max-width:450px) {
@@ -316,6 +316,25 @@ nav h1 a {
     }
 }
 
+@media screen and (min-width:900px) {
+
+  #restaurant-address, #reviews-list {
+    font-size: 12pt;
+  }
+  #reviews-list li p, #restaurant-hours td {
+    font-size: 12pt;
+  }
+
+  #reviews-container h3, #restaurant-container h1{
+    font-size: 2em;
+  }
+  #restaurant-container p{
+    font-size: 1.5em;    
+  }
+  #breadcrumb li{
+    font-size: 1.25em;
+  }
+}
 
 .truncate { width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -353,7 +372,7 @@ nav h1 a {
   color: #aaaaaa;
   float: right;
   font-size: 20px;
-  width: 60vw;
+  width: 50vw;
 }
 
 .close:hover,
@@ -369,8 +388,8 @@ nav h1 a {
 .labelClass {
   font-size: 14pt;
   padding-top: 5px;
-  padding-bottom: 45px;
-  margin-right: 40px;
+  padding-bottom: 5px;
+  /* margin-right: 40px; */
 }
 
 .commentsClass {

@@ -1,4 +1,4 @@
-var staticCacheName = 'restaurants-v14';
+var staticCacheName = 'restaurants-v18';
 var contentImgsCache = 'restaurants-imgs';
 var allCaches = [
   staticCacheName,
@@ -15,10 +15,11 @@ self.addEventListener('install', function(event) {
 	    	'./js/main.js',
 		    './js/idb.js',
         './js/dbhelper.js',
+        './js/newReviewModal.js',
         './js/restaurant_info.js',
         './css/styles.css',
-        'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
-        'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css'
+        './js/leaflet.min.js',
+        './css/leaflet.min.css'
       ]);
     })
   );
@@ -26,7 +27,7 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('fetch', function(event) {
   var requestUrl = new URL(event.request.url);
-  console.log(requestUrl.pathname + " from sw");
+ // console.log(requestUrl.pathname + " from sw");
   if (requestUrl.origin === location.origin) {
     if (requestUrl.pathname === '/') {
       event.respondWith(caches.match('/skeleton'));
@@ -50,6 +51,8 @@ self.addEventListener('fetch', function(event) {
   );
 });
 
+
+
 self.addEventListener('activate', function(event) {
   console.log('sw activates');
   event.waitUntil(
@@ -66,9 +69,10 @@ self.addEventListener('activate', function(event) {
   );
 });
 
+
 serveImages = (request) => {
   const url = new URL(request.url);
-  return caches.open(staticCacheName).then(cache => {
+  return caches.open(contentImgsCache).then(cache => {
     return cache.match(url).then(response => {
       return (
         response ||
@@ -80,6 +84,7 @@ serveImages = (request) => {
     });
   });
 };
+
 
 serveRestaurant = (request) => {
     const url = new URL(request.url);
