@@ -195,6 +195,10 @@ createRestaurantHTML = (restaurant) => {
   fav.onclick= function(){
     favoriteFunction(restaurant.id);
   };
+  
+  if( typeof(restaurant.is_favorite)== "string")
+    restaurant.is_favorite = (restaurant.is_favorite == "true"? true: false);
+  
   if (restaurant.is_favorite)
     fav.className +=' yellowStar';
   li.append(fav);

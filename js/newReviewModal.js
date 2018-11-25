@@ -42,8 +42,12 @@ btnSave.onclick= function(event) {
         console.log(JSON.stringify(review));
         DBHelper.addNewReviewToLocalDatabase(review);
         addNewReview(review);
-        if( navigator.onLine)
-            postReviewToServer(review);
+        if(navigator.onLine)
+            DBHelper.addNewReviewOnServer(restaurant,review);          
+           //postReviewToServer(review);
+        else 
+            DBHelper.addRequestsToQueue(restaurant, review);
+
     }
 }
 

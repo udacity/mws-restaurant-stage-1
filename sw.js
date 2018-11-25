@@ -19,6 +19,8 @@ self.addEventListener('install', function(event) {
         './js/restaurant_info.js',
         './css/styles.css',
         './js/leaflet.min.js',
+        './css/images/marker-icon.png',
+        './css/images/marker-shadow.png',
         './css/leaflet.min.css'
       ]);
     })
@@ -38,11 +40,13 @@ self.addEventListener('fetch', function(event) {
        return;
      }
   }
-    if(requestUrl.pathname.startsWith('/restaurant')){
+
+    
+  if(requestUrl.pathname.startsWith('/restaurant') && requestUrl.method == "POST"){
       // event.respondWith(fetchRestaurantsFromLocalDatabase());
       event.respondWith(serveRestaurant(event.request));
       return;
-    }
+  }
  
   event.respondWith(
     caches.match(event.request).then(function(response) {
@@ -76,7 +80,18 @@ serveImages = (request) => {
     return cache.match(url).then(response => {
       return (
         response ||
-        fetch(url).then(networkResp => {
+        fetch(url, {
+          method: "GET", 
+          // mode: "cors", 
+          cache: "default",
+          credentials: "same-origin",
+          headers: {
+              // "Content-Type": "charset=utf-8",
+               "Cache-Control": "max-age=86400"
+          },
+          redirect: "follow",
+          referrer: "no-referrer"
+      }).then(networkResp => {
           cache.put(url, networkResp.clone());
           return networkResp;
         })

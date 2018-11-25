@@ -296,8 +296,9 @@ static addNewReviewToLocalDatabase(review) {
     var req1= store.get(review.restaurant_id).then( (restaurant) => {
       restaurant.reviews.push(review);
       console.log(restaurant);
-        var req2 = store.put(restaurant, restaurant.id).then( function() {
+        var req2 = store.put(restaurant, restaurant.id).then( function(review) {
           console.log('Update successful');
+          //DBHelper.addNewReviewOnServer(restaurant,review);          
         });
         return tx.complete;
       });
@@ -312,18 +313,52 @@ static markRestaurantAsFavorite(restaurantID) {
      var tx = db.transaction('restaurantList', 'readwrite');
      var store = tx.objectStore('restaurantList');
      var req = store.get(restaurantID).then( (restaurant) => {
+    
+      if( typeof(restaurant.is_favorite)== "string")
+        restaurant.is_favorite = (restaurant.is_favorite == "true"? true: false);
 
        if(restaurant.is_favorite)
         restaurant.is_favorite=false;
-      else
+       else
         restaurant.is_favorite=true;
 
         var req2 = store.put(restaurant, restaurantID).then( function() {
           console.log('Update successful');
         });
+        DBHelper.postRestaurantAsFavoriteOnServer(restaurant);
         return tx.complete;
      });
   });
  } 
+ 
+  // =====================================================================POST ONLINE SECTION ============================================//
+  static postRestaurantAsFavoriteOnServer(restaurant)
+  {
+    const DATABASE_URL_FOR_RESTAURANT_FAVORITE= DBHelper.DATABASE_URL + '/' + restaurant.id + '/?is_favorite=' + restaurant.is_favorite;
+    
+    fetch(DATABASE_URL_FOR_RESTAURANT_FAVORITE, {
+      method: 'PUT',
+    }).then(function(response) {
+      if(response)
+      console.log(response);
+    })
+  }
+
+  static addNewReviewOnServer(restaurant, review)
+  {
+    fetch(DBHelper.DATABASE_URL_REVIEWS, {
+      method: 'POST',
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        // "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: JSON.stringify(review)
+    }).then(function(response) {
+      if(response)
+      console.log(response);
+    })
+  }
 }
 
