@@ -64,8 +64,8 @@ self.addEventListener('fetch', function (event) {
     }
   }
 
-  if (requestUrl.port === "1337") {
-    const urlPath = requestUrl.pathname.split("/");
+  if (requestUrl.port === '1337') {
+    const urlPath = requestUrl.pathname.split('/');
     let restaurantID = 0;
     if (urlPath[urlPath.length - 1] === 'restaurants') {
       restaurantID = -1;
@@ -83,8 +83,8 @@ self.addEventListener('fetch', function (event) {
             .then(fetchResponse => fetchResponse.json())
             .then(json => {
               return dbPromise.then(db => {
-                const tx = db.transaction("restaurants", "readwrite");
-                tx.objectStore("restaurants").put({
+                const tx = db.transaction('restaurants', 'readwrite');
+                tx.objectStore('restaurants').put({
                   id: restaurantID,
                   data: json
                 });
@@ -104,8 +104,10 @@ self.addEventListener('fetch', function (event) {
   }
 
   event.respondWith(
-    caches.match(event.request).then(function (response) {
-      return response || fetch(event.request);
+    caches.match(eventRequest).then(response => {
+      return response || fetch(eventRequest)
+    }).catch(error => {
+      console.log('Offline, cannot fetch', error);
     })
   );
 });
@@ -121,6 +123,8 @@ function serveImage(request) {
       return fetch(request).then(networkResponse => {
         cache.put(storageUrl, networkResponse.clone());
         return networkResponse;
+      }).catch(error => {
+        console.log('Offline, cannot fetch', error);
       });
     });
   });
