@@ -136,5 +136,3 @@ function serveImage(request) {
     });
   });
 }
-
-
