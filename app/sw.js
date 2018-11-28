@@ -43,7 +43,7 @@ self.addEventListener('activate', event => {
     return Promise.all(cacheNames.filter(cacheName => {
       return cacheName.startsWith('restaurant-') && !allCaches.includes(cacheName);
     }).map(cacheName => {
-      return caches['delete'](cacheName);
+      return caches.delete(cacheName);
     }));
   }));
 });
@@ -106,7 +106,14 @@ self.addEventListener('fetch', function (event) {
 
   event.respondWith(
     caches.match(eventRequest).then(response => {
-      return response || fetch(eventRequest)
+      if (response) return response; 
+      
+      return fetch(eventRequest).then(networkResponse => {
+        return caches.open(staticCacheName).then(cache => {
+          cache.put(eventRequest, networkResponse.clone());
+          return networkResponse
+        })
+      })
     }).catch(error => {
       console.log('Offline, cannot fetch', error);
     })
@@ -124,11 +131,9 @@ function serveImage(request) {
       return fetch(request).then(networkResponse => {
         cache.put(storageUrl, networkResponse.clone());
         return networkResponse;
-      }).catch(error => {
-        console.log('Offline, cannot fetch', error);
       });
+    }).catch(error => {
+      console.log('Offline, cannot fetch', error);
     });
   });
 }
-
-
