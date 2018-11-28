@@ -177,6 +177,8 @@ const createRestaurantHTML = (restaurant) => {
   name.tabIndex = '0';
   text.append(name);
 
+  console.log('isFav: ', restaurant['is_favorite']);
+
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   neighborhood.className = 'restaurant-neighborhood';
