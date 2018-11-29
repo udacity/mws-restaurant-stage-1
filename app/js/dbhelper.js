@@ -3,6 +3,21 @@
  */
 import idb from "idb";
 
+const dbPromise = idb.open('mws-restaurants', 3, upgradeDB => {
+  switch (upgradeDB.oldVersion) {
+    case 0:
+      upgradeDB.createObjectStore('restaurants', { keyPath: 'id' });
+    case 1:
+      upgradeDB.createObjectStore('pending', {
+        keyPath: 'id',
+        autoIncrement: true
+      });
+    case 2:
+      const reviewsStore = upgradeDB.createObjectStore('reviews', { keyPath: 'id' });
+      reviewsStore.createIndex("restuarantID", "restaurantID")
+  }
+});
+
 class DBHelper {
 
   /**
@@ -186,14 +201,43 @@ class DBHelper {
     });
   }
 
-  static updateRestaurantInfo(restaurantID, updateObject) {
-    const dbPromise = idb.open('mws-restaurants');
-
-    //update data for all restuarants
-    DBHelper.updateAllRestaurants(dbPromise, restaurantID, updateObject);
+  static savePostReview(restaurantID, properties, callback) {
+    DBHelper.updateReviewInfo(restaurantID, properties);
+    callback(null, null)
   }
 
-  static updateAllRestaurants(dbPromise, restaurantID, updateObject) {
+  static handlePostReview(restaurantID, name, rating, comments, callback) {
+    const reviewBtn = document.getElementById('post-review');
+    reviewBtn.onclick = null;
+
+    const properties = {
+      createdAt: Date.now(),
+      restaurant_id: restaurantID,
+      name: name,
+      rating: rating,
+      comments: comments
+    }
+
+    DBHelper.savePostReview(restaurantID, properties, (error, result) => {
+      if (error) {
+        callback(error, null);
+        return;
+      }
+      callback(null, result);
+    })
+  }
+
+  static updateReviewInfo(restaurantID, properties) {
+    dbPromise.then(db => {
+      const tx = db.transaction('reviews', 'readwrite');
+      const reviewStore = tx.objectStore('reviews')
+      //must store by Date.now() so keys are unique in the store
+      reviewStore.put({ id: Date.now(), "restaurantID": restaurantID, data: properties });
+      return tx.complete;
+    });
+  }
+
+  static updateRestaurantInfo(restaurantID, updateObject) {
     dbPromise.then(db => {
       const tx = db.transaction('restaurants', 'readwrite');
       const storeVal = tx.objectStore('restaurants').get(-1) //where all restaurant data is stored
@@ -225,27 +269,17 @@ class DBHelper {
                   if ('sync' in reg) {
                     let properties = {
                       method: 'put',
-                      body: {favorite: updateObject[restaurantKey], restID: restaurantID},
+                      body: { favorite: updateObject[restaurantKey], restID: restaurantID },
                     };
 
-                    idb.open('mws-restaurants', 2, upgradeDB => {
-                      switch (upgradeDB.oldVersion) {
-                        case 0:
-                          upgradeDB.createObjectStore('restaurants', { keyPath: 'id' });
-                        case 1:
-                          upgradeDB.createObjectStore('pending', {
-                            keyPath: 'id',
-                            autoIncrement: true
-                          });
-                      }
-                    }).then(() => {
+                    dbPromise.then(() => {
                       const tx = db.transaction('pending', 'readwrite');
                       return tx.objectStore('pending').put(properties);
-                    }).then(function() {
+                    }).then(function () {
                       return reg.sync.register('pending');
-                    }).catch(function(err) {
+                    }).catch(function (err) {
                       // something went wrong with the database or the sync registration
-                      console.error(err); 
+                      console.error(err);
                     });
                   }
                 }).catch(function (err) {

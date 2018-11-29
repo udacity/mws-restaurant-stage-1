@@ -8,7 +8,7 @@ let staticCacheName = 'restaurant-v1';
 let imagesCache = 'restaurant-content-imgs';
 let allCaches = [staticCacheName, imagesCache];
 
-const dbPromise = idb.open('mws-restaurants', 2, upgradeDB => {
+const dbPromise = idb.open('mws-restaurants', 3, upgradeDB => {
   switch (upgradeDB.oldVersion) {
     case 0:
       upgradeDB.createObjectStore('restaurants', { keyPath: 'id' });
@@ -17,6 +17,9 @@ const dbPromise = idb.open('mws-restaurants', 2, upgradeDB => {
         keyPath: 'id',
         autoIncrement: true
       });
+    case 2:
+      const reviewsStore = upgradeDB.createObjectStore('reviews', { keyPath: 'id' });
+      reviewsStore.createIndex("restuarantID", "restaurantID")
   }
 });
 

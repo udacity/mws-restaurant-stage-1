@@ -96,3 +96,18 @@ const getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+const postReview = () => {
+  const name = document.getElementById('your-review-name').value;
+  const rating = document.getElementById('your-rating').value;
+  const comments = document.getElementById('your-review-comments').value;
+
+  DBHelper.handlePostReview(self.restaurant.id, name, rating, comments, (error, review) => {
+    if(error) return;
+
+    const reviewButton = document.getElementById('post-review');
+    reviewButton.onclick = (e) => postReview();
+
+    window.location.href = `/restaurant.html?id=${self.restaurant.id}`;
+  });
+}
