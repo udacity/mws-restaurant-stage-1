@@ -62,10 +62,12 @@ self.addEventListener('install', event => {
           '/',
           '/index.html',
           '/restaurant.html',
+          '/review.html',
           '/css/styles.css',
           '/js/dbhelper.js',
           '/js/main.js',
           '/js/restaurant_info.js',
+          '/js/review.js',
           '/js/register.js',
           'https://use.fontawesome.com/releases/v5.5.0/css/all.css'
         ])

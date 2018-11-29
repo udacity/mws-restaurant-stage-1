@@ -246,7 +246,7 @@ nav h1 a {
   margin: 0;
 }
 
-#restaurants-list li button {
+#restaurants-list li button, #write-review button {
   background-color: #6E4412;
   border: none;
   color: #fff;
@@ -452,4 +452,20 @@ nav h1 a {
 
 .is-not-favorited {
   color: #716B73;
+}
+
+/* ====================== Reviews ====================== */
+#your-review-name, #your-rating, #your-review-comments {
+  font-size: 1em;
+}
+
+#write-review {
+  font-size: 1.1em;
+  margin: 0 auto;
+  width: calc(100% - 50px);
+  padding: 50px 0;
+}
+
+#write-review input, #write-review textarea {
+  width: 100%;
 }
