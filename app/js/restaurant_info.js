@@ -121,10 +121,19 @@ const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hour
  */
 const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
+  const flexBox = document.createElement('div');
+  flexBox.id = 'review-header';
+  container.appendChild(flexBox);
+
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
   title.tabIndex = '0';
-  container.appendChild(title);
+  flexBox.appendChild(title);
+
+  const reviewLink = document.createElement('a');
+  reviewLink.href = `/review.html?id=${self.restaurant.id}`;
+  reviewLink.innerHTML = 'Leave Review';
+  flexBox.appendChild(reviewLink);
 
   if (!reviews) {
     const noReviews = document.createElement('p');

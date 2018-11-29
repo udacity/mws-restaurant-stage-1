@@ -423,6 +423,19 @@ nav h1 a {
   font-weight: 700;
 }
 
+#review-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+#review-header a {
+  color: #383838;
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 1em;
+}
 
 /* ====================== Labels ====================== */
 .restaurant-info-label, .filter-label, .restaurant-map-label {
