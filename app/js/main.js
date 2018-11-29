@@ -88,18 +88,6 @@ const initMap = () => {
 
   updateRestaurants();
 }
-/* window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: loc,
-    scrollwheel: false
-  });
-  updateRestaurants();
-} */
 
 /**
  * Update page and map for current restaurants.
@@ -177,8 +165,6 @@ const createRestaurantHTML = (restaurant) => {
   name.tabIndex = '0';
   text.append(name);
 
-  console.log('isFav: ', restaurant['is_favorite']);
-
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   neighborhood.className = 'restaurant-neighborhood';
@@ -195,11 +181,37 @@ const createRestaurantHTML = (restaurant) => {
     const restaurantURL = DBHelper.urlForRestaurant(restaurant);
     window.location = restaurantURL;
   }
-
   text.append(button);
-  li.append(text);
 
+  console.log('isFav: ', restaurant.is_favorite);
+
+  const favoriteDiv = document.createElement('div');
+  const favoriteBtn = document.createElement('button');
+  favoriteBtn.id = 'favorite-' + restaurant.id;
+  const isFavorite = (restaurant.is_favorite && restaurant['is_favorite'].toString() === 'true') ? true : false;
+  favoriteBtn.innerHTML = (isFavorite) ? '<i class="fas fa-star is-favorited"></i> favorite' : '<i class="fas fa-star is-not-favorited"></i> favorite';
+  const attr = document.createAttribute('aria-label');
+  attr.value = (isFavorite) ? `${restaurant.name} is favorited` : `${restaurant.name} is not favorited`;
+  favoriteBtn.setAttributeNode(attr);
+  
+  favoriteBtn.onclick = (e) => handleFavorite(restaurant, isFavorite);
+  console.log("REST", restaurant.is_favorite)
+  favoriteDiv.className = 'favorite';
+  favoriteDiv.append(favoriteBtn);
+  text.append(favoriteDiv);
+
+  li.append(text);
   return li
+}
+
+const handleFavorite = (restaurant, isFavorite) => {
+  const newFavoriteState = !isFavorite;
+  const favoriteRestaurant = document.getElementById('favorite-' + restaurant.id);
+  
+  //update the restaurant's favorite state
+  restaurant.is_favorite = newFavoriteState;
+  favoriteRestaurant.onclick = (e) => handleFavorite(restaurant, !isFavorite);
+  console.log("CLICK", restaurant.is_favorite)
 }
 
 /**

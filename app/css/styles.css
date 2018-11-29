@@ -428,3 +428,28 @@ nav h1 a {
 .restaurant-info-label, .filter-label, .restaurant-map-label {
   display: none;
 }
+
+/* ====================== Favorites ====================== */
+.favorite {
+  text-align: center;
+  padding: 10px 0 0 0;
+}
+
+.favorite button {
+  background-color: #fff !important;
+  color: #000 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.favorite i { 
+  font-size: 24px !important;
+}
+
+.is-favorited {
+  color: #3000FD;
+}
+
+.is-not-favorited {
+  color: #716B73;
+}
