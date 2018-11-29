@@ -24,7 +24,7 @@ gulp.task('styles', () => {
 });
 
 gulp.task('scripts', () => {
-  return gulp.src('app/js/**/*.js')
+  return gulp.src(['app/js/**/*.js', '!app/js/**/dbhelper.js'])
     .pipe($.plumber())
     .pipe($.if(dev, $.sourcemaps.init()))
     .pipe($.babel())
@@ -48,6 +48,20 @@ gulp.task('sw', () => {
     .pipe(gulp.dest('.tmp/'))
 });
 
+gulp.task('dbhelper', () => {
+  let b = browserify({
+    entries: 'app/js/dbhelper.js',
+    debug: true,
+    transform: [babelify.configure({
+      presets: ['es2015']
+    })]
+  });
+  return b
+    .bundle()
+    .pipe(source('dbhelper.js'))
+    .pipe(gulp.dest('.tmp/js/'))
+});
+
 function lint(files) {
   return gulp.src(files)
     .pipe($.eslint({ fix: true }))
@@ -65,7 +79,7 @@ gulp.task('lint:test', () => {
     .pipe(gulp.dest('test/spec'));
 });
 
-gulp.task('html', ['styles', 'scripts', 'sw'], () => {
+gulp.task('html', ['styles', 'scripts', 'dbhelper', 'sw'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({ searchPath: ['.tmp', 'app', '.'] }))
     .pipe($.if(/\.js$/, $.uglify({ compress: { drop_console: true } })))
@@ -107,7 +121,7 @@ gulp.task('extras', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 gulp.task('serve', () => {
-  runSequence(['clean', 'wiredep'], ['styles', 'scripts', 'fonts', 'sw'], () => {
+  runSequence(['clean', 'wiredep'], ['styles', 'scripts', 'fonts', 'dbhelper', 'sw'], () => {
     browserSync.init({
       notify: false,
       port: 9000,
@@ -126,7 +140,7 @@ gulp.task('serve', () => {
     ]).on('change', reload);
 
     gulp.watch('app/css/**/*.css', ['styles']);
-    gulp.watch('app/js/**/*.js', ['scripts']);
+    gulp.watch('app/js/**/*.js', ['scripts', 'dbhelper']);
     gulp.watch('app/fonts/**/*', ['fonts']);
     gulp.watch('app/sw.js', ['sw']);
     gulp.watch('bower.json', ['wiredep', 'fonts']);
