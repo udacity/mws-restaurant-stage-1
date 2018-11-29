@@ -8,11 +8,49 @@ let staticCacheName = 'restaurant-v1';
 let imagesCache = 'restaurant-content-imgs';
 let allCaches = [staticCacheName, imagesCache];
 
-const dbPromise = idb.open('mws-restaurants', 1, upgradeDB => {
+const dbPromise = idb.open('mws-restaurants', 2, upgradeDB => {
   switch (upgradeDB.oldVersion) {
     case 0:
       upgradeDB.createObjectStore('restaurants', { keyPath: 'id' });
+    case 1:
+      upgradeDB.createObjectStore('pending', {
+        keyPath: 'id',
+        autoIncrement: true
+      });
   }
+});
+
+/* Help from https://www.twilio.com/blog/2017/02/send-messages-when-youre-back-online-with-service-workers-and-background-sync.html
+on how to implement background sync to create a queue for when requests are sent while in offline mode */
+self.addEventListener('sync', function (event) {
+  event.waitUntil(
+    // do asynchronous tasks here
+    dbPromise
+      .then(db => {
+        const tx = db.transaction('pending', 'readonly');
+        return tx.objectStore('pending').getAll();
+      }).then(requests => {
+        console.log("SW REQ", requests);
+        return Promise.all(requests.map(function (request) {
+          console.log(`URL http://localhost:1337/restaurants/${request.body.restID}/?is_favorite=${request.body.favorite}`);
+          return fetch(`http://localhost:1337/restaurants/${request.body.restID}/?is_favorite=${request.body.favorite}`, {
+            method: 'PUT',
+            body: JSON.stringify(request.body),
+          }).then(function (data) {
+            console.log(data);
+            console.log("DATA STATUS", data.status);
+            if (data.status === 200) {
+              return dbPromise.then(db => {
+                const tx = db.transaction('pending', 'readwrite')
+                console.log("REQUEST ID", request);
+                tx.objectStore('pending').delete(request.id);
+                return tx.complete;
+              });
+            }
+          })
+        }))
+      })
+  );
 });
 
 // Determine pages to cache
@@ -81,17 +119,17 @@ self.addEventListener('fetch', function (event) {
           .get(restaurantID)
       }).then(restaurantData => {
         return ((restaurantData && restaurantData.data) || fetch(eventRequest)
-            .then(fetchResponse => fetchResponse.json())
-            .then(json => {
-              return dbPromise.then(db => {
-                const tx = db.transaction('restaurants', 'readwrite');
-                tx.objectStore('restaurants').put({
-                  id: restaurantID,
-                  data: json
-                });
-                return json;
+          .then(fetchResponse => fetchResponse.json())
+          .then(json => {
+            return dbPromise.then(db => {
+              const tx = db.transaction('restaurants', 'readwrite');
+              tx.objectStore('restaurants').put({
+                id: restaurantID,
+                data: json
               });
-            })
+              return json;
+            });
+          })
         );
       })
       .then(finalResponse => {
@@ -106,8 +144,8 @@ self.addEventListener('fetch', function (event) {
 
   event.respondWith(
     caches.match(eventRequest).then(response => {
-      if (response) return response; 
-      
+      if (response) return response;
+
       return fetch(eventRequest).then(networkResponse => {
         return caches.open(staticCacheName).then(cache => {
           cache.put(eventRequest, networkResponse.clone());

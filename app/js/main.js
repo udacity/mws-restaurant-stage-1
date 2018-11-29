@@ -187,7 +187,7 @@ const createRestaurantHTML = (restaurant) => {
 
   const favoriteDiv = document.createElement('div');
   const favoriteBtn = document.createElement('button');
-  favoriteBtn.id = 'favorite-' + restaurant.id;
+  favoriteBtn.id = `favorite-${restaurant.id}`;
   const isFavorite = (restaurant.is_favorite && restaurant['is_favorite'].toString() === 'true') ? true : false;
   favoriteBtn.innerHTML = (isFavorite) ? '<i class="fas fa-star is-favorited"></i> favorite' : '<i class="fas fa-star is-not-favorited"></i> favorite';
   const attr = document.createAttribute('aria-label');
@@ -204,14 +204,21 @@ const createRestaurantHTML = (restaurant) => {
   return li
 }
 
+/**
+ * Handle favorites for restaurant listings.
+ */
 const handleFavorite = (restaurant, isFavorite) => {
   const newFavoriteState = !isFavorite;
-  const favoriteRestaurant = document.getElementById('favorite-' + restaurant.id);
+  const favoriteRestaurant = document.getElementById(`favorite-${restaurant.id}`);
+  favoriteRestaurant.onclick = null; 
   
   //update the restaurant's favorite state
   restaurant.is_favorite = newFavoriteState;
   favoriteRestaurant.onclick = (e) => handleFavorite(restaurant, !isFavorite);
+
   console.log("CLICK", restaurant.is_favorite)
+  console.log("NEW", newFavoriteState)
+  DBHelper.handleFavorite(restaurant, newFavoriteState);
 }
 
 /**

@@ -32,23 +32,6 @@ class DBHelper {
       .catch(error => callback(`The request failed with ${error}.`, null))
   }
 
-  /*
-  static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
-  }*/
-
   /**
    * Fetch a restaurant by its ID.
    */
@@ -185,19 +168,98 @@ class DBHelper {
     marker.addTo(newMap);
     return marker;
   }
-  /* static mapMarkerForRestaurant(restaurant, map) {
-    const marker = new google.maps.Marker({
-      position: restaurant.latlng,
-      title: restaurant.name,
-      url: DBHelper.urlForRestaurant(restaurant),
-      map: map,
-      animation: google.maps.Animation.DROP}
-    );
-    return marker;
-  } */
 
-  static handleFavorite(restaurant, isFavorite) {
-  
+  static updateFavoriteDB(restaurantID, newState, callback) {
+    DBHelper.updateRestaurantInfo(restaurantID, { 'is_favorite': newState });
+    callback(null, { restaurantID, newState })
+  }
+
+  static handleFavorite(restaurant, newState) {
+    DBHelper.updateFavoriteDB(restaurant.id, newState, (error, result) => {
+      if (error) return;
+
+      const favoriteBtn = document.getElementById(`favorite-${result.restaurantID}`);
+      favoriteBtn.innerHTML = (result.newState) ? '<i class="fas fa-star is-favorited"></i> favorite' : '<i class="fas fa-star is-not-favorited"></i> favorite';
+      const attr = document.createAttribute('aria-label');
+      attr.value = (result.newState) ? `${restaurant.name} is favorited` : `${restaurant.name} is not favorited`;
+      favoriteBtn.setAttributeNode(attr);
+    });
+  }
+
+  static updateRestaurantInfo(restaurantID, updateObject) {
+    const dbPromise = idb.open('mws-restaurants');
+
+    //update data for all restuarants
+    DBHelper.updateAllRestaurants(dbPromise, restaurantID, updateObject);
+  }
+
+  static updateAllRestaurants(dbPromise, restaurantID, updateObject) {
+    dbPromise.then(db => {
+      const tx = db.transaction('restaurants', 'readwrite');
+      const storeVal = tx.objectStore('restaurants').get(-1) //where all restaurant data is stored
+        .then(storeVal => {
+
+          //make sure the cache isn't empty, if it is break
+          if (!storeVal) {
+            console.log('Nothing is cached.');
+            return;
+          }
+
+          const restaurantData = storeVal.data;
+          console.log("DATA", restaurantData);
+          console.log("UPDATE", updateObject);
+
+          //make sure the array isn't empty at index we need to update
+          if (restaurantData[restaurantID - 1] != null) {
+            let updateRestaurantKeys = Object.keys(updateObject);
+            for (const restaurantKey of updateRestaurantKeys) {
+              console.log("currVal", restaurantKey);
+              console.log("currdata", restaurantData[restaurantID - 1][restaurantKey]);
+              console.log("updatedata", updateObject[restaurantKey])
+              restaurantData[restaurantID - 1][restaurantKey] = updateObject[restaurantKey];
+
+              /* Help from https://www.twilio.com/blog/2017/02/send-messages-when-youre-back-online-with-service-workers-and-background-sync.html
+              on how to implement background sync to create a queue for when requests are sent while in offline mode */
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js').then(function (reg) {
+                  if ('sync' in reg) {
+                    let properties = {
+                      method: 'put',
+                      body: {favorite: updateObject[restaurantKey], restID: restaurantID},
+                    };
+
+                    idb.open('mws-restaurants', 2, upgradeDB => {
+                      switch (upgradeDB.oldVersion) {
+                        case 0:
+                          upgradeDB.createObjectStore('restaurants', { keyPath: 'id' });
+                        case 1:
+                          upgradeDB.createObjectStore('pending', {
+                            keyPath: 'id',
+                            autoIncrement: true
+                          });
+                      }
+                    }).then(() => {
+                      const tx = db.transaction('pending', 'readwrite');
+                      return tx.objectStore('pending').put(properties);
+                    }).then(function() {
+                      return reg.sync.register('pending');
+                    }).catch(function(err) {
+                      // something went wrong with the database or the sync registration
+                      console.error(err); 
+                    });
+                  }
+                }).catch(function (err) {
+                  console.error(err); // the Service Worker didn't install correctly
+                });
+              }
+            }
+            dbPromise.then(db => {
+              tx.objectStore('restaurants').put({ id: -1, data: storeVal.data });
+              return tx.complete;
+            })
+          }
+        });
+    });
   }
 }
 
