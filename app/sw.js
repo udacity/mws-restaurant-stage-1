@@ -1,4 +1,4 @@
-const staticCacheName = 'Restaurant-static-V5'; 
+const staticCacheName = 'Restaurant-static-test10'; 
 const filesToCache = [
     './',
     './index.html',
@@ -6,6 +6,7 @@ const filesToCache = [
     './css/styles.css',
     './js/idb.js',
     './js/dbhelper.js',
+    //'./js/idbhelper.js',
     './js/main.js',
     './js/restaurant_info.js',
     './images/icons/favs.png',
@@ -13,12 +14,12 @@ const filesToCache = [
     //'./js/db.min.js',
     //'./js/index.min.js',
     //'./js/restaurant.min.js',
-    './favicon.png',
-    'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
-    'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
-    'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png',
-    'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon-2x.png',
-    'https://unpkg.com/leaflet@1.3.1/dist/images/marker-shadow.png'
+    './favicon.png'
+    //'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
+    //'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
+    //'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png',
+    //'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon-2x.png',
+    //'https://unpkg.com/leaflet@1.3.1/dist/images/marker-shadow.png'
 ];
 
 /*
@@ -69,14 +70,11 @@ self.addEventListener('fetch', event => {
       return;
     }
     if (requestUrl.port === '1337') {
-      // 2. Only cache GET methods
       if (event.request.method !== 'GET') {
-        console.log('filtering out non-GET method');
-        // return fetch(event.request)
-        //   .then(response => response.json())
-        //   .then(json => json);
+        console.log('filter out non-GET method');
         return;
       }
+      return;
     }
 
 

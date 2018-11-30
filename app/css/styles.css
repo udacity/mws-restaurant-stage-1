@@ -301,6 +301,8 @@ nav h1 a {
   height: 48px;
   bottom: 5px;
   left: 5px;
+  /*font-size: 2em;
+  background-color: #004;*/
   border: 2px solid #ccc;
   background-image: url('../images/icons/favs.png');
   position: absolute;
@@ -308,10 +310,12 @@ nav h1 a {
 
 .fav-button.active {
   background-color: #fd0;
+  /*color: #fd0;*/
 }
 
 .fav-button:hover {
   background-color: #f30;
+  /*color: #f30;*/
   cursor: pointer;
 }
 

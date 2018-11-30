@@ -1,8 +1,12 @@
-/**   Create Indexed Database for data    **/ 
-const dbPromise = idb.open('restaurants-DB', 1, upgradeDB => {
+/**  TODO: Create an Indexed Database for restaurant data **/
+const dbPromise = idb.open('test10-DB', 3, upgradeDB => {
   switch (upgradeDB.oldVersion) {
     case 0:
       upgradeDB.createObjectStore('restaurants');
+    case 1:
+      upgradeDB.createObjectStore('reviews', { autoIncrement: true });
+    case 2:
+      upgradeDB.createObjectStore('offline-posts', { autoIncrement: true });
   }
 });
 
@@ -21,71 +25,18 @@ class DBHelper {
     //return `https://chinfox.github.io/mws-restaurant-stage-1/data/restaurants.json`;
   }
 
-  /**   Fetch data from IDB   **/
-  static getFromIDB(callback){
-    dbPromise.then(db => {
-      let tx = db.transaction('restaurants');
-      let store = tx.objectStore('restaurants');
-      return store.getAll();
-    }).then(function(restaurants) {
-      callback(null, restaurants);
-    });
-  }
-
-  /**   Fetch data from Server and store a copy of response in IDB    **/
-  static getFromServer(callback){
-    let restaurant_URL = `${DBHelper.DATABASE_URL}/restaurants/`;
-    fetch(restaurant_URL)
-    .then(response => response.json()).then(restaurants => {
-      restaurants.map(restaurant => {
-        dbPromise.then(db => {
-          let tx = db.transaction('restaurants', 'readwrite')
-          let store = tx.objectStore('restaurants');
-          store.put(restaurant, restaurant.id);
-        });
-      });
-      callback(null, restaurants);
-    }).catch(error => callback(error, null));
-  }
-  
-  static addFav(id) {
-    let trueFav = `${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=true`;
-    fetch(trueFav, {
-      method: 'PUT'
-    });
-  }
-  
-  static removeFav(id) {
-    let falseFav = `${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=false`;
-    fetch(falseFav, {
-      method: 'PUT'
-    });
-  }  
-
-  static getReviews(callback) {
-    let reviews_URL = `${DBHelper.DATABASE_URL}/reviews/`;
-    fetch(reviews_URL).then(response => response.json())
-    .then(reviews => callback(null, reviews))
-    .catch(error => callback(error, null));
-  }
-
-  static getReviewsById(id, callback) {
-    let reviews_URL = `${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${id}`;
-    fetch(reviews_URL).then(response => response.json())
-    .then(reviews => callback(null, reviews))
-    .catch(error => callback(error, null));
+  /**
+   * Fetch all restaurants.   -   From server if not in Indexed DB
+   */
+  static fetchRestaurants(callback) {
+    return  DBHelper.getRestaurantFromIDB(callback) || DBHelper.getRestaurantsFromServer(callback);
   }
 
   /**
-   * Fetch all restaurants.
+   * Fetch all reviews.   -   From server if not in Indexed DB
    */
-  static fetchRestaurants(callback) {
-    //  check if Service Worker controls page
-  /*  if (navigator.serviceWorker.controller) {
-      DBHelper.getFromIDB(callback);
-      return;
-    } */
-    DBHelper.getFromServer(callback);
+  static fetchReviews(callback) {
+    return  DBHelper.getReviewsFromIDB(callback) || DBHelper.getReviewsFromServer(callback);
   }
 
   /**
@@ -208,13 +159,13 @@ class DBHelper {
    */
   static imageUrlForRestaurant(restaurant) {
     //const url = `./images/${restaurant.photograph}`;
+    //const small = url.replace('.jpg', '-small.jpg');
+    //const normal = url.replace('.jpg', '-normal.jpg');
+    //const large = url.replace('.jpg', '-normal_2x.jpg');
     const url = `./images/${restaurant.id}`;
     const small = `${url}-small.jpg`;
     const normal = `${url}-normal.jpg`;
     const large = `${url}-normal_2x.jpg`;
-    //const small = url.replace('.jpg', '-small.jpg');
-    //const normal = url.replace('.jpg', '-normal.jpg');
-    //const large = url.replace('.jpg', '-normal_2x.jpg');
     return {small: small, normal: normal, large: large};
   }
 
@@ -231,4 +182,117 @@ class DBHelper {
       marker.addTo(newMap);
     return marker;
   }
+
+
+   /**  Fetch Restaurant data from Server and store a copy of response in IDB  **/
+   static getRestaurantsFromServer(callback) {
+    let restaurant_URL = `${DBHelper.DATABASE_URL}/restaurants/`;
+    fetch(restaurant_URL)
+    .then(response => response.json()).then(restaurants => {
+      restaurants.map(restaurant => {
+        idbKeyval.set('restaurants', restaurant, restaurant.id);
+      });
+      callback(null, restaurants);
+    }).catch(error => callback(error, null));
+  }
+
+  /**  Fetch Restaurant data from IDB   **/
+  static getRestaurantFromIDB(callback) {
+    idbKeyval.getAll('restaurants');
+  }
+
+  /**  Fetch Reviews data from IDB  **/
+  static getReviewsFromIDB(callback) {
+    idbKeyval.getAll('reviews').then(reviews => {
+      callback(null, reviews);
+    });
+  }
+
+  /**  Fetch Reviews data from Server and store a copy of response in IDB   **/
+  static getReviewsFromServer(callback) {
+    let reviews_URL = `${DBHelper.DATABASE_URL}/reviews/`;
+    fetch(reviews_URL).then(response => response.json())
+    .then(reviews => {
+      reviews.map(review => {
+        idbKeyval.set('reviews', review, review.id);
+      });
+      callback(null, reviews);
+    }).catch(error => callback(error, null));
+  }
+
+  /*
+  static getReviewsById(id, callback) {
+    let reviews_URL = `${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${id}`;
+    fetch(reviews_URL).then(response => response.json())
+    .then(reviews => callback(null, reviews))
+    .catch(error => callback(error, null));
+  } */
+  
+  static addFav(id) {
+    let trueFav = `${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=true`;
+    fetch(trueFav, {
+      method: 'PUT'
+    });
+  }
+  
+  static removeFav(id) {
+    let falseFav = `${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=false`;
+    fetch(falseFav, {
+      method: 'PUT'
+    });
+  }
 }
+
+  // Source: idb by Jake Archibald - https://www.npmjs.com/package/idb
+  const idbKeyval = {
+    get(key, store) {
+      return dbPromise.then(db => {
+        return db.transaction(store)
+          .objectStore(store).get(key);
+      });
+    },
+    getAll(store) {
+      return dbPromise.then(db => {
+        return db.transaction(store)
+          .objectStore(store).getAll();
+      });
+    },
+    set(store, val, key) {
+      return dbPromise.then(db => {
+        const tx = db.transaction(store, 'readwrite');
+        tx.objectStore(store).put(val, key);
+        return tx.complete;
+      });
+    },
+    delete(key, store) {
+      return dbPromise.then(db => {
+        const tx = db.transaction('store', 'readwrite');
+        tx.objectStore('store').delete(key);
+        return tx.complete;
+      });
+    }/*,
+    clear() {
+      return dbPromise.then(db => {
+        const tx = db.transaction('keyval', 'readwrite');
+        tx.objectStore('keyval').clear();
+        return tx.complete;
+      });
+    },
+    keys() {
+      return dbPromise.then(db => {
+        const tx = db.transaction('keyval');
+        const keys = [];
+        const store = tx.objectStore('keyval');
+   
+        // This would be store.getAllKeys(), but it isn't supported by Edge or Safari.
+        // openKeyCursor isn't supported by Safari, so we fall back
+        (store.iterateKeyCursor || store.iterateCursor).call(store, cursor => {
+          if (!cursor) return;
+          keys.push(cursor.key);
+          cursor.continue();
+        });
+   
+        return tx.complete.then(() => keys);
+      });
+    } */
+  };

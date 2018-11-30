@@ -1,6 +1,4 @@
-let restaurants,
-  neighborhoods,
-  cuisines
+let restaurants, neighborhoods, cuisines
 var newMap
 var markers = []
 
@@ -8,10 +6,11 @@ var markers = []
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', event => {
-  registerServiceWorker();
-  initMap(); // added 
+  //registerServiceWorker();
+  //initMap(); // added 
   fetchNeighborhoods();
   fetchCuisines();
+  updateRestaurants();
 });
 
 /**  TODO : Register service worker  **/
@@ -150,7 +149,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.appendChild(createRestaurantHTML(restaurant));
   });
-  addMarkersToMap();
+  //addMarkersToMap();
 }
 
 /**
@@ -252,3 +251,13 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } 
+
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.register('./sw.js')
+  .then(() => {
+      console.log('Service Worker registered')
+  })
+  .catch((error) => {
+      console.log('Registration Failed', error);
+  });
+}

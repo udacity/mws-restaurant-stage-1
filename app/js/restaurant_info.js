@@ -13,7 +13,7 @@ var modalOverlay = document.getElementById('modal-overlay');
  * Initialize map as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {  
-  registerServiceWorker();
+  //registerServiceWorker();
   initMap();
 });
 
@@ -190,7 +190,8 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   rev.appendChild(writeReview);
   container.appendChild(rev);
 
-  DBHelper.getReviewsById(self.restaurant.id, (error, reviews) => {
+  //DBHelper.getReviewsById(self.restaurant.id, (error, reviews) => {
+  DBHelper.fetchReviews((error, reviews) => {
     if (!reviews) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
@@ -199,7 +200,9 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     }
     const ul = document.getElementById('reviews-list');
     reviews.forEach(review => {
-      ul.appendChild(createReviewHTML(review));
+      if (review.restaurant_id === self.restaurant.id) {
+        ul.appendChild(createReviewHTML(review));
+      }
     });
     container.appendChild(ul);
   });
@@ -424,4 +427,14 @@ const postMessage = (text) => {
 		messageBox.style.display = "none";
 		messageBox.innerHTML = "";
   }, 5000);
+}
+
+if (navigator.serviceWorker) {
+  navigator.serviceWorker.register('./sw.js')
+  .then(() => {
+      console.log('Service Worker registered')
+  })
+  .catch((error) => {
+      console.log('Registration Failed', error);
+  });
 }
