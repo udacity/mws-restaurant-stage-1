@@ -183,8 +183,6 @@ const createRestaurantHTML = (restaurant) => {
   }
   text.append(button);
 
-  console.log('isFav: ', restaurant.is_favorite);
-
   const favoriteDiv = document.createElement('div');
   const favoriteBtn = document.createElement('button');
   favoriteBtn.id = `favorite-${restaurant.id}`;
@@ -195,7 +193,6 @@ const createRestaurantHTML = (restaurant) => {
   favoriteBtn.setAttributeNode(attr);
   
   favoriteBtn.onclick = (e) => handleFavorite(restaurant, isFavorite);
-  console.log("REST", restaurant.is_favorite)
   favoriteDiv.className = 'favorite';
   favoriteDiv.append(favoriteBtn);
   text.append(favoriteDiv);
@@ -216,8 +213,6 @@ const handleFavorite = (restaurant, isFavorite) => {
   restaurant.is_favorite = newFavoriteState;
   favoriteRestaurant.onclick = (e) => handleFavorite(restaurant, !isFavorite);
 
-  console.log("CLICK", restaurant.is_favorite)
-  console.log("NEW", newFavoriteState)
   DBHelper.handleFavorite(restaurant, newFavoriteState);
 }
 

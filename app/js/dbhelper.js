@@ -252,14 +252,10 @@ class DBHelper {
       const tx = db.transaction('reviews', 'readwrite');
       const reviewStore = tx.objectStore('reviews');
 
-      console.log("PROPERPTIES", properties);
-
-
       /* Help from https://www.twilio.com/blog/2017/02/send-messages-when-youre-back-online-with-service-workers-and-background-sync.html
               on how to implement background sync to create a queue for when requests are sent while in offline mode */
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').then(function (reg) {
-          console.log('reviewSync' in reg)
           if ('sync' in reg) {
             let requestProperties = {
               method: 'post',
@@ -307,16 +303,11 @@ class DBHelper {
           }
 
           const restaurantData = storeVal.data;
-          console.log("DATA", restaurantData);
-          console.log("UPDATE", updateObject);
 
           //make sure the array isn't empty at index we need to update
           if (restaurantData[restaurantID - 1] != null) {
             let updateRestaurantKeys = Object.keys(updateObject);
             for (const restaurantKey of updateRestaurantKeys) {
-              console.log("currVal", restaurantKey);
-              console.log("currdata", restaurantData[restaurantID - 1][restaurantKey]);
-              console.log("updatedata", updateObject[restaurantKey])
               restaurantData[restaurantID - 1][restaurantKey] = updateObject[restaurantKey];
 
               /* Help from https://www.twilio.com/blog/2017/02/send-messages-when-youre-back-online-with-service-workers-and-background-sync.html

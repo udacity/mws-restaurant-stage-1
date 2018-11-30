@@ -33,20 +33,14 @@ self.addEventListener('sync', function (event) {
         const tx = db.transaction('pending', 'readonly');
         return tx.objectStore('pending').getAll();
       }).then(requests => {
-        console.log("SW REQ", requests);
         return Promise.all(requests.map(function (request) {
-          console.log('url', request.url);
-          console.log("REQUEST BODY", request.body);
           return fetch(request.url, {
             method: request.method,
             body: JSON.stringify(request.body),
           }).then(function (data) {
-            console.log(data);
-            console.log("DATA STATUS", data.status);
             if (data.status === 200 || data.status === 201) {
               return dbPromise.then(db => {
                 const tx = db.transaction('pending', 'readwrite')
-                console.log("REQUEST ID", request);
                 tx.objectStore('pending').delete(request.id);
                 return tx.complete;
               });
