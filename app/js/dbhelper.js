@@ -14,7 +14,7 @@ const dbPromise = idb.open('mws-restaurants', 3, upgradeDB => {
       });
     case 2:
       const reviewsStore = upgradeDB.createObjectStore('reviews', { keyPath: 'id' });
-      reviewsStore.createIndex("restuarantID", "restaurantID")
+      reviewsStore.createIndex("restaurant_id", "restaurant_id")
   }
 });
 
@@ -27,6 +27,11 @@ class DBHelper {
   static get DATABASE_URL() {
     const port = 1337 // Change this to your server port
     return `http://localhost:${port}/restaurants`;
+  }
+
+  static get DATABASE_URL_REVIEWS() {
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/reviews`;
   }
 
   /**
@@ -184,6 +189,21 @@ class DBHelper {
     return marker;
   }
 
+  static fetchRestaurantReviews(id, callback) {
+    // Fetch all reviews for the specific restaurant
+    const fetchURL = `${DBHelper.DATABASE_URL_REVIEWS}/?restaurant_id=` + id;
+    fetch(fetchURL, { method: "GET" }).then(response => {
+      if (!response.clone().ok && !response.clone().redirected) {
+        throw "No reviews available";
+      }
+      response
+        .json()
+        .then(result => {
+          callback(null, result);
+        })
+    }).catch(error => callback(error, null));
+  }
+
   static updateFavoriteDB(restaurantID, newState, callback) {
     DBHelper.updateRestaurantInfo(restaurantID, { 'is_favorite': newState });
     callback(null, { restaurantID, newState })
@@ -230,9 +250,46 @@ class DBHelper {
   static updateReviewInfo(restaurantID, properties) {
     dbPromise.then(db => {
       const tx = db.transaction('reviews', 'readwrite');
-      const reviewStore = tx.objectStore('reviews')
+      const reviewStore = tx.objectStore('reviews');
+
+      console.log("PROPERPTIES", properties);
+
+
+      /* Help from https://www.twilio.com/blog/2017/02/send-messages-when-youre-back-online-with-service-workers-and-background-sync.html
+              on how to implement background sync to create a queue for when requests are sent while in offline mode */
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').then(function (reg) {
+          console.log('reviewSync' in reg)
+          if ('sync' in reg) {
+            let requestProperties = {
+              method: 'post',
+              body: {
+                'restaurant_id': properties.restaurant_id,
+                'name': properties.name,
+                'rating': properties.rating,
+                'comments': properties.comments,
+                'createdAt': properties.createdAt
+              },
+              url: DBHelper.DATABASE_URL_REVIEWS
+            };
+
+            dbPromise.then(() => {
+              const tx = db.transaction('pending', 'readwrite');
+              return tx.objectStore('pending').put(requestProperties);
+            }).then(function () {
+              return reg.sync.register('pending');
+            }).catch(function (err) {
+              // something went wrong with the database or the sync registration
+              console.error(err);
+            });
+          }
+        }).catch(function (err) {
+          console.error(err); // the Service Worker didn't install correctly
+        });
+      }
+
       //must store by Date.now() so keys are unique in the store
-      reviewStore.put({ id: Date.now(), "restaurantID": restaurantID, data: properties });
+      reviewStore.put({ id: Date.now(), "restaurant_id": restaurantID, data: properties });
       return tx.complete;
     });
   }
@@ -269,7 +326,8 @@ class DBHelper {
                   if ('sync' in reg) {
                     let properties = {
                       method: 'put',
-                      body: { favorite: updateObject[restaurantKey], restID: restaurantID },
+                      body: updateObject[restaurantKey],
+                      url: `${DBHelper.DATABASE_URL}/${restaurantID}/?is_favorite=${updateObject[restaurantKey]}`
                     };
 
                     dbPromise.then(() => {

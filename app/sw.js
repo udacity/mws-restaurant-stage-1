@@ -19,7 +19,7 @@ const dbPromise = idb.open('mws-restaurants', 3, upgradeDB => {
       });
     case 2:
       const reviewsStore = upgradeDB.createObjectStore('reviews', { keyPath: 'id' });
-      reviewsStore.createIndex("restuarantID", "restaurantID")
+      reviewsStore.createIndex('restaurant_id', 'restaurant_id')
   }
 });
 
@@ -35,14 +35,15 @@ self.addEventListener('sync', function (event) {
       }).then(requests => {
         console.log("SW REQ", requests);
         return Promise.all(requests.map(function (request) {
-          console.log(`URL http://localhost:1337/restaurants/${request.body.restID}/?is_favorite=${request.body.favorite}`);
-          return fetch(`http://localhost:1337/restaurants/${request.body.restID}/?is_favorite=${request.body.favorite}`, {
-            method: 'PUT',
+          console.log('url', request.url);
+          console.log("REQUEST BODY", request.body);
+          return fetch(request.url, {
+            method: request.method,
             body: JSON.stringify(request.body),
           }).then(function (data) {
             console.log(data);
             console.log("DATA STATUS", data.status);
-            if (data.status === 200) {
+            if (data.status === 200 || data.status === 201) {
               return dbPromise.then(db => {
                 const tx = db.transaction('pending', 'readwrite')
                 console.log("REQUEST ID", request);
@@ -109,58 +110,104 @@ self.addEventListener('fetch', function (event) {
   }
 
   if (requestUrl.port === '1337') {
-    const urlPath = requestUrl.pathname.split('/');
-    let restaurantID = 0;
-    if (urlPath[urlPath.length - 1] === 'restaurants') {
-      restaurantID = -1;
-    } else {
-      restaurantID = urlPath[urlPath.length - 1];
+    const checkURL = new URL(event.request.url)
+    let restaurantID;
+    if (checkURL.port === '1337') {
+      const parts = checkURL.pathname.split('/');
+      restaurantID = checkURL.searchParams.get('restaurant_id') * 1;
+
+      if (!restaurantID) {
+        if (checkURL.pathname.indexOf('restaurants')) {
+          restaurantID = parts[parts.length - 1] === "restaurants" ? '-1' : parts[parts.length - 1];
+        } else {
+          restaurantID = checkURL.searchParams.get('restaurant_id');
+        }
+      }
     }
-    event.respondWith(dbPromise
-      .then(db => {
-        return db
-          .transaction('restaurants')
-          .objectStore('restaurants')
-          .get(restaurantID)
-      }).then(restaurantData => {
-        return ((restaurantData && restaurantData.data) || fetch(eventRequest)
-          .then(fetchResponse => fetchResponse.json())
-          .then(json => {
-            return dbPromise.then(db => {
-              const tx = db.transaction('restaurants', 'readwrite');
-              tx.objectStore('restaurants').put({
-                id: restaurantID,
-                data: json
+
+    // handle reviews
+    if (event.request.url.indexOf('reviews') <= -1) {
+      event.respondWith(dbPromise
+        .then(db => {
+          return db
+            .transaction('restaurants')
+            .objectStore('restaurants')
+            .get(restaurantID)
+        }).then(restaurantData => {
+          return ((restaurantData && restaurantData.data) || fetch(eventRequest)
+            .then(fetchResponse => fetchResponse.json())
+            .then(json => {
+              return dbPromise.then(db => {
+                const tx = db.transaction('restaurants', 'readwrite');
+                tx.objectStore('restaurants').put({
+                  id: restaurantID,
+                  data: json
+                });
+                return json;
               });
-              return json;
-            });
+            })
+          );
+        })
+        .then(finalResponse => {
+          return new Response(JSON.stringify(finalResponse));
+        })
+        .catch(error => {
+          return new Response(`Error fetching data: ${error}`);
+        })
+      );
+    } else {
+      event.respondWith(dbPromise
+        .then(db => {
+          return db
+            .transaction('reviews')
+            .objectStore('reviews')
+            .index('restaurant_id')
+            .getAll(restaurantID);
+        }).then(reviewData => {
+          return (reviewData.length && reviewData) || fetch(eventRequest)
+            .then(networkResponse => networkResponse.json()
+              .then(json => {
+                return dbPromise.then(db => {
+                  const rtx = db.transaction('reviews', 'readwrite');
+                  json.forEach(review => {
+                    rtx.objectStore('reviews').put({
+                      id: review.id,
+                      "restaurant_id": review["restaurant_id"],
+                      data: review,
+                    });
+                  });
+                  return json;
+                });
+              })
+            );
+        })
+        .then(finalData => {
+          if (finalData[0].data) {
+            let transformResponse = finalData.map(review => review.data);
+            return new Response(JSON.stringify(transformResponse));
+          }
+          return new Response(JSON.stringify(finalData));
+        }).catch(error => {
+          return new Response(`Error fetching data: ${error}`);
+        })
+      );
+    }
+  } else {
+    event.respondWith(
+      caches.match(eventRequest).then(response => {
+        if (response) return response;
+
+        return fetch(eventRequest).then(networkResponse => {
+          return caches.open(staticCacheName).then(cache => {
+            cache.put(eventRequest, networkResponse.clone());
+            return networkResponse
           })
-        );
-      })
-      .then(finalResponse => {
-        return new Response(JSON.stringify(finalResponse));
-      })
-      .catch(error => {
-        return new Response(`Error fetching data: ${error}`);
+        })
+      }).catch(error => {
+        console.log('Offline, cannot fetch', error);
       })
     );
-    return;
   }
-
-  event.respondWith(
-    caches.match(eventRequest).then(response => {
-      if (response) return response;
-
-      return fetch(eventRequest).then(networkResponse => {
-        return caches.open(staticCacheName).then(cache => {
-          cache.put(eventRequest, networkResponse.clone());
-          return networkResponse
-        })
-      })
-    }).catch(error => {
-      console.log('Offline, cannot fetch', error);
-    })
-  );
 });
 
 // Serve any cached requested images
