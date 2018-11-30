@@ -119,7 +119,6 @@ self.addEventListener('fetch', function (event) {
       }
     }
 
-    // handle reviews
     if (event.request.url.indexOf('reviews') <= -1) {
       event.respondWith(dbPromise
         .then(db => {

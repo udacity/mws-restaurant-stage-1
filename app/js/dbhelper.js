@@ -293,9 +293,8 @@ class DBHelper {
   static updateRestaurantInfo(restaurantID, updateObject) {
     dbPromise.then(db => {
       const tx = db.transaction('restaurants', 'readwrite');
-      const storeVal = tx.objectStore('restaurants').get(-1) //where all restaurant data is stored
+      const storeVal = tx.objectStore('restaurants').get('-1') //where all restaurant data is stored
         .then(storeVal => {
-
           //make sure the cache isn't empty, if it is break
           if (!storeVal) {
             console.log('Nothing is cached.');
@@ -337,7 +336,7 @@ class DBHelper {
               }
             }
             dbPromise.then(db => {
-              tx.objectStore('restaurants').put({ id: -1, data: storeVal.data });
+              tx.objectStore('restaurants').put({ id: '-1', data: storeVal.data });
               return tx.complete;
             })
           }
