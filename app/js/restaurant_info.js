@@ -4,10 +4,6 @@ var newMap;
 var focusedElementBeforeModal;
 var modal = document.getElementById('modal');
 var modalOverlay = document.getElementById('modal-overlay');
-//var form = document.getElementById('rev-form');
-
-//var modalToggle = document.querySelector('.modal-toggle');
-//modalToggle.addEventListener('click', openModal);
 
 /**
  * Initialize map as soon as the page is loaded.
@@ -17,8 +13,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
   initMap();
 });
 
+/*window.addEventListener('load', () => {
+  initMap();
+  //addMarkersToMap();
+});*/
+
 /**  TODO : Register service worker  **/
-registerServiceWorker = () => {
+/*registerServiceWorker = () => {
   if (navigator.serviceWorker) {
     navigator.serviceWorker.register('./sw.js')
     .then(() => {
@@ -28,12 +29,12 @@ registerServiceWorker = () => {
         console.log('Registration Failed', error);
     });
   }    
-}
+}*/
 
 /**
  * Initialize leaflet map
  */
-initMap = () => {
+const initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
@@ -60,7 +61,7 @@ initMap = () => {
 /**
  * Get current restaurant from page URL.
  */
-fetchRestaurantFromURL = (callback) => {
+const fetchRestaurantFromURL = (callback) => {
   if (self.restaurant) { // restaurant already fetched!
     callback(null, self.restaurant)
     return;
@@ -85,7 +86,7 @@ fetchRestaurantFromURL = (callback) => {
 /**
  * Create restaurant HTML and add it to the webpage
  */
-fillRestaurantHTML = (restaurant = self.restaurant) => {
+const fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.setAttribute('aria-label', 'Restaurant name: ' + restaurant.name);
   name.innerHTML = restaurant.name;
@@ -108,15 +109,17 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   fav1.addEventListener('click', (event) => {
     event.preventDefault();
     if (fav1.classList.contains('active')) {
-      fav1.setAttribute('aria-pressed', 'false');
-      fav1.setAttribute('aria-label', 'Mark as favorite');
-      fav1.title = `Mark as favorite`;
-      DBHelper.removeFav(restaurant.id);
+      //fav1.setAttribute('aria-pressed', 'false');
+      //fav1.setAttribute('aria-label', 'Mark as favorite');
+      //fav1.title = `Mark as favorite`;
+      DBHelper.setFavorite(restaurant, false);
+      //postMessage(`${restaurant.name} is not a favorite`);
     } else {
-      fav1.setAttribute('aria-pressed', 'true');
-      fav1.setAttribute('aria-label', 'Unmark as favorite');
-      fav1.title = `Unmark as favorite`;
-      DBHelper.addFav(restaurant.id);
+      //fav1.setAttribute('aria-pressed', 'true');
+      //fav1.setAttribute('aria-label', 'Unmark as favorite');
+      //fav1.title = `Unmark as favorite`;
+      DBHelper.setFavorite(restaurant, true);
+      //postMessage(`${restaurant.name} is a favorite`);
     }
     fav1.classList.toggle('active');
   });
@@ -147,7 +150,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
  */
-fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
+const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
 
   for (let key in operatingHours) {
@@ -170,11 +173,12 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {  
+const fillReviewsHTML = (reviews = self.restaurant.reviews) => {  
   
   const container = document.getElementById('reviews-container');
-  const rev = document.createElement('div');
-  rev.className = "reviews-header"
+  //const rev = document.createElement('div');
+  rev = document.getElementById('reviews-header');
+  rev.innerHTML = '';
   
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
@@ -191,6 +195,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   container.appendChild(rev);
 
   //DBHelper.getReviewsById(self.restaurant.id, (error, reviews) => {
+  //DBHelper.fetchReviews(self.restaurant.id, (error, reviews) => {
   DBHelper.fetchReviews((error, reviews) => {
     if (!reviews) {
     const noReviews = document.createElement('p');
@@ -199,6 +204,7 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     return;
     }
     const ul = document.getElementById('reviews-list');
+    ul.innerHTML = '';
     reviews.forEach(review => {
       if (review.restaurant_id === self.restaurant.id) {
         ul.appendChild(createReviewHTML(review));
@@ -206,13 +212,12 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     });
     container.appendChild(ul);
   });
-  
 }
 
 /**
  * Create review HTML and add it to the webpage.
  */
-createReviewHTML = (review) => {
+const createReviewHTML = (review) => {
   const li = document.createElement('li');
   li.setAttribute('tabindex', '0');
   //li.setAttribute('aria-label', 'Review by: ' + review.name);
@@ -230,15 +235,17 @@ createReviewHTML = (review) => {
   const date = document.createElement('div');
   date.className = "date";
 
+  // Return "Waiting..." if date created is not valid
   const created = document.createElement('span');
-  const cDate = new Date(review.createdAt).toLocaleDateString();
+  const cDate = review.createdAt ? new Date(review.createdAt).toLocaleDateString() : 'Waiting...';
   created.classList.add('date-created');
   //date.setAttribute('aria-label', 'Date reviewed: ' + review.date + ".");
   created.innerHTML = `Created: <strong>${cDate}</strong>`;
   date.appendChild(created);
 
+  // Return "Waiting..." if date updated is not valid 
   const updated = document.createElement('span');
-  const uDate = new Date(review.updatedAt).toLocaleDateString();
+  const uDate = review.updatedAt ? new Date(review.updatedAt).toLocaleDateString() : 'Waiting...';
   updated.classList.add('date-updated');
   //date.setAttribute('aria-label', 'Updated on: ' + review.date + ".");
   updated.innerHTML = `Updated: <strong>${uDate}</strong>`;
@@ -264,7 +271,7 @@ createReviewHTML = (review) => {
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-fillBreadcrumb = (restaurant=self.restaurant) => {
+const fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.setAttribute('aria-current', 'page');
@@ -275,7 +282,7 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
 /**
  * Get a parameter by name from page URL.
  */
-getParameterByName = (name, url) => {
+const getParameterByName = (name, url) => {
   if (!url)
     url = window.location.href;
   name = name.replace(/[\[\]]/g, '\\$&');
@@ -288,16 +295,6 @@ getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-
-/** TODO: Add modal toggle  **/
-/*
-const modalToggle = (event) => {
-  event.preventDefault();
-  modal.classList.toggle('show');
-  modalOverlay.classList.toggle('show');
-}*/
-
-
 //  Note: The following code is an adaptation of UD891; Udacity's course on Modals and Keyboard Traps
 
 /** TODO: Determine what happens when modal is opened or closed **/
@@ -305,27 +302,24 @@ const openModal = () => {
   // Save current focus
   focusedElementBeforeModal = document.activeElement;
 
-  // Close the modal if overlay is clicked
-  modalOverlay.addEventListener('click', closeModal);
+  // Find all focusable children and Convert NodeList to an Array
+  let focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
+  let focusableElements = modal.querySelectorAll(focusableElementsString);
+  focusableElements = Array.prototype.slice.call(focusableElements);
+
+  let firstTabStop = focusableElements[0];
+  let lastTabStop = focusableElements[focusableElements.length - 1];
+  
+  let submitBtn = modal.querySelector('#submit-button');
+  submitBtn.addEventListener('click', submitRev);
 
   // Listen for and trap the keyboard
   modal.addEventListener('keydown', trapTabKey);
-  
-  var submitBtn = modal.querySelector('#submit-button');
-  submitBtn.addEventListener('click', submitRev);
 
-  // Find all focusable children
-  var focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
-  var focusableElements = modal.querySelectorAll(focusableElementsString);
-  // Convert NodeList to Array
-  focusableElements = Array.prototype.slice.call(focusableElements);
-
-  var firstTabStop = focusableElements[0];
-  var lastTabStop = focusableElements[focusableElements.length - 1];
+  // Close the modal if overlay is clicked
+  modalOverlay.addEventListener('click', closeModal);
 
   // Show the modal and overlay
-  //modal.classList.add('show');
-  //modalOverlay.classList.add('show');
   modal.style.display = "flex";
   modalOverlay.style.display = "block";
 
@@ -375,49 +369,85 @@ const closeModal = () => {
 
 const submitRev = (event) => {
   event.preventDefault();
+
+  //let url, myReview, textR, textF, textS;
 	const ul = document.getElementById('reviews-list');
   const id = self.restaurant.id;
   const name = document.getElementById('review-author').value;
   const rating = document.getElementById('review-rating').value;
   const comments = document.getElementById('review-comments').value;
-	let url = `${DBHelper.DATABASE_URL}/reviews/`;
-	let textR,textF,textS;
-  let myReview = {
+
+  //const textR = 'Fields marked * are required!';
+  //const textS = 'Your review was saved. Thanks for the review';
+  //const textF = 'Offline: Your review will be sent when you are online';
+	const url = `${DBHelper.DATABASE_URL}/reviews/`;
+  const myReview = {
     'restaurant_id': id,
     'name': name,
     'rating': rating,
     'comments': comments
   };
-	//console.log(myReview);
-	
-	//if (name === "") {
-	if ((name === "") || (comments === "")) {
-			textR = 'Fields marked * are required!';
-			//console.log(text);
-			postMessage(textR);
+  const body = JSON.stringify(myReview);
+  const method = 'POST';
+  const headers = { 'content-type': 'application/json' };
+
+  // Check input validity
+	if ((name === "") || isNaN(rating) || (comments === "")) {
+	//if ((name === "") || (comments === "")) {
+			postMessage('Fields marked * are required!');
 		return;
 	} else {
   		fetch(url, {
-    		method: 'POST',
-    		headers: {'content-type': 'application/json'},
-    		body: JSON.stringify(myReview)
+    		method: method,
+    		headers: headers,
+    		body: body
   		})
   		.then(response => response.json())
-  		.then(myReview => {
-				textS = 'Your review was saved. Thanks for the review';
-    		ul.appendChild(createReviewHTML(myReview));
-    		closeModal();
-    		postMessage(textS);
+  		.then(review => {
+        console.log(review);
+        //postSuccess(review);
+        DBHelper.updateReviewsOnline(review).then(() => {
+          fillReviewsHTML();
+        });
+        postMessage('Your review was saved. Thanks for the review');
+        closeModal();
 			}).catch(err => {
-          console.log(err);
-          closeModal();
-					textF = 'Offline: Your review will be sent when you are online';
-					postMessage(textF);
+        console.log(err);
+        //postFailure(myReview);
+        DBHelper.updateReviewsOffline(myReview).then(id => {
+          console.log('this is ur offline review key', id)
+          DBHelper.saveOfflinePost(url, headers, method, myReview, id);
+          fillReviewsHTML();
+        });
+        postMessage('Offline: Your review will be sent when you are online');
+        closeModal();
 			});
 		}
 }
 
-// Method for showing notification onscreen 
+/** Handle successful review posts  **/
+const postSuccess = (review) => {
+  //ul.appendChild(createReviewHTML(review));
+  DBHelper.updateReviewsOnline(review).then(() => {
+    fillReviewsHTML();
+  });
+  postMessage('Your review was saved. Thanks for the review');
+  closeModal();
+}
+
+/** Handle failed review posts  **/
+const postFailure = (myReview) => {
+  //ul.appendChild(createReviewHTML(myReview));
+  DBHelper.updateReviewsOffline(myReview).then(id => {
+    console.log('this is ur offline review key', id)
+    DBHelper.saveOfflinePost(url, headers, method, myReview, id);
+    fillReviewsHTML();
+  });
+  postMessage('Offline: Your review will be sent when you are online');
+  closeModal();
+}
+
+/** Method for showing notification onscreen **/
 const postMessage = (text) => {
   const messageBox = document.getElementById('message-box'); 
   messageBox.innerHTML = `<p>${text}<p>`;
@@ -429,6 +459,7 @@ const postMessage = (text) => {
   }, 5000);
 }
 
+/** Register Service Worker **/
 if (navigator.serviceWorker) {
   navigator.serviceWorker.register('./sw.js')
   .then(() => {

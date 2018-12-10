@@ -1,4 +1,4 @@
-const staticCacheName = 'Restaurant-static-test10'; 
+const staticCacheName = 'Restaurant-static-test14'; 
 const filesToCache = [
     './',
     './index.html',
@@ -37,7 +37,7 @@ self.addEventListener('install', (event) => {
 /*
  *   Activate service worker and delete old cache 
  */
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
@@ -60,6 +60,7 @@ self.skipWaiting();
  */
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
+  const request = event.request;
 
     if (requestUrl.pathname === './') {
         event.respondWith(caches.match('./index.html'));
@@ -71,10 +72,11 @@ self.addEventListener('fetch', event => {
     }
     if (requestUrl.port === '1337') {
       if (event.request.method !== 'GET') {
-        console.log('filter out non-GET method');
+        console.log('This is non-GET request', event.request.method, request);
         return;
       }
-      return;
+     // DBHelper.getRestaurantsFromIDB(callback);
+      //return;
     }
 
 

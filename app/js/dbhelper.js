@@ -1,14 +1,20 @@
 /**  TODO: Create an Indexed Database for restaurant data **/
-const dbPromise = idb.open('test10-DB', 3, upgradeDB => {
-  switch (upgradeDB.oldVersion) {
-    case 0:
-      upgradeDB.createObjectStore('restaurants');
-    case 1:
-      upgradeDB.createObjectStore('reviews', { autoIncrement: true });
-    case 2:
-      upgradeDB.createObjectStore('offline-posts', { autoIncrement: true });
-  }
-});
+//if ('indexedDB' in window) {
+  const dbPromise = idb.open('test14-DB', 3, (upgradeDB) => {
+    switch (upgradeDB.oldVersion) {
+      case 0:
+        upgradeDB.createObjectStore('restaurants', { keyPath: 'id' });
+      case 1:
+        upgradeDB.createObjectStore('reviews', { keyPath: 'id', autoIncrement: true });
+        //const reviews = upgradeDB.createObjectStore('reviews', { autoIncrement: true });
+        //reviews.createIndex('restaurant_id', 'restaurant_id', { unique: false });
+      case 2:
+        upgradeDB.createObjectStore('offline-posts', { autoIncrement: true });
+    }
+  });
+//}
+
+//console.log(dbPromise);
 
 /**
  * Common database helper functions.
@@ -29,14 +35,33 @@ class DBHelper {
    * Fetch all restaurants.   -   From server if not in Indexed DB
    */
   static fetchRestaurants(callback) {
-    return  DBHelper.getRestaurantFromIDB(callback) || DBHelper.getRestaurantsFromServer(callback);
+    //return dbPromise ? DBHelper.getRestaurantsFromIDB(callback) : DBHelper.getRestaurantsFromServer(callback);
+    //idbKeyval.getAll('restaurants').then(restaurants => {
+      //return restaurants.length ? callback(null, restaurants) : DBHelper.getRestaurantsFromServer(callback);
+    //})
+    idbKeyval.getAll('restaurants').then(restaurants => {
+      if (restaurants.length) {
+        callback(null, restaurants);
+      } else {
+        DBHelper.getRestaurantsFromServer(callback);  
+      } 
+    });
+    //.catch(() => DBHelper.getRestaurantsFromServer(callback));    // fallback for Microsoft Edge
   }
 
   /**
    * Fetch all reviews.   -   From server if not in Indexed DB
    */
   static fetchReviews(callback) {
-    return  DBHelper.getReviewsFromIDB(callback) || DBHelper.getReviewsFromServer(callback);
+    //return dbPromise ? DBHelper.getReviewsFromIDB(callback) : DBHelper.getReviewsFromServer(callback);
+    idbKeyval.getAll('reviews').then(reviews => {
+      if (reviews.length) {
+        callback(null, reviews);
+      } else {
+        DBHelper.getReviewsFromServer(callback);  
+      } 
+    });
+    //.catch(() => DBHelper.getReviewsFromServer(callback));    // fallback for Microsoft Edge
   }
 
   /**
@@ -184,28 +209,16 @@ class DBHelper {
   }
 
 
-   /**  Fetch Restaurant data from Server and store a copy of response in IDB  **/
-   static getRestaurantsFromServer(callback) {
+  /**  Fetch Restaurant data from Server and store a copy of response in IDB  **/
+  static getRestaurantsFromServer(callback) {
     let restaurant_URL = `${DBHelper.DATABASE_URL}/restaurants/`;
     fetch(restaurant_URL)
     .then(response => response.json()).then(restaurants => {
       restaurants.map(restaurant => {
-        idbKeyval.set('restaurants', restaurant, restaurant.id);
+        idbKeyval.set('restaurants', restaurant);
       });
       callback(null, restaurants);
     }).catch(error => callback(error, null));
-  }
-
-  /**  Fetch Restaurant data from IDB   **/
-  static getRestaurantFromIDB(callback) {
-    idbKeyval.getAll('restaurants');
-  }
-
-  /**  Fetch Reviews data from IDB  **/
-  static getReviewsFromIDB(callback) {
-    idbKeyval.getAll('reviews').then(reviews => {
-      callback(null, reviews);
-    });
   }
 
   /**  Fetch Reviews data from Server and store a copy of response in IDB   **/
@@ -214,85 +227,214 @@ class DBHelper {
     fetch(reviews_URL).then(response => response.json())
     .then(reviews => {
       reviews.map(review => {
-        idbKeyval.set('reviews', review, review.id);
+        idbKeyval.set('reviews', review);
       });
       callback(null, reviews);
     }).catch(error => callback(error, null));
   }
+ 
+  /**  Fetch data from Server  **/
+ /* static getFromServer(data, store, callback) {
+    let restaurant_URL = `${DBHelper.DATABASE_URL}/${data}/`;
+    fetch(restaurant_URL)
+    .then(response => response.json()).then(restaurants => {
+      restaurants.map(restaurant => {
+        idbKeyval.set(store, restaurant, restaurant.id);
+      });
+      callback(null, restaurants);
+    }).catch(error => callback(error, null));
+  }*/
+
+  /**  Fetch data from IDB   **/
+  /*static getFromIDB(store, data, callback) {
+    idbKeyval.getAll(store).then(data => {
+      callback(null, restaurants);
+    });
+  }*/
 
   /*
   static getReviewsById(id, callback) {
     let reviews_URL = `${DBHelper.DATABASE_URL}/reviews/?restaurant_id=${id}`;
     fetch(reviews_URL).then(response => response.json())
-    .then(reviews => callback(null, reviews))
-    .catch(error => callback(error, null));
-  } */
+    .then(reviews => {
+      reviews.map(review => {
+        idbKeyval.set('reviews', review);
+      });
+      callback(null, reviews);
+    }).catch(error => callback(error, null));
+  }*/
   
+  /** Resend Posts made while offline **/
+  static postOfflineData() {
+    dbPromise.then(db => {
+      if (!db) return;
+      const tx = db.transaction('offline-posts', 'readwrite');
+      const store = tx.objectStore('offline');
+      return store.openCursor();
+    })
+    .then(function postData (cursor) {
+      if (!cursor) {
+        return;
+      }
+      console.log('cursor is at: ', cursor.key);
+
+      const offlineKey = cursor.key;
+      const url = cursor.value.url;
+      const headers = cursor.value.headers;
+      const method = cursor.value.method;
+      const data = cursor.value.data;
+      const flag = cursor.value.flag;
+      const body = JSON.stringify(data);
+
+      // Update Server with posts made while offline
+      // then update the IndexedDB with data returned        
+      fetch(url, {
+        headers: headers,
+        method: method,
+        body: body
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data from Server', data);
+
+        // Delete the http request from offline-posts store
+        dbPromise.then(db => {
+          const tx = db.transaction('offline-posts', 'readwrite');
+          tx.objectStore('offline-posts').delete(offline_key);
+          return tx.complete;
+        }).then(() => {
+            // test if this is a review or favorite update
+            if (review_key === undefined) {
+              console.log('Favorite posted to server.');
+            } else {
+                // 2. Add new review record to reviews store
+                // 3. Delete old review record from reviews store 
+                dbPromise.then(db => {
+                  const tx = db.transaction('reviews', 'readwrite');
+                  return tx.objectStore('reviews').put(data)
+                  .then(() => tx.objectStore('reviews').delete(review_key))
+                  .then(() => {
+                    console.log('tx complete reached.');
+                    return tx.complete;
+                  }).catch(err => {
+                      tx.abort();
+                      console.log('transaction error: tx aborted', err);
+                    });
+                })
+                .then(() => console.log('review transaction success!'))
+                .catch(err => console.log('reviews store error', err));
+            }
+          })
+          .then(() => console.log('offline rec delete success!'))
+          .catch(err => console.log('offline store error', err));
+            
+        }).catch(err => {
+            console.log('Unable to connect', err);
+            return;
+          });
+          return cursor.continue().then(postData);
+    })
+    .then(() => console.log('Done!'))
+    .catch(err => console.log('Error opening cursor', err)); 
+  }
+
+  /**  Temporarily update review in IDB store and return its ID, if offline **/
+  static updateReviewsOffline(val) {
+    return idbKeyval.setData(val);
+  }
+
+  // Update review in IDB with data returned from Server
+  static updateReviewsOnline(val) {
+    return idbKeyval.set('reviews', val);
+  }
+
+  /**  Save requests made when offline or if fetch fails  **/
+  static saveOfflinePost(url, headers, method, data, flag) {
+    const request = {
+      url: url,
+      headers: headers,
+      method: method,
+      data: data,
+      flag: flag
+    };
+    return idbKeyval.set('offline-posts', request);
+  }
+
+  /**  Mark a restaurant as a favorite  **/
+  static setFavorite(restaurant, status) {
+    const id = +restaurant.id;
+    const url = `${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=${status}`;
+    const method = 'PUT';
+    restaurant.is_favorite =  JSON.stringify(status);
+    //restaurant.is_favorite = `"${status}"`;
+    //restaurant.is_favorite = status;
+
+    fetch(url, {
+      method: method
+    }).then(response => response.json())
+    .then(data => idbKeyval.set('restaurants', data))
+    .catch(err => {
+      console.log(err);
+      idbKeyval.set('restaurants', restaurant);
+      DBHelper.saveOfflinePost(url, {}, method, '');
+    });
+  }
+  /*
   static addFav(id) {
     let trueFav = `${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=true`;
     fetch(trueFav, {
       method: 'PUT'
-    });
+    }).catch(err => console.log(err));
   }
   
   static removeFav(id) {
     let falseFav = `${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=false`;
     fetch(falseFav, {
       method: 'PUT'
-    });
-  }
+    }).catch(err => console.log(err));
+  }*/
 }
 
   // Source: idb by Jake Archibald - https://www.npmjs.com/package/idb
   const idbKeyval = {
     get(key, store) {
       return dbPromise.then(db => {
+        if(!db) return;
         return db.transaction(store)
           .objectStore(store).get(key);
       });
     },
     getAll(store) {
       return dbPromise.then(db => {
+        if(!db) return;
         return db.transaction(store)
           .objectStore(store).getAll();
       });
     },
-    set(store, val, key) {
+    set(store, val) {
       return dbPromise.then(db => {
+        if(!db) return;
         const tx = db.transaction(store, 'readwrite');
-        tx.objectStore(store).put(val, key);
+        tx.objectStore(store).put(val);
         return tx.complete;
+      });
+    },
+    /**  Save review to IDB store and return id **/
+    setData(val) {
+      return dbPromise.then(db => {
+        if(!db) return;
+        const tx = db.transaction('reviews', 'readwrite');
+        const dbStore = tx.objectStore('reviews').put(val);
+        tx.complete;
+        return dbStore;
       });
     },
     delete(key, store) {
       return dbPromise.then(db => {
+        if(!db) return;
         const tx = db.transaction('store', 'readwrite');
         tx.objectStore('store').delete(key);
         return tx.complete;
       });
-    }/*,
-    clear() {
-      return dbPromise.then(db => {
-        const tx = db.transaction('keyval', 'readwrite');
-        tx.objectStore('keyval').clear();
-        return tx.complete;
-      });
-    },
-    keys() {
-      return dbPromise.then(db => {
-        const tx = db.transaction('keyval');
-        const keys = [];
-        const store = tx.objectStore('keyval');
-   
-        // This would be store.getAllKeys(), but it isn't supported by Edge or Safari.
-        // openKeyCursor isn't supported by Safari, so we fall back
-        (store.iterateKeyCursor || store.iterateCursor).call(store, cursor => {
-          if (!cursor) return;
-          keys.push(cursor.key);
-          cursor.continue();
-        });
-   
-        return tx.complete.then(() => keys);
-      });
-    } */
+    }
   };

@@ -226,7 +226,7 @@ nav h1 a {
 /* ====================== Restaurant Listing ====================== */
 #restaurants-list {
   list-style: outside none none;
-  padding: 0;
+  padding: 0 1em;
   display: flex;
   flex-wrap: wrap;
 }
@@ -262,6 +262,7 @@ nav h1 a {
 
 .restaurant-info {
   background-color: #ddd;
+  padding: 0 0.5em;
 }
 
 .restaurants-list p {
@@ -450,6 +451,10 @@ nav h1 a {
   background-color: #fa0;
 }
 
+.comment {
+  width: 100%;
+}
+
 .rating,
 .comment {
   display: inline-block;
@@ -465,10 +470,12 @@ nav h1 a {
   color: #fa0;
   top: 50%;
   left: 50%;
-  max-width: 500px;
+  max-width: 390px;
   width: 90%; 
   position: fixed;
-  background-color: #223;
+  /*background-color: #223;
+  max-width: 400px;*/
+  background-color: #112;
   z-index: 1002;
   border: 3px solid #fa0;
   overflow: hidden;
@@ -562,6 +569,10 @@ input[type=text], select, textarea {
   nav h1 a {
     font-size: 16px;
     letter-spacing: 0.1em;
+  }
+
+  #restaurants-list {
+    justify-content: center;
   }
 
   footer {
