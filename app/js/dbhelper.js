@@ -32,7 +32,7 @@ class DBHelper {
   }
 
   /**
-   * Fetch all restaurants.   -   From server if not in Indexed DB
+   * Fetch all restaurants.   -   From server if restaurants not in Indexed DB
    */
   static fetchRestaurants(callback) {
     //return dbPromise ? DBHelper.getRestaurantsFromIDB(callback) : DBHelper.getRestaurantsFromServer(callback);
@@ -50,7 +50,7 @@ class DBHelper {
   }
 
   /**
-   * Fetch all reviews.   -   From server if not in Indexed DB
+   * Fetch all reviews.   -   From server if reviews not in Indexed DB
    */
   static fetchReviews(callback) {
     //return dbPromise ? DBHelper.getReviewsFromIDB(callback) : DBHelper.getReviewsFromServer(callback);
@@ -269,7 +269,7 @@ class DBHelper {
     dbPromise.then(db => {
       if (!db) return;
       const tx = db.transaction('offline-posts', 'readwrite');
-      const store = tx.objectStore('offline');
+      const store = tx.objectStore('offline-posts');
       return store.openCursor();
     })
     .then(function postData (cursor) {
@@ -278,7 +278,7 @@ class DBHelper {
       }
       console.log('cursor is at: ', cursor.key);
 
-      const offlineKey = cursor.key;
+      const offline_id = cursor.key;
       const url = cursor.value.url;
       const headers = cursor.value.headers;
       const method = cursor.value.method;
@@ -287,7 +287,7 @@ class DBHelper {
       const body = JSON.stringify(data);
 
       // Update Server with posts made while offline
-      // then update the IndexedDB with data returned        
+      // then update the IndexedDB with data returned from server      
       fetch(url, {
         headers: headers,
         method: method,
@@ -297,45 +297,41 @@ class DBHelper {
       .then(data => {
         console.log('Data from Server', data);
 
+        // Check if updated data is a review or favorite
+        if (flag === undefined) {
+          console.log('Favorite sent to server... IDB updated');
+        } else {
+            // Update IDB reviews store and delete old review data 
+            dbPromise.then(db => {
+              const tx = db.transaction('reviews', 'readwrite');
+              const store = tx.objectStore('reviews');
+              store.put(data)
+              return tx.complete;
+              })
+            .then(() => console.log('Review sent to server.. IDB updated'))
+            .catch(err => {
+              tx.abort();
+              console.log('Transaction error', err);
+            });
+        }
+      })
+      .then(() => {
         // Delete the http request from offline-posts store
         dbPromise.then(db => {
-          const tx = db.transaction('offline-posts', 'readwrite');
-          tx.objectStore('offline-posts').delete(offline_key);
-          return tx.complete;
-        }).then(() => {
-            // test if this is a review or favorite update
-            if (review_key === undefined) {
-              console.log('Favorite posted to server.');
-            } else {
-                // 2. Add new review record to reviews store
-                // 3. Delete old review record from reviews store 
-                dbPromise.then(db => {
-                  const tx = db.transaction('reviews', 'readwrite');
-                  return tx.objectStore('reviews').put(data)
-                  .then(() => tx.objectStore('reviews').delete(review_key))
-                  .then(() => {
-                    console.log('tx complete reached.');
-                    return tx.complete;
-                  }).catch(err => {
-                      tx.abort();
-                      console.log('transaction error: tx aborted', err);
-                    });
-                })
-                .then(() => console.log('review transaction success!'))
-                .catch(err => console.log('reviews store error', err));
-            }
-          })
-          .then(() => console.log('offline rec delete success!'))
-          .catch(err => console.log('offline store error', err));
-            
-        }).catch(err => {
-            console.log('Unable to connect', err);
-            return;
-          });
-          return cursor.continue().then(postData);
+        const tx = db.transaction('offline-posts', 'readwrite');
+        const store = tx.objectStore('offline-posts');
+        store.delete(offline_id);
+        return tx.complete;
+        });
+      })
+      .catch(err => {
+        console.log('Failed connection', err);
+        return;
+      });
+      return cursor.continue().then(postData);
     })
-    .then(() => console.log('Done!'))
-    .catch(err => console.log('Error opening cursor', err)); 
+    .then(() => console.log('Cursor Done!'))
+    .catch(err => console.log('Could not open cursor', err)); 
   }
 
   /**  Temporarily update review in IDB store and return its ID, if offline **/

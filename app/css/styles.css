@@ -46,9 +46,8 @@ body {
 
 :focus {
   outline: 0;
-  -webkit-box-shadow: 0 0 7px 7px #db0;
-  -moz-box-shadow: 0 0 7px 7px #db0;
-  box-shadow: 0 0 7px 7px #db0;
+  -webkit-box-shadow: 0 0 5px 5px #f4a;
+  -moz-box-shadow: 0 0 5px 5px #f4a;
   box-shadow: 0 0 5px 5px #f4a;
 }
 
@@ -302,21 +301,21 @@ nav h1 a {
   height: 48px;
   bottom: 5px;
   left: 5px;
-  /*font-size: 2em;
-  background-color: #004;*/
+  font-size: 2em;
+  /*background-color: #004;
   border: 2px solid #ccc;
-  background-image: url('../images/icons/favs.png');
+  background-image: url('../images/icons/favs.png');*/
   position: absolute;
 }
 
 .fav-button.active {
-  background-color: #fd0;
-  /*color: #fd0;*/
+  /*background-color: #fd0;*/
+  color: #f4a;
 }
 
 .fav-button:hover {
-  background-color: #f30;
-  /*color: #f30;*/
+  /*background-color: #f30;*/
+  color: #f30;
   cursor: pointer;
 }
 

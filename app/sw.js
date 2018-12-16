@@ -1,25 +1,24 @@
-const staticCacheName = 'Restaurant-static-test14'; 
+const staticCacheName = 'Restaurant-static-test9'; 
 const filesToCache = [
     './',
     './index.html',
     './restaurant.html',
-    './css/styles.css',
-    './js/idb.js',
-    './js/dbhelper.js',
-    //'./js/idbhelper.js',
-    './js/main.js',
-    './js/restaurant_info.js',
-    './images/icons/favs.png',
-    //'./css/styles.min.css',
-    //'./js/db.min.js',
-    //'./js/index.min.js',
-    //'./js/restaurant.min.js',
-    './favicon.png'
-    //'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
-    //'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
-    //'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png',
-    //'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon-2x.png',
-    //'https://unpkg.com/leaflet@1.3.1/dist/images/marker-shadow.png'
+    //'./css/styles.css',
+    //'./js/idb.js',
+    //'./js/dbhelper.js',
+    //'./js/main.js',
+    //'./js/restaurant_info.js',
+    //'./images/icons/favs.png',
+    './css/styles.min.css',
+    './js/db.min.js',
+    './js/index.min.js',
+    './js/restaurant.min.js',
+    './favicon.png',
+    'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
+    'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
+    'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png',
+    'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon-2x.png',
+    'https://unpkg.com/leaflet@1.3.1/dist/images/marker-shadow.png'
 ];
 
 /*
@@ -72,7 +71,7 @@ self.addEventListener('fetch', event => {
     }
     if (requestUrl.port === '1337') {
       if (event.request.method !== 'GET') {
-        console.log('This is non-GET request', event.request.method, request);
+        console.log('This is non-GET request: ', event.request.method, request);
         return;
       }
      // DBHelper.getRestaurantsFromIDB(callback);

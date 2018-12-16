@@ -12,6 +12,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
   //registerServiceWorker();
   initMap();
 });
+/*
+window.addEventListener('offline', (e) => { 
+  console.log('offline');
+  postMessage('offline');
+});*/
+
+/** Resend offline posts when connection is established **/
+window.addEventListener('online', (e) => { 
+  console.log('online');
+  //postMessage('online');
+  DBHelper.postOfflineData();
+});
 
 /*window.addEventListener('load', () => {
   initMap();
@@ -109,15 +121,9 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
   fav1.addEventListener('click', (event) => {
     event.preventDefault();
     if (fav1.classList.contains('active')) {
-      //fav1.setAttribute('aria-pressed', 'false');
-      //fav1.setAttribute('aria-label', 'Mark as favorite');
-      //fav1.title = `Mark as favorite`;
       DBHelper.setFavorite(restaurant, false);
       //postMessage(`${restaurant.name} is not a favorite`);
     } else {
-      //fav1.setAttribute('aria-pressed', 'true');
-      //fav1.setAttribute('aria-label', 'Unmark as favorite');
-      //fav1.title = `Unmark as favorite`;
       DBHelper.setFavorite(restaurant, true);
       //postMessage(`${restaurant.name} is a favorite`);
     }

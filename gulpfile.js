@@ -97,15 +97,16 @@ gulp.task('useref', () => {
     .pipe(useref())
     
     /**   Minify and create Sourcemap for JS files    **/
-    .pipe(gulpIf('*.js', sourcemaps.init()))
+    //.pipe(gulpIf('*.js', sourcemaps.init()))
     .pipe(gulpIf('*.js', uglify()))
-    .pipe(gulpIf('*.js', sourcemaps.write('.')))
+    //.pipe(gulpIf('*.js', gzip({ append: false })))
+    //.pipe(gulpIf('*.js', sourcemaps.write('.')))
 
     /**   Minify and create Sourcemap for CSS files   **/
-    .pipe(gulpIf('*.css', sourcemaps.init()))
+    //.pipe(gulpIf('*.css', sourcemaps.init()))
     .pipe(gulpIf('*.css', autoprefixer({ browsers: ['> 1%', 'last 2 versions', 'Firefox ESR'] })))
     .pipe(gulpIf('*.css', cleanCSS()))
-    .pipe(gulpIf('*.css', sourcemaps.write('.')))
+    //.pipe(gulpIf('*.css', sourcemaps.write('.')))
 
     /**    Minify HTML files    **/
     .pipe(gulpIf('*.html', htmlclean()))

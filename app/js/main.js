@@ -9,11 +9,33 @@ var markers = [];
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   //registerServiceWorker();
-  //initMap(); // added 
+  initMap(); // added 
   fetchNeighborhoods();
   fetchCuisines();
-  updateRestaurants();
+  //updateRestaurants();
 });
+
+/*
+window.addEventListener('offline', (e) => { 
+  console.log('offline');
+  postMessage('offline');
+});
+*/
+
+/** Resend offline posts when connection is established **/
+window.addEventListener('online', (e) => { 
+  console.log('online');
+  //postMessage('online');
+  DBHelper.postOfflineData();
+});
+
+//if (navigator.onLine) {
+  //postMessage('online');
+  //console.log('online');
+//} //else {
+  //postMessage('offline');
+  //console.log('offline');
+//}
 
 /*window.addEventListener('load', () => {
   initMap();
@@ -156,7 +178,7 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.appendChild(createRestaurantHTML(restaurant));
   });
-  //addMarkersToMap();
+  addMarkersToMap();
 }
 
 /**
@@ -190,6 +212,7 @@ const createRestaurantHTML = (restaurant) => {
   const fav = document.createElement('button');
   fav.classList = 'fav-button';
   fav.setAttribute('aria-label', 'favorite');
+  fav.innerHTML = '❤';
   if (restaurant.is_favorite === 'true') {
     fav.classList.add('active');
     fav.setAttribute('aria-pressed', 'true');
@@ -203,15 +226,9 @@ const createRestaurantHTML = (restaurant) => {
   fav.addEventListener('click', (event) => {
     event.preventDefault();
     if (fav.classList.contains('active')) {
-      //fav.setAttribute('aria-pressed', 'false');
-      //fav.setAttribute('aria-label', 'Mark as favorite');
-      //fav.title = `Mark as favorite`;
       DBHelper.setFavorite(restaurant, false);
       //postMessage(`${restaurant.name} is not a favorite`);
     } else {
-      //fav.setAttribute('aria-pressed', 'true');
-      //fav.setAttribute('aria-label', 'Unmark as favorite');
-      //fav.title = `Unmark as favorite`;
       DBHelper.setFavorite(restaurant, true);
       //postMessage(`${restaurant.name} is a favorite`);
     }
