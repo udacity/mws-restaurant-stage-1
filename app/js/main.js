@@ -216,19 +216,25 @@ const createRestaurantHTML = (restaurant) => {
   if (restaurant.is_favorite === 'true') {
     fav.classList.add('active');
     fav.setAttribute('aria-pressed', 'true');
-    fav.setAttribute('aria-label', 'Unmark as favorite');
+    fav.setAttribute('aria-label', `Unmark ${restaurant.name} as favorite`);
     fav.title = `Unmark as favorite`;
   } else {
     fav.setAttribute('aria-pressed', 'false');
-    fav.setAttribute('aria-label', 'Mark as favorite');
+    fav.setAttribute('aria-label', `Mark ${restaurant.name} as favorite`);
     fav.title = `Mark as favorite`;
   }
   fav.addEventListener('click', (event) => {
     event.preventDefault();
     if (fav.classList.contains('active')) {
+      fav.setAttribute('aria-pressed', 'false');
+      fav.setAttribute('aria-label', `Mark ${restaurant.name} as favorite`);
+      fav.title = `Mark as favorite`;
       DBHelper.setFavorite(restaurant, false);
       //postMessage(`${restaurant.name} is not a favorite`);
     } else {
+      fav.setAttribute('aria-pressed', 'true');
+      fav.setAttribute('aria-label', `Unmark ${restaurant.name} as favorite`);
+      fav.title = `Unmark ${restaurant.name} as favorite`;
       DBHelper.setFavorite(restaurant, true);
       //postMessage(`${restaurant.name} is a favorite`);
     }

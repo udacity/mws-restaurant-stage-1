@@ -1,6 +1,6 @@
 /**  TODO: Create an Indexed Database for restaurant data **/
 //if ('indexedDB' in window) {
-  const dbPromise = idb.open('test14-DB', 3, (upgradeDB) => {
+  const dbPromise = idb.open('Restaurant-DB', 3, (upgradeDB) => {
     switch (upgradeDB.oldVersion) {
       case 0:
         upgradeDB.createObjectStore('restaurants', { keyPath: 'id' });

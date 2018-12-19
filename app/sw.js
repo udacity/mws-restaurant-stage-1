@@ -1,4 +1,4 @@
-const staticCacheName = 'Restaurant-static-test9'; 
+const staticCacheName = 'Restaurant-static-v4'; 
 const filesToCache = [
     './',
     './index.html',
@@ -73,9 +73,7 @@ self.addEventListener('fetch', event => {
       if (event.request.method !== 'GET') {
         console.log('This is non-GET request: ', event.request.method, request);
         return;
-      }
-     // DBHelper.getRestaurantsFromIDB(callback);
-      //return;
+      }   
     }
 
 
