@@ -53,7 +53,6 @@ const _trackInstalling = worker => {
 };
 
 const _updateReady = worker => {
-  let newWorker;
   const notification = document.getElementById("notification");
   notification.className = "show";
   // The click event on the pop up notification
@@ -61,5 +60,5 @@ const _updateReady = worker => {
     worker.postMessage({ action: "skipWaiting" });
   });
 };
+
 registerServiceWorker();
-IndexController();
