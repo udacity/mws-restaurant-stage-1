@@ -380,9 +380,6 @@ nav h1 a {
     width: 100%;
   }
 }
-@media only screen and (max-width: 70em) {
-}
-
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 70em) {
   /* section {
@@ -407,10 +404,11 @@ nav h1 a {
   #restaurant-container,
   #reviews-container {
     width: 100%;
+    padding-top: 62rem 0 0 2rem;
   }
   #restaurant-name {
     font-size: 6rem;
-    padding: 2rem;
+    padding: 62rem 0 0 2rem;
   }
   #restaurant-cuisine {
     font-size: 1.6rem;
@@ -452,4 +450,32 @@ nav h1 a {
     padding: 0.5rem 1.5rem;
     margin-bottom: 2rem;
   }
+}
+
+#notification {
+  visibility: hidden;
+  min-width: 25rem;
+  margin-left: -12.5rem;
+  background-color: #323232;
+  color: #fff;
+  text-align: center;
+  border-radius: 0.2rem;
+  padding: 1.6rem;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 3rem;
+}
+@media (min-width: 640px) {
+  #notification {
+    min-width: 28.8rem;
+    max-width: 56.8rem;
+    border-radius: 0.2rem;
+  }
+}
+
+#notification.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s;
+  animation: fadein 0.5s;
 }

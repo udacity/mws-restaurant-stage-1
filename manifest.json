@@ -1,0 +1,11 @@
+{
+  "name": "mws restaurant",
+  "short_name": "mws ",
+  "theme_color": "#f18200",
+  "background_color": "#fdfdfd",
+  "display": "fullscreen",
+  "Scope": "/",
+  "start_url": "/",
+  "icons": null,
+  "splash_pages": null
+}
