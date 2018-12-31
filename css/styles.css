@@ -373,13 +373,13 @@ nav h1 a {
     margin-right: 30px;
   }
   #restaurants-list {
-    margin: 0 0 10px 20px;
+    margin: 0 10px 10px -10px;
     padding: 0;
   }
   #restaurants-list li {
     width: calc(100%/2 - 20px);
     min-width: 100px;
-    margin: 20px 20px 0 0;
+    margin: 20px 0 0 20px;
     padding: 15px;
 }
 
@@ -396,6 +396,9 @@ nav h1 a {
 }
 
 @media only screen and (min-width: 1200px) {
+  #restaurants-list {
+    margin: 0 0 10px -20px;
+  }
   #restaurants-list li {
     width: calc(100%/5 - 20px);
   }
