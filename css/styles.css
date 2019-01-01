@@ -37,7 +37,7 @@ h1, h2, h3, h4, h5, h6 {
 article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-#maincontent {
+#main-content {
   background-color: #f3f3f3;
   min-height: 100%;
 }
@@ -215,6 +215,11 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Details ====================== */
+.inside #main-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .inside #map-container {
   background: white none repeat scroll 0 0;
   width: 100%;
@@ -271,8 +276,15 @@ nav h1 a {
 #restaurant-container, #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #d9d9d9;
-  width: calc(100% - 40px);
   padding: 20px;
+}
+
+#restaurant-container {
+  width: calc(100% - 40px);
+}
+
+#reviews-container {
+  width: calc(100% - 40px);
 }
 
 #reviews-container h2 {
@@ -413,7 +425,29 @@ nav h1 a {
     width: calc(100%/2 - 20px);
     min-width: 100px;
     margin: 20px 0 0 20px;
-    padding: 15px;
+    padding: 15px
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .inside #map-container {
+    width: calc(50% - 40px);
+    min-height: 200px;
+    height: auto;
+    margin: 0 20px 0 0;
+    overflow: hidden;
+    flex: 1;
+    order: 2;
+  }
+  #restaurant-container {
+    width: calc(50% - 40px);
+    order: 1;
+    flex: 1;
+  }
+  #reviews-container {
+    width: calc(100% - 40px);
+    order: 3;
+  }
 }
 
 @media only screen and (min-width: 720px) {

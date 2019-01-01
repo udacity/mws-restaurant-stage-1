@@ -6,7 +6,15 @@ var newMap;
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   initMap();
+
+  // can't calculate final height of map until restaurant image size is known
+  var rim = document.getElementById('restaurant-img');
+  rim.addEventListener('load', (event) => {
+    redrawMap();
+  });
+
 });
+
 
 /**
  * Initialize leaflet map
@@ -33,6 +41,15 @@ initMap = () => {
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
     }
   });
+}
+
+/**
+ * Redraw leaflet map
+ */
+redrawMap = () => {
+  if (newMap) {
+    newMap.invalidateSize();
+  }
 }
 
 /* window.initMap = () => {
