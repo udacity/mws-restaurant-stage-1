@@ -150,15 +150,28 @@ createRestaurantHTML = restaurant => {
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.alt = restaurant.name;
+  image.setAttribute('aria-hidden', true);
+
   li.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
-  li.append(name);
 
-  const neighborhood = document.createElement('p');
-  neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
+  const nameContainer = document.createElement('div');
+  nameContainer.className = 'name-container';
+
+  const stripe = document.createElement('div');
+  stripe.className = 'stripe';
+
+  nameContainer.appendChild(name);
+  nameContainer.appendChild(stripe);
+
+  li.append(nameContainer);
+
+  const info = document.createElement('p');
+  info.innerHTML = `${restaurant.neighborhood} (${restaurant.cuisine_type})`;
+  li.append(info);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
