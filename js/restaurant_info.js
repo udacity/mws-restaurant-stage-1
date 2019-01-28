@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', event => {
  * Initialize leaflet map
  */
 initMap = () => {
+  if (!L) return;
+
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) {
       // Got an error!
@@ -133,16 +135,22 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = review => {
   const li = document.createElement('li');
-  const name = document.createElement('p');
-  name.innerHTML = review.name;
+  const name = document.createElement('h4');
+  name.innerHTML = `${review.name}'s Review`;
   li.appendChild(name);
 
   const date = document.createElement('p');
   date.innerHTML = review.date;
   li.appendChild(date);
 
-  const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
+  const rating = document.createElement('div');
+  rating.className = 'rating';
+
+  for (let i = 0; i < 5; i++) {
+    const checked = i < review.rating;
+    rating.appendChild(createStar(checked));
+  }
+
   li.appendChild(rating);
 
   const comments = document.createElement('p');
@@ -150,6 +158,16 @@ createReviewHTML = review => {
   li.appendChild(comments);
 
   return li;
+};
+
+createStar = checked => {
+  const star = document.createElement('span');
+  star.className = 'fa fa-star';
+  if (checked) {
+    star.className += ' checked';
+  }
+
+  return star;
 };
 
 /**

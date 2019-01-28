@@ -321,6 +321,7 @@ header nav a {
   top: 80px;
   width: 50%;
   overflow: hidden;
+  z-index: 10;
 }
 
 @media screen and (max-width: 550px) {
@@ -355,20 +356,15 @@ header nav a {
 }
 
 #restaurant-name {
-  width: 150%;
-  left: -25%;
-  position: absolute;
-  top: -5px;
   padding: 10px 0;
   text-align: center;
   background: #000;
-  transform: rotate(-5deg);
 
   color: #f18200;
   font-size: 1.6em;
   font-weight: bold;
   letter-spacing: 0;
-  margin: 15px 0 30px;
+  margin: 5px 0;
   text-transform: uppercase;
   line-height: 1.1;
 }
@@ -398,7 +394,7 @@ header nav a {
   font-size: 12pt;
   font-weight: 300;
   letter-spacing: 10px;
-  margin: 0 0 20px;
+  margin: 5px 0;
   padding: 2px 0;
   text-align: center;
   text-transform: uppercase;
@@ -428,14 +424,15 @@ header nav a {
 }
 #reviews-list li {
   background-color: #fff;
-  border: 2px solid #f3f3f3;
   display: block;
   list-style-type: none;
-  margin: 0 0 30px;
+  margin: 10px;
+  padding: 20px;
   overflow: hidden;
-  padding: 0 20px 20px;
   position: relative;
-  width: 85%;
+}
+#reviews-list li .rating .checked {
+  color: #f18200;
 }
 #reviews-list li p {
   margin: 0 0 10px;
