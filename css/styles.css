@@ -89,6 +89,8 @@ section {
 #maincontent {
   background-color: #f3f3f3;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 #footer {
@@ -147,7 +149,7 @@ header nav a {
   height: 50px;
   padding: 0 25px;
   list-style: none;
-  background-color: #eee;
+  background-color: #000;
   margin: 0;
   width: calc(50% - 50px);
   align-items: center;
@@ -159,15 +161,23 @@ header nav a {
   }
 }
 
+#maincontent #restaurants-container {
+  order: 1;
+}
+#maincontent #map-container {
+  order: 0;
+}
+
 /* Display list items side by side */
 #breadcrumb li {
   display: inline;
+  color: #fff;
 }
 
 /* Add a slash symbol (/) before/behind each list item */
 #breadcrumb li + li:before {
   padding: 8px;
-  color: black;
+  color: #fff;
   content: '/\00a0';
 }
 
@@ -291,7 +301,8 @@ header nav a {
 #restaurants-list li a {
   background-color: #f18200;
   border-bottom: 3px solid #eee;
-  color: #fff;
+  color: #000;
+  font-weight: bold;
   display: inline-block;
   font-size: 10pt;
   margin: 15px 0 0;
@@ -320,6 +331,16 @@ header nav a {
   .inside #maincontent {
     margin-right: 0;
   }
+}
+
+.inside #maincontent #restaurant-container {
+  order: 0;
+}
+.inside #maincontent #map-contianer {
+  order: 1;
+}
+.inside #maincontent #reviews-container {
+  order: 2;
 }
 
 .inside #map-container {

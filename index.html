@@ -25,15 +25,11 @@
     </header>
 
     <main id="maincontent" role="main">
-      <section id="map-container" aria-hidden="true">
-        <div id="map"></div>
-      </section>
-
-      <section>
+      <section id="restaurants-container">
         <div class="filter-options">
           <h2>Filter Results</h2>
 
-          <label for="neighborhood-select" class="visually-hidden"
+          <label for="neighborhoods-select" class="visually-hidden"
             >Neighborhoods</label
           >
           <select
@@ -54,6 +50,10 @@
           </select>
         </div>
         <ul id="restaurants-list" aria-live="assertive"></ul>
+      </section>
+
+      <section id="map-container" role="application" aria-label="map">
+        <div id="map"></div>
       </section>
     </main>
 
