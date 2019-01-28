@@ -140,6 +140,7 @@ createReviewHTML = review => {
   li.appendChild(name);
 
   const date = document.createElement('p');
+  date.className = 'date';
   date.innerHTML = review.date;
   li.appendChild(date);
 
@@ -150,6 +151,11 @@ createReviewHTML = review => {
     const checked = i < review.rating;
     rating.appendChild(createStar(checked));
   }
+
+  const ratingText = document.createElement('span');
+  ratingText.className = 'visually-hidden';
+  ratingText.innerHTML = `${review.rating} out of 5 stars`;
+  rating.appendChild(ratingText);
 
   li.appendChild(rating);
 
@@ -162,6 +168,7 @@ createReviewHTML = review => {
 
 createStar = checked => {
   const star = document.createElement('span');
+  star.setAttribute('aria-hidden', true);
   star.className = 'fa fa-star';
   if (checked) {
     star.className += ' checked';
