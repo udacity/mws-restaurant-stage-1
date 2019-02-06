@@ -160,7 +160,7 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.alt = `Picture of ${restaurant.name}`;
+  image.alt = `Picture of ${restaurant.name}`; //Utilized concepts from "A Walkthrough by Alexandro Perez" at https://alexandroperez.github.io/mws-walkthrough/?1.18.accessible-images
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   li.append(image);
 
@@ -216,4 +216,4 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 
 
 
-//References include:  Matthew Cranford's Walkthrough at https://matthewcranford.com/category/blog-posts/walkthrough/restaurant-reviews-app/
+//References include:  Matthew Cranford's Walkthrough at https://matthewcranford.com/category/blog-posts/walkthrough/restaurant-reviews-app/, "A Walkthrough by Alexandro Perez" at https://alexandroperez.github.io/mws-walkthrough/?1.18.accessible-images
