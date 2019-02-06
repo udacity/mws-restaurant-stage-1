@@ -78,7 +78,7 @@ initMap = () => {
         scrollWheelZoom: false
       });
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-    mapboxToken: '<your MAPBOX API KEY HERE>',
+    mapboxToken: 'pk.eyJ1Ijoic2hvbm5pZTAyIiwiYSI6ImNqcmdxNGZsMTAzeHA0YW5ucDBuYWR5aDkifQ.ePJKii7JlFVa2BItuZDu2Q',
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
       '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -160,8 +160,10 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
+  image.alt = `Picture of ${restaurant.name}`;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   li.append(image);
+
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
@@ -178,6 +180,8 @@ createRestaurantHTML = (restaurant) => {
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
+  more.tabIndex='4'; //Utilized this concept from "Matthew Cranford's Restaurant Reviews App Walkthrough"
+  more.role='link';  //Utilized this concept from "Matthew Cranford's Restaurant Reviews App Walkthrough"
   li.append(more)
 
   return li
@@ -209,3 +213,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 } */
 
+
+
+
+//References include:  Matthew Cranford's Walkthrough at https://matthewcranford.com/category/blog-posts/walkthrough/restaurant-reviews-app/
