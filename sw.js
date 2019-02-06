@@ -68,7 +68,7 @@ self.addEventListener('activate', function(event) {
     )
   });
 
-
+    //Utilized code structure from https://www.sitepoint.com/getting-started-with-service-workers/
     function fetchRequest(event){
     var requestClone = event.request.clone();
     return fetch(requestClone).then(function(res){
@@ -90,4 +90,4 @@ self.addEventListener('activate', function(event) {
         
   
   
-  //References Include Udacity Classroom: Lesseon 13: Introducing the Service Worker, Matthew Cranford's Walkthrough at https://matthewcranford.com/category/blog-posts/walkthrough/restaurant-reviews-app/, and A Walkthrough by Alexandro Perez at https://alexandroperez.github.io/mws-walkthrough/?1.15.responsive-images
+  //References Include Udacity Classroom: Lesseon 13: Introducing the Service Worker,https://www.sitepoint.com/getting-started-with-service-workers/, Matthew Cranford's Walkthrough at https://matthewcranford.com/category/blog-posts/walkthrough/restaurant-reviews-app/, and A Walkthrough by Alexandro Perez at https://alexandroperez.github.io/mws-walkthrough/?1.15.responsive-images
