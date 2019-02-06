@@ -27,7 +27,9 @@ self.addEventListener('install', function(event){
         '/img/7.jpg',
         '/img/.jpg',
         '/img/9.jpg',
-        '/img/10.jpg'
+        '/img/10.jpg',
+        'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
+        'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
 
             ]);    
 
