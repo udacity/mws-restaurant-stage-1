@@ -57,7 +57,21 @@ self.addEventListener('activate', function(event) {
   self.addEventListener('fetch', function(event) {
     event.respondWith(
       caches.match(event.request).then(function(response) {
-        return response || fetch(event.request);
+        if (response){
+          console.log('Found', event.request, 'in cache');
+          return response;
+        } 
+        else{ //Utilized Concepts from Matthew Cranford's "Restaurant App Walkthrough"
+          console.log('Did not find', event.request, 'in cache');
+          return fetch(event.request).then(function(response){
+            const responseClone = response.clone();
+            caches.open(appName).then(function(cache){
+              cache.put(event.request, responseClone);
+            })
+            return response;
+
+          })
+        }
       })
     );
   });
