@@ -1,16 +1,13 @@
-//console.log('ServiceWorker:Registered');
-
 const appName ='Restaurant-Reviews';
-const staticCacheName = appName + '-v1.0';
+
 
 //Aspects of code used from Lesson 13:"Introducing the Service Worker" in Udacity Classroom
 //Also utilized concepts from "A Walkthrough by Alexandro Perez" at https://alexandroperez.github.io/mws-walkthrough/?1.23.registering-service-worker-and-caching-static-assets
 self.addEventListener('install', function(event){
         
-    event.waitUntil(
-        caches.open(staticCacheName).then(function(cache){
-            
-        return cache.addAll([
+    event.waitUntil(caches.open(appName).then(function(cache){
+        console.log('Caches found');    
+         cache.addAll([
                               //Utilized concept from Matthew Cranford's Restaurant Review App
         '/',
         'css/styles.css',
@@ -20,6 +17,8 @@ self.addEventListener('install', function(event){
         'js/main.js',
         'js/restaurant_info.js',
         '/restaurant.html',
+        '/register-sw.js',
+        '/index.html',
         '/img/2.jpg',
         '/img/3.jpg',
         '/img/4.jpg',
@@ -43,7 +42,7 @@ self.addEventListener('activate', function(event) {
         return Promise.all(
           cacheNames.filter(function(cacheName) {
             return cacheName.startsWith(appName) &&
-                   cacheName != staticCacheName;
+                   cacheName != appName;
           }).map(function(cacheName) {
             return caches.delete(cacheName);
           })
