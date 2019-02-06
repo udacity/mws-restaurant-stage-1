@@ -55,26 +55,39 @@ self.addEventListener('activate', function(event) {
 
 ////Structure of code used from Lesson 13:"Introducing the Service Worker" in Udacity Classroom
   self.addEventListener('fetch', function(event) {
+
     event.respondWith(
       caches.match(event.request).then(function(response) {
         if (response){
           console.log('Found', event.request, 'in cache');
           return response;
         } 
-        else{ //Utilized Concepts from Matthew Cranford's "Restaurant App Walkthrough"
-          console.log('Did not find', event.request, 'in cache');
-          return fetch(event.request).then(function(response){
-            const responseClone = response.clone();
-            caches.open(appName).then(function(cache){
-              cache.put(event.request, responseClone);
-            })
-            return response;
+      fetchRequest(event)
 
           })
-        }
-      })
-    );
+    )
   });
+
+
+    function fetchRequest(event){
+    var requestClone = event.request.clone();
+    return fetch(requestClone).then(function(res){
+        //if not a valid response send the error
+        if(!res || res.status !== 200 || res.type !== 'basic'){
+            return res;
+        }
+
+        var response = res.clone();
+
+        caches.open(appName).then(function(cache){
+            cache.put(event.request, response);
+        });
+
+        return res;
+    })
+}
+  
+        
   
   
   //References Include Udacity Classroom: Lesseon 13: Introducing the Service Worker, Matthew Cranford's Walkthrough at https://matthewcranford.com/category/blog-posts/walkthrough/restaurant-reviews-app/, and A Walkthrough by Alexandro Perez at https://alexandroperez.github.io/mws-walkthrough/?1.15.responsive-images
