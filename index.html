@@ -35,6 +35,12 @@
         <div class="filter-options">
           <h2 id="filter">Filter Results</h2>
 
+          <span
+            id="filter-results"
+            class="visually-hidden"
+            aria-live="assertive"
+          ></span>
+
           <label for="neighborhoods-select" class="visually-hidden">
             Neighborhoods
           </label>
@@ -55,7 +61,7 @@
             <option value="all">All Cuisines</option>
           </select>
         </div>
-        <ul id="restaurants-list" aria-live="assertive"></ul>
+        <ul id="restaurants-list"></ul>
       </section>
     </main>
 

@@ -109,6 +109,10 @@ updateRestaurants = () => {
         console.error(error);
       } else {
         resetRestaurants(restaurants);
+
+        const resultNumber = document.getElementById('filter-results');
+        resultNumber.innerHTML = `${restaurants.length} restaurants found`;
+
         fillRestaurantsHTML();
       }
     }
