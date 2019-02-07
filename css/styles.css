@@ -461,7 +461,7 @@ header nav a {
 #reviews-list li .rating .checked {
   color: #f18200;
 }
-#reviews-list li h4 {
+#reviews-list li h3 {
   font-weight: bold;
   font-size: 1.4em;
   margin: 0;
