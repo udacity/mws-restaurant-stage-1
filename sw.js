@@ -1,4 +1,4 @@
-const staticCacheName = 'mwsr1-static-v1';
+const staticCacheName = 'mwsr1-static-v2';
 const urlsToPrefetch = [
   '/',
   '/restaurant.html',
@@ -19,6 +19,7 @@ const urlsToPrefetch = [
   '/img/9.jpg',
   '/img/10.jpg',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2?v=4.7.0',
 ];
 
 self.addEventListener('install', event => {
