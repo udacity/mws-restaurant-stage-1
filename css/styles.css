@@ -84,6 +84,10 @@ section {
 .visually-hidden:focus {
   display: block;
   visibility: visible;
+  clip: unset;
+  height: auto;
+  width: auto;
+  position: relative;
 }
 
 #maincontent {
@@ -159,13 +163,6 @@ header nav a {
   #breadcrumb {
     width: 100%;
   }
-}
-
-#maincontent #restaurants-container {
-  order: 1;
-}
-#maincontent #map-container {
-  order: 0;
 }
 
 /* Display list items side by side */
@@ -331,16 +328,6 @@ header nav a {
   .inside #maincontent {
     margin-right: 0;
   }
-}
-
-.inside #maincontent #restaurant-container {
-  order: 0;
-}
-.inside #maincontent #map-contianer {
-  order: 1;
-}
-.inside #maincontent #reviews-container {
-  order: 2;
 }
 
 .inside #map-container {

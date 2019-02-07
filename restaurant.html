@@ -24,11 +24,13 @@
   <body class="inside">
     <header role="banner">
       <nav role="navigation">
-        <a href="/"> <h1>Restaurant Reviews</h1> </a>
+        <a href="/"><h1>Restaurant Reviews</h1></a>
       </nav>
-      <ul id="breadcrumb" role="navigation">
-        <li><a href="/">Home</a></li>
-      </ul>
+      <div class="breadcrumb-container" role="navigation">
+        <ul id="breadcrumb">
+          <li><a href="/">Home</a></li>
+        </ul>
+      </div>
     </header>
 
     <main id="maincontent" role="main">
@@ -39,15 +41,17 @@
         <p id="restaurant-address"></p>
         <table id="restaurant-hours"></table>
       </section>
-      <section id="reviews-container"><ul id="reviews-list"></ul></section>
       <section id="map-container" role="application" aria-label="map">
+        <a href="#reviews-container" class="visually-hidden">Skip To Reviews</a>
         <div id="map"></div>
       </section>
+      <section id="reviews-container"><ul id="reviews-list"></ul></section>
     </main>
 
     <footer id="footer" role="contentinfo">
       <span>
-        Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a>
+        Copyright (c) 2017
+        <a href="/"><strong>Restaurant Reviews</strong></a>
       </span>
       <span>All Rights Reserved.</span>
     </footer>
