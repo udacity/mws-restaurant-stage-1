@@ -470,6 +470,21 @@ header nav a {
 #reviews-list li p {
   margin: 0 0 10px;
 }
+#restaurant-hours {
+  width: 100%;
+  border-collapse: collapse;
+}
+#restaurant-hours caption {
+  background: #000;
+  color: #f18200;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 5px;
+  text-transform: uppercase;
+}
+#restaurant-hours tr:nth-child(odd) {
+  background: rgba(0, 0, 0, 0.1);
+}
 #restaurant-hours td {
   color: #666;
 }
