@@ -106,16 +106,17 @@ nav h1 a {
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
   width: 100%;
-  height: 50px;
+  height: 80px;
   background-color: #3397DB;
-  align-items: center;
-}
+ }
+
 .filter-options h2 {
   color: white;
   font-size: 1rem;
   font-weight: normal;
   line-height: 1;
   margin: 0 20px;
+  text-align: center;
 }
 .filter-options select {
   background-color: white;
@@ -124,7 +125,7 @@ nav h1 a {
   font-size: 11pt;
   height: 35px;
   letter-spacing: 0;
-  margin: 10px;
+  margin-left:2px;
   padding: 0 10px;
   width: 200px;
 }
@@ -151,7 +152,7 @@ nav h1 a {
   min-height: 380px;
   padding: 0 30px 25px;
   text-align: left;
-  width: 270px;
+  width:270px;
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
@@ -278,4 +279,76 @@ nav h1 a {
 }
 #restaurant-hours td {
   color: #666;
+}
+
+
+
+
+/* ====================== Media Queries ====================== */
+
+@media (min-width: 412px) {
+  .filter-options {
+    text-align: center;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 929px){
+  #restaurants-list li {
+    max-width: 42%;
+  }
+  #restaurants-list li h1 {
+    height: 35px;
+  }
+}
+
+@media (min-width: 1440px) {
+  #restaurants-list li {
+    max-width: 18%;
+  }
+  #restaurants-list p {
+    width: 66%;
+  }  
+  #restaurants-list li h1 {
+    height: 41px;
+  }
+
+  .inside header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+  .inside #map-container {
+    background: blue none repeat scroll 0 0;
+    height: 88%;
+    position: fixed;
+    right: 0;
+    top: 80px;
+    width: 50%;
+  }
+  #breadcrumb {
+    width: calc(50% - 80px);
+  }
+  #restaurant-img {
+    width: 90%;
+  }
+  #restaurant-container {
+    width: 45%;
+    padding: 140px 40px 30px;
+  }
+  #reviews-container {
+    width: 45%;
+    padding: 40px 30px;
+  }
+  #restaurant-cuisine {
+    width: 90%;
+  }
+  #reviews-list li {
+    width: 85%;
+  }
+  .inside #footer {
+    bottom: 0;
+    position: absolute;
+    width: 45%;
+  }
 }
