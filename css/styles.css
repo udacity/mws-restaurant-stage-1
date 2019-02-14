@@ -125,7 +125,6 @@ nav h1 a {
   font-size: 11pt;
   height: 35px;
   letter-spacing: 0;
-  margin-left:2px;
   padding: 0 10px;
   width: 200px;
 }
@@ -290,6 +289,11 @@ nav h1 a {
   .filter-options {
     text-align: center;
   }
+
+  .filter-options select
+  {
+    margin-left: 2px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 929px){
@@ -299,6 +303,7 @@ nav h1 a {
   #restaurants-list li h1 {
     height: 35px;
   }
+
 }
 
 @media (min-width: 1440px) {
@@ -348,7 +353,7 @@ nav h1 a {
   }
   .inside #footer {
     bottom: 0;
-    position: absolute;
-    width: 45%;
+    position: sticky;
+    width: 100%;
   }
 }
