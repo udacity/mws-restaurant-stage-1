@@ -7,6 +7,9 @@
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
+  
+<!--  -->  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>Restaurant Info</title>
 </head>
 
@@ -29,22 +32,26 @@
   <!-- Beginning main -->
   <main id="maincontent">
     <!-- Beginning map -->
-    <section id="map-container">
+
+    <!--  --><section id="map-container" area-label="Restaurant map" role="application" >
+    
       <div id="map"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
-    <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
-      <img id="restaurant-img">
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
+    <!--  --><section id="restaurant-container" tabindex="0" area-label="Restaurant Information">  
+
+      <!--  --><h2 id="restaurant-name" tabindex="0"></h2>
+      <!--  --><img id="restaurant-img" tabindex="0">
+      <!--  --><p id="restaurant-cuisine" tabindex="0"></p>
+      <!--  --><p id="restaurant-address" tabindex="0"></p>
+      <!--  --><table id="restaurant-hours" tabindex="0"></table>
+    
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
     <section id="reviews-container">
-      <ul id="reviews-list"></ul>
+    <!--  --><ul id="reviews-list" tabindex="0"></ul>
     </section>
     <!-- End reviews -->
   </main>
