@@ -1,7 +1,10 @@
 let staticCacheName = 'restaurant-static-v1';
 
+
+/*Opens the caches object and then;*/
 self.addEventListener('install', function(event) {
 	event.waitUntil(
+		/*populates it with the list of resources that we want to cache*/
 		caches.open(staticCacheName).then(function(cache) {
 			return cache.addAll([
 				'./',
@@ -28,7 +31,7 @@ self.addEventListener('install', function(event) {
 	);
 });
 
-
+//Activate event will be triggered once after registering;
 self.addEventListener('activate', function(event) {
 	event.waitUntil(
 		caches.keys()
