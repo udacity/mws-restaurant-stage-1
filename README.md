@@ -12,11 +12,11 @@
 
 This project is created as a part of udacity frontend developer nanodegree.
 
-   *The objective of this project is to convert a static website into a responsive webpage which can work well on mobile, tablets and laptop screens.
+   * The objective of this project is to convert a static website into a responsive webpage which can work well on mobile, tablets and laptop screens.
 
-   *Also need to implement accessibility features for the screen readers and keyboard navigation. 
+   * Also need to implement accessibility features for the screen readers and keyboard navigation. 
 
-   *Service workers needed to implement in order to give users accessibilty of the site in ofline mode.
+   * Service workers needed to implement in order to give users accessibilty of the site in ofline mode.
 
 
 ## Features
