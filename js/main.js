@@ -118,8 +118,8 @@ updateRestaurants = () => {
 resetRestaurants = (restaurants) => {
   // Remove all restaurants
   self.restaurants = [];
-  const ul = document.getElementById('restaurants-list');
-  ul.innerHTML = '';
+  const griddiv = document.querySelector('.grid-container');
+  griddiv.innerHTML = '';
 
   // Remove all map markers
   if (self.markers) {
@@ -133,9 +133,9 @@ resetRestaurants = (restaurants) => {
  * Create all restaurants HTML and add them to the webpage.
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
-  const ul = document.getElementById('restaurants-list');
+  const griddiv = document.querySelector('.grid-container');
   restaurants.forEach(restaurant => {
-    ul.append(createRestaurantHTML(restaurant));
+    griddiv.append(createRestaurantHTML(restaurant));
   });
   addMarkersToMap();
 }
@@ -144,33 +144,35 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
-  const li = document.createElement('li');
-
+  const gridelement = document.createElement('div');
+  gridelement.className = 'grid-item';
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.alt = restaurant.name;
-  li.append(image);
+  const imgcontainer = document.createElement('div');
+  imgcontainer.className = 'img-container';
+  imgcontainer.append(image);
+  gridelement.append(imgcontainer);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
-  li.append(name);
+  gridelement.append(name);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
+  gridelement.append(neighborhood);
 
   const address = document.createElement('p');
   address.innerHTML = restaurant.address;
-  li.append(address);
+  gridelement.append(address);
 
   const more = document.createElement('a');
   more.innerHTML = 'View Details';
   more.setAttribute("aria-label", restaurant.name + ' Restaurant. View Details');
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  gridelement.append(more);
 
-  return li
+  return gridelement;
 }
 
 /**
