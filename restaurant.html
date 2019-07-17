@@ -10,7 +10,8 @@
   <title>Restaurant Info</title>
 </head>
 
-<body class="inside">
+<!-- class removed as adds no symantic value to body -->
+<body>
   <!-- Beginning header -->
   <header>
     <!-- Beginning nav -->
@@ -18,7 +19,11 @@
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
     <!-- Beginning breadcrumb -->
+<<<<<<< Updated upstream
     <ul id="breadcrumb" >
+=======
+    <ul id="breadcrumb" aria-label="Breadcrumb">
+>>>>>>> Stashed changes
       <li><a href="/">Home</a></li>
     </ul>
     <!-- End breadcrumb -->
@@ -27,31 +32,33 @@
   <!-- End header -->
 
   <!-- Beginning main -->
-  <main id="maincontent">
+  <!-- Removed id="maincontent" as it provides no symantic value -->
+  <main>
     <!-- Beginning map -->
-    <section id="map-container">
+    <section id="map-container" aria-label="Google Map displaying location of restaurant.">
       <div id="map"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
-    <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
-      <img id="restaurant-img">
-      <p id="restaurant-cuisine"></p>
-      <p id="restaurant-address"></p>
-      <table id="restaurant-hours"></table>
+    <section id="restaurant-container" aria-label="Restaraunt Details">
+      <h1 id="restaurant-name" aria-label="Restaraunt Name"></h1>
+      <img id="restaurant-img" alt="">
+      <p id="restaurant-cuisine" aria-label="Restaraunt Cuisine"></p>
+      <p id="restaurant-address" aria-label="Restaraunt Address"></p>
+      <table id="restaurant-hours" aria-label="Restaraunt Hours"></table>
     </section>
     <!-- end restaurant -->
     <!-- Beginning reviews -->
-    <section id="reviews-container">
-      <ul id="reviews-list"></ul>
+    <section id="reviews-container" aria-label="Restaraunt Reviews">
+      <ul id="reviews-list" aria-label="Reviews List"></ul>
     </section>
     <!-- End reviews -->
   </main>
   <!-- End main -->
 
   <!-- Beginning footer -->
-  <footer id="footer">
+  <!-- Removed id="footer" as footer tag is self explainatory.  -->
+  <footer>
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
   <!-- End footer -->

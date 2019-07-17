@@ -10,25 +10,27 @@
 
 <body>
   <header>
-    <nav>
-      <h1><a href="/">Restaurant Reviews</a></h1>
+    <nav aria-labelledby="restaurant-reviews">
+      <h1 is="restaurant-reviews"><a href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
-
-  <main id="maincontent">
+  <!-- id="maincontent" is symmantically obvious as it's on the main tag so removed it. -->
+  <main>
     <section id="map-container">
-      <div id="map"></div>
+      <div id="map" aria-label="Google Map, displaying restaraunt locations."></div>
     </section>
-    <section>
-      <div class="filter-options">
-        <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+    <section role="search">
+      <div class="filter-options" aria-labelledby="filter-results" aria-label="Restaurants Search">
+        <h2 id="filter-results">Filter Results</h2>
+        <select id="neighborhoods-select" aria-label="Neightborhoods Select" name="neighborhoods" role="filter" onchange="updateRestaurants()">
           <option value="all">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <select id="cuisines-select" name="cuisines" aria-label="Cuisines Select" role="filter" onchange="updateRestaurants()">
           <option value="all">All Cuisines</option>
         </select>
       </div>
+    </section>
+      <section aria-label="Restaurant List">
       <ul id="restaurants-list"></ul>
     </section>
   </main>
@@ -37,8 +39,8 @@
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
   <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap"></script> -->
 
-
-  <footer id="footer">
+  <!-- id="footer" is symmantically obvious as it's on the footer tag so removed it. -->
+  <footer>
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
 
