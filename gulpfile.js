@@ -1,45 +1,74 @@
 const gulp = require('gulp');
 const del = require('del');
-const babel = require('gulp-babel');
+const replace = require('gulp-replace');
 const uglify = require('gulp-uglify-es').default;
 const cleanCSS = require('gulp-clean-css');
 const gulpIf = require('gulp-if');
 const useref = require('gulp-useref');
-const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const htmlclean = require('gulp-htmlclean');
 const browserSync = require('browser-sync').create();
-const runSequence = require('run-sequence');
 const gzip = require('gulp-gzip');
+const concat = require('gulp-concat');
+const sourcemaps = require('gulp-sourcemaps');
 
-//var cssnano = require('gulp-cssnano');
-//var concat = require('gulp-concat');
-//var cache = require('gulp-cache');
-//const rename = require('gulp-rename');
-//var imagemin = require('gulp-imagemin');
+/*
+const babel = require('gulp-babel');
+const gzip = require('gulp-gzip');
+const runSequence = require('run-sequence');
+const sourcemaps = require('gulp-sourcemaps');
+const concat = require('gulp-concat');
+const cache = require('gulp-cache');
+const rename = require('gulp-rename');
+const imagemin = require('gulp-imagemin');
+*/
+
+require('dotenv').config();
+const RESTDB_API_KEY = process.env.RESTDB_API_KEY;
 
 
+const path = {
+  css: {
+    src: 'app/css/**/*.css',
+    dest: 'dist/css/'
+  },
+  js: {
+    src: 'app/js/**/*.js',
+    dest: 'dist/js/'
+  },
+  images: {
+    src: 'app/imgs/**/*.{jpg,jpeg,png}',
+    dest: 'dist/images/'
+  }
+};
 
-// serve original files
-gulp.task('serve:app', () => {
-  browserSync.init({
-    server: {
-      baseDir: 'app'
-    }
-  })
-})
+function clean() {
+  return del([ 'dist/**/*', '!dist' ]);
+}
 
-// Serve optimized files
-gulp.task('serve:dist', () => {
-  browserSync.init({
-    server: 'dist',
-    open: false,
-    port: 8001
-  });
-})
+// Create minified HTML, CSS and JS for distribution
+function minifyFiles() {
+  return gulp.src('app/*.html')
+    .pipe(useref())
+    
+    //   Minify and create Sourcemap for JS files
+    
+    // .pipe(gulpIf('*.js', sourcemaps.init()))
+    .pipe(gulpIf('*.js', replace('<CORS API key>', RESTDB_API_KEY)))
+    .pipe(gulpIf('*.js', uglify()))
+    // .pipe(gulpIf('*.js', sourcemaps.write('.')))
+
+    //   Minify and create Sourcemap for CSS files
+    .pipe(gulpIf('*.css', autoprefixer({ browsers: ['> 1%', 'last 2 versions', 'Firefox ESR'] })))
+    .pipe(gulpIf('*.css', cleanCSS()))
+
+    //    Minify HTML files
+    .pipe(gulpIf('*.html', htmlclean()))
+    .pipe(gulp.dest('dist'))
+}
 
 // Copy manifest and favicon
-gulp.task('copy', () => {
+function copy() {
   return gulp.src([
     'app/favicon.png',
     'app/sw.js',
@@ -47,90 +76,74 @@ gulp.task('copy', () => {
   ])
   .pipe(gulp.dest('dist'))
   .pipe(gulp.dest('dist'));
-});
+}
 
 // Copy images
-gulp.task('images', () => {
+function images() {
   return gulp.src('app/images/**')
     .pipe(gulp.dest('dist/images'));
-});
+};
+
+
+// serve original files
+function serveApp () {
+  browserSync.init({
+    server: {
+      baseDir: 'app'
+    }
+  })
+}
+
+// Serve optimized files
+function serveDist () {
+  browserSync.init({
+    server: 'dist',
+    open: false,
+    port: 8001
+  });
+}
 
 // Process HTML files
-gulp.task('html', function () {
+function html() {
   return gulp.src('app/*.html')
     .pipe(htmlclean())
     .pipe(gulp.dest('dist'));
-});
+}
 
 // TEST Imagemin
-gulp.task('image', () => {
+function image() {
   return gulp.src('app/images/**/*')
     .pipe(imagemin({optimizationLevel: 5}))
     //.pipe(cache(imagemin({optimizationLevel: 5})))
     .pipe(gulp.dest('dist/images'));
-})
-
-/*
-// Copy SW
-gulp.task('sw', () => {
-  return gulp.src('./sw.js')
-    .pipe(uglify())
-    .pipe(gulp.dest('dist/'));
-});
-
-
-// Process JS files
-gulp.task('js', () => {
-  return gulp.src('app/js/main.js', { sourcemaps: true })
-  //.pipe(sourcemaps.init())
-  .pipe(babel())
-  .pipe(uglify())
-  
-  //.pipe(sourcemaps.write('.'))
-  .pipe(gulp.dest('dist/js'));
-});
-*/
-
-// Create minified HTML, CSS and JS for distribution
-gulp.task('useref', () => {
-  return gulp.src('app/*.html')
-    .pipe(useref())
-    
-    /**   Minify and create Sourcemap for JS files    **/
-    //.pipe(gulpIf('*.js', sourcemaps.init()))
-    .pipe(gulpIf('*.js', uglify()))
-    //.pipe(gulpIf('*.js', gzip({ append: false })))
-    //.pipe(gulpIf('*.js', sourcemaps.write('.')))
-
-    /**   Minify and create Sourcemap for CSS files   **/
-    //.pipe(gulpIf('*.css', sourcemaps.init()))
-    .pipe(gulpIf('*.css', autoprefixer({ browsers: ['> 1%', 'last 2 versions', 'Firefox ESR'] })))
-    .pipe(gulpIf('*.css', cleanCSS()))
-    //.pipe(gulpIf('*.css', sourcemaps.write('.')))
-
-    /**    Minify HTML files    **/
-    .pipe(gulpIf('*.html', htmlclean()))
-    .pipe(gulp.dest('dist'))
-});
+}
 
 // Reloads the browser whenever HTML, CSS or JS files change
-gulp.task('watch', ['serve:app'], () => {
+function watch() {
   gulp.watch('app/*.html', browserSync.reload);
   gulp.watch('app/css/**/*.css', browserSync.reload);
   gulp.watch('app/js/**/*.js', browserSync.reload); 
-});
+}
 
-// Delete all files in Distribution directory
-gulp.task('clean:dist', () => {
-  return del.sync('dist/**/*');
-})
+// const build = gulp.series(clean, minifyFiles, copy, images);
+const build = gulp.series(clean, gulp.parallel(minifyFiles, copy, images));
+const serve = gulp.series(build, serveDist);
 
-// Build optimized files
-gulp.task('build', (callback) => {
-  runSequence('clean:dist', ['useref', 'copy', 'images'], callback)
-})
+// // Build optimized files
+// gulp.task('build', (callback) => {
+//   runSequence('clean:dist', ['useref', 'copy', 'images'], callback)
+// })
 
-// Build and serve optimized site
-gulp.task('serve', ['build'], (callback) => {
-  runSequence(['serve:dist'], callback)
-})
+// // Build and serve optimized site
+// gulp.task('serve', ['build'], (callback) => {
+//   runSequence(['serve:dist'], callback)
+// })
+
+exports.clean = clean;
+exports.copy = copy;
+exports.minifyFiles = minifyFiles;
+exports.images = images;
+exports.serve = serve;
+exports.build = build;
+
+exports.default = build;
