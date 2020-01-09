@@ -477,7 +477,7 @@ nav h1 a {
   max-width: 400px;*/
   background-color: #112;
   z-index: 1002;
-  border: 3px solid #fa0;
+  border: 3px solid #001;
   overflow: hidden;
   border-radius: 2em;
   transform: translate(-50%, -50%);
