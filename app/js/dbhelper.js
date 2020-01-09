@@ -3,36 +3,50 @@
   const dbPromise = idb.open('Restaurant-DB', 3, (upgradeDB) => {
     switch (upgradeDB.oldVersion) {
       case 0:
-        upgradeDB.createObjectStore('restaurants', { keyPath: 'id' });
+        // upgradeDB.createObjectStore('restaurants', { keyPath: 'id' });
+        upgradeDB.createObjectStore('restaurants', { keyPath: '_id' });
       case 1:
-        upgradeDB.createObjectStore('reviews', { keyPath: 'id', autoIncrement: true });
-        //const reviews = upgradeDB.createObjectStore('reviews', { autoIncrement: true });
-        //reviews.createIndex('restaurant_id', 'restaurant_id', { unique: false });
+        upgradeDB.createObjectStore('reviews', { keyPath: '_id', autoIncrement: true });
+        //  upgradeDB.createObjectStore('reviews', { keyPath: 'id', autoIncrement: true });
+        //  const reviews = upgradeDB.createObjectStore('reviews', { autoIncrement: true });
+        //  reviews.createIndex('restaurant_id', 'restaurant_id', { unique: false });
       case 2:
         upgradeDB.createObjectStore('offline-posts', { autoIncrement: true });
     }
   });
 //}
 
-//console.log(dbPromise);
+//  console.log(dbPromise);
 
 /**
- * Common database helper functions.
+ *  Common database helper functions.
  */
 class DBHelper {
 
   /**
-   * Database URL.
-   * Change this to restaurants.json file location on your server.
+   *  Database URL.
    */
   static get DATABASE_URL() {
-    const port = 1337 // Change this to your server port
-    return `http://localhost:${port}`;
+  //   const port = 1337 // Change this to your server port
+  //   return `http://localhost:${port}`;
     //return `https://chinfox.github.io/mws-restaurant-stage-1/data/restaurants.json`;
+    return 'https://restaurantdb-ce94.restdb.io/rest';
+  }
+
+    /**
+   *  Database Header.
+   *  Change this to restaurants.json file location on your server.
+   */
+  static get DATABASE_HEADERS() {
+    return {
+      'x-apikey': '<CORS API key>',
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache'
+    };
   }
 
   /**
-   * Fetch all restaurants.   -   From server if restaurants not in Indexed DB
+   *  Fetch all restaurants.   -   From server if restaurants not in Indexed DB
    */
   static fetchRestaurants(callback) {
     //return dbPromise ? DBHelper.getRestaurantsFromIDB(callback) : DBHelper.getRestaurantsFromServer(callback);
@@ -73,7 +87,7 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        const restaurant = restaurants.find(r => r.id == id);
+        const restaurant = restaurants.find(r => r._id == id);
         if (restaurant) { // Got the restaurant
           callback(null, restaurant);
         } else { // Restaurant does not exist in the database
@@ -176,21 +190,22 @@ class DBHelper {
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {
-    return (`./restaurant.html?id=${restaurant.id}`);
+    return (`./restaurant.html?id=${restaurant._id}`);
   }
 
   /**
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    //const url = `./images/${restaurant.photograph}`;
-    //const small = url.replace('.jpg', '-small.jpg');
-    //const normal = url.replace('.jpg', '-normal.jpg');
-    //const large = url.replace('.jpg', '-normal_2x.jpg');
-    const url = `./images/${restaurant.id}`;
-    const small = `${url}-small.jpg`;
-    const normal = `${url}-normal.jpg`;
-    const large = `${url}-normal_2x.jpg`;
+    // console.log(restaurant);
+    const url = `./images/${restaurant.photograph}`;
+    const small = url.replace('.jpg', '-small.jpg');
+    const normal = url.replace('.jpg', '-normal.jpg');
+    const large = url.replace('.jpg', '-normal_2x.jpg');
+    // const url = `./images/${restaurant.id}`;
+    // const small = `${url}-small.jpg`;
+    // const normal = `${url}-normal.jpg`;
+    // const large = `${url}-normal_2x.jpg`;
     return {small: small, normal: normal, large: large};
   }
 
@@ -211,8 +226,11 @@ class DBHelper {
 
   /**  Fetch Restaurant data from Server and store a copy of response in IDB  **/
   static getRestaurantsFromServer(callback) {
-    let restaurant_URL = `${DBHelper.DATABASE_URL}/restaurants/`;
-    fetch(restaurant_URL)
+    let restaurant_URL = `${DBHelper.DATABASE_URL}/restaurants?metafields=true`;
+
+    fetch(restaurant_URL, {
+      headers: DBHelper.DATABASE_HEADERS
+    })
     .then(response => response.json()).then(restaurants => {
       restaurants.map(restaurant => {
         idbKeyval.set('restaurants', restaurant);
@@ -223,9 +241,12 @@ class DBHelper {
 
   /**  Fetch Reviews data from Server and store a copy of response in IDB   **/
   static getReviewsFromServer(callback) {
-    let reviews_URL = `${DBHelper.DATABASE_URL}/reviews/`;
-    fetch(reviews_URL).then(response => response.json())
-    .then(reviews => {
+    let reviews_URL = `${DBHelper.DATABASE_URL}/reviews?metafields=true`;
+
+    fetch(reviews_URL, {
+      headers: DBHelper.DATABASE_HEADERS
+    })
+    .then(response => response.json()).then(reviews => {
       reviews.map(review => {
         idbKeyval.set('reviews', review);
       });
@@ -298,7 +319,7 @@ class DBHelper {
         console.log('Data from Server', data);
 
         // Check if updated data is a review or favorite
-        if (flag === undefined) {
+        if (flag === 'fav') {
           console.log('Favorite sent to server... IDB updated');
         } else {
             // Update IDB reviews store and delete old review data 
@@ -321,6 +342,18 @@ class DBHelper {
         const tx = db.transaction('offline-posts', 'readwrite');
         const store = tx.objectStore('offline-posts');
         store.delete(offline_id);
+        return tx.complete;
+        });
+      })
+      .then(() => {
+        if (flag === 'fav') {
+          return;
+        }
+        // Delete the offline review from the reviews store
+        dbPromise.then(db => {
+        const tx = db.transaction('reviews', 'readwrite');
+        const store = tx.objectStore('reviews');
+        store.delete(flag);
         return tx.complete;
         });
       })
@@ -358,21 +391,27 @@ class DBHelper {
 
   /**  Mark a restaurant as a favorite  **/
   static setFavorite(restaurant, status) {
-    const id = +restaurant.id;
-    const url = `${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=${status}`;
-    const method = 'PUT';
-    restaurant.is_favorite =  JSON.stringify(status);
+    // const id = +restaurant.id;
+    // const url = `${DBHelper.DATABASE_URL}/restaurants/${id}/?is_favorite=${status}`;
+    const url = `${DBHelper.DATABASE_URL}/restaurants/${restaurant._id}`;
+    const method = 'PATCH';
+    const headers = DBHelper.DATABASE_HEADERS;
+    const data = { "is_favorite": status };
+    const body = JSON.stringify(data);
+    // restaurant.is_favorite =  JSON.stringify(status);
     //restaurant.is_favorite = `"${status}"`;
-    //restaurant.is_favorite = status;
+    restaurant.is_favorite = status;
 
     fetch(url, {
-      method: method
+      method: method,
+      headers: headers,
+      body: body
     }).then(response => response.json())
     .then(data => idbKeyval.set('restaurants', data))
     .catch(err => {
-      console.log(err);
+      // console.log(err);
       idbKeyval.set('restaurants', restaurant);
-      DBHelper.saveOfflinePost(url, {}, method, '');
+      DBHelper.saveOfflinePost(url, headers, method, data, 'fav');
     });
   }
   /*
@@ -391,7 +430,9 @@ class DBHelper {
   }*/
 }
 
+
   // Source: idb by Jake Archibald - https://www.npmjs.com/package/idb
+
   const idbKeyval = {
     get(key, store) {
       return dbPromise.then(db => {

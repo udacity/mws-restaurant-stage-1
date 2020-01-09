@@ -1,9 +1,9 @@
 let restaurant;
 //let reviews;
 var newMap;
-var focusedElementBeforeModal;
-var modal = document.getElementById('modal');
-var modalOverlay = document.getElementById('modal-overlay');
+let focusedElementBeforeModal;
+const modal = document.getElementById('modal');
+const modalOverlay = document.getElementById('modal-overlay');
 
 /**
  * Initialize map as soon as the page is loaded.
@@ -11,12 +11,15 @@ var modalOverlay = document.getElementById('modal-overlay');
 document.addEventListener('DOMContentLoaded', (event) => {  
   //registerServiceWorker();
   initMap();
+  DBHelper.postOfflineData();
 });
+
 /*
 window.addEventListener('offline', (e) => { 
   console.log('offline');
   postMessage('offline');
-});*/
+});
+*/
 
 /** Resend offline posts when connection is established **/
 window.addEventListener('online', (e) => { 
@@ -48,6 +51,7 @@ window.addEventListener('online', (e) => {
  */
 const initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
+    // console.log(restaurant);
     if (error) { // Got an error!
       console.error(error);
     } else {      
@@ -75,6 +79,7 @@ const initMap = () => {
  */
 const fetchRestaurantFromURL = (callback) => {
   if (self.restaurant) { // restaurant already fetched!
+    console.log('restaurant already fetched!');
     callback(null, self.restaurant)
     return;
   }
@@ -99,6 +104,7 @@ const fetchRestaurantFromURL = (callback) => {
  * Create restaurant HTML and add it to the webpage
  */
 const fillRestaurantHTML = (restaurant = self.restaurant) => {
+  // console.log(restaurant);
   const name = document.getElementById('restaurant-name');
   name.setAttribute('aria-label', 'Restaurant name: ' + restaurant.name);
   name.innerHTML = restaurant.name;
@@ -106,9 +112,11 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
   const address = document.getElementById('restaurant-address');
   address.setAttribute('aria-label', 'Address: ' + restaurant.address);
   address.innerHTML = `<strong>${restaurant.address}</strong>`;
+
   /** TODO: Add favorite toggle  **/
   const fav1 = document.getElementById('fav-button');
-  if (restaurant.is_favorite === 'true') {
+  // if ((/true/i).test(restaurant.is_favorite)) {
+  if (restaurant.is_favorite === true) {
     fav1.classList.add('active');
     fav1.setAttribute('aria-pressed', 'true');
     fav1.setAttribute('aria-label', `Unmark ${restaurant.name} as favorite`);
@@ -189,7 +197,7 @@ const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   
   const container = document.getElementById('reviews-container');
   //const rev = document.createElement('div');
-  rev = document.getElementById('reviews-header');
+  const rev = document.getElementById('reviews-header');
   rev.innerHTML = '';
   
   const title = document.createElement('h2');
@@ -218,7 +226,8 @@ const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     const ul = document.getElementById('reviews-list');
     ul.innerHTML = '';
     reviews.forEach(review => {
-      if (review.restaurant_id === self.restaurant.id) {
+      // if (review.restaurant_id === self.restaurant._id) {
+      if (review._parent_id === self.restaurant._id) {
         ul.appendChild(createReviewHTML(review));
       }
     });
@@ -249,19 +258,24 @@ const createReviewHTML = (review) => {
 
   // Return "Waiting..." if date created is not valid
   const created = document.createElement('span');
-  const cDate = review.createdAt ? new Date(review.createdAt).toLocaleDateString() : 'Waiting...';
+  // const cDate = review.createdAt ? new Date(review.createdAt).toLocaleDateString() : 'Waiting...';
+  const cDate = review._created ? new Date(review._created).toLocaleDateString() : 'Waiting...';
   created.classList.add('date-created');
   //date.setAttribute('aria-label', 'Date reviewed: ' + review.date + ".");
   created.innerHTML = `Created: <strong>${cDate}</strong>`;
   date.appendChild(created);
 
-  // Return "Waiting..." if date updated is not valid 
-  const updated = document.createElement('span');
-  const uDate = review.updatedAt ? new Date(review.updatedAt).toLocaleDateString() : 'Waiting...';
-  updated.classList.add('date-updated');
-  //date.setAttribute('aria-label', 'Updated on: ' + review.date + ".");
-  updated.innerHTML = `Updated: <strong>${uDate}</strong>`;
-  date.appendChild(updated);
+  if (review._changed !== review._created) {
+    /* Return "Waiting..." if date updated is not valid */
+
+    const updated = document.createElement('span');
+    // const uDate = review.updatedAt ? new Date(review.updatedAt).toLocaleDateString() : 'Waiting...';
+    const uDate = review._changed ? new Date(review._changed).toLocaleDateString() : 'Waiting...';
+    updated.classList.add('date-updated');
+    //date.setAttribute('aria-label', 'Updated on: ' + review.date + ".");
+    updated.innerHTML = `Updated: <strong>${uDate}</strong>`;
+    date.appendChild(updated);
+  }
   
   div1.appendChild(date);
   li.appendChild(div1);
@@ -384,7 +398,8 @@ const submitRev = (event) => {
 
   //let url, myReview, textR, textF, textS;
 	const ul = document.getElementById('reviews-list');
-  const id = self.restaurant.id;
+  // const id = self.restaurant.id;
+  const id = self.restaurant._id;
   const name = document.getElementById('review-author').value;
   const rating = document.getElementById('review-rating').value;
   const comments = document.getElementById('review-comments').value;
@@ -392,21 +407,23 @@ const submitRev = (event) => {
   //const textR = 'Fields marked * are required!';
   //const textS = 'Your review was saved. Thanks for the review';
   //const textF = 'Offline: Your review will be sent when you are online';
-	const url = `${DBHelper.DATABASE_URL}/reviews/`;
+	const url = `${DBHelper.DATABASE_URL}/reviews`;
   const myReview = {
-    'restaurant_id': id,
+    // 'restaurant_id': id,
+    '_parent_id': id,
     'name': name,
     'rating': rating,
     'comments': comments
   };
   const body = JSON.stringify(myReview);
   const method = 'POST';
-  const headers = { 'content-type': 'application/json' };
+  const headers = DBHelper.DATABASE_HEADERS;
 
-  // Check input validity
+  //  Check input validity
+  //  if ((name === "") || (comments === "")) {
 	if ((name === "") || isNaN(rating) || (comments === "")) {
-	//if ((name === "") || (comments === "")) {
-			postMessage('Fields marked * are required!');
+    // console.log(body);
+		postMessage('Fields marked * are required!');
 		return;
 	} else {
   		fetch(url, {
@@ -416,16 +433,16 @@ const submitRev = (event) => {
   		})
   		.then(response => response.json())
   		.then(review => {
-        console.log(review);
-        //postSuccess(review);
+        // console.log(review);
+        // postSuccess(review);
         DBHelper.updateReviewsOnline(review).then(() => {
           fillReviewsHTML();
         });
         postMessage('Your review was saved. Thanks for the review');
         closeModal();
 			}).catch(err => {
-        console.log(err);
-        //postFailure(myReview);
+        // console.log(err);
+        //  postFailure(myReview);
         DBHelper.updateReviewsOffline(myReview).then(id => {
           console.log('this is ur offline review key', id)
           DBHelper.saveOfflinePost(url, headers, method, myReview, id);
@@ -468,7 +485,7 @@ const postMessage = (text) => {
   setTimeout(() => {
 		messageBox.style.display = "none";
 		messageBox.innerHTML = "";
-  }, 5000);
+  }, 3000);
 }
 
 /** Register Service Worker **/

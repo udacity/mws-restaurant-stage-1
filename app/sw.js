@@ -1,4 +1,4 @@
-const staticCacheName = 'Restaurant-static-v4'; 
+const staticCacheName = 'Restaurant-static-v2'; 
 const filesToCache = [
     './',
     './index.html',
@@ -60,6 +60,7 @@ self.skipWaiting();
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
   const request = event.request;
+  // console.log(request, requestUrl);
 
     if (requestUrl.pathname === './') {
         event.respondWith(caches.match('./index.html'));
@@ -69,9 +70,10 @@ self.addEventListener('fetch', event => {
       event.respondWith(caches.match('./restaurant.html'));
       return;
     }
-    if (requestUrl.port === '1337') {
+    // if (requestUrl.port === '1337') {
+    if (requestUrl.host.includes('restaurantdb-ce94.restdb.io')) {
       if (event.request.method !== 'GET') {
-        console.log('This is non-GET request: ', event.request.method, request);
+        // console.log('This is non-GET request: ', event.request.method, request);
         return;
       }   
     }

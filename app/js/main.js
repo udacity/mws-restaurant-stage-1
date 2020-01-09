@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   initMap(); // added 
   fetchNeighborhoods();
   fetchCuisines();
+  DBHelper.postOfflineData();
   //updateRestaurants();
 });
 
@@ -213,7 +214,8 @@ const createRestaurantHTML = (restaurant) => {
   fav.classList = 'fav-button';
   fav.setAttribute('aria-label', 'favorite');
   fav.innerHTML = '❤';
-  if (restaurant.is_favorite === 'true') {
+  // if ((/true/i).test(restaurant.is_favorite)) {
+  if (restaurant.is_favorite === true) {
     fav.classList.add('active');
     fav.setAttribute('aria-pressed', 'true');
     fav.setAttribute('aria-label', `Unmark ${restaurant.name} as favorite`);
