@@ -1,4 +1,4 @@
-const staticCacheName = 'Restaurant-static-v5'; 
+const staticCacheName = 'Restaurant-static-v4'; 
 const filesToCache = [
     './',
     './index.html',
@@ -13,7 +13,7 @@ const filesToCache = [
     './js/db.min.js',
     './js/index.min.js',
     './js/restaurant.min.js',
-    './favicon.png',
+    './favicon.ico',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.css',
     'https://unpkg.com/leaflet@1.3.1/dist/leaflet.js',
     'https://unpkg.com/leaflet@1.3.1/dist/images/marker-icon.png',

@@ -8,11 +8,11 @@ const useref = require('gulp-useref');
 const autoprefixer = require('gulp-autoprefixer');
 const htmlclean = require('gulp-htmlclean');
 const browserSync = require('browser-sync').create();
+
+/*
 const gzip = require('gulp-gzip');
 const concat = require('gulp-concat');
 const sourcemaps = require('gulp-sourcemaps');
-
-/*
 const babel = require('gulp-babel');
 const gzip = require('gulp-gzip');
 const runSequence = require('run-sequence');
@@ -27,20 +27,20 @@ require('dotenv').config();
 const RESTDB_API_KEY = process.env.RESTDB_API_KEY;
 
 
-const path = {
-  css: {
-    src: 'app/css/**/*.css',
-    dest: 'dist/css/'
-  },
-  js: {
-    src: 'app/js/**/*.js',
-    dest: 'dist/js/'
-  },
-  images: {
-    src: 'app/imgs/**/*.{jpg,jpeg,png}',
-    dest: 'dist/images/'
-  }
-};
+// const path = {
+//   css: {
+//     src: 'app/css/**/*.css',
+//     dest: 'dist/css/'
+//   },
+//   js: {
+//     src: 'app/js/**/*.js',
+//     dest: 'dist/js/'
+//   },
+//   images: {
+//     src: 'app/imgs/**/*.{jpg,jpeg,png}',
+//     dest: 'dist/images/'
+//   }
+// };
 
 function clean() {
   return del([ 'dist/**/*', '!dist' ]);
@@ -70,7 +70,7 @@ function minifyFiles() {
 // Copy manifest and favicon
 function copy() {
   return gulp.src([
-    'app/favicon.png',
+    'app/favicon.ico',
     'app/sw.js',
     'app/manifest.json'
   ])
@@ -84,6 +84,11 @@ function images() {
     .pipe(gulp.dest('dist/images'));
 };
 
+// Copy icons
+function icons() {
+  return gulp.src('app/icons/**')
+    .pipe(gulp.dest('dist/icons'));
+};
 
 // serve original files
 function serveApp () {
@@ -126,7 +131,7 @@ function watch() {
 }
 
 // const build = gulp.series(clean, minifyFiles, copy, images);
-const build = gulp.series(clean, gulp.parallel(minifyFiles, copy, images));
+const build = gulp.series(clean, gulp.parallel(minifyFiles, copy, images, icons));
 const serve = gulp.series(build, serveDist);
 
 // // Build optimized files
@@ -143,6 +148,7 @@ exports.clean = clean;
 exports.copy = copy;
 exports.minifyFiles = minifyFiles;
 exports.images = images;
+exports.icons = icons;
 exports.serve = serve;
 exports.build = build;
 

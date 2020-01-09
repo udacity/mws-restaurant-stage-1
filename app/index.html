@@ -4,8 +4,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A webapp for Restaurant Reviews.">
+  <meta name="description" content="A restaurant review app.">
   <meta name="theme-color" content="#000044">
+  <meta name="msapplication-TileColor" content="#ffaa00">
+  <meta name="msapplication-config" content="./icons/browserconfig.xml">
+  <meta name="theme-color" content="#ffaa00">
 
   <link rel="preload" as="style" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
   <!-- <link rel="preload" href="js/db.min.js" as="script">
@@ -13,12 +16,17 @@
   <link rel="preload" href="css/styles.min.css" as="style"> -->
 
   <link rel="manifest" href="./manifest.json">
-  <!-- build:css css/styles.min.css -->
-  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- build:css ./css/styles.min.css -->
+  <link rel="stylesheet" href="./css/styles.css">
   <!-- endbuild -->
   
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
-  <link rel="icon" sizes="32x32" href="./favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
+  <link rel="mask-icon" href="./icons/safari-pinned-tab.svg" color="#000044">
+  <link rel="shortcut icon" href="./favicon.ico">
   <title>Restaurant Reviews</title>
 </head>
 
