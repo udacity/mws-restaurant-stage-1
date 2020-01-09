@@ -1,7 +1,7 @@
 {
   "name": "MWS - Restaurant Reviews",
   "short_name": "Restaurants",
-  "theme_color": "#000044",
+  "theme_color": "#ffaa00",
   "background_color": "#999999",
   "display": "standalone",
   "Scope": "./",
